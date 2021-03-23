@@ -10,4 +10,4 @@ Since Danielle has been so kind as to open-source the book, I have gone to work 
 
 23-03-2021 I have removed the section on mean absolute deviation, because... I dunno, I think I just wanted to hurry on to standard deviation, and I was worrying that students in my course might get bogged down. But then I got to the bit about median absolute deviation, and felt a twinge of regret at taking out mean absolute deviation. So maybe I'll go back and add it back in at some point.
 
-22-03-2021 I'm mostly just concentrating on converting the R code to Python for now. There is much work to be done adapting the text to change the references to the way R works to the way Python works
+22-03-2021 I'm mostly just concentrating on converting the R code to Python for now. There is much work to be done adapting the text to change the references to the way R works to the way Python works. I have entirely skipped Part 2 for now, because this is 100% R-specific.
