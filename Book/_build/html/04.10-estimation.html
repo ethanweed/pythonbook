@@ -54,6 +54,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Introduction to probability{#probability}" href="04.09-probability.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -88,7 +89,7 @@
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="01.01-intro.html">
    Why do we learn statistics?
@@ -112,6 +113,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="04.09-probability.html">
    Introduction to probability{#probability}
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Estimating unknown quantities from a sample
   </a>
  </li>
 </ul>
@@ -256,8 +262,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sampling-distributions-and-the-central-limit-theorem-samplesandclt">
-   Sampling distributions and the central limit theorem{#samplesandclt}
+  <a class="reference internal nav-link" href="#sampling-distributions-and-the-central-limit-theorem">
+   Sampling distributions and the central limit theorem
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -370,21 +376,13 @@
 </div>
 <div class="section" id="simple-random-samples">
 <h3>Simple random samples<a class="headerlink" href="#simple-random-samples" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img&quot;, &quot;estimation&quot;, &quot;srs1.png&quot;))
-</pre></div>
-</div>
+<a class="reference internal image-reference" href="_images/srs1.png"><img alt="simple-random-sample" class="align-center" src="_images/srs1.png" style="width: 600px;" /></a>
 <p>Irrespective of how I define the population, the critical point is that the sample is a subset of the population, and our goal is to use our knowledge of the sample to draw inferences about the properties of the population. The relationship between the two depends on the <em>procedure</em> by which the sample was selected. This procedure is referred to as a <strong><em>sampling method</em></strong>, and it is important to understand why it matters.</p>
 <p>To keep things simple, let’s imagine that we have a bag containing 10 chips. Each chip has a unique letter printed on it, so we can distinguish between the 10 chips. The chips come in two colours, black and white. This set of chips is the population of interest, and it is depicted graphically on the left of Figure &#64;ref(fig:srs1). As you can see from looking at the picture, there are 4 black chips and 6 white chips, but of course in real life we wouldn’t know that unless we looked in the bag. Now imagine you run the following “experiment”: you shake up the bag, close your eyes, and pull out 4 chips without putting any of them back into the bag. First out comes the $a$ chip (black), then the $c$ chip (white), then $j$ (white) and then finally $b$ (black). If you wanted, you could then put all the chips back in the bag and repeat the experiment, as depicted on the right hand side of Figure &#64;ref(fig:srs1). Each time you get different results, but the procedure is identical in each case. The fact that the same procedure can lead to different results each time, we refer to it as a <em>random</em> process.^[The proper mathematical definition of randomness is extraordinarily technical, and way beyond the scope of this book. We’ll be non-technical here and say that a process has an element of randomness to it whenever it is possible to repeat the process and get different answers each time.] However, because we shook the bag before pulling any chips out, it seems reasonable to think that every chip has the same chance of being selected. A procedure in which every member of the population has the same chance of being selected is called a <strong><em>simple random sample</em></strong>. The fact that we did <em>not</em> put the chips back in the bag after pulling them out means that you can’t observe the same thing twice, and in such cases the observations are said to have been sampled <strong><em>without replacement</em></strong>.</p>
 <p>To help make sure you understand the importance of the sampling procedure, consider an alternative way in which the experiment could have been run. Suppose that my 5-year old son had opened the bag, and decided to pull out four black chips without putting any of them back in the bag. This <em>biased</em> sampling scheme is depicted in Figure &#64;ref(fig:brs). Now consider the evidentiary value of seeing 4 black chips and 0 white chips. Clearly, it depends on the sampling scheme, does it not? If you know that the sampling scheme is biased to select only black chips, then a sample that consists of only black chips doesn’t tell you very much about the population! For this reason, statisticians really like it when a data set can be considered a simple random sample, because it makes the data analysis <em>much</em> easier.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/estimation/brs.PNG&quot;))
-
-</pre></div>
-</div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/estimation/srs2.png&quot;))
-
-</pre></div>
-</div>
+<a class="reference internal image-reference" href="_images/brs.png"><img alt="biased-random-sample" class="align-center" src="_images/brs.png" style="width: 600px;" /></a>
 <p>A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample <strong><em>with replacement</em></strong>. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated in Figure &#64;ref(fig:srs2).</p>
+<a class="reference internal image-reference" href="_images/srs2.png"><img alt="biased-random-sample" class="align-center" src="_images/srs2.png" style="width: 600px;" /></a>
 <p>In my experience, most psychology experiments tend to be sampling without replacement, because the same person is not allowed to participate in the experiment twice. However, most statistical theory is based on the assumption that the data arise from a simple random sample <em>with</em> replacement. In real life, this very rarely matters. If the population of interest is large (e.g., has more than 10 entities!) the difference between sampling with- and without- replacement is too small to be concerned with. The difference between simple random samples and biased samples, on the other hand, is not such an easy thing to dismiss.</p>
 </div>
 <div class="section" id="most-samples-are-not-simple-random-samples">
@@ -407,42 +405,33 @@
 <h3>Population parameters and sample statistics<a class="headerlink" href="#population-parameters-and-sample-statistics" title="Permalink to this headline">¶</a></h3>
 <p>Okay. Setting aside the thorny methodological issues associated with obtaining a random sample and my rather unfortunate tendency to rant about lazy methodological criticism, let’s consider a slightly different issue. Up to this point we have been talking about populations the way a scientist might. To a psychologist, a population might be a group of people. To an ecologist, a population might be a group of bears. In most cases the populations that scientists care about are concrete things that actually exist in the real world. Statisticians, however, are a funny lot. On the one hand, they <em>are</em> interested in real world data and real science in the same way that scientists are. On the other hand, they also operate in the realm of pure abstraction in the way that mathematicians do. As a consequence, statistical theory tends to be a bit abstract in how a population is defined. In much the same way that psychological researchers operationalise our abstract theoretical ideas in terms of concrete measurements (Section &#64;ref(measurement), statisticians operationalise the concept of a “population” in terms of mathematical objects that they know how to work with. You’ve already come across these objects in Chapter &#64;ref(probability): they’re called probability distributions.</p>
 <p>The idea is quite simple. Let’s say we’re talking about IQ scores. To a psychologist, the population of interest is a group of actual humans who have IQ scores. A statistician “simplifies” this by operationally defining the population as the probability distribution depicted in Figure &#64;ref(fig:IQdista). IQ tests are designed so that the average IQ is 100, the standard deviation of IQ scores is 15, and the distribution of IQ scores is normal. These values are referred to as the <strong><em>population parameters</em></strong> because they are characteristics of the entire population. That is, we say that the population mean $\mu$ is 100, and the population standard deviation $\sigma$ is 15.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>estImg &lt;- list()
-emphCol &lt;- rgb(0,0,1)
-emphColLight &lt;- rgb(.5,.5,1)
-emphGrey &lt;- grey(.5)
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-colour &lt;- TRUE
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Simulated IQ Data&#39;</span><span class="p">)</span>
 
-	width &lt;- 4.5
-	height &lt;- 4.5
-	
-	# plot
-	x &lt;- 60:140
-	y &lt;- dnorm(x,100,15)
-	plot(x,y,lwd=3,type=&quot;l&quot;,col=ifelse(colour,emphCol,&quot;black&quot;),
-		xlab=&quot;IQ Score&quot;, ylab=&quot;Probability Density&quot;,frame.plot=FALSE
-	)
-	
-	
-	# function to do all the work
-	plotSamples &lt;- function( n ) {
-		
-		IQ &lt;- rnorm(n, 100, 15)
-		hist( IQ, breaks=seq(10,180,5), border=&quot;white&quot;, 
-			col=ifelse(colour,emphColLight,emphGrey),
-			xlab=&quot;IQ Score&quot;, ylab=&quot;Frequency&quot;, xlim=c(60,140),
-			main=&quot;&quot;
-		)
-		print( paste( &quot;n=&quot;,n,&quot;mean=&quot;,mean(IQ), &quot;sd=&quot;,sd(IQ) ) )
-	}
-	
-	# plot two different sample sizes
-	plotSamples(100)
-	
-	plotSamples(10000)
 
+<span class="n">IQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">IQ</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;1000000 samples&quot;</span><span class="p">)</span>
+
+
+<span class="n">IQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">IQ</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;100 samples&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;100 samples&#39;)
+</pre></div>
+</div>
+<img alt="_images/04.10-estimation_7_1.png" src="_images/04.10-estimation_7_1.png" />
+</div>
 </div>
 <p>Now suppose I run an experiment. I select 100 people at random and administer an IQ test, giving me a simple random sample from the population. My sample would consist of a collection of numbers like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                          <span class="mi">106</span> <span class="mi">101</span> <span class="mi">98</span> <span class="mi">80</span> <span class="mi">74</span> <span class="o">...</span> <span class="mi">107</span> <span class="mi">72</span> <span class="mi">100</span>
@@ -454,17 +443,40 @@ colour &lt;- TRUE
 <div class="section" id="the-law-of-large-numbers-lawlargenumbers">
 <h2>The law of large numbers{#lawlargenumbers}<a class="headerlink" href="#the-law-of-large-numbers-lawlargenumbers" title="Permalink to this headline">¶</a></h2>
 <p>In the previous section I showed you the results of one fictitious IQ experiment with a sample size of $N=100$. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
-<p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using R. In Section &#64;ref(normal) I introduced the <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> function, which generates random numbers sampled from a normal distribution. For an experiment with a sample size of <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">10000</span></code>, and a population with <code class="docutils literal notranslate"><span class="pre">mean</span> <span class="pre">=</span> <span class="pre">100</span></code> and <code class="docutils literal notranslate"><span class="pre">sd</span> <span class="pre">=</span> <span class="pre">15</span></code>, R produces our fake IQ data using these commands:</p>
-<p>I can compute the mean IQ using the command <code class="docutils literal notranslate"><span class="pre">mean(IQ)</span></code> and the standard deviation using the command <code class="docutils literal notranslate"><span class="pre">sd(IQ)</span></code>, and I can draw a histgram using <code class="docutils literal notranslate"><span class="pre">hist()</span></code>. The histogram of this much larger sample is shown in Figure &#64;ref(fig:IQdist)c. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
+<p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data above, I used the numpy package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size.</p>
+<p>I can compute the mean IQ using the <code class="docutils literal notranslate"><span class="pre">mean()</span></code>function and the standard deviation using the <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> function, both from the <code class="docutils literal notranslate"><span class="pre">statistics</span></code>package, and I can draw a histgram using <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. The histogram of this much larger sample is shown in Figure &#64;ref(fig:IQdist)c. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
+
+<span class="n">IQ_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">IQ_100</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">IQ_10000</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 samples. Mean: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">IQ_10</span><span class="p">),</span> <span class="s2">&quot; Standard deviation: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">IQ_10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;100 samples. Mean: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">IQ_100</span><span class="p">),</span> <span class="s2">&quot; Standard deviation: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">IQ_100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10000 samples. Mean: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">IQ_10000</span><span class="p">),</span> <span class="s2">&quot; Standard deviation: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">IQ_10000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  101.35443148077199  Standard deviation:  15.45817959178039
+100 samples. Mean:  100.35799799649435  Standard deviation:  14.144826713046564
+10000 samples. Mean:  100.10780174649038  Standard deviation:  15.061291653269558
+</pre></div>
+</div>
+</div>
+</div>
 <p>I feel a bit silly saying this, but the thing I want you to take away from this is that large samples generally give you better information. I feel silly saying it because it’s so bloody obvious that it shouldn’t need to be said. In fact, it’s such an obvious point that when Jacob Bernoulli – one of the founders of probability theory – formalised this idea back in 1713, he was kind of a jerk about it. Here’s how he described the fact that we all share this intuition:</p>
 <blockquote>
 <div><p><em>For even the most stupid of men, by some instinct of nature, by himself and without any instruction (which is a remarkable thing), is convinced that the more observations have been made, the less danger there is of wandering from one’s goal</em> &#64;Stigler1986</p>
 </div></blockquote>
 <p>Okay, so the passage comes across as a bit condescending (not to mention sexist), but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the <strong><em>law of large numbers</em></strong>. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that’s what the mean is… an average), so let’s look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size “approaches” infinity (written as $N \rightarrow \infty$) the sample mean approaches the population mean ($\bar{X} \rightarrow \mu$).^[Technically, the law of large numbers pertains to any sample statistic that can be described as an average of independent quantities. That’s certainly true for the sample mean. However, it’s also possible to write many other sample statistics as averages of one form or another. The variance of a sample, for instance, can be rewritten as a kind of average and so is subject to the law of large numbers. The minimum value of a sample, however, cannot be written as an average of anything and is therefore not governed by the law of large numbers.]</p>
-<p>I don’t intend to subject you to a proof that the law of large numbers is true, but it’s one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it will be wrong, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.</p>
+<p>I don’t intend to subject you to a proof that the law of large numbers is true, but it’s one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it <strong><em>will be wrong</em></strong>, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.</p>
 </div>
-<div class="section" id="sampling-distributions-and-the-central-limit-theorem-samplesandclt">
-<h2>Sampling distributions and the central limit theorem{#samplesandclt}<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem-samplesandclt" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sampling-distributions-and-the-central-limit-theorem">
+<h2>Sampling distributions and the central limit theorem<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem" title="Permalink to this headline">¶</a></h2>
 <p>The law of large numbers is a very powerful tool, but it’s not going to be good enough to answer all our questions. Among other things, all it gives us is a “long run guarantee”. In the long run, if we were somehow able to collect an infinite amount of data, then the law of large numbers guarantees that our sample statistics will be correct. But as John Maynard Keynes famously argued in economics, a long run guarantee is of little use in real life:</p>
 <blockquote>
 <div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> &#64;Keynes1923</p>
@@ -796,6 +808,7 @@ lineplot.CI( x.factor = year,            # grouping variable
         
         <div class='prev-next-bottom'>
             
+    <a class='left-prev' id="prev-link" href="04.09-probability.html" title="previous page">Introduction to probability{#probability}</a>
 
         </div>
         

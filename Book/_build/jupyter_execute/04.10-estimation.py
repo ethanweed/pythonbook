@@ -36,11 +36,12 @@ Again, it's not obvious what the population is.
 
 ### Simple random samples
 
-```{r srs1, fig.cap="Simple random sampling without replacement from a finite population", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img", "estimation", "srs1.png"))
+
+```{image} ../img/estimation/srs1.png
+:alt: simple-random-sample
+:width: 600px
+:align: center
 ```
-
-
 
 Irrespective of how I define the population, the critical point is that the sample is a subset of the population, and our goal is to use our knowledge of the sample to draw inferences about the properties of the population. The relationship between the two depends on the *procedure* by which the sample was selected. This procedure is referred to as a **_sampling method_**, and it is important to understand why it matters.
 
@@ -48,17 +49,21 @@ To keep things simple, let's imagine that we have a bag containing 10 chips. Eac
 
 To help make sure you understand the importance of the sampling procedure, consider an alternative way in which the experiment could have been run. Suppose that my 5-year old son had opened the bag, and decided to pull out four black chips without putting any of them back in the bag. This *biased* sampling scheme is depicted in Figure \@ref(fig:brs). Now consider the evidentiary value of seeing 4 black chips and 0 white chips. Clearly, it depends on the sampling scheme, does it not? If you know that the sampling scheme is biased to select only black chips, then a sample that consists of only black chips doesn't tell you very much about the population! For this reason, statisticians really like it when a data set can be considered a simple random sample, because it makes the data analysis *much* easier.  
 
-```{r brs, fig.cap="Biased sampling without replacement from a finite population", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/estimation/brs.PNG"))
 
+```{image} ../img/estimation/brs.png
+:alt: biased-random-sample
+:width: 600px
+:align: center
 ```
 
-```{r srs2, fig.cap="Simple random sampling *with* replacement from a finite population", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/estimation/srs2.png"))
-
-```
 
 A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample **_with replacement_**. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated in Figure \@ref(fig:srs2). 
+
+```{image} ../img/estimation/srs2.png
+:alt: biased-random-sample
+:width: 600px
+:align: center
+```
 
 In my experience, most psychology experiments tend to be sampling without replacement, because the same person is not allowed to participate in the experiment twice. However, most statistical theory is based on the assumption that the data arise from a simple random sample *with* replacement. In real life, this very rarely matters. If the population of interest is large (e.g., has more than 10 entities!) the difference between sampling with- and without- replacement is too small to be concerned with. The difference between simple random samples and biased samples, on the other hand, is not such an easy thing to dismiss.
 
@@ -89,45 +94,22 @@ Okay. Setting aside the thorny methodological issues associated with obtaining a
 
 The idea is quite simple. Let's say we're talking about IQ scores. To a psychologist, the population of interest is a group of actual humans who have IQ scores. A statistician "simplifies" this by operationally defining the population as the probability distribution depicted in Figure \@ref(fig:IQdista). IQ tests are designed so that the average IQ is 100, the standard deviation of IQ scores is 15, and the distribution of IQ scores is normal. These values are referred to as the **_population parameters_** because they are characteristics of the entire population. That is, we say that the population mean $\mu$ is 100, and the population standard deviation $\sigma$ is 15.
 
-```{r IQdist, fig.cap="The population distribution of IQ scores (panel a) and two samples drawn randomly from it. In panel b we have a sample of 100 observations, and panel c we have a sample of 10,000 observations.", echo=FALSE}
-estImg <- list()
-emphCol <- rgb(0,0,1)
-emphColLight <- rgb(.5,.5,1)
-emphGrey <- grey(.5)
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-colour <- TRUE
-
-	width <- 4.5
-	height <- 4.5
-	
-	# plot
-	x <- 60:140
-	y <- dnorm(x,100,15)
-	plot(x,y,lwd=3,type="l",col=ifelse(colour,emphCol,"black"),
-		xlab="IQ Score", ylab="Probability Density",frame.plot=FALSE
-	)
-	
-	
-	# function to do all the work
-	plotSamples <- function( n ) {
-		
-		IQ <- rnorm(n, 100, 15)
-		hist( IQ, breaks=seq(10,180,5), border="white", 
-			col=ifelse(colour,emphColLight,emphGrey),
-			xlab="IQ Score", ylab="Frequency", xlim=c(60,140),
-			main=""
-		)
-		print( paste( "n=",n,"mean=",mean(IQ), "sd=",sd(IQ) ) )
-	}
-	
-	# plot two different sample sizes
-	plotSamples(100)
-	
-	plotSamples(10000)
-
-```
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+fig.suptitle('Simulated IQ Data')
 
 
+IQ = np.random.normal(loc=100,scale=15,size=10000)
+sns.histplot(IQ, kde=True,ax=axes[0])
+axes[0].set_title("1000000 samples")
+
+
+IQ = np.random.normal(loc=100,scale=15,size=100)
+sns.histplot(IQ, ax=axes[1])
+axes[1].set_title("100 samples")
 
 Now suppose I run an experiment. I select 100 people at random and administer an IQ test, giving me a simple random sample from the population. My sample would consist of a collection of numbers like this:
 ```
@@ -140,13 +122,22 @@ Each of these IQ scores is sampled from a normal distribution with mean 100 and 
 
 In the previous section I showed you the results of one fictitious IQ experiment with a sample size of $N=100$. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?
 
-The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using R. In Section \@ref(normal) I introduced the `rnorm()` function, which generates random numbers sampled from a normal distribution. For an experiment with a sample size of `n = 10000`, and a population with `mean = 100` and `sd = 15`, R produces our fake IQ data using these commands:
-```{r}
-IQ <- rnorm(n = 10000, mean = 100, sd = 15) # generate IQ scores
-IQ <- round(IQ) # IQs are whole numbers!
-print(head(IQ))
-```
-I can compute the mean IQ using the command `mean(IQ)` and the standard deviation using the command `sd(IQ)`, and I can draw a histgram using `hist()`. The histogram of this much larger sample is shown in Figure \@ref(fig:IQdist)c. Even a moment's inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.
+The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data above, I used the numpy package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size.
+
+
+
+I can compute the mean IQ using the `mean()`function and the standard deviation using the `stdev()` function, both from the `statistics`package, and I can draw a histgram using `histplot()` from `seaborn`. The histogram of this much larger sample is shown in Figure \@ref(fig:IQdist)c. Even a moment's inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.
+
+import numpy as np
+import statistics
+
+IQ_10 = np.random.normal(loc=100,scale=15,size=10)
+IQ_100 = np.random.normal(loc=100,scale=15,size=100)
+IQ_10000 = np.random.normal(loc=100,scale=15,size=10000)
+
+print("10 samples. Mean: ", statistics.mean(IQ_10), " Standard deviation: ", statistics.stdev(IQ_10))
+print("100 samples. Mean: ", statistics.mean(IQ_100), " Standard deviation: ", statistics.stdev(IQ_100))
+print("10000 samples. Mean: ", statistics.mean(IQ_10000), " Standard deviation: ", statistics.stdev(IQ_10000))
 
 I feel a bit silly saying this, but the thing I want you to take away from this is that large samples generally give you better information. I feel silly saying it because it's so bloody obvious that it shouldn't need to be said. In fact, it's such an obvious point that when Jacob Bernoulli -- one of the founders of probability theory -- formalised this idea back in 1713, he was kind of a jerk about it. Here's how he described the fact that we all share this intuition:
 
@@ -154,10 +145,10 @@ I feel a bit silly saying this, but the thing I want you to take away from this 
 
 Okay, so the passage comes across as a bit condescending (not to mention sexist), but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the **_law of large numbers_**. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that's what the mean is... an average), so let's look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size "approaches" infinity (written as $N \rightarrow \infty$) the sample mean approaches the population mean ($\bar{X} \rightarrow \mu$).^[Technically, the law of large numbers pertains to any sample statistic that can be described as an average of independent quantities. That's certainly true for the sample mean. However, it's also possible to write many other sample statistics as averages of one form or another. The variance of a sample, for instance, can be rewritten as a kind of average and so is subject to the law of large numbers. The minimum value of a sample, however, cannot be written as an average of anything and is therefore not governed by the law of large numbers.] 
 
-I don't intend to subject you to a proof that the law of large numbers is true, but it's one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it will be wrong, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.
+I don't intend to subject you to a proof that the law of large numbers is true, but it's one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it **_will be wrong_**, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.
 
 
-## Sampling distributions and the central limit theorem{#samplesandclt}
+## Sampling distributions and the central limit theorem
 
 The law of large numbers is a very powerful tool, but it's not going to be good enough to answer all our questions. Among other things, all it gives us is a "long run guarantee". In the long run, if we were somehow able to collect an infinite amount of data, then the law of large numbers guarantees that our sample statistics will be correct. But as John Maynard Keynes famously argued in economics, a long run guarantee is of little use in real life:
 
@@ -552,3 +543,4 @@ In this chapter I've covered two main topics. The first half of the chapter talk
 - Estimating a confidence interval (Section \@ref(ci))
 
 As always, there's a lot of topics related to sampling and estimation that aren't covered in this chapter, but for an introductory psychology class this is fairly comprehensive I think. For most applied researchers you won't need much more theory than this. One big question that I haven't touched on in this chapter is what you do when you don't have a simple random sample. There is a lot of statistical theory you can draw on to handle this situation, but it's well beyond the scope of this book.
+

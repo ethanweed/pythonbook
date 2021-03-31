@@ -139,7 +139,6 @@ which outputs the median value of 30.5.
 
 ```{image} ../img/descriptives2/meanmedian.png
 :alt: meanmedian
-:class: bg-primary mb-1
 :width: 600px
 :align: center
 ```
@@ -381,7 +380,12 @@ statistics.stdev(margins)
 
 Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn't have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it's not exact: it's actually calculated based on an *assumption* that the histogram is symmetric and "bell shaped".^[Strictly, the assumption is that the data are *normally* distributed, which is an important concept that we'll discuss more in Chapter \@ref(probability), and will turn up over and over again later in the book.] As you can tell from looking at the AFL winning margins histogram in Figure \@ref(fig:histogram1), this isn't exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in Figure \@ref(fig:aflsd).
 
-![figure_2.5_mean_SD.png](attachment:figure_2.5_mean_SD.png)
+
+```{image} ../img/descriptives2/figure_2.5_mean_SD.png
+:alt: mean-SD
+:width: 600px
+:align: center
+```
 
 Figure XX: An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the \"approximately 68% rule\" discussed in the main text.
 
