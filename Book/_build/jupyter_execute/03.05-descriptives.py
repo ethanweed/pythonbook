@@ -136,7 +136,13 @@ which outputs the median value of 30.5.
 
 ### Mean or median? What's the difference?
 
-![meanmedian.png](attachment:meanmedian.png)
+
+```{image} ../img/descriptives2/meanmedian.png
+:alt: meanmedian
+:class: bg-primary mb-1
+:width: 600px
+:align: center
+```
 
 Knowing how to calculate means and medians is only a part of the story. You also need to understand what each one is saying about the data, and what that implies for when you should use each one. This is illustrated in Figure \@ref(fig:meanmedian) the mean is kind of like the "centre of gravity" of the data set, whereas the median is the "middle value" in the data. What this implies, as far as which one you should use, depends a little on what type of data you've got and what you're trying to achieve. As a rough guide:
  
