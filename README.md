@@ -7,6 +7,8 @@ Since Danielle has been so kind as to open-source the book, I have gone to work 
 
 #### Log
 
+06-04-2021 Converted project to jupyterbook format, and added placeholder for all chapters. Currently halfway through code conversion in chapter 4.4 on estimation from a sample.
+
 26-03-2021 Finished correlation section rough draft, and am halfway through binomial distribution section. I am continuing to just focus on the code blocks, leaving text editing for later.
 
 23-03-2021 I have removed the section on mean absolute deviation, because... I dunno, I think I just wanted to hurry on to standard deviation, and I was worrying that students in my course might get bogged down. But then I got to the bit about median absolute deviation, and felt a twinge of regret at taking out mean absolute deviation. So maybe I'll go back and add it back in at some point.
