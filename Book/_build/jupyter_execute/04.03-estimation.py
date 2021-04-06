@@ -271,56 +271,70 @@ fig.cap="The sampling distribution of the *maximum* for the \"five IQ scores exp
 
 An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line).
 
-```{r IQsampa, fig.cap="Each data set contained only a single observation, so the mean of each sample is just one person's IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores.", echo=FALSE}
-width <- 4.5
-	height <- 4.5
-	
-	# function to do all the work
-	plotSamples <- function( n, N) {
-		
-		IQ <- rnorm(n, 100,15/sqrt(N))
-		hist( IQ, breaks=seq(10,180,5), border="white", freq=FALSE,
-			col=ifelse(colour,emphColLight,emphGrey),
-			xlab="IQ Score", ylab="", xlim=c(60,140),
-			main=paste("Sample Size =",N), axes=FALSE,
-			font.main=1, ylim=c(0,.07)
-		)
-		axis(1)
-	}
-	
-	# population distribution
-	x <- 60:140
-	y <- dnorm(x,100,15)
-	
-	# plot two different sample sizes
-	plotSamples(10000,1)
-	lines(x,y,lwd=2,col="black",type="l")
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
+import statistics
+import math
 
-```
+# define a normal distribution with a mean of 100 and a standard deviation of 15
+mu = 100
+sigma = 15
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = stats.norm.pdf(x, mu, sigma)
 
-```{r IQsampb, fig.cap="When we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person's IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution.", echo=FALSE}
-width <- 4.5
-	height <- 4.5
+# run 10000 simulated experiments with 1 subject each, and calculate the sample mean for each experiment
+n = 1
+sample_means = []
+for i in range(1,10000):
+    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_means.append(sample_mean)
 
-		# plot two different sample sizes
-	plotSamples(1000,2)
-	lines(x,y,lwd=2,col="black",type="l")
 
-```
+# plot a histogram of the distribution of sample means, together with the population distribution
+fig, ax = plt.subplots()
+sns.histplot(sample_means, ax=ax, binwidth=4)
+ax2 = ax.twinx()
+sns.lineplot(x=x,y=y, ax=ax2, color='black')
 
-```{r IQsampc, fig.cap="By the time we raise the sample size to 10, we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean.", echo=FALSE}
-width <- 4.5
-	height <- 4.5
 
-		# plot two different sample sizes
-	plotSamples(1000,10)
-	lines(x,y,lwd=2,col="black",type="l")
 
-```
+Each data set contained only a single observation, so the mean of each sample is just one person's IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores.
 
-At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you'll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you'll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures \@ref(fig:IQsampa), \@ref(fig:IQsampb) and \@ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the **_standard error_**. The standard error of a statistic is often denoted SE, and since we're usually interested in the standard error of the sample *mean*, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.  
+n = 2
+sample_means = []
+for i in range(1,10000):
+    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_means.append(sample_mean)
+
+
+# plot a histogram of the distribution of sample means, together with the population distribution
+fig, ax = plt.subplots()
+sns.histplot(sample_means, ax=ax, binwidth=4)
+ax2 = ax.twinx()
+sns.lineplot(x=x,y=y, ax=ax2, color='black')
+
+When we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person's IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution.
+
+n = 10
+sample_means = []
+for i in range(1,10000):
+    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_means.append(sample_mean)
+
+
+# plot a histogram of the distribution of sample means, together with the population distribution
+fig, ax = plt.subplots()
+sns.histplot(sample_means, ax=ax, binwidth=4)
+ax2 = ax.twinx()
+sns.lineplot(x=x,y=y, ax=ax2, color='black')
+
+By the time we raise the sample size to 10, we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean. At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you'll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you'll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures \@ref(fig:IQsampa), \@ref(fig:IQsampb) and \@ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the **_standard error_**. The standard error of a statistic is often denoted SE, and since we're usually interested in the standard error of the sample *mean*, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.  
 
 Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using R. To do this, I started with the "ramped" distribution shown in the histogram in Figure \@ref(fig:cltdemo). As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Next, I used R to simulate the results of a large number of experiments. In each experiment I took $N=2$ samples from this distribution, and then calculated the sample mean. Figure \@ref(fig:cltdemob) plots the histogram of these sample means (i.e., the sampling distribution of the mean for $N=2$). This time, the histogram produces a $\cap$-shaped distribution: it's still not normal, but it's a lot closer to the black line than the population distribution in Figure \@ref(fig:cltdemoa). When I increase the sample size to $N=4$, the sampling distribution of the mean is very close to normal (Figure \@ref(fig:cltdemoc), and by the time we reach a sample size of $N=8$ it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!
+
+
 
 ```{r cltdemo, fig.cap="A demonstration of the central limit theorem. In panel a, we have a non-normal population distribution; and panels b-d show the sampling distribution of the mean for samples of size 2,4 and 8, for data drawn from the distribution in panel a. As you can see, even though the original population distribution is non-normal, the sampling distribution of the mean becomes pretty close to normal by the time you have a sample of even 4 observations. "}
 	# needed for printing

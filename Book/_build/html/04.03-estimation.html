@@ -54,7 +54,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Part VI. Statistical Tools" href="05.00-part5.html" />
+    <link rel="next" title="5. Hypothesis Testing" href="04.04-hypothesis-testing.html" />
     <link rel="prev" title="3. Introduction to Probability" href="04.02-probability.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -190,6 +190,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    4. Estimating unknown quantities from a sample
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04.04-hypothesis-testing.html">
+   5. Hypothesis Testing
   </a>
  </li>
 </ul>
@@ -870,51 +875,95 @@ Mean of simulated data:  99
 <div class="section" id="the-central-limit-theorem">
 <h3><span class="section-number">4.3.3. </span>The central limit theorem<a class="headerlink" href="#the-central-limit-theorem" title="Permalink to this headline">¶</a></h3>
 <p>An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>width &lt;- 4.5
-	height &lt;- 4.5
-	
-	# function to do all the work
-	plotSamples &lt;- function( n, N) {
-		
-		IQ &lt;- rnorm(n, 100,15/sqrt(N))
-		hist( IQ, breaks=seq(10,180,5), border=&quot;white&quot;, freq=FALSE,
-			col=ifelse(colour,emphColLight,emphGrey),
-			xlab=&quot;IQ Score&quot;, ylab=&quot;&quot;, xlim=c(60,140),
-			main=paste(&quot;Sample Size =&quot;,N), axes=FALSE,
-			font.main=1, ylim=c(0,.07)
-		)
-		axis(1)
-	}
-	
-	# population distribution
-	x &lt;- 60:140
-	y &lt;- dnorm(x,100,15)
-	
-	# plot two different sample sizes
-	plotSamples(10000,1)
-	lines(x,y,lwd=2,col=&quot;black&quot;,type=&quot;l&quot;)
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
+<span class="c1"># define a normal distribution with a mean of 100 and a standard deviation of 15</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="c1"># run 10000 simulated experiments with 1 subject each, and calculate the sample mean for each experiment</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sample_means</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+    <span class="n">sample_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">)</span>
+
+
+<span class="c1"># plot a histogram of the distribution of sample means, together with the population distribution</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">sample_means</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>width &lt;- 4.5
-	height &lt;- 4.5
-
-		# plot two different sample sizes
-	plotSamples(1000,2)
-	lines(x,y,lwd=2,col=&quot;black&quot;,type=&quot;l&quot;)
-
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c5628670-9fdd-4f3b-a7df-2e81493f8bbb&#39;&gt;
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>width &lt;- 4.5
-	height &lt;- 4.5
+<img alt="_images/04.03-estimation_24_1.png" src="_images/04.03-estimation_24_1.png" />
+</div>
+</div>
+<p>Each data set contained only a single observation, so the mean of each sample is just one person’s IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">sample_means</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+    <span class="n">sample_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">)</span>
 
-		# plot two different sample sizes
-	plotSamples(1000,10)
-	lines(x,y,lwd=2,col=&quot;black&quot;,type=&quot;l&quot;)
 
+<span class="c1"># plot a histogram of the distribution of sample means, together with the population distribution</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">sample_means</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you’ll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you’ll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures &#64;ref(fig:IQsampa), &#64;ref(fig:IQsampb) and &#64;ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the <strong><em>standard error</em></strong>. The standard error of a statistic is often denoted SE, and since we’re usually interested in the standard error of the sample <em>mean</em>, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;82a67a9c-5c14-47f0-96c6-1c728d0db0e4&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.03-estimation_26_1.png" src="_images/04.03-estimation_26_1.png" />
+</div>
+</div>
+<p>When we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person’s IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">sample_means</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+    <span class="n">sample_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">)</span>
+
+
+<span class="c1"># plot a histogram of the distribution of sample means, together with the population distribution</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">sample_means</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;bdb46eb7-aebd-4633-ad3c-31c01a32356f&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.03-estimation_28_1.png" src="_images/04.03-estimation_28_1.png" />
+</div>
+</div>
+<p>By the time we raise the sample size to 10, we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean. At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you’ll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you’ll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures &#64;ref(fig:IQsampa), &#64;ref(fig:IQsampb) and &#64;ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the <strong><em>standard error</em></strong>. The standard error of a statistic is often denoted SE, and since we’re usually interested in the standard error of the sample <em>mean</em>, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.</p>
 <p>Okay, so that’s one part of the story. However, there’s something I’ve been glossing over so far. All my examples up to this point have been based on the “IQ scores” experiments, and because IQ scores are roughly normally distributed, I’ve assumed that the population distribution is normal. What if it isn’t normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using R. To do this, I started with the “ramped” distribution shown in the histogram in Figure &#64;ref(fig:cltdemo). As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn’t look very much like a normal distribution at all. Next, I used R to simulate the results of a large number of experiments. In each experiment I took $N=2$ samples from this distribution, and then calculated the sample mean. Figure &#64;ref(fig:cltdemob) plots the histogram of these sample means (i.e., the sampling distribution of the mean for $N=2$). This time, the histogram produces a $\cap$-shaped distribution: it’s still not normal, but it’s a lot closer to the black line than the population distribution in Figure &#64;ref(fig:cltdemoa). When I increase the sample size to $N=4$, the sampling distribution of the mean is very close to normal (Figure &#64;ref(fig:cltdemoc), and by the time we reach a sample size of $N=8$ it’s almost perfectly normal. In other words, as long as your sample size isn’t tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	# needed for printing
 	width &lt;- 6
@@ -1142,7 +1191,7 @@ lineplot.CI( x.factor = year,            # grouping variable
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="04.02-probability.html" title="previous page"><span class="section-number">3. </span>Introduction to Probability</a>
-    <a class='right-next' id="next-link" href="05.00-part5.html" title="next page"><span class="section-number">1. </span>Part VI. Statistical Tools</a>
+    <a class='right-next' id="next-link" href="04.04-hypothesis-testing.html" title="next page"><span class="section-number">5. </span>Hypothesis Testing</a>
 
         </div>
         
