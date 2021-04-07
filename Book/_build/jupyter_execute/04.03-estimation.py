@@ -334,48 +334,68 @@ By the time we raise the sample size to 10, we can see that the distribution of 
 
 Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using R. To do this, I started with the "ramped" distribution shown in the histogram in Figure \@ref(fig:cltdemo). As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Next, I used R to simulate the results of a large number of experiments. In each experiment I took $N=2$ samples from this distribution, and then calculated the sample mean. Figure \@ref(fig:cltdemob) plots the histogram of these sample means (i.e., the sampling distribution of the mean for $N=2$). This time, the histogram produces a $\cap$-shaped distribution: it's still not normal, but it's a lot closer to the black line than the population distribution in Figure \@ref(fig:cltdemoa). When I increase the sample size to $N=4$, the sampling distribution of the mean is very close to normal (Figure \@ref(fig:cltdemoc), and by the time we reach a sample size of $N=8$ it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!
 
+import math
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# parameters of the beta
+a=2
+b=1
 
 
-```{r cltdemo, fig.cap="A demonstration of the central limit theorem. In panel a, we have a non-normal population distribution; and panels b-d show the sampling distribution of the mean for samples of size 2,4 and 8, for data drawn from the distribution in panel a. As you can see, even though the original population distribution is non-normal, the sampling distribution of the mean becomes pretty close to normal by the time you have a sample of even 4 observations. "}
-	# needed for printing
-	width <- 6
-	height <- 6	
-	
-	# parameters of the beta
-	a <- 2
-	b <- 1
-	
-	# mean and standard deviation of the beta
-	s <- sqrt( a*b / (a+b)^2 / (a+b+1) )
-	m <- a / (a+b)
-	
-	# define function to draw a plot
-	plotOne <- function(n,N=50000) {
-		
-		# generate N random sample means of size n
-		X <- matrix(rbeta(n*N,a,b),n,N)
-		X <- colMeans(X)
-		
-		# plot the data
-		hist( X, breaks=seq(0,1,.025), border="white", freq=FALSE,
-			col=ifelse(colour,emphColLight,emphGrey),
-			xlab="Sample Mean", ylab="", xlim=c(0,1.2),
-			main=paste("Sample Size =",n), axes=FALSE,
-			font.main=1, ylim=c(0,5)
-		)
-		box()
-		axis(1)
-		#axis(2)
-		
-		# plot the theoretical distribution
-		lines( x <- seq(0,1.2,.01), dnorm(x,m,s/sqrt(n)), 
-			lwd=2, col="black", type="l"
-		)
-	}
-	
-	for( i in c(1,2,4,8)) {
-		plotOne(i)}
-```
+
+def plotSamples(n):
+    # create normal distribution with mean and standard deviation of the beta
+    mu = a / (a+b)
+    sigma = math.sqrt( a*b / (a+b)**2 / (a+b+1) )
+    x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+    y = stats.norm.pdf(x, mu, sigma/math.sqrt(n))
+
+    # find sample means from samples of "ramped" beta distribution
+
+    values = []
+    for i in range(n):
+        v = []
+        for j in range(50000):
+          v.append(np.random.beta(a,b))
+        values.append(v)
+    df = pd.DataFrame(values)
+    sample_means = df.mean(axis=0)
+
+    # plot a histogram of the distribution of sample means, together with the population distribution
+    fig, ax = plt.subplots(sharex=True)
+    sns.histplot(sample_means)
+    ax2 = ax.twinx()
+    sns.lineplot(x=x,y=y, ax=ax2, color='black')
+    ax.set(yticklabels=[])
+    ax2.set(yticklabels=[])
+    ax.set(ylabel=None)
+    ax2.set(ylabel=None)
+    ax.tick_params(left=False)
+    ax2.tick_params(right=False)
+    ax.set_title("Sample size = " + str(n))
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax2.spines['top'].set_visible(False)
+    ax2.spines['right'].set_visible(False)
+
+    
+
+
+
+plotSamples(1)
+
+
+
+plotSamples(2)
+
+
+
+plotSamples(4)
+
+plotSamples(8)
 
 On the basis of these figures, it seems like we have evidence for all of the following claims about the sampling distribution of the mean:
 
@@ -391,10 +411,7 @@ Because we divide the population standard devation $\sigma$ by the square root o
 
 This result is useful for all sorts of things. It tells us why large experiments are more reliable than small ones, and because it gives us an explicit formula for the standard error it tells us *how much* more reliable a large experiment is. It tells us why the normal distribution is, well, *normal*. In real experiments, many of the things that we want to measure are actually averages of lots of different quantities (e.g., arguably, "general" intelligence as measured by IQ is an average of a large number of "specific" skills and abilities), and when that happens, the averaged quantity should follow a normal distribution. Because of this mathematical law, the normal distribution pops up over and over again in real data. 
 
-
-
-
-## Estimating population parameters{#pointestimates}
+## Estimating population parameters
 
 In all the IQ examples in the previous sections, we actually knew the population parameters ahead of time. As every undergraduate gets taught in their very first lecture on the measurement of intelligence, IQ scores are *defined* to have mean 100 and standard deviation 15. However, this is a bit of a lie. How do we know that IQ scores have a true population mean of 100? Well, we know this because the people who designed the tests have administered them to very large samples, and have then "rigged" the scoring rules so that their sample has mean 100. That's not a bad thing of course: it's an important part of designing a psychological measurement. However, it's important to keep in mind that this theoretical mean of 100 only attaches to the population that the test designers used to design the tests. Good test designers will actually go to some lengths to provide "test norms" that can apply to lots of different populations (e.g., different age groups, nationalities etc). 
 
@@ -404,19 +421,17 @@ This is very handy, but of course almost every research project of interest invo
 
 Suppose we go to Port Pirie and 100 of the locals are kind enough to sit through an IQ test. The average IQ score among these people turns out to be $\bar{X}=98.5$. So what is the true mean IQ for the entire population of Port Pirie? Obviously, we don't know the answer to that question. It could be $97.2$, but if could also be $103.5$. Our sampling isn't exhaustive so we cannot give a definitive answer. Nevertheless if I was forced at gunpoint to give a "best guess" I'd have to say $98.5$. That's the essence of statistical estimation: giving a best guess. 
 
-In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my **_estimate of the population mean_**. It's pretty simple, and in the next section I'll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often different notation to refer to them. For instance, if true population mean is denoted $\mu$, then we would use $\hat\mu$ to refer to our estimate of the population mean. In contrast, the sample mean is denoted $\bar{X}$ or sometimes $m$. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of $\bar{X} = 98.5$, then my estimate of the population mean is also $\hat\mu = 98.5$. To help keep the notation clear, here's a handy table:
+In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my **_estimate of the population mean_**. It's pretty simple, and in the next section I'll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often use different notation to refer to them. For instance, if true population mean is denoted $\mu$, then we would use $\hat\mu$ to refer to our estimate of the population mean. In contrast, the sample mean is denoted $\bar{X}$ or sometimes $m$. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of $\bar{X} = 98.5$, then my estimate of the population mean is also $\hat\mu = 98.5$. To help keep the notation clear, here's a handy table:
 
-```{r}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Symbol = c("$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$"),
-              What.is.it = c("Sample mean", "True population mean",
-                              "Estimate of the population mean"),
-   Do.we.know.what.it.is = c("Yes  calculated from the raw data",
+df = pd.DataFrame(
+    {'Symbol': ["$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$"],
+     'What it is': ["Sample mean", "True population mean",
+                              "Estimate of the population mean"],
+     'Do we know what it is': ["Yes  calculated from the raw data",
                               "Almost never known for sure",
-                              "Yes  identical to the sample mean")))
-```
-
-
+                              "Yes  identical to the sample mean"]
+    })
+df.style.hide_index()
 
 ### Estimating the population standard deviation
 
