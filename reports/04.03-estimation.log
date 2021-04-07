@@ -1,0 +1,43 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+import math
+
+mu = 100
+sigma = 15
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = stats.norm.pdf(x, mu, sigma)
+
+sns.lineplot(x=x,y=y)
+
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-1-58f7e16c5940>[0m in [0;36m<module>[0;34m[0m
+[1;32m      9[0m [0my[0m [0;34m=[0m [0mstats[0m[0;34m.[0m[0mnorm[0m[0;34m.[0m[0mpdf[0m[0;34m([0m[0mx[0m[0;34m,[0m [0mmu[0m[0;34m,[0m [0msigma[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     10[0m [0;34m[0m[0m
+[0;32m---> 11[0;31m [0msns[0m[0;34m.[0m[0mlineplot[0m[0;34m([0m[0mx[0m[0;34m=[0m[0mx[0m[0;34m,[0m[0my[0m[0;34m=[0m[0my[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;31mNameError[0m: name 'sns' is not defined
+NameError: name 'sns' is not defined
+
