@@ -96,6 +96,7 @@ The idea is quite simple. Let's say we're talking about IQ scores. To a psycholo
 
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 import scipy.stats as stats
 import math
 
@@ -425,9 +426,9 @@ In this example, estimating the unknown poulation parameter is straightforward. 
 
 df = pd.DataFrame(
     {'Symbol': ["$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$"],
-     'What it is': ["Sample mean", "True population mean",
+     'What is it called?': ["Sample mean", "True population mean",
                               "Estimate of the population mean"],
-     'Do we know what it is': ["Yes  calculated from the raw data",
+     'Do we know what it is?': ["Yes  calculated from the raw data",
                               "Almost never known for sure",
                               "Yes  identical to the sample mean"]
     })
@@ -453,19 +454,25 @@ Let's extend this example a little. Suppose I now make a second observation. My 
 ```
 This time around, our sample is *just* large enough for us to be able to observe some variability: two observations is the bare minimum number needed for any variability to be observed! For our new data set, the sample mean is $\bar{X}=21$, and the sample standard deviation is $s=1$. What intuitions do we have about the population? Again, as far as the population mean goes, the best guess we can possibly make is the sample mean: if forced to guess, we'd probably guess that the population mean cromulence is 21. What about the standard deviation? This is a little more complicated. The sample standard deviation is only based on two observations, and if you're at all like me you probably have the intuition that, with only two observations, we haven't given the population "enough of a chance" to reveal its true variability to us. It's not just that we suspect that the estimate is *wrong*: after all, with only two observations we expect it to be wrong to some degree. The worry is that the error is *systematic*. Specifically, we suspect that the sample standard deviation is likely to be smaller than the population standard deviation. 
 
-```{r sampdistsd, fig.cap="The sampling distribution of the sample standard deviation for a \"two IQ scores\" experiment. The true population standard deviation is 15 (dashed line), but as you can see from the histogram, the vast majority of experiments will produce a much smaller sample standard deviation than this. On average, this experiment would produce a sample standard deviation of only 8.5, well below the true value! In other words, the sample standard deviation is a *biased* estimate of the population standard deviation. ", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/estimation/samplingDistSampleSD.png"))
 
+```{image} ../img/estimation/samplingDistSampleSD.png
+:alt: sample-SD
+:width: 600px
+:align: center
 ```
 
 This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don't help very much. Instead, what I'll do is use R to simulate the results of some experiments. With that in mind, let's return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the `rnorm()` function to generate the the results of an experiment in which I measure $N=2$ IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the *sampling distribution of the standard deviation*. I've plotted this distribution in Figure \@ref(fig:sampdistsd). Even though the true population standard deviation is 15, the average of the *sample* standard deviations is only 8.5. Notice that this is a very different result to what we found in Figure \@ref(fig:IQsampb) when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100. 
 
 Now let's extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of $N=2$, let's repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in Figure \@ref(fig:estimatorbias). On the left hand side (panel a), I've plotted the average sample mean and on the right hand side (panel b), I've plotted the average standard deviation. The two plots are quite different: *on average*, the average sample mean is equal to the population mean. It is an **_unbiased estimator_**, which is essentially the reason why your best estimate for the population mean is the sample mean.^[I should note that I'm hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it's beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there's some hidden complexity here.] The plot on the right is quite different: on average, the sample standard deviation $s$ is *smaller* than the population standard deviation $\sigma$. It is a **_biased estimator_**. In other words, if we want to make a "best guess" $\hat\sigma$ about the value of the population standard deviation $\sigma$, we should make sure our guess is a little bit larger than the sample standard deviation $s$. 
 
-```{r estimatorbias, fig.cap="An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. *On average*, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/estimation/biasMeanSD.png"))
 
+```{image} ../img/estimation/biasMeanSD.png
+:alt: bias-mean-SD
+:width: 600px
+:align: center
 ```
+
+An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. *On average*, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.
 
 The fix to this systematic bias turns out to be very simple. Here's how it works. Before tackling the standard deviation, let's look at the variance. If you recall from Section \@ref(var), the sample variance is defined to be the average of the squared deviations from the sample mean. That is:
 $$
@@ -485,33 +492,31 @@ One final point: in practice, a lot of people tend to refer to $\hat{\sigma}$ (i
 
 To finish this section off, here's another couple of tables to help keep things clear:
 
-```{r}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-                   Symbol = c("$s$", "$\\sigma$", "$\\hat{\\sigma}$", "$s^2$",
-                              "$\\sigma^2$", "$\\hat{\\sigma}^2$"),
-              What.is.it = c("Sample standard deviation",
+df = pd.DataFrame(
+    {'Symbol': ["$s$", "$\\sigma$", "$\\hat{\\sigma}$", "$s^2$",
+                              "$\\sigma^2$", "$\\hat{\\sigma}^2$"],
+     'What is it called?': ["Sample standard deviation",
                               "Population standard deviation",
                               "Estimate of the population standard deviation", "Sample variance",
                               "Population variance",
-                              "Estimate of the population variance"),
-   Do.we.know.what.it.is = c("Yes - calculated from the raw data",
+                              "Estimate of the population variance"],
+     'Do we know what it is?': ["Yes - calculated from the raw data",
                               "Almost never known for sure",
                               "Yes - but not the same as the sample standard deviation",
                               "Yes - calculated from the raw data",
                               "Almost never known for sure",
-                              "Yes -  but not the same as the sample variance")
-))
+                              "Yes -  but not the same as the sample variance"]
+    })
+df.style.hide_index()
 
-
-```
-
-## Estimating a confidence interval{#ci}
+## Estimating a confidence interval
 
 > *Statistics means never having to say you're certain* -- Unknown origin^[This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I've never found the original source.
 
 Up to this point in this chapter, I've outlined the basics of sampling theory which statisticians rely on to make guesses about population parameters on the basis of a sample of data. As this discussion illustrates, one of the reasons we need all this sampling theory is that every data set leaves us with a some of uncertainty, so our estimates are never going to be perfectly accurate. The thing that has been missing from this discussion is an attempt to *quantify* the amount of uncertainty that attaches to our estimate. It's not enough to be able guess that, say, the mean IQ of undergraduate psychology students is 115 (yes, I just made that number up). We also want to be able to say something that expresses the degree of certainty that we have in our guess. For example, it would be nice to be able to say that there is a 95\% chance that the true mean lies between 109 and 121. The name for this is a **_confidence interval_** for the mean.
 
 Armed with an understanding of sampling distributions, constructing a confidence interval for the mean is actually pretty easy. Here's how it works. Suppose the true population mean is $\mu$ and the standard deviation is $\sigma$. I've just finished running my study that has $N$ participants, and the mean IQ among those participants is $\bar{X}$. We know from our discussion of the central limit theorem (Section \@ref(clt) that the sampling distribution of the mean is approximately normal. We also know from our discussion of the normal distribution Section \@ref(normal) that there is a 95\% chance that a normally-distributed quantity will fall within two standard deviations of the true mean. To be more precise, we can use the `qnorm()` function to compute the 2.5th and 97.5th percentiles of the normal distribution
+
 ```{r}
 qnorm( p = c(.025, .975) )
 ``` 

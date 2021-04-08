@@ -432,8 +432,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#estimating-a-confidence-interval-ci">
-   4.5. Estimating a confidence interval{#ci}
+  <a class="reference internal nav-link" href="#estimating-a-confidence-interval">
+   4.5. Estimating a confidence interval
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -540,6 +540,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
@@ -553,16 +554,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">58</span><span class="n">f7e16c5940</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> 
-<span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;sns&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
 </pre></div>
 </div>
+<img alt="_images/04.03-estimation_7_1.png" src="_images/04.03-estimation_7_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -621,9 +616,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  91.83513165879515  Standard deviation:  12.080467135962696
-100 samples. Mean:  99.11176856251919  Standard deviation:  14.192870313207116
-10000 samples. Mean:  100.08335406247072  Standard deviation:  14.849937076834848
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  92.38370002440402  Standard deviation:  9.79320591859464
+100 samples. Mean:  100.21370468596241  Standard deviation:  16.676721013226107
+10000 samples. Mean:  100.30095563855045  Standard deviation:  14.988932192535435
 </pre></div>
 </div>
 </div>
@@ -654,8 +649,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [116  91 110  92 127]
-Mean of simulated data:  107
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [110 117  95  95 111]
+Mean of simulated data:  105
 </pre></div>
 </div>
 </div>
@@ -670,8 +665,8 @@ Mean of simulated data:  107
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [128  94  95  92  87]
-Mean of simulated data:  99
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [103 114 123 107  94]
+Mean of simulated data:  108
 </pre></div>
 </div>
 </div>
@@ -726,63 +721,63 @@ Mean of simulated data:  99
       <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
-      <td>5.000000</td>
+      <td>5.00000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>98.800000</td>
-      <td>97.000000</td>
-      <td>95.200000</td>
-      <td>113.600000</td>
-      <td>94.600000</td>
+      <td>98.000000</td>
+      <td>100.000000</td>
+      <td>98.200000</td>
+      <td>113.000000</td>
+      <td>101.00000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>7.918333</td>
-      <td>8.124038</td>
-      <td>9.011104</td>
-      <td>8.961027</td>
-      <td>28.023205</td>
+      <td>21.874643</td>
+      <td>15.937377</td>
+      <td>13.881643</td>
+      <td>18.960485</td>
+      <td>9.66954</td>
     </tr>
     <tr>
       <th>min</th>
+      <td>62.000000</td>
+      <td>86.000000</td>
       <td>87.000000</td>
-      <td>91.000000</td>
-      <td>85.000000</td>
-      <td>99.000000</td>
-      <td>66.000000</td>
+      <td>87.000000</td>
+      <td>89.00000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>96.000000</td>
-      <td>92.000000</td>
+      <td>98.000000</td>
       <td>91.000000</td>
-      <td>114.000000</td>
-      <td>69.000000</td>
+      <td>90.000000</td>
+      <td>104.000000</td>
+      <td>93.00000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>100.000000</td>
-      <td>92.000000</td>
-      <td>93.000000</td>
-      <td>114.000000</td>
+      <td>103.000000</td>
+      <td>97.000000</td>
       <td>95.000000</td>
+      <td>112.000000</td>
+      <td>103.00000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>103.000000</td>
-      <td>100.000000</td>
-      <td>98.000000</td>
-      <td>118.000000</td>
-      <td>111.000000</td>
+      <td>106.000000</td>
+      <td>99.000000</td>
+      <td>97.000000</td>
+      <td>127.000000</td>
+      <td>110.00000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>108.000000</td>
-      <td>110.000000</td>
-      <td>109.000000</td>
-      <td>123.000000</td>
-      <td>132.000000</td>
+      <td>121.000000</td>
+      <td>127.000000</td>
+      <td>122.000000</td>
+      <td>135.000000</td>
+      <td>110.00000</td>
     </tr>
   </tbody>
 </table>
@@ -818,7 +813,7 @@ Mean of simulated data:  99
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;861c7758-3f25-4448-bb54-15fb393a3e57&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;dd86a6ca-1250-43e7-83ef-cdab54bed81f&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_19_1.png" src="_images/04.03-estimation_19_1.png" />
@@ -864,7 +859,7 @@ Mean of simulated data:  99
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;d5069796-fb94-4238-a513-594905ddd0b9&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;f8f8ae07-be1b-4290-8f80-0ae05abd9242&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_22_1.png" src="_images/04.03-estimation_22_1.png" />
@@ -907,7 +902,7 @@ Mean of simulated data:  99
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c5628670-9fdd-4f3b-a7df-2e81493f8bbb&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;3eaba37d-0c37-480e-9412-37b56885ebea&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_24_1.png" src="_images/04.03-estimation_24_1.png" />
@@ -932,7 +927,7 @@ Mean of simulated data:  99
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;82a67a9c-5c14-47f0-96c6-1c728d0db0e4&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c48f44e7-9ec8-46d4-84a0-e14e2254246c&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_26_1.png" src="_images/04.03-estimation_26_1.png" />
@@ -957,7 +952,7 @@ Mean of simulated data:  99
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;bdb46eb7-aebd-4633-ad3c-31c01a32356f&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;3723b73e-1120-4b50-a2f1-89f740691195&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_28_1.png" src="_images/04.03-estimation_28_1.png" />
@@ -1085,9 +1080,9 @@ Because we divide the population standard devation $\sigma$ by the square root o
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;Symbol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">bar</span><span class="si">{X}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">mu$&quot;</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">hat{</span><span class="se">\\</span><span class="s2">mu}$&quot;</span><span class="p">],</span>
-     <span class="s1">&#39;What it is&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Sample mean&quot;</span><span class="p">,</span> <span class="s2">&quot;True population mean&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;What is it called?&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Sample mean&quot;</span><span class="p">,</span> <span class="s2">&quot;True population mean&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Estimate of the population mean&quot;</span><span class="p">],</span>
-     <span class="s1">&#39;Do we know what it is&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes  calculated from the raw data&quot;</span><span class="p">,</span>
+     <span class="s1">&#39;Do we know what it is?&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes  calculated from the raw data&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Almost never known for sure&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Yes  identical to the sample mean&quot;</span><span class="p">]</span>
     <span class="p">})</span>
@@ -1097,21 +1092,21 @@ Because we divide the population standard devation $\sigma$ by the square root o
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><style  type="text/css" >
-</style><table id="T_a532c_" ><thead>    <tr>        <th class="col_heading level0 col0" >Symbol</th>        <th class="col_heading level0 col1" >What it is</th>        <th class="col_heading level0 col2" >Do we know what it is</th>    </tr></thead><tbody>
+</style><table id="T_4ee1f_" ><thead>    <tr>        <th class="col_heading level0 col0" >Symbol</th>        <th class="col_heading level0 col1" >What is it called?</th>        <th class="col_heading level0 col2" >Do we know what it is?</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_a532c_row0_col0" class="data row0 col0" >$\bar{X}$</td>
-                        <td id="T_a532c_row0_col1" class="data row0 col1" >Sample mean</td>
-                        <td id="T_a532c_row0_col2" class="data row0 col2" >Yes  calculated from the raw data</td>
+                                <td id="T_4ee1f_row0_col0" class="data row0 col0" >$\bar{X}$</td>
+                        <td id="T_4ee1f_row0_col1" class="data row0 col1" >Sample mean</td>
+                        <td id="T_4ee1f_row0_col2" class="data row0 col2" >Yes  calculated from the raw data</td>
             </tr>
             <tr>
-                                <td id="T_a532c_row1_col0" class="data row1 col0" >$\mu$</td>
-                        <td id="T_a532c_row1_col1" class="data row1 col1" >True population mean</td>
-                        <td id="T_a532c_row1_col2" class="data row1 col2" >Almost never known for sure</td>
+                                <td id="T_4ee1f_row1_col0" class="data row1 col0" >$\mu$</td>
+                        <td id="T_4ee1f_row1_col1" class="data row1 col1" >True population mean</td>
+                        <td id="T_4ee1f_row1_col2" class="data row1 col2" >Almost never known for sure</td>
             </tr>
             <tr>
-                                <td id="T_a532c_row2_col0" class="data row2 col0" >$\hat{\mu}$</td>
-                        <td id="T_a532c_row2_col1" class="data row2 col1" >Estimate of the population mean</td>
-                        <td id="T_a532c_row2_col2" class="data row2 col2" >Yes  identical to the sample mean</td>
+                                <td id="T_4ee1f_row2_col0" class="data row2 col0" >$\hat{\mu}$</td>
+                        <td id="T_4ee1f_row2_col1" class="data row2 col1" >Estimate of the population mean</td>
+                        <td id="T_4ee1f_row2_col2" class="data row2 col2" >Yes  identical to the sample mean</td>
             </tr>
     </tbody></table></div></div>
 </div>
@@ -1130,16 +1125,11 @@ Because we divide the population standard devation $\sigma$ by the square root o
 </pre></div>
 </div>
 <p>This time around, our sample is <em>just</em> large enough for us to be able to observe some variability: two observations is the bare minimum number needed for any variability to be observed! For our new data set, the sample mean is $\bar{X}=21$, and the sample standard deviation is $s=1$. What intuitions do we have about the population? Again, as far as the population mean goes, the best guess we can possibly make is the sample mean: if forced to guess, we’d probably guess that the population mean cromulence is 21. What about the standard deviation? This is a little more complicated. The sample standard deviation is only based on two observations, and if you’re at all like me you probably have the intuition that, with only two observations, we haven’t given the population “enough of a chance” to reveal its true variability to us. It’s not just that we suspect that the estimate is <em>wrong</em>: after all, with only two observations we expect it to be wrong to some degree. The worry is that the error is <em>systematic</em>. Specifically, we suspect that the sample standard deviation is likely to be smaller than the population standard deviation.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/estimation/samplingDistSampleSD.png&quot;))
-
-</pre></div>
-</div>
+<a class="reference internal image-reference" href="_images/samplingDistSampleSD.png"><img alt="sample-SD" class="align-center" src="_images/samplingDistSampleSD.png" style="width: 600px;" /></a>
 <p>This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don’t help very much. Instead, what I’ll do is use R to simulate the results of some experiments. With that in mind, let’s return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> function to generate the the results of an experiment in which I measure $N=2$ IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the <em>sampling distribution of the standard deviation</em>. I’ve plotted this distribution in Figure &#64;ref(fig:sampdistsd). Even though the true population standard deviation is 15, the average of the <em>sample</em> standard deviations is only 8.5. Notice that this is a very different result to what we found in Figure &#64;ref(fig:IQsampb) when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100.</p>
 <p>Now let’s extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of $N=2$, let’s repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in Figure &#64;ref(fig:estimatorbias). On the left hand side (panel a), I’ve plotted the average sample mean and on the right hand side (panel b), I’ve plotted the average standard deviation. The two plots are quite different: <em>on average</em>, the average sample mean is equal to the population mean. It is an <strong><em>unbiased estimator</em></strong>, which is essentially the reason why your best estimate for the population mean is the sample mean.^[I should note that I’m hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it’s beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there’s some hidden complexity here.] The plot on the right is quite different: on average, the sample standard deviation $s$ is <em>smaller</em> than the population standard deviation $\sigma$. It is a <strong><em>biased estimator</em></strong>. In other words, if we want to make a “best guess” $\hat\sigma$ about the value of the population standard deviation $\sigma$, we should make sure our guess is a little bit larger than the sample standard deviation $s$.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/estimation/biasMeanSD.png&quot;))
-
-</pre></div>
-</div>
+<a class="reference internal image-reference" href="_images/biasMeanSD.png"><img alt="bias-mean-SD" class="align-center" src="_images/biasMeanSD.png" style="width: 600px;" /></a>
+<p>An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. <em>On average</em>, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.</p>
 <p>The fix to this systematic bias turns out to be very simple. Here’s how it works. Before tackling the standard deviation, let’s look at the variance. If you recall from Section &#64;ref(var), the sample variance is defined to be the average of the squared deviations from the sample mean. That is:
 $$
 s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
@@ -1155,10 +1145,66 @@ $$
 and when we use R’s built in standard deviation function <code class="docutils literal notranslate"><span class="pre">sd()</span></code>, what it’s doing is calculating $\hat\sigma$, not $s$.^[Okay, I’m hiding something else here. In a bizarre and counterintuitive twist, since $\hat\sigma^2$ is an unbiased estimator of $\sigma^2$, you’d assume that taking the square root would be fine, and $\hat\sigma$ would be an unbiased estimator of $\sigma$. Right? Weirdly, it’s not. There’s actually a subtle, tiny bias in $\hat\sigma$. This is just bizarre: $\hat\sigma^2$ is and unbiased estimate of the population variance $\sigma^2$, but when you take the square root, it turns out that $\hat\sigma$ is a biased estimator of the population standard deviation $\sigma$. Weird, weird, weird, right? So, why is $\hat\sigma$ biased? The technical answer is “because non-linear transformations (e.g., the square root) don’t commute with expectation”, but that just sounds like gibberish to everyone who hasn’t taken a course in mathematical statistics. Fortunately, it doesn’t matter for practical purposes. The bias is small, and in real life everyone uses $\hat\sigma$ and it works just fine. Sometimes mathematics is just annoying.]</p>
 <p>One final point: in practice, a lot of people tend to refer to $\hat{\sigma}$ (i.e., the formula where we divide by $N-1$) as the <em>sample</em> standard deviation. Technically, this is incorrect: the <em>sample</em> standard deviation should be equal to $s$ (i.e., the formula where we divide by $N$). These aren’t the same thing, either conceptually or numerically. One is a property of the sample, the other is an estimated characteristic of the population. However, in almost every real life application, what we actually care about is the estimate of the population parameter, and so people always report $\hat\sigma$ rather than $s$. This is the right number to report, of course, it’s that people tend to get a little bit imprecise about terminology when they write it up, because “sample standard deviation” is shorter than “estimated population standard deviation”. It’s no big deal, and in practice I do the same thing everyone else does. Nevertheless, I think it’s important to keep the two <em>concepts</em> separate: it’s never a good idea to confuse “known properties of your sample” with “guesses about the population from which it came”. The moment you start thinking that $s$ and $\hat\sigma$ are the same thing, you start doing exactly that.</p>
 <p>To finish this section off, here’s another couple of tables to help keep things clear:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;Symbol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$s$&quot;</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">sigma$&quot;</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">hat{</span><span class="se">\\</span><span class="s2">sigma}$&quot;</span><span class="p">,</span> <span class="s2">&quot;$s^2$&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">sigma^2$&quot;</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">hat{</span><span class="se">\\</span><span class="s2">sigma}^2$&quot;</span><span class="p">],</span>
+     <span class="s1">&#39;What is it called?&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Sample standard deviation&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Population standard deviation&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Estimate of the population standard deviation&quot;</span><span class="p">,</span> <span class="s2">&quot;Sample variance&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Population variance&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Estimate of the population variance&quot;</span><span class="p">],</span>
+     <span class="s1">&#39;Do we know what it is?&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes - calculated from the raw data&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Almost never known for sure&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Yes - but not the same as the sample standard deviation&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Yes - calculated from the raw data&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Almost never known for sure&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Yes -  but not the same as the sample variance&quot;</span><span class="p">]</span>
+    <span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="estimating-a-confidence-interval-ci">
-<h2><span class="section-number">4.5. </span>Estimating a confidence interval{#ci}<a class="headerlink" href="#estimating-a-confidence-interval-ci" title="Permalink to this headline">¶</a></h2>
+<div class="cell_output docutils container">
+<div class="output text_html"><style  type="text/css" >
+</style><table id="T_08e29_" ><thead>    <tr>        <th class="col_heading level0 col0" >Symbol</th>        <th class="col_heading level0 col1" >What is it called?</th>        <th class="col_heading level0 col2" >Do we know what it is?</th>    </tr></thead><tbody>
+                <tr>
+                                <td id="T_08e29_row0_col0" class="data row0 col0" >$s$</td>
+                        <td id="T_08e29_row0_col1" class="data row0 col1" >Sample standard deviation</td>
+                        <td id="T_08e29_row0_col2" class="data row0 col2" >Yes - calculated from the raw data</td>
+            </tr>
+            <tr>
+                                <td id="T_08e29_row1_col0" class="data row1 col0" >$\sigma$</td>
+                        <td id="T_08e29_row1_col1" class="data row1 col1" >Population standard deviation</td>
+                        <td id="T_08e29_row1_col2" class="data row1 col2" >Almost never known for sure</td>
+            </tr>
+            <tr>
+                                <td id="T_08e29_row2_col0" class="data row2 col0" >$\hat{\sigma}$</td>
+                        <td id="T_08e29_row2_col1" class="data row2 col1" >Estimate of the population standard deviation</td>
+                        <td id="T_08e29_row2_col2" class="data row2 col2" >Yes - but not the same as the sample standard deviation</td>
+            </tr>
+            <tr>
+                                <td id="T_08e29_row3_col0" class="data row3 col0" >$s^2$</td>
+                        <td id="T_08e29_row3_col1" class="data row3 col1" >Sample variance</td>
+                        <td id="T_08e29_row3_col2" class="data row3 col2" >Yes - calculated from the raw data</td>
+            </tr>
+            <tr>
+                                <td id="T_08e29_row4_col0" class="data row4 col0" >$\sigma^2$</td>
+                        <td id="T_08e29_row4_col1" class="data row4 col1" >Population variance</td>
+                        <td id="T_08e29_row4_col2" class="data row4 col2" >Almost never known for sure</td>
+            </tr>
+            <tr>
+                                <td id="T_08e29_row5_col0" class="data row5 col0" >$\hat{\sigma}^2$</td>
+                        <td id="T_08e29_row5_col1" class="data row5 col1" >Estimate of the population variance</td>
+                        <td id="T_08e29_row5_col2" class="data row5 col2" >Yes -  but not the same as the sample variance</td>
+            </tr>
+    </tbody></table></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="estimating-a-confidence-interval">
+<h2><span class="section-number">4.5. </span>Estimating a confidence interval<a class="headerlink" href="#estimating-a-confidence-interval" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p><em>Statistics means never having to say you’re certain</em> – Unknown origin^[This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I’ve never found the original source.</p>
 </div></blockquote>
