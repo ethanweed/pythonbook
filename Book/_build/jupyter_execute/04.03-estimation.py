@@ -632,6 +632,8 @@ import matplotlib.pyplot as plt
 
 n = 10
 
+population_mean = [0]*50
+
 uppers = []
 lowers = []
 
@@ -643,15 +645,58 @@ for i in range(1,51):
     uppers.append(ci_int[1])
     lowers.append(ci_int[0])
 
+x = range(1,51)
+    
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
+fig.suptitle('Simulated IQ Data')
 
 
+too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
+too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
+no_mean = too_high + too_low
+highlight = ['blue']*50
+for s, val in enumerate(no_mean):
+    highlight[val-1] = 'red'
 
-plt.vlines(x=range(1,51), ymin=lowers, ymax=uppers)
-plt.axhline(y=100, linestyle = "dashed")
+
+axes[0].vlines(x=range(1,51), ymin=lowers, ymax=uppers, color = highlight)
+axes[0].axhline(y=100, linestyle = "dashed")
+axes[0].plot()
 
 
+n = 25
+
+uppers = []
+lowers = []
+
+for i in range(1,51):
+    simdata = np.random.normal(loc=100,scale=15,size=n).astype(int)
+    sample_mean = statistics.mean(simdata)
+    sample_means.append(sample_mean)
+    ci_int = t.interval(alpha=0.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
+    uppers.append(ci_int[1])
+    lowers.append(ci_int[0])
+
+too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
+too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
+no_mean = too_high + too_low
+highlight = ['blue']*50
+for s, val in enumerate(no_mean):
+    highlight[val-1] = 'red'    
+
+axes[1].vlines(x=range(1,51), ymin=lowers, ymax=uppers, color = highlight)
+axes[1].axhline(y=100, linestyle = "dashed")
+axes[1].plot()
 
 
+nomean_up = []
+nomean_low =[]
+for s, val in enumerate(no_mean):
+    nomean_up.append(uppers[s])
+    nomean_low.append(lowers[s])
+print(no_mean)
+print(nomean_low)
+print(nomean_up)
 
 The critical difference here is that the Bayesian claim makes a probability statement about the population mean (i.e., it refers to our uncertainty about the population mean), which is not allowed under the frequentist interpretation of probability because you can't "replicate" a population! In the frequentist claim, the population mean is fixed and no probabilistic claims can be made about it. Confidence intervals, however, are repeatable so we can replicate experiments. Therefore a frequentist is allowed to talk about the probability that the *confidence interval* (a random variable) contains the true mean; but is not allowed to talk about the probability that the *true population mean* (not a repeatable event) falls within the confidence interval. 
 
