@@ -424,15 +424,11 @@ Suppose we go to Port Pirie and 100 of the locals are kind enough to sit through
 
 In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my **_estimate of the population mean_**. It's pretty simple, and in the next section I'll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often use different notation to refer to them. For instance, if true population mean is denoted $\mu$, then we would use $\hat\mu$ to refer to our estimate of the population mean. In contrast, the sample mean is denoted $\bar{X}$ or sometimes $m$. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of $\bar{X} = 98.5$, then my estimate of the population mean is also $\hat\mu = 98.5$. To help keep the notation clear, here's a handy table:
 
-df = pd.DataFrame(
-    {'Symbol': ["$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$"],
-     'What is it called?': ["Sample mean", "True population mean",
-                              "Estimate of the population mean"],
-     'Do we know what it is?': ["Yes  calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes  identical to the sample mean"]
-    })
-df.style.hide_index()
+|Symbol      |What it's calle                 |Do we know what it is?            |
+|:-----------|:-------------------------------|:---------------------------------|
+|$\bar{X}$   |Sample mean                     |Yes  calculated from the raw data |
+|$\mu$       |True population mean            |Almost never known for sure       |
+|$\hat{\mu}$ |Estimate of the population mean |Yes  identical to the sample mean |
 
 ### Estimating the population standard deviation
 
@@ -561,38 +557,28 @@ One final point: in practice, a lot of people tend to refer to $\hat{\sigma}$ (i
 
 To finish this section off, here's another couple of tables to help keep things clear:
 
-df = pd.DataFrame(
-    {'Symbol': ["$s$", "$\\sigma$", "$\\hat{\\sigma}$", "$s^2$",
-                              "$\\sigma^2$", "$\\hat{\\sigma}^2$"],
-     'What is it called?': ["Sample standard deviation",
-                              "Population standard deviation",
-                              "Estimate of the population standard deviation", "Sample variance",
-                              "Population variance",
-                              "Estimate of the population variance"],
-     'Do we know what it is?': ["Yes - calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes - but not the same as the sample standard deviation",
-                              "Yes - calculated from the raw data",
-                              "Almost never known for sure",
-                              "Yes -  but not the same as the sample variance"]
-    })
-df.style.hide_index()
+|Symbol           |What it's called                              |Do we know what it is?                                   |
+|:----------------|:---------------------------------------------|:-------------------------------------------------------|
+|$s$              |Sample standard deviation                     |Yes - calculated from the raw data                      |
+|$\sigma$         |Population standard deviation                 |Almost never known for sure                             |
+|$\hat{\sigma}$   |Estimate of the population standard deviation |Yes - but not the same as the sample standard deviation |
+|$s^2$            |Sample variance                               |Yes - calculated from the raw data                      |
+|$\sigma^2$       |Population variance                           |Almost never known for sure                             |
+|$\hat{\sigma}^2$ |Estimate of the population variance           |Yes -  but not the same as the sample variance          |
+
 
 ## Estimating a confidence interval
 
 > *Statistics means never having to say you're certain* -- Unknown origin^[This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I've never found the original source.
 
-Up to this point in this chapter, I've outlined the basics of sampling theory which statisticians rely on to make guesses about population parameters on the basis of a sample of data. As this discussion illustrates, one of the reasons we need all this sampling theory is that every data set leaves us with a some of uncertainty, so our estimates are never going to be perfectly accurate. The thing that has been missing from this discussion is an attempt to *quantify* the amount of uncertainty that attaches to our estimate. It's not enough to be able guess that, say, the mean IQ of undergraduate psychology students is 115 (yes, I just made that number up). We also want to be able to say something that expresses the degree of certainty that we have in our guess. For example, it would be nice to be able to say that there is a 95\% chance that the true mean lies between 109 and 121. The name for this is a **_confidence interval_** for the mean.
+Up to this point in this chapter, I've outlined the basics of sampling theory which statisticians rely on to make guesses about population parameters on the basis of a sample of data. As this discussion illustrates, one of the reasons we need all this sampling theory is that every data set leaves us with some degree of uncertainty, so our estimates are never going to be perfectly accurate. The thing that has been missing from this discussion is an attempt to *quantify* the amount of uncertainty that attaches to our estimate. It's not enough to be able guess that, say, the mean IQ of undergraduate psychology students is 115 (yes, I just made that number up). We also want to be able to say something that expresses the degree of certainty that we have in our guess. For example, it would be nice to be able to say that there is a 95\% chance that the true mean lies between 109 and 121. The name for this is a **_confidence interval_** for the mean.
 
-Armed with an understanding of sampling distributions, constructing a confidence interval for the mean is actually pretty easy. Here's how it works. Suppose the true population mean is $\mu$ and the standard deviation is $\sigma$. I've just finished running my study that has $N$ participants, and the mean IQ among those participants is $\bar{X}$. We know from our discussion of the central limit theorem (Section \@ref(clt) that the sampling distribution of the mean is approximately normal. We also know from our discussion of the normal distribution Section \@ref(normal) that there is a 95\% chance that a normally-distributed quantity will fall within two standard deviations of the true mean. To be more precise, we can use the `qnorm()` function to compute the 2.5th and 97.5th percentiles of the normal distribution
+Armed with an understanding of sampling distributions, constructing a confidence interval for the mean is actually pretty easy. Here's how it works. Suppose the true population mean is $\mu$ and the standard deviation is $\sigma$. I've just finished running my study that has $N$ participants, and the mean IQ among those participants is $\bar{X}$. We know from our discussion of the central limit theorem (Section \@ref(clt) that the sampling distribution of the mean is approximately normal. We also know from our discussion of the normal distribution Section \@ref(normal) that there is a 95\% chance that a normally-distributed quantity will fall within two standard deviations of the true mean. To be more precise, we can use the `norm.ppf()` function from `scipy.stats` to compute the 2.5th and 97.5th percentiles of the normal distribution
 
-```{r}
-qnorm( p = c(.025, .975) )
-``` 
+from scipy.stats import norm
+norm.ppf([.025, 0.975])
 
-
-
-Okay, so I lied earlier on. The more correct answer is that 95\% chance that a normally-distributed quantity will fall within 1.96 standard deviations of the true mean. Next, recall that the standard deviation of the sampling distribution is referred to as the standard error, and the standard error of the mean is written as SEM. When we put all these pieces together, we learn that there is a 95\% probability that the sample mean $\bar{X}$ that we have actually observed lies within 1.96 standard errors of the population mean. Mathematically, we write this as:
+Okay, so I lied earlier on. The more correct answer is that there is a 95\% chance that a normally-distributed quantity will fall within 1.96 standard deviations of the true mean. Next, recall that the standard deviation of the sampling distribution is referred to as the standard error, and the standard error of the mean is written as SEM. When we put all these pieces together, we learn that there is a 95\% probability that the sample mean $\bar{X}$ that we have actually observed lies within 1.96 standard errors of the population mean. Mathematically, we write this as:
 $$
 \mu - \left( 1.96 \times \mbox{SEM} \right) \ \leq \  \bar{X}\  \leq \  \mu + \left( 1.96 \times \mbox{SEM} \right) 
 $$
@@ -604,24 +590,26 @@ What this is telling is is that the range of values has a 95\% probability of co
 $$
 \mbox{CI}_{95} = \bar{X} \pm \left( 1.96 \times \frac{\sigma}{\sqrt{N}} \right)
 $$
-Of course, there's nothing special about the number 1.96: it just happens to be the multiplier you need to use if you want a 95\% confidence interval. If I'd wanted a 70\% confidence interval, I could have used the `qnorm()` function to calculate the 15th and 85th quantiles:
-```{r}
-qnorm( p = c(.15, .85) )
-```
+Of course, there's nothing special about the number 1.96: it just happens to be the multiplier you need to use if you want a 95\% confidence interval. If I'd wanted a 70\% confidence interval, I could have used the `norm.ppf` function to calculate the 15th and 85th quantiles:
+
+norm.ppf([.15, .85])
+
 and so the formula for $\mbox{CI}_{70}$ would be the same as the formula for $\mbox{CI}_{95}$ except that we'd use 1.04 as our magic number rather than 1.96.
 
 ### A slight mistake in the formula
 
-As usual, I lied. The formula that I've given above for the 95\% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation $\sigma$. Yet, in Section \@ref(pointestimates I stressed the fact that we don't actually *know* the true population parameters. Because we don't know the true value of $\sigma$, we have to use an estimate of the population standard deviation $\hat{\sigma}$ instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the $t$-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When $N$ is very large, we get pretty much the same value using `qt()` that we would if we used `qnorm()`...
-```{r}
-N <- 10000   # suppose our sample size is 10,000
-qt( p = .975, df = N-1)   # calculate the 97.5th quantile of the t-dist
-```
+As usual, I lied. The formula that I've given above for the 95\% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation $\sigma$. Yet, in Section \@ref(pointestimates I stressed the fact that we don't actually *know* the true population parameters. Because we don't know the true value of $\sigma$, we have to use an estimate of the population standard deviation $\hat{\sigma}$ instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the $t$-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When $N$ is very large, we get pretty much the same value using `t.ppf()` that we would if we used `norm.ppf()`...
+
+from scipy.stats import t
+N = 10000   # suppose our sample size is 10,000
+t.ppf([.025, 0.975], df = N-1)
+
 But when $N$ is small, we get a much bigger number when we use the $t$ distribution:
-```{r}
-N <- 10   # suppose our sample size is 10
-qt( p = .975, df = N-1)   # calculate the 97.5th quantile of the t-dist
-```
+
+from scipy.stats import t
+N = 10   # suppose our sample size is 10
+t.ppf([.025, 0.975], df = N-1)
+
 There's nothing too mysterious about what's happening here. Bigger values mean that the confidence interval is wider, indicating that we're more uncertain about what the true value of $\mu$ actually is. When we use the $t$ distribution instead of the normal distribution, we get bigger numbers, indicating that we have more uncertainty. And why do we have that extra uncertainty? Well, because our estimate of the population standard deviation $\hat\sigma$ might be wrong! If it's wrong, it implies that we're a bit less sure about what our sampling distribution of the mean actually looks like... and this uncertainty ends up getting reflected in a wider confidence interval.  
 
 
@@ -629,13 +617,41 @@ There's nothing too mysterious about what's happening here. Bigger values mean t
 
 The hardest thing about confidence intervals is understanding what they *mean*. Whenever people first encounter confidence intervals, the first instinct is almost always to say that "there is a 95\% probabaility that the true mean lies inside the confidence interval". It's simple, and it seems to capture the common sense idea of what it means to say that I am "95\% confident". Unfortunately, it's not quite right. The intuitive definition relies very heavily on your own personal *beliefs* about the value of the population mean. I say that I am 95\% confident because those are my beliefs. In everyday life that's perfectly okay, but if you remember back to Section \@ref(probmeaning), you'll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase "95\% probability" is allowed to refer to a personal belief. However, confidence intervals are *not* Bayesian tools. Like everything else in this chapter, confidence intervals are *frequentist* tools, and if you are going to use frequentist methods then it's not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!
 
-Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in Figure \@ref(fig:cirep), which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean. 
-
+Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in Figure \@ref(fig:cirep), which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.
 
 ```{r cirep, fig.cap="95% confidence intervals. The top (panel a) shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The dot marks the location of the sample mean, and the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true mean (i.e., 100), but the three intervals marked with asterisks do not. The lower graph (panel b) shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.", echo=FALSE}
 knitr::include_graphics(file.path(projecthome, "img/estimation/confIntReplicated.png"))
 
 ```
+
+from scipy.stats import t, sem
+import numpy as np
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+
+n = 10
+
+uppers = []
+lowers = []
+
+for i in range(1,51):
+    simdata = np.random.normal(loc=100,scale=15,size=n).astype(int)
+    sample_mean = statistics.mean(simdata)
+    sample_means.append(sample_mean)
+    ci_int = t.interval(alpha=0.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
+    uppers.append(ci_int[1])
+    lowers.append(ci_int[0])
+
+
+
+
+plt.vlines(x=range(1,51), ymin=lowers, ymax=uppers)
+plt.axhline(y=100, linestyle = "dashed")
+
+
+
+
 
 The critical difference here is that the Bayesian claim makes a probability statement about the population mean (i.e., it refers to our uncertainty about the population mean), which is not allowed under the frequentist interpretation of probability because you can't "replicate" a population! In the frequentist claim, the population mean is fixed and no probabilistic claims can be made about it. Confidence intervals, however, are repeatable so we can replicate experiments. Therefore a frequentist is allowed to talk about the probability that the *confidence interval* (a random variable) contains the true mean; but is not allowed to talk about the probability that the *true population mean* (not a repeatable event) falls within the confidence interval. 
 

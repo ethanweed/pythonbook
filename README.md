@@ -7,6 +7,10 @@ Since Danielle has been so kind as to open-source the book, I have gone to work 
 
 #### Log
 
+
+08-04-2021 Added myst extension -dollarmath to config.yml, so inline math renders now. This seemingly does *not* work for dollarmath inside of a pandas dataframe, so to do tables I will have to knit with kable in R, and then paste the mulitmarkdown into the jupyter notebook. Tables look better this way anyway, so no biggie. I still need to get footnotes to work, though.
+
+
 06-04-2021 Converted project to jupyterbook format, and added placeholder for all chapters. Currently halfway through code conversion in chapter 4.4 on estimation from a sample.
 
 26-03-2021 Finished correlation section rough draft, and am halfway through binomial distribution section. I am continuing to just focus on the code blocks, leaving text editing for later.
