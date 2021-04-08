@@ -454,30 +454,99 @@ Let's extend this example a little. Suppose I now make a second observation. My 
 ```
 This time around, our sample is *just* large enough for us to be able to observe some variability: two observations is the bare minimum number needed for any variability to be observed! For our new data set, the sample mean is $\bar{X}=21$, and the sample standard deviation is $s=1$. What intuitions do we have about the population? Again, as far as the population mean goes, the best guess we can possibly make is the sample mean: if forced to guess, we'd probably guess that the population mean cromulence is 21. What about the standard deviation? This is a little more complicated. The sample standard deviation is only based on two observations, and if you're at all like me you probably have the intuition that, with only two observations, we haven't given the population "enough of a chance" to reveal its true variability to us. It's not just that we suspect that the estimate is *wrong*: after all, with only two observations we expect it to be wrong to some degree. The worry is that the error is *systematic*. Specifically, we suspect that the sample standard deviation is likely to be smaller than the population standard deviation. 
 
+import statistics
+import numpy as np
+import seaborn as sns
 
-```{image} ../img/estimation/samplingDistSampleSD.png
-:alt: sample-SD
-:width: 600px
-:align: center
-```
+# generate data from 10000 "IQ" studies, where each study consists of two scores
+n = 2
+sample_sds = []
+for i in range(1,10000):
+    sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_sds.append(sample_sd)
+
+
+# plot a histogram of the distribution of sample standard deviations, together with dashed line indicating 
+# population standard deviation
+fig, ax = plt.subplots()
+sns.histplot(sample_sds, ax=ax, binwidth=4)
+plt.axvline(15, color = 'black', linestyle = "dashed")
+
+
+
+fig.cap="The sampling distribution of the sample standard deviation for a \"two IQ scores\" experiment. The true population standard deviation is 15 (dashed line), but as you can see from the histogram, the vast majority of experiments will produce a much smaller sample standard deviation than this. On average, this experiment would produce a sample standard deviation of only 8.5, well below the true value! In other words, the sample standard deviation is a *biased* estimate of the population standard deviation.
 
 This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don't help very much. Instead, what I'll do is use R to simulate the results of some experiments. With that in mind, let's return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the `rnorm()` function to generate the the results of an experiment in which I measure $N=2$ IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the *sampling distribution of the standard deviation*. I've plotted this distribution in Figure \@ref(fig:sampdistsd). Even though the true population standard deviation is 15, the average of the *sample* standard deviations is only 8.5. Notice that this is a very different result to what we found in Figure \@ref(fig:IQsampb) when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100. 
 
 Now let's extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of $N=2$, let's repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in Figure \@ref(fig:estimatorbias). On the left hand side (panel a), I've plotted the average sample mean and on the right hand side (panel b), I've plotted the average standard deviation. The two plots are quite different: *on average*, the average sample mean is equal to the population mean. It is an **_unbiased estimator_**, which is essentially the reason why your best estimate for the population mean is the sample mean.^[I should note that I'm hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it's beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there's some hidden complexity here.] The plot on the right is quite different: on average, the sample standard deviation $s$ is *smaller* than the population standard deviation $\sigma$. It is a **_biased estimator_**. In other words, if we want to make a "best guess" $\hat\sigma$ about the value of the population standard deviation $\sigma$, we should make sure our guess is a little bit larger than the sample standard deviation $s$. 
 
+import statistics
+import numpy as np
+import seaborn as sns
+import pandas as pd
 
-```{image} ../img/estimation/biasMeanSD.png
-:alt: bias-mean-SD
-:width: 600px
-:align: center
-```
 
-An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. *On average*, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.
+
+ns = range(2,11)
+
+
+averageSampleSds = []
+averageSampleMeans = []
+
+# Simulate data for N = 2 to 10
+for n in ns:
+    sample_sds = []
+    sample_means = []
+    for i in range(1,10000):
+        sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_sds.append(sample_sd)
+        sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_means.append(sample_mean)
+    averageSampleSds.append(statistics.mean(sample_sds))
+    averageSampleMeans.append(statistics.mean(sample_means))
+
+# Simulate data for N = 1. This is not possible in the loop above, because Python can't calculate a SD
+# from only one observation
+n = 1
+sample_mean_1 = []
+for i in range(1,10000):
+    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_mean_1.append(sample_mean)
+
+# Add in sample mean and SD for N=1 at the beginning of the lists
+# For N = 1, the sample SD is simply 0
+averageSampleSds.insert(0,0)
+averageSampleMeans.insert(0,statistics.mean(sample_mean_1))
+
+# Collect simulated data in a dataframe, together with a vector from 1 to 10 representing N
+df = pd.DataFrame(
+    {'N': range(1,11),
+     'SampleMeans': averageSampleMeans,
+     'SampleSDs': averageSampleSds
+    })
+
+# Plot the data
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+fig.suptitle('Simulated IQ Data')
+
+
+sns.lineplot(data=df, x='N', y='SampleMeans',ax=axes[0], linestyle = "dashdot")
+sns.lineplot(data=df, x='N', y='SampleSDs',ax=axes[1], linestyle = "dashdot")
+axes[0].set(ylim=(0,110))
+axes[1].set(ylim=(0,17))
+axes[0].axhline(100, color = 'black', linestyle = "dashed")
+axes[1].axhline(15, color = 'black', linestyle = "dashed")
+axes[0].set_title("Sample Means")
+axes[1].set_title("Sample Standard Deviations")
+
+
+
+fig.cap: An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. *On average*, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.
 
 The fix to this systematic bias turns out to be very simple. Here's how it works. Before tackling the standard deviation, let's look at the variance. If you recall from Section \@ref(var), the sample variance is defined to be the average of the squared deviations from the sample mean. That is:
-$$
-s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
-$$
+
+$s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2$  
+
 The sample variance $s^2$ is a biased estimator of the population variance $\sigma^2$. But as it turns out, we only need to make a tiny tweak to transform this into an unbiased estimator. All we have to do is divide by $N-1$ rather than by $N$. If we do that, we obtain the following formula:
 $$
 \hat\sigma^2 = \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2 
@@ -520,6 +589,9 @@ Armed with an understanding of sampling distributions, constructing a confidence
 ```{r}
 qnorm( p = c(.025, .975) )
 ``` 
+
+
+
 Okay, so I lied earlier on. The more correct answer is that 95\% chance that a normally-distributed quantity will fall within 1.96 standard deviations of the true mean. Next, recall that the standard deviation of the sampling distribution is referred to as the standard error, and the standard error of the mean is written as SEM. When we put all these pieces together, we learn that there is a 95\% probability that the sample mean $\bar{X}$ that we have actually observed lies within 1.96 standard errors of the population mean. Mathematically, we write this as:
 $$
 \mu - \left( 1.96 \times \mbox{SEM} \right) \ \leq \  \bar{X}\  \leq \  \mu + \left( 1.96 \times \mbox{SEM} \right) 
