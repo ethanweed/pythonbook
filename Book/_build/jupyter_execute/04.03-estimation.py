@@ -728,7 +728,7 @@ ci_2 = sms.DescrStatsW(data).tconfint_mean()
 print("Method 1: ", ci_1)
 print("Method 2: ", ci_2)
 
-### Plotting confidence intervals in R
+### Plotting confidence intervals in Python
 
 There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
 

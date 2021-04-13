@@ -1,6 +1,6 @@
 # Descriptive statistics
 
-Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what **_descriptive statistics_** (as opposed to inferential statistics) is all about. In fact, to many people the term "statistics" is synonymous with descriptive statistics. It is this topic that we'll consider in this chapter, but before going into any details, let's take a moment to get a sense of why we need descriptive statistics. To do this, let's load the `aflsmall.Rdata` file, and use the `who()` function in the `lsr` package to see what variables are stored in the file:
+Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what **_descriptive statistics_** (as opposed to inferential statistics) is all about. In fact, to many people the term "statistics" is synonymous with descriptive statistics. It is this topic that we'll consider in this chapter, but before going into any details, let's take a moment to get a sense of why we need descriptive statistics. To do this, let's load the `afl_finalists.csv` and `afl_margins.csv` files. Don't worry about the Python code for now; we'll get back to that. For now, we'll focus on the data.
 
 import os
 import pandas as pd
@@ -9,28 +9,39 @@ from pathlib import Path
 cwd = os.getcwd()
 os.chdir(str(Path(cwd).parents[0]) + '/Data')
 
-df_afl_finalists = pd.read_csv('afl_finalists.csv')
-df_afl_margins = pd.read_csv('afl_margins.csv')
-df_afl_finalists.head()
+afl_finalists = pd.read_csv('afl_finalists.csv')
+afl_margins = pd.read_csv('afl_margins.csv')
 
-There are two variables here, `afl.finalists` and `afl.margins`. We'll focus a bit on these two variables in this chapter, so I'd better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) ^[Note for non-Australians: the AFL is an Australian rules football competition. You don't need to know anything about Australian rules in order to follow this section.] The `afl.margins` variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The `afl.finalists` variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let's have a look at the `afl.margins` variable:
+There are two variables here, `afl_finalists` and `afl_margins`. We'll focus a bit on these two variables in this chapter, so I'd better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) [^mynote1] The `afl_margins` variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The `afl_finalists` variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let's have a look at the `afl_margins` variable:
 
-print(df_afl_margins)
+[^mynote1]: Note for non-Australians: the AFL is an Australian rules football competition. You don't need to know anything about Australian rules in order to follow this section.
+
+print(afl_margins)
 
 
-This output doesn't make it easy to get a sense of what the data are actually saying. Just "looking at the data" isn't a terribly effective way of understanding data. In order to get some idea about what's going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (Chapter \@ref(graphics). Since the descriptive statistics are the easier of the two topics, I'll start with those, but nevertheless I'll show you a histogram of the `afl.margins` data, since it should help you get a sense of what the data we're trying to describe actually look like. But for what it's worth, this histogram -- which is shown in Figure \@ref(fig:histogram1) -- was generated using the `hist()` function. We'll talk a lot more about how to draw histograms in Section \@ref(hist). For now, it's enough to look at the histogram and note that it provides a fairly interpretable representation of the `afl.margins` data.
+This output doesn't make it easy to get a sense of what the data are actually saying. Just "looking at the data" isn't a terribly effective way of understanding data. In order to get some idea about what's going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (next chapter). Since the descriptive statistics are the easier of the two topics, I'll start with those, but nevertheless I'll show you a histogram of the `afl_margins` data, since it should help you get a sense of what the data we're trying to describe actually look like. But for what it's worth, this histogram was generated using the `histplot()` function from the `seaborn` package. We'll talk a lot more about how to draw histograms in [](DrawingGraphs). For now, it's enough to look at the histogram and note that it provides a fairly interpretable representation of the `afl_margins` data.
 
+from myst_nb import glue
 import seaborn as sns
 
-margins = sns.histplot(df_afl_margins)
+margins = sns.histplot(afl_margins)
 
 margins.set(xlabel ="Winning Margin", 
-                ylabel = "Frequency", 
-                title ='Figure 5.1: A histogram of the AFL 2010 winning margin data (the afl.margins variable). As you might expect, the larger the margin the less frequently you tend to see it.')
+                ylabel = "Frequency");
+
+glue("afl_fig", margins, display=False);
+
+```{glue:figure} afl_fig
+:figwidth: 600px
+:name: "fig-AFL-Margins"
+
+A histogram of the AFL 2010 winning margin data (the `afl_margins` variable). As you might expect, the larger the margin the less frequently you tend to see it.
+```
+
 
 ## Measures of central tendency
 
-Drawing pictures of the data, as I did in Figure \@ref(fig:histogram1) is an excellent way to convey the "gist" of what the data is trying to tell you, it's often extremely useful to try to condense the data into a few simple "summary" statistics. In most situations, the first thing that you'll want to calculate is a measure of **_central tendency_**. That is, you'd like to know something about the "average" or "middle" of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I'll explain each of these in turn, and then discuss when each of them is useful.
+Drawing pictures of the data, as I did in {ref}`the figure above <fig-AFL-Margins>` is an excellent way to convey the "gist" of what the data is trying to tell you, it's often extremely useful to try to condense the data into a few simple "summary" statistics. In most situations, the first thing that you'll want to calculate is a measure of **_central tendency_**. That is, you'd like to know something about the "average" or "middle" of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I'll explain each of these in turn, and then discuss when each of them is useful.
 
 ### The mean
 

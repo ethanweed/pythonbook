@@ -155,14 +155,13 @@ These definitions probably seem a bit abstract, but they're pretty simple once y
 
 Discrete variables occur when this rule is violated. For example, nominal scale variables are always discrete: there isn't a type of transportation that falls "in between" trains and bicycles, not in the strict mathematical way that 2.3 falls in between 2 and 3. So transportation type is discrete. Similarly, ordinal scale variables are always discrete: although "2nd place" does fall between "1st place" and "3rd place", there's nothing that can logically fall in between "1st place" and "2nd place".  Interval scale and ratio scale variables can go either way. As we saw above, response time (a ratio scale variable) is continuous. Temperature in degrees celsius (an interval scale variable) is also continuous. However, the year you went to school (an interval scale variable) is discrete. There's no year in between 2002 and 2003. The number of questions you get right on a true-or-false test (a ratio scale variable) is also discrete: since a true-or-false question doesn't allow you to be "partially correct", there's nothing in between 5/10 and 6/10. Table \@ref(tab:scalescont) summarises the relationship between the scales of measurement and the discrete/continuity distinction. Cells with a tick mark correspond to things that are possible. I'm trying to hammer this point home, because (a) some textbooks get this wrong, and (b) people very often say things like "discrete variable" when they mean "nominal scale variable". It's very unfortunate.
 
-import pandas as pd
-
-data = {' ': ['nominal', 'ordinal', 'interval', 'ratio'],
-       'continous': [' ', ' ', '$\\checkmark$', '$\\checkmark$'],
-       'discrete': ['$\\checkmark$','$\\checkmark$','$\\checkmark$','$\\checkmark$']}
-
-datatypes = pd.DataFrame(data)
-datatypes.style.set_caption('Table 2.1: The relationship between the scales of measurement and the discrete/continuity distinction. Cells with a tick mark correspond to things that are possible.')
+|         |              |              |
+|:--------|:------------:|:------------:|
+|         |  continuous  |   discrete   |
+|nominal  |              | $\checkmark$ |
+|ordinal  |              | $\checkmark$ |
+|interval | $\checkmark$ | $\checkmark$ |
+|ratio    | $\checkmark$ | $\checkmark$ |
 
 ### Some complexities
 
@@ -219,15 +218,13 @@ Okay, I've got one last piece of terminology that I need to explain to you befor
 
 Now, when we doing an analysis, we have different names for $X$ and $Y$, since they play different roles in the analysis. The classical names for these roles are **_independent variable_** (IV) and **_dependent variable_** (DV). The IV is the variable that you use to do the explaining (i.e., $X$) and the DV is the variable being explained (i.e., $Y$). The logic behind these names goes like this: if there really is a relationship between $X$ and $Y$ then we can say that $Y$ depends on $X$, and if we have designed our study "properly" then $X$ isn't dependent on anything else. However, I personally find those names horrible: they're hard to remember and they're highly misleading, because (a) the IV is never actually "independent of everything else" and (b) if there's no relationship, then the DV doesn't actually depend on the IV. And in fact, because I'm not the only person who thinks that IV and DV are just awful names, there are a number of alternatives that I find more appealing. The terms that I'll use in these notes are ***predictors*** and ***outcomes***. The idea here is that what you're trying to do is use $X$ (the predictors) to make guesses about $Y$ (the outcomes).^[Annoyingly, though, there's a lot of different names used out there. I won't list all of them -- there would be no point in doing that -- other than to note that R often uses "response variable" where I've used "outcome", and a traditionalist would use "dependent variable". Sigh. This sort of terminological confusion is very common, I'm afraid.] This is summarised in Table \@ref(tab:ivdv).
 
-data = {'role of the variable': ['\"to be explained\"', '\"to do the explaining\"'],
-       'classical name': ['dependent variable (DV)', 'independent variable (IV)'],
-       'modern name': ['outcome','predictor']}
-
-variable_names = pd.DataFrame(data)
-variable_names.style.set_caption('The terminology used to distinguish between different roles that a variable can play when analysing a data set. Note that this book will tend to avoid the classical terminology in favour of the newer names.')
+|role of the variable |classical name            |modern name |
+|:--------------------|:-------------------------|:-----------|
+|to be explained      |dependent variable (DV)   |outcome     |
+|to do the explaining |independent variable (IV) |predictor   |
 
 
-## Experimental and non-experimental research{#researchdesigns}
+## Experimental and non-experimental research
 
 One of the big distinctions that you should be aware of is the distinction between "experimental research" and "non-experimental research". When we make this distinction, what we're really talking about is the degree of control that the researcher exercises over the people and events in the study.
 
