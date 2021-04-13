@@ -564,31 +564,25 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="n">margins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">)</span>
+<span class="n">margins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
 
 <span class="n">margins</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Winning Margin&quot;</span><span class="p">,</span> 
                 <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;afl_fig&quot;</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;afl_fig&quot;</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">8</span><span class="n">f53f004d050</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> 
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">margins</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Winning Margin&quot;</span><span class="p">,</span> 
-
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
+<img alt="_images/03.01-descriptives_5_1.png" src="_images/03.01-descriptives_5_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="afl-margins" style="width: 300px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;Winning Margin&#39;, ylabel=&#39;Frequency&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 1.1 </span><span class="caption-text">A histogram of the AFL 2010 winning margin data (the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable). As you might expect, the larger the margin the less frequently you tend to see it.
 ``</span><a class="headerlink" href="#afl-margins" title="Permalink to this image">¶</a></p>
 </div>
@@ -714,7 +708,14 @@ Taken literally, this could be read as &quot;the sum, taken over all \)</span>i<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6213
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">66</span><span class="n">c7db03f806</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
 </pre></div>
 </div>
 </div>
