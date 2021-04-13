@@ -703,52 +703,74 @@ The critical difference here is that the Bayesian claim makes a probability stat
 I know that this seems a little pedantic, but it does matter. It matters because the difference in interpretation leads to a difference in the mathematics. There is a Bayesian alternative to confidence intervals, known as *credible intervals*. In most situations credible intervals are quite similar to confidence intervals, but in other cases they are drastically different. As promised, though, I'll talk more about the Bayesian perspective in Chapter \@ref(bayes).
 
 
-### Calculating confidence intervals in R
-
-As far as I can tell, the core packages in R don't include a simple function for calculating confidence intervals for the mean. They *do* include a lot of complicated, extremely powerful functions that can be used to calculate confidence intervals associated with lots of different things, such as the `confint()` function that we'll use in Chapter \@ref(regression). But I figure that when you're first learning statistics, it might be useful to start with something simpler. As a consequence, the `lsr` package includes a function called `ciMean()` which you can use to calculate your confidence intervals. There are two arguments that you might want to specify:^[As of the current writing, these are the only arguments to the function. However, I am planning to add a bit more functionality to `ciMean()`. However, regardless of what those future changes might look like, the `x` and `conf` arguments will remain the same, and the commands used in this book will still work.]
-
-- `x`. This should be a numeric vector containing the data. 
-- `conf`. This should be a number, specifying the confidence level. By default, `conf = .95`, since 95\% confidence intervals are the de facto standard in psychology.
-
-So, for example, if I load the `afl24.Rdata` file, calculate the confidence interval associated with the mean attendance:
-```
-> ciMean( x = afl$attendance )
-    2.5%    97.5% 
-31597.32 32593.12 
-```
-Hopefully that's fairly clear. 
-
-### Plotting confidence intervals in R{#ciplots}
-
-There's several different ways you can draw graphs that show confidence intervals as error bars. I'll show three versions here, but this certainly doesn't exhaust the possibilities. In doing so, what I'm assuming is that you want to draw is a plot showing the means and confidence intervals for one variable, broken down by different levels of a second variable. For instance, in our `afl` data that we discussed earlier, we might be interested in plotting the average `attendance` by `year`. I'll do this using two different functions, `bargraph.CI()` and `lineplot.CI()` (both of which are in the `sciplot` package). Assuming that you've installed these packages on your system (see Section \@ref(packageinstall) if you've forgotten how to do this), you'll need to load them. You'll also need to load the `lsr` package, because we'll make use of the `ciMean()` function to actually calculate the confidence intervals
-```{r warning = FALSE, message = FALSE}
-load( file.path(projecthome, "data/afl24.Rdata" ))  # contains the "afl" data frame
-library( sciplot )     # bargraph.CI() and lineplot.CI() functions
-library( lsr )         # ciMean() function
-```
+### Calculating confidence intervals in Python
 
 
-Here's how to plot the means and confidence intervals drawn using `bargraph.CI()`.
-```{r bargraphCI, fig.cap="Means and 95% confidence intervals for AFL `attendance`, plotted separately for each `year` from 1987 to 2010. This graph was drawn using the `bargraph.CI()` function."}
+To produce the confidence intervals for the plots of simulated IQ data above, I used the ``t``, ``sem``, and ``mean``functions available in the ``scipy.stats``package. Another option is to use the ``tconfint_mean `` function from the ``statsmodels`` package. As you can see, both methods give nearly identical results. Method 1 is good insofar is at requires you to explicitly specify the desired confidence interval, the degrees of freedom, and the standard error of the mean. Method takes care of all of this for us, which makes it easier, but a bit more of a black box.
 
-bargraph.CI( x.factor = year,            # grouping variable 
-              response = attendance,      # outcome variable
-              data = afl,                 # data frame with the variables
-              ci.fun= ciMean,             # name of the function to calculate CIs
-              xlab = "Year",              # x-axis label
-              ylab = "Average Attendance" # y-axis label
- )
-```
-We can use the same arguments when calling the `lineplot.CI()` function:
-```{r lineplotCI, fig.cap = "Means and 95% confidence intervals for AFL `attendance`, plotted separately for each `year` from 1987 to 2010. This graph was drawn using the `lineplot.CI()` function."}
-lineplot.CI( x.factor = year,            # grouping variable 
-             response = attendance,      # outcome variable
-             data = afl,                 # data frame with the variables
-             ci.fun= ciMean,             # name of the function to calculate CIs
-             xlab = "Year",              # x-axis label
-             ylab = "Average Attendance" # y-axis label
-)
-```
+# Sample data:
+data = range(1,10)
+
+# Method 1:
+import numpy as np
+import scipy.stats as st
+ci_1 = t.interval(alpha=0.95, 
+                  df=len(data)-1, 
+                  loc=np.mean(data), 
+                  scale=sem(data))
+
+
+# Method 2:
+import statsmodels.stats.api as sms
+ci_2 = sms.DescrStatsW(data).tconfint_mean()
+
+# Compare the methods
+print("Method 1: ", ci_1)
+print("Method 2: ", ci_2)
+
+### Plotting confidence intervals in R
+
+There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
+
+import seaborn as sns
+tips = sns.load_dataset("tips")
+tips.head()
+
+To compare the mean total bill for lunches and dinners for smokers and non-smokers, we can use ``sns.pointplot``. Notice that you can specifiy the size of desired confidence interval. By convention, people tend to use a 95% confidence interval, and this is the default in seaborn, but it is possible to specify a different one. Just make sure you report what size confidence interval you are showing! In the figure to the right, below, I have used a 40% confidence interval, but I probably wouldn't do that in a paper, because it is likely to confuse or mislead readers who expect a 95% CI.
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset("tips")
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+
+sns.pointplot(x="time", y="total_bill", hue="smoker", data=tips, ax=axes[0])
+sns.pointplot(x="time", y="total_bill", hue="smoker",  ci = 40, data=tips, ax=axes[1])
+axes[0].set_title("95% Confidence Interval")
+axes[1].set_title("40% Confidence Interval")
+
+For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with ``ci=None``, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.
+
+import seaborn as sns
+tips = sns.load_dataset("tips")
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+sns.regplot(x="total_bill", y="tip", data=tips, ax=axes[0])
+sns.regplot(x="total_bill", y="tip", data=tips, ci = None, ax=axes[1])
+
+For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoint, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one above showing confidence intervals for simulated IQ data, you may need to dive into ``matplotlib``, which allows much more customization than is available simply using seaborn.
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+tips = sns.load_dataset("tips")
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+sns.regplot(x="size", y="tip", data=tips, ax=axes[0])
+sns.regplot(x="size", y="tip", data=tips, x_estimator=np.mean, ax=axes[1])
 
 ## Summary
 
@@ -760,4 +782,3 @@ In this chapter I've covered two main topics. The first half of the chapter talk
 - Estimating a confidence interval (Section \@ref(ci))
 
 As always, there's a lot of topics related to sampling and estimation that aren't covered in this chapter, but for an introductory psychology class this is fairly comprehensive I think. For most applied researchers you won't need much more theory than this. One big question that I haven't touched on in this chapter is what you do when you don't have a simple random sample. There is a lot of statistical theory you can draw on to handle this situation, but it's well beyond the scope of this book.
-
