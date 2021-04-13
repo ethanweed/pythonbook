@@ -516,7 +516,7 @@
                 
   <div class="section" id="descriptive-statistics">
 <h1><span class="section-number">1. </span>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h1>
-<p>Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <strong><em>descriptive statistics</em></strong> (as opposed to inferential statistics) is all about. In fact, to many people the term “statistics” is synonymous with descriptive statistics. It is this topic that we’ll consider in this chapter, but before going into any details, let’s take a moment to get a sense of why we need descriptive statistics. To do this, let’s load the <code class="docutils literal notranslate"><span class="pre">aflsmall.Rdata</span></code> file, and use the <code class="docutils literal notranslate"><span class="pre">who()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package to see what variables are stored in the file:</p>
+<p>Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <strong><em>descriptive statistics</em></strong> (as opposed to inferential statistics) is all about. In fact, to many people the term “statistics” is synonymous with descriptive statistics. It is this topic that we’ll consider in this chapter, but before going into any details, let’s take a moment to get a sense of why we need descriptive statistics. To do this, let’s load the <code class="docutils literal notranslate"><span class="pre">afl_finalists.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins.csv</span></code> files. Don’t worry about the Python code for now; we’ll get back to that. For now, we’ll focus on the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -528,58 +528,11 @@
 
 <span class="n">df_afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_finalists.csv&#39;</span><span class="p">)</span>
 <span class="n">df_afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
-<span class="n">df_afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>afl.finalists</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Carlton</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Hawthorn</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
-<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) ^[Note for non-Australians: the AFL is an Australian rules football competition. You don’t need to know anything about Australian rules in order to follow this section.] The <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable:</p>
+<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">df_afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">df_afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#mynote1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">)</span>
@@ -1159,13 +1112,13 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
 Melbourne           28
+Collingwood         28
 North Melbourne     28
 Hawthorn            27
-Adelaide            26
-Sydney              26
 Carlton             26
+Sydney              26
+Adelaide            26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
@@ -1526,7 +1479,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1392b3ee0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10ea66c10&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_71_1.png" src="_images/03.01-descriptives_71_1.png" />
@@ -3222,6 +3175,12 @@ The death of millions is a statistic.</em></p>
 <p>Stalin’s infamous quote about the statistical character death of millions is worth giving some thought. The clear intent of his statement is that the death of an individual touches us personally and its force cannot be denied, but that the deaths of a multitude are incomprehensible, and as a consequence mere statistics, more easily ignored. I’d argue that Stalin was half right. A statistic is an abstraction, a description of events beyond our personal experience, and so hard to visualise. Few if any of us can imagine what the deaths of millions is “really” like, but we can imagine one death, and this gives the lone death its feeling of immediate tragedy, a feeling that is missing from Ellman’s cold statistical description.</p>
 <p>Yet it is not so simple: without numbers, without counts, without a description of what happened, we have <em>no chance</em> of understanding what really happened, no opportunity event to try to summon the missing feeling. And in truth, as I write this, sitting in comfort on a Saturday morning, half a world and a whole lifetime away from the Gulags, when I put the Ellman estimate next to the Stalin quote a dull dread settles in my stomach and a chill settles over me. The Stalinist repression is something truly beyond my experience, but with a combination of statistical data and those recorded personal histories that have come down to us, it is not entirely beyond my comprehension. Because what Ellman’s numbers tell us is this: over a two year period, Stalinist repression wiped out the equivalent of every man, woman and child currently alive in the city where I live. Each one of those deaths had it’s own story, was it’s own tragedy, and only some of those are known to us now. Even so, with a few carefully chosen statistics, the scale of the atrocity starts to come into focus.</p>
 <p>Thus it is no small thing to say that the first task of the statistician and the scientist is to summarise the data, to find some collection of numbers that can convey to an audience a sense of what has happened. This is the job of descriptive statistics, but it’s not a job that can be told solely using the numbers. You are a data analyst, not a statistical software package. Part of your job is to take these <em>statistics</em> and turn them into a <em>description</em>. When you analyse data, it is not sufficient to list off a collection of numbers. Always remember that what you’re really trying to do is communicate with a human audience. The numbers are important, but they need to be put together into a meaningful story that your audience can interpret. That means you need to think about framing. You need to think about context. And you need to think about the individual events that your statistics are summarising.</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="mynote1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Note for non-Australians: the AFL is an Australian rules football competition. You don’t need to know anything about Australian rules in order to follow this section.</p>
+</dd>
+</dl>
 </div>
 </div>
 
