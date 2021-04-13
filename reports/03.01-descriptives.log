@@ -17,22 +17,25 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+from myst_nb import glue
 import seaborn as sns
 
 margins = sns.histplot(df_afl_margins)
 
 margins.set(xlabel ="Winning Margin", 
                 ylabel = "Frequency")
+
+glue("afl_fig", margins, display=True)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-3-b5bbaa96b07d>[0m in [0;36m<module>[0;34m[0m
-[1;32m      1[0m [0;32mimport[0m [0mseaborn[0m [0;32mas[0m [0msns[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      2[0m [0;34m[0m[0m
-[0;32m----> 3[0;31m [0mmargins[0m [0;34m=[0m [0msns[0m[0;34m.[0m[0mhistplot[0m[0;34m([0m[0mdf_afl_margins[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      4[0m [0;34m[0m[0m
-[1;32m      5[0m margins.set(xlabel ="Winning Margin", 
+[0;32m<ipython-input-3-8f53f004d050>[0m in [0;36m<module>[0;34m[0m
+[1;32m      2[0m [0;32mimport[0m [0mseaborn[0m [0;32mas[0m [0msns[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;34m[0m[0m
+[0;32m----> 4[0;31m [0mmargins[0m [0;34m=[0m [0msns[0m[0;34m.[0m[0mhistplot[0m[0;34m([0m[0mdf_afl_margins[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      5[0m [0;34m[0m[0m
+[1;32m      6[0m margins.set(xlabel ="Winning Margin", 
 
 [0;31mNameError[0m: name 'df_afl_margins' is not defined
 NameError: name 'df_afl_margins' is not defined
