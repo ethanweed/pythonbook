@@ -526,16 +526,16 @@
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
 
-<span class="n">df_afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_finalists.csv&#39;</span><span class="p">)</span>
-<span class="n">df_afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
+<span class="n">afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_finalists.csv&#39;</span><span class="p">)</span>
+<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">df_afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">df_afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#mynote1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable:</p>
+<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#mynote1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -558,7 +558,7 @@
 </div>
 </div>
 </div>
-<p>This output doesn’t make it easy to get a sense of what the data are actually saying. Just “looking at the data” isn’t a terribly effective way of understanding data. In order to get some idea about what’s going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (Chapter &#64;ref(graphics). Since the descriptive statistics are the easier of the two topics, I’ll start with those, but nevertheless I’ll show you a histogram of the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data, since it should help you get a sense of what the data we’re trying to describe actually look like. But for what it’s worth, this histogram – which is shown in Figure &#64;ref(fig:histogram1) – was generated using the <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function. We’ll talk a lot more about how to draw histograms in Section &#64;ref(hist). For now, it’s enough to look at the histogram and note that it provides a fairly interpretable representation of the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data.</p>
+<p>This output doesn’t make it easy to get a sense of what the data are actually saying. Just “looking at the data” isn’t a terribly effective way of understanding data. In order to get some idea about what’s going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (Chapter &#64;ref(graphics). Since the descriptive statistics are the easier of the two topics, I’ll start with those, but nevertheless I’ll show you a histogram of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, since it should help you get a sense of what the data we’re trying to describe actually look like. But for what it’s worth, this histogram – which is shown in Figure &#64;ref(fig:histogram1) – was generated using the <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>package. We’ll talk a lot more about how to draw histograms in <span class="xref myst"></span>. For now, it’s enough to look at the histogram and note that it provides a fairly interpretable representation of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -572,12 +572,18 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 0, &#39;Winning Margin&#39;),
- Text(0, 0.5, &#39;Frequency&#39;),
- Text(0.5, 1.0, &#39;Figure 5.1: A histogram of the AFL 2010 winning margin data (the afl.margins variable). As you might expect, the larger the margin the less frequently you tend to see it.&#39;)]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">5</span><span class="n">a7ce8430a7e</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">margins</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Winning Margin&quot;</span><span class="p">,</span> 
+
+<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_5_1.png" src="_images/03.01-descriptives_5_1.png" />
 </div>
 </div>
 <div class="section" id="measures-of-central-tendency">
@@ -1112,19 +1118,19 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
+North Melbourne     28
 Melbourne           28
 Collingwood         28
-North Melbourne     28
 Hawthorn            27
 Carlton             26
-Sydney              26
 Adelaide            26
+Sydney              26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1479,7 +1485,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10ea66c10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x142c206a0&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_71_1.png" src="_images/03.01-descriptives_71_1.png" />
