@@ -579,7 +579,18 @@
 </div>
 <div class="figure align-default" id="fig-afl-margins" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;Winning Margin&#39;, ylabel=&#39;Frequency&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      56
+1      31
+2      56
+3       8
+4      32
+       ..
+171    28
+172    38
+173    29
+174    10
+175    10
+Name: afl.margins, Length: 176, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -1091,15 +1102,15 @@ Melbourne           28
 North Melbourne     28
 Collingwood         28
 Hawthorn            27
-Carlton             26
-Adelaide            26
 Sydney              26
+Adelaide            26
+Carlton             26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1388,7 +1399,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 <blockquote>
 <div><p>The median winning margin in 2010 was 30.5, indicating that a typical game involved a winning margin of about 30 points. However, there was a fair amount of variation from game to game: the MAD value was 19.5, indicating that a typical winning margin would differ from this median value by about 19-20 points.</p>
 </div></blockquote>
-<p>As you’d expect, R has a built in function for calculating MAD, and you will be shocked no doubt to hear that it’s called <code class="docutils literal notranslate"><span class="pre">mad()</span></code>. However, it’s a little bit more complicated than the functions that we’ve been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a <code class="docutils literal notranslate"><span class="pre">constant</span></code> that I’ll explain in a moment. For our purposes, the constant is 1, so our command becomes</p>
+<p>As you’d expect, Python has a method for calculating MAD. It is in the <code class="docutils literal notranslate"><span class="pre">robust</span></code> object from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package, and you will be shocked no doubt to hear that it’s called <code class="docutils literal notranslate"><span class="pre">mad()</span></code>. However, it’s a little bit more complicated than the functions that we’ve been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a <code class="docutils literal notranslate"><span class="pre">constant</span></code> that I’ll explain in a moment. For our purposes, the constant is 1, so our command becomes</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1418,7 +1429,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 </div>
-<p>I should point out, though, that if you want to use this “corrected” MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are “supposed to be” in some sense) symmetric and basically shaped like a bell curve. That’s really <em>not</em> true for our <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data, so in this case I wouldn’t try to use the MAD value this way.</p>
+<p>I should point out, though, that if you want to use this “corrected” MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are “supposed to be” in some sense) symmetric and basically shaped like a bell curve. That’s really <em>not</em> true for our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, so in this case I wouldn’t try to use the MAD value this way.</p>
 </div>
 <div class="section" id="which-measure-to-use">
 <h3><span class="section-number">1.2.6. </span>Which measure to use?<a class="headerlink" href="#which-measure-to-use" title="Permalink to this headline">¶</a></h3>
@@ -1455,21 +1466,42 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
     <span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Skew&quot;</span><span class="p">,</span>
     <span class="n">binwidth</span><span class="o">=.</span><span class="mi">02</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
+
+<span class="c1"># This is just for the purposes of putting this figure in this book. Feel free to ignore!</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;skew_fig&quot;</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1337b07f0&gt;
-</pre></div>
-</div>
 <img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
 </div>
 </div>
-<p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As Figure &#64;ref(fig:skewness) illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows
-$<span class="math notranslate nohighlight">\(
+<div class="figure align-default" id="fig-skew" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      56
+1      31
+2      56
+3       8
+4      32
+       ..
+171    28
+172    38
+173    29
+174    10
+175    10
+Name: afl.margins, Length: 176, dtype: int64
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 1.4 </span><span class="caption-text">An illustration of skewness. On the left we have a negatively skewed data set (skewness “  ́.93), in the middle we have a data set with no skew (technically, skewness “  ́.006), and on the right we have a positively skewed data set (skewness “ .93).</span><a class="headerlink" href="#fig-skew" title="Permalink to this image">¶</a></p>
+</div>
+<p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As <a class="reference internal" href="#fig-skew"><span class="std std-numref">Fig. 1.4</span></a> illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{skewness}(X) = \frac{1}{N \hat{\sigma}^3} \sum_{i=1}^N (X_i - \bar{X})^3
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>N<span class="math notranslate nohighlight">\( is the number of observations, \)</span>\bar{X}<span class="math notranslate nohighlight">\( is the sample mean, and \)</span>\hat{\sigma}<span class="math notranslate nohighlight">\( is the standard deviation (the &quot;divide by \)</span>N-1$” version, that is). Luckily, pandas already knows how to calculate skew:</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of observations, <span class="math notranslate nohighlight">\(\bar{X}\)</span> is the sample mean, and <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> is the standard deviation (the “divide by <span class="math notranslate nohighlight">\(N-1\)</span>” version, that is). Luckily, <code class="docutils literal notranslate"><span class="pre">pandas</span></code>
+already knows how to calculate skew:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skipna</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
@@ -1483,7 +1515,7 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
 </div>
 </div>
 <p>Not surprisingly, it turns out that the AFL winning margins data is fairly skewed.</p>
-<p>The final measure that is sometimes referred to, though very rarely in practice, is the <strong><em>kurtosis</em></strong> of a data set. Put simply, kurtosis is a measure of the “pointiness” of a data set, as illustrated in Figure &#64;ref(fig:kurtosis).</p>
+<p>The final measure that is sometimes referred to, though very rarely in practice, is the <strong><em>kurtosis</em></strong> of a data set. Put simply, kurtosis is a measure of the “pointiness” of a data set, as illustrated in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-kurtosis</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                                                              
@@ -1505,11 +1537,34 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
     <span class="n">data</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">,</span>
     <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
+
+<span class="c1"># Again just ignore. This line is just here for the sake of figure captions and links.</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;afl_fig&quot;</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_78_0.png" src="_images/03.01-descriptives_78_0.png" />
+<img alt="_images/03.01-descriptives_79_1.png" src="_images/03.01-descriptives_79_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>```{glue:figure} kurtosis_fig
+:figwidth: 600px
+:name: fig-kurtosis
+
+A histogram of the AFL 2010 winning margin data (the `afl_margins` variable). As you might expect, the larger the margin the less frequently you tend to see it.
+```
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  File &quot;&lt;ipython-input-35-1f3cfaf4bc6d&gt;&quot;, line 1
+    ```{glue:figure} kurtosis_fig
+    ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
 </div>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
@@ -1574,15 +1629,63 @@ Pearson:  3.0643495578651616
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">36</span><span class="o">-</span><span class="mi">8</span><span class="n">d9454989809</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>176.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.301136</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>26.073636</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>12.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>30.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>116.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
 <p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout (see Chapter &#64;ref(studydesign)) as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition,</p>
@@ -2029,7 +2132,7 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_101_1.png" src="_images/03.01-descriptives_101_1.png" />
+<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
 </div>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
@@ -2121,7 +2224,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_104_1.png" src="_images/03.01-descriptives_104_1.png" />
+<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2145,7 +2248,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
+<img alt="_images/03.01-descriptives_108_1.png" src="_images/03.01-descriptives_108_1.png" />
 </div>
 </div>
 </div>
@@ -2393,7 +2496,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_120_1.png" src="_images/03.01-descriptives_120_1.png" />
+<img alt="_images/03.01-descriptives_122_1.png" src="_images/03.01-descriptives_122_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2549,7 +2652,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_126_1.png" src="_images/03.01-descriptives_126_1.png" />
+<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
