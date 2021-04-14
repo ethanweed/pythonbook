@@ -590,84 +590,41 @@
 <p>Drawing pictures of the data, as I did in <a class="reference internal" href="#fig-afl-margins"><span class="std std-ref">the figure above</span></a> is an excellent way to convey the “gist” of what the data is trying to tell you, it’s often extremely useful to try to condense the data into a few simple “summary” statistics. In most situations, the first thing that you’ll want to calculate is a measure of <strong><em>central tendency</em></strong>. That is, you’d like to know something about the “average” or “middle” of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I’ll explain each of these in turn, and then discuss when each of them is useful.</p>
 <div class="section" id="the-mean">
 <h3><span class="section-number">1.1.1. </span>The mean<a class="headerlink" href="#the-mean" title="Permalink to this headline">¶</a></h3>
-<p>The <strong><em>mean</em></strong> of a set of observations is just a normal, old-fashioned average: add all of the values up, and then divide by the total number of values. The first five AFL margins were 56, 31, 56, 8 and 32, so the mean of these observations is just:
-$<span class="math notranslate nohighlight">\(
-\frac{56 + 31 + 56 + 8 + 32}{5} = \frac{183}{5} = 36.60
-\)</span>$
-Of course, this definition of the mean isn’t news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I’ll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in R.</p>
-<p>The first piece of notation to introduce is <span class="math notranslate nohighlight">\(N\)</span>, which we’ll use to refer to the number of observations that we’re averaging (in this case <span class="math notranslate nohighlight">\(N = 5\)</span>). Next, we need to attach a label to the observations themselves. It’s traditional to use <span class="math notranslate nohighlight">\(X\)</span> for this, and to use subscripts to indicate which observation we’re actually talking about. That is, we’ll use <span class="math notranslate nohighlight">\(X_1\)</span> to refer to the first observation, <span class="math notranslate nohighlight">\(X_2\)</span> to refer to the second observation, and so on, all the way up to <span class="math notranslate nohighlight">\(X_N\)</span> for the last one. Or, to say the same thing in a slightly more abstract way, we use <span class="math notranslate nohighlight">\(X_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th observation. Just to make sure we’re clear on the notation, the following table lists the 5 observations in the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;the observation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;winning margin, game 1&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 2&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 3&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 4&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 5&#39;</span><span class="p">],</span>
-       <span class="s1">&#39;its symbol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$X_1$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_2$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_3$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_4$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_5$&quot;</span><span class="p">],</span>
-       <span class="s1">&#39;observed value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;56 points&#39;</span><span class="p">,</span><span class="s1">&#39;31 points&#39;</span><span class="p">,</span><span class="s1">&#39;56 points&#39;</span><span class="p">,</span><span class="s1">&#39;8 points&#39;</span><span class="p">,</span><span class="s1">&#39;32 points&#39;</span><span class="p">]}</span>
-
-<span class="n">margin_notation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">margin_notation</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>the observation</th>
-      <th>its symbol</th>
-      <th>observed value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>winning margin, game 1</td>
-      <td>$X_1$</td>
-      <td>56 points</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>winning margin, game 2</td>
-      <td>$X_2$</td>
-      <td>31 points</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>winning margin, game 3</td>
-      <td>$X_3$</td>
-      <td>56 points</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>winning margin, game 4</td>
-      <td>$X_4$</td>
-      <td>8 points</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>winning margin, game 5</td>
-      <td>$X_5$</td>
-      <td>32 points</td>
-    </tr>
-  </tbody>
+<p>The <strong><em>mean</em></strong> of a set of observations is just a normal, old-fashioned average: add all of the values up, and then divide by the total number of values. The first five AFL margins were 56, 31, 56, 8 and 32, so the mean of these observations is just:</p>
+<p><span class="math notranslate nohighlight">\(\frac{56 + 31 + 56 + 8 + 32}{5} = \frac{183}{5} = 36.60\)</span></p>
+<p>Of course, this definition of the mean isn’t news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I’ll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in R.</p>
+<p>The first piece of notation to introduce is <span class="math notranslate nohighlight">\(N\)</span>, which we’ll use to refer to the number of observations that we’re averaging (in this case <span class="math notranslate nohighlight">\(N = 5\)</span>). Next, we need to attach a label to the observations themselves. It’s traditional to use <span class="math notranslate nohighlight">\(X\)</span> for this, and to use subscripts to indicate which observation we’re actually talking about. That is, we’ll use <span class="math notranslate nohighlight">\(X_1\)</span> to refer to the first observation, <span class="math notranslate nohighlight">\(X_2\)</span> to refer to the second observation, and so on, all the way up to <span class="math notranslate nohighlight">\(X_N\)</span> for the last one. Or, to say the same thing in a slightly more abstract way, we use <span class="math notranslate nohighlight">\(X_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th observation. Just to make sure we’re clear on the notation, the following table lists the 5 observations in the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:</p>
+<table class="colwidths-auto table" id="afl-margins-observations">
+<caption><span class="caption-number">Table 1.1 </span><span class="caption-text">AFL Margins Observations</span><a class="headerlink" href="#afl-margins-observations" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>the observation</p></th>
+<th class="text-align:left head"><p>its symbol</p></th>
+<th class="text-align:left head"><p>the observed value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 1</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_1\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 2</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_2\)</span></p></td>
+<td class="text-align:left"><p>31 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 3</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_3\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 4</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_4\)</span></p></td>
+<td class="text-align:left"><p>8 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 5</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_5\)</span></p></td>
+<td class="text-align:left"><p>32 points</p></td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
-</div>
 <p>Okay, now let’s try to write a formula for the mean. By tradition, we use <span class="math notranslate nohighlight">\(\bar{X}\)</span> as the notation for the mean. So the calculation for the mean could be expressed using the following formula:
 $<span class="math notranslate nohighlight">\(
 \bar{X} = \frac{X_1 + X_2 + ... + X_{N-1} + X_N}{N}
@@ -709,7 +666,7 @@ Taken literally, this could be read as &quot;the sum, taken over all \)</span>i<
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">66</span><span class="n">c7db03f806</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">66</span><span class="n">c7db03f806</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
