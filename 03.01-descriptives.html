@@ -1087,19 +1087,19 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Melbourne           28
 North Melbourne     28
 Collingwood         28
+Melbourne           28
 Hawthorn            27
-Carlton             26
-Adelaide            26
 Sydney              26
+Adelaide            26
+Carlton             26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1357,7 +1357,7 @@ Name: afl.finalists, dtype: int64
 \[
 s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 \]</div>
-<p>and the function that we use to calculate it is <code class="docutils literal notranslate"><span class="pre">stdev()</span></code>. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>. For reasons that will make sense when we return to this topic in the Chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a> I’ll refer to this new quantity as <span class="math notranslate nohighlight">\(\hat\sigma\)</span> (read as: “sigma hat”), and the formula for this is</p>
+<p>and the function that we use to calculate it is <code class="docutils literal notranslate"><span class="pre">stdev()</span></code>. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>. For reasons that will make sense when we return to this topic in the Chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, I’ll refer to this new quantity as <span class="math notranslate nohighlight">\(\hat\sigma\)</span> (read as: “sigma hat”), and the formula for this is</p>
 <div class="math notranslate nohighlight">
 \[
 \hat\sigma = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
@@ -1375,9 +1375,11 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 </div>
-<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”.^[Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.] As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in Figure &#64;ref(fig:aflsd).</p>
-<a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="mean-SD" class="align-center" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
-<p>Figure XX: An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</p>
+<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id11">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in {numref} <fig-aflsd>.</p>
+<div class="figure align-center" id="fig-aflsd">
+<a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="mean-SD" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
+</div>
+<p>An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</p>
 </div>
 <div class="section" id="median-absolute-deviation">
 <h3><span class="section-number">1.2.5. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
@@ -1432,7 +1434,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id11"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1457,7 +1459,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10dc65af0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13c9344c0&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
@@ -3130,6 +3132,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
 <dd><p>Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.</p>
+</dd>
+<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">9</a></span></dt>
+<dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.</p>
 </dd>
 </dl>
 </div>
