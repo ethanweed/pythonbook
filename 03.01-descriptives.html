@@ -737,25 +737,60 @@ following command:</p>
 \[
 8, 14, \mathbf{31}, \mathbf{32}, 56, 56
 \]</div>
-<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use R to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort()</span></code> function (discussed in Chapter &#64;ref(datahandling)) to display the winning margins in increasing numerical order:</p>
+<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use Python to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> method to display the winning margins in increasing numerical order. <a class="footnote-reference brackets" href="#note3" id="id3">3</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
 <span class="n">sorted_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">7</span><span class="n">bda6adffd68</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sorted_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>95</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
 <div class="cell docutils container">
@@ -896,131 +931,15 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="mi">53</span><span class="n">a8a4b85aec</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>afl.finalists</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Carlton</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Carlton</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Carlton</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Essendon</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>Geelong</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>Geelong</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>Hawthorn</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Collingwood</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>Melbourne</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>Collingwood</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>West Coast</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>Collingwood</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>Essendon</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>Collingwood</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;df_afl_finalists&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">table()</span></code> function (discussed in more detail in Section &#64;ref(freqtables)) to do this task for us:</p>
 <div class="cell docutils container">
@@ -3104,6 +3023,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>The choice to use <span class="math notranslate nohighlight">\(\Sigma\)</span> to denote summation isn’t arbitrary: it’s the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there’s an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called “products”, we use the <span class="math notranslate nohighlight">\(\Pi\)</span> symbol for this; the Greek upper case pi, which is the analogue of the letter P.</p>
+</dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">sort_values</span></code>is a <em>method</em> that belong to <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <em>objects</em>. We’ll get back to this later in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a></p>
 </dd>
 </dl>
 </div>
