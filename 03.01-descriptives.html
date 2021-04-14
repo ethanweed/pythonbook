@@ -741,7 +741,7 @@ following command:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
-<span class="n">sorted_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">sorted_margins</span><span class="p">[</span><span class="mi">84</span><span class="p">:</span><span class="mi">92</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -769,33 +769,46 @@ following command:</p>
   </thead>
   <tbody>
     <tr>
-      <th>95</th>
-      <td>0</td>
+      <th>165</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>128</th>
-      <td>0</td>
+      <th>173</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>67</th>
-      <td>1</td>
+      <th>150</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>84</th>
-      <td>1</td>
+      <th>117</th>
+      <td>30</td>
     </tr>
     <tr>
-      <th>155</th>
-      <td>1</td>
+      <th>1</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>33</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
+<p>If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+<span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -806,6 +819,7 @@ following command:</p>
 </div>
 </div>
 <p>which outputs the median value of 30.5.</p>
+<p>By the way, in the code above, I imported the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> package. Actually, I didn’t really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time, but you won’t need to do this when you are writing your own code, and in fact it will just make your code messier if you do.</p>
 </div>
 <div class="section" id="mean-or-median-what-s-the-difference">
 <h3><span class="section-number">1.1.4. </span>Mean or median? What’s the difference?<a class="headerlink" href="#mean-or-median-what-s-the-difference" title="Permalink to this headline">¶</a></h3>
