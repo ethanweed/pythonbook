@@ -515,7 +515,7 @@
               <div>
                 
   <div class="section" id="descriptive-statistics">
-<h1><span class="section-number">1. </span>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h1>
+<span id="descriptives"></span><h1><span class="section-number">1. </span>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h1>
 <p>Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <strong><em>descriptive statistics</em></strong> (as opposed to inferential statistics) is all about. In fact, to many people the term “statistics” is synonymous with descriptive statistics. It is this topic that we’ll consider in this chapter, but before going into any details, let’s take a moment to get a sense of why we need descriptive statistics. To do this, let’s load the <code class="docutils literal notranslate"><span class="pre">afl_finalists.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins.csv</span></code> files. Don’t worry about the Python code for now; we’ll get back to that. For now, we’ll focus on the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1087,13 +1087,13 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
+Melbourne           28
 Collingwood         28
 North Melbourne     28
-Melbourne           28
 Hawthorn            27
 Adelaide            26
-Carlton             26
 Sydney              26
+Carlton             26
 Brisbane            25
 St Kilda            24
 Western Bulldogs    24
@@ -1207,7 +1207,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 </div>
-<p>And, by noting that <span class="math notranslate nohighlight">\(50.5 - 12.75 = 37.75\)</span>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so we can again use the `` <code class="docutils literal notranslate"><span class="pre">stats</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> has a built in function called <code class="docutils literal notranslate"><span class="pre">IQR()</span></code> that we can use:</p>
+<p>And, by noting that <span class="math notranslate nohighlight">\(50.5 - 12.75 = 37.75\)</span>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so we can again use the <code class="docutils literal notranslate"><span class="pre">iqr.stats</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to give us what we want.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -1225,12 +1225,12 @@ Name: afl.finalists, dtype: int64
 </div>
 <div class="section" id="variance">
 <h3><span class="section-number">1.2.3. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
-<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore,^[Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.] and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:
-$<span class="math notranslate nohighlight">\(
+<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{Var}(X) = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
-\)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\(\mbox{Var}(X) = \frac{\sum_{i=1}^N \left( X_i - \bar{X} \right)^2}{N}\)</span>$
-As you can see, it’s basically the same formula that we used to calculate the mean absolute deviation, except that instead of using “absolute deviations” we use “squared deviations”. It is for this reason that the variance is sometimes referred to as the “mean square deviation”.</p>
+\]</div>
+<p>As you can see, it’s basically the same formula that we used to calculate the mean absolute deviation, except that instead of using “absolute deviations” we use “squared deviations”. It is for this reason that the variance is sometimes referred to as the “mean square deviation”.</p>
 <p>Now that we’ve got the basic idea, let’s have a look at a concrete example. Once again, let’s use the first five AFL games as our data. If we follow the same approach that we took last time, we end up with the following table:</p>
 <table class="colwidths-auto table">
 <thead>
@@ -1320,7 +1320,7 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </div>
 <p>… we end up with a variance of 324.64. Exciting, isn’t it? For the moment, let’s ignore the burning question that you’re all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in R, because this will reveal something very weird.</p>
 <p>As always, we want to avoid having to type in a whole lot of numbers ourselves.</p>
-<p>and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, R has a built in function called <code class="docutils literal notranslate"><span class="pre">var()</span></code> which does calculate variances. So we could also do this…</p>
+<p>and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a function called <code class="docutils literal notranslate"><span class="pre">var()</span></code> which does calculate variances. So we could also do this…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
@@ -1334,7 +1334,7 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </div>
 </div>
 </div>
-<p>and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we’ll discuss in Chapter &#64;ref(estimation), there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. To calculate the population parameter, we need to make a small adjustment:</p>
+<p>and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we’ll discuss in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. To calculate the population parameter, we need to make a small adjustment:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
@@ -1430,7 +1430,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id10"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id11"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1455,7 +1455,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x132e13490&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x130684190&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
@@ -3125,6 +3125,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id9">7</a></span></dt>
 <dd><p>This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.</p>
+</dd>
+<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
+<dd><p>Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.</p>
 </dd>
 </dl>
 </div>
