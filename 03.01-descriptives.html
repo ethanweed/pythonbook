@@ -650,26 +650,19 @@
 <p>… in which case Python outputs the answer 36.6, just as if it were a calculator. However, that’s not the only way to do the calculations, and when the number of observations starts to become large, it’s easily the most tedious. Besides, in almost every real world scenario, you’ve already got the actual numbers stored in a variable of some kind, just like we have with the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That’s what the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
 
 <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">66</span><span class="n">c7db03f806</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6213
 </pre></div>
 </div>
 </div>
 </div>
-<p>If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector. So the command would now be:</p>
+<p>If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector.<a class="footnote-reference brackets" href="#note3" id="id3">3</a> So the command would now be:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
@@ -751,51 +744,16 @@ and there are <em>two</em> middle numbers, 31 and 32. The median is defined as t
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">7</span><span class="n">bda6adffd68</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sorted_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>afl.margins</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>95</th>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>128</th>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>67</th>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>84</th>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>155</th>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
 <div class="cell docutils container">
@@ -1444,7 +1402,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x142c206a0&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_72_1.png" src="_images/03.01-descriptives_72_1.png" />
+<img alt="_images/03.01-descriptives_71_1.png" src="_images/03.01-descriptives_71_1.png" />
 </div>
 </div>
 <p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As Figure &#64;ref(fig:skewness) illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows
@@ -1491,7 +1449,7 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_76_0.png" src="_images/03.01-descriptives_76_0.png" />
+<img alt="_images/03.01-descriptives_75_0.png" src="_images/03.01-descriptives_75_0.png" />
 </div>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
@@ -2059,7 +2017,7 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_99_1.png" src="_images/03.01-descriptives_99_1.png" />
+<img alt="_images/03.01-descriptives_98_1.png" src="_images/03.01-descriptives_98_1.png" />
 </div>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
@@ -2151,7 +2109,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_102_1.png" src="_images/03.01-descriptives_102_1.png" />
+<img alt="_images/03.01-descriptives_101_1.png" src="_images/03.01-descriptives_101_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2175,7 +2133,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_104_1.png" src="_images/03.01-descriptives_104_1.png" />
+<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
 </div>
 </div>
 </div>
@@ -2423,7 +2381,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
+<img alt="_images/03.01-descriptives_117_1.png" src="_images/03.01-descriptives_117_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2579,7 +2537,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
+<img alt="_images/03.01-descriptives_123_1.png" src="_images/03.01-descriptives_123_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
@@ -3144,6 +3102,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>The choice to use <span class="math notranslate nohighlight">\(\Sigma\)</span> to denote summation isn’t arbitrary: it’s the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there’s an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called “products”, we use the <span class="math notranslate nohighlight">\(\Pi\)</span> symbol for this; the Greek upper case pi, which is the analogue of the letter P.</p>
+</dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Observant readers will have noticed that to get the first 5 elements we need to ask for elements</p>
 </dd>
 </dl>
 </div>
