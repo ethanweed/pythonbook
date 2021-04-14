@@ -1088,18 +1088,18 @@ following command:</p>
 West Coast          38
 Essendon            32
 Melbourne           28
-Collingwood         28
 North Melbourne     28
+Collingwood         28
 Hawthorn            27
+Carlton             26
 Adelaide            26
 Sydney              26
-Carlton             26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1305,7 +1305,7 @@ Name: afl.finalists, dtype: int64
 </tr>
 </tbody>
 </table>
-<p>That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into R by hand…</p>
+<p>That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into Python by hand…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="mf">376.36</span> <span class="o">+</span> <span class="mf">31.36</span> <span class="o">+</span> <span class="mf">376.36</span> <span class="o">+</span> <span class="mf">817.96</span> <span class="o">+</span> <span class="mf">21.16</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
@@ -1352,15 +1352,17 @@ Name: afl.finalists, dtype: int64
 </div>
 <div class="section" id="standard-deviation">
 <h3><span class="section-number">1.2.4. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
-<p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves out problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:
-$<span class="math notranslate nohighlight">\(
+<p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves our problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:</p>
+<div class="math notranslate nohighlight">
+\[
 s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
-\)</span><span class="math notranslate nohighlight">\(
-and the R function that we use to calculate it is `sd()`. However, as you might have guessed from our discussion of the variance, what R actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what R calculates is a version that divides by \)</span>N-1<span class="math notranslate nohighlight">\( rather than \)</span>N<span class="math notranslate nohighlight">\(. For reasons that will make sense when we return to this topic in Chapter&#64;refch:estimation I'll refer to this new quantity as \)</span>\hat\sigma<span class="math notranslate nohighlight">\( (read as: &quot;sigma hat&quot;), and the formula for this is
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>and the function that we use to calculate it is <code class="docutils literal notranslate"><span class="pre">stdev()</span></code>. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>. For reasons that will make sense when we return to this topic in the Chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a> I’ll refer to this new quantity as <span class="math notranslate nohighlight">\(\hat\sigma\)</span> (read as: “sigma hat”), and the formula for this is</p>
+<div class="math notranslate nohighlight">
+\[
 \hat\sigma = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
-\)</span>$
-With that in mind, calculating standard deviations in R is simple:</p>
+\]</div>
+<p>With that in mind, calculating standard deviations in Python is simple:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -1455,7 +1457,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x130684190&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10dc65af0&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
