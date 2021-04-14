@@ -587,7 +587,7 @@
 </div>
 <div class="section" id="measures-of-central-tendency">
 <h2><span class="section-number">1.1. </span>Measures of central tendency<a class="headerlink" href="#measures-of-central-tendency" title="Permalink to this headline">¶</a></h2>
-<p>Drawing pictures of the data, as I did in <a href="#id2"><span class="problematic" id="id3">:rnumef:`fig-AFL-Margins`</span></a> is an excellent way to convey the “gist” of what the data is trying to tell you, it’s often extremely useful to try to condense the data into a few simple “summary” statistics. In most situations, the first thing that you’ll want to calculate is a measure of <strong><em>central tendency</em></strong>. That is, you’d like to know something about the “average” or “middle” of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I’ll explain each of these in turn, and then discuss when each of them is useful.</p>
+<p>Drawing pictures of the data, as I did in <a class="reference internal" href="#fig-afl-margins"><span class="std std-numref">Fig. 1.1</span></a> is an excellent way to convey the “gist” of what the data is trying to tell you, it’s often extremely useful to try to condense the data into a few simple “summary” statistics. In most situations, the first thing that you’ll want to calculate is a measure of <strong><em>central tendency</em></strong>. That is, you’d like to know something about the “average” or “middle” of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I’ll explain each of these in turn, and then discuss when each of them is useful.</p>
 <div class="section" id="the-mean">
 <h3><span class="section-number">1.1.1. </span>The mean<a class="headerlink" href="#the-mean" title="Permalink to this headline">¶</a></h3>
 <p>The <strong><em>mean</em></strong> of a set of observations is just a normal, old-fashioned average: add all of the values up, and then divide by the total number of values. The first five AFL margins were 56, 31, 56, 8 and 32, so the mean of these observations is just:</p>
@@ -626,7 +626,7 @@
 </table>
 <p>Okay, now let’s try to write a formula for the mean. By tradition, we use <span class="math notranslate nohighlight">\(\bar{X}\)</span> as the notation for the mean. So the calculation for the mean could be expressed using the following formula:</p>
 <p><span class="math notranslate nohighlight">\(\bar{X} = \frac{X_1 + X_2 + ... + X_{N-1} + X_N}{N}\)</span></p>
-<p>This formula is entirely correct, but it’s terribly long, so we make use of the <strong><em>summation symbol</em></strong> <span class="math notranslate nohighlight">\(\scriptstyle\sum\)</span> to shorten it.<a class="footnote-reference brackets" href="#note2" id="id4">2</a> If I want to add up the first five observations, I could write out the sum the long way, <span class="math notranslate nohighlight">\(X_1 + X_2 + X_3 + X_4 +X_5\)</span> or I could use the summation symbol to shorten it to this:</p>
+<p>This formula is entirely correct, but it’s terribly long, so we make use of the <strong><em>summation symbol</em></strong> <span class="math notranslate nohighlight">\(\scriptstyle\sum\)</span> to shorten it.<a class="footnote-reference brackets" href="#note2" id="id2">2</a> If I want to add up the first five observations, I could write out the sum the long way, <span class="math notranslate nohighlight">\(X_1 + X_2 + X_3 + X_4 +X_5\)</span> or I could use the summation symbol to shorten it to this:</p>
 <p><span class="math notranslate nohighlight">\(\sum_{i=1}^5 X_i\)</span></p>
 <p>Taken literally, this could be read as “the sum, taken over all <span class="math notranslate nohighlight">\(i\)</span> values from 1 to 5, of the value <span class="math notranslate nohighlight">\(X_i\)</span>”. But basically, what it means is “add up the first five observations”. In any case, we can use this notation to write out the formula for the mean, which looks like this:</p>
 <p><span class="math notranslate nohighlight">\(\bar{X} = \frac{1}{N} \sum_{i=1}^N X_i\)</span></p>
@@ -737,7 +737,7 @@ following command:</p>
 \[
 8, 14, \mathbf{31}, \mathbf{32}, 56, 56
 \]</div>
-<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use Python to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> method to display the winning margins in increasing numerical order. <a class="footnote-reference brackets" href="#note3" id="id5">3</a></p>
+<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use Python to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> method to display the winning margins in increasing numerical order. <a class="footnote-reference brackets" href="#note3" id="id3">3</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
@@ -837,7 +837,7 @@ following command:</p>
 </div>
 <div class="section" id="a-real-life-example">
 <h3><span class="section-number">1.1.5. </span>A real life example<a class="headerlink" href="#a-real-life-example" title="Permalink to this headline">¶</a></h3>
-<p>To try to get a sense of why you need to pay attention to the differences between the mean and the median, let’s consider a real life example. Since I tend to mock journalists for their poor scientific and statistical knowledge, I should give credit where credit is due. This is from an excellent article on the ABC news website <a class="footnote-reference brackets" href="#note4" id="id6">4</a> 24 September, 2010:</p>
+<p>To try to get a sense of why you need to pay attention to the differences between the mean and the median, let’s consider a real life example. Since I tend to mock journalists for their poor scientific and statistical knowledge, I should give credit where credit is due. This is from an excellent article on the ABC news website <a class="footnote-reference brackets" href="#note4" id="id4">4</a> 24 September, 2010:</p>
 <blockquote>
 <div><p>Senior Commonwealth Bank executives have travelled the world in the past couple of weeks with a presentation showing how Australian house prices, and the key price to income ratios, compare favourably with similar countries. “Housing affordability has actually been going sideways for the last five to six years,” said Craig James, the chief economist of the bank’s trading arm, CommSec.</p>
 </div></blockquote>
@@ -860,8 +860,8 @@ following command:</p>
 <p>My, my.</p>
 </div>
 <div class="section" id="trimmed-mean">
-<span id="id7"></span><h3><span class="section-number">1.1.6. </span>Trimmed mean<a class="headerlink" href="#trimmed-mean" title="Permalink to this headline">¶</a></h3>
-<p>One of the fundamental rules of applied statistics is that the data are messy. Real life is never simple, and so the data sets that you obtain are never as straightforward as the statistical theory says. <a class="footnote-reference brackets" href="#note5" id="id8">5</a> This can have awkward consequences. To illustrate, consider this rather strange looking data set:</p>
+<span id="id5"></span><h3><span class="section-number">1.1.6. </span>Trimmed mean<a class="headerlink" href="#trimmed-mean" title="Permalink to this headline">¶</a></h3>
+<p>One of the fundamental rules of applied statistics is that the data are messy. Real life is never simple, and so the data sets that you obtain are never as straightforward as the statistical theory says. <a class="footnote-reference brackets" href="#note5" id="id6">5</a> This can have awkward consequences. To illustrate, consider this rather strange looking data set:</p>
 <div class="math notranslate nohighlight">
 \[
 -100,2,3,4,5,6,7,8,9,10
@@ -907,7 +907,7 @@ following command:</p>
 </div>
 </div>
 </div>
-<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id9">6</a>, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
+<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id7">6</a>, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -940,7 +940,7 @@ following command:</p>
 </div>
 </div>
 <div class="section" id="mode">
-<span id="id10"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
 <p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">.head()</span></code> method. <code class="docutils literal notranslate"><span class="pre">.head()</span></code> is a method that can be used when the data is contained in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> object (which ours is). It can be useful when you’re working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using <code class="docutils literal notranslate"><span class="pre">print(afl_finalists)</span></code> will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1088,18 +1088,18 @@ following command:</p>
 West Coast          38
 Essendon            32
 Melbourne           28
-Collingwood         28
 North Melbourne     28
+Collingwood         28
 Hawthorn            27
+Carlton             26
 Adelaide            26
 Sydney              26
-Carlton             26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1133,7 +1133,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 <p>Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.</p>
-<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read <a class="reference internal" href="01.02-studydesign.html#scales-of-measurement"><span class="std std-ref">Scales of measurement</span></a>), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin. <a class="footnote-reference brackets" href="#note7" id="id11">7</a> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
+<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read <a class="reference internal" href="01.02-studydesign.html#scales-of-measurement"><span class="std std-ref">Scales of measurement</span></a>), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin. <a class="footnote-reference brackets" href="#note7" id="id9">7</a> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -1225,7 +1225,7 @@ Name: afl.finalists, dtype: int64
 </div>
 <div class="section" id="variance">
 <h3><span class="section-number">1.2.3. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
-<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id12">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
+<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
 <div class="math notranslate nohighlight">
 \[
 \mbox{Var}(X) = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
@@ -1375,7 +1375,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 </div>
-<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id13">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <a class="reference internal" href="#fig-aflsd"><span class="std std-numref">Fig. 1.3</span></a>.</p>
+<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id11">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <a class="reference internal" href="#fig-aflsd"><span class="std std-numref">Fig. 1.3</span></a>.</p>
 <div class="figure align-center" id="fig-aflsd">
 <a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="_images/figure_2.5_mean_SD.png" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1.3 </span><span class="caption-text">An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</span><a class="headerlink" href="#fig-aflsd" title="Permalink to this image">¶</a></p>
@@ -1434,7 +1434,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id14"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1459,7 +1459,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13bb22130&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1337b07f0&gt;
 </pre></div>
 </div>
 <img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
@@ -3112,28 +3112,28 @@ The death of millions is a statistic.</em></p>
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Note for non-Australians: the AFL is an Australian rules football competition. You don’t need to know anything about Australian rules in order to follow this section.</p>
 </dd>
-<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>The choice to use <span class="math notranslate nohighlight">\(\Sigma\)</span> to denote summation isn’t arbitrary: it’s the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there’s an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called “products”, we use the <span class="math notranslate nohighlight">\(\Pi\)</span> symbol for this; the Greek upper case pi, which is the analogue of the letter P.</p>
 </dd>
-<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">sort_values</span></code>is a <em>method</em> that belong to <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <em>objects</em>. We’ll get back to this later in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>. For now, the important thing is that it works!</p>
 </dd>
-<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id6">4</a></span></dt>
+<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd><p>www.abc.net.au/news/stories/2010/09/24/3021480.htm</p>
 </dd>
-<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id8">5</a></span></dt>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
 <dd><p>Or at least, the basic statistical theory – these days there is a whole subfield of statistics called <em>robust statistics</em> that tries to grapple with the messiness of real data and develop theory that can cope with it.</p>
 </dd>
-<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id9">6</a></span></dt>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
 <dd><p>Here I use the <code class="docutils literal notranslate"><span class="pre">stats</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module. But <code class="docutils literal notranslate"><span class="pre">stats</span></code> is picky, it only wants to deal with data in a certain format called <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">arrays</span></code>. So, to give it what it wants, we also need to import <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and then convert our data into an <code class="docutils literal notranslate"><span class="pre">array</span></code>. Also I only imported part of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module (you can do that) and renamed the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module. You can do that too, but this footnote is already getting much too long. We’ll get back to these things and much more in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>.</p>
 </dd>
-<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id11">7</a></span></dt>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id9">7</a></span></dt>
 <dd><p>This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.</p>
 </dd>
-<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id12">8</a></span></dt>
+<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
 <dd><p>Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.</p>
 </dd>
-<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id13">9</a></span></dt>
+<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">9</a></span></dt>
 <dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.</p>
 </dd>
 </dl>
