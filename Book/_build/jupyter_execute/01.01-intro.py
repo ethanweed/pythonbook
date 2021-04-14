@@ -1,3 +1,4 @@
+(whywhywhy)=
 # Why do we learn statistics?
 
 > "Thou shalt not answer questionnaires  

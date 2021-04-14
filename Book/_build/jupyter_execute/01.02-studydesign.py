@@ -67,6 +67,7 @@ Before moving on, I want to take a moment to clear up our terminology, and in th
 
 In practice, even scientists tend to blur the distinction between these things, but it's very helpful to try to understand the differences.
 
+(scales_of_measurement)=
 ## Scales of measurement
 
 As the previous section indicates, the outcome of a psychological measurement is called a  variable. But not all variables are of the same qualitative type, and it's very useful to understand what types there are. A very useful concept for distinguishing between different types of variables is what's known as ***scales of measurement***. 

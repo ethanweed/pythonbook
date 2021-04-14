@@ -358,13 +358,13 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-real-life-example-housingpriceexample">
-     1.1.5. A real life example{#housingpriceexample}
+    <a class="reference internal nav-link" href="#a-real-life-example">
+     1.1.5. A real life example
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#trimmed-mean-trimmedmean">
-     1.1.6. Trimmed mean{#trimmedmean}
+    <a class="reference internal nav-link" href="#trimmed-mean">
+     1.1.6. Trimmed mean
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -515,7 +515,7 @@
               <div>
                 
   <div class="section" id="descriptive-statistics">
-<h1><span class="section-number">1. </span>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h1>
+<span id="descriptives"></span><h1><span class="section-number">1. </span>Descriptive statistics<a class="headerlink" href="#descriptive-statistics" title="Permalink to this headline">¶</a></h1>
 <p>Any time that you get a new data set to look at, one of the first tasks that you have to do is find ways of summarising the data in a compact, easily understood fashion. This is what <strong><em>descriptive statistics</em></strong> (as opposed to inferential statistics) is all about. In fact, to many people the term “statistics” is synonymous with descriptive statistics. It is this topic that we’ll consider in this chapter, but before going into any details, let’s take a moment to get a sense of why we need descriptive statistics. To do this, let’s load the <code class="docutils literal notranslate"><span class="pre">afl_finalists.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins.csv</span></code> files. Don’t worry about the Python code for now; we’ll get back to that. For now, we’ll focus on the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -532,7 +532,7 @@
 </div>
 </div>
 </div>
-<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#mynote1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable:</p>
+<p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#note1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
@@ -564,12 +564,12 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="n">margins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
 
-<span class="n">margins</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Winning Margin&quot;</span><span class="p">,</span> 
-                <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Frequency&quot;</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Winning Margin&quot;</span><span class="p">,</span> 
+                <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;afl_fig&quot;</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;afl_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -587,104 +587,54 @@
 </div>
 <div class="section" id="measures-of-central-tendency">
 <h2><span class="section-number">1.1. </span>Measures of central tendency<a class="headerlink" href="#measures-of-central-tendency" title="Permalink to this headline">¶</a></h2>
-<p>Drawing pictures of the data, as I did in <a class="reference internal" href="#fig-afl-margins"><span class="std std-ref">the figure above</span></a> is an excellent way to convey the “gist” of what the data is trying to tell you, it’s often extremely useful to try to condense the data into a few simple “summary” statistics. In most situations, the first thing that you’ll want to calculate is a measure of <strong><em>central tendency</em></strong>. That is, you’d like to know something about the “average” or “middle” of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I’ll explain each of these in turn, and then discuss when each of them is useful.</p>
+<p>Drawing pictures of the data, as I did in <a class="reference internal" href="#fig-afl-margins"><span class="std std-numref">Fig. 1.1</span></a> is an excellent way to convey the “gist” of what the data is trying to tell you, it’s often extremely useful to try to condense the data into a few simple “summary” statistics. In most situations, the first thing that you’ll want to calculate is a measure of <strong><em>central tendency</em></strong>. That is, you’d like to know something about the “average” or “middle” of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I’ll explain each of these in turn, and then discuss when each of them is useful.</p>
 <div class="section" id="the-mean">
 <h3><span class="section-number">1.1.1. </span>The mean<a class="headerlink" href="#the-mean" title="Permalink to this headline">¶</a></h3>
-<p>The <strong><em>mean</em></strong> of a set of observations is just a normal, old-fashioned average: add all of the values up, and then divide by the total number of values. The first five AFL margins were 56, 31, 56, 8 and 32, so the mean of these observations is just:
-$<span class="math notranslate nohighlight">\(
-\frac{56 + 31 + 56 + 8 + 32}{5} = \frac{183}{5} = 36.60
-\)</span>$
-Of course, this definition of the mean isn’t news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I’ll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in R.</p>
-<p>The first piece of notation to introduce is <span class="math notranslate nohighlight">\(N\)</span>, which we’ll use to refer to the number of observations that we’re averaging (in this case <span class="math notranslate nohighlight">\(N = 5\)</span>). Next, we need to attach a label to the observations themselves. It’s traditional to use <span class="math notranslate nohighlight">\(X\)</span> for this, and to use subscripts to indicate which observation we’re actually talking about. That is, we’ll use <span class="math notranslate nohighlight">\(X_1\)</span> to refer to the first observation, <span class="math notranslate nohighlight">\(X_2\)</span> to refer to the second observation, and so on, all the way up to <span class="math notranslate nohighlight">\(X_N\)</span> for the last one. Or, to say the same thing in a slightly more abstract way, we use <span class="math notranslate nohighlight">\(X_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th observation. Just to make sure we’re clear on the notation, the following table lists the 5 observations in the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;the observation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;winning margin, game 1&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 2&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 3&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 4&#39;</span><span class="p">,</span> <span class="s1">&#39;winning margin, game 5&#39;</span><span class="p">],</span>
-       <span class="s1">&#39;its symbol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$X_1$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_2$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_3$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_4$&quot;</span><span class="p">,</span><span class="s2">&quot;$X_5$&quot;</span><span class="p">],</span>
-       <span class="s1">&#39;observed value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;56 points&#39;</span><span class="p">,</span><span class="s1">&#39;31 points&#39;</span><span class="p">,</span><span class="s1">&#39;56 points&#39;</span><span class="p">,</span><span class="s1">&#39;8 points&#39;</span><span class="p">,</span><span class="s1">&#39;32 points&#39;</span><span class="p">]}</span>
-
-<span class="n">margin_notation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">margin_notation</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>the observation</th>
-      <th>its symbol</th>
-      <th>observed value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>winning margin, game 1</td>
-      <td>$X_1$</td>
-      <td>56 points</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>winning margin, game 2</td>
-      <td>$X_2$</td>
-      <td>31 points</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>winning margin, game 3</td>
-      <td>$X_3$</td>
-      <td>56 points</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>winning margin, game 4</td>
-      <td>$X_4$</td>
-      <td>8 points</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>winning margin, game 5</td>
-      <td>$X_5$</td>
-      <td>32 points</td>
-    </tr>
-  </tbody>
+<p>The <strong><em>mean</em></strong> of a set of observations is just a normal, old-fashioned average: add all of the values up, and then divide by the total number of values. The first five AFL margins were 56, 31, 56, 8 and 32, so the mean of these observations is just:</p>
+<p><span class="math notranslate nohighlight">\(\frac{56 + 31 + 56 + 8 + 32}{5} = \frac{183}{5} = 36.60\)</span></p>
+<p>Of course, this definition of the mean isn’t news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I’ll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in R.</p>
+<p>The first piece of notation to introduce is <span class="math notranslate nohighlight">\(N\)</span>, which we’ll use to refer to the number of observations that we’re averaging (in this case <span class="math notranslate nohighlight">\(N = 5\)</span>). Next, we need to attach a label to the observations themselves. It’s traditional to use <span class="math notranslate nohighlight">\(X\)</span> for this, and to use subscripts to indicate which observation we’re actually talking about. That is, we’ll use <span class="math notranslate nohighlight">\(X_1\)</span> to refer to the first observation, <span class="math notranslate nohighlight">\(X_2\)</span> to refer to the second observation, and so on, all the way up to <span class="math notranslate nohighlight">\(X_N\)</span> for the last one. Or, to say the same thing in a slightly more abstract way, we use <span class="math notranslate nohighlight">\(X_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th observation. Just to make sure we’re clear on the notation, the following table lists the 5 observations in the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>the observation</p></th>
+<th class="text-align:left head"><p>its symbol</p></th>
+<th class="text-align:left head"><p>the observed value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 1</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_1\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 2</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_2\)</span></p></td>
+<td class="text-align:left"><p>31 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 3</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_3\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 4</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_4\)</span></p></td>
+<td class="text-align:left"><p>8 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 5</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_5\)</span></p></td>
+<td class="text-align:left"><p>32 points</p></td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
-</div>
-<p>Okay, now let’s try to write a formula for the mean. By tradition, we use <span class="math notranslate nohighlight">\(\bar{X}\)</span> as the notation for the mean. So the calculation for the mean could be expressed using the following formula:
-$<span class="math notranslate nohighlight">\(
-\bar{X} = \frac{X_1 + X_2 + ... + X_{N-1} + X_N}{N}
-\)</span><span class="math notranslate nohighlight">\(
-This formula is entirely correct, but it's terribly long, so we make use of the **_summation symbol_** \)</span>\scriptstyle\sum<span class="math notranslate nohighlight">\( to shorten it.^[The choice to use \)</span>\Sigma<span class="math notranslate nohighlight">\( to denote summation isn't arbitrary: it's the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there's an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called &quot;products&quot;, we use the \)</span>\Pi<span class="math notranslate nohighlight">\( symbol for this; the Greek upper case pi, which is the analogue of the letter P.] If I want to add up the first five observations, I could write out the sum the long way, \)</span>X_1 + X_2 + X_3 + X_4 +X_5<span class="math notranslate nohighlight">\( or I could use the summation symbol to shorten it to this:
-\)</span><span class="math notranslate nohighlight">\(
-\sum_{i=1}^5 X_i
-\)</span><span class="math notranslate nohighlight">\(
-Taken literally, this could be read as &quot;the sum, taken over all \)</span>i<span class="math notranslate nohighlight">\( values from 1 to 5, of the value \)</span>X_i<span class="math notranslate nohighlight">\(&quot;. But basically, what it means is &quot;add up the first five observations&quot;. In any case, we can use this notation to write out the formula for the mean, which looks like this:
-\)</span><span class="math notranslate nohighlight">\(
-\bar{X} = \frac{1}{N} \sum_{i=1}^N X_i 
-\)</span>$</p>
+<p>Okay, now let’s try to write a formula for the mean. By tradition, we use <span class="math notranslate nohighlight">\(\bar{X}\)</span> as the notation for the mean. So the calculation for the mean could be expressed using the following formula:</p>
+<p><span class="math notranslate nohighlight">\(\bar{X} = \frac{X_1 + X_2 + ... + X_{N-1} + X_N}{N}\)</span></p>
+<p>This formula is entirely correct, but it’s terribly long, so we make use of the <strong><em>summation symbol</em></strong> <span class="math notranslate nohighlight">\(\scriptstyle\sum\)</span> to shorten it.<a class="footnote-reference brackets" href="#note2" id="id2">2</a> If I want to add up the first five observations, I could write out the sum the long way, <span class="math notranslate nohighlight">\(X_1 + X_2 + X_3 + X_4 +X_5\)</span> or I could use the summation symbol to shorten it to this:</p>
+<p><span class="math notranslate nohighlight">\(\sum_{i=1}^5 X_i\)</span></p>
+<p>Taken literally, this could be read as “the sum, taken over all <span class="math notranslate nohighlight">\(i\)</span> values from 1 to 5, of the value <span class="math notranslate nohighlight">\(X_i\)</span>”. But basically, what it means is “add up the first five observations”. In any case, we can use this notation to write out the formula for the mean, which looks like this:</p>
+<p><span class="math notranslate nohighlight">\(\bar{X} = \frac{1}{N} \sum_{i=1}^N X_i\)</span></p>
 <p>In all honesty, I can’t imagine that all this mathematical notation helps clarify the concept of the mean at all. In fact, it’s really just a fancy way of writing out the same thing I said in words: add all the values up, and then divide by the total number of items. However, that’s not really the reason I went into all that detail. My goal was to try to make sure that everyone reading this book is clear on the notation that we’ll be using throughout the book: <span class="math notranslate nohighlight">\(\bar{X}\)</span> for the mean, <span class="math notranslate nohighlight">\(\scriptstyle\sum\)</span> for the idea of summation, <span class="math notranslate nohighlight">\(X_i\)</span> for the <span class="math notranslate nohighlight">\(i\)</span>th observation, and <span class="math notranslate nohighlight">\(N\)</span> for the total number of observations. We’re going to be re-using these symbols a fair bit, so it’s important that you understand them well enough to be able to “read” the equations, and to be able to see that it’s just saying “add up lots of things and then divide by another thing”.</p>
 </div>
 <div class="section" id="calculating-the-mean-in-python">
 <h3><span class="section-number">1.1.2. </span>Calculating the mean in Python<a class="headerlink" href="#calculating-the-mean-in-python" title="Permalink to this headline">¶</a></h3>
-<p>Okay that’s the maths, how do we get the magic computing box to do the work for us? If you really wanted to, you could do this calculation directly in R. For the first 5 AFL scores, do this just by typing it in as if R were a calculator…</p>
+<p>Okay that’s the maths, how do we get the magic computing box to do the work for us? If you really wanted to, you could do this calculation directly in Python. For the first 5 AFL scores, do this just by typing it in as if Python were a calculator…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">56</span> <span class="o">+</span> <span class="mi">31</span> <span class="o">+</span> <span class="mi">56</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
@@ -697,24 +647,17 @@ Taken literally, this could be read as &quot;the sum, taken over all \)</span>i<
 </div>
 </div>
 </div>
-<p>… in which case Python outputs the answer 36.6, just as if it were a calculator. However, that’s not the only way to do the calculations, and when the number of observations starts to become large, it’s easily the most tedious. Besides, in almost every real world scenario, you’ve already got the actual numbers stored in a variable of some kind, just like we have with the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That’s what the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:^[Note that, just as we saw with the combine function <code class="docutils literal notranslate"><span class="pre">c()</span></code> and the remove function <code class="docutils literal notranslate"><span class="pre">rm()</span></code>, the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> function has unnamed arguments. I’ll talk about unnamed arguments later in Section &#64;ref(dotsargument), but for now let’s just ignore this detail.]</p>
+<p>… in which case Python outputs the answer 36.6, just as if it were a calculator. However, that’s not the only way to do the calculations, and when the number of observations starts to become large, it’s easily the most tedious. Besides, in almost every real world scenario, you’ve already got the actual numbers stored in a variable of some kind, just like we have with the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That’s what the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
 
 <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">66</span><span class="n">c7db03f806</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">margins</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6213
 </pre></div>
 </div>
 </div>
@@ -739,7 +682,7 @@ Name: afl.margins, dtype: int64
 </div>
 </div>
 </div>
-<p>To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:</p>
+<p>Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am <strong>not</strong> going to get into this now, but we’ll get back to it in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>. To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span>
@@ -767,7 +710,7 @@ following command:</p>
 </div>
 </div>
 </div>
-<p>However, since <code class="docutils literal notranslate"><span class="pre">x</span></code> is the first argument to the function, I could have omitted the argument name. In any case, just to show you that there’s nothing funny going on, here’s what we would do to calculate the mean for the first five observations:</p>
+<p>Here’s what we would do to calculate the mean for only the first five observations:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
@@ -784,19 +727,21 @@ following command:</p>
 </div>
 <div class="section" id="the-median">
 <h3><span class="section-number">1.1.3. </span>The median<a class="headerlink" href="#the-median" title="Permalink to this headline">¶</a></h3>
-<p>The second measure of central tendency that people use a lot is the <strong><em>median</em></strong>, and it’s even easier to describe than the mean. The median of a set of observations is just the middle value. As before let’s imagine we were interested only in the first 5 AFL winning margins: 56, 31, 56, 8 and 32. To figure out the median, we sort these numbers into ascending order:
-$<span class="math notranslate nohighlight">\(
+<p>The second measure of central tendency that people use a lot is the <strong><em>median</em></strong>, and it’s even easier to describe than the mean. The median of a set of observations is just the middle value. As before let’s imagine we were interested only in the first 5 AFL winning margins: 56, 31, 56, 8 and 32. To figure out the median, we sort these numbers into ascending order:</p>
+<div class="math notranslate nohighlight">
+\[
 8, 31, \mathbf{32}, 56, 56
-\)</span><span class="math notranslate nohighlight">\(
-From inspection, it's obvious that the median value of these 5 observations is 32, since that's the middle one in the sorted list (I've put it in bold to make it even more obvious). Easy stuff. But what should we do if we were interested in the first 6 games rather than the first 5? Since the sixth game in the season had a winning margin of 14 points, our sorted list is now 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>From inspection, it’s obvious that the median value of these 5 observations is 32, since that’s the middle one in the sorted list (I’ve put it in bold to make it even more obvious). Easy stuff. But what should we do if we were interested in the first 6 games rather than the first 5? Since the sixth game in the season had a winning margin of 14 points, our sorted list is now</p>
+<div class="math notranslate nohighlight">
+\[
 8, 14, \mathbf{31}, \mathbf{32}, 56, 56
-\)</span>$
-and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use R to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort()</span></code> function (discussed in Chapter &#64;ref(datahandling)) to display the winning margins in increasing numerical order:</p>
+\]</div>
+<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use Python to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> method to display the winning margins in increasing numerical order. <a class="footnote-reference brackets" href="#note3" id="id3">3</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
-<span class="n">sorted_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
+<span class="n">sorted_margins</span><span class="p">[</span><span class="mi">84</span><span class="p">:</span><span class="mi">92</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -824,33 +769,46 @@ and there are <em>two</em> middle numbers, 31 and 32. The median is defined as t
   </thead>
   <tbody>
     <tr>
-      <th>95</th>
-      <td>0</td>
+      <th>165</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>128</th>
-      <td>0</td>
+      <th>173</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>67</th>
-      <td>1</td>
+      <th>150</th>
+      <td>29</td>
     </tr>
     <tr>
-      <th>84</th>
-      <td>1</td>
+      <th>117</th>
+      <td>30</td>
     </tr>
     <tr>
-      <th>155</th>
-      <td>1</td>
+      <th>1</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>33</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>The middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
+<p>If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+<span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -861,21 +819,25 @@ and there are <em>two</em> middle numbers, 31 and 32. The median is defined as t
 </div>
 </div>
 <p>which outputs the median value of 30.5.</p>
+<p>By the way, in the code above, I imported the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> package. Actually, I didn’t really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time (unless I forget, or it just seems unnecessary), but you won’t need to do this when you are writing your own code, and in fact it will just make your code messier if you do.</p>
 </div>
 <div class="section" id="mean-or-median-what-s-the-difference">
 <h3><span class="section-number">1.1.4. </span>Mean or median? What’s the difference?<a class="headerlink" href="#mean-or-median-what-s-the-difference" title="Permalink to this headline">¶</a></h3>
-<a class="reference internal image-reference" href="_images/meanmedian.png"><img alt="meanmedian" class="align-center" src="_images/meanmedian.png" style="width: 600px;" /></a>
-<p>Knowing how to calculate means and medians is only a part of the story. You also need to understand what each one is saying about the data, and what that implies for when you should use each one. This is illustrated in Figure &#64;ref(fig:meanmedian) the mean is kind of like the “centre of gravity” of the data set, whereas the median is the “middle value” in the data. What this implies, as far as which one you should use, depends a little on what type of data you’ve got and what you’re trying to achieve. As a rough guide:</p>
-<ul class="simple">
-<li><p>If your data are nominal scale, you probably shouldn’t be using either the mean or the median. Both the mean and the median rely on the idea that the numbers assigned to values are meaningful. If the numbering scheme is arbitrary, then it’s probably best to use the mode (Section &#64;ref(mode)) instead.</p></li>
-<li><p>If your data are ordinal scale, you’re more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn’t depend on the precise numbers involved. That’s exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it’s not really appropriate for ordinal data.</p></li>
-<li><p>For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you’re trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don’t have a lot of data), but it’s very sensitive to extreme values, as we’ll see in Section &#64;ref(trimmedmean).</p></li>
-</ul>
-<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (skewed; see Section &#64;ref(skewandkurtosis)). This is illustrated in Figure &#64;ref(fig:meanmedian) notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
+<div class="figure align-center" id="fig-meanmedian">
+<a class="reference internal image-reference" href="_images/meanmedian.png"><img alt="_images/meanmedian.png" src="_images/meanmedian.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1.2 </span><span class="caption-text">An illustration of the difference between how the mean and the median should be interpreted. The mean is basically the “centre of gravity” of the data set: if you imagine that the histogram of the data is a solid object, then the point on which you could balance it (as if on a see-saw) is the mean. In contrast, the median is the middle observation. Half of the observations are smaller, and half of the observations are larger.</span><a class="headerlink" href="#fig-meanmedian" title="Permalink to this image">¶</a></p>
 </div>
-<div class="section" id="a-real-life-example-housingpriceexample">
-<h3><span class="section-number">1.1.5. </span>A real life example{#housingpriceexample}<a class="headerlink" href="#a-real-life-example-housingpriceexample" title="Permalink to this headline">¶</a></h3>
-<p>To try to get a sense of why you need to pay attention to the differences between the mean and the median, let’s consider a real life example. Since I tend to mock journalists for their poor scientific and statistical knowledge, I should give credit where credit is due. This is from an excellent article on the ABC news website^[www.abc.net.au/news/stories/2010/09/24/3021480.htm] 24 September, 2010:</p>
+<p>Knowing how to calculate means and medians is only a part of the story. You also need to understand what each one is saying about the data, and what that implies for when you should use each one. This is illustrated in {ref}the figure above <fig-meanmedian>. The mean is kind of like the “centre of gravity” of the data set, whereas the median is the “middle value” in the data. What this implies, as far as which one you should use, depends a little on what type of data you’ve got and what you’re trying to achieve. As a rough guide:</p>
+<ul class="simple">
+<li><p>If your data are nominal scale, you probably shouldn’t be using either the mean or the median. Both the mean and the median rely on the idea that the numbers assigned to values are meaningful. If the numbering scheme is arbitrary, then it’s probably best to use the <a class="reference internal" href="#mode"><span class="std std-ref">Mode</span></a> instead.</p></li>
+<li><p>If your data are ordinal scale, you’re more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn’t depend on the precise numbers involved. That’s exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it’s not really appropriate for ordinal data.</p></li>
+<li><p>For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you’re trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don’t have a lot of data), but it’s very sensitive to extreme values, as we’ll see in <a class="reference internal" href="#trimmed-mean"><span class="std std-ref">Trimmed mean</span></a>.</p></li>
+</ul>
+<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (skewed; see <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">Skew and kurtosis</span></a>). This is illustrated in {ref}the figure above <fig-meanmedian>. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
+</div>
+<div class="section" id="a-real-life-example">
+<h3><span class="section-number">1.1.5. </span>A real life example<a class="headerlink" href="#a-real-life-example" title="Permalink to this headline">¶</a></h3>
+<p>To try to get a sense of why you need to pay attention to the differences between the mean and the median, let’s consider a real life example. Since I tend to mock journalists for their poor scientific and statistical knowledge, I should give credit where credit is due. This is from an excellent article on the ABC news website <a class="footnote-reference brackets" href="#note4" id="id4">4</a> 24 September, 2010:</p>
 <blockquote>
 <div><p>Senior Commonwealth Bank executives have travelled the world in the past couple of weeks with a presentation showing how Australian house prices, and the key price to income ratios, compare favourably with similar countries. “Housing affordability has actually been going sideways for the last five to six years,” said Craig James, the chief economist of the bank’s trading arm, CommSec.</p>
 </div></blockquote>
@@ -897,17 +859,19 @@ and there are <em>two</em> middle numbers, 31 and 32. The median is defined as t
 </div></blockquote>
 <p>My, my.</p>
 </div>
-<div class="section" id="trimmed-mean-trimmedmean">
-<h3><span class="section-number">1.1.6. </span>Trimmed mean{#trimmedmean}<a class="headerlink" href="#trimmed-mean-trimmedmean" title="Permalink to this headline">¶</a></h3>
-<p>One of the fundamental rules of applied statistics is that the data are messy. Real life is never simple, and so the data sets that you obtain are never as straightforward as the statistical theory says.^[Or at least, the basic statistical theory – these days there is a whole subfield of statistics called <em>robust statistics</em> that tries to grapple with the messiness of real data and develop theory that can cope with it.] This can have awkward consequences. To illustrate, consider this rather strange looking data set:
-$<span class="math notranslate nohighlight">\(
+<div class="section" id="trimmed-mean">
+<span id="id5"></span><h3><span class="section-number">1.1.6. </span>Trimmed mean<a class="headerlink" href="#trimmed-mean" title="Permalink to this headline">¶</a></h3>
+<p>One of the fundamental rules of applied statistics is that the data are messy. Real life is never simple, and so the data sets that you obtain are never as straightforward as the statistical theory says. <a class="footnote-reference brackets" href="#note5" id="id6">5</a> This can have awkward consequences. To illustrate, consider this rather strange looking data set:</p>
+<div class="math notranslate nohighlight">
+\[
 -100,2,3,4,5,6,7,8,9,10
-\)</span><span class="math notranslate nohighlight">\(
-If you were to observe this in a real life data set, you'd probably suspect that something funny was going on with the \)</span>-100<span class="math notranslate nohighlight">\( value. It's probably an **_outlier_**, a value that doesn't really belong with the others. You might consider removing it from the data set entirely, and in this particular case I'd probably agree with that course of action. In real life, however, you don't always get such cut-and-dried examples. For instance, you might get this instead:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>If you were to observe this in a real life data set, you’d probably suspect that something funny was going on with the <span class="math notranslate nohighlight">\(-100\)</span> value. It’s probably an <strong><em>outlier</em></strong>, a value that doesn’t really belong with the others. You might consider removing it from the data set entirely, and in this particular case I’d probably agree with that course of action. In real life, however, you don’t always get such cut-and-dried examples. For instance, you might get this instead:</p>
+<div class="math notranslate nohighlight">
+\[
 -15,2,3,4,5,6,7,8,9,12
-\)</span><span class="math notranslate nohighlight">\(
-The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspicious, but not anywhere near as much as that \)</span>-100$ did. In this case, it’s a little trickier. It <em>might</em> be a legitimate observation, it might not.</p>
+\]</div>
+<p>The <span class="math notranslate nohighlight">\(-15\)</span> looks a bit suspicious, but not anywhere near as much as that <span class="math notranslate nohighlight">\(-100\)</span> did. In this case, it’s a little trickier. It <em>might</em> be a legitimate observation, it might not.</p>
 <p>When faced with a situation where some of the most extreme-valued observations might not be quite trustworthy, the mean is not necessarily a good measure of central tendency. It is highly sensitive to one or two extreme values, and is thus not considered to be a <strong><em>robust</em></strong> measure. One remedy that we’ve seen is to use the median. A more general solution is to use a “trimmed mean”.  To calculate a trimmed mean, what you do is “discard” the most extreme examples on both ends (i.e., the largest and the smallest), and then take the mean of everything else. The goal is to preserve the best characteristics of the mean and the median: just like a median, you aren’t highly influenced by extreme outliers, but like the mean, you “use” more than one of the observations. Generally, we describe a trimmed mean in terms of the percentage of observation on either side that are discarded. So, for instance, a 10% trimmed mean discards the largest 10% of the observations <em>and</em> the smallest 10% of the observations, and then takes the mean of the remaining 80% of the observations. Not surprisingly, the 0% trimmed mean is just the regular mean, and the 50% trimmed mean is the median. In that sense, trimmed means provide a whole family of central tendency measures that span the range from the mean to the median.</p>
 <p>For our toy example above, we have 10 observations, and so a 10% trimmed mean is calculated by ignoring the largest value (i.e., <code class="docutils literal notranslate"><span class="pre">12</span></code>) and the smallest value (i.e., <code class="docutils literal notranslate"><span class="pre">-15</span></code>) and taking the mean of the remaining values. First, let’s enter the data</p>
 <div class="cell docutils container">
@@ -943,12 +907,11 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </div>
 </div>
 </div>
-<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
+<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id7">6</a>, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="c1"># EXPLAIN WHY WE NEED NUMPY: scipy.stats operates on np arrays, not lists.</span>
 <span class="n">dataset2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 
 <span class="n">stats</span><span class="o">.</span><span class="n">trim_mean</span><span class="p">(</span><span class="n">dataset2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
@@ -961,7 +924,7 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </div>
 </div>
 </div>
-<p>which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">.1</span></code>, not <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">10</span></code>. In any case, let’s finish up by calculating the 5% trimmed mean for the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data,</p>
+<p>which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">.1</span></code>, not <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">10</span></code>. In any case, let’s finish up by calculating the 5% trimmed mean for the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -977,11 +940,11 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </div>
 </div>
 <div class="section" id="mode">
-<h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
-<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable is a factor that contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">head()</span></code> command. <code class="docutils literal notranslate"><span class="pre">head()</span></code> is useful when you’re working with a data.frame with a lot of rows since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl.finalists using <code class="docutils literal notranslate"><span class="pre">print(afl.finalists)</span></code> will just fill us the screen. The command below tells R we just want the first 25 rows of the data.frame.</p>
+<span id="id8"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
+<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">.head()</span></code> method. <code class="docutils literal notranslate"><span class="pre">.head()</span></code> is a method that can be used when the data is contained in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> object (which ours is). It can be useful when you’re working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using <code class="docutils literal notranslate"><span class="pre">print(afl_finalists)</span></code> will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1112,10 +1075,10 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </table>
 </div></div></div>
 </div>
-<p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">table()</span></code> function (discussed in more detail in Section &#64;ref(freqtables)) to do this task for us:</p>
+<p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> method to do this task for us:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finalists</span> <span class="o">=</span> <span class="n">df_afl_finalists</span><span class="p">[</span><span class="s1">&#39;afl.finalists&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finalists</span> <span class="o">=</span> <span class="n">afl_finalists</span><span class="p">[</span><span class="s1">&#39;afl.finalists&#39;</span><span class="p">]</span>
 <span class="n">finalists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1124,19 +1087,19 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
-Melbourne           28
 Collingwood         28
+Melbourne           28
+North Melbourne     28
 Hawthorn            27
-Carlton             26
-Adelaide            26
 Sydney              26
+Adelaide            26
+Carlton             26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1155,7 +1118,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 </div>
-<p>If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with <code class="docutils literal notranslate"><span class="pre">.value_counts</span></code> and then find the largest value with <code class="docutils literal notranslate"><span class="pre">.max</span></code></p>
+<p>If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> and then find the largest value with <code class="docutils literal notranslate"><span class="pre">max</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="n">finalists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -1170,7 +1133,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 <p>Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.</p>
-<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read Section &#64;ref(scales)), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin^[This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.] For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
+<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read <a class="reference internal" href="01.02-studydesign.html#scales-of-measurement"><span class="std std-ref">Scales of measurement</span></a>), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin. <a class="footnote-reference brackets" href="#note7" id="id9">7</a> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -1201,22 +1164,23 @@ Name: afl.finalists, dtype: int64
 </div>
 <div class="section" id="measures-of-variability">
 <h2><span class="section-number">1.2. </span>Measures of variability<a class="headerlink" href="#measures-of-variability" title="Permalink to this headline">¶</a></h2>
-<p>The statistics that we’ve discussed so far all relate to <em>central tendency</em>. That is, they all talk about which values are “in the middle” or “popular” in the data. However, central tendency is not the only type of summary statistic that we want to calculate. The second thing that we really want is a measure of the <strong><em>variability</em></strong> of the data. That is, how “spread out” are the data? How “far” away from the mean or median do the observed values tend to be? For now, let’s assume that the data are interval or ratio scale, so we’ll continue to use the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data.  We’ll use this data to discuss several different measures of spread, each with different strengths and weaknesses.</p>
+<p>The statistics that we’ve discussed so far all relate to <em>central tendency</em>. That is, they all talk about which values are “in the middle” or “popular” in the data. However, central tendency is not the only type of summary statistic that we want to calculate. The second thing that we really want is a measure of the <strong><em>variability</em></strong> of the data. That is, how “spread out” are the data? How “far” away from the mean or median do the observed values tend to be? For now, let’s assume that the data are interval or ratio scale, so we’ll continue to use the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data.  We’ll use this data to discuss several different measures of spread, each with different strengths and weaknesses.</p>
 <div class="section" id="range">
 <h3><span class="section-number">1.2.1. </span>Range<a class="headerlink" href="#range" title="Permalink to this headline">¶</a></h3>
 <p>The <strong><em>range</em></strong> of a variable is very simple: it’s the biggest value minus the smallest value. For the AFL winning margins data, the maximum value is 116, and the minimum value is 0. We can calculate these values in Python using the <code class="docutils literal notranslate"><span class="pre">max()</span></code> and <code class="docutils literal notranslate"><span class="pre">min()</span></code> functions:</p>
 <p><code class="docutils literal notranslate"><span class="pre">margins.max()</span></code><br />
 <code class="docutils literal notranslate"><span class="pre">margins.min()</span></code></p>
 <p>where I’ve omitted the output because it’s not interesting.</p>
-<p>Although the range is the simplest way to quantify the notion of “variability”, it’s one of the worst. Recall from our discussion of the mean that we want our summary measure to be robust. If the data set has one or two extremely bad values in it, we’d like our statistics not to be unduly influenced by these cases. If we look once again at our toy example of a data set containing very extreme outliers…
-$<span class="math notranslate nohighlight">\(
+<p>Although the range is the simplest way to quantify the notion of “variability”, it’s one of the worst. Recall from our discussion of the mean that we want our summary measure to be robust. If the data set has one or two extremely bad values in it, we’d like our statistics not to be unduly influenced by these cases. If we look once again at our toy example of a data set containing very extreme outliers…</p>
+<div class="math notranslate nohighlight">
+\[
 -100,2,3,4,5,6,7,8,9,10
-\)</span>$
-… it is clear that the range is not robust, since this has a range of 110, but if the outlier were removed we would have a range of only 8.</p>
+\]</div>
+<p>… it is clear that the range is not robust, since this has a range of 110, but if the outlier were removed we would have a range of only 8.</p>
 </div>
 <div class="section" id="interquartile-range">
 <h3><span class="section-number">1.2.2. </span>Interquartile range<a class="headerlink" href="#interquartile-range" title="Permalink to this headline">¶</a></h3>
-<p>The <strong><em>interquartile range</em></strong> (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a <strong><em>quantile</em></strong> is (they’re more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number <span class="math notranslate nohighlight">\(x\)</span> such that 10% of the data is less than <span class="math notranslate nohighlight">\(x\)</span>. In fact, we’ve already come across the idea: the median of a data set is its 50th quantile / percentile! R actually provides you with a way of calculating quantiles, using the (surprise, surprise) <code class="docutils literal notranslate"><span class="pre">quantile()</span></code> function. Let’s use it to calculate the median AFL winning margin:</p>
+<p>The <strong><em>interquartile range</em></strong> (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a <strong><em>quantile</em></strong> is (they’re more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number <span class="math notranslate nohighlight">\(x\)</span> such that 10% of the data is less than <span class="math notranslate nohighlight">\(x\)</span>. In fact, we’ve already come across the idea: the median of a data set is its 50th quantile / percentile! The <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module actually provides you with a way of calculating quantiles, using the (surprise, surprise) <code class="docutils literal notranslate"><span class="pre">quantile()</span></code> function. Let’s use it to calculate the median AFL winning margin:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1230,7 +1194,7 @@ $<span class="math notranslate nohighlight">\(
 </div>
 </div>
 </div>
-<p>And not surprisingly, this agrees with the answer that we saw earlier with the <code class="docutils literal notranslate"><span class="pre">median()</span></code> function. Now, we can actually input lots of quantiles at once, by specifying a vector for the <code class="docutils literal notranslate"><span class="pre">probs</span></code> argument. So lets do that, and get the 25th and 75th percentile:</p>
+<p>And not surprisingly, this agrees with the answer that we saw earlier with the <code class="docutils literal notranslate"><span class="pre">median()</span></code> function. Now, we can actually input lots of quantiles at once, by specifying which quantiles we want. So lets do that, and get the 25th and 75th percentile:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">.</span><span class="mi">75</span><span class="p">])</span>
@@ -1243,7 +1207,7 @@ $<span class="math notranslate nohighlight">\(
 </div>
 </div>
 </div>
-<p>And, by noting that <span class="math notranslate nohighlight">\(50.5 - 12.75 = 37.75\)</span>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so R has a built in function called <code class="docutils literal notranslate"><span class="pre">IQR()</span></code> that we can use:</p>
+<p>And, by noting that <span class="math notranslate nohighlight">\(50.5 - 12.75 = 37.75\)</span>, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so we can again use the <code class="docutils literal notranslate"><span class="pre">iqr.stats</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to give us what we want.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -1261,12 +1225,12 @@ $<span class="math notranslate nohighlight">\(
 </div>
 <div class="section" id="variance">
 <h3><span class="section-number">1.2.3. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
-<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore,^[Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.] and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:
-$<span class="math notranslate nohighlight">\(
+<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{Var}(X) = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
-\)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\(\mbox{Var}(X) = \frac{\sum_{i=1}^N \left( X_i - \bar{X} \right)^2}{N}\)</span>$
-As you can see, it’s basically the same formula that we used to calculate the mean absolute deviation, except that instead of using “absolute deviations” we use “squared deviations”. It is for this reason that the variance is sometimes referred to as the “mean square deviation”.</p>
+\]</div>
+<p>As you can see, it’s basically the same formula that we used to calculate the mean absolute deviation, except that instead of using “absolute deviations” we use “squared deviations”. It is for this reason that the variance is sometimes referred to as the “mean square deviation”.</p>
 <p>Now that we’ve got the basic idea, let’s have a look at a concrete example. Once again, let’s use the first five AFL games as our data. If we follow the same approach that we took last time, we end up with the following table:</p>
 <table class="colwidths-auto table">
 <thead>
@@ -1341,7 +1305,7 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </tr>
 </tbody>
 </table>
-<p>That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into R by hand…</p>
+<p>That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into Python by hand…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="mf">376.36</span> <span class="o">+</span> <span class="mf">31.36</span> <span class="o">+</span> <span class="mf">376.36</span> <span class="o">+</span> <span class="mf">817.96</span> <span class="o">+</span> <span class="mf">21.16</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
@@ -1356,7 +1320,7 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </div>
 <p>… we end up with a variance of 324.64. Exciting, isn’t it? For the moment, let’s ignore the burning question that you’re all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in R, because this will reveal something very weird.</p>
 <p>As always, we want to avoid having to type in a whole lot of numbers ourselves.</p>
-<p>and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, R has a built in function called <code class="docutils literal notranslate"><span class="pre">var()</span></code> which does calculate variances. So we could also do this…</p>
+<p>and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a function called <code class="docutils literal notranslate"><span class="pre">var()</span></code> which does calculate variances. So we could also do this…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
@@ -1370,7 +1334,7 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </div>
 </div>
 </div>
-<p>and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we’ll discuss in Chapter &#64;ref(estimation), there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. To calculate the population parameter, we need to make a small adjustment:</p>
+<p>and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we’ll discuss in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. To calculate the population parameter, we need to make a small adjustment:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
@@ -1388,15 +1352,17 @@ As you can see, it’s basically the same formula that we used to calculate the 
 </div>
 <div class="section" id="standard-deviation">
 <h3><span class="section-number">1.2.4. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
-<p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves out problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:
-$<span class="math notranslate nohighlight">\(
+<p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves our problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:</p>
+<div class="math notranslate nohighlight">
+\[
 s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
-\)</span><span class="math notranslate nohighlight">\(
-and the R function that we use to calculate it is `sd()`. However, as you might have guessed from our discussion of the variance, what R actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what R calculates is a version that divides by \)</span>N-1<span class="math notranslate nohighlight">\( rather than \)</span>N<span class="math notranslate nohighlight">\(. For reasons that will make sense when we return to this topic in Chapter&#64;refch:estimation I'll refer to this new quantity as \)</span>\hat\sigma<span class="math notranslate nohighlight">\( (read as: &quot;sigma hat&quot;), and the formula for this is
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>and the function that we use to calculate it is <code class="docutils literal notranslate"><span class="pre">stdev()</span></code>. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>. For reasons that will make sense when we return to this topic in the Chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, I’ll refer to this new quantity as <span class="math notranslate nohighlight">\(\hat\sigma\)</span> (read as: “sigma hat”), and the formula for this is</p>
+<div class="math notranslate nohighlight">
+\[
 \hat\sigma = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
-\)</span>$
-With that in mind, calculating standard deviations in R is simple:</p>
+\]</div>
+<p>With that in mind, calculating standard deviations in Python is simple:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -1409,9 +1375,11 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 </div>
-<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”.^[Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.] As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in Figure &#64;ref(fig:aflsd).</p>
-<a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="mean-SD" class="align-center" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
-<p>Figure XX: An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</p>
+<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id11">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <a class="reference internal" href="#fig-aflsd"><span class="std std-numref">Fig. 1.3</span></a>.</p>
+<div class="figure align-center" id="fig-aflsd">
+<a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="_images/figure_2.5_mean_SD.png" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1.3 </span><span class="caption-text">An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</span><a class="headerlink" href="#fig-aflsd" title="Permalink to this image">¶</a></p>
+</div>
 </div>
 <div class="section" id="median-absolute-deviation">
 <h3><span class="section-number">1.2.5. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
@@ -1420,7 +1388,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 <blockquote>
 <div><p>The median winning margin in 2010 was 30.5, indicating that a typical game involved a winning margin of about 30 points. However, there was a fair amount of variation from game to game: the MAD value was 19.5, indicating that a typical winning margin would differ from this median value by about 19-20 points.</p>
 </div></blockquote>
-<p>As you’d expect, R has a built in function for calculating MAD, and you will be shocked no doubt to hear that it’s called <code class="docutils literal notranslate"><span class="pre">mad()</span></code>. However, it’s a little bit more complicated than the functions that we’ve been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a <code class="docutils literal notranslate"><span class="pre">constant</span></code> that I’ll explain in a moment. For our purposes, the constant is 1, so our command becomes</p>
+<p>As you’d expect, Python has a method for calculating MAD. It is in the <code class="docutils literal notranslate"><span class="pre">robust</span></code> object from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package, and you will be shocked no doubt to hear that it’s called <code class="docutils literal notranslate"><span class="pre">mad()</span></code>. However, it’s a little bit more complicated than the functions that we’ve been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a <code class="docutils literal notranslate"><span class="pre">constant</span></code> that I’ll explain in a moment. For our purposes, the constant is 1, so our command becomes</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1450,7 +1418,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 </div>
-<p>I should point out, though, that if you want to use this “corrected” MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are “supposed to be” in some sense) symmetric and basically shaped like a bell curve. That’s really <em>not</em> true for our <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data, so in this case I wouldn’t try to use the MAD value this way.</p>
+<p>I should point out, though, that if you want to use this “corrected” MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are “supposed to be” in some sense) symmetric and basically shaped like a bell curve. That’s really <em>not</em> true for our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, so in this case I wouldn’t try to use the MAD value this way.</p>
 </div>
 <div class="section" id="which-measure-to-use">
 <h3><span class="section-number">1.2.6. </span>Which measure to use?<a class="headerlink" href="#which-measure-to-use" title="Permalink to this headline">¶</a></h3>
@@ -1466,7 +1434,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1483,25 +1451,35 @@ With that in mind, calculating standard deviations in R is simple:</p>
 <span class="n">df_skew</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 
 <span class="c1"># plot histograms of the data</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Skew&quot;</span><span class="p">,</span>
-    <span class="n">binwidth</span><span class="o">=.</span><span class="mi">02</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Skew&quot;</span><span class="p">,</span>
+        <span class="n">binwidth</span><span class="o">=.</span><span class="mi">02</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
+
+<span class="c1"># This is just for the purposes of putting this figure in this book. Feel free to ignore!</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;skew_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x142c206a0&gt;
+<img alt="_images/03.01-descriptives_74_1.png" src="_images/03.01-descriptives_74_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-skew" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x131920c70&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_72_1.png" src="_images/03.01-descriptives_72_1.png" />
 </div>
+<p class="caption"><span class="caption-number">Fig. 1.4 </span><span class="caption-text">An illustration of skewness. On the left we have a negatively skewed data set (skewness “  ́.93), in the middle we have a data set with no skew (technically, skewness “  ́.006), and on the right we have a positively skewed data set (skewness “ .93).</span><a class="headerlink" href="#fig-skew" title="Permalink to this image">¶</a></p>
 </div>
-<p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As Figure &#64;ref(fig:skewness) illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows
-$<span class="math notranslate nohighlight">\(
+<p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As <a class="reference internal" href="#fig-skew"><span class="std std-numref">Fig. 1.4</span></a> illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{skewness}(X) = \frac{1}{N \hat{\sigma}^3} \sum_{i=1}^N (X_i - \bar{X})^3
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>N<span class="math notranslate nohighlight">\( is the number of observations, \)</span>\bar{X}<span class="math notranslate nohighlight">\( is the sample mean, and \)</span>\hat{\sigma}<span class="math notranslate nohighlight">\( is the standard deviation (the &quot;divide by \)</span>N-1$” version, that is). Luckily, pandas already knows how to calculate skew:</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of observations, <span class="math notranslate nohighlight">\(\bar{X}\)</span> is the sample mean, and <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> is the standard deviation (the “divide by <span class="math notranslate nohighlight">\(N-1\)</span>” version, that is). Luckily, <code class="docutils literal notranslate"><span class="pre">pandas</span></code>
+already knows how to calculate skew:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skipna</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
@@ -1515,7 +1493,7 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
 </div>
 </div>
 <p>Not surprisingly, it turns out that the AFL winning margins data is fairly skewed.</p>
-<p>The final measure that is sometimes referred to, though very rarely in practice, is the <strong><em>kurtosis</em></strong> of a data set. Put simply, kurtosis is a measure of the “pointiness” of a data set, as illustrated in Figure &#64;ref(fig:kurtosis).</p>
+<p>The final measure that is sometimes referred to, though very rarely in practice, is the <strong><em>kurtosis</em></strong> of a data set. Put simply, kurtosis is a measure of the “pointiness” of a data set, as illustrated in <a class="reference internal" href="#fig-kurtosis"><span class="std std-numref">Fig. 1.5</span></a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                                                              
@@ -1537,12 +1515,23 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
     <span class="n">data</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">,</span>
     <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
+
+<span class="c1"># Again just ignore. This line is just here for the sake of figure captions and links.</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;kurtosis_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_76_0.png" src="_images/03.01-descriptives_76_0.png" />
+<img alt="_images/03.01-descriptives_79_1.png" src="_images/03.01-descriptives_79_1.png" />
 </div>
+</div>
+<div class="figure align-default" id="fig-kurtosis" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1367e0310&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 1.5 </span><span class="caption-text">An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis =  ́.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis “ 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).</span><a class="headerlink" href="#fig-kurtosis" title="Permalink to this image">¶</a></p>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
 <table class="colwidths-auto table">
@@ -1606,63 +1595,15 @@ Pearson:  3.0643495578651616
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">36</span><span class="o">-</span><span class="mi">8</span><span class="n">d9454989809</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>afl.margins</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>176.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>35.301136</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>26.073636</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>12.750000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>30.500000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>50.500000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>116.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
 <p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout (see Chapter &#64;ref(studydesign)) as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition,</p>
@@ -2109,7 +2050,7 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_99_1.png" src="_images/03.01-descriptives_99_1.png" />
+<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
 </div>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
@@ -2201,7 +2142,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_102_1.png" src="_images/03.01-descriptives_102_1.png" />
+<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2225,7 +2166,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_104_1.png" src="_images/03.01-descriptives_104_1.png" />
+<img alt="_images/03.01-descriptives_108_1.png" src="_images/03.01-descriptives_108_1.png" />
 </div>
 </div>
 </div>
@@ -2473,7 +2414,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
+<img alt="_images/03.01-descriptives_122_1.png" src="_images/03.01-descriptives_122_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2629,7 +2570,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
+<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
@@ -3189,8 +3130,32 @@ The death of millions is a statistic.</em></p>
 <p>Thus it is no small thing to say that the first task of the statistician and the scientist is to summarise the data, to find some collection of numbers that can convey to an audience a sense of what has happened. This is the job of descriptive statistics, but it’s not a job that can be told solely using the numbers. You are a data analyst, not a statistical software package. Part of your job is to take these <em>statistics</em> and turn them into a <em>description</em>. When you analyse data, it is not sufficient to list off a collection of numbers. Always remember that what you’re really trying to do is communicate with a human audience. The numbers are important, but they need to be put together into a meaningful story that your audience can interpret. That means you need to think about framing. You need to think about context. And you need to think about the individual events that your statistics are summarising.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="mynote1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Note for non-Australians: the AFL is an Australian rules football competition. You don’t need to know anything about Australian rules in order to follow this section.</p>
+</dd>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>The choice to use <span class="math notranslate nohighlight">\(\Sigma\)</span> to denote summation isn’t arbitrary: it’s the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there’s an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called “products”, we use the <span class="math notranslate nohighlight">\(\Pi\)</span> symbol for this; the Greek upper case pi, which is the analogue of the letter P.</p>
+</dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">sort_values</span></code>is a <em>method</em> that belong to <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <em>objects</em>. We’ll get back to this later in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>. For now, the important thing is that it works!</p>
+</dd>
+<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>www.abc.net.au/news/stories/2010/09/24/3021480.htm</p>
+</dd>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
+<dd><p>Or at least, the basic statistical theory – these days there is a whole subfield of statistics called <em>robust statistics</em> that tries to grapple with the messiness of real data and develop theory that can cope with it.</p>
+</dd>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
+<dd><p>Here I use the <code class="docutils literal notranslate"><span class="pre">stats</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module. But <code class="docutils literal notranslate"><span class="pre">stats</span></code> is picky, it only wants to deal with data in a certain format called <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">arrays</span></code>. So, to give it what it wants, we also need to import <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and then convert our data into an <code class="docutils literal notranslate"><span class="pre">array</span></code>. Also I only imported part of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module (you can do that) and renamed the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module. You can do that too, but this footnote is already getting much too long. We’ll get back to these things and much more in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>.</p>
+</dd>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id9">7</a></span></dt>
+<dd><p>This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.</p>
+</dd>
+<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
+<dd><p>Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}](X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.</p>
+</dd>
+<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">9</a></span></dt>
+<dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.</p>
 </dd>
 </dl>
 </div>

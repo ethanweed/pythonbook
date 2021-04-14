@@ -453,8 +453,8 @@
               <div>
                 
   <div class="section" id="estimating-unknown-quantities-from-a-sample">
-<h1><span class="section-number">3. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
-<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in Chapter &#64;ref(descriptives), the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections &#64;ref(srs) through &#64;ref(samplesandclt) are focused on sampling theory, and Sections &#64;ref(pointestimates) and &#64;ref(ci) make use of sampling theory to discuss how statisticians think about estimation.</p>
+<span id="estimation"></span><h1><span class="section-number">3. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
+<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">Descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections &#64;ref(srs) through &#64;ref(samplesandclt) are focused on sampling theory, and Sections &#64;ref(pointestimates) and &#64;ref(ci) make use of sampling theory to discuss how statisticians think about estimation.</p>
 <div class="section" id="samples-populations-and-sampling">
 <h2><span class="section-number">3.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p>In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
@@ -593,9 +593,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  106.93236478490292  Standard deviation:  20.92519871946323
-100 samples. Mean:  98.56303462603479  Standard deviation:  16.448157324794142
-10000 samples. Mean:  100.04047282085239  Standard deviation:  14.904888224891591
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  104.22017059516438  Standard deviation:  13.073137957889257
+100 samples. Mean:  102.15645476911777  Standard deviation:  14.99305044717724
+10000 samples. Mean:  100.16644250695653  Standard deviation:  15.191071602783028
 </pre></div>
 </div>
 </div>
@@ -626,8 +626,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [112  86 128 113 102]
-Mean of simulated data:  108
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 98 101 104 103 113]
+Mean of simulated data:  103
 </pre></div>
 </div>
 </div>
@@ -642,8 +642,8 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 91 113 132 111  97]
-Mean of simulated data:  108
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 98 101  93 104 120]
+Mean of simulated data:  103
 </pre></div>
 </div>
 </div>
@@ -695,66 +695,66 @@ Mean of simulated data:  108
     <tr>
       <th>count</th>
       <td>5.000000</td>
-      <td>5.000000</td>
+      <td>5.00000</td>
       <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>99.800000</td>
-      <td>96.600000</td>
-      <td>89.400000</td>
-      <td>90.800000</td>
-      <td>104.800000</td>
+      <td>107.600000</td>
+      <td>97.40000</td>
+      <td>98.000000</td>
+      <td>105.800000</td>
+      <td>106.400000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>17.079227</td>
-      <td>10.807405</td>
-      <td>15.142655</td>
-      <td>13.311649</td>
-      <td>29.046514</td>
+      <td>12.461942</td>
+      <td>4.97996</td>
+      <td>16.673332</td>
+      <td>9.731393</td>
+      <td>21.801376</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>73.000000</td>
-      <td>82.000000</td>
-      <td>76.000000</td>
-      <td>78.000000</td>
-      <td>74.000000</td>
+      <td>87.000000</td>
+      <td>92.00000</td>
+      <td>79.000000</td>
+      <td>94.000000</td>
+      <td>86.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>94.000000</td>
-      <td>88.000000</td>
-      <td>79.000000</td>
-      <td>78.000000</td>
-      <td>84.000000</td>
+      <td>108.000000</td>
+      <td>93.00000</td>
+      <td>83.000000</td>
+      <td>99.000000</td>
+      <td>87.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>107.000000</td>
+      <td>108.000000</td>
+      <td>98.00000</td>
       <td>104.000000</td>
-      <td>81.000000</td>
-      <td>90.000000</td>
-      <td>95.000000</td>
+      <td>105.000000</td>
+      <td>102.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>108.000000</td>
-      <td>104.000000</td>
-      <td>101.000000</td>
-      <td>100.000000</td>
-      <td>133.000000</td>
+      <td>117.000000</td>
+      <td>100.00000</td>
+      <td>105.000000</td>
+      <td>114.000000</td>
+      <td>121.000000</td>
     </tr>
     <tr>
       <th>max</th>
+      <td>118.000000</td>
+      <td>104.00000</td>
+      <td>119.000000</td>
       <td>117.000000</td>
-      <td>105.000000</td>
-      <td>110.000000</td>
-      <td>108.000000</td>
-      <td>138.000000</td>
+      <td>136.000000</td>
     </tr>
   </tbody>
 </table>
@@ -790,7 +790,7 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;79efface-7770-4edf-8000-9b5c73447275&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;0973cd1e-c58a-4112-acea-212b3f34abc5&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_19_1.png" src="_images/04.03-estimation_19_1.png" />
@@ -836,7 +836,7 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;e41f44c6-e8cf-4f94-946a-d9e523d29b6e&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;90ed92f1-1db5-42d7-9390-20e0ce0dd88e&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_22_1.png" src="_images/04.03-estimation_22_1.png" />
@@ -879,7 +879,7 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;5e28d2b6-be93-4fd2-ad2d-9bcc071d311a&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;a3e81bab-f913-43fe-905b-1ef1d5814f83&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_24_1.png" src="_images/04.03-estimation_24_1.png" />
@@ -904,7 +904,7 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c4838515-98f4-4bd0-ab19-4dccb7160cee&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;92c03424-f44f-4d09-ae9a-33e88ed0d042&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_26_1.png" src="_images/04.03-estimation_26_1.png" />
@@ -929,7 +929,7 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c609d25c-f8f8-46db-9fed-b5593471908c&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;b6269029-7e03-4b71-8661-101fdd74be57&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_28_1.png" src="_images/04.03-estimation_28_1.png" />
@@ -1113,7 +1113,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x139c33b80&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13f99f9a0&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_41_1.png" src="_images/04.03-estimation_41_1.png" />
@@ -1419,9 +1419,9 @@ Of course, there’s nothing special about the number 1.96: it just happens to b
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[17]
-[93.44851580524019]
-[103.7514841947598]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[45]
+[95.23630088840574]
+[105.64369911159426]
 </pre></div>
 </div>
 </div>
