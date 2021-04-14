@@ -819,7 +819,7 @@ following command:</p>
 </div>
 </div>
 <p>which outputs the median value of 30.5.</p>
-<p>By the way, in the code above, I imported the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> package. Actually, I didn’t really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time, but you won’t need to do this when you are writing your own code, and in fact it will just make your code messier if you do.</p>
+<p>By the way, in the code above, I imported the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> package. Actually, I didn’t really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time (unless I forget, or it just seems unnecessary), but you won’t need to do this when you are writing your own code, and in fact it will just make your code messier if you do.</p>
 </div>
 <div class="section" id="mean-or-median-what-s-the-difference">
 <h3><span class="section-number">1.1.4. </span>Mean or median? What’s the difference?<a class="headerlink" href="#mean-or-median-what-s-the-difference" title="Permalink to this headline">¶</a></h3>
@@ -907,12 +907,11 @@ following command:</p>
 </div>
 </div>
 </div>
-<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
+<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id7">6</a>:, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="c1"># EXPLAIN WHY WE NEED NUMPY: scipy.stats operates on np arrays, not lists.</span>
 <span class="n">dataset2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 
 <span class="n">stats</span><span class="o">.</span><span class="n">trim_mean</span><span class="p">(</span><span class="n">dataset2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
@@ -941,7 +940,7 @@ following command:</p>
 </div>
 </div>
 <div class="section" id="mode">
-<span id="id7"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
 <p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable is a factor that contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">head()</span></code> command. <code class="docutils literal notranslate"><span class="pre">head()</span></code> is useful when you’re working with a data.frame with a lot of rows since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl.finalists using <code class="docutils literal notranslate"><span class="pre">print(afl.finalists)</span></code> will just fill us the screen. The command below tells R we just want the first 25 rows of the data.frame.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1314,7 +1313,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id8"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3051,6 +3050,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
 <dd><p>Or at least, the basic statistical theory – these days there is a whole subfield of statistics called <em>robust statistics</em> that tries to grapple with the messiness of real data and develop theory that can cope with it.</p>
+</dd>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
+<dd><p>Here I use the <code class="docutils literal notranslate"><span class="pre">stats</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module. But <code class="docutils literal notranslate"><span class="pre">stats</span></code> is picky, it only wants to deal with data in a certain format called <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">arrays</span></code>. So, to give it what it wants, we also need to import <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and then convert our data into an <code class="docutils literal notranslate"><span class="pre">array</span></code>. Also I only imported part of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module (you can do that) and renamed the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module. You can do that too, but this footnote is already getting much too long. We’ll get back to these things and much more in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>.</p>
 </dd>
 </dl>
 </div>
