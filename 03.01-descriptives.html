@@ -732,11 +732,12 @@ following command:</p>
 \[
 8, 31, \mathbf{32}, 56, 56
 \]</div>
-<p>From inspection, it’s obvious that the median value of these 5 observations is 32, since that’s the middle one in the sorted list (I’ve put it in bold to make it even more obvious). Easy stuff. But what should we do if we were interested in the first 6 games rather than the first 5? Since the sixth game in the season had a winning margin of 14 points, our sorted list is now
-$<span class="math notranslate nohighlight">\(
+<p>From inspection, it’s obvious that the median value of these 5 observations is 32, since that’s the middle one in the sorted list (I’ve put it in bold to make it even more obvious). Easy stuff. But what should we do if we were interested in the first 6 games rather than the first 5? Since the sixth game in the season had a winning margin of 14 points, our sorted list is now</p>
+<div class="math notranslate nohighlight">
+\[
 8, 14, \mathbf{31}, \mathbf{32}, 56, 56
-\)</span>$
-and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use R to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort()</span></code> function (discussed in Chapter &#64;ref(datahandling)) to display the winning margins in increasing numerical order:</p>
+\]</div>
+<p>and there are <em>two</em> middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it’s very tedious to do this by hand when you’ve got lots of numbers. To illustrate this, here’s what happens when you use R to sort all 176 winning margins. First, I’ll use the <code class="docutils literal notranslate"><span class="pre">sort()</span></code> function (discussed in Chapter &#64;ref(datahandling)) to display the winning margins in increasing numerical order:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_margins</span> <span class="o">=</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
