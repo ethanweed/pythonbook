@@ -833,7 +833,7 @@ following command:</p>
 <li><p>If your data are ordinal scale, you’re more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn’t depend on the precise numbers involved. That’s exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it’s not really appropriate for ordinal data.</p></li>
 <li><p>For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you’re trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don’t have a lot of data), but it’s very sensitive to extreme values, as we’ll see in [](Trimmed mean).</p></li>
 </ul>
-<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (skewed; see Section &#64;ref(skewandkurtosis)). This is illustrated in Figure &#64;ref(fig:meanmedian) notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
+<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (skewed; see <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">Skew and kurtosis</span></a>). This is illustrated in {ref}the figure above <fig-meanmedian>. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
 </div>
 <div class="section" id="a-real-life-example">
 <h3><span class="section-number">1.1.5. </span>A real life example<a class="headerlink" href="#a-real-life-example" title="Permalink to this headline">¶</a></h3>
@@ -860,7 +860,7 @@ following command:</p>
 <p>My, my.</p>
 </div>
 <div class="section" id="trimmed-mean">
-<h3><span class="section-number">1.1.6. </span>Trimmed mean<a class="headerlink" href="#trimmed-mean" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3><span class="section-number">1.1.6. </span>Trimmed mean<a class="headerlink" href="#trimmed-mean" title="Permalink to this headline">¶</a></h3>
 <p>One of the fundamental rules of applied statistics is that the data are messy. Real life is never simple, and so the data sets that you obtain are never as straightforward as the statistical theory says.^[Or at least, the basic statistical theory – these days there is a whole subfield of statistics called <em>robust statistics</em> that tries to grapple with the messiness of real data and develop theory that can cope with it.] This can have awkward consequences. To illustrate, consider this rather strange looking data set:
 $<span class="math notranslate nohighlight">\(
 -100,2,3,4,5,6,7,8,9,10
@@ -939,7 +939,7 @@ The \)</span>-15<span class="math notranslate nohighlight">\( looks a bit suspic
 </div>
 </div>
 <div class="section" id="mode">
-<span id="id4"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
 <p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable is a factor that contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">head()</span></code> command. <code class="docutils literal notranslate"><span class="pre">head()</span></code> is useful when you’re working with a data.frame with a lot of rows since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl.finalists using <code class="docutils literal notranslate"><span class="pre">print(afl.finalists)</span></code> will just fill us the screen. The command below tells R we just want the first 25 rows of the data.frame.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1312,7 +1312,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1340,7 +1340,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x142c206a0&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_71_1.png" src="_images/03.01-descriptives_71_1.png" />
+<img alt="_images/03.01-descriptives_73_1.png" src="_images/03.01-descriptives_73_1.png" />
 </div>
 </div>
 <p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As Figure &#64;ref(fig:skewness) illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows
@@ -1387,7 +1387,7 @@ where \)</span>N<span class="math notranslate nohighlight">\( is the number of o
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_75_0.png" src="_images/03.01-descriptives_75_0.png" />
+<img alt="_images/03.01-descriptives_77_0.png" src="_images/03.01-descriptives_77_0.png" />
 </div>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
@@ -1955,7 +1955,7 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_98_1.png" src="_images/03.01-descriptives_98_1.png" />
+<img alt="_images/03.01-descriptives_100_1.png" src="_images/03.01-descriptives_100_1.png" />
 </div>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
@@ -2047,7 +2047,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_101_1.png" src="_images/03.01-descriptives_101_1.png" />
+<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2071,7 +2071,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
+<img alt="_images/03.01-descriptives_105_1.png" src="_images/03.01-descriptives_105_1.png" />
 </div>
 </div>
 </div>
@@ -2319,7 +2319,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_117_1.png" src="_images/03.01-descriptives_117_1.png" />
+<img alt="_images/03.01-descriptives_119_1.png" src="_images/03.01-descriptives_119_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2475,7 +2475,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_123_1.png" src="_images/03.01-descriptives_123_1.png" />
+<img alt="_images/03.01-descriptives_125_1.png" src="_images/03.01-descriptives_125_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
