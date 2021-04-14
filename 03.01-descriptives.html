@@ -907,7 +907,7 @@ following command:</p>
 </div>
 </div>
 </div>
-<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id7">6</a>:, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
+<p>That’s a fairly substantial difference, but I’m tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the <span class="math notranslate nohighlight">\(-15\)</span> one. So let’s just try trimming the mean a bit. If I take a 10% trimmed mean <a class="footnote-reference brackets" href="#note6" id="id7">6</a>, we’ll drop the extreme values on either side, and take the mean of the rest:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -924,7 +924,7 @@ following command:</p>
 </div>
 </div>
 </div>
-<p>which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">.1</span></code>, not <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">10</span></code>. In any case, let’s finish up by calculating the 5% trimmed mean for the <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> data,</p>
+<p>which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">.1</span></code>, not <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">10</span></code>. In any case, let’s finish up by calculating the 5% trimmed mean for the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -941,25 +941,141 @@ following command:</p>
 </div>
 <div class="section" id="mode">
 <span id="id8"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
-<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl.finalists</span></code> variable is a factor that contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">head()</span></code> command. <code class="docutils literal notranslate"><span class="pre">head()</span></code> is useful when you’re working with a data.frame with a lot of rows since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl.finalists using <code class="docutils literal notranslate"><span class="pre">print(afl.finalists)</span></code> will just fill us the screen. The command below tells R we just want the first 25 rows of the data.frame.</p>
+<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">.head()</span></code> method. <code class="docutils literal notranslate"><span class="pre">.head()</span></code> is a method that can be used when the data is contained in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> object (which ours is). It can be useful when you’re working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using <code class="docutils literal notranslate"><span class="pre">print(afl_finalists)</span></code> will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="mi">53</span><span class="n">a8a4b85aec</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;df_afl_finalists&#39; is not defined
-</pre></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.finalists</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Essendon</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Geelong</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Geelong</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>West Coast</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Essendon</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Collingwood</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-</div>
-</div>
-<p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">table()</span></code> function (discussed in more detail in Section &#64;ref(freqtables)) to do this task for us:</p>
+<p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> method to do this task for us:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finalists</span> <span class="o">=</span> <span class="n">df_afl_finalists</span><span class="p">[</span><span class="s1">&#39;afl.finalists&#39;</span><span class="p">]</span>
@@ -968,23 +1084,13 @@ following command:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
-West Coast          38
-Essendon            32
-North Melbourne     28
-Melbourne           28
-Collingwood         28
-Hawthorn            27
-Carlton             26
-Adelaide            26
-Sydney              26
-Brisbane            25
-Western Bulldogs    24
-St Kilda            24
-Port Adelaide       17
-Fremantle            6
-Richmond             6
-Name: afl.finalists, dtype: int64
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">18</span><span class="o">-</span><span class="n">b9d77ad96f90</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">finalists</span> <span class="o">=</span> <span class="n">df_afl_finalists</span><span class="p">[</span><span class="s1">&#39;afl.finalists&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">finalists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;df_afl_finalists&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -1017,7 +1123,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 <p>Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.</p>
-<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl.margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read Section &#64;ref(scales)), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin^[This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.] For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
+<p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read <a class="reference internal" href="01.02-studydesign.html#scales-of-measurement"><span class="std std-ref">Scales of measurement</span></a>), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin. <a class="footnote-reference brackets" href="#note7" id="id9">7</a> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
@@ -1313,7 +1419,7 @@ With that in mind, calculating standard deviations in R is simple:</p>
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id9"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id10"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3053,6 +3159,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
 <dd><p>Here I use the <code class="docutils literal notranslate"><span class="pre">stats</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module. But <code class="docutils literal notranslate"><span class="pre">stats</span></code> is picky, it only wants to deal with data in a certain format called <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">arrays</span></code>. So, to give it what it wants, we also need to import <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and then convert our data into an <code class="docutils literal notranslate"><span class="pre">array</span></code>. Also I only imported part of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module (you can do that) and renamed the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module. You can do that too, but this footnote is already getting much too long. We’ll get back to these things and much more in <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a>.</p>
+</dd>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id9">7</a></span></dt>
+<dd><p>This is called a “0-1 loss function”, meaning that you either win (1) or you lose (0), with no middle ground.</p>
 </dd>
 </dl>
 </div>
