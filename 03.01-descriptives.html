@@ -1087,16 +1087,16 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
-Melbourne           28
 North Melbourne     28
+Melbourne           28
+Collingwood         28
 Hawthorn            27
-Sydney              26
-Adelaide            26
 Carlton             26
+Adelaide            26
+Sydney              26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x131920c70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13abe2fd0&gt;
 </pre></div>
 </div>
 </div>
@@ -1503,34 +1503,74 @@ already knows how to calculate skew:</p>
 
 <span class="c1"># load some data</span>
 <span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata.csv&#39;</span>
+<span class="n">file1</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata.csv&#39;</span>
+<span class="n">file2</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata_ncurve.csv&#39;</span>
 
 <span class="n">cd</span><span class="p">(</span><span class="n">pathin</span><span class="p">)</span>
 
-<span class="n">df_kurtosis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">df_kurtosis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file1</span><span class="p">)</span>
+
+<span class="c1"># define a normal distribution with a mean of 0 and a standard deviation of 1</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">platykurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Platykurtic&quot;</span><span class="p">]</span>
+<span class="n">mesokurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Mesokurtic&quot;</span><span class="p">]</span>
+<span class="n">leptokurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Leptokurtic&quot;</span><span class="p">]</span>
 
 
-<span class="c1"># plot histograms of the data</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">,</span>
-    <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">platykurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mesokurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>  <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">leptokurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+
+
+<span class="n">ax1a</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax2a</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax3a</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+
+<span class="c1">#ax2 = ax.twinx()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Platykurtic</span><span class="se">\n\&quot;</span><span class="s2">too flat</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mesokurtic</span><span class="se">\n\&quot;</span><span class="s2">just right</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Leptokurtic</span><span class="se">\n\&quot;</span><span class="s2">too pointy</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+
+<span class="c1">#axes[0].tick_params(left=False, bottom=False, top=False, right=False, labelleft=False, labelbottom=False)</span>
+<span class="c1">#axes[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
+<span class="c1">#axes[2].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
+<span class="c1">#axes[0].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
+<span class="c1">#axes[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
+<span class="c1">#axes[2].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
+
+
+
+
+
 
 <span class="c1"># Again just ignore. This line is just here for the sake of figure captions and links.</span>
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;kurtosis_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#glue(&quot;kurtosis_fig&quot;, ax, display=False)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Leptokurtic\n&quot;too pointy&quot;&#39;)
+</pre></div>
+</div>
 <img alt="_images/03.01-descriptives_79_1.png" src="_images/03.01-descriptives_79_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1367e0310&gt;
-</pre></div>
-</div>
-</div>
 <p class="caption"><span class="caption-number">Fig. 1.5 </span><span class="caption-text">An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis =  ́.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis “ 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).</span><a class="headerlink" href="#fig-kurtosis" title="Permalink to this image">¶</a></p>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
@@ -1556,14 +1596,11 @@ already knows how to calculate skew:</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-The equation for kurtosis is pretty similar in spirit to the formulas we&#39;ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The &quot;$-3$&quot; part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a &quot;-3&quot; at the end of the formula, but there are good mathematical reasons for doing this.]
-$$
+<p>The equation for kurtosis is pretty similar in spirit to the formulas we’ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The “<span class="math notranslate nohighlight">\(-3\)</span>” part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a “-3” at the end of the formula, but there are good mathematical reasons for doing this.]
+$<span class="math notranslate nohighlight">\(
 \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3
-$$
-I know, it&#39;s not terribly interesting to me either. To make things worse, there are several different formulae for calculating kurtosis, so different statistics packages may give you different results, depending on which formula they use.  For instance, if we were to do this for the AFL margins, these three different methods give three different results:
-</pre></div>
-</div>
+\)</span>$
+I know, it’s not terribly interesting to me either. To make things worse, there are several different formulae for calculating kurtosis, so different statistics packages may give you different results, depending on which formula they use.  For instance, if we were to do this for the AFL margins, these three different methods give three different results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pandas: &quot;</span><span class="p">,</span> <span class="n">margins</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">())</span>
