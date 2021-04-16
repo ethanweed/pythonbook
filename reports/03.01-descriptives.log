@@ -17,14 +17,16 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-df_afl_margins.describe()
+afl_margins['blowouts'] = np.where(df_afl_margins['afl.margins'] > 50, True, False)
+afl_margins.head()
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-36-8d9454989809>[0m in [0;36m<module>[0;34m[0m
-[0;32m----> 1[0;31m [0mdf_afl_margins[0m[0;34m.[0m[0mdescribe[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m
+[0;32m<ipython-input-37-a92d574c09eb>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0mafl_margins[0m[0;34m[[0m[0;34m'blowouts'[0m[0;34m][0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mwhere[0m[0;34m([0m[0mdf_afl_margins[0m[0;34m[[0m[0;34m'afl.margins'[0m[0;34m][0m [0;34m>[0m [0;36m50[0m[0;34m,[0m [0;32mTrue[0m[0;34m,[0m [0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0mafl_margins[0m[0;34m.[0m[0mhead[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
 [0;31mNameError[0m: name 'df_afl_margins' is not defined
 NameError: name 'df_afl_margins' is not defined
 

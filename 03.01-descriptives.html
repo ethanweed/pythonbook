@@ -417,8 +417,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-an-overall-summary-of-a-variable-summary">
-   1.4. Getting an overall summary of a variable{#summary}
+  <a class="reference internal nav-link" href="#getting-an-overall-summary-of-a-variable">
+   1.4. Getting an overall summary of a variable
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -427,15 +427,15 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summarising-a-data-frame">
-     1.4.2. “Summarising” a data frame
+    <a class="reference internal nav-link" href="#describing-a-data-frame">
+     1.4.2. “Describing” a data frame
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#standard-scores-zscore">
-   1.5. Standard scores{#zscore}
+  <a class="reference internal nav-link" href="#standard-scores">
+   1.5. Standard scores
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1092,11 +1092,11 @@ Melbourne           28
 Collingwood         28
 Hawthorn            27
 Carlton             26
-Adelaide            26
 Sydney              26
+Adelaide            26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13abe2fd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13a002790&gt;
 </pre></div>
 </div>
 </div>
@@ -1529,32 +1529,26 @@ already knows how to calculate skew:</p>
 
 
 
-<span class="n">ax1a</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
-<span class="n">ax2a</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
-<span class="n">ax3a</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="c1">#ax1a = ax1.twinx()</span>
+<span class="c1">#ax2a = ax2.twinx()</span>
+<span class="c1">#ax3a = ax3.twinx()</span>
 
 <span class="c1">#ax2 = ax.twinx()</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="c1">#sns.lineplot(x=x,y=y, ax=ax1a, color=&#39;black&#39;)</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Platykurtic</span><span class="se">\n\&quot;</span><span class="s2">too flat</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mesokurtic</span><span class="se">\n\&quot;</span><span class="s2">just right</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Leptokurtic</span><span class="se">\n\&quot;</span><span class="s2">too pointy</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
 
-
-
-<span class="c1">#axes[0].tick_params(left=False, bottom=False, top=False, right=False, labelleft=False, labelbottom=False)</span>
-<span class="c1">#axes[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
-<span class="c1">#axes[2].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
-<span class="c1">#axes[0].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
-<span class="c1">#axes[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
-<span class="c1">#axes[2].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)</span>
-
-
-
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25000</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 
 
@@ -1564,10 +1558,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Leptokurtic\n&quot;too pointy&quot;&#39;)
-</pre></div>
-</div>
-<img alt="_images/03.01-descriptives_79_1.png" src="_images/03.01-descriptives_79_1.png" />
+<img alt="_images/03.01-descriptives_79_0.png" src="_images/03.01-descriptives_79_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -1619,35 +1610,15 @@ Pearson:  3.0643495578651616
 </div>
 <p>Take your pick, I guess? If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.</p>
 </div>
-<div class="section" id="getting-an-overall-summary-of-a-variable-summary">
-<h2><span class="section-number">1.4. </span>Getting an overall summary of a variable{#summary}<a class="headerlink" href="#getting-an-overall-summary-of-a-variable-summary" title="Permalink to this headline">¶</a></h2>
-<p>Up to this point in the chapter I’ve explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in R to calculate each one. However, it’s kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn’t it be nice if R had some helpful functions that would do all these tedious calculations at once? Something like <code class="docutils literal notranslate"><span class="pre">summary()</span></code> or <code class="docutils literal notranslate"><span class="pre">describe()</span></code>, perhaps? Why yes, yes it would. So much so that both of these functions exist. The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is in the <code class="docutils literal notranslate"><span class="pre">base</span></code> package, so it comes with every installation of R. The <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function is part of the <code class="docutils literal notranslate"><span class="pre">psych</span></code> package, which we loaded earlier in the chapter.</p>
+<div class="section" id="getting-an-overall-summary-of-a-variable">
+<h2><span class="section-number">1.4. </span>Getting an overall summary of a variable<a class="headerlink" href="#getting-an-overall-summary-of-a-variable" title="Permalink to this headline">¶</a></h2>
+<p>Up to this point in the chapter I’ve explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in Python to calculate each one. However, it’s kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn’t it be nice if Python had some helpful functions that would do all these tedious calculations at once? Something that <em>describes</em> the data? Maybe something like <code class="docutils literal notranslate"><span class="pre">describe()</span></code>, perhaps? Why yes, yes it would. So much so that this very function exists, available as a method for <code class="docutils literal notranslate"><span class="pre">pandas</span></code> objects.</p>
 <div class="section" id="summarising-a-variable">
 <h3><span class="section-number">1.4.1. </span>“Summarising” a variable<a class="headerlink" href="#summarising-a-variable" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is an easy thing to use, but a tricky thing to understand in full, since it’s a generic function (see Section &#64;ref(generics). The basic idea behind the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is that it prints out some useful information about whatever object (i.e., variable, as far as we’re concerned) you specify as the <code class="docutils literal notranslate"><span class="pre">object</span></code> argument. As a consequence, the behaviour of the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function differs quite dramatically depending on the class of the object that you give it. Let’s start by giving it a <em>numeric</em> object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">36</span><span class="o">-</span><span class="mi">8</span><span class="n">d9454989809</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
-</div>
-</div>
-<p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
-<p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout (see Chapter &#64;ref(studydesign)) as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition,</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">df_afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1671,43 +1642,82 @@ Pearson:  3.0643495578651616
     <tr style="text-align: right;">
       <th></th>
       <th>afl.margins</th>
-      <th>blowouts</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>56</td>
-      <td>True</td>
+      <th>count</th>
+      <td>176.000000</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>31</td>
-      <td>False</td>
+      <th>mean</th>
+      <td>35.301136</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>56</td>
-      <td>True</td>
+      <th>std</th>
+      <td>26.073636</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>8</td>
-      <td>False</td>
+      <th>min</th>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>32</td>
-      <td>False</td>
+      <th>25%</th>
+      <td>12.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>30.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>116.000000</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask R for a <code class="docutils literal notranslate"><span class="pre">summary()</span></code></p>
+<p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
+<p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout see <a class="reference internal" href="01.02-studydesign.html#studydesign"><span class="std std-ref">A brief introduction to research design</span></a> as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">37</span><span class="o">-</span><span class="n">a92d574c09eb</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask Python to <code class="docutils literal notranslate"><span class="pre">describe()</span></code> this data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>176
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1721,11 +1731,11 @@ Name: blowouts, dtype: object
 </div>
 </div>
 </div>
-<p>In this context, the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function gives us a count of the number of <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> values, the number of <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> values, and the number of missing values (i.e., the <code class="docutils literal notranslate"><span class="pre">NA</span></code>s). Pretty reasonable behaviour.</p>
+<p>In this context, <code class="docutils literal notranslate"><span class="pre">describe</span></code> gives us the total number of games (176), the number of categories for those games(2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable.</p>
 </div>
-<div class="section" id="summarising-a-data-frame">
-<h3><span class="section-number">1.4.2. </span>“Summarising” a data frame<a class="headerlink" href="#summarising-a-data-frame" title="Permalink to this headline">¶</a></h3>
-<p>Okay what about data frames? When you pass a data frame to the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinicaltrial.Rdata</span></code> file, and we’ll use it a lot in Chapter &#64;ref(anova) (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
+<div class="section" id="describing-a-data-frame">
+<h3><span class="section-number">1.4.2. </span>“Describing” a data frame<a class="headerlink" href="#describing-a-data-frame" title="Permalink to this headline">¶</a></h3>
+<p>Okay what about data frames? When you pass a data frame to the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinical_trial_data.csv</span></code> file, and we’ll use it a lot in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">Comparing several means</span></a> (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load data</span>
@@ -1799,44 +1809,110 @@ Name: blowouts, dtype: object
 <p>There’s a single data frame called <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code> which contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function sheds a little more light on this situation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[</span><span class="s1">&#39;drug&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[</span><span class="s1">&#39;therapy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean mood gain: &#39;</span><span class="p">,</span> <span class="n">df_clintrial</span><span class="p">[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-      
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>therapy
-CBT           9
-no.therapy    9
-Name: drug, dtype: int64
-drug
-anxifree    6
-joyzepam    6
-placebo     6
-Name: therapy, dtype: int64
-drug
-anxifree    0.716667
-joyzepam    1.483333
-placebo     0.450000
-Name: mood.gain, dtype: float64
-therapy
-CBT           1.044444
-no.therapy    0.722222
-Name: mood.gain, dtype: float64
-Mean mood gain:  0.8833333333333333
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>drug</th>
+      <th>therapy</th>
+      <th>mood.gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>18</td>
+      <td>18</td>
+      <td>18.000000</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>3</td>
+      <td>2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>anxifree</td>
+      <td>no.therapy</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>6</td>
+      <td>9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.883333</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.533854</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.100000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.425000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.850000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.300000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.800000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If we want to <code class="docutils literal notranslate"><span class="pre">describe</span></code> the entire dataframe, we need to add the argument  <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">=</span> <span class="pre">'all'</span></code>. This gives us information on all of the of columns, but this is still rather limited. If we want to really understand these data, we will have to use other tools to investigate them. That is what the rest of this book is about.</p>
 </div>
 </div>
-</div>
-<p>Evidently there were three drugs: a placebo, something called “anxifree” and something called “joyzepam”; and there were 6 people administered each drug. There were 9 people treated using cognitive behavioural therapy (CBT) and 9 people who received no psychological treatment. And we can see from looking at the summary of the <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> variable that most people did show a mood gain (mean <span class="math notranslate nohighlight">\(=.88\)</span>), though without knowing what the scale is here it’s hard to say much more than that. Still, that’s not too bad. Overall, I feel that I learned something from that.</p>
-</div>
-</div>
-<div class="section" id="standard-scores-zscore">
-<h2><span class="section-number">1.5. </span>Standard scores{#zscore}<a class="headerlink" href="#standard-scores-zscore" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standard-scores">
+<h2><span class="section-number">1.5. </span>Standard scores<a class="headerlink" href="#standard-scores" title="Permalink to this headline">¶</a></h2>
 <p>Suppose my friend is putting together a new questionnaire intended to measure “grumpiness”. The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let’s imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about would be to say that I have grumpiness of 35/50, so you might say that I’m 70% grumpy. But that’s a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I’m only 70% grumpy <em>with respect to this set of survey questions</em>. Even if it’s a very good questionnaire, this isn’t very a informative statement.</p>
 <p>A simpler way around this is to describe my grumpiness by comparing me to other people. Shockingly, out of my friend’s sample of 1,000,000 people, only 159 people were as grumpy as me (that’s not at all unrealistic, frankly), suggesting that I’m in the top 0.016% of people for grumpiness. This makes much more sense than trying to interpret the raw data. This idea – that we should describe my grumpiness in terms of the overall distribution of the grumpiness of humans – is the qualitative idea that standardisation attempts to get at. One way to do this is to do exactly what I just did, and describe everything in terms of percentiles. However, the problem with doing this is that “it’s lonely at the top”. Suppose that my friend had only collected a sample of 1000 people (still a pretty big sample for the purposes of testing a new questionnaire, I’d like to add), and this time gotten a mean of 16 out of 50 with a standard deviation of 5, let’s say. The problem is that almost certainly, not a single person in that sample would be as grumpy as me.</p>
 <p>However, all is not lost. A different approach is to convert my grumpiness score into a <strong><em>standard score</em></strong>, also referred to as a <span class="math notranslate nohighlight">\(z\)</span>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in “pseudo-maths” the standard score is calculated like this:
