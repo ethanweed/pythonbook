@@ -422,8 +422,8 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summarising-a-variable">
-     1.4.1. “Summarising” a variable
+    <a class="reference internal nav-link" href="#describing-a-variable">
+     1.4.1. “Describing” a variable
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1087,16 +1087,16 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
-Melbourne           28
 Collingwood         28
+Melbourne           28
+North Melbourne     28
 Hawthorn            27
+Adelaide            26
 Carlton             26
 Sydney              26
-Adelaide            26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13a002790&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x102766d00&gt;
 </pre></div>
 </div>
 </div>
@@ -1613,9 +1613,9 @@ Pearson:  3.0643495578651616
 <div class="section" id="getting-an-overall-summary-of-a-variable">
 <h2><span class="section-number">1.4. </span>Getting an overall summary of a variable<a class="headerlink" href="#getting-an-overall-summary-of-a-variable" title="Permalink to this headline">¶</a></h2>
 <p>Up to this point in the chapter I’ve explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in Python to calculate each one. However, it’s kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn’t it be nice if Python had some helpful functions that would do all these tedious calculations at once? Something that <em>describes</em> the data? Maybe something like <code class="docutils literal notranslate"><span class="pre">describe()</span></code>, perhaps? Why yes, yes it would. So much so that this very function exists, available as a method for <code class="docutils literal notranslate"><span class="pre">pandas</span></code> objects.</p>
-<div class="section" id="summarising-a-variable">
-<h3><span class="section-number">1.4.1. </span>“Summarising” a variable<a class="headerlink" href="#summarising-a-variable" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is an easy thing to use, but a tricky thing to understand in full, since it’s a generic function (see Section &#64;ref(generics). The basic idea behind the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is that it prints out some useful information about whatever object (i.e., variable, as far as we’re concerned) you specify as the <code class="docutils literal notranslate"><span class="pre">object</span></code> argument. As a consequence, the behaviour of the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function differs quite dramatically depending on the class of the object that you give it. Let’s start by giving it a <em>numeric</em> object:</p>
+<div class="section" id="describing-a-variable">
+<h3><span class="section-number">1.4.1. </span>“Describing” a variable<a class="headerlink" href="#describing-a-variable" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method is an easy thing to use, but a tricky thing to understand in full, since it’s a generic function. The basic idea behind the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method is that it prints out some useful information about whatever object (i.e., variable, as far as we’re concerned) you ask it to describe. As a consequence, the behaviour of the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function differs quite dramatically depending on the class of the object that you give it. Let’s start by giving it a <em>numeric</em> object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
