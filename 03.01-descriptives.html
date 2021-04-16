@@ -1087,8 +1087,8 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
 Melbourne           28
+Collingwood         28
 North Melbourne     28
 Hawthorn            27
 Adelaide            26
@@ -1098,8 +1098,8 @@ Brisbane            25
 St Kilda            24
 Western Bulldogs    24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x102766d00&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x135960f40&gt;
 </pre></div>
 </div>
 </div>
@@ -1685,22 +1685,63 @@ Pearson:  3.0643495578651616
 <p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout see <a class="reference internal" href="01.02-studydesign.html#studydesign"><span class="std std-ref">A brief introduction to research design</span></a> as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">37</span><span class="o">-</span><span class="n">a92d574c09eb</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+      <th>blowouts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>31</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>56</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask Python to <code class="docutils literal notranslate"><span class="pre">describe()</span></code> this data:</p>
 <div class="cell docutils container">
@@ -1852,7 +1893,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>anxifree</td>
+      <td>placebo</td>
       <td>no.therapy</td>
       <td>NaN</td>
     </tr>
