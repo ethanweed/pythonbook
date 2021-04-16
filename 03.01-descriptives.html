@@ -1087,9 +1087,9 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Melbourne           28
-Collingwood         28
 North Melbourne     28
+Collingwood         28
+Melbourne           28
 Hawthorn            27
 Adelaide            26
 Carlton             26
@@ -1098,8 +1098,8 @@ Brisbane            25
 St Kilda            24
 Western Bulldogs    24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x135960f40&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x12c682f70&gt;
 </pre></div>
 </div>
 </div>
@@ -1746,18 +1746,6 @@ Pearson:  3.0643495578651616
 <p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask Python to <code class="docutils literal notranslate"><span class="pre">describe()</span></code> this data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>176
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1776,7 +1764,7 @@ Name: blowouts, dtype: object
 </div>
 <div class="section" id="describing-a-data-frame">
 <h3><span class="section-number">1.4.2. </span>“Describing” a data frame<a class="headerlink" href="#describing-a-data-frame" title="Permalink to this headline">¶</a></h3>
-<p>Okay what about data frames? When you pass a data frame to the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinical_trial_data.csv</span></code> file, and we’ll use it a lot in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">Comparing several means</span></a> (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
+<p>Okay what about data frames? When you <code class="docutils literal notranslate"><span class="pre">describe()</span></code> a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want <code class="docutils literal notranslate"><span class="pre">'all'</span></code> the variables). To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinical_trial_data.csv</span></code> file, and we’ll use it a lot in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">Comparing several means</span></a> (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load data</span>
@@ -1893,7 +1881,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>placebo</td>
+      <td>anxifree</td>
       <td>no.therapy</td>
       <td>NaN</td>
     </tr>
@@ -2204,7 +2192,7 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
+<img alt="_images/03.01-descriptives_102_1.png" src="_images/03.01-descriptives_102_1.png" />
 </div>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
@@ -2296,7 +2284,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
+<img alt="_images/03.01-descriptives_105_1.png" src="_images/03.01-descriptives_105_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2320,7 +2308,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_108_1.png" src="_images/03.01-descriptives_108_1.png" />
+<img alt="_images/03.01-descriptives_107_1.png" src="_images/03.01-descriptives_107_1.png" />
 </div>
 </div>
 </div>
@@ -2568,7 +2556,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_122_1.png" src="_images/03.01-descriptives_122_1.png" />
+<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2724,7 +2712,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
+<img alt="_images/03.01-descriptives_127_1.png" src="_images/03.01-descriptives_127_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
