@@ -1087,19 +1087,19 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
-North Melbourne     28
 Melbourne           28
+North Melbourne     28
+Collingwood         28
 Hawthorn            27
-Carlton             26
 Sydney              26
+Carlton             26
 Adelaide            26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x132c2afd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x139695a90&gt;
 </pre></div>
 </div>
 </div>
@@ -1881,8 +1881,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
-      <td>no.therapy</td>
+      <td>placebo</td>
+      <td>CBT</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -1944,19 +1944,22 @@ Name: blowouts, dtype: object
 <h2><span class="section-number">1.5. </span>Standard scores<a class="headerlink" href="#standard-scores" title="Permalink to this headline">¶</a></h2>
 <p>Suppose my friend is putting together a new questionnaire intended to measure “grumpiness”. The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let’s imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about would be to say that I have grumpiness of 35/50, so you might say that I’m 70% grumpy. But that’s a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I’m only 70% grumpy <em>with respect to this set of survey questions</em>. Even if it’s a very good questionnaire, this isn’t very a informative statement.</p>
 <p>A simpler way around this is to describe my grumpiness by comparing me to other people. Shockingly, out of my friend’s sample of 1,000,000 people, only 159 people were as grumpy as me (that’s not at all unrealistic, frankly), suggesting that I’m in the top 0.016% of people for grumpiness. This makes much more sense than trying to interpret the raw data. This idea – that we should describe my grumpiness in terms of the overall distribution of the grumpiness of humans – is the qualitative idea that standardisation attempts to get at. One way to do this is to do exactly what I just did, and describe everything in terms of percentiles. However, the problem with doing this is that “it’s lonely at the top”. Suppose that my friend had only collected a sample of 1000 people (still a pretty big sample for the purposes of testing a new questionnaire, I’d like to add), and this time gotten a mean of 16 out of 50 with a standard deviation of 5, let’s say. The problem is that almost certainly, not a single person in that sample would be as grumpy as me.</p>
-<p>However, all is not lost. A different approach is to convert my grumpiness score into a <strong><em>standard score</em></strong>, also referred to as a <span class="math notranslate nohighlight">\(z\)</span>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in “pseudo-maths” the standard score is calculated like this:
-$<span class="math notranslate nohighlight">\(
+<p>However, all is not lost. A different approach is to convert my grumpiness score into a <strong><em>standard score</em></strong>, also referred to as a <span class="math notranslate nohighlight">\(z\)</span>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in “pseudo-maths” the standard score is calculated like this:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{standard score} = \frac{\mbox{raw score} - \mbox{mean}}{\mbox{standard deviation}}
-\)</span><span class="math notranslate nohighlight">\( 
-In actual maths, the equation for the \)</span>z<span class="math notranslate nohighlight">\(-score is
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>In actual maths, the equation for the <span class="math notranslate nohighlight">\(z\)</span>-score is</p>
+<div class="math notranslate nohighlight">
+\[
 z_i = \frac{X_i - \bar{X}}{\hat\sigma}
-\)</span><span class="math notranslate nohighlight">\(
-So, going back to the grumpiness data, we can now transform Dan's raw grumpiness into a standardised grumpiness score. I haven't discussed how to compute \)</span>z<span class="math notranslate nohighlight">\(-scores, explicitly, but you can probably guess. For a dataset d, the statistics perhaps the easiest way is to do: `stats.zscore(data)`. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>So, going back to the grumpiness data, we can now transform Dan’s raw grumpiness into a standardised grumpiness score. I haven’t discussed how to compute <span class="math notranslate nohighlight">\(z\)</span>-scores, explicitly, but you can probably guess. For a dataset d, the statistics perhaps the easiest way is to do: <code class="docutils literal notranslate"><span class="pre">stats.zscore(data)</span></code>. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be</p>
+<div class="math notranslate nohighlight">
+\[
 z = \frac{35 - 17}{5} = 3.6
-\)</span>$</p>
-<p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about estimation yet (see Chapter &#64;ref(estimation)) I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
+\]</div>
+<p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>  yet  I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
 <p>To interpret this value, recall the rough heuristic that I provided in Section &#64;ref(sd), in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <span class="math notranslate nohighlight">\(z\)</span> score of 3.6 indicates that I’m very grumpy indeed.</p>
 <p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
 <p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other.^[Though some caution is usually warranted. It’s not always the case that one standard deviation on variable A corresponds to the same “kind” of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the <span class="math notranslate nohighlight">\(z\)</span> scores of two variables can be meaningfully compared.] I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
