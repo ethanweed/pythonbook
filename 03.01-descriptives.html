@@ -464,8 +464,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interpreting-a-correlation-interpretingcorrelations">
-     1.6.5. Interpreting a correlation {#interpretingcorrelations}
+    <a class="reference internal nav-link" href="#interpreting-a-correlation">
+     1.6.5. Interpreting a correlation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1091,9 +1091,9 @@ Collingwood         28
 Melbourne           28
 North Melbourne     28
 Hawthorn            27
-Sydney              26
 Carlton             26
 Adelaide            26
+Sydney              26
 Brisbane            25
 St Kilda            24
 Western Bulldogs    24
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1070d2880&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1367fdac0&gt;
 </pre></div>
 </div>
 </div>
@@ -1886,7 +1886,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>anxifree</td>
+      <td>joyzepam</td>
       <td>CBT</td>
       <td>NaN</td>
     </tr>
@@ -2326,16 +2326,18 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.9 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
 </div>
-<p>The formula for the Pearson’s correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let’s introduce the idea of a <strong><em>covariance</em></strong>. The covariance between two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is a generalisation of the notion of the variance; it’s a mathematically simple way of describing the relationship between two variables that isn’t terribly informative to humans:
-$<span class="math notranslate nohighlight">\(
+<p>The formula for the Pearson’s correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let’s introduce the idea of a <strong><em>covariance</em></strong>. The covariance between two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is a generalisation of the notion of the variance; it’s a mathematically simple way of describing the relationship between two variables that isn’t terribly informative to humans:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
-\)</span><span class="math notranslate nohighlight">\(
-Because we're multiplying (i.e., taking the &quot;product&quot; of) a quantity that depends on \)</span>X<span class="math notranslate nohighlight">\( by a quantity that depends on \)</span>Y<span class="math notranslate nohighlight">\( and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by \)</span>N-1<span class="math notranslate nohighlight">\( rather than \)</span>N<span class="math notranslate nohighlight">\(.], you can think of the formula for the covariance as an &quot;average cross product&quot; between \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\(. The covariance has the nice property that, if \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\( are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure&#64;reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\( are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if \)</span>X<span class="math notranslate nohighlight">\( refers to the `dan.sleep` variable (units: hours) and \)</span>Y<span class="math notranslate nohighlight">\( refers to the `dan.grump` variable (units: grumps), then the units for their covariance are &quot;hours \)</span>\times$ grumps”. And I have no freaking idea what that would even mean.</p>
-<p>The Pearson correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the <span class="math notranslate nohighlight">\(z\)</span>-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations.^[This is an oversimplification, but it’ll do for our purposes.]  In other words, the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can be written as follows:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>Because we’re multiplying (i.e., taking the “product” of) a quantity that depends on <span class="math notranslate nohighlight">\(X\)</span> by a quantity that depends on <span class="math notranslate nohighlight">\(Y\)</span> and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>.], you can think of the formula for the covariance as an “average cross product” between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. The covariance has the nice property that, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure&#64;reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn’t easy to interpret: it depends on the units in which <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if <span class="math notranslate nohighlight">\(X\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> variable (units: hours) and <span class="math notranslate nohighlight">\(Y\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> variable (units: grumps), then the units for their covariance are “hours <span class="math notranslate nohighlight">\(\times\)</span> grumps”. And I have no freaking idea what that would even mean.</p>
+<p>The Pearson correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the <span class="math notranslate nohighlight">\(z\)</span>-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it’ll do for our purposes)  In other words, the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can be written as follows:</p>
+<div class="math notranslate nohighlight">
+\[
 r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
-\)</span><span class="math notranslate nohighlight">\(
-By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of \)</span>r<span class="math notranslate nohighlight">\( are on a meaningful scale: \)</span>r= 1<span class="math notranslate nohighlight">\( implies a perfect positive relationship, and \)</span>r = -1$ implies a perfect negative relationship. I’ll expand a little more on this point later, in Section&#64;refsec:interpretingcorrelations. But before I do, let’s look at how to calculate correlations in R.</p>
+\]</div>
+<p>By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of <span class="math notranslate nohighlight">\(r\)</span> are on a meaningful scale: <span class="math notranslate nohighlight">\(r= 1\)</span> implies a perfect positive relationship, and <span class="math notranslate nohighlight">\(r = -1\)</span> implies a perfect negative relationship. I’ll expand a little more on this point later, in section on <a class="reference internal" href="#interpreting-correlations"><span class="std std-ref">interpreting correlations</span></a>. But before I do, let’s look at how to calculate correlations in Python.</p>
 </div>
 <div class="section" id="calculating-correlations-in-python">
 <h3><span class="section-number">1.6.4. </span>Calculating correlations in Python<a class="headerlink" href="#calculating-correlations-in-python" title="Permalink to this headline">¶</a></h3>
@@ -2427,8 +2429,8 @@ By doing this standardisation, not only do we keep all of the nice properties of
 </div></div></div>
 </div>
 </div>
-<div class="section" id="interpreting-a-correlation-interpretingcorrelations">
-<h3><span class="section-number">1.6.5. </span>Interpreting a correlation {#interpretingcorrelations}<a class="headerlink" href="#interpreting-a-correlation-interpretingcorrelations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="interpreting-a-correlation">
+<span id="interpreting-correlations"></span><h3><span class="section-number">1.6.5. </span>Interpreting a correlation<a class="headerlink" href="#interpreting-a-correlation" title="Permalink to this headline">¶</a></h3>
 <p>Naturally, in real life you don’t see many correlations of 1. So how should you interpret a correlation of, say <span class="math notranslate nohighlight">\(r= .4\)</span>? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than <span class="math notranslate nohighlight">\(.95\)</span> is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases – even in psychology – where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can’t achieve a correlation of at least <span class="math notranslate nohighlight">\(.9\)</span> really isn’t deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above <span class="math notranslate nohighlight">\(.3\)</span> you’re doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in Table &#64;ref(tab:interpretingcorrelations) is pretty typical.</p>
 <p>Table: Rough guide to interpreting correlations</p>
 <table class="colwidths-auto table">
