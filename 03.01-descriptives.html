@@ -439,8 +439,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#correlations-correl">
-   1.6. Correlations{#correl}
+  <a class="reference internal nav-link" href="#correlations">
+   1.6. Correlations
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1087,9 +1087,9 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
+Collingwood         28
 Melbourne           28
 North Melbourne     28
-Collingwood         28
 Hawthorn            27
 Sydney              26
 Carlton             26
@@ -1098,8 +1098,8 @@ Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10755b280&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x137255b80&gt;
 </pre></div>
 </div>
 </div>
@@ -1548,20 +1548,25 @@ already knows how to calculate skew:</p>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25000</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span>
 
 
 
 <span class="c1"># Again just ignore. This line is just here for the sake of figure captions and links.</span>
-<span class="c1">#glue(&quot;kurtosis_fig&quot;, ax, display=False)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;kurtosis_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_79_0.png" src="_images/03.01-descriptives_79_0.png" />
+<img alt="_images/03.01-descriptives_79_1.png" src="_images/03.01-descriptives_79_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Leptokurtic\n&quot;too pointy&quot;&#39;}, xlabel=&#39;Values&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 1.5 </span><span class="caption-text">An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis =  ́.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis “ 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).</span><a class="headerlink" href="#fig-kurtosis" title="Permalink to this image">¶</a></p>
 </div>
 <p>By convention, we say that the “normal curve” (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data <em>platykurtic</em>. The data on the right are too pointy, so the kurtosis is positive and we say that the data is <em>leptokurtic</em>. But the data in the middle are just pointy enough, so we say that it is <em>mesokurtic</em> and has kurtosis zero. This is summarised in the table below:</p>
@@ -1881,7 +1886,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
+      <td>anxifree</td>
       <td>CBT</td>
       <td>NaN</td>
     </tr>
@@ -1964,12 +1969,12 @@ z = \frac{35 - 17}{5} = 3.6
 <p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
 <p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other. <a class="footnote-reference brackets" href="#note10" id="id13">10</a>  I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
 </div>
-<div class="section" id="correlations-correl">
-<h2><span class="section-number">1.6. </span>Correlations{#correl}<a class="headerlink" href="#correlations-correl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="correlations">
+<span id="id14"></span><h2><span class="section-number">1.6. </span>Correlations<a class="headerlink" href="#correlations" title="Permalink to this headline">¶</a></h2>
 <p>Up to this point we have focused entirely on how to construct descriptive statistics for a single variable. What we haven’t done is talked about how to describe the relationships <em>between</em> variables in the data. To do that, we want to talk mostly about the <strong><em>correlation</em></strong> between variables. But first, we need some data.</p>
 <div class="section" id="the-data">
 <h3><span class="section-number">1.6.1. </span>The data<a class="headerlink" href="#the-data" title="Permalink to this headline">¶</a></h3>
-<p>After spending so much time looking at the AFL data, I’m starting to get bored with sports. Instead, let’s turn to a topic close to every parent’s heart: sleep. The following data set is fictitious, but based on real events. Suppose I’m curious to find out how much my infant son’s sleeping habits affect my mood. Let’s say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I’ve been measuring my grumpiness, my sleeping patterns and my son’s sleeping patterns for quite some time now. Let’s say, for 100 days. And, being a nerd, I’ve saved the data as a file called <code class="docutils literal notranslate"><span class="pre">parenthood.Rdata</span></code>. If we load the data…</p>
+<p>After spending so much time looking at the AFL data, I’m starting to get bored with sports. Instead, let’s turn to a topic close to every parent’s heart: sleep. The following data set is fictitious, but based on real events. Suppose I’m curious to find out how much my infant son’s sleeping habits affect my mood. Let’s say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I’ve been measuring my grumpiness, my sleeping patterns and my son’s sleeping patterns for quite some time now. Let’s say, for 100 days. And, being a nerd, I’ve saved the data as a file called <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code>. If we load the data…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span> <span class="k">as</span> <span class="n">cd</span>
@@ -2143,29 +2148,7 @@ z = \frac{35 - 17}{5} = 3.6
 </table>
 </div></div></div>
 </div>
-<p>Finally, to give a graphical depiction of what each of the three interesting variables looks like, Figure &#64;ref(fig:parenthood) plots histograms.</p>
-<p>```{r parenthood, fig.cap=”Histograms for the three interesting variables in the <code class="docutils literal notranslate"><span class="pre">parenthood</span></code> data set”, echo=FALSE}</p>
-<p>par(mfcol = c(1, 3)) # Create a 2 x 2 plotting matrix</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>plotOne &lt;- function( x,... ) {
-
-	hist( x, border=&quot;white&quot;,
-		col=(&quot;cornflowerblue&quot;),
-		ylab=&quot;Frequency&quot;, main=&quot;&quot;,
-		...
-	)
-	
-}
-
-plotOne( parenthood$dan.grump, xlab=&quot;My grumpiness&quot; )
-
-plotOne( parenthood$dan.sleep, xlab=&quot;My sleep (hours)&quot; )
-
-plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )	
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
+<p>Finally, to give a graphical depiction of what each of the three interesting variables looks like, <a class="reference internal" href="#fig-grump"><span class="std std-numref">Fig. 1.6</span></a> plots histograms.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -2187,16 +2170,24 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 
 <span class="c1"># Baby&#39;s sleep</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">baby_sleep</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">baby_sleep</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">baby_sleep</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+
+<span class="c1"># You know the drill by now: this is just for the purpose of linking to the figure in the book</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;grump_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
-</pre></div>
-</div>
 <img alt="_images/03.01-descriptives_102_1.png" src="_images/03.01-descriptives_102_1.png" />
 </div>
+</div>
+<div class="figure align-default" id="fig-grump" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Leptokurtic\n&quot;too pointy&quot;&#39;}, xlabel=&#39;Values&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 1.6 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
 </div>
 <p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
 <table class="colwidths-auto table">
@@ -2287,7 +2278,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_105_1.png" src="_images/03.01-descriptives_105_1.png" />
+<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
 </div>
 </div>
 <p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
@@ -2311,7 +2302,7 @@ oneCorPlot &lt;- function(x,y,...) {
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_107_1.png" src="_images/03.01-descriptives_107_1.png" />
+<img alt="_images/03.01-descriptives_108_1.png" src="_images/03.01-descriptives_108_1.png" />
 </div>
 </div>
 </div>
@@ -2559,7 +2550,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
+<img alt="_images/03.01-descriptives_122_1.png" src="_images/03.01-descriptives_122_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2715,7 +2706,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_127_1.png" src="_images/03.01-descriptives_127_1.png" />
+<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
