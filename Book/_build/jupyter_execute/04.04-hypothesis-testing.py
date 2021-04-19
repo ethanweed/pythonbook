@@ -1,2 +1,3 @@
+(hypothesis-testing)=
 # Hypothesis Testing
 

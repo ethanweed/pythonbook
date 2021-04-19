@@ -17,19 +17,41 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-```{glue:figure} sleep_scatter_fig2
-:figwidth: 600px
-:name: fig-sleep_scatter2
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 
-Scatterplots showing the relationship between baby.sleep and dan.grump (left), as compared
-to the relationship between baby.sleep and dan.sleep (right).
-```
+mean = [0, 0]
+cov = [[1, 0], [0, 1]]
+r = [0, .33, .66, 1]
+rneg = [0, -.33, -.66, -1]
+
+fig, axes = plt.subplots(4, 2, figsize=(15, 15), sharey=False)
+
+for s, val in enumerate(r):
+    cov = [[1, val], [val, 1]]
+    x, y = np.random.multivariate_normal(mean, cov, 100).T
+    sns.scatterplot(x=x,y=y, ax = axes[s,0])
+    axes[s,0].set_title('r = ' + str(val))
+
+for s, val in enumerate(rneg):
+    cov = [[1, val], [val, 1]]
+    x, y = np.random.multivariate_normal(mean, cov, 100).T
+    sns.scatterplot(x=x,y=y, ax = axes[s,1])
+    axes[0,s].set_title('r = ' + str(val))
+
+glue("corrs-fig", fig, display=False)
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-46-ec786bec1957>"[0;36m, line [0;32m1[0m
-[0;31m    ```{glue:figure} sleep_scatter_fig2[0m
-[0m    ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mIndexError[0m                                Traceback (most recent call last)
+[0;32m<ipython-input-46-3dbf5098f8ee>[0m in [0;36m<module>[0;34m[0m
+[1;32m     20[0m     [0mx[0m[0;34m,[0m [0my[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mrandom[0m[0;34m.[0m[0mmultivariate_normal[0m[0;34m([0m[0mmean[0m[0;34m,[0m [0mcov[0m[0;34m,[0m [0;36m100[0m[0;34m)[0m[0;34m.[0m[0mT[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     21[0m     [0msns[0m[0;34m.[0m[0mscatterplot[0m[0;34m([0m[0mx[0m[0;34m=[0m[0mx[0m[0;34m,[0m[0my[0m[0;34m=[0m[0my[0m[0;34m,[0m [0max[0m [0;34m=[0m [0maxes[0m[0;34m[[0m[0ms[0m[0;34m,[0m[0;36m1[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 22[0;31m     [0maxes[0m[0;34m[[0m[0;36m0[0m[0;34m,[0m[0ms[0m[0;34m][0m[0;34m.[0m[0mset_title[0m[0;34m([0m[0;34m'r = '[0m [0;34m+[0m [0mstr[0m[0;34m([0m[0mval[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     23[0m [0;34m[0m[0m
+[1;32m     24[0m [0mglue[0m[0;34m([0m[0;34m"corrs-fig"[0m[0;34m,[0m [0mfig[0m[0;34m,[0m [0mdisplay[0m[0;34m=[0m[0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 
-SyntaxError: invalid syntax (<ipython-input-46-ec786bec1957>, line 1)
+[0;31mIndexError[0m: index 2 is out of bounds for axis 1 with size 2
+IndexError: index 2 is out of bounds for axis 1 with size 2
 

@@ -459,13 +459,13 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculating-correlations-in-r">
-     1.6.4. Calculating correlations in R
+    <a class="reference internal nav-link" href="#calculating-correlations-in-python">
+     1.6.4. Calculating correlations in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interpreting-a-correlation-interpretingcorrelations">
-     1.6.5. Interpreting a correlation {#interpretingcorrelations}
+    <a class="reference internal nav-link" href="#interpreting-a-correlation">
+     1.6.5. Interpreting a correlation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1091,15 +1091,15 @@ Collingwood         28
 Melbourne           28
 North Melbourne     28
 Hawthorn            27
-Sydney              26
 Adelaide            26
 Carlton             26
+Sydney              26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x137da5220&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x108936a60&gt;
 </pre></div>
 </div>
 </div>
@@ -1886,7 +1886,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>placebo</td>
+      <td>joyzepam</td>
       <td>no.therapy</td>
       <td>NaN</td>
     </tr>
@@ -2287,21 +2287,61 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 <div class="section" id="the-correlation-coefficient">
 <h3><span class="section-number">1.6.3. </span>The correlation coefficient<a class="headerlink" href="#the-correlation-coefficient" title="Permalink to this headline">¶</a></h3>
 <p>We can make these ideas a bit more explicit by introducing the idea of a <strong><em>correlation coefficient</em></strong> (or, more specifically, Pearson’s correlation coefficient), which is traditionally denoted by <span class="math notranslate nohighlight">\(r\)</span>. The correlation coefficient between two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> (sometimes denoted <span class="math notranslate nohighlight">\(r_{XY}\)</span>), which we’ll define more precisely in the next section, is a measure that varies from <span class="math notranslate nohighlight">\(-1\)</span> to <span class="math notranslate nohighlight">\(1\)</span>. When <span class="math notranslate nohighlight">\(r = -1\)</span> it means that we have a perfect negative relationship, and when <span class="math notranslate nohighlight">\(r = 1\)</span> it means we have a perfect positive relationship. When <span class="math notranslate nohighlight">\(r = 0\)</span>, there’s no relationship at all. If you look at Figure &#64;ref(fig:corr), you can see several plots showing what different correlations look like.</p>
-<p><img alt="correlations.png" src="attachment:correlations.png" /></p>
-<p>The formula for the Pearson’s correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let’s introduce the idea of a <strong><em>covariance</em></strong>. The covariance between two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is a generalisation of the notion of the variance; it’s a mathematically simple way of describing the relationship between two variables that isn’t terribly informative to humans:
-$<span class="math notranslate nohighlight">\(
-\mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
-\)</span><span class="math notranslate nohighlight">\(
-Because we're multiplying (i.e., taking the &quot;product&quot; of) a quantity that depends on \)</span>X<span class="math notranslate nohighlight">\( by a quantity that depends on \)</span>Y<span class="math notranslate nohighlight">\( and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by \)</span>N-1<span class="math notranslate nohighlight">\( rather than \)</span>N<span class="math notranslate nohighlight">\(.], you can think of the formula for the covariance as an &quot;average cross product&quot; between \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\(. The covariance has the nice property that, if \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\( are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure&#64;reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which \)</span>X<span class="math notranslate nohighlight">\( and \)</span>Y<span class="math notranslate nohighlight">\( are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if \)</span>X<span class="math notranslate nohighlight">\( refers to the `dan.sleep` variable (units: hours) and \)</span>Y<span class="math notranslate nohighlight">\( refers to the `dan.grump` variable (units: grumps), then the units for their covariance are &quot;hours \)</span>\times$ grumps”. And I have no freaking idea what that would even mean.</p>
-<p>The Pearson correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the <span class="math notranslate nohighlight">\(z\)</span>-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations.^[This is an oversimplification, but it’ll do for our purposes.]  In other words, the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can be written as follows:
-$<span class="math notranslate nohighlight">\(
-r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
-\)</span><span class="math notranslate nohighlight">\(
-By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of \)</span>r<span class="math notranslate nohighlight">\( are on a meaningful scale: \)</span>r= 1<span class="math notranslate nohighlight">\( implies a perfect positive relationship, and \)</span>r = -1$ implies a perfect negative relationship. I’ll expand a little more on this point later, in Section&#64;refsec:interpretingcorrelations. But before I do, let’s look at how to calculate correlations in R.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">mean</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">33</span><span class="p">,</span> <span class="o">.</span><span class="mi">66</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">rneg</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-.</span><span class="mi">33</span><span class="p">,</span> <span class="o">-.</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="n">val</span><span class="p">],</span> <span class="p">[</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;r = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rneg</span><span class="p">):</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="n">val</span><span class="p">],</span> <span class="p">[</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;r = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;corrs-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="calculating-correlations-in-r">
-<h3><span class="section-number">1.6.4. </span>Calculating correlations in R<a class="headerlink" href="#calculating-correlations-in-r" title="Permalink to this headline">¶</a></h3>
-<p>Calculating correlations in R can be done using the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> command. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function:^[If you are reading this after having already completed Chapter &#64;ref(hypothesistesting) you might be wondering about hypothesis tests for correlations. R has a function called <code class="docutils literal notranslate"><span class="pre">cor.test()</span></code> that runs a hypothesis test for a single correlation, and the <code class="docutils literal notranslate"><span class="pre">psych</span></code> package contains a version called <code class="docutils literal notranslate"><span class="pre">corr.test()</span></code> that can run tests for every correlation in a correlation matrix; hypothesis tests for correlations are discussed in more detail in Section &#64;ref(corrhyp).]</p>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_112_1.png" src="_images/03.01-descriptives_112_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-corrs" style="width: 600px">
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_112_0.png" src="_images/03.01-descriptives_112_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 1.9 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
+</div>
+<p>The formula for the Pearson’s correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let’s introduce the idea of a <strong><em>covariance</em></strong>. The covariance between two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is a generalisation of the notion of the variance; it’s a mathematically simple way of describing the relationship between two variables that isn’t terribly informative to humans:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
+\]</div>
+<p>Because we’re multiplying (i.e., taking the “product” of) a quantity that depends on <span class="math notranslate nohighlight">\(X\)</span> by a quantity that depends on <span class="math notranslate nohighlight">\(Y\)</span> and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>.], you can think of the formula for the covariance as an “average cross product” between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. The covariance has the nice property that, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure&#64;reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn’t easy to interpret: it depends on the units in which <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if <span class="math notranslate nohighlight">\(X\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> variable (units: hours) and <span class="math notranslate nohighlight">\(Y\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> variable (units: grumps), then the units for their covariance are “hours <span class="math notranslate nohighlight">\(\times\)</span> grumps”. And I have no freaking idea what that would even mean.</p>
+<p>The Pearson correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the <span class="math notranslate nohighlight">\(z\)</span>-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it’ll do for our purposes)  In other words, the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can be written as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
+\]</div>
+<p>By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of <span class="math notranslate nohighlight">\(r\)</span> are on a meaningful scale: <span class="math notranslate nohighlight">\(r= 1\)</span> implies a perfect positive relationship, and <span class="math notranslate nohighlight">\(r = -1\)</span> implies a perfect negative relationship. I’ll expand a little more on this point later, in section on <a class="reference internal" href="#interpreting-correlations"><span class="std std-ref">interpreting correlations</span></a>. But before I do, let’s look at how to calculate correlations in Python.</p>
+</div>
+<div class="section" id="calculating-correlations-in-python">
+<h3><span class="section-number">1.6.4. </span>Calculating correlations in Python<a class="headerlink" href="#calculating-correlations-in-python" title="Permalink to this headline">¶</a></h3>
+<p>Calculating correlations in R can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note12" id="id16">12</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan.sleep&#39;</span><span class="p">]</span>
@@ -2388,61 +2428,120 @@ By doing this standardisation, not only do we keep all of the nice properties of
 </div></div></div>
 </div>
 </div>
-<div class="section" id="interpreting-a-correlation-interpretingcorrelations">
-<h3><span class="section-number">1.6.5. </span>Interpreting a correlation {#interpretingcorrelations}<a class="headerlink" href="#interpreting-a-correlation-interpretingcorrelations" title="Permalink to this headline">¶</a></h3>
-<p>Naturally, in real life you don’t see many correlations of 1. So how should you interpret a correlation of, say <span class="math notranslate nohighlight">\(r= .4\)</span>? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than <span class="math notranslate nohighlight">\(.95\)</span> is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases – even in psychology – where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can’t achieve a correlation of at least <span class="math notranslate nohighlight">\(.9\)</span> really isn’t deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above <span class="math notranslate nohighlight">\(.3\)</span> you’re doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in Table &#64;ref(tab:interpretingcorrelations) is pretty typical.</p>
-<p>Table: Rough guide to interpreting correlations</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-align:left head"><p>Correlation</p></th>
-<th class="text-align:left head"><p>Strength</p></th>
-<th class="text-align:left head"><p>Direction</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-align:left"><p>-1.0 to -0.9</p></td>
-<td class="text-align:left"><p>Very strong</p></td>
-<td class="text-align:left"><p>Negative</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>-0.9 to -0.7</p></td>
-<td class="text-align:left"><p>Strong</p></td>
-<td class="text-align:left"><p>Negative</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:left"><p>-0.7 to -0.4</p></td>
-<td class="text-align:left"><p>Moderate</p></td>
-<td class="text-align:left"><p>Negative</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>-0.4 to -0.2</p></td>
-<td class="text-align:left"><p>Weak</p></td>
-<td class="text-align:left"><p>Negative</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:left"><p>-0.2 to 0</p></td>
-<td class="text-align:left"><p>Negligible</p></td>
-<td class="text-align:left"><p>Negative</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>0 to 0.2</p></td>
-<td class="text-align:left"><p>Negligible</p></td>
-<td class="text-align:left"><p>Positive</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:left"><p>0.2 to 0.4</p></td>
-<td class="text-align:left"><p>Weak</p></td>
-<td class="text-align:left"><p>Positive</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>0.4 to 0.7</p></td>
-<td class="text-align:left"><p>Moderate</p></td>
-<td class="text-align:left"><p>Positive</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:left"><p>0.7 to 0.9</p></td>
-<td class="text-align:left"><p>Strong</p></td>
-<td class="text-align:left"><p>Positive</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>0.9 to 1.0</p></td>
-<td class="text-align:left"><p>Very strong</p></td>
-<td class="text-align:left"><p>Positive</p></td>
-</tr>
-</tbody>
+<div class="section" id="interpreting-a-correlation">
+<span id="interpreting-correlations"></span><h3><span class="section-number">1.6.5. </span>Interpreting a correlation<a class="headerlink" href="#interpreting-a-correlation" title="Permalink to this headline">¶</a></h3>
+<p>Naturally, in real life you don’t see many correlations of 1. So how should you interpret a correlation of, say <span class="math notranslate nohighlight">\(r= .4\)</span>? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than <span class="math notranslate nohighlight">\(.95\)</span> is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases – even in psychology – where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can’t achieve a correlation of at least <span class="math notranslate nohighlight">\(.9\)</span> really isn’t deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above <span class="math notranslate nohighlight">\(.3\)</span> you’re doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in <a class="reference internal" href="#table-corr-interpretation"><span class="std std-numref">Fig. 1.10</span></a> is pretty typical.</p>
+<div class="cell tag_hide-input tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">correlation</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-1.0 to -0.9&quot;</span><span class="p">,</span> <span class="s2">&quot;-0.9 to -0.7&quot;</span><span class="p">,</span> <span class="s2">&quot;-0.7 to -0.4&quot;</span><span class="p">,</span> 
+                    <span class="s2">&quot;-0.4 to -0.2&quot;</span><span class="p">,</span> <span class="s2">&quot;-0.2 to 0&quot;</span><span class="p">,</span> <span class="s2">&quot;0 to 0.2 &quot;</span><span class="p">,</span> <span class="s2">&quot;0.2 to 0.4&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;.4 to 0.7&quot;</span><span class="p">,</span> <span class="s2">&quot;0.7 to 0.9&quot;</span><span class="p">,</span> <span class="s2">&quot;0.9 to 1.0&quot;</span><span class="p">]</span>
+<span class="n">strength</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Very strong&quot;</span><span class="p">,</span> <span class="s2">&quot;Strong&quot;</span><span class="p">,</span> <span class="s2">&quot;Moderate&quot;</span><span class="p">,</span> <span class="s2">&quot;Weak&quot;</span><span class="p">,</span> <span class="s2">&quot;Negligible&quot;</span><span class="p">,</span> <span class="s2">&quot;Negligible&quot;</span><span class="p">,</span> <span class="s2">&quot;Weak&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;Moderate&quot;</span><span class="p">,</span> <span class="s2">&quot;Strong&quot;</span><span class="p">,</span> <span class="s2">&quot;Very strong&quot;</span><span class="p">]</span>
+<span class="n">direction</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Negative&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">5</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Positive&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">5</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;Correlation&#39;</span><span class="p">:</span> <span class="n">correlation</span><span class="p">,</span>
+     <span class="s1">&#39;Strength&#39;</span><span class="p">:</span> <span class="n">strength</span><span class="p">,</span>
+     <span class="s1">&#39;Direction&#39;</span><span class="p">:</span> <span class="n">direction</span>
+    <span class="p">})</span> 
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;corr-interpretation-table&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="figure align-default" id="table-corr-interpretation" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Correlation</th>
+      <th>Strength</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-1.0 to -0.9</td>
+      <td>Very strong</td>
+      <td>Negative</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.9 to -0.7</td>
+      <td>Strong</td>
+      <td>Negative</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.7 to -0.4</td>
+      <td>Moderate</td>
+      <td>Negative</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.4 to -0.2</td>
+      <td>Weak</td>
+      <td>Negative</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.2 to 0</td>
+      <td>Negligible</td>
+      <td>Negative</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0 to 0.2</td>
+      <td>Negligible</td>
+      <td>Positive</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.2 to 0.4</td>
+      <td>Weak</td>
+      <td>Positive</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>.4 to 0.7</td>
+      <td>Moderate</td>
+      <td>Positive</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.7 to 0.9</td>
+      <td>Strong</td>
+      <td>Positive</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.9 to 1.0</td>
+      <td>Very strong</td>
+      <td>Positive</td>
+    </tr>
+  </tbody>
 </table>
-<p>However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is “Anscombe’s Quartet” [&#64;Anscombe1973], which is a collection of four data sets. Each data set has two variables, an <span class="math notranslate nohighlight">\(X\)</span> and a <span class="math notranslate nohighlight">\(Y\)</span>. For all four data sets the mean value for <span class="math notranslate nohighlight">\(X\)</span> is 9 and the mean for <span class="math notranslate nohighlight">\(Y\)</span> is 7.5. The, standard deviations for all <span class="math notranslate nohighlight">\(X\)</span> variables are almost identical, as are those for the the <span class="math notranslate nohighlight">\(Y\)</span> variables. And in each case the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(r = 0.816\)</span>. You can verify this yourself, since the dataset comes distributed with R. The commands would be:</p>
+</div></div></div>
+<p class="caption"><span class="caption-number">Fig. 1.10 </span><span class="caption-text">A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.</span><a class="headerlink" href="#table-corr-interpretation" title="Permalink to this image">¶</a></p>
+</div>
+<p>However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is “Anscombe’s Quartet”  <span id="id17">[<a class="reference internal" href="bibliography.html#id2"><span>Ans73</span></a>]</span>, which is a collection of four data sets. Each data set has two variables, an <span class="math notranslate nohighlight">\(X\)</span> and a <span class="math notranslate nohighlight">\(Y\)</span>. For all four data sets the mean value for <span class="math notranslate nohighlight">\(X\)</span> is 9 and the mean for <span class="math notranslate nohighlight">\(Y\)</span> is 7.5. The, standard deviations for all <span class="math notranslate nohighlight">\(X\)</span> variables are almost identical, as are those for the the <span class="math notranslate nohighlight">\(Y\)</span> variables. And in each case the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(r = 0.816\)</span>. You can verify this yourself. The commands would be:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
@@ -2528,7 +2627,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
+<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2684,7 +2783,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_130_1.png" src="_images/03.01-descriptives_130_1.png" />
+<img alt="_images/03.01-descriptives_134_1.png" src="_images/03.01-descriptives_134_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
@@ -3276,6 +3375,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
 <dd><p>Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</p>
+</dd>
+<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
+<dd><p>If you are reading this after having already completed the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a> you might be wondering about hypothesis tests for correlations. This can be done with <code class="docutils literal notranslate"><span class="pre">scipy.stats.pearsonr</span></code> (or <code class="docutils literal notranslate"><span class="pre">scipy.stats.spearmanr</span></code>).</p>
 </dd>
 </dl>
 </div>

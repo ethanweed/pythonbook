@@ -816,29 +816,62 @@ to the relationship between baby.sleep and dan.sleep (right).
 
 We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at Figure \@ref(fig:corr), you can see several plots showing what different correlations look like.
 
-![correlations.png](attachment:correlations.png)
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+mean = [0, 0]
+cov = [[1, 0], [0, 1]]
+r = [0, .33, .66, 1]
+rneg = [0, -.33, -.66, -1]
+
+fig, axes = plt.subplots(4, 2, figsize=(15, 15), sharey=False)
+
+for s, val in enumerate(r):
+    cov = [[1, val], [val, 1]]
+    x, y = np.random.multivariate_normal(mean, cov, 100).T
+    sns.scatterplot(x=x,y=y, ax = axes[s,0])
+    axes[s,0].set_title('r = ' + str(val))
+
+for s, val in enumerate(rneg):
+    cov = [[1, val], [val, 1]]
+    x, y = np.random.multivariate_normal(mean, cov, 100).T
+    sns.scatterplot(x=x,y=y, ax = axes[s,1])
+    axes[s,1].set_title('r = ' + str(val))
+
+glue("corrs-fig", fig, display=False)
+
+```{glue:figure} corrs-fig
+:figwidth: 600px
+:name: fig-corrs
+
+Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.
+```
 
 The formula for the Pearson's correlation coefficient can be written in several different ways. I think the simplest way to write down the formula is to break it into two steps. Firstly, let's introduce the idea of a **_covariance_**. The covariance between two variables $X$ and $Y$ is a generalisation of the notion of the variance; it's a mathematically simple way of describing the relationship between two variables that isn't terribly informative to humans:
+
 $$
 \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
 $$
+
 Because we're multiplying (i.e., taking the "product" of) a quantity that depends on $X$ by a quantity that depends on $Y$ and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by $N-1$ rather than $N$.], you can think of the formula for the covariance as an "average cross product" between $X$ and $Y$. The covariance has the nice property that, if $X$ and $Y$ are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure@reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which $X$ and $Y$ are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if $X$ refers to the `dan.sleep` variable (units: hours) and $Y$ refers to the `dan.grump` variable (units: grumps), then the units for their covariance are "hours $\times$ grumps". And I have no freaking idea what that would even mean. 
 
-The Pearson correlation coefficient $r$ fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the $z$-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations.^[This is an oversimplification, but it'll do for our purposes.]  In other words, the correlation between $X$ and $Y$ can be written as follows:
+The Pearson correlation coefficient $r$ fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the $z$-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it'll do for our purposes)  In other words, the correlation between $X$ and $Y$ can be written as follows:
+
 $$
 r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 $$
-By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of $r$ are on a meaningful scale: $r= 1$ implies a perfect positive relationship, and $r = -1$ implies a perfect negative relationship. I'll expand a little more on this point later, in Section@refsec:interpretingcorrelations. But before I do, let's look at how to calculate correlations in R.
 
-### Calculating correlations in R
+By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of $r$ are on a meaningful scale: $r= 1$ implies a perfect positive relationship, and $r = -1$ implies a perfect negative relationship. I'll expand a little more on this point later, in section on [interpreting correlations](interpreting-correlations). But before I do, let's look at how to calculate correlations in Python.
+
+### Calculating correlations in Python
 
 
 
-Calculating correlations in R can be done using the `cor()` command. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function:^[If you are reading this after having already completed Chapter \@ref(hypothesistesting) you might be wondering about hypothesis tests for correlations. R has a function called `cor.test()` that runs a hypothesis test for a single correlation, and the `psych` package contains a version called `corr.test()` that can run tests for every correlation in a correlation matrix; hypothesis tests for correlations are discussed in more detail in Section \@ref(corrhyp).]
-```{r}
-cor( x = parenthood$dan.sleep, y = parenthood$dan.grump )
+Calculating correlations in R can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note12] 
 
-```
+[^note12]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
+
 
 x = parenthood['dan.sleep']
 y = parenthood['dan.grump']
@@ -849,26 +882,33 @@ However, the `cor()` function is a bit more powerful than this simple example su
 
 parenthood.corr()
 
-### Interpreting a correlation {#interpretingcorrelations}
+(interpreting-correlations)=
+### Interpreting a correlation
  
-Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in Table \@ref(tab:interpretingcorrelations) is pretty typical.
+Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in {numref}`table-corr-interpretation` is pretty typical.
 
-Table: Rough guide to interpreting correlations
+correlation = ["-1.0 to -0.9", "-0.9 to -0.7", "-0.7 to -0.4", 
+                    "-0.4 to -0.2", "-0.2 to 0", "0 to 0.2 ", "0.2 to 0.4",
+                    ".4 to 0.7", "0.7 to 0.9", "0.9 to 1.0"]
+strength = ["Very strong", "Strong", "Moderate", "Weak", "Negligible", "Negligible", "Weak",
+           "Moderate", "Strong", "Very strong"]
+direction = ["Negative"]*5 + ["Positive"]*5
+df = pd.DataFrame(
+    {'Correlation': correlation,
+     'Strength': strength,
+     'Direction': direction
+    }) 
 
-|Correlation  |Strength    |Direction |
-|:------------|:-----------|:---------|
-|-1.0 to -0.9 |Very strong |Negative  |
-|-0.9 to -0.7 |Strong      |Negative  |
-|-0.7 to -0.4 |Moderate    |Negative  |
-|-0.4 to -0.2 |Weak        |Negative  |
-|-0.2 to 0    |Negligible  |Negative  |
-|0 to 0.2     |Negligible  |Positive  |
-|0.2 to 0.4   |Weak        |Positive  |
-|0.4 to 0.7   |Moderate    |Positive  |
-|0.7 to 0.9   |Strong      |Positive  |
-|0.9 to 1.0   |Very strong |Positive  |
+glue("corr-interpretation-table", df, display=False)
 
-However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet" [@Anscombe1973], which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, since the dataset comes distributed with R. The commands would be:
+```{glue:figure} corr-interpretation-table
+:figwidth: 600px
+:name: table-corr-interpretation
+
+A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.
+```
+
+However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`anscombe1973graphs`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself. The commands would be:
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
 y1 = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
