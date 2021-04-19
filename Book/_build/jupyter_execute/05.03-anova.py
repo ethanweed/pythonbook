@@ -1,2 +1,3 @@
+(ANOVA)=
 # Comparing several means
 

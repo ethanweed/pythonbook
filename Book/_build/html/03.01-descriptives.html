@@ -417,30 +417,30 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-an-overall-summary-of-a-variable-summary">
-   1.4. Getting an overall summary of a variable{#summary}
+  <a class="reference internal nav-link" href="#getting-an-overall-summary-of-a-variable">
+   1.4. Getting an overall summary of a variable
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summarising-a-variable">
-     1.4.1. “Summarising” a variable
+    <a class="reference internal nav-link" href="#describing-a-variable">
+     1.4.1. “Describing” a variable
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summarising-a-data-frame">
-     1.4.2. “Summarising” a data frame
+    <a class="reference internal nav-link" href="#describing-a-data-frame">
+     1.4.2. “Describing” a data frame
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#standard-scores-zscore">
-   1.5. Standard scores{#zscore}
+  <a class="reference internal nav-link" href="#standard-scores">
+   1.5. Standard scores
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#correlations-correl">
-   1.6. Correlations{#correl}
+  <a class="reference internal nav-link" href="#correlations">
+   1.6. Correlations
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -559,7 +559,7 @@
 </div>
 </div>
 <p>This output doesn’t make it easy to get a sense of what the data are actually saying. Just “looking at the data” isn’t a terribly effective way of understanding data. In order to get some idea about what’s going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (next chapter). Since the descriptive statistics are the easier of the two topics, I’ll start with those, but nevertheless I’ll show you a histogram of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, since it should help you get a sense of what the data we’re trying to describe actually look like. But for what it’s worth, this histogram was generated using the <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> package. We’ll talk a lot more about how to draw histograms in <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>. For now, it’s enough to look at the histogram and note that it provides a fairly interpretable representation of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -1095,8 +1095,8 @@ Sydney              26
 Adelaide            26
 Carlton             26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1351,7 +1351,7 @@ Name: afl.finalists, dtype: int64
 <p>Okay, one last thing. This section so far has read a bit like a mystery novel. I’ve shown you how to calculate the variance, alluded to a mysterious difference between sample statistics and population parameters, but I haven’t mentioned the single most important thing… how do you <em>interpret</em> the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven’t given you the human-friendly interpretation of the variance is that there really isn’t one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it’s completely useless if you want to communicate with an actual human… variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don’t mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was “376.36 points-squared higher than the average margin”. This is <em>exactly</em> as stupid as it sounds; and so when we calculate a variance of 324.64, we’re in the same situation. I’ve watched a lot of footy games, and never has anyone referred to “points squared”. It’s <em>not</em> a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.</p>
 </div>
 <div class="section" id="standard-deviation">
-<h3><span class="section-number">1.2.4. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
+<span id="sd"></span><h3><span class="section-number">1.2.4. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
 <p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves our problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1436,7 +1436,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 <div class="section" id="skew-and-kurtosis">
 <span id="id12"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x131920c70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x137da5220&gt;
 </pre></div>
 </div>
 </div>
@@ -1494,7 +1494,7 @@ already knows how to calculate skew:</p>
 </div>
 <p>Not surprisingly, it turns out that the AFL winning margins data is fairly skewed.</p>
 <p>The final measure that is sometimes referred to, though very rarely in practice, is the <strong><em>kurtosis</em></strong> of a data set. Put simply, kurtosis is a measure of the “pointiness” of a data set, as illustrated in <a class="reference internal" href="#fig-kurtosis"><span class="std std-numref">Fig. 1.5</span></a>.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                                                              
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>                                                           
@@ -1503,18 +1503,54 @@ already knows how to calculate skew:</p>
 
 <span class="c1"># load some data</span>
 <span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata.csv&#39;</span>
+<span class="n">file1</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata.csv&#39;</span>
+<span class="n">file2</span> <span class="o">=</span> <span class="s1">&#39;kurtosisdata_ncurve.csv&#39;</span>
 
 <span class="n">cd</span><span class="p">(</span><span class="n">pathin</span><span class="p">)</span>
 
-<span class="n">df_kurtosis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">df_kurtosis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file1</span><span class="p">)</span>
+
+<span class="c1"># define a normal distribution with a mean of 0 and a standard deviation of 1</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">platykurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Platykurtic&quot;</span><span class="p">]</span>
+<span class="n">mesokurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Mesokurtic&quot;</span><span class="p">]</span>
+<span class="n">leptokurtic</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_kurtosis</span><span class="p">[</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Leptokurtic&quot;</span><span class="p">]</span>
 
 
-<span class="c1"># plot histograms of the data</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">df_kurtosis</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Kurtosis&quot;</span><span class="p">,</span>
-    <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">platykurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mesokurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>  <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">leptokurtic</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+
+
+<span class="c1">#ax1a = ax1.twinx()</span>
+<span class="c1">#ax2a = ax2.twinx()</span>
+<span class="c1">#ax3a = ax3.twinx()</span>
+
+<span class="c1">#ax2 = ax.twinx()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">40000</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1">#sns.lineplot(x=x,y=y, ax=ax1a, color=&#39;black&#39;)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Platykurtic</span><span class="se">\n\&quot;</span><span class="s2">too flat</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mesokurtic</span><span class="se">\n\&quot;</span><span class="s2">just right</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Leptokurtic</span><span class="se">\n\&quot;</span><span class="s2">too pointy</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25000</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">);</span>
+
+
 
 <span class="c1"># Again just ignore. This line is just here for the sake of figure captions and links.</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;kurtosis_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1527,7 +1563,7 @@ already knows how to calculate skew:</p>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1367e0310&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Leptokurtic\n&quot;too pointy&quot;&#39;}, xlabel=&#39;Values&#39;, ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
 </div>
@@ -1556,14 +1592,11 @@ already knows how to calculate skew:</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-The equation for kurtosis is pretty similar in spirit to the formulas we&#39;ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The &quot;$-3$&quot; part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a &quot;-3&quot; at the end of the formula, but there are good mathematical reasons for doing this.]
-$$
+<p>The equation for kurtosis is pretty similar in spirit to the formulas we’ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The “<span class="math notranslate nohighlight">\(-3\)</span>” part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a “-3” at the end of the formula, but there are good mathematical reasons for doing this.]
+$<span class="math notranslate nohighlight">\(
 \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3
-$$
-I know, it&#39;s not terribly interesting to me either. To make things worse, there are several different formulae for calculating kurtosis, so different statistics packages may give you different results, depending on which formula they use.  For instance, if we were to do this for the AFL margins, these three different methods give three different results:
-</pre></div>
-</div>
+\)</span>$
+I know, it’s not terribly interesting to me either. To make things worse, there are several different formulae for calculating kurtosis, so different statistics packages may give you different results, depending on which formula they use.  For instance, if we were to do this for the AFL margins, these three different methods give three different results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pandas: &quot;</span><span class="p">,</span> <span class="n">margins</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">())</span>
@@ -1582,35 +1615,83 @@ Pearson:  3.0643495578651616
 </div>
 <p>Take your pick, I guess? If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.</p>
 </div>
-<div class="section" id="getting-an-overall-summary-of-a-variable-summary">
-<h2><span class="section-number">1.4. </span>Getting an overall summary of a variable{#summary}<a class="headerlink" href="#getting-an-overall-summary-of-a-variable-summary" title="Permalink to this headline">¶</a></h2>
-<p>Up to this point in the chapter I’ve explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in R to calculate each one. However, it’s kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn’t it be nice if R had some helpful functions that would do all these tedious calculations at once? Something like <code class="docutils literal notranslate"><span class="pre">summary()</span></code> or <code class="docutils literal notranslate"><span class="pre">describe()</span></code>, perhaps? Why yes, yes it would. So much so that both of these functions exist. The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is in the <code class="docutils literal notranslate"><span class="pre">base</span></code> package, so it comes with every installation of R. The <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function is part of the <code class="docutils literal notranslate"><span class="pre">psych</span></code> package, which we loaded earlier in the chapter.</p>
-<div class="section" id="summarising-a-variable">
-<h3><span class="section-number">1.4.1. </span>“Summarising” a variable<a class="headerlink" href="#summarising-a-variable" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is an easy thing to use, but a tricky thing to understand in full, since it’s a generic function (see Section &#64;ref(generics). The basic idea behind the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function is that it prints out some useful information about whatever object (i.e., variable, as far as we’re concerned) you specify as the <code class="docutils literal notranslate"><span class="pre">object</span></code> argument. As a consequence, the behaviour of the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function differs quite dramatically depending on the class of the object that you give it. Let’s start by giving it a <em>numeric</em> object:</p>
+<div class="section" id="getting-an-overall-summary-of-a-variable">
+<h2><span class="section-number">1.4. </span>Getting an overall summary of a variable<a class="headerlink" href="#getting-an-overall-summary-of-a-variable" title="Permalink to this headline">¶</a></h2>
+<p>Up to this point in the chapter I’ve explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in Python to calculate each one. However, it’s kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn’t it be nice if Python had some helpful functions that would do all these tedious calculations at once? Something that <em>describes</em> the data? Maybe something like <code class="docutils literal notranslate"><span class="pre">describe()</span></code>, perhaps? Why yes, yes it would. So much so that this very function exists, available as a method for <code class="docutils literal notranslate"><span class="pre">pandas</span></code> objects.</p>
+<div class="section" id="describing-a-variable">
+<h3><span class="section-number">1.4.1. </span>“Describing” a variable<a class="headerlink" href="#describing-a-variable" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method is an easy thing to use, but a tricky thing to understand in full, since it’s a generic function. The basic idea behind the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method is that it prints out some useful information about whatever object (i.e., variable, as far as we’re concerned) you ask it to describe. As a consequence, the behaviour of the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function differs quite dramatically depending on the class of the object that you give it. Let’s start by giving it a <em>numeric</em> object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">36</span><span class="o">-</span><span class="mi">8</span><span class="n">d9454989809</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_afl_margins</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;df_afl_margins&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>176.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.301136</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>26.073636</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>12.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>30.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>116.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
-<p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout (see Chapter &#64;ref(studydesign)) as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition,</p>
+<p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout see <a class="reference internal" href="01.02-studydesign.html#studydesign"><span class="std std-ref">A brief introduction to research design</span></a> as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">df_afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1667,10 +1748,10 @@ Pearson:  3.0643495578651616
 </table>
 </div></div></div>
 </div>
-<p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask R for a <code class="docutils literal notranslate"><span class="pre">summary()</span></code></p>
+<p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask Python to <code class="docutils literal notranslate"><span class="pre">describe()</span></code> this data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1684,11 +1765,11 @@ Name: blowouts, dtype: object
 </div>
 </div>
 </div>
-<p>In this context, the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function gives us a count of the number of <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> values, the number of <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> values, and the number of missing values (i.e., the <code class="docutils literal notranslate"><span class="pre">NA</span></code>s). Pretty reasonable behaviour.</p>
+<p>In this context, <code class="docutils literal notranslate"><span class="pre">describe</span></code> gives us the total number of games (176), the number of categories for those games(2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable.</p>
 </div>
-<div class="section" id="summarising-a-data-frame">
-<h3><span class="section-number">1.4.2. </span>“Summarising” a data frame<a class="headerlink" href="#summarising-a-data-frame" title="Permalink to this headline">¶</a></h3>
-<p>Okay what about data frames? When you pass a data frame to the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinicaltrial.Rdata</span></code> file, and we’ll use it a lot in Chapter &#64;ref(anova) (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
+<div class="section" id="describing-a-data-frame">
+<h3><span class="section-number">1.4.2. </span>“Describing” a data frame<a class="headerlink" href="#describing-a-data-frame" title="Permalink to this headline">¶</a></h3>
+<p>Okay what about data frames? When you <code class="docutils literal notranslate"><span class="pre">describe()</span></code> a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want <code class="docutils literal notranslate"><span class="pre">'all'</span></code> the variables). To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinical_trial_data.csv</span></code> file, and we’ll use it a lot in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">Comparing several means</span></a> (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load data</span>
@@ -1759,72 +1840,141 @@ Name: blowouts, dtype: object
 </table>
 </div></div></div>
 </div>
-<p>There’s a single data frame called <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code> which contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">summary()</span></code> function sheds a little more light on this situation:</p>
+<p>Our dataframe <code class="docutils literal notranslate"><span class="pre">df_clintrial</span></code> contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function sheds a little more light on this situation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[</span><span class="s1">&#39;drug&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[</span><span class="s1">&#39;therapy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean mood gain: &#39;</span><span class="p">,</span> <span class="n">df_clintrial</span><span class="p">[</span><span class="s1">&#39;mood.gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-      
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>therapy
-CBT           9
-no.therapy    9
-Name: drug, dtype: int64
-drug
-anxifree    6
-joyzepam    6
-placebo     6
-Name: therapy, dtype: int64
-drug
-anxifree    0.716667
-joyzepam    1.483333
-placebo     0.450000
-Name: mood.gain, dtype: float64
-therapy
-CBT           1.044444
-no.therapy    0.722222
-Name: mood.gain, dtype: float64
-Mean mood gain:  0.8833333333333333
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>drug</th>
+      <th>therapy</th>
+      <th>mood.gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>18</td>
+      <td>18</td>
+      <td>18.000000</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>3</td>
+      <td>2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>6</td>
+      <td>9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.883333</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.533854</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.100000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.425000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.850000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.300000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.800000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If we want to <code class="docutils literal notranslate"><span class="pre">describe</span></code> the entire dataframe, we need to add the argument  <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">=</span> <span class="pre">'all'</span></code>. This gives us information on all of the of columns, but this is still rather limited. I mean, I guess I learned something about this data, but if we want to really understand these data, we will have to use other tools to investigate them. That is what the rest of this book is about.</p>
 </div>
 </div>
-</div>
-<p>Evidently there were three drugs: a placebo, something called “anxifree” and something called “joyzepam”; and there were 6 people administered each drug. There were 9 people treated using cognitive behavioural therapy (CBT) and 9 people who received no psychological treatment. And we can see from looking at the summary of the <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> variable that most people did show a mood gain (mean <span class="math notranslate nohighlight">\(=.88\)</span>), though without knowing what the scale is here it’s hard to say much more than that. Still, that’s not too bad. Overall, I feel that I learned something from that.</p>
-</div>
-</div>
-<div class="section" id="standard-scores-zscore">
-<h2><span class="section-number">1.5. </span>Standard scores{#zscore}<a class="headerlink" href="#standard-scores-zscore" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standard-scores">
+<h2><span class="section-number">1.5. </span>Standard scores<a class="headerlink" href="#standard-scores" title="Permalink to this headline">¶</a></h2>
 <p>Suppose my friend is putting together a new questionnaire intended to measure “grumpiness”. The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let’s imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about would be to say that I have grumpiness of 35/50, so you might say that I’m 70% grumpy. But that’s a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I’m only 70% grumpy <em>with respect to this set of survey questions</em>. Even if it’s a very good questionnaire, this isn’t very a informative statement.</p>
 <p>A simpler way around this is to describe my grumpiness by comparing me to other people. Shockingly, out of my friend’s sample of 1,000,000 people, only 159 people were as grumpy as me (that’s not at all unrealistic, frankly), suggesting that I’m in the top 0.016% of people for grumpiness. This makes much more sense than trying to interpret the raw data. This idea – that we should describe my grumpiness in terms of the overall distribution of the grumpiness of humans – is the qualitative idea that standardisation attempts to get at. One way to do this is to do exactly what I just did, and describe everything in terms of percentiles. However, the problem with doing this is that “it’s lonely at the top”. Suppose that my friend had only collected a sample of 1000 people (still a pretty big sample for the purposes of testing a new questionnaire, I’d like to add), and this time gotten a mean of 16 out of 50 with a standard deviation of 5, let’s say. The problem is that almost certainly, not a single person in that sample would be as grumpy as me.</p>
-<p>However, all is not lost. A different approach is to convert my grumpiness score into a <strong><em>standard score</em></strong>, also referred to as a <span class="math notranslate nohighlight">\(z\)</span>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in “pseudo-maths” the standard score is calculated like this:
-$<span class="math notranslate nohighlight">\(
+<p>However, all is not lost. A different approach is to convert my grumpiness score into a <strong><em>standard score</em></strong>, also referred to as a <span class="math notranslate nohighlight">\(z\)</span>-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in “pseudo-maths” the standard score is calculated like this:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{standard score} = \frac{\mbox{raw score} - \mbox{mean}}{\mbox{standard deviation}}
-\)</span><span class="math notranslate nohighlight">\( 
-In actual maths, the equation for the \)</span>z<span class="math notranslate nohighlight">\(-score is
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>In actual maths, the equation for the <span class="math notranslate nohighlight">\(z\)</span>-score is</p>
+<div class="math notranslate nohighlight">
+\[
 z_i = \frac{X_i - \bar{X}}{\hat\sigma}
-\)</span><span class="math notranslate nohighlight">\(
-So, going back to the grumpiness data, we can now transform Dan's raw grumpiness into a standardised grumpiness score. I haven't discussed how to compute \)</span>z<span class="math notranslate nohighlight">\(-scores, explicitly, but you can probably guess. For a dataset d, the statistics perhaps the easiest way is to do: `stats.zscore(data)`. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>So, going back to the grumpiness data, we can now transform Dan’s raw grumpiness into a standardised grumpiness score. I haven’t discussed how to compute <span class="math notranslate nohighlight">\(z\)</span>-scores, explicitly, but you can probably guess. For a dataset d, an easy way to find a z-score is to import <code class="docutils literal notranslate"><span class="pre">stats</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> and then do: <code class="docutils literal notranslate"><span class="pre">stats.zscore(d)</span></code>. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be</p>
+<div class="math notranslate nohighlight">
+\[
 z = \frac{35 - 17}{5} = 3.6
-\)</span>$</p>
-<p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about estimation yet (see Chapter &#64;ref(estimation)) I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
-<p>To interpret this value, recall the rough heuristic that I provided in Section &#64;ref(sd), in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <span class="math notranslate nohighlight">\(z\)</span> score of 3.6 indicates that I’m very grumpy indeed.</p>
+\]</div>
+<p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>  yet  I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
+<p>To interpret this value, recall the rough heuristic that I provided in the section on <a class="reference internal" href="#sd"><span class="std std-ref">standard deviation</span></a>, in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <span class="math notranslate nohighlight">\(z\)</span> score of 3.6 indicates that I’m very grumpy indeed.</p>
 <p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
-<p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other.^[Though some caution is usually warranted. It’s not always the case that one standard deviation on variable A corresponds to the same “kind” of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the <span class="math notranslate nohighlight">\(z\)</span> scores of two variables can be meaningfully compared.] I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
+<p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other. <a class="footnote-reference brackets" href="#note10" id="id13">10</a>  I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
 </div>
-<div class="section" id="correlations-correl">
-<h2><span class="section-number">1.6. </span>Correlations{#correl}<a class="headerlink" href="#correlations-correl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="correlations">
+<span id="id14"></span><h2><span class="section-number">1.6. </span>Correlations<a class="headerlink" href="#correlations" title="Permalink to this headline">¶</a></h2>
 <p>Up to this point we have focused entirely on how to construct descriptive statistics for a single variable. What we haven’t done is talked about how to describe the relationships <em>between</em> variables in the data. To do that, we want to talk mostly about the <strong><em>correlation</em></strong> between variables. But first, we need some data.</p>
 <div class="section" id="the-data">
 <h3><span class="section-number">1.6.1. </span>The data<a class="headerlink" href="#the-data" title="Permalink to this headline">¶</a></h3>
-<p>After spending so much time looking at the AFL data, I’m starting to get bored with sports. Instead, let’s turn to a topic close to every parent’s heart: sleep. The following data set is fictitious, but based on real events. Suppose I’m curious to find out how much my infant son’s sleeping habits affect my mood. Let’s say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I’ve been measuring my grumpiness, my sleeping patterns and my son’s sleeping patterns for quite some time now. Let’s say, for 100 days. And, being a nerd, I’ve saved the data as a file called <code class="docutils literal notranslate"><span class="pre">parenthood.Rdata</span></code>. If we load the data…</p>
+<p>After spending so much time looking at the AFL data, I’m starting to get bored with sports. Instead, let’s turn to a topic close to every parent’s heart: sleep. The following data set is fictitious, but based on real events. Suppose I’m curious to find out how much my infant son’s sleeping habits affect my mood. Let’s say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I’ve been measuring my grumpiness, my sleeping patterns and my son’s sleeping patterns for quite some time now. Let’s say, for 100 days. And, being a nerd, I’ve saved the data as a file called <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code>. If we load the data…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span> <span class="k">as</span> <span class="n">cd</span>
@@ -1998,30 +2148,8 @@ z = \frac{35 - 17}{5} = 3.6
 </table>
 </div></div></div>
 </div>
-<p>Finally, to give a graphical depiction of what each of the three interesting variables looks like, Figure &#64;ref(fig:parenthood) plots histograms.</p>
-<p>```{r parenthood, fig.cap=”Histograms for the three interesting variables in the <code class="docutils literal notranslate"><span class="pre">parenthood</span></code> data set”, echo=FALSE}</p>
-<p>par(mfcol = c(1, 3)) # Create a 2 x 2 plotting matrix</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>plotOne &lt;- function( x,... ) {
-
-	hist( x, border=&quot;white&quot;,
-		col=(&quot;cornflowerblue&quot;),
-		ylab=&quot;Frequency&quot;, main=&quot;&quot;,
-		...
-	)
-	
-}
-
-plotOne( parenthood$dan.grump, xlab=&quot;My grumpiness&quot; )
-
-plotOne( parenthood$dan.sleep, xlab=&quot;My sleep (hours)&quot; )
-
-plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )	
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="cell docutils container">
+<p>Finally, to give a graphical depiction of what each of the three interesting variables looks like, <a class="reference internal" href="#fig-grump"><span class="std std-numref">Fig. 1.6</span></a> plots histograms.</p>
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
@@ -2042,18 +2170,24 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 
 <span class="c1"># Baby&#39;s sleep</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">baby_sleep</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">baby_sleep</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">baby_sleep</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+
+<span class="c1"># You know the drill by now: this is just for the purpose of linking to the figure in the book</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;grump_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;baby.sleep&#39;)
-</pre></div>
-</div>
-<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
+<img alt="_images/03.01-descriptives_102_1.png" src="_images/03.01-descriptives_102_1.png" />
 </div>
 </div>
-<p>One thing to note: just because R can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table &#64;ref(tab:parenthoodtab).^[Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.]  Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
+<div class="figure align-default" id="fig-grump" style="width: 650px">
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_102_0.png" src="_images/03.01-descriptives_102_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 1.6 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
+</div>
+<p>One thing to note: just because Python can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. <a class="footnote-reference brackets" href="#note11" id="id15">11</a> Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p>variable</p></th>
@@ -2095,32 +2229,6 @@ plotOne( parenthood$baby.sleep, xlab=&quot;The baby&#39;s sleep (hours)&quot; )
 </div>
 <div class="section" id="the-strength-and-direction-of-a-relationship">
 <h3><span class="section-number">1.6.2. </span>The strength and direction of a relationship<a class="headerlink" href="#the-strength-and-direction-of-a-relationship" title="Permalink to this headline">¶</a></h3>
-<p>```{r scatterparent1a, fig.cap=”Scatterplot showing the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>”, echo=FALSE}
-oneCorPlot &lt;- function(x,y,…) {</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>	plot(x,y,pch=19,col=(&quot;black&quot;),...)
-	
-}
-
-oneCorPlot( parenthood$dan.sleep, parenthood$dan.grump, 
-	xlab=&quot;My sleep (hours)&quot;, ylab=&quot;My grumpiness&quot;
-)
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-```{r scatterparent1b, fig.cap=&quot;Scatterplot showing the relationship between `baby.sleep` and `dan.grump`&quot;, echo=FALSE}
-oneCorPlot &lt;- function(x,y,...) {
-		
-		plot(x,y,pch=19,col=(&quot;black&quot;),...)
-		
-	}
-	
-	oneCorPlot( parenthood$baby.sleep, parenthood$dan.grump, 
-		xlab=&quot;The baby&#39;s sleep (hours)&quot;, ylab=&quot;My grumpiness&quot;
-	)
-
-</pre></div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2135,18 +2243,21 @@ oneCorPlot &lt;- function(x,y,...) {
 <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Baby&quot;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Sleep&quot;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;My grumpiness&quot;</span><span class="p">)</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleep_scatter-fig1&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My grumpiness&#39;)
-</pre></div>
-</div>
 <img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
 </div>
 </div>
-<p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1a) with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> (Figure &#64;ref(fig:scatterparent1b). When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
-<p>In contrast, let’s consider Figure &#64;ref(fig:scatterparent1b) vs. Figure &#64;ref(fig:scatterparent2). If we compare the scatterplot of “<code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>” to the scatterplot of “``baby.sleep<code class="docutils literal notranslate"><span class="pre">v</span></code>dan.sleep`”, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get <em>more</em> sleep (positive relationship, but if he sleeps more then I get <em>less</em> grumpy (negative relationship).</p>
+<div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 1.7 </span><span class="caption-text">Scatterplots showing the relationship between dan.sleep and dan.grump (left) and the rela-
+tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" href="#fig-sleep-scatter1" title="Permalink to this image">¶</a></p>
+</div>
+<p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> <a class="reference internal" href="#fig-sleep-scatter1"><span class="std std-numref">Fig. 1.7</span></a>. When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
+<p>In contrast, let’s consider <a class="reference internal" href="#fig-sleep-scatter2"><span class="std std-numref">Fig. 1.8</span></a>. If we compare the scatterplot of “<code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>” to the scatterplot of <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code>, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get <em>more</em> sleep (positive relationship, but if he sleeps more then I get <em>less</em> grumpy (negative relationship).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># y axes are now on different scales, so sharey=False</span>
@@ -2159,15 +2270,18 @@ oneCorPlot &lt;- function(x,y,...) {
 <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">baby_sleep</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dan_sleep</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Baby&#39;s sleep&quot;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;My sleep&quot;</span><span class="p">)</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleep_scatter-fig2&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;My sleep&#39;)
-</pre></div>
+<img alt="_images/03.01-descriptives_109_1.png" src="_images/03.01-descriptives_109_1.png" />
 </div>
-<img alt="_images/03.01-descriptives_108_1.png" src="_images/03.01-descriptives_108_1.png" />
 </div>
+<div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 1.8 </span><span class="caption-text">Scatterplots showing the relationship between baby.sleep and dan.grump (left), as compared
+to the relationship between baby.sleep and dan.sleep (right).</span><a class="headerlink" href="#fig-sleep-scatter2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="the-correlation-coefficient">
@@ -2414,7 +2528,7 @@ oneCorPlot(X1,Y1,xlab=&quot;X1&quot;,ylab=&quot;Y1&quot;)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_122_1.png" src="_images/03.01-descriptives_122_1.png" />
+<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
 </div>
 </div>
 <p>The lesson here, which so very many people seem to forget in real life is “<em>always graph your raw data</em>”. This will be the focus of Chapter &#64;ref(graphics).</p>
@@ -2570,7 +2684,7 @@ width &lt;- 7
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;hours&#39;, ylabel=&#39;grade&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
+<img alt="_images/03.01-descriptives_130_1.png" src="_images/03.01-descriptives_130_1.png" />
 </div>
 </div>
 <p><em>Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</em></p>
@@ -3156,6 +3270,12 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">9</a></span></dt>
 <dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.</p>
+</dd>
+<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id13">10</a></span></dt>
+<dd><p>Though some caution is usually warranted. It’s not always the case that one standard deviation on variable A corresponds to the same “kind” of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the <span class="math notranslate nohighlight">\(z\)</span> scores of two variables can be meaningfully compared.</p>
+</dd>
+<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
+<dd><p>Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</p>
 </dd>
 </dl>
 </div>

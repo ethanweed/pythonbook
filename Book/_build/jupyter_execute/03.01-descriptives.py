@@ -401,6 +401,7 @@ This gives us a rather different value for the variance in our data. Going into 
 
 Okay, one last thing. This section so far has read a bit like a mystery novel. I've shown you how to calculate the variance, alluded to a mysterious difference between sample statistics and population parameters, but I haven't mentioned the single most important thing... how do you *interpret* the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven't given you the human-friendly interpretation of the variance is that there really isn't one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it's completely useless if you want to communicate with an actual human... variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don't mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was "376.36 points-squared higher than the average margin". This is *exactly* as stupid as it sounds; and so when we calculate a variance of 324.64, we're in the same situation. I've watched a lot of footy games, and never has anyone referred to "points squared". It's *not* a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.
 
+(sd)=
 ### Standard deviation
 
 Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven't talked about, but -- since you're a human and not a robot -- you'd like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the **_standard deviation_**, also called the "root mean squared deviation", or RMSD. This solves our problem fairly neatly: while nobody has a clue what "a variance of 324.68 points-squared" really means, it's much easier to understand "a standard deviation of 18.01 points", since it's expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as $s$, though 	"sd" and "std dev." are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won't be surprised to see that the formula is:
@@ -527,18 +528,54 @@ import matplotlib.pyplot as plt
 
 # load some data
 pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'kurtosisdata.csv'
+file1 = 'kurtosisdata.csv'
+file2 = 'kurtosisdata_ncurve.csv'
 
 cd(pathin)
 
-df_kurtosis = pd.read_csv(file)
+df_kurtosis = pd.read_csv(file1)
+
+# define a normal distribution with a mean of 0 and a standard deviation of 1
+mu = 0
+sigma = 1
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = stats.norm.pdf(x, mu, sigma)
+
+platykurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Platykurtic"]
+mesokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Mesokurtic"]
+leptokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Leptokurtic"]
 
 
-# plot histograms of the data
-ax = sns.displot(
-    data = df_kurtosis, x = "Values", col="Kurtosis",
-    binwidth=.5, height=3, facet_kws=dict(margin_titles=True),
-)
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+ax1 = sns.histplot(data=platykurtic, x = "Values", binwidth=.5, ax=axes[0])
+ax2 = sns.histplot(data=mesokurtic, x = "Values", binwidth=.5,  ax=axes[1])
+ax3 = sns.histplot(data=leptokurtic, x = "Values", binwidth=.5, ax=axes[2])
+
+
+
+#ax1a = ax1.twinx()
+#ax2a = ax2.twinx()
+#ax3a = ax3.twinx()
+
+#ax2 = ax.twinx()
+sns.lineplot(x=x,y=y*40000, ax=ax1, color='black')
+sns.lineplot(x=x,y=y*40000, ax=ax2, color='black')
+sns.lineplot(x=x,y=y*40000, ax=ax3, color='black')
+
+#sns.lineplot(x=x,y=y, ax=ax1a, color='black')
+
+axes[0].set_title("Platykurtic\n\"too flat\"")
+axes[1].set_title("Mesokurtic\n\"just right\"")
+axes[2].set_title("Leptokurtic\n\"too pointy\"")
+
+for ax in axes:
+    ax.set_xlim(-6,6)
+    ax.set_ylim(0,25000)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False);
+
+
 
 # Again just ignore. This line is just here for the sake of figure captions and links.
 glue("kurtosis_fig", ax, display=False)
@@ -557,7 +594,7 @@ By convention, we say that the "normal curve" (black lines) has zero kurtosis, s
 |too flat           |platykurtic    |negative       |
 |just pointy enough |mesokurtic     |zero           |
 |too pointy         |leptokurtic    |positive       |
-```
+
 
 The equation for kurtosis is pretty similar in spirit to the formulas we've seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.]
 $$
@@ -571,40 +608,36 @@ print("Pearson: ",stats.kurtosis(margins, fisher=False))
 
 Take your pick, I guess? If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.
 
-## Getting an overall summary of a variable{#summary}
+## Getting an overall summary of a variable
 
-Up to this point in the chapter I've explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in R to calculate each one. However, it's kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn't it be nice if R had some helpful functions that would do all these tedious calculations at once? Something like `summary()` or `describe()`, perhaps? Why yes, yes it would. So much so that both of these functions exist. The `summary()` function is in the `base` package, so it comes with every installation of R. The `describe()` function is part of the `psych` package, which we loaded earlier in the chapter.
+Up to this point in the chapter I've explained several different summary statistics that are commonly used when analysing data, along with specific functions that you can use in Python to calculate each one. However, it's kind of annoying to have to separately calculate means, medians, standard deviations, skews etc. Wouldn't it be nice if Python had some helpful functions that would do all these tedious calculations at once? Something that *describes* the data? Maybe something like `describe()`, perhaps? Why yes, yes it would. So much so that this very function exists, available as a method for `pandas` objects.
 
 
 
-### "Summarising" a variable
+### "Describing" a variable
 
-The `summary()` function is an easy thing to use, but a tricky thing to understand in full, since it's a generic function (see Section \@ref(generics). The basic idea behind the `summary()` function is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you specify as the `object` argument. As a consequence, the behaviour of the `summary()` function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a *numeric* object:
+The `describe()` method is an easy thing to use, but a tricky thing to understand in full, since it's a generic function. The basic idea behind the `describe()` method is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you ask it to describe. As a consequence, the behaviour of the `describe()` function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a *numeric* object:
 
-df_afl_margins.describe()
+afl_margins.describe()
 
 For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.
 
-Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout (see Chapter \@ref(studydesign)) as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition, 
+Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout see [](studydesign) as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
 
-df_afl_margins['blowouts'] = np.where(df_afl_margins['afl.margins'] > 50, True, False)
-df_afl_margins.head()
+afl_margins['blowouts'] = np.where(afl_margins['afl.margins'] > 50, True, False)
+afl_margins.head()
 
-So that's what the `blowouts` variable looks like. Now let's ask R for a `summary()` 
-```{r}
-summary( object = blowouts )
+So that's what the `blowouts` variable looks like. Now let's ask Python to `describe()` this data: 
 
-```
+afl_margins['blowouts'].describe()
 
-df_afl_margins['blowouts'].describe()
-
-In this context, the `summary()` function gives us a count of the number of `TRUE` values, the number of `FALSE` values, and the number of missing values (i.e., the `NA`s). Pretty reasonable behaviour. 
+In this context, `describe` gives us the total number of games (176), the number of categories for those games(2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable. 
 
 
 
-### "Summarising" a data frame
+### "Describing" a data frame
 
-Okay what about data frames? When you pass a data frame to the `summary()` function, it produces a slightly condensed summary of each variable inside the data frame. To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinicaltrial.Rdata` file, and we'll use it a lot in Chapter \@ref(anova) (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
+Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in the chapter on [](ANOVA) (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
 # load data
 pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
@@ -615,21 +648,14 @@ df_clintrial.head()
 
 
 
-There's a single data frame called `clin.trial` which contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `summary()` function sheds a little more light on this situation:
+Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
-print(df_clintrial.groupby(['therapy'])['drug'].count())
-print(df_clintrial.groupby(['drug'])['therapy'].count())
-print(df_clintrial.groupby(['drug'])['mood.gain'].mean())
-print(df_clintrial.groupby(['therapy'])['mood.gain'].mean())
-print('Mean mood gain: ', df_clintrial['mood.gain'].mean())
-      
+df_clintrial.describe(include = 'all')
 
-Evidently there were three drugs: a placebo, something called "anxifree" and something called "joyzepam"; and there were 6 people administered each drug. There were 9 people treated using cognitive behavioural therapy (CBT) and 9 people who received no psychological treatment. And we can see from looking at the summary of the `mood.gain` variable that most people did show a mood gain (mean $=.88$), though without knowing what the scale is here it's hard to say much more than that. Still, that's not too bad. Overall, I feel that I learned something from that.
+If we want to `describe` the entire dataframe, we need to add the argument  `include = 'all'`. This gives us information on all of the of columns, but this is still rather limited. I mean, I guess I learned something about this data, but if we want to really understand these data, we will have to use other tools to investigate them. That is what the rest of this book is about.
 
 
-
-
-## Standard scores{#zscore}
+## Standard scores
 
 
 Suppose my friend is putting together a new questionnaire intended to measure "grumpiness". The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let's imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about would be to say that I have grumpiness of 35/50, so you might say that I'm 70% grumpy. But that's a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I'm only 70% grumpy *with respect to this set of survey questions*. Even if it's a very good questionnaire, this isn't very a informative statement. 
@@ -638,33 +664,41 @@ A simpler way around this is to describe my grumpiness by comparing me to other 
 
 
 However, all is not lost. A different approach is to convert my grumpiness score into a **_standard score_**, also referred to as a $z$-score. The standard score is defined as the number of standard deviations above the mean that my grumpiness score lies. To phrase it in "pseudo-maths" the standard score is calculated like this:
+
 $$
 \mbox{standard score} = \frac{\mbox{raw score} - \mbox{mean}}{\mbox{standard deviation}}
 $$ 
+
 In actual maths, the equation for the $z$-score is
+
 $$
 z_i = \frac{X_i - \bar{X}}{\hat\sigma}
 $$
-So, going back to the grumpiness data, we can now transform Dan's raw grumpiness into a standardised grumpiness score. I haven't discussed how to compute $z$-scores, explicitly, but you can probably guess. For a dataset d, the statistics perhaps the easiest way is to do: `stats.zscore(data)`. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be 
+
+So, going back to the grumpiness data, we can now transform Dan's raw grumpiness into a standardised grumpiness score. I haven't discussed how to compute $z$-scores, explicitly, but you can probably guess. For a dataset d, an easy way to find a z-score is to import `stats` from `scipy` and then do: `stats.zscore(d)`. If the mean is 17 and the standard deviation is 5 then my standardised grumpiness score would be 
+
 $$
 z = \frac{35 - 17}{5} = 3.6
 $$
 
-Technically, because I'm calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I'm actually doing is *estimating* a $z$ score. However, since we haven't talked about estimation yet (see Chapter \@ref(estimation)) I think it's best to ignore this subtlety, especially as it makes very little difference to our calculations.
+Technically, because I'm calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I'm actually doing is *estimating* a $z$ score. However, since we haven't talked about [estimation](estimation)  yet  I think it's best to ignore this subtlety, especially as it makes very little difference to our calculations.
 
-To interpret this value, recall the rough heuristic that I provided in Section \@ref(sd), in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a $z$ score of 3.6 indicates that I'm very grumpy indeed. 
+To interpret this value, recall the rough heuristic that I provided in the section on [standard deviation](sd), in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a $z$ score of 3.6 indicates that I'm very grumpy indeed. 
 
 In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can't. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn't make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are "about" fundamentally different things, so this would be like comparing apples to oranges.
 
-What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get $z = (35-17)/5 = 3.6$ for grumpiness and $z = (2-13)/4 = -2.75$ for extraversion. These two numbers *can* be compared to each other.^[Though some caution is usually warranted. It's not always the case that one standard deviation on variable A corresponds to the same "kind" of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the $z$ scores of two variables can be meaningfully compared.] I'm much less extraverted than most people ($z = -2.75$) and much grumpier than most people ($z = 3.6$): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls *relative to its own population*, it *is* possible to compare standardised scores across completely different variables. 
+What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get $z = (35-17)/5 = 3.6$ for grumpiness and $z = (2-13)/4 = -2.75$ for extraversion. These two numbers *can* be compared to each other. [^note10]  I'm much less extraverted than most people ($z = -2.75$) and much grumpier than most people ($z = 3.6$): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls *relative to its own population*, it *is* possible to compare standardised scores across completely different variables. 
 
-## Correlations{#correl}
+[^note10]: Though some caution is usually warranted. It's not always the case that one standard deviation on variable A corresponds to the same "kind" of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the $z$ scores of two variables can be meaningfully compared.
+
+(correlations)=
+## Correlations
 
 Up to this point we have focused entirely on how to construct descriptive statistics for a single variable. What we haven't done is talked about how to describe the relationships *between* variables in the data. To do that, we want to talk mostly about the **_correlation_** between variables. But first, we need some data.
 
 ### The data 
 
-After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.Rdata`. If we load the data...
+After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
 from os import chdir as cd
 import pandas as pd
@@ -682,29 +716,9 @@ parenthood.head()
 
 parenthood.describe()
 
-Finally, to give a graphical depiction of what each of the three interesting variables looks like, Figure \@ref(fig:parenthood) plots histograms. 
+Finally, to give a graphical depiction of what each of the three interesting variables looks like, {numref}`fig-grump` plots histograms. 
 
-```{r parenthood, fig.cap="Histograms for the three interesting variables in the `parenthood` data set", echo=FALSE}
 
-par(mfcol = c(1, 3)) # Create a 2 x 2 plotting matrix
-
-	plotOne <- function( x,... ) {
-	
-		hist( x, border="white",
-			col=("cornflowerblue"),
-			ylab="Frequency", main="",
-			...
-		)
-		
-	}
-	
-	plotOne( parenthood$dan.grump, xlab="My grumpiness" )
-
-	plotOne( parenthood$dan.sleep, xlab="My sleep (hours)" )
-
-	plotOne( parenthood$baby.sleep, xlab="The baby's sleep (hours)" )	
-
-```
 
 import seaborn as sns
 
@@ -725,13 +739,19 @@ axes[1].set_title(dan_sleep.name)
 
 # Baby's sleep
 sns.histplot(baby_sleep, ax=axes[2])
-axes[2].set_title(baby_sleep.name)
+axes[2].set_title(baby_sleep.name);
 
+# You know the drill by now: this is just for the purpose of linking to the figure in the book
+glue("grump_fig", fig, display=False)
 
+```{glue:figure} grump_fig
+:figwidth: 650px
+:name: fig-grump
 
-One thing to note: just because R can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in Table \@ref(tab:parenthoodtab).^[Actually, even that table is more than I'd bother with. In practice most people pick *one* measure of central tendency, and *one* measure of variability only.]  Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.  
+Histograms for the three interesting variables in the parenthood data set.
+```
 
-
+One thing to note: just because Python can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. [^note11] Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.  
 
 |variable                |min  |max   |mean  |median |std. dev |IQR  |
 |:-----------------------|:----|:-----|:-----|:------|:--------|:----|
@@ -739,35 +759,10 @@ One thing to note: just because R can calculate dozens of different statistics d
 |Dan's hours slept       |4.84 |9     |6.97  |7.03   |1.02     |1.45 |
 |Dan's son's hours slept |3.25 |12.07 |8.05  |7.95   |2.07     |3.21 |
 
+[^note11]: Actually, even that table is more than I'd bother with. In practice most people pick *one* measure of central tendency, and *one* measure of variability only.
+
 ### The strength and direction of a relationship
 
-```{r scatterparent1a, fig.cap="Scatterplot showing the relationship between `dan.sleep` and `dan.grump`", echo=FALSE}
-oneCorPlot <- function(x,y,...) {
-		
-		plot(x,y,pch=19,col=("black"),...)
-		
-	}
-	
-	oneCorPlot( parenthood$dan.sleep, parenthood$dan.grump, 
-		xlab="My sleep (hours)", ylab="My grumpiness"
-	)
-
-
-```
-
-
-```{r scatterparent1b, fig.cap="Scatterplot showing the relationship between `baby.sleep` and `dan.grump`", echo=FALSE}
-oneCorPlot <- function(x,y,...) {
-		
-		plot(x,y,pch=19,col=("black"),...)
-		
-	}
-	
-	oneCorPlot( parenthood$baby.sleep, parenthood$dan.grump, 
-		xlab="The baby's sleep (hours)", ylab="My grumpiness"
-	)
-
-```
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 fig.suptitle('Sleepy, grumpy scatterplots')
@@ -782,10 +777,19 @@ fig.axes[1].set_title("Baby")
 fig.axes[1].set_xlabel("Sleep")
 fig.axes[1].set_ylabel("My grumpiness")
 
+glue("sleep_scatter-fig1", fig, display=False)
 
-We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let's compare the relationship between `dan.sleep` and `dan.grump` (Figure \@ref(fig:scatterparent1a) with that between `baby.sleep` and `dan.grump` (Figure \@ref(fig:scatterparent1b). When looking at these two plots side by side, it's clear that the relationship is *qualitatively* the same in both cases: more sleep equals less grump! However, it's also pretty obvious that the relationship between `dan.sleep` and `dan.grump` is *stronger* than the relationship between `baby.sleep` and `dan.grump`. The plot on the left is "neater" than the one on the right. What it feels like is that if you want to predict what my mood is, it'd help you a little bit to know how many hours my son slept, but it'd be *more* helpful to know how many hours I slept. 
+```{glue:figure} sleep_scatter_fig1
+:figwidth: 600px
+:name: fig-sleep_scatter1
 
-In contrast, let's consider Figure \@ref(fig:scatterparent1b) vs. Figure \@ref(fig:scatterparent2). If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of "``baby.sleep` v `dan.sleep`", the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
+Scatterplots showing the relationship between dan.sleep and dan.grump (left) and the rela-
+tionship between baby.sleep and dan.grump (right).
+```
+
+We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let's compare the relationship between `dan.sleep` and `dan.grump` with that between `baby.sleep` and `dan.grump` {numref}`fig-sleep_scatter1`. When looking at these two plots side by side, it's clear that the relationship is *qualitatively* the same in both cases: more sleep equals less grump! However, it's also pretty obvious that the relationship between `dan.sleep` and `dan.grump` is *stronger* than the relationship between `baby.sleep` and `dan.grump`. The plot on the left is "neater" than the one on the right. What it feels like is that if you want to predict what my mood is, it'd help you a little bit to know how many hours my son slept, but it'd be *more* helpful to know how many hours I slept. 
+
+In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
 fig.suptitle('Sleepier, grumpier scatterplots')
@@ -797,6 +801,16 @@ fig.axes[0].set_ylabel("My grumpiness")
 sns.scatterplot(x = baby_sleep, y = dan_sleep, ax = axes[1])
 fig.axes[1].set_xlabel("Baby's sleep")
 fig.axes[1].set_ylabel("My sleep")
+
+glue("sleep_scatter-fig2", fig, display=False)
+
+```{glue:figure} sleep_scatter_fig2
+:figwidth: 600px
+:name: fig-sleep_scatter2
+
+Scatterplots showing the relationship between baby.sleep and dan.grump (left), as compared
+to the relationship between baby.sleep and dan.sleep (right).
+```
 
 ### The correlation coefficient
 
