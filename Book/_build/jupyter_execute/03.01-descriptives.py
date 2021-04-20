@@ -40,6 +40,7 @@ A histogram of the AFL 2010 winning margin data (the `afl_margins` variable). As
 ```
 
 
+(central-tendency)=
 ## Measures of central tendency
 
 Drawing pictures of the data, as I did in {numref}`fig-AFL-Margins` is an excellent way to convey the "gist" of what the data is trying to tell you, it's often extremely useful to try to condense the data into a few simple "summary" statistics. In most situations, the first thing that you'll want to calculate is a measure of **_central tendency_**. That is, you'd like to know something about the "average" or "middle" of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I'll explain each of these in turn, and then discuss when each of them is useful.
@@ -292,10 +293,7 @@ freq.max()
 
 So the 2010 data suggest you should bet on a 3 point margin, and since this was observed in 8 of the 176 game (4.5% of games) the odds are firmly in your favour. 
 
-
-
-
-
+(variability)=
 
 ## Measures of variability
 
@@ -655,6 +653,7 @@ df_clintrial.describe(include = 'all')
 If we want to `describe` the entire dataframe, we need to add the argument  `include = 'all'`. This gives us information on all of the of columns, but this is still rather limited. I mean, I guess I learned something about this data, but if we want to really understand these data, we will have to use other tools to investigate them. That is what the rest of this book is about.
 
 
+(zcores)=
 ## Standard scores
 
 
@@ -868,7 +867,7 @@ By doing this standardisation, not only do we keep all of the nice properties of
 
 
 
-Calculating correlations in R can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note12] 
+Calculating correlations in Python can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note12] 
 
 [^note12]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
 
@@ -908,7 +907,7 @@ glue("corr-interpretation-table", df, display=False)
 A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.
 ```
 
-However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`anscombe1973graphs`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself. The commands would be:
+However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`anscombe1973graphs`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
 y1 = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
@@ -933,39 +932,14 @@ print(df['x4'].corr(df['y4']))
 
 and so on. 
 
-You'd think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of $X$ against $Y$ for all four variables, as shown in Figure \@ref(fig:anscombe) we see that all four of these are *spectacularly* different to each other. 
+You'd think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of $X$ against $Y$ for all four variables, as shown in {numref}`fig-anscombe` we see that all four of these are *spectacularly* different to each other. 
 
 import seaborn as sns
 
 
-```{r anscombe, echo=FALSE, fig.cap="Anscombe's quartet. All four of these data sets have a Pearson correlation of $r = .816$, but they are qualitatively different from one another."}
-par(mfcol = c(2, 2)) # Create a 2 x 2 plotting matrix
-
-load("./data/anscombesquartet.Rdata")
-
-	oneCorPlot <- function(x,y,...) {
-		
-		plot(x,y,pch=19,col="black",...)
-		
-	}
-
-oneCorPlot(X1,Y1,xlab="X1",ylab="Y1")
-
-
-	oneCorPlot(X2,Y2,xlab="X2",ylab="Y2")
-
-
-	oneCorPlot(X3,Y3,xlab="X3",ylab="Y3")
-
-
-	oneCorPlot(X4,Y4,xlab="X4",ylab="Y4")
-
-
-```
-
 import seaborn as sns
 
-fig, axes = plt.subplots(2, 2, figsize=(15, 5), sharey=False)
+fig, axes = plt.subplots(2, 2, figsize=(15, 10), sharey=True)
 fig.suptitle('Anscombe\'s quartet')
 
 sns.scatterplot(x = df['x'], y = df['y1'], ax = axes[0,0])
@@ -973,44 +947,24 @@ sns.scatterplot(x = df['x'], y = df['y2'], ax = axes[0,1])
 sns.scatterplot(x = df['x'], y = df['y3'], ax = axes[1,0])
 sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
 
+glue("anscombe-fig", fig, display=False)
 
-The lesson here, which so very many people seem to forget in real life is "*always graph your raw data*". This will be the focus of Chapter \@ref(graphics).
+```{glue:figure} anscombe-fig
+:figwidth: 600px
+:name: fig-anscombe
 
-
-### Spearman's rank correlations
-
-```{r rankcorrpic, fig.cap="The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of $r = .91$. However, the interesting thing to note here is that there's actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of $rho = 1$. With such a small data set, however, it's an open question as to which version better describes the actual relationship involved. ", echo=FALSE}
-
-describeImg <- list()
-emphCol <- rgb(0,0,1)
-emphColLight <- rgb(.5,.5,1)
-emphGrey <- grey(.5)
-
-eps <- TRUE
-colour <- TRUE
-width <- 7
-	height <- 6
-	
-	# load data
-	load("./data/effort.Rdata")
-	require(lsr)
-	effort <- sortFrame(effort,hours)
-
-	# draw the plot
-	plot(effort$hours,effort$grade,type="b",col=ifelse(colour,emphCol,"black"),
-		xlab="Hours Worked",ylab="Grade Received",xlim=c(0,80),ylim=c(0,100),
-		pch=19,lwd=3)
-	abline(coef=lm(grade~hours,effort)$coef,lty=2)
-	
-
+Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.
 ```
+
+The lesson here, which so very many people seem to forget in real life is "*always graph your raw data*". This will be the focus of the chapter on [](DrawingGraphs).
+
 
 The Pearson correlation coefficient is useful for a lot of things, but it does have shortcomings. One issue in particular stands out: what it actually measures is the strength of the *linear* relationship between two variables. In other words, what it gives you is a measure of the extent to which the data all tend to fall on a single, perfectly straight line. Often, this is a pretty good approximation to what we mean when we say "relationship", and so the Pearson correlation is a good thing to calculation. Sometimes, it isn't. 
 
 One very common situation where the Pearson correlation isn't quite the right thing to use arises when an increase in one variable $X$ really is reflected in an increase in another variable $Y$, but the nature of the relationship isn't necessarily linear. An example of this might be the relationship between effort and reward when studying for an exam. If you put in zero effort ($X$) into learning a subject, then you should expect a grade of 0% ($Y$). However, a little bit of effort will cause a *massive* improvement: just turning up to lectures means that you learn a fair bit, and if you just turn up to classes, and scribble a few things down so your grade might rise to 35%, all without a lot of effort. However, you just don't get the same effect at the other end of the scale. As everyone knows, it takes *a lot* more effort to get a grade of 90% than it takes to get a grade of 55%. What this means is that, if I've got data looking at study effort and grades, there's a pretty good chance that Pearson correlations will be misleading. 
 
 
-To illustrate, consider the data plotted in Figure \@ref(fig:rankcorrpic), showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
+To illustrate, consider the data plotted in {numref}`fig-rankcorr`, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
 
 from os import chdir as cd
 import pandas as pd
@@ -1032,13 +986,23 @@ import seaborn as sns
 
 fig, ax = plt.subplots()
 sns.regplot(x='hours', y='grade', data=effort, ci=None, ax=ax)
-sns.lineplot(x='hours', y='grade', data=effort, ci=None, ax=ax)
+sns.lineplot(x='hours', y='grade', data=effort, color = "black", ci=None, ax=ax)
+ax.lines[0].set_linestyle("--")
 
-*Fig. XXX: The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each circle corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of $r = .91$. However, the interesting thing to note here is that there's actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of $rho = 1$. With such a small data set, however, it's an open question as to which version better describes the actual relationship involved.*
+
+glue("rankcorr-fig", fig, display=False)
+
+```{glue:figure} rankcorr-fig
+:figwidth: 600px
+:name: fig-rankcorr
+
+The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each dot corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of $r = .91$. However, the interesting thing to note here is that there's actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of $rho = 1$. With such a small data set, however, it's an open question as to which version better describes the actual relationship involved.
+```
+
 
 but this doesn't actually capture the observation that increasing hours worked *always* increases the grade. There's a sense here in which we want to be able to say that the correlation is *perfect* but for a somewhat different notion of what a "relationship" is. What we're looking for is something that captures the fact that there is a perfect **_ordinal relationship_** here. That is, if student 1 works more hours than student 2, then we can guarantee that student 1 will get the better grade. That's not what a correlation of $r = .91$ says at all.
 
-How should we address this? Actually, it's really easy: if we're looking for ordinal relationships, all we have to do is treat the data as if it were ordinal scale! So, instead of measuring effort in terms of "hours worked", lets rank all 10 of our students in order of hours worked. That is, student 1 did the least work out of anyone (2 hours) so they get the lowest rank (rank = 1). Student 4 was the next laziest, putting in only  6 hours of work in over the whole semester, so they get the next lowest rank (rank = 2). Notice that I'm using "rank =1" to mean "low rank". Sometimes in everyday language we talk about "rank = 1" to mean "top rank" rather than "bottom rank". So be careful: you can rank "from smallest value to largest value" (i.e., small equals rank 1) or you can rank "from largest value to smallest value" (i.e., large equals rank 1). In this case, I'm ranking from smallest to largest, because that's the default way that R does it. But in real life, it's really easy to forget which way you set things up, so you have to put a bit of effort into remembering! 
+How should we address this? Actually, it's really easy: if we're looking for ordinal relationships, all we have to do is treat the data as if it were ordinal scale! So, instead of measuring effort in terms of "hours worked", lets rank all 10 of our students in order of hours worked. That is, student 1 did the least work out of anyone (2 hours) so they get the lowest rank (rank = 1). Student 4 was the next laziest, putting in only  6 hours of work in over the whole semester, so they get the next lowest rank (rank = 2). Notice that I'm using "rank = 1" to mean "low rank". Sometimes in everyday language we talk about "rank = 1" to mean "top rank" rather than "bottom rank". So be careful: you can rank "from smallest value to largest value" (i.e., small equals rank 1) or you can rank "from largest value to smallest value" (i.e., large equals rank 1). In this case, I'm ranking from smallest to largest, because that is how Python does it. But in real life, it's really easy to forget which way you set things up, so you have to put a bit of effort into remembering! 
 
 Okay, so let's have a look at our students when we rank them from worst to best in terms of effort and reward: 
 
@@ -1057,34 +1021,36 @@ Okay, so let's have a look at our students when we rank them from worst to best 
 | student 10 |          9          |           9           |
 
 
-Hm. These are *identical*. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get R to construct these rankings using the `rank()` function, like this:
+Hm. These are *identical*. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get Python to construct new variables with these rankings using the `rank()` method, and specifiying which columns in our dataframe we want to rank, like this:
 
-`effort['hours'].rank()`
-`effort['grade'].rank()`
-
+ranked_hours = effort['hours'].rank()
+ranked_grades = effort['grade'].rank()
 
 As the table above shows, these two rankings are identical, so if we now correlate them we get a perfect relationship:
 
-effort['hours'].rank().corr(effort['grade'].rank())
+ranked_hours.corr(ranked_grades)
 
-What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `cor()` function. 
+What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `cor()` method. [^note13] Since we are skipping the extra step of "manually" creating new, ranked variables, we can just operate directly on the dataframe columns:
+
+[^note13]: Yikes, that's two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!
 
 effort['hours'].corr(effort['grade'], method="spearman")
 
 The default value of the `method` argument is `"pearson"`, which is why we didn't have to specify it earlier on when we were doing Pearson correlations. 
 
-## Handling missing values{#missing}
+(missing)=
+## Handling missing values
 
-There's one last topic that I want to discuss briefly in this chapter, and that's the issue of **_missing data_**. Real data sets very frequently turn out to have missing values: perhaps someone forgot to fill in a particular survey question, for instance. Missing data can be the source of a lot of tricky issues, most of which I'm going to gloss over. However, at a minimum, you need to understand the basics of handling missing data in R. 
+There's one last topic that I want to discuss briefly in this chapter, and that's the issue of **_missing data_**. Real data sets very frequently turn out to have missing values: perhaps someone forgot to fill in a particular survey question, for instance. Missing data can be the source of a lot of tricky issues, most of which I'm going to gloss over. However, at a minimum, you need to understand the basics of handling missing data in Python. 
 
 
 ### The single variable case
 
-Let's start with the simplest case, in which you're trying to calculate descriptive statistics for a single variable which has missing data. In R, this means that there will be `NA` values in your data vector. Let's create a variable like that:
+Let's start with the simplest case, in which you're trying to calculate descriptive statistics for a single variable which has missing data. In Python, this means that there will be `nan` ("not a number") values in your data vector. Let's create a variable like that:
 
 partial = [10, 20, float('nan'), 30]
 
-Let's assume that you want to calculate the mean of this variable. By default, R assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that the basic interpretation of `NA` is "I don't know what this number is". This means that `1 + NA = NA`: if I add 1 to some number that I don't know (i.e., the `NA`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell R to ignore the `NA` values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the `partial` vector, without doing anything about the missing value, here's what happens:
+Let's assume that you want to calculate the mean of this variable. By default, Python assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that although `nan` stands for "not a number", the more accurate interpretation of `nan` here is "There should be a number here, but I don't know what that number is". This means that `1 + nan = nan`: if I add 1 to some number that I don't know (i.e., the `nan`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell Python to ignore the `nan` values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the `partial` vector, without doing anything about the missing value, here's what happens:
 
 statistics.mean(partial)
 
@@ -1094,19 +1060,49 @@ To fix this, all of the descriptive statistics functions that I've discussed in 
 
 When calculating sums and means when missing data are present (i.e., when there are `NA` values) there's actually an additional argument to the function that you should be aware of. This argument is called `na.rm`, and is a logical value indicating whether R should ignore (or "remove") the missing data for the purposes of doing the calculations. By default, R assumes that you want to keep the missing values, so unless you say otherwise it will set `na.rm = FALSE`. However, R assumes that `1 + NA = NA`: if I add 1 to some number that I don't know (i.e., the `NA`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell R to ignore the `NA` values, and the data set does have missing values, then the output will itself be a missing value. This is illustrated in the following extract:
 
-from numpy import nanmean
-nanmean(partial)
+Technically correct, but deeply unhelpful. There are a few ways to deal with this. The first is to use methods from `numpy`. `numpy` has a collection of methods to calculate nan-friendly versions of your favorite descriptive statistics (although correlation is a special case, more on that below), such as `nanmean`, `nanmedian`, `nanpercentile`, `nanmax`, `nanmin`, `nansum`, `nanstd`, etc. So:
 
-```
-> mean( x = partial, na.rm = TRUE )
-[1] 20
-```
-Notice that the mean is `20`  (i.e., `60 / 3`) and *not* `15`. When R ignores a `NA` value, it genuinely ignores it. In effect, the calculation above is identical to what you'd get if you asked for the mean of the three-element vector `c(10, 20, 30)`.
+import numpy as np
+
+print(statistics.mean(partial))
+print(np.nanmean(partial))
+
+print(statistics.median(partial))
+print(np.nanmedian(partial))
+
+print(statistics.stdev(partial))
+print(np.nanstd(partial))
+
+
+This is great! Now we can get the descriptive statistics we want, without those pesky `nan`s getting in the way. Still, it is a little tedious to need to remember to to use the `np.nan` version of these functions when dealing with data containing `nan`s (which real data sets often do). As a bit of a consolation, `pandas` dataframes can already calculate these statistics for us, and ignore `nan`s by default. So, if we put our data in a `pandas` dataframe, we don't need to worry about it:
+
+import pandas as pd
+
+df = pd.DataFrame(
+    {'var1': partial,
+     'var2': [10, float('nan'), float('nan'), 35],
+     'var3': [float('nan'), 12, 18, 27]
+    }) 
+
+df
+
+print(df['var1'].mean())
+print(df['var1'].median())
+print(df['var1'].std())
+
+This is also great, but there is one little niggling problem. `var1`in our dataframe is the same as the `partial` variable we defined eaerlier. The mean and median values look the same as when we used the `numpy` methods, but the standard deviation is little bit different. What's up with that? As it turns out, `numpy` and `pandas` calculate standard deviation in slightly different ways: `numpy` uses $N$ in the demoninator, while `pandas` uses the "unbiased estimator" $N-1$ in the demoniator. To make `numpy` behave like `pandas`, we need to pass the `ddof=1` argument to `nanmean()`, like so:
+
+print(df['var1'].std())
+print(np.nanstd(partial, ddof=1))
+
+and all is well! 
+
+Notice that the mean is `20`  (i.e., `60 / 3`) and *not* `15`. When Python ignores an `nan` value, it genuinely ignores it. In effect, the calculation above is identical to what you'd get if you asked for the mean of the three-element vector `[10, 20, 30]`. This is also why the mean and the median are the same in this case.
 
 
 ### Missing values in pairwise calculations
 
-I mentioned earlier that the `cor()` function is a special case. It doesn't have an `na.rm` argument, because the story becomes a lot more complicated when more than one variable is involved. What it does have is an argument called `use` which does roughly the same thing, but you need to think  little more carefully about what you want this time. To illustrate the issues, let's open up a data set that has missing values, `parenthood2.Rdata`. This file contains the same data as the original parenthood data, but with some values deleted. It contains a single data frame, `parenthood2`:
+I mentioned earlier that the correlation is a special case. It doesn't have an `np.nancorr` argument, because the story becomes a lot more complicated when more than one variable is involved. To explore this, lets look at the data in `parenthood2.csv`. This is just like the `parenthood` data from before, but with some missing values introducd. Maybe I was just too tired some mornings to record the baby's hours of sleep, or to measure my own grumpiness. It happens.
 
 from os import chdir as cd
 import pandas as pd
@@ -1117,77 +1113,41 @@ file = 'parenthood2.csv'
 cd(pathin)
 
 parenthood2 = pd.read_csv(file)
+parenthood2.head()
 
-parenthood2
-
-```
-> load( "parenthood2.Rdata" )
-> print( parenthood2 )
-  dan.sleep baby.sleep dan.grump day
-1      7.59         NA        56   1
-2      7.91      11.66        60   2
-3      5.14       7.92        82   3
-4      7.71       9.61        55   4
-5      6.68       9.75        NA   5
-6      5.99       5.04        72   6
-BLAH BLAH BLAH
-```
-If I calculate my descriptive statistics using the `describe()` function
+We can see some of those pesky `nan`s right in the first 5 rows, and if we `describe()` our data, we can get a feeling for how many there are:
 
 parenthood2.describe()
 
-```
-> describe( parenthood2 )
-           var   n  mean    sd median trimmed   mad   min    max    BLAH
-dan.sleep    1  91  6.98  1.02   7.03    7.02  1.13  4.84   9.00    BLAH
-baby.sleep   2  89  8.11  2.05   8.20    8.13  2.28  3.25  12.07    BLAH
-dan.grump    3  92 63.15  9.85  61.00   62.66 10.38 41.00  89.00    BLAH
-day          4 100 50.50 29.01  50.50   50.50 37.06  1.00 100.00    BLAH
-```
-we can see from the `n` column that there are 9 missing values for `dan.sleep`, 11 missing values for `baby.sleep` and 8 missing values for `dan.grump`.^[It's worth noting that, even though we have missing data for each of these variables, the output doesn't contain any `NA` values. This is because, while `describe()` also has an `na.rm` argument, the default value for this function is `na.rm = TRUE`.] Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell R how to handle those missing values. Here's what happens:
-
-parenthood2.dropna().corr()
-
-USE DROPNA() TO IGNORE ROWS WITH NANS
-
-To make R behave more sensibly in this situation, you need to specify the `use` argument to the `cor()` function. There are several different values that you can specify for this, but the two that we care most about in practice tend to be `"complete.obs"` and `"pairwise.complete.obs"`. If we specify `use = "complete.obs"`, R will completely ignore all cases (i.e., all rows in our `parenthood2` data frame) that have any missing values at all. So, for instance, if you look back at the extract earlier when I used the `head()` function, notice that observation 1 (i.e., day 1) of the `parenthood2` data set is missing the value for `baby.sleep`, but is otherwise complete? Well, if you choose `use = "complete.obs"` R will ignore that row completely: that is, even when it's trying to calculate the correlation between `dan.sleep` and `dan.grump`, observation 1 will be ignored, because the value of `baby.sleep` is missing for that observation. Here's what we get:
-```
-> cor(parenthood2, use = "complete.obs")
-             dan.sleep baby.sleep   dan.grump         day
-dan.sleep   1.00000000  0.6394985 -0.89951468  0.06132891
-baby.sleep  0.63949845  1.0000000 -0.58656066  0.14555814
-dan.grump  -0.89951468 -0.5865607  1.00000000 -0.06816586
-day         0.06132891  0.1455581 -0.06816586  1.00000000
-```
+By looking in the `count` row, we can see that out of the 100 days for which we have data, there are 9 days missing for `dan.sleep`, 11 days missing for `baby.sleep` and eight days missing for `dan.grump`. Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell Python how to handle those missing values. Here's what happens:
 
 parenthood2.corr()
 
-USE STRAIGHT .CORR() FOR PAIRWISE CORRELATIONS
+This actually looks pretty good! We *know* there are `nan`s in the data, but `pandas` seems to deal with them handily. This is not untrue, but there is a small but important detail to be aware of. When it encounters data with `nan`s, `pandas` only looks at the pair of variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of `parenthood2` is for `baby.sleep`, Python will only drop observation 1 when `baby.sleep` is one of the variables involved, and keeps observation 1 when trying to correlate e.g. `dan.sleep` and `dan.grump`. If we want to simply ignore *all* rows that contain a `nan`, we need to tell `pandas` to drop them, like this:
 
-The other possibility that we care about, and the one that tends to get used more often in practice, is to set `use = "pairwise.complete.obs"`. When we do that, R only looks at the variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of `parenthood2` is for `baby.sleep` R will only drop observation 1 when `baby.sleep` is one of the variables involved: and so R keeps observation 1 when trying to correlate  `dan.sleep` and `dan.grump`. When we do it this way, here's what we get:
-```
-> cor(parenthood2, use = "pairwise.complete.obs") 
-             dan.sleep  baby.sleep    dan.grump          day
-dan.sleep   1.00000000  0.61472303 -0.903442442 -0.076796665
-baby.sleep  0.61472303  1.00000000 -0.567802669  0.058309485
-dan.grump  -0.90344244 -0.56780267  1.000000000  0.005833399
-day        -0.07679667  0.05830949  0.005833399  1.000000000
-```
-Similar, but not quite the same. The two approaches have different strengths and weaknesses. The "pairwise complete" approach has the advantage that it keeps more observations, so you're making use of more of your data and (as we'll discuss in tedious detail in Chapter \@ref(estimation) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you've got. 
+parenthood2.dropna().corr()
+
+By checking the length of `parenthood2` and `parenthood2.dropna()`, we can see that using `dropna()` removes 27 entire rows from our data:
+
+print(len(parenthood2))
+print(len(parenthood2.dropna()))
+
+The results from `parenthood2.corr()` and `parenthood2.dropna().corr()` are similar, but not quite the same. The two approaches have different strengths and weaknesses. The "pairwise" approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you're making use of more of your data and (as we'll discuss in tedious detail in the chapter on [estimation](estimation)) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you've got. 
  
-So which method should you use? It depends a lot on *why* you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were "chosen" completely randomly^[The technical term here is "missing completely at random" (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.] then you'll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there's no pattern to which observations are "rubbish" then it's probably safer to keep only those observations that are complete. If you think there's something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.
+So which method should you use? It depends a lot on *why* you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were "chosen" completely randomly [^note14] then you'll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there's no pattern to which observations are "rubbish", then it's probably safer to keep only those observations that are complete. If you think there's something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.
+
+[^note14]: The technical term here is "missing completely at random" (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.
 
 ## Summary
 
 Calculating some basic descriptive statistics is one of the very first things you do when analysing real data, and descriptive statistics are much simpler to understand than inferential statistics, so like every other statistics textbook I've started with descriptives. In this chapter, we talked about the following topics:
 
 
-- *Measures of central tendency*. Broadly speaking, central tendency measures tell you where the data are. There's three measures that are typically reported in the literature: the mean, median and mode. (Section \@ref(centraltendency))
-- *Measures of variability*. In contrast, measures of variability tell you about how "spread out" the data are. The key measures are: range, standard deviation, interquartile reange (Section \@ref(var))
-- *Getting summaries of variables in R*. Since this book focuses on doing data analysis in R, we spent a bit of time talking about how descriptive statistics are computed in R. (Section \@ref(summary) and \@ref(groupdescriptives))
-- *Standard scores*. The $z$-score is a slightly unusual beast. It's not quite a descriptive statistic, and not quite an inference. We talked about it in Section \@ref(zscore). Make sure you understand that section: it'll come up again later. 
-- *Correlations*. Want to know how strong the relationship is between two variables? Calculate a correlation. (Section \@ref(correl))
-- *Missing data*. Dealing with missing data is one of those frustrating things that data analysts really wish the didn't have to think about. In real life it can be hard to do well. For the purpose of this book, we only touched on the basics in Section \@ref(missing)
+- [*Measures of central tendency*](central-tendency). Broadly speaking, central tendency measures tell you where the data are. There's three measures that are typically reported in the literature: the mean, median and mode.
+- [*Measures of variability*](variability). In contrast, measures of variability tell you about how "spread out" the data are. The key measures are: range, standard deviation, interquartile reange 
+- [*Standard scores*](zcores). The $z$-score is a slightly unusual beast. It's not quite a descriptive statistic, and not quite an inference. Make sure you understood this section: it'll come up again later. 
+- [*Correlations*](correlations). Want to know how strong the relationship is between two variables? Calculate a correlation.
+- [*Missing data*](missing). Dealing with missing data is one of those frustrating things that data analysts really wish the didn't have to think about. In real life it can be hard to do well. For the purpose of this book, we only touched on the basics in this section.
 
 In the next section we'll move on to a discussion of how to draw pictures! Everyone loves a pretty picture, right? But before we do, I want to end on an important point. A traditional first course in statistics spends only a small proportion of the class on descriptive statistics, maybe one or two lectures at most. The vast majority of the lecturer's time is spent on inferential statistics, because that's where all the hard stuff is. That makes sense, but it hides the practical everyday importance of choosing good descriptives. With that in mind...
 
@@ -1204,7 +1164,7 @@ In the next section we'll move on to a discussion of how to draw pictures! Every
 >*950,000 -- 1,200,000*
 >
 >-- Estimate of Soviet repression deaths, 
-> 1937-1938 [@Ellman2002]
+> 1937-1938 {cite}`ellman2002soviet`
 
 Stalin's infamous quote about the statistical character death of millions is worth giving some thought. The clear intent of his statement is that the death of an individual touches us personally and its force cannot be denied, but that the deaths of a multitude are incomprehensible, and as a consequence mere statistics, more easily ignored. I'd argue that Stalin was half right. A statistic is an abstraction, a description of events beyond our personal experience, and so hard to visualise. Few if any of us can imagine what the deaths of millions is "really" like, but we can imagine one death, and this gives the lone death its feeling of immediate tragedy, a feeling that is missing from Ellman's cold statistical description.
 
