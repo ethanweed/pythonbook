@@ -8,7 +8,7 @@ Or quizzes upon World Affairs,
 Take any test. Thou shalt not sit  
 With statisticians nor commit"
 
-> -- W.H. Auden^[The quote comes from Auden's 1946 poem *Under Which Lyre: A Reactionary Tract for the Times*, delivered as part of a commencement address at Harvard University. The history of the poem is kind of interesting: http://harvardmagazine.com/2007/11/a-poets-warning.html]
+> -- W.H. Auden [^note1]
 
 ## On the psychology of statistics
 
@@ -18,7 +18,7 @@ A big part of this issue at hand relates to the very idea of statistics. What is
 
 >*Why do you do statistics? Why don't scientists just use **common sense?***
 
-It's a naive question in some ways, but most good questions are. There's a lot of good answers to it,^[Including the suggestion that common sense is in short supply among scientists.] but for my money, the best answer is a really simple one: we don't trust ourselves enough. We worry that we're human, and susceptible to all of the biases, temptations and frailties that humans suffer from. Much of statistics is basically a safeguard. Using "common sense" to evaluate evidence means trusting gut instincts, relying on verbal arguments and on using the raw power of human reason to come up with the right answer. Most scientists don't think this approach is likely to work.
+It's a naive question in some ways, but most good questions are. There's a lot of good answers to it, [^note2] but for my money, the best answer is a really simple one: we don't trust ourselves enough. We worry that we're human, and susceptible to all of the biases, temptations and frailties that humans suffer from. Much of statistics is basically a safeguard. Using "common sense" to evaluate evidence means trusting gut instincts, relying on verbal arguments and on using the raw power of human reason to come up with the right answer. Most scientists don't think this approach is likely to work.
 
 In fact, come to think of it, this sounds a lot like a psychological question to me, and since I do work in a psychology department, it seems like a good idea to dig a little deeper here. Is it really plausible to think that this "common sense" approach is very trustworthy? Verbal arguments have to be constructed in language, and all languages have biases -- some things are harder to say than others, and not necessarily because they're false (e.g., quantum electrodynamics is a good theory, but hard to explain in words). The instincts of our "gut" aren't designed to solve scientific problems, they're designed to handle day to day inferences -- and given that biological evolution is slower than cultural change, we should say that they're designed to solve the day to day problems for a *different world* than the one we live in. Most fundamentally, reasoning sensibly requires people to engage in "induction", making wise guesses and going beyond the immediate evidence of the senses to make generalisations about the world. If you think that you can do that without being influenced by various distractors, well, I have a bridge in Brooklyn I'd like to sell you. Heck, as the next section shows, we can't even solve "deductive" problems (ones where no guessing is required) without being influenced by our pre-existing biases.
 
@@ -37,7 +37,7 @@ And here's a valid argument where the conclusion is not believable:
 >Some cigarettes are inexpensive (Premise 2)\
 >Therefore, some cigarettes are not addictive (Conclusion)
 
-The logical *structure* of argument #2 is identical to the structure of argument #1, and they're both valid. However, in the second argument, there are good reasons to think that premise 1 is incorrect, and as a result it's probably the case that the conclusion is also incorrect. But that's entirely irrelevant to the topic at hand: an argument is deductively valid if the conclusion is a logical consequence of the premises. That is, a valid argument doesn't have to involve true statements.
+The logical *structure* of argument \#2 is identical to the structure of argument \#1, and they're both valid. However, in the second argument, there are good reasons to think that premise 1 is incorrect, and as a result it's probably the case that the conclusion is also incorrect. But that's entirely irrelevant to the topic at hand: an argument is deductively valid if the conclusion is a logical consequence of the premises. That is, a valid argument doesn't have to involve true statements.
 
 On the other hand, here's an invalid argument that has a believable conclusion:
 
@@ -61,7 +61,7 @@ Now, suppose that people really are perfectly able to set aside their pre-existi
 
 If the psychological data looked like this (or even a good approximation to this), we might feel safe in just trusting our gut instincts. That is, it'd be perfectly okay just to let scientists evaluate data based on their common sense, and not bother with all this murky statistics stuff. However, you guys have taken psych classes, and by now you probably know where this is going...
 
-In a classic study, @Evans1983 ran an experiment looking at exactly this. What they found is that when pre-existing biases (i.e., beliefs) were in agreement with the structure of the data, everything went the way you'd hope: 
+In a classic study, {cite}`evans1983conflict` ran an experiment looking at exactly this. What they found is that when pre-existing biases (i.e., beliefs) were in agreement with the structure of the data, everything went the way you'd hope: 
 
 
 |                   | conclusion feels true| conclusion feels false |
@@ -76,9 +76,9 @@ Not perfect, but that's pretty good. But look what happens when our intuitive fe
 |argument is valid  |92% say "valid"       |**46% say "valid"**     |
 |argument is invalid|**92% say "valid"**   |8% say "valid"          |
 
-Oh dear, that's not as good. Apparently, when people are presented with a strong argument that contradicts our pre-existing beliefs, we find it pretty hard to even perceive it to be a strong argument (people only did so 46% of the time). Even worse, when people are presented with a weak argument that agrees with our pre-existing biases, almost no-one can see that the argument is weak (people got that one wrong 92% of the time!)^[In my more cynical moments I feel like this fact alone explains 95% of what I read on the internet.]
+Oh dear, that's not as good. Apparently, when people are presented with a strong argument that contradicts our pre-existing beliefs, we find it pretty hard to even perceive it to be a strong argument (people only did so 46% of the time). Even worse, when people are presented with a weak argument that agrees with our pre-existing biases, almost no-one can see that the argument is weak (people got that one wrong 92% of the time!)[^note3]
 
-If you think about it, it's not as if these data are horribly damning. Overall, people did do better than chance at compensating for their prior biases, since about 60% of people's judgements were correct (you'd expect 50% by chance). Even so, if you were a professional "evaluator of evidence", and someone came along and offered you a magic tool that improves your chances of making the right decision from 60% to (say) 95%, you'd probably jump at it, right? Of course you would. Thankfully, we actually do have a tool that can do this. But it's not magic, it's statistics. So that's reason #1 why scientists love statistics. It's just *too easy* for us to "believe what we want to believe"; so if we want to "believe in the data" instead, we're going to need a bit of help to keep our personal biases under control. That's what statistics does: it helps keep us honest.
+If you think about it, it's not as if these data are horribly damning. Overall, people did do better than chance at compensating for their prior biases, since about 60% of people's judgements were correct (you'd expect 50% by chance). Even so, if you were a professional "evaluator of evidence", and someone came along and offered you a magic tool that improves your chances of making the right decision from 60% to (say) 95%, you'd probably jump at it, right? Of course you would. Thankfully, we actually do have a tool that can do this. But it's not magic, it's statistics. So that's reason \#1 why scientists love statistics. It's just *too easy* for us to "believe what we want to believe"; so if we want to "believe in the data" instead, we're going to need a bit of help to keep our personal biases under control. That's what statistics does: it helps keep us honest.
 
 
 
@@ -91,10 +91,19 @@ The following is a true story (I think...). In 1973, the University of Californi
 |Males  |8442                  |46%               |
 |Females|4321                  |35%               |
 
-...and they were worried about being sued.^[Earlier versions of these notes incorrectly suggested that they actually were sued -- apparently that's not true. There's a nice commentary on this here: https://www.refsmmat.com/posts/2016-05-08-simpsons-paradox-berkeley.html. A big thank you to Wilfried Van Hirtum for pointing this out to me!] Given that there were nearly 13,000 applicants, a difference of 9% in admission rates between males and females is just way too big to be a coincidence. Pretty compelling data, right? And if I were to say to you that these data *actually* reflect a weak bias in favour of women (sort of!), you'd probably think that I was either crazy or sexist. 
+...and they were worried about being sued. [^note4] Given that there were nearly 13,000 applicants, a difference of 9% in admission rates between males and females is just way too big to be a coincidence. Pretty compelling data, right? And if I were to say to you that these data *actually* reflect a weak bias in favour of women (sort of!), you'd probably think that I was either crazy or sexist. 
 
-Oddly, it's actually sort of true ...when people started looking more carefully at the admissions data [@Bickel1975] they told a rather different story. Specifically, when they looked at it on a department by department basis, it turned out that most of the departments actually had a slightly *higher* success rate for female applicants than for male applicants. Table \@ref(tab:simpsontable) shows the admission figures for the six largest departments (with the names of the departments removed for privacy reasons):
+Oddly, it's actually sort of true ...when people started looking more carefully at the admissions data they told a rather different story {cite}`bickel1975sex`. Specifically, when they looked at it on a department by department basis, it turned out that most of the departments actually had a slightly *higher* success rate for female applicants than for male applicants.  shows the admission figures for the six largest departments (with the names of the departments removed for privacy reasons):
 
+[^note1]: The quote comes from Auden's 1946 poem *Under Which Lyre: A Reactionary Tract for the Times*, delivered as part of a commencement address at Harvard University. The history of the poem is kind of interesting: http://harvardmagazine.com/2007/11/a-poets-warning.html
+
+[^note2]: Including the suggestion that common sense is in short supply among scientists.
+
+[^note3]: In my more cynical moments I feel like this fact alone explains 95% of what I read on the internet.
+
+[^note4]: Earlier versions of these notes incorrectly suggested that they actually were sued -- apparently that's not true. There's a nice commentary on this here: https://www.refsmmat.com/posts/2016-05-08-simpsons-paradox-berkeley.html. A big thank you to Wilfried Van Hirtum for pointing this out to me!
+
+from myst_nb import glue
 import pandas as pd
 
 data = {'Department': ['A', 'B', 'C', 'D', 'E', 'F'],
@@ -103,10 +112,16 @@ data = {'Department': ['A', 'B', 'C', 'D', 'E', 'F'],
        'Female Applicants': [108,25,593,375,393,341],
        'Female Percent Admitted': ['82%','68%','34%','35%','24%','7%']}
 
-simpson = pd.DataFrame(data)
-simpson.style.set_caption('Admission figures for the six largest departments by gender')
+df = pd.DataFrame(data)
 
+glue("berkley-table", df, display=False)
 
+```{glue:figure} berkley-table
+:figwidth: 600px
+:name: fig-berkley
+
+Admission figures for the six largest departments by gender
+```
 
 Remarkably, most departments had a *higher* rate of admissions for females than for males! Yet the overall rate of admission across the university for females was *lower* than for males. How can this be? How can both of these statements be true at the same time?
 
@@ -133,10 +148,16 @@ berkelyplot = sns.lmplot(
 
 
 berkelyplot.set(xlabel ="Pecentage of Female Applicants", 
-                ylabel = "Admission rate (both genders)", 
-                title ='Berkeley 1973 College Admissions Data')
+                ylabel = "Admission rate (both genders)")
 
+glue("berkely-fig", berkelyplot, display=False)
 
+```{glue:figure} berkely_fig
+:figwidth: 600px
+:name: fig-berkely
+
+The Berkeley 1973 college admissions data. This figure plots the admission rate for the 85 departments that had at least one female applicant, as a function of the percentage of applicants that were female. The plot is a redrawing of Figure 1 from Bickel et al. (1975).
+```
 
 Before leaving this topic entirely, I want to point out something else really critical that is often overlooked in a research methods class. Statistics only solves *part* of the problem. Remember that we started all this with the concern that Berkeley's admissions processes might be unfairly biased against female applicants. When we looked at the "aggregated" data, it did seem like the university was discriminating against women, but when we "disaggregate" and looked at the individual behaviour of all the departments, it turned out that the actual departments were, if anything, slightly biased in favour of women. The gender bias in total admissions was caused by the fact that women tended to self-select for harder departments.  From a legal perspective, that would probably put the university in the clear. Postgraduate admissions are determined at the level of the individual department (and there are good reasons to do that), and at the level of individual departments, the decisions are more or less unbiased (the weak bias in favour of females at that level is small, and not consistent across departments). Since the university can't dictate which departments people choose to apply to, and the decision making takes place at the level of the department, it can hardly be held accountable for any biases that those choices produce. 
 
