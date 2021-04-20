@@ -1087,16 +1087,16 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
-Collingwood         28
 Melbourne           28
+Collingwood         28
+North Melbourne     28
 Hawthorn            27
 Sydney              26
-Carlton             26
 Adelaide            26
+Carlton             26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x12f79f2b0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13d6987f0&gt;
 </pre></div>
 </div>
 </div>
@@ -1887,7 +1887,7 @@ Name: blowouts, dtype: object
     <tr>
       <th>top</th>
       <td>joyzepam</td>
-      <td>CBT</td>
+      <td>no.therapy</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2341,7 +2341,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 <div class="section" id="calculating-correlations-in-python">
 <h3><span class="section-number">1.6.4. </span>Calculating correlations in Python<a class="headerlink" href="#calculating-correlations-in-python" title="Permalink to this headline">¶</a></h3>
-<p>Calculating correlations in R can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note12" id="id16">12</a></p>
+<p>Calculating correlations in Python can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note12" id="id16">12</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan.sleep&#39;</span><span class="p">]</span>
@@ -2821,7 +2821,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 </div>
-<p>What we’ve just re-invented is <strong><em>Spearman’s rank order correlation</em></strong>, usually denoted <span class="math notranslate nohighlight">\(\rho\)</span> to distinguish it from the Pearson correlation <span class="math notranslate nohighlight">\(r\)</span>. We can calculate Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> using R in two different ways. Firstly we could do it the way I just showed, using the <code class="docutils literal notranslate"><span class="pre">rank()</span></code> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that’s way too much effort to do every time. It’s much easier to just specify the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> method. <a class="footnote-reference brackets" href="#note11" id="id18">11</a> Since we are skipping the extra step of “manually” creating new, ranked variables, we can just operate directly on the dataframe columns:</p>
+<p>What we’ve just re-invented is <strong><em>Spearman’s rank order correlation</em></strong>, usually denoted <span class="math notranslate nohighlight">\(\rho\)</span> to distinguish it from the Pearson correlation <span class="math notranslate nohighlight">\(r\)</span>. We can calculate Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> using R in two different ways. Firstly we could do it the way I just showed, using the <code class="docutils literal notranslate"><span class="pre">rank()</span></code> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that’s way too much effort to do every time. It’s much easier to just specify the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> method. <a class="footnote-reference brackets" href="#note13" id="id18">13</a> Since we are skipping the extra step of “manually” creating new, ranked variables, we can just operate directly on the dataframe columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;hours&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
@@ -3317,7 +3317,7 @@ nan
 </div>
 </div>
 <p>The results from <code class="docutils literal notranslate"><span class="pre">parenthood2.corr()</span></code> and <code class="docutils literal notranslate"><span class="pre">parenthood2.dropna().corr()</span></code> are similar, but not quite the same. The two approaches have different strengths and weaknesses. The “pairwise” approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you’re making use of more of your data and (as we’ll discuss in tedious detail in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you’ve got.</p>
-<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note13" id="id19">13</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
+<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note14" id="id19">14</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
 </div>
 </div>
 <div class="section" id="summary">
@@ -3379,13 +3379,16 @@ The death of millions is a statistic.</em></p>
 <dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id13">10</a></span></dt>
 <dd><p>Though some caution is usually warranted. It’s not always the case that one standard deviation on variable A corresponds to the same “kind” of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the <span class="math notranslate nohighlight">\(z\)</span> scores of two variables can be meaningfully compared.</p>
 </dd>
-<dt class="label" id="note11"><span class="brackets">11</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id18">2</a>)</span></dt>
+<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
 <dd><p>Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</p>
 </dd>
 <dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
 <dd><p>If you are reading this after having already completed the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a> you might be wondering about hypothesis tests for correlations. This can be done with <code class="docutils literal notranslate"><span class="pre">scipy.stats.pearsonr</span></code> (or <code class="docutils literal notranslate"><span class="pre">scipy.stats.spearmanr</span></code>).</p>
 </dd>
-<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id19">13</a></span></dt>
+<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id18">13</a></span></dt>
+<dd><p>Yikes, that’s two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!</p>
+</dd>
+<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
 <dd><p>The technical term here is “missing completely at random” (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.</p>
 </dd>
 </dl>
