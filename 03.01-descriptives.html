@@ -1091,9 +1091,9 @@ North Melbourne     28
 Melbourne           28
 Collingwood         28
 Hawthorn            27
+Adelaide            26
 Sydney              26
 Carlton             26
-Adelaide            26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
@@ -1467,7 +1467,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x12f5196a0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x135f21310&gt;
 </pre></div>
 </div>
 </div>
@@ -1886,8 +1886,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>placebo</td>
-      <td>CBT</td>
+      <td>anxifree</td>
+      <td>no.therapy</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -3316,7 +3316,7 @@ nan
 </div>
 </div>
 </div>
-<p>Similar, but not quite the same. The two approaches have different strengths and weaknesses. The “pairwise” approach, the one in which Python only drops observations when they are involved in the comparison at hand has the advantage that it keeps more observations, so you’re making use of more of your data and (as we’ll discuss in tedious detail in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you’ve got.</p>
+<p>The results from <code class="docutils literal notranslate"><span class="pre">parenthood2.corr()</span></code> and <code class="docutils literal notranslate"><span class="pre">parenthood2.dropna().corr</span></code> are similar, but not quite the same. The two approaches have different strengths and weaknesses. The “pairwise” approach, the one in which Python only drops observations when they are involved in the comparison at hand has the advantage that it keeps more observations, so you’re making use of more of your data and (as we’ll discuss in tedious detail in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you’ve got.</p>
 <p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note13" id="id19">13</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
 </div>
 </div>
