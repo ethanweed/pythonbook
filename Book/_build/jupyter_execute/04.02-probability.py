@@ -1,3 +1,4 @@
+(probability)=
 # Introduction to Probability
 
 >*[God] has afforded us only the twilight ... of Probability.* 
