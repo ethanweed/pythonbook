@@ -1,2 +1,3 @@
 ```{bibliography}
+:style: alpha
 ```
