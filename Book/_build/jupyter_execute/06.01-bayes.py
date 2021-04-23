@@ -1,2 +1,3 @@
+(bayes)=
 # Bayesian Statistics
 
