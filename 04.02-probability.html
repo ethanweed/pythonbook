@@ -812,22 +812,20 @@ X \sim \mbox{Binomial}(\theta, N)
 \]</div>
 <p>Yeah, yeah. I know what you’re thinking: notation, notation, notation. Really, who cares? Very few readers of this book are here for the notation, so I should probably move on and talk about how to use the binomial distribution. I’ve included the formula for the binomial distribution in Table &#64;ref(tab:distformulas), since some readers may want to play with it themselves, but since most people probably don’t care that much and because we don’t need the formula in this book, I won’t talk about it in any detail. Instead, I just want to show you what the binomial distribution looks like. To that end, Figure &#64;ref(fig:binomial1) plots the binomial probabilities for all possible values of <span class="math notranslate nohighlight">\(X\)</span> for our dice rolling experiment, from <span class="math notranslate nohighlight">\(X=0\)</span> (no skulls) all the way up to <span class="math notranslate nohighlight">\(X=20\)</span> (all skulls). Note that this is basically a bar chart, and is no different to the “pants probability” plot I drew in Figure &#64;ref(fig:pantsprob). On the horizontal axis we have all the possible events, and on the vertical axis we can read off the probability of each of those events. So, the probability of rolling 4 skulls out of 20 times is about 0.20 (the actual answer is 0.2022036, as we’ll see in a moment). In other words, you’d expect that to happen about 20% of the times you repeated this experiment.</p>
 <p>Below, you can see the formulas for the binomial and normal distributions. We don’t really use these formulas for anything in this book, but they’re pretty important for more advanced work, so I thought it might be best to put them here anyway. In the equation for the binomial, <span class="math notranslate nohighlight">\(X!\)</span> is the factorial function (i.e., multiply all whole numbers from 1 to <span class="math notranslate nohighlight">\(X\)</span>), and for the normal distribution “exp” refers to the exponential function. If these equations don’t make a lot of sense to you, don’t worry too much about them.</p>
-<table class="colwidths-auto table" id="binomnormalformulas">
-<thead>
-<tr class="row-odd"><th class="text-align:left head"><p>Binomial</p></th>
-<th class="text-align:left head"><p>Normal</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-align:left"><p>$P(X</p></td>
-<td class="text-align:left"><p>\theta, N) = \displaystyle\frac{N!}{X! (N-X)!}  \theta^X (1-\theta)^{N-X}$</p></td>
-</tr>
-</tbody>
-</table>
+<p>The formulat for the binomial distribution looks like this:</p>
+<div class="math notranslate nohighlight">
+\[
+P(X | \theta, N) = \frac{N!}{X! (N-X)!}  \theta^X (1-\theta)^{N-X}
+\]</div>
+<p>and the formula for the normal distribution looks like this:</p>
+<div class="math notranslate nohighlight">
+\[
+P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}{2\sigma^2} \right)
+\]</div>
 </div>
 <div class="section" id="working-with-the-binomial-distribution-in-r">
 <h3><span class="section-number">2.4.2. </span>Working with the binomial distribution in R<a class="headerlink" href="#working-with-the-binomial-distribution-in-r" title="Permalink to this headline">¶</a></h3>
-<p>Although some people find it handy to know the <a class="reference internal" href="#binomnormalformulas"><span class="std std-ref">above formulas</span></a>, most people just want to know how to use the distributions without worrying too much about the maths. To that end, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a method called <code class="docutils literal notranslate"><span class="pre">random.binomial</span></code> that calculates binomial probabilities for us. The arguments to the function are</p>
+<p>Although some people find it handy to know the <span class="xref myst">above formulas</span>, most people just want to know how to use the distributions without worrying too much about the maths. To that end, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a method called <code class="docutils literal notranslate"><span class="pre">random.binomial</span></code> that calculates binomial probabilities for us. The arguments to the function are</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>. This is a number, or vector of numbers, specifying the outcomes whose probability you’re trying to calculate.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">prob</span></code>. This is the success probability for any one trial in the experiment.</p></li>
@@ -853,29 +851,11 @@ X \sim \mbox{Binomial}(\theta, N)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_14_1.png" src="_images/04.02-probability_14_1.png" />
+<img alt="_images/04.02-probability_15_1.png" src="_images/04.02-probability_15_1.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>```{glue:figure} skulls_fig
-:figwidth: 600px
-:name: fig-skulls
-
-The binomial distribution with size parameter of N “ 20 and an underlying success probability of θ “ 1{6. Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of X). Because this is a probability distribution, each of the probabilities must be a number between 0 and 1, and the heights of the bars must sum to 1 as well.
-```
-
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  File &quot;&lt;ipython-input-5-8bc0bee751cd&gt;&quot;, line 1
-    ```{glue:figure} skulls_fig
-    ^
-SyntaxError: invalid syntax
-</pre></div>
-</div>
-</div>
+<div class="figure align-default" id="fig-skulls" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.2 </span><span class="caption-text">The binomial distribution with size parameter of N “ 20 and an underlying success probability of θ “ 1{6. Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of X). Because this is a probability distribution, each of the probabilities must be a number between 0 and 1, and the heights of the bars must sum to 1 as well.</span><a class="headerlink" href="#fig-skulls" title="Permalink to this image">¶</a></p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -905,7 +885,7 @@ SyntaxError: invalid syntax
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(0.0, 20.0)]
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_16_1.png" src="_images/04.02-probability_16_1.png" />
+<img alt="_images/04.02-probability_17_1.png" src="_images/04.02-probability_17_1.png" />
 </div>
 </div>
 <p>At this point, I should probably explain the name of the <code class="docutils literal notranslate"><span class="pre">dbinom()</span></code> function. Obviously, the “binom” part comes from the fact that we’re working with the binomial distribution, but the “d” prefix is probably a bit of a mystery. In this section I’ll give a partial explanation: specifically, I’ll explain why there is a prefix. As for why it’s a “d” specifically, you’ll have to wait until the next section. What’s going on here is that R actually provides <em>four</em> functions in relation to the binomial distribution. These four functions are <code class="docutils literal notranslate"><span class="pre">dbinom()</span></code>, <code class="docutils literal notranslate"><span class="pre">pbinom()</span></code>, <code class="docutils literal notranslate"><span class="pre">rbinom()</span></code> and <code class="docutils literal notranslate"><span class="pre">qbinom()</span></code>, and each one calculates a different quantity of interest. Not only that, R does the same thing for <em>every</em> probability distribution that it implements. No matter what distribution you’re talking about, there’s a <code class="docutils literal notranslate"><span class="pre">d</span></code> function, a <code class="docutils literal notranslate"><span class="pre">p</span></code> function, a <code class="docutils literal notranslate"><span class="pre">q</span></code> function and a <code class="docutils literal notranslate"><span class="pre">r</span></code> function. This is illustrated in Table &#64;ref(tab:pdistnames), using the binomial distribution and the normal distribution as examples.</p>
