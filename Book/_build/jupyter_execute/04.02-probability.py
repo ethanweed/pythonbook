@@ -163,7 +163,7 @@ At this point, we're almost done. The last thing we need to recognise is that "s
 |Label       |$X_1$         |$X_2$         |$X_3$         |$X_4$        |$X_5$          |
 |Probability |$P(X_1) = .5$ |$P(X_2) = .3$ |$P(X_3) = .1$ |$P(X_4) = 0$ |$P(X_5) = .1$  |
 
-Each of the events has a probability that lies between 0 and 1, and if we add up the probability of all events, they sum to 1. Awesome. We can even draw a nice bar graph to visualise this distribution, as shown in Figure \@ref(fig:pantsprob). And at this point, we've all achieved something. You've learned what a probability distribution is, and I've finally managed to find a way to create a graph that focuses entirely on my pants. Everyone wins!
+Each of the events has a probability that lies between 0 and 1, and if we add up the probability of all events, they sum to 1. Awesome. We can even draw a nice bar graph to visualise this distribution, as shown in {numref}`fig-pants`. And at this point, we've all achieved something. You've learned what a probability distribution is, and I've finally managed to find a way to create a graph that focuses entirely on my pants. Everyone wins!
 
 from myst_nb import glue
 import pandas as pd
@@ -174,8 +174,8 @@ df = pd.DataFrame(
      'eventNames': ["Blue jeans", "Grey jeans", "Black jeans", "Black suit", "Blue track"],
     }) 
 
-sns.barplot(x='eventNames', y='probabilities', data=df)
-glue("pants-fig", df, display=False)
+fig = sns.barplot(x='eventNames', y='probabilities', data=df)
+glue("pants-fig", fig, display=False)
 
 ```{glue:figure} pants_fig
 :figwidth: 600px
@@ -226,7 +226,28 @@ $$
 X \sim \mbox{Binomial}(\theta, N)
 $$ 
 
-Yeah, yeah. I know what you're thinking: notation, notation, notation. Really, who cares? Very few readers of this book are here for the notation, so I should probably move on and talk about how to use the binomial distribution. I've included the formula for the binomial distribution in Table \@ref(tab:distformulas), since some readers may want to play with it themselves, but since most people probably don't care that much and because we don't need the formula in this book, I won't talk about it in any detail. Instead, I just want to show you what the binomial distribution looks like. To that end, Figure \@ref(fig:binomial1) plots the binomial probabilities for all possible values of $X$ for our dice rolling experiment, from $X=0$ (no skulls) all the way up to $X=20$ (all skulls). Note that this is basically a bar chart, and is no different to the "pants probability" plot I drew in Figure \@ref(fig:pantsprob). On the horizontal axis we have all the possible events, and on the vertical axis we can read off the probability of each of those events. So, the probability of rolling 4 skulls out of 20 times is about 0.20 (the actual answer is 0.2022036, as we'll see in a moment). In other words, you'd expect that to happen about 20\% of the times you repeated this experiment.
+Yeah, yeah. I know what you're thinking: notation, notation, notation. Really, who cares? Very few readers of this book are here for the notation, so I should probably move on and talk about how to use the binomial distribution. I've included the formula for the binomial distribution below, since some readers may want to play with it themselves, but since most people probably don't care that much and because we don't need the formula in this book, I won't talk about it in any detail. Instead, I just want to show you what the binomial distribution looks like. To that end, {numref}`fig-skulls` plots the binomial probabilities for all possible values of $X$ for our dice rolling experiment, from $X=0$ (no skulls) all the way up to $X=20$ (all skulls). Note that this is basically a bar chart, and is no different to the "pants probability" plot I drew in {numref}`fig-pants`. On the horizontal axis we have all the possible events, and on the vertical axis we can read off the probability of each of those events. So, the probability of rolling 4 skulls out of 20 times is about 0.20 (the actual answer is 0.2022036, as we'll see in a moment). In other words, you'd expect that to happen about 20\% of the times you repeated this experiment.
+
+from myst_nb import glue
+from numpy import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+x = random.binomial(n=20, p=1/6, size=1000)
+
+skulls = sns.histplot(x, bins=20,binwidth=1)
+skulls.set(xlim=(0,20))
+
+glue("skulls-fig", skulls, display=False)
+
+```{glue:figure} skulls_fig
+:figwidth: 600px
+:name: fig-skulls
+
+The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/6. Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of X). Because this is a probability distribution, each of the probabilities must be a number between 0 and 1, and the heights of the bars must sum to 1 as well.
+```
+
+
 
 Below, you can see the formulas for the binomial and normal distributions. We don't really use these formulas for anything in this book, but they're pretty important for more advanced work, so I thought it might be best to put them here anyway. In the equation for the binomial, $X!$ is the factorial function (i.e., multiply all whole numbers from 1 to $X$), and for the normal distribution \"exp\" refers to the exponential function. If these equations don't make a lot of sense to you, don't worry too much about them.
 
@@ -259,28 +280,7 @@ So, in order to calculate the probability of getting `n = 4` skulls, from an exp
 
 `random.binomial(n=4, p=1/6, size=20)`
 
-To give you a feel for how the binomial distribution changes when we alter the values of $\theta$ and $N$, let's suppose that instead of rolling dice, I'm actually flipping coins. This time around, my experiment involves flipping a fair coin repeatedly, and the outcome that I'm interested in is the number of heads that I observe. In this scenario, the success probability is now $\theta = 1/2$. Suppose I were to flip the coin $N=20$ times. In this example, I've changed the success probability, but kept the size of the experiment the same. What does this do to our binomial distribution? Well, as Figure \@ref(fig:binomial2a) shows, the main effect of this is to shift the whole distribution, as you'd expect. Okay, what if we flipped a coin $N=100$ times? Well, in that case, we get Figure \@ref(fig:binomial2b). The distribution stays roughly in the middle, but there's a bit more variability in the possible outcomes. 
-
-from myst_nb import glue
-from numpy import random
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-x = random.binomial(n=20, p=1/6, size=1000)
-
-skulls = sns.histplot(x, bins=20,binwidth=1)
-skulls.set(xlim=(0,20))
-
-glue("skulls-fig", skulls, display=False)
-
-```{glue:figure} skulls_fig
-:figwidth: 600px
-:name: fig-skulls
-
-The binomial distribution with size parameter of N “ 20 and an underlying success probability of θ “ 1{6. Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of X). Because this is a probability distribution, each of the probabilities must be a number between 0 and 1, and the heights of the bars must sum to 1 as well.
-```
-
-
+To give you a feel for how the binomial distribution changes when we alter the values of $\theta$ and $N$, let's suppose that instead of rolling dice, I'm actually flipping coins. This time around, my experiment involves flipping a fair coin repeatedly, and the outcome that I'm interested in is the number of heads that I observe. In this scenario, the success probability is now $\theta = 1/2$. Suppose I were to flip the coin $N=20$ times. In this example, I've changed the success probability, but kept the size of the experiment the same. What does this do to our binomial distribution? Well, as {numref}`binomial-fig` shows, the main effect of this is to shift the whole distribution, as you'd expect. Okay, what if we flipped a coin $N=100$ times? Well, in that case, the distribution stays roughly in the middle, but there's a bit more variability in the possible outcomes. 
 
 from numpy import random
 import matplotlib.pyplot as plt
@@ -292,65 +292,38 @@ x_100 = random.binomial(n=20, p=1/2, size=1000)
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 fig.suptitle('Coin Flips')
 
-# 10 flips
+# 20 flips
 sns.histplot(x_20, bins=20,binwidth=1,ax=axes[0])
-axes[0].set_title('10 flips')
+axes[0].set_title('20 flips')
 axes[0].set(xlim=(0,20))
 
-# 20 flips
+# 100 flips
 sns.histplot(x_100, bins=20,binwidth=1, ax=axes[1])
-axes[1].set_title('20 flips')
+axes[1].set_title('100 flips')
 axes[1].set(xlim=(0,20))
 
 
+glue("fig-binomial", fig, display=False)
 
+```{glue:figure} fig-binomial
+:figwidth: 600px
+:name: binomial-fig
 
-At this point, I should probably explain the name of the `dbinom()` function. Obviously, the "binom" part comes from the fact that we're working with the binomial distribution, but the "d" prefix is probably a bit of a mystery. In this section I'll give a partial explanation: specifically, I'll explain why there is a prefix. As for why it's a "d" specifically, you'll have to wait until the next section. What's going on here is that R actually provides *four* functions in relation to the binomial distribution. These four functions are `dbinom()`, `pbinom()`, `rbinom()` and `qbinom()`, and each one calculates a different quantity of interest. Not only that, R does the same thing for *every* probability distribution that it implements. No matter what distribution you're talking about, there's a `d` function, a `p` function, a `q` function and a `r` function. This is illustrated in Table \@ref(tab:pdistnames), using the binomial distribution and the normal distribution as examples. 
-
-```{r pdistnames, echo=FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-            What.it.does = c("probability (density) of",
-                             "cumulative probability of",
-                             "generate random number from", "q qnorm() qbinom()"),
-                  Prefix = c("d", "p", "r", "q"),
-     Normal.distribution = c("dnorm()", "dnorm()", "rnorm()", "qnorm()"),
-   Binomial.distribution = c("dbinom()", "pbinom()", "rbinom()", "qbinom(")
-), caption= "The naming system for R probability distribution functions. Every probability distribution implemented in R is actually associated with four separate functions, and there is a pretty standardised way for naming these functions.")
-
+The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in {numref}`fig-skulls`, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.
 ```
 
+At this point, I should probably explain what `random.binom`is actually doing. What's random about it, anyway? I thought the binomial distribution was a known quantity? What the `random.binom` method does is to take the input arguments (`N`, `p`, and `size`), and simulate an experiment that can be reduced to counts of "successes" (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of "success", I could get Python to simulate the results of these experiments by using the following command:
 
+`random.binomial(n=20, p=1/6, size=1000)`
 
-Let's have a look at what all four functions do. Firstly, all four versions of the function require you to specify the `size` and `prob` arguments: no matter what you're trying to get R to calculate, it needs to know what the parameters are. However, they differ in terms of what the other argument is, and what the output is. So let's look at them one at a time.
+If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, [^note6] but for the purposes of this book we don't need to worry too much about them.
 
-
-- The `d` form we've already seen: you specify a particular outcome `x`, and the output is the probability of obtaining exactly that outcome. (the "d" is short for **_density_**, but ignore that for now).
-- The `p` form calculates the **_cumulative probability_**. You specify a particular quantile `q`, and it tells you the probability of obtaining an outcome *smaller than or equal to* `q`. 
-- The `q` form calculates the **_quantiles_** of the distribution. You specify a probability value `p`, and gives you the corresponding percentile. That is, the value of the variable for which there's a probability `p` of obtaining an outcome lower than that value.
-- The `r` form is a **_random number generator_**: specifically, it generates `n` random outcomes from the distribution.
+[^note6]: Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are *pseudorandom*, and the quality of those numbers depends on the specific method used. But for our purposes, we can just think of these numbers as random.
 
 
 
-This is a little abstract, so let's look at some concrete examples. Again, we've already covered `dbinom()` so let's focus on the other three versions. We'll start with `pbinom()`, and we'll go back to the skull-dice example. Again, I'm rolling 20 dice, and each die has a 1 in 6 chance of coming up skulls. Suppose, however, that I want to know the probability of rolling 4 *or fewer* skulls. If I wanted to, I could use the `dbinom()` function to calculate the exact probability of rolling 0 skulls, 1 skull, 2 skulls, 3 skulls and 4 skulls and then add these up, but there's a faster way. Instead, I can calculate this using the `pbinom()` function. Here's the command:
-```{r}
-pbinom( q= 4, size = 20, prob = 1/6)
-```
-In other words, there is a 76.9\% chance that I will roll 4 or fewer skulls. Or, to put it another way, R is telling us that a value of 4 is actually the 76.9th percentile of this binomial distribution.
-
-Next, let's consider the `qbinom()` function. Let's say I want to calculate the 75th percentile of the binomial distribution. If we're sticking with our skulls example, I would use the following command to do this: 
-```{r}
-qbinom( p = 0.75, size = 20, prob = 1/6)
-```
-Hm. There's something odd going on here. Let's think this through. What the `qbinom()` function appears to be telling us is that the 75th percentile of the binomial distribution is 4, even though we saw from the `pbinom()` function that 4 is *actually* the 76.9th percentile. And it's definitely the `pbinom()` function that is correct. I promise. The weirdness here comes from the fact that our binomial distribution doesn't really *have* a 75th percentile. Not really. Why not? Well, there's a 56.7\% chance of rolling 3 or fewer skulls (you can type `pbinom(3, 20, 1/6)` to confirm this if you want), and a 76.9\% chance of rolling 4 or fewer skulls. So there's a sense in which the 75th percentile should lie "in between" 3 and 4 skulls. But that makes no sense at all! You can't roll 20 dice and get 3.9 of them come up skulls. This issue can be handled in different ways: you could report an in between value (or *interpolated* value, to use the technical name) like 3.9, you could round down (to 3) or you could round up (to 4). The `qbinom()` function rounds upwards: if you ask for a percentile that doesn't actually exist (like the 75th in this example), R finds the smallest value for which the the percentile rank is *at least* what you asked for. In this case, since the "true" 75th percentile (whatever that would mean) lies somewhere between 3 and 4 skulls, R rounds up and gives you an answer of 4. This subtlety is tedious, I admit, but thankfully it's only an issue for discrete distributions like the binomial (see Section \@ref(continuousdiscrete) for a discussion of continuous versus discrete). The other distributions that I'll talk about (normal, $t$, $\chi^2$ and $F$) are all continuous, and so R can always return an exact quantile whenever you ask for it.  
-
-Finally, we have the random number generator. To use the `rbinom()` function, you specify how many times R should "simulate" the experiment using the `n` argument, and it will generate random outcomes from the binomial distribution. So, for instance, suppose I were to repeat my die rolling experiment 100 times. I could get R to simulate the results of these experiments by using the following command:
-```{r}
-rbinom( n = 100, size = 20, prob = 1/6 )
-```
-As you can see, these numbers are pretty much what you'd expect given the distribution shown in Figure \@ref(fig:binomial1). Most of the time I roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer,^[Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are *pseudorandom*, and the quality of those numbers depends on the specific method used. By default R uses the "Mersenne twister" method. In any case, you can find out more by typing `?Random`, but as usual the R help files are fairly dense.] but for the purposes of this book we don't need to worry too much about them.
-
-
-## The normal distribution{#normal}
+(normal)=
+## The normal distribution
 
 While the binomial distribution is conceptually the simplest distribution to understand, it's not the most important one. That particular honour goes to the **_normal distribution_**, which is also referred to as "the bell curve" or a "Gaussian distribution". A normal distribution is described using two parameters, the mean of the distribution $\mu$ and the standard deviation of the distribution $\sigma$. The notation that we sometimes use to say that a variable $X$ is normally distributed is as follows:
 $$
