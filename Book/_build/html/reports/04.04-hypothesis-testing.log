@@ -1,0 +1,55 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from myst_nb import glue
+from numpy import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# sample from a binomial distribution
+data = random.binomial(n=100, p=.5, size=10000)
+
+# plot distribution and color critical region
+ax = sns.histplot(data, bins=20,binwidth=.5)
+ax.set_title("Critical regions for a two-sided test")
+ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
+ax.set(xlim=(20,80))
+for p in ax.patches:
+    if p.get_x() >= 40:
+        if p.get_x() <= 60:
+            p.set_color("lightgrey")
+
+
+        
+glue("espcritical-fig", crit, display=False)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-2-b0080e30277c>[0m in [0;36m<module>[0;34m[0m
+[1;32m     22[0m [0;34m[0m[0m
+[1;32m     23[0m [0;34m[0m[0m
+[0;32m---> 24[0;31m [0mglue[0m[0;34m([0m[0;34m"espcritical-fig"[0m[0;34m,[0m [0mcrit[0m[0;34m,[0m [0mdisplay[0m[0;34m=[0m[0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;31mNameError[0m: name 'crit' is not defined
+NameError: name 'crit' is not defined
+
