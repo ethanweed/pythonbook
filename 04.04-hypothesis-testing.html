@@ -360,8 +360,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-statistics-and-sampling-distributions-teststatistics">
-   4.3. Test statistics and sampling distributions{#teststatistics}
+  <a class="reference internal nav-link" href="#test-statistics-and-sampling-distributions">
+   4.3. Test statistics and sampling distributions
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -562,22 +562,30 @@
 </tbody>
 </table>
 <p>As a consequence there are actually <em>two</em> different types of error here. If we reject a null hypothesis that is actually true, then we have made a <strong><em>type I error</em></strong>. On the other hand, if we retain the null hypothesis when it is in fact false, then we have made a <strong><em>type II error</em></strong>.</p>
-<p>Remember how I said that statistical testing was kind of like a criminal trial? Well, I meant it. A criminal trial requires that you establish “beyond a reasonable doubt” that the defendant did it. All of the evidentiary rules are (in theory, at least) designed to ensure that there’s (almost) no chance of wrongfully convicting an innocent defendant. The trial is designed to protect the rights of a defendant: as the English jurist William Blackstone famously said, it is “better that ten guilty persons escape than that one innocent suffer.” In other words, a criminal trial doesn’t treat the two types of error in the same way~… punishing the innocent is deemed to be much worse than letting the guilty go free. A statistical test is pretty much the same: the single most important design principle of the test is to <em>control</em> the probability of a type I error, to keep it below some fixed probability. This probability, which is denoted <span class="math notranslate nohighlight">\(\alpha\)</span>, is called the <strong><em>significance level</em></strong> of the test (or sometimes, the <em>size</em> of the test). And I’ll say it again, because it is so central to the whole set-up~… a hypothesis test is said to have significance level <span class="math notranslate nohighlight">\(\alpha\)</span> if the type I error rate is no larger than <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<p>Remember how I said that statistical testing was kind of like a criminal trial? Well, I meant it. A criminal trial requires that you establish “beyond a reasonable doubt” that the defendant did it. All of the evidentiary rules are (in theory, at least) designed to ensure that there’s (almost) no chance of wrongfully convicting an innocent defendant. The trial is designed to protect the rights of a defendant: as the English jurist William Blackstone famously said, it is “better that ten guilty persons escape than that one innocent suffer.” In other words, a criminal trial doesn’t treat the two types of error in the same way… punishing the innocent is deemed to be much worse than letting the guilty go free. A statistical test is pretty much the same: the single most important design principle of the test is to <em>control</em> the probability of a type I error, to keep it below some fixed probability. This probability, which is denoted <span class="math notranslate nohighlight">\(\alpha\)</span>, is called the <strong><em>significance level</em></strong> of the test (or sometimes, the <em>size</em> of the test). And I’ll say it again, because it is so central to the whole set-up… a hypothesis test is said to have significance level <span class="math notranslate nohighlight">\(\alpha\)</span> if the type I error rate is no larger than <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
 <p>So, what about the type II error rate? Well, we’d also like to keep those under control too, and we denote this probability by <span class="math notranslate nohighlight">\(\beta\)</span>. However, it’s much more common to refer to the  <strong><em>power</em></strong> of the test, which is the probability with which we reject a null hypothesis when it really is false, which is <span class="math notranslate nohighlight">\(1-\beta\)</span>. To help keep this straight, here’s the same table again, but with the relevant numbers added:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c(&quot;$H_0$ is true&quot;, &quot;$H_0$ is false&quot;),
-retain = c(&quot;$1-\\alpha$ (probability of correct retention)&quot;,
-                   &quot;$\\beta$ (type II error rate)&quot;),
-reject = c(&quot;$\\alpha$ (type I error rate)&quot;,
-                   &quot;$1-\\beta$  (power of the test)&quot;)), col.names=c(&quot;&quot;, &quot;retain $H_0$&quot;, &quot;reject $H_0$&quot;)
-)
-
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>retain H0</p></th>
+<th class="head"><p>reject H0</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H0 is true</p></td>
+<td><p><span class="math notranslate nohighlight">\(1-\alpha\)</span> (probability of correct retention)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\alpha\)</span> (type I error rate)</p></td>
+</tr>
+<tr class="row-odd"><td><p>H0 is false</p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta\)</span> (type II error rate)</p></td>
+<td><p><span class="math notranslate nohighlight">\(1-\beta\)</span>  (power of the test)</p></td>
+</tr>
+</tbody>
+</table>
 <p>A “powerful” hypothesis test is one that has a small value of <span class="math notranslate nohighlight">\(\beta\)</span>, while still keeping <span class="math notranslate nohighlight">\(\alpha\)</span> fixed at some (small) desired level. By convention, scientists make use of three different <span class="math notranslate nohighlight">\(\alpha\)</span> levels: <span class="math notranslate nohighlight">\(.05\)</span>, <span class="math notranslate nohighlight">\(.01\)</span> and <span class="math notranslate nohighlight">\(.001\)</span>. Notice the asymmetry here~… the tests are designed to <em>ensure</em> that the <span class="math notranslate nohighlight">\(\alpha\)</span> level is kept small, but there’s no corresponding guarantee regarding <span class="math notranslate nohighlight">\(\beta\)</span>. We’d certainly <em>like</em> the type II error rate to be small, and we try to design tests that keep it small, but this is very much secondary to the overwhelming need to control the type I error rate. As Blackstone might have said if he were a statistician, it is “better to retain 10 false null hypotheses than to reject a single true one”. To be honest, I don’t know that I agree with this philosophy – there are situations where I think it makes sense, and situations where I think it doesn’t – but that’s neither here nor there. It’s how the tests are built.</p>
 </div>
-<div class="section" id="test-statistics-and-sampling-distributions-teststatistics">
-<h2><span class="section-number">4.3. </span>Test statistics and sampling distributions{#teststatistics}<a class="headerlink" href="#test-statistics-and-sampling-distributions-teststatistics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="test-statistics-and-sampling-distributions">
+<span id="teststatistics"></span><h2><span class="section-number">4.3. </span>Test statistics and sampling distributions<a class="headerlink" href="#test-statistics-and-sampling-distributions" title="Permalink to this headline">¶</a></h2>
 <p>At this point we need to start talking specifics about how a hypothesis test is constructed. To that end, let’s return to the ESP example. Let’s ignore the actual data that we obtained, for the moment, and think about the structure of the experiment. Regardless of what the actual numbers are, the <em>form</em> of the data is that <span class="math notranslate nohighlight">\(X\)</span> out of <span class="math notranslate nohighlight">\(N\)</span> people correctly identified the colour of the hidden card. Moreover, let’s suppose for the moment that the null hypothesis really is true: ESP doesn’t exist, and the true probability that anyone picks the correct colour is exactly <span class="math notranslate nohighlight">\(\theta = 0.5\)</span>. What would we <em>expect</em> the data to look like? Well, obviously, we’d expect the proportion of people who make the correct response to be pretty close to 50%. Or, to phrase this in more mathematical terms, we’d say that <span class="math notranslate nohighlight">\(X/N\)</span> is approximately <span class="math notranslate nohighlight">\(0.5\)</span>. Of course, we wouldn’t expect this fraction to be <em>exactly</em> 0.5: if, for example we tested <span class="math notranslate nohighlight">\(N=100\)</span> people, and <span class="math notranslate nohighlight">\(X = 53\)</span> of them got the question right, we’d probably be forced to concede that the data are quite consistent with the null hypothesis. On the other hand, if <span class="math notranslate nohighlight">\(X = 99\)</span> of our participants got the question right, then we’d feel pretty confident that the null hypothesis is wrong. Similarly, if only <span class="math notranslate nohighlight">\(X=3\)</span> people got the answer right, we’d be similarly confident that the null was wrong. Let’s be a little more technical about this: we have a quantity <span class="math notranslate nohighlight">\(X\)</span> that we can calculate by looking at our data; after looking at the value of <span class="math notranslate nohighlight">\(X\)</span>, we make a decision about whether to believe that the null hypothesis is correct, or to reject the null hypothesis in favour of the alternative. The name for this thing that we calculate to guide our choices is a <strong><em>test statistic</em></strong>.</p>
 <p>Having chosen a test statistic, the next step is to state precisely which values of the test statistic would cause is to reject the null hypothesis, and which values would cause us to keep it. In order to do so, we need to determine what the <strong><em>sampling distribution of the test statistic</em></strong> would be if the null hypothesis were actually true (we talked about sampling distributions earlier in Section &#64;ref(samplingdists)). Why do we need this? Because this distribution tells us exactly what values of <span class="math notranslate nohighlight">\(X\)</span> our null hypothesis would lead us to expect. And therefore, we can use this distribution as a tool for assessing how closely the null hypothesis agrees with our data.</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
