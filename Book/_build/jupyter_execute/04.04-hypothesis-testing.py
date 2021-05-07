@@ -157,7 +157,7 @@ import seaborn as sns
 data = random.binomial(n=100, p=.5, size=10000)
 
 # plot distribution and color critical region
-ax = sns.histplot(data, bins=20,binwidth=.5)
+ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Critical regions for a two-sided test")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
 ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
