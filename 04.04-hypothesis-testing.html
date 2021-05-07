@@ -637,57 +637,6 @@ X \sim \mbox{Binomial}(\theta,N)
 <li><p>If <span class="math notranslate nohighlight">\(\alpha =.05\)</span>, the critical region must cover 5% of this sampling distribution.</p></li>
 </ul>
 <p>It’s important to make sure you understand this last point: the critical region corresponds to those values of <span class="math notranslate nohighlight">\(X\)</span> for which we would reject the null hypothesis, and the sampling distribution in question describes the probability that we would obtain a particular value of <span class="math notranslate nohighlight">\(X\)</span> if the null hypothesis were actually true. Now, let’s suppose that we chose a critical region that covers 20% of the sampling distribution, and suppose that the null hypothesis is actually true. What would be the probability of incorrectly rejecting the null? The answer is of course 20%. And therefore, we would have built a test that had an <span class="math notranslate nohighlight">\(\alpha\)</span> level of <span class="math notranslate nohighlight">\(0.2\)</span>. If we want <span class="math notranslate nohighlight">\(\alpha = .05\)</span>, the critical region is only <em>allowed</em> to cover 5% of the sampling distribution of our test statistic.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	# needed for printing
-	width &lt;- 8
-	height &lt;- 5.5
-	
-	setUpPlot &lt;- function() {
-		
-		plot.new()
-		plot.window(xlim=c(0,100),ylim=c(0,.08))
-		axis(1)
-		title(xlab=&quot;Number of Correct Responses (X)&quot;)
-		
-	}
-	
-	addDistPlot &lt;- function(x,y,z) {
-		
-		# colour key
-		col.key &lt;- c(
-			 grey(.9),
-			 ifelse(colour,emphCol,&quot;black&quot;)
-		)
-		
-		# plot
-		lines(x,y,col=col.key[as.numeric(z)+1],type=&quot;h&quot;,lwd=3)
-		
-	}
-	
-	addArrow &lt;- function(x,h, text) {
-		
-		arrows(x0 = x[1], y0 = h, x1 = x[2], y1 = h, length = .1)
-		lines(c(x[1],x[1]),c(h-.002,h+.002),&#39;type&#39;=&quot;l&quot;)
-		
-	}
-	
-	# distribution
-	x &lt;- 0:100
-	y &lt;- dbinom(x,100,.5)
-	
-	# plot 1
-	setUpPlot()
-	z &lt;- x&lt;=40 | x&gt;=60
-	addDistPlot(x,y,z)
-	h &lt;- .03
-	addArrow(c(40,20),h)
-	addArrow(c(60,80),h)	
-	text(22,h+.013,&quot;lower critical region&quot;)
-	text(22,h+.007,&quot;(2.5% of the distribution)&quot;)
-	text(75,h+.013,&quot;upper critical region&quot;)
-	text(75,h+.007,&quot;(2.5% of the distribution)&quot;)
-	title(main=&quot;Critical Regions for a Two-Sided Test&quot;,font.main=1)
-</pre></div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
@@ -713,22 +662,12 @@ X \sim \mbox{Binomial}(\theta,N)
 
 
         
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espcritical-fig&quot;</span><span class="p">,</span> <span class="n">crit</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espcritical-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">b0080e30277c</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> 
-<span class="g g-Whitespace">     </span><span class="mi">23</span> 
-<span class="ne">---&gt; </span><span class="mi">24</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espcritical-fig&quot;</span><span class="p">,</span> <span class="n">crit</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;crit&#39; is not defined
-</pre></div>
-</div>
-<img alt="_images/04.04-hypothesis-testing_16_1.png" src="_images/04.04-hypothesis-testing_16_1.png" />
+<img alt="_images/04.04-hypothesis-testing_15_1.png" src="_images/04.04-hypothesis-testing_15_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-esp-critical" style="width: 600px">
