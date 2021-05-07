@@ -587,30 +587,37 @@
 <div class="section" id="test-statistics-and-sampling-distributions">
 <span id="teststatistics"></span><h2><span class="section-number">4.3. </span>Test statistics and sampling distributions<a class="headerlink" href="#test-statistics-and-sampling-distributions" title="Permalink to this headline">¶</a></h2>
 <p>At this point we need to start talking specifics about how a hypothesis test is constructed. To that end, let’s return to the ESP example. Let’s ignore the actual data that we obtained, for the moment, and think about the structure of the experiment. Regardless of what the actual numbers are, the <em>form</em> of the data is that <span class="math notranslate nohighlight">\(X\)</span> out of <span class="math notranslate nohighlight">\(N\)</span> people correctly identified the colour of the hidden card. Moreover, let’s suppose for the moment that the null hypothesis really is true: ESP doesn’t exist, and the true probability that anyone picks the correct colour is exactly <span class="math notranslate nohighlight">\(\theta = 0.5\)</span>. What would we <em>expect</em> the data to look like? Well, obviously, we’d expect the proportion of people who make the correct response to be pretty close to 50%. Or, to phrase this in more mathematical terms, we’d say that <span class="math notranslate nohighlight">\(X/N\)</span> is approximately <span class="math notranslate nohighlight">\(0.5\)</span>. Of course, we wouldn’t expect this fraction to be <em>exactly</em> 0.5: if, for example we tested <span class="math notranslate nohighlight">\(N=100\)</span> people, and <span class="math notranslate nohighlight">\(X = 53\)</span> of them got the question right, we’d probably be forced to concede that the data are quite consistent with the null hypothesis. On the other hand, if <span class="math notranslate nohighlight">\(X = 99\)</span> of our participants got the question right, then we’d feel pretty confident that the null hypothesis is wrong. Similarly, if only <span class="math notranslate nohighlight">\(X=3\)</span> people got the answer right, we’d be similarly confident that the null was wrong. Let’s be a little more technical about this: we have a quantity <span class="math notranslate nohighlight">\(X\)</span> that we can calculate by looking at our data; after looking at the value of <span class="math notranslate nohighlight">\(X\)</span>, we make a decision about whether to believe that the null hypothesis is correct, or to reject the null hypothesis in favour of the alternative. The name for this thing that we calculate to guide our choices is a <strong><em>test statistic</em></strong>.</p>
-<p>Having chosen a test statistic, the next step is to state precisely which values of the test statistic would cause is to reject the null hypothesis, and which values would cause us to keep it. In order to do so, we need to determine what the <strong><em>sampling distribution of the test statistic</em></strong> would be if the null hypothesis were actually true (we talked about <a class="reference internal" href="04.03-estimation.html#samplingdists"><span class="std std-ref">sampling distributions</span></a> earlier). Why do we need this? Because this distribution tells us exactly what values of <span class="math notranslate nohighlight">\(X\)</span> our null hypothesis would lead us to expect. And therefore, we can use this distribution as a tool for assessing how closely the null hypothesis agrees with our data.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
+<p>Having chosen a test statistic, the next step is to state precisely which values of the test statistic would cause is to reject the null hypothesis, and which values would cause us to keep it. In order to do so, we need to determine what the <strong><em>sampling distribution of the test statistic</em></strong> would be if the null hypothesis were actually true (we talked about <a class="reference internal" href="04.03-estimation.html#samplingdists"><span class="std std-ref">sampling distributions</span></a> earlier). Why do we need this? Because this distribution tells us exactly what values of <span class="math notranslate nohighlight">\(X\)</span> our null hypothesis would lead us to expect. And therefore, we can use this distribution as a tool for assessing how closely the null hypothesis agrees with our data. Using <code class="docutils literal notranslate"><span class="pre">random.binomial</span></code> from <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, we can estimate a binomial distribution with a <span class="math notranslate nohighlight">\(\theta = 0.5\)</span>, e.g. estimating from 10,000 trials:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-nhstImg &lt;- list()
-emphCol &lt;- rgb(0,0,1)
-emphColLight &lt;- rgb(.5,.5,1)
-emphGrey &lt;- grey(.5)
+<span class="c1"># binomial distribution</span>
+<span class="c1">#x &lt;- 0:100</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">p</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
 
-eps &lt;- TRUE
-colour &lt;- TRUE
-	width &lt;- 8
-	height &lt;- 5.5
-	
-	# distribution
-	x &lt;- 0:100
-	y &lt;- dbinom(x,100,.5)
-	
-	# plot
-	plot(x,y,type=&quot;h&quot;,lwd=3, col=ifelse(colour,emphCol,&quot;black&quot;),
-		xlab=&quot;Number of Correct Responses (X)&quot;, ylab=&quot;Probability&quot;,
-		main=&quot;Sampling Distribution for X if the Null is True&quot;,
-		font.main=1, frame.plot=FALSE
-	)
+
+<span class="n">esp</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">esp</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espestimation-fig&quot;</span><span class="p">,</span> <span class="n">esp</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.04-hypothesis-testing_11_1.png" src="_images/04.04-hypothesis-testing_11_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-esp-estimation" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 4.1 </span><span class="caption-text">The sampling distribution for our test statistic X when the null hypothesis is true. For our ESP scenario, this is a binomial distribution. Not surprisingly, since the null hypothesis says that the probability of a correct response is θ “ .5, the sampling distribution says that the most likely value is 50 (our of 100) correct responses. Most of the probability mass lies between 40 and 60.</span><a class="headerlink" href="#fig-esp-estimation" title="Permalink to this image">¶</a></p>
 </div>
 <p>How do we actually determine the sampling distribution of the test statistic? For a lot of hypothesis tests this step is actually quite complicated, and later on in the book you’ll see me being slightly evasive about it for some of the tests (some of them I don’t even understand myself). However, sometimes it’s very easy. And, fortunately for us, our ESP example provides us with one of the easiest cases. Our population parameter <span class="math notranslate nohighlight">\(\theta\)</span> is just the overall probability that people respond correctly when asked the question, and our test statistic <span class="math notranslate nohighlight">\(X\)</span> is the <em>count</em> of the number of people who did so, out of a sample size of <span class="math notranslate nohighlight">\(N\)</span>. We’ve seen a distribution like this before, in Section &#64;ref(binomial): that’s exactly what the binomial distribution describes! So, to use the notation and terminology that I introduced in that section, we would say that the null hypothesis predicts that <span class="math notranslate nohighlight">\(X\)</span> is binomially distributed, which is written
 $<span class="math notranslate nohighlight">\(
