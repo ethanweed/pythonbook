@@ -380,8 +380,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-difference-between-one-sided-and-two-sided-tests-onesidedtests">
-     4.4.3. The difference between one sided and two sided tests{#onesidedtests}
+    <a class="reference internal nav-link" href="#the-difference-between-one-sided-and-two-sided-tests">
+     4.4.3. The difference between one sided and two sided tests
     </a>
    </li>
   </ul>
@@ -684,33 +684,66 @@ X \sim \mbox{Binomial}(\theta,N)
 </div></blockquote>
 <p>A very brief digression is in order at this point, regarding the word “significant”. The concept of statistical significance is actually a very simple one, but has a very unfortunate name. If the data allow us to reject the null hypothesis, we say that “the result is <em>statistically significant</em>”, which is often shortened to “the result is significant”. This terminology is rather old, and dates back to a time when “significant” just meant something like “indicated”, rather than its modern meaning, which is much closer to “important”. As a result, a lot of modern readers get very confused when they start learning statistics, because they think that a “significant result” must be an important one. It doesn’t mean that at all. All that “statistically significant” means is that the data allowed us to reject a null hypothesis. Whether or not the result is actually important in the real world is a very different question, and depends on all sorts of other things.</p>
 </div>
-<div class="section" id="the-difference-between-one-sided-and-two-sided-tests-onesidedtests">
-<h3><span class="section-number">4.4.3. </span>The difference between one sided and two sided tests{#onesidedtests}<a class="headerlink" href="#the-difference-between-one-sided-and-two-sided-tests-onesidedtests" title="Permalink to this headline">¶</a></h3>
-<p>There’s one more thing I want to point out about the hypothesis test that I’ve just constructed. If we take a moment to think about the statistical hypotheses I’ve been using,
-$<span class="math notranslate nohighlight">\(
+<div class="section" id="the-difference-between-one-sided-and-two-sided-tests">
+<span id="one-two-sided"></span><h3><span class="section-number">4.4.3. </span>The difference between one sided and two sided tests<a class="headerlink" href="#the-difference-between-one-sided-and-two-sided-tests" title="Permalink to this headline">¶</a></h3>
+<p>There’s one more thing I want to point out about the hypothesis test that I’ve just constructed. If we take a moment to think about the statistical hypotheses I’ve been using,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{cc}
 H_0 : &amp; \theta = .5 \\
 H_1 : &amp; \theta \neq .5 
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-we notice that the alternative hypothesis covers *both* the possibility that \)</span>\theta &lt; .5<span class="math notranslate nohighlight">\( and the possibility that \)</span>\theta &gt; .5<span class="math notranslate nohighlight">\(. This makes sense if I really think that ESP could produce better-than-chance performance *or* worse-than-chance performance (and there are some people who think that). In statistical language, this is an example of a **_two-sided test_**. It's called this because the alternative hypothesis covers the area on both &quot;sides&quot; of the null hypothesis, and as a consequence the critical region of the test covers both tails of the sampling distribution (2.5\% on either side if \)</span>\alpha =.05$), as illustrated earlier in Figure &#64;ref(fig:crit2).</p>
-<p>However, that’s not the only possibility. It might be the case, for example, that I’m only willing to believe in ESP if it produces better than chance performance. If so, then my alternative hypothesis would only covers the possibility that <span class="math notranslate nohighlight">\(\theta &gt; .5\)</span>, and as a consequence the null hypothesis now becomes <span class="math notranslate nohighlight">\(\theta \leq .5\)</span>:
-$<span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>we notice that the alternative hypothesis covers <em>both</em> the possibility that <span class="math notranslate nohighlight">\(\theta &lt; .5\)</span> and the possibility that <span class="math notranslate nohighlight">\(\theta &gt; .5\)</span>. This makes sense if I really think that ESP could produce better-than-chance performance <em>or</em> worse-than-chance performance (and there are some people who think that). In statistical language, this is an example of a <strong><em>two-sided test</em></strong>. It’s called this because the alternative hypothesis covers the area on both “sides” of the null hypothesis, and as a consequence the critical region of the test covers both tails of the sampling distribution (2.5% on either side if <span class="math notranslate nohighlight">\(\alpha =.05\)</span>), as illustrated earlier in Figure &#64;ref(fig:crit2).</p>
+<p>However, that’s not the only possibility. It might be the case, for example, that I’m only willing to believe in ESP if it produces better than chance performance. If so, then my alternative hypothesis would only cover the possibility that <span class="math notranslate nohighlight">\(\theta &gt; .5\)</span>, and as a consequence the null hypothesis now becomes <span class="math notranslate nohighlight">\(\theta \leq .5\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{cc}
 H_0 : &amp; \theta \leq .5 \\
 H_1 : &amp; \theta &gt; .5 
 \end{array}
-\)</span>$
-When this happens, we have what’s called a <strong><em>one-sided test</em></strong>, and when this happens the critical region only covers one tail of the sampling distribution. This is illustrated in Figure &#64;ref(fig:crit1).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>setUpPlot()
-	z &lt;- x&gt;=58
-	addDistPlot(x,y,z)
-	h &lt;- .03
-	addArrow(c(58,80),h)	
-	text(75,h+.013,&quot;critical region&quot;)
-	text(75,h+.007,&quot;(5% of the distribution)&quot;)
-	title(main=&quot;Critical Region for a One-Sided Test&quot;,font.main=1)
+\end{split}\]</div>
+<p>When this happens, we have what’s called a <strong><em>one-sided test</em></strong>, and when this happens the critical region only covers one tail of the sampling distribution. This is illustrated in Figure &#64;ref(fig:crit1).</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># sample from a binomial distribution</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">p</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># plot distribution and color critical region</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Critical regions for a two-sided test&quot;</span><span class="p">)</span>
+
+<span class="c1">#ax.annotate(&quot;&quot;, xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle=&quot;&lt;-&quot;))</span>
+<span class="c1">#ax.annotate(&quot;lower critical region \n (2.5% of the distribution)&quot;, xy=(40, 600), xytext=(22, 580))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;upper critical region </span><span class="se">\n</span><span class="s2"> (5</span><span class="si">% o</span><span class="s2">f the distribution)&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">580</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">58</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">)</span>
+
+
+        
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espcritical-onesided-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.04-hypothesis-testing_20_1.png" src="_images/04.04-hypothesis-testing_20_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-esp-critical-onesided" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Critical regions for a two-sided test&#39;}, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 4.3 </span><span class="caption-text">The critical region for a one sided test. In this case, the alternative hypothesis is that θ ą .05, so we would only reject the null hypothesis for large values of X. As a consequence, the critical region only covers the upper tail of the sampling distribution; specifically the upper 5% of the distribution. Contrast this to the two-sided version in <a class="reference internal" href="#fig-esp-critical"><span class="std std-numref">Fig. 4.2</span></a></span><a class="headerlink" href="#fig-esp-critical-onesided" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 </div>
