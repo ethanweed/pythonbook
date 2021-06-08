@@ -387,12 +387,12 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-p-value-of-a-test-pvalue">
+  <a class="reference internal nav-link" href="#the-p-value-of-a-test">
    4.5. The
    <span class="math notranslate nohighlight">
     \(p\)
    </span>
-   value of a test{#pvalue}
+   value of a test
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -747,19 +747,33 @@ H_1 : &amp; \theta &gt; .5
 </div>
 </div>
 </div>
-<div class="section" id="the-p-value-of-a-test-pvalue">
-<h2><span class="section-number">4.5. </span>The <span class="math notranslate nohighlight">\(p\)</span> value of a test{#pvalue}<a class="headerlink" href="#the-p-value-of-a-test-pvalue" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-p-value-of-a-test">
+<span id="pvalue"></span><h2><span class="section-number">4.5. </span>The <span class="math notranslate nohighlight">\(p\)</span> value of a test<a class="headerlink" href="#the-p-value-of-a-test" title="Permalink to this headline">¶</a></h2>
 <p>In one sense, our hypothesis test is complete; we’ve constructed a test statistic, figured out its sampling distribution if the null hypothesis is true, and then constructed the critical region for the test. Nevertheless, I’ve actually omitted the most important number of all: <strong><em>the <span class="math notranslate nohighlight">\(p\)</span> value</em></strong>. It is to this topic that we now turn. There are two somewhat different ways of interpreting a <span class="math notranslate nohighlight">\(p\)</span> value, one proposed by Sir Ronald Fisher and the other by Jerzy Neyman. Both versions are legitimate, though they reflect very different ways of thinking about hypothesis tests. Most introductory textbooks tend to give Fisher’s version only, but I think that’s a bit of a shame. To my mind, Neyman’s version is cleaner, and actually better reflects the logic of the null hypothesis test. You might disagree though, so I’ve included both. I’ll start with Neyman’s version…</p>
 <div class="section" id="a-softer-view-of-decision-making">
 <h3><span class="section-number">4.5.1. </span>A softer view of decision making<a class="headerlink" href="#a-softer-view-of-decision-making" title="Permalink to this headline">¶</a></h3>
-<p>One problem with the hypothesis testing procedure that I’ve described is that it makes no distinction at all between a result this “barely significant” and those that are “highly significant”. For instance, in my ESP study the data I obtained only just fell inside the critical region - so I did get a significant effect, but was a pretty near thing. In contrast, suppose that I’d run a study in which <span class="math notranslate nohighlight">\(X=97\)</span> out of my <span class="math notranslate nohighlight">\(N=100\)</span> participants got the answer right. This would obviously be significant too, but my a much larger margin; there’s really no ambiguity about this at all. The procedure that I described makes no distinction between the two. If I adopt the standard convention of allowing <span class="math notranslate nohighlight">\(\alpha = .05\)</span> as my acceptable Type I error rate, then both of these are significant results.</p>
+<p>One problem with the hypothesis testing procedure that I’ve described is that it makes no distinction at all between a result this “barely significant” and those that are “highly significant”. For instance, in my ESP study the data I obtained only just fell inside the critical region - so I did get a significant effect, but was a pretty near thing. In contrast, suppose that I’d run a study in which <span class="math notranslate nohighlight">\(X=97\)</span> out of my <span class="math notranslate nohighlight">\(N=100\)</span> participants got the answer right. This would obviously be significant too, but by a much larger margin; there’s really no ambiguity about this at all. The procedure that I described makes no distinction between the two. If I adopt the standard convention of allowing <span class="math notranslate nohighlight">\(\alpha = .05\)</span> as my acceptable Type I error rate, then both of these are significant results.</p>
 <p>This is where the <span class="math notranslate nohighlight">\(p\)</span> value comes in handy. To understand how it works, let’s suppose that we ran lots of hypothesis tests on the same data set: but with a different value of <span class="math notranslate nohighlight">\(\alpha\)</span> in each case. When we do that for my original ESP data, what we’d get is something like this</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-   Value = c(0.05, 0.04, 0.03, 0.02, 0.01),
-    Reject = c(&quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;)), col.names=c(&quot;Value of $\\alpha$&quot;, &quot;Reject the null?&quot;))
-
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value of <span class="math notranslate nohighlight">\(\\alpha\)</span></p></th>
+<th class="head"><p>0.05</p></th>
+<th class="head"><p>0.04</p></th>
+<th class="head"><p>0.03</p></th>
+<th class="head"><p>0.02</p></th>
+<th class="head"><p>0.01</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Reject the null?</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
 <p>When we test ESP data (<span class="math notranslate nohighlight">\(X=62\)</span> successes out of <span class="math notranslate nohighlight">\(N=100\)</span> observations) using <span class="math notranslate nohighlight">\(\alpha\)</span> levels of .03 and above, we’d always find ourselves rejecting the null hypothesis. For <span class="math notranslate nohighlight">\(\alpha\)</span> levels of .02 and below, we always end up retaining the null hypothesis. Therefore, somewhere between .02 and .03 there must be a smallest value of <span class="math notranslate nohighlight">\(\alpha\)</span> that would allow us to reject the null hypothesis for this data. This is the <span class="math notranslate nohighlight">\(p\)</span> value; as it turns out the ESP data has <span class="math notranslate nohighlight">\(p = .021\)</span>. In short:</p>
 <blockquote>
 <div><p><span class="math notranslate nohighlight">\(p\)</span> is defined to be the smallest Type I error rate (<span class="math notranslate nohighlight">\(\alpha\)</span>) that you have to be willing to tolerate if you want to reject the null hypothesis.</p>
