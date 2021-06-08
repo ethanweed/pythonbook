@@ -944,41 +944,40 @@ H_1 : &amp; \theta &gt; .5
 </div>
 <p class="caption"><span class="caption-number">Fig. 4.5 </span><span class="caption-text">Sampling distribution under the <em>alternative</em> hypothesis, for a population parameter value of <span class="math notranslate nohighlight">\(\\theta\)</span> = 0.7. Almost all of the distribution lies in the rejection region.</span><a class="headerlink" href="#fig-esp-alternative2" title="Permalink to this image">¶</a></p>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	setUpPlot()	
-	y &lt;- dbinom(x,100,.7)
-	z &lt;- x&lt;=40 | x&gt;=60
-	addDistPlot(x,y,z)
-	h &lt;- .06
-	addArrow(c(40,20),h)
-	addArrow(c(60,80),h)	
-	text(22,h+.013,&quot;lower critical region&quot;)
-	text(22,h+.007,&quot;(2.5% of the distribution)&quot;)
-	text(75,h+.013,&quot;upper critical region&quot;)
-	text(75,h+.007,&quot;(2.5% of the distribution)&quot;)
-	title(main=expression(paste(&quot;Sampling Distribution for X if &quot;,theta,&quot;=.70&quot;)),font.main=1)
-</pre></div>
-</div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>width &lt;- 8
-	height &lt;- 5.5
-	
-	# distribution
-	theta &lt;- seq(.01,.99,.01)
-	pow &lt;- vector(&quot;numeric&quot;,length(theta))
-	for( i in seq_along(theta) ) {
-		pow[i] &lt;- 	pbinom(40,100,theta[i],lower.tail=TRUE) +
-					pbinom(59,100,theta[i],lower.tail=FALSE) 
-	}
-	
-	# plot
-	plot(theta,pow,type=&quot;l&quot;,lwd=3, col=ifelse(colour,emphCol,&quot;black&quot;),
-		xlab=expression(paste(&quot;True Value of &quot;,theta)), ylab=&quot;Probability of Rejecting the Null&quot;,
-		main=&quot;Power Function for the Test (N=100)&quot;,
-		font.main=1, frame.plot=FALSE, ylim=c(0,1)
-	)
-	lines(.5,.05,type=&quot;p&quot;,pch=19)
-</pre></div>
-</div>
 <p>What all this means is that the power of a test (i.e., <span class="math notranslate nohighlight">\(1-\beta\)</span>) depends on the true value of <span class="math notranslate nohighlight">\(\theta\)</span>. To illustrate this, I’ve calculated the expected probability of rejecting the null hypothesis for all values of <span class="math notranslate nohighlight">\(\theta\)</span>, and plotted it in Figure &#64;ref(fig:powerfunction). This plot describes what is usually called the <strong><em>power function</em></strong> of the test. It’s a nice summary of how good the test is, because it actually tells you the power (<span class="math notranslate nohighlight">\(1-\beta\)</span>) for all possible values of <span class="math notranslate nohighlight">\(\theta\)</span>. As you can see, when the true value of <span class="math notranslate nohighlight">\(\theta\)</span> is very close to 0.5, the power of the test drops very sharply, but when it is further away, the power is large.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">r</span> <span class="n">powerfunction</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">cap</span><span class="o">=</span><span class="s2">&quot;The probability that we will reject the null hypothesis, plotted as a function of the true value of $</span><span class="se">\\</span><span class="s2">theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $</span><span class="se">\\</span><span class="s2">theta$ is very different from the value that the null hypothesis specifies (i.e., $</span><span class="se">\\</span><span class="s2">theta=.5$). Notice that when $</span><span class="se">\\</span><span class="s2">theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.&quot;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">FALSE</span><span class="p">}</span>
+<span class="n">width</span> <span class="o">&lt;-</span> <span class="mi">8</span>
+	<span class="n">height</span> <span class="o">&lt;-</span> <span class="mf">5.5</span>
+	
+	<span class="c1"># distribution</span>
+	<span class="n">theta</span> <span class="o">&lt;-</span> <span class="n">seq</span><span class="p">(</span><span class="o">.</span><span class="mi">01</span><span class="p">,</span><span class="o">.</span><span class="mi">99</span><span class="p">,</span><span class="o">.</span><span class="mi">01</span><span class="p">)</span>
+	<span class="nb">pow</span> <span class="o">&lt;-</span> <span class="n">vector</span><span class="p">(</span><span class="s2">&quot;numeric&quot;</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+	<span class="k">for</span><span class="p">(</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">seq_along</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+		<span class="nb">pow</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> 	<span class="n">pbinom</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">lower</span><span class="o">.</span><span class="n">tail</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span> <span class="o">+</span>
+					<span class="n">pbinom</span><span class="p">(</span><span class="mi">59</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">lower</span><span class="o">.</span><span class="n">tail</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span> 
+	<span class="p">}</span>
+	
+	<span class="c1"># plot</span>
+	<span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span><span class="nb">pow</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">,</span><span class="n">lwd</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">colour</span><span class="p">,</span><span class="n">emphCol</span><span class="p">,</span><span class="s2">&quot;black&quot;</span><span class="p">),</span>
+		<span class="n">xlab</span><span class="o">=</span><span class="n">expression</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;True Value of &quot;</span><span class="p">,</span><span class="n">theta</span><span class="p">)),</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;Probability of Rejecting the Null&quot;</span><span class="p">,</span>
+		<span class="n">main</span><span class="o">=</span><span class="s2">&quot;Power Function for the Test (N=100)&quot;</span><span class="p">,</span>
+		<span class="n">font</span><span class="o">.</span><span class="n">main</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="o">=</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">)</span>
+	<span class="n">lines</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="o">.</span><span class="mi">05</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span><span class="n">pch</span><span class="o">=</span><span class="mi">19</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-7-0b25dde20c3e&gt;&quot;</span><span class="gt">, line </span><span class="mi">1</span>
+    <span class="p">{</span><span class="n">r</span> <span class="n">powerfunction</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">cap</span><span class="o">=</span><span class="s2">&quot;The probability that we will reject the null hypothesis, plotted as a function of the true value of $</span><span class="se">\\</span><span class="s2">theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $</span><span class="se">\\</span><span class="s2">theta$ is very different from the value that the null hypothesis specifies (i.e., $</span><span class="se">\\</span><span class="s2">theta=.5$). Notice that when $</span><span class="se">\\</span><span class="s2">theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.&quot;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">FALSE</span><span class="p">}</span>
+       <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="effect-size">
 <h3><span class="section-number">4.8.2. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h3>

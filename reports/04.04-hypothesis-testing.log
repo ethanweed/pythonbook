@@ -17,39 +17,31 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from myst_nb import glue
-from numpy import random
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# sample from a binomial distribution
-data = random.binomial(n=100, p=.5, size=10000)
-
-# plot distribution and color critical region
-ax = sns.histplot(data, bins=20,binwidth=.5)
-ax.set_title("Critical regions for a two-sided test")
-ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
-ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
-ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
-for p in ax.patches:
-    if p.get_x() >= 40:
-        if p.get_x() <= 60:
-            p.set_color("lightgrey")
-
-
-        
-glue("espcritical-fig", crit, display=False)
+{r powerfunction, fig.cap="The probability that we will reject the null hypothesis, plotted as a function of the true value of $\\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\\theta$ is very different from the value that the null hypothesis specifies (i.e., $\\theta=.5$). Notice that when $\\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.", echo=FALSE}
+width <- 8
+	height <- 5.5
+	
+	# distribution
+	theta <- seq(.01,.99,.01)
+	pow <- vector("numeric",length(theta))
+	for( i in seq_along(theta) ) {
+		pow[i] <- 	pbinom(40,100,theta[i],lower.tail=TRUE) +
+					pbinom(59,100,theta[i],lower.tail=FALSE) 
+	}
+	
+	# plot
+	plot(theta,pow,type="l",lwd=3, col=ifelse(colour,emphCol,"black"),
+		xlab=expression(paste("True Value of ",theta)), ylab="Probability of Rejecting the Null",
+		main="Power Function for the Test (N=100)",
+		font.main=1, frame.plot=FALSE, ylim=c(0,1)
+	)
+	lines(.5,.05,type="p",pch=19)
 ------------------
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-2-b0080e30277c>[0m in [0;36m<module>[0;34m[0m
-[1;32m     22[0m [0;34m[0m[0m
-[1;32m     23[0m [0;34m[0m[0m
-[0;32m---> 24[0;31m [0mglue[0m[0;34m([0m[0;34m"espcritical-fig"[0m[0;34m,[0m [0mcrit[0m[0;34m,[0m [0mdisplay[0m[0;34m=[0m[0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m
-[0;31mNameError[0m: name 'crit' is not defined
-NameError: name 'crit' is not defined
+[0;36m  File [0;32m"<ipython-input-7-0b25dde20c3e>"[0;36m, line [0;32m1[0m
+[0;31m    {r powerfunction, fig.cap="The probability that we will reject the null hypothesis, plotted as a function of the true value of $\\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\\theta$ is very different from the value that the null hypothesis specifies (i.e., $\\theta=.5$). Notice that when $\\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.", echo=FALSE}[0m
+[0m       ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+
+SyntaxError: invalid syntax (<ipython-input-7-0b25dde20c3e>, line 1)
 
