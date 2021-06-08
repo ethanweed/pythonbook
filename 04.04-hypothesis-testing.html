@@ -859,7 +859,7 @@ H_1 : &amp; \theta &gt; .5
 <div class="section" id="effect-size-sample-size-and-power">
 <span id="effectsize"></span><h2><span class="section-number">4.8. </span>Effect size, sample size and power<a class="headerlink" href="#effect-size-sample-size-and-power" title="Permalink to this headline">¶</a></h2>
 <p>In previous sections I’ve emphasised the fact that the major design principle behind statistical hypothesis testing is that we try to control our Type I error rate. When we fix <span class="math notranslate nohighlight">\(\alpha = .05\)</span> we are attempting to ensure that only 5% of true null hypotheses are incorrectly rejected. However, this doesn’t mean that we don’t care about Type II errors. In fact, from the researcher’s perspective, the error of failing to reject the null when it is actually false is an extremely annoying one. With that in mind, a secondary goal of hypothesis testing is to try to minimise <span class="math notranslate nohighlight">\(\beta\)</span>, the Type II error rate, although we don’t usually <em>talk</em> in terms of minimising Type II errors. Instead, we talk about maximising the <em>power</em> of the test. Since power is defined as <span class="math notranslate nohighlight">\(1-\beta\)</span>, this is the same thing.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
@@ -871,7 +871,7 @@ H_1 : &amp; \theta &gt; .5
 
 <span class="c1"># plot distribution and color critical region</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Sampling distribution for X if $</span><span class="se">\t</span><span class="s2">heta = 0.55$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Sampling distribution for X if $</span><span class="se">\\</span><span class="s2">theta = 0.55$&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;&lt;-&quot;</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;lower critical region </span><span class="se">\n</span><span class="s2"> (2.5</span><span class="si">% o</span><span class="s2">f the distribution)&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">580</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">))</span>
@@ -884,13 +884,21 @@ H_1 : &amp; \theta &gt; .5
 
 
         
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;espcritical-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;esp-alternative-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.04-hypothesis-testing_32_1.png" src="_images/04.04-hypothesis-testing_32_1.png" />
+<img alt="_images/04.04-hypothesis-testing_33_1.png" src="_images/04.04-hypothesis-testing_33_1.png" />
 </div>
+</div>
+<div class="figure align-default" id="fig-esp-alternative" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Sampling distribution for X if $\\theta = 0.55$&#39;}, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Sampling distribution under the <em>alternative</em> hypothesis, for a population parameter value of <span class="math notranslate nohighlight">\(\\theta = 0.55\)</span>. A reasonable proportion of the distribution lies in the rejection region.</span><a class="headerlink" href="#fig-esp-alternative" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="the-power-function">
 <h3><span class="section-number">4.8.1. </span>The power function<a class="headerlink" href="#the-power-function" title="Permalink to this headline">¶</a></h3>
