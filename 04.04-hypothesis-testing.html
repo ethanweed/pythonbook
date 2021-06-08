@@ -802,19 +802,38 @@ H_1 : &amp; \theta &gt; .5
 </div>
 <div class="section" id="two-proposed-solutions">
 <h3><span class="section-number">4.6.2. </span>Two proposed solutions<a class="headerlink" href="#two-proposed-solutions" title="Permalink to this headline">¶</a></h3>
-<p>In practice, it’s pretty rare for a researcher to specify a single <span class="math notranslate nohighlight">\(\alpha\)</span> level ahead of time. Instead, the convention is that scientists rely on three standard significance levels: .05, .01 and .001. When reporting your results, you indicate which (if any) of these significance levels allow you to reject the null hypothesis. This is summarised in Table &#64;ref(tab:pvaltable). This allows us to soften the decision rule a little bit, since <span class="math notranslate nohighlight">\(p&lt;.01\)</span> implies that the data meet a stronger evidentiary standard than <span class="math notranslate nohighlight">\(p&lt;.05\)</span> would. Nevertheless, since these levels are fixed in advance by convention, it does prevent people choosing their <span class="math notranslate nohighlight">\(\alpha\)</span> level after looking at the data.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-        Usual.notation = c(&quot;$p&gt;.05$&quot;, &quot;$p&lt;.05$&quot;, &quot;$p&lt;.01$&quot;, &quot;$p&lt;.001$&quot;),
-         Signif..stars = c(NA, &quot;*&quot;, &quot;**&quot;, &quot;***&quot;),
-   English.translation = c(&quot;The test wasn&#39;t significant&quot;,
-                           &quot;The test was significant at $\\alpha = .05 but not at  $\\alpha =.01$ or $\\alpha = .001$.$&quot;,
-                           &quot;The test was significant at $\\alpha = .05$  and $\\alpha = .01$ but not at  $\\alpha = .001&quot;,
-                           &quot;The test was significant at all levels&quot;),
-        The.null.is... = c(&quot;Retained&quot;, &quot;Rejected&quot;, &quot;Rejected&quot;, &quot;Rejected&quot;)
-), col.names = c(&quot;Usual notation&quot;, &quot;Signif. stars&quot;, &quot;Signif. stars&quot;, &quot;The null is...&quot;), caption = &quot;A commonly adopted convention for reporting $p$ values: in many places it is conventional to report one of four different things (e.g., $p&lt;.05$) as shown below. I&#39;ve included the \&quot;significance stars\&quot; notation (i.e., a * indicates $p&lt;.05$) because you sometimes see this notation produced by statistical software. It&#39;s also worth noting that some people will write *n.s.* (not significant) rather than $p&gt;.05$.&quot;)
-
-</pre></div>
-</div>
+<p>In practice, it’s pretty rare for a researcher to specify a single <span class="math notranslate nohighlight">\(\alpha\)</span> level ahead of time. Instead, the convention is that scientists rely on three standard significance levels: .05, .01 and .001. When reporting your results, you indicate which (if any) of these significance levels allow you to reject the null hypothesis. This is summarised in the table below. This allows us to soften the decision rule a little bit, since <span class="math notranslate nohighlight">\(p&lt;.01\)</span> implies that the data meet a stronger evidentiary standard than <span class="math notranslate nohighlight">\(p&lt;.05\)</span> would. Nevertheless, since these levels are fixed in advance by convention, it does prevent people choosing their <span class="math notranslate nohighlight">\(\alpha\)</span> level after looking at the data.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Usual notation</p></th>
+<th class="head"><p>Sig. stars</p></th>
+<th class="head"><p>English translation</p></th>
+<th class="head"><p>The null is…</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>p &gt; 0.05</p></td>
+<td><p></p></td>
+<td><p>The test wasn’t significant</p></td>
+<td><p>Retained</p></td>
+</tr>
+<tr class="row-odd"><td><p>p &lt; 0.05</p></td>
+<td><p>*</p></td>
+<td><p>The test was significant at α = 0.05 but not at α = 0.01 or α = 0.001.</p></td>
+<td><p>Rejected</p></td>
+</tr>
+<tr class="row-even"><td><p>p &lt; 0.01</p></td>
+<td><p>**</p></td>
+<td><p>The test was significant at α = 0.05 and at α = 0.01 but not at α = 0.001.</p></td>
+<td><p>Rejected</p></td>
+</tr>
+<tr class="row-odd"><td><p>p &lt; 0.001</p></td>
+<td><p>***</p></td>
+<td><p>The test was significant at all levels</p></td>
+<td><p>Rejected</p></td>
+</tr>
+</tbody>
+</table>
 <p>Nevertheless, quite a lot of people still prefer to report exact <span class="math notranslate nohighlight">\(p\)</span> values. To many people, the advantage of allowing the reader to make up their own mind about how to interpret <span class="math notranslate nohighlight">\(p = .06\)</span> outweighs any disadvantages. In practice, however, even among those researchers who prefer exact <span class="math notranslate nohighlight">\(p\)</span> values it is quite common to just write <span class="math notranslate nohighlight">\(p&lt;.001\)</span> instead of reporting an exact value for small <span class="math notranslate nohighlight">\(p\)</span>. This is in part because a lot of software doesn’t actually print out the <span class="math notranslate nohighlight">\(p\)</span> value when it’s that small (e.g., SPSS just writes <span class="math notranslate nohighlight">\(p = .000\)</span> whenever <span class="math notranslate nohighlight">\(p&lt;.001\)</span>), and in part because a very small <span class="math notranslate nohighlight">\(p\)</span> value can be kind of misleading. The human mind sees a number like .0000000001 and it’s hard to suppress the gut feeling that the evidence in favour of the alternative hypothesis is a near certainty. In practice however, this is usually wrong. Life is a big, messy, complicated thing: and every statistical test ever invented relies on simplifications, approximations and assumptions. As a consequence, it’s probably not reasonable to walk away from <em>any</em> statistical analysis with a feeling of confidence stronger than <span class="math notranslate nohighlight">\(p&lt;.001\)</span> implies. In other words, <span class="math notranslate nohighlight">\(p&lt;.001\)</span> is really code for “as far as <em>this test</em> is concerned, the evidence is overwhelming.”</p>
 <p>In light of all this, you might be wondering exactly what you should do. There’s a fair bit of contradictory advice on the topic, with some people arguing that you should report the exact <span class="math notranslate nohighlight">\(p\)</span> value, and other people arguing that you should use the tiered approach illustrated in Table &#64;ref(tab:pvaltable). As a result, the best advice I can give is to suggest that you look at papers/reports written in your field and see what the convention seems to be. If there doesn’t seem to be any consistent pattern, then use whichever method you prefer.</p>
 </div>
