@@ -18,38 +18,36 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 from myst_nb import glue
-from numpy import random
-import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import binom
 import seaborn as sns
+theta = numpy.arange(0.01,.99,0.01)
+#data = random.binomial(n=100, p=.5, size=10000)
+n = 100 
 
-# sample from a binomial distribution
-data = random.binomial(n=100, p=.5, size=10000)
-
-# plot distribution and color critical region
-ax = sns.histplot(data, bins=20,binwidth=.5)
-ax.set_title("Critical regions for a two-sided test")
-ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
-ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
-ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
-for p in ax.patches:
-    if p.get_x() >= 40:
-        if p.get_x() <= 60:
-            p.set_color("lightgrey")
+prob = []
+for k in theta:
+    prob.append(binom.cdf(40,n, k) + 1 - binom.cdf(59,n, k))
 
 
-        
-glue("espcritical-fig", crit, display=False)
+#sns.lineplot(theta, prob_lower)
+ax = sns.lineplot(x = theta, y = prob)
+ax.set_title("Power Function for the Test (N=100)")
+ax.set(xlabel='True value of $\\theta$', ylabel='Probablility of rejecting the Null')
+
+
+glue("powerfunction_fig", ax, display=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-2-b0080e30277c>[0m in [0;36m<module>[0;34m[0m
-[1;32m     22[0m [0;34m[0m[0m
-[1;32m     23[0m [0;34m[0m[0m
-[0;32m---> 24[0;31m [0mglue[0m[0;34m([0m[0;34m"espcritical-fig"[0m[0;34m,[0m [0mcrit[0m[0;34m,[0m [0mdisplay[0m[0;34m=[0m[0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m
-[0;31mNameError[0m: name 'crit' is not defined
-NameError: name 'crit' is not defined
+[0;32m<ipython-input-7-f50fea121ed3>[0m in [0;36m<module>[0;34m[0m
+[1;32m      3[0m [0;32mfrom[0m [0mscipy[0m[0;34m.[0m[0mstats[0m [0;32mimport[0m [0mbinom[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;32mimport[0m [0mseaborn[0m [0;32mas[0m [0msns[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 5[0;31m [0mtheta[0m [0;34m=[0m [0mnumpy[0m[0;34m.[0m[0marange[0m[0;34m([0m[0;36m0.01[0m[0;34m,[0m[0;36m.99[0m[0;34m,[0m[0;36m0.01[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      6[0m [0;31m#data = random.binomial(n=100, p=.5, size=10000)[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      7[0m [0mn[0m [0;34m=[0m [0;36m100[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mNameError[0m: name 'numpy' is not defined
+NameError: name 'numpy' is not defined
 

@@ -236,7 +236,7 @@ data = random.binomial(n=100, p=.5, size=10000)
 
 # plot distribution and color critical region
 ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
-ax.set_title("Critical regions for a two-sided test")
+ax.set_title("Critical region for a one-sided test")
 
 #ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
 #ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
@@ -337,70 +337,116 @@ At this point some of you might be wondering if this is a "real" hypothesis test
 from scipy.stats import binom_test
 binom_test(x = 62, n = 100, p = 0.5, alternative = 'two-sided')
 
-Well. There's a number, but what does it mean? Sometimes the output of these Python functions can be fairly terse. But `binom_test()` is giving us the $p$-value for the test we specified. In this case, the $p$-value of 0.02 is less than the usual choice of $\alpha = .05$, so we can reject the null. Usually we will want to know more than just the $p$-value for a test, and Python has ways of giving us this information but for now, however, I just wanted to make the point that Python packages contain a whole lot of functions corresponding to different kinds of hypothesis test. And while I'll usually spend quite a lot of time explaining the logic behind how the tests are built, every time I discuss a hypothesis test the discussion will end with me showing you a fairly simple Python command that you can use to run the test in practice.
+Well. There's a number, but what does it mean? Sometimes the output of these Python functions can be fairly terse. But here `binom_test()` is giving us the $p$-value for the test we specified. In this case, the $p$-value of 0.02 is less than the usual choice of $\alpha = .05$, so we can reject the null. Usually we will want to know more than just the $p$-value for a test, and Python has ways of giving us this information, but for now, however, I just wanted to make the point that Python packages contain a whole lot of functions corresponding to different kinds of hypothesis test. And while I'll usually spend quite a lot of time explaining the logic behind how the tests are built, every time I discuss a hypothesis test the discussion will end with me showing you a fairly simple Python command that you can use to run the test in practice.
 
-## Effect size, sample size and power{#effectsize}
+(effectsize)=
+## Effect size, sample size and power
 
 In previous sections I've emphasised the fact that the major design principle behind statistical hypothesis testing is that we try to control our Type I error rate. When we fix $\alpha = .05$ we are attempting to ensure that only 5\% of true null hypotheses are incorrectly rejected. However, this doesn't mean that we don't care about Type II errors. In fact, from the researcher's perspective, the error of failing to reject the null when it is actually false is an extremely annoying one. With that in mind, a secondary goal of hypothesis testing is to try to minimise $\beta$, the Type II error rate, although we don't usually *talk* in terms of minimising Type II errors. Instead, we talk about maximising the *power* of the test. Since power is defined as $1-\beta$, this is the same thing. 
 
 
+
+from myst_nb import glue
+from numpy import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# sample from a binomial distribution
+data = random.binomial(n=100, p=.55, size=10000)
+
+# plot distribution and color critical region
+ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
+ax.set_title("Sampling distribution for X if $\\theta = 0.55$")
+ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
+ax.set(xlim=(20,80))
+for p in ax.patches:
+    if p.get_x() >= 40:
+        if p.get_x() <= 60:
+            p.set_color("lightgrey")
+
+
+        
+glue("esp-alternative-fig", ax, display=False)
+
+```{glue:figure} esp-alternative-fig
+:figwidth: 600px
+:name: fig-esp-alternative
+
+Sampling distribution under the *alternative* hypothesis, for a population parameter value of $\\theta$ = 0.55. A reasonable proportion of the distribution lies in the rejection region.
+
+```
+
 ### The power function
-```{r crit3, fig.cap="Sampling distribution under the *alternative* hypothesis, for a population parameter value of $\\theta = 0.55$. A reasonable proportion of the distribution lies in the rejection region.", echo=FALSE}
-	setUpPlot()
-	y <- dbinom(x,100,.55)
-	z <- x<=40 | x>=60
-	addDistPlot(x,y,z)
-	h <- .06
-	addArrow(c(40,20),h)
-	addArrow(c(60,80),h)	
-	text(22,h+.013,"lower critical region")
-	text(22,h+.007,"(2.5% of the distribution)")
-	text(75,h+.013,"upper critical region")
-	text(75,h+.007,"(2.5% of the distribution)")
-	title(main=expression(paste("Sampling Distribution for X if ",theta,"=.55")),font.main=1)
+
+Let's take a moment to think about what a Type II error actually is. A Type II error occurs when the alternative hypothesis is true, but we are nevertheless unable to reject the null hypothesis. Ideally, we'd be able to calculate a single number $\beta$ that tells us the Type II error rate, in the same way that we can set $\alpha = .05$ for the Type I error rate. Unfortunately, this is a lot trickier to do. To see this, notice that in my ESP study the alternative hypothesis actually corresponds to lots of possible values of $\theta$. In fact, the alternative hypothesis corresponds to every value of $\theta$ *except* 0.5. Let's suppose that the true probability of someone choosing the correct response is 55\% (i.e., $\theta = .55$). If so, then the *true* sampling distribution for $X$ is not the same one that the null hypothesis predicts: the most likely value for $X$ is now 55 out of 100. Not only that, the whole sampling distribution has now shifted, as shown in {numref}`fig-esp-alternative`. The critical regions, of course, do not change: by definition, the critical regions are based on what the null hypothesis predicts. What we're seeing in this figure is the fact that when the null hypothesis is wrong, a much larger proportion of the sampling distribution distribution falls in the critical region. And of course that's what should happen: the probability of rejecting the null hypothesis is larger when the null hypothesis is actually false!  However $\theta = .55$ is not the only possibility consistent with the alternative hypothesis. Let's instead suppose that the true value of $\theta$ is actually 0.7. What happens to the sampling distribution when this occurs? The answer, shown in {numref}`fig-esp-alternative2`, is that almost the entirety of the sampling distribution has now moved into the critical region. Therefore, if $\theta = 0.7$ the probability of us correctly rejecting the null hypothesis (i.e., the power of the test) is much larger than if $\theta = 0.55$. In short, while $\theta = .55$ and $\theta = .70$ are both part of the alternative hypothesis, the Type II error rate is different.
+
+from myst_nb import glue
+from numpy import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# sample from a binomial distribution
+data = random.binomial(n=100, p=.7, size=10000)
+
+
+# plot distribution and color critical region
+ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
+ax.set_title("Sampling distribution for X if $\\theta = 0.7$")
+ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
+ax.set(xlim=(20,80))
+for p in ax.patches:
+    if p.get_x() >= 40:
+        if p.get_x() <= 60:
+            p.set_color("lightgrey")
+
+
+        
+glue("esp-alternative-fig2", ax, display=False)
+
+```{glue:figure} esp-alternative-fig2
+:figwidth: 600px
+:name: fig-esp-alternative2
+
+Sampling distribution under the *alternative* hypothesis, for a population parameter value of $\\theta$ = 0.7. Almost all of the distribution lies in the rejection region.
+
 ```
 
-Let's take a moment to think about what a Type II error actually is. A Type II error occurs when the alternative hypothesis is true, but we are nevertheless unable to reject the null hypothesis. Ideally, we'd be able to calculate a single number $\beta$ that tells us the Type II error rate, in the same way that we can set $\alpha = .05$ for the Type I error rate. Unfortunately, this is a lot trickier to do. To see this, notice that in my ESP study the alternative hypothesis actually corresponds to lots of possible values of $\theta$. In fact, the alternative hypothesis corresponds to every value of $\theta$ *except* 0.5. Let's suppose that the true probability of someone choosing the correct response is 55\% (i.e., $\theta = .55$). If so, then the *true* sampling distribution for $X$ is not the same one that the null hypothesis predicts: the most likely value for $X$ is now 55 out of 100. Not only that, the whole sampling distribution has now shifted, as shown in Figure \@ref(fig:crit3). The critical regions, of course, do not change: by definition, the critical regions are based on what the null hypothesis predicts. What we're seeing in this figure is the fact that when the null hypothesis is wrong, a much larger proportion of the sampling distribution distribution falls in the critical region. And of course that's what should happen: the probability of rejecting the null hypothesis is larger when the null hypothesis is actually false!  However $\theta = .55$ is not the only possibility consistent with the alternative hypothesis. Let's instead suppose that the true value of $\theta$ is actually 0.7. What happens to the sampling distribution when this occurs? The answer, shown in Figure \@ref(fig:crit4), is that almost the entirety of the sampling distribution has now moved into the critical region. Therefore, if $\theta = 0.7$ the probability of us correctly rejecting the null hypothesis (i.e., the power of the test) is much larger than if $\theta = 0.55$. In short, while $\theta = .55$ and $\theta = .70$ are both part of the alternative hypothesis, the Type II error rate is different.
+What all this means is that the power of a test (i.e., $1-\beta$) depends on the true value of $\theta$. To illustrate this, I've calculated the expected probability of rejecting the null hypothesis for all values of $\theta$, and plotted it in {numref}`fig-powerfunction`. This plot describes what is usually called the **_power function_** of the test. It's a nice summary of how good the test is, because it actually tells you the power ($1-\beta$) for all possible values of $\theta$. As you can see, when the true value of $\theta$ is very close to 0.5, the power of the test drops very sharply, but when it is further away, the power is large. 
 
-```{r crit4, fig.cap="Sampling distribution under the *alternative* hypothesis, for a population parameter value of $\\theta = 0.70$. Almost all of the distribution lies in the rejection region.", echo=FALSE}
-	setUpPlot()	
-	y <- dbinom(x,100,.7)
-	z <- x<=40 | x>=60
-	addDistPlot(x,y,z)
-	h <- .06
-	addArrow(c(40,20),h)
-	addArrow(c(60,80),h)	
-	text(22,h+.013,"lower critical region")
-	text(22,h+.007,"(2.5% of the distribution)")
-	text(75,h+.013,"upper critical region")
-	text(75,h+.007,"(2.5% of the distribution)")
-	title(main=expression(paste("Sampling Distribution for X if ",theta,"=.70")),font.main=1)
+from myst_nb import glue
+import numpy as np
+from scipy.stats import binom
+import seaborn as sns
+theta = np.arange(0.01,.99,0.01)
+
+n = 100 
+
+prob = []
+for k in theta:
+    prob.append(binom.cdf(40,n, k) + 1 - binom.cdf(59,n, k))
+
+
+#sns.lineplot(theta, prob_lower)
+ax = sns.lineplot(x = theta, y = prob)
+ax.set_title("Power Function for the Test (N=100)")
+ax.set(xlabel='True value of $\\theta$', ylabel='Probablility of rejecting the Null')
+
+
+glue("powerfunction-fig", ax, display=False)
+
+```{glue:figure} powerfunction-fig
+:figwidth: 600px
+:name: fig-powerfunction
+
+The probability that we will reject the null hypothesis, plotted as a function of the true value of $\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\theta$ is very different from the value that the null hypothesis specifies (i.e., $\theta=.5$). Notice that when $\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.
+
 ```
-
-```{r powerfunction, fig.cap="The probability that we will reject the null hypothesis, plotted as a function of the true value of $\\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\\theta$ is very different from the value that the null hypothesis specifies (i.e., $\\theta=.5$). Notice that when $\\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.", echo=FALSE}
-width <- 8
-	height <- 5.5
-	
-	# distribution
-	theta <- seq(.01,.99,.01)
-	pow <- vector("numeric",length(theta))
-	for( i in seq_along(theta) ) {
-		pow[i] <- 	pbinom(40,100,theta[i],lower.tail=TRUE) +
-					pbinom(59,100,theta[i],lower.tail=FALSE) 
-	}
-	
-	# plot
-	plot(theta,pow,type="l",lwd=3, col=ifelse(colour,emphCol,"black"),
-		xlab=expression(paste("True Value of ",theta)), ylab="Probability of Rejecting the Null",
-		main="Power Function for the Test (N=100)",
-		font.main=1, frame.plot=FALSE, ylim=c(0,1)
-	)
-	lines(.5,.05,type="p",pch=19)
-```
-
-
-What all this means is that the power of a test (i.e., $1-\beta$) depends on the true value of $\theta$. To illustrate this, I've calculated the expected probability of rejecting the null hypothesis for all values of $\theta$, and plotted it in Figure \@ref(fig:powerfunction). This plot describes what is usually called the **_power function_** of the test. It's a nice summary of how good the test is, because it actually tells you the power ($1-\beta$) for all possible values of $\theta$. As you can see, when the true value of $\theta$ is very close to 0.5, the power of the test drops very sharply, but when it is further away, the power is large. 
-
 
 ### Effect size
 
@@ -408,7 +454,7 @@ What all this means is that the power of a test (i.e., $1-\beta$) depends on the
 >
 >-- George Box 1976
 
-The plot shown in Figure \@ref(fig:powerfunction) captures a fairly basic point about hypothesis testing. If the true state of the world is very different from what the null hypothesis predicts, then your power will be very high; but if the true state of the world is similar to the null (but not identical) then the power of the test is going to be very low. Therefore, it's useful to be able to have some way of quantifying how "similar" the true state of the world is to the null hypothesis. A statistic that does this is called a measure of **_effect size_** [e.g. @Cohen1988; @Ellis2010]. Effect size is defined slightly differently in different contexts,^[There's an R package called `compute.es` that can be used for calculating a very broad range of effect size measures; but for the purposes of the current book we won't need it: all of the effect size measures that I'll talk about here have functions in the `lsr` package] (and so this section just talks in general terms) but the qualitative idea that it tries to capture is always the same: how big is the difference between the *true* population parameters, and the parameter values that are assumed by the null hypothesis? In our ESP example, if we let $\theta_0 = 0.5$ denote the value assumed by the null hypothesis, and let $\theta$ denote the true value, then a simple measure of effect size could be something like the difference between the true value and null (i.e., $\theta - \theta_0$), or possibly just the magnitude of this difference,  $\mbox{abs}(\theta - \theta_0)$.
+The plot shown in {numref}`fig-powerfunction` captures a fairly basic point about hypothesis testing. If the true state of the world is very different from what the null hypothesis predicts, then your power will be very high; but if the true state of the world is similar to the null (but not identical) then the power of the test is going to be very low. Therefore, it's useful to be able to have some way of quantifying how "similar" the true state of the world is to the null hypothesis. A statistic that does this is called a measure of **_effect size_** (e.g. {cite}`Cohen1988` or {cite}`Ellis2010`). Effect size is defined slightly differently in different contexts (and so this section just talks in general terms) but the qualitative idea that it tries to capture is always the same: how big is the difference between the *true* population parameters, and the parameter values that are assumed by the null hypothesis? In our ESP example, if we let $\theta_0 = 0.5$ denote the value assumed by the null hypothesis, and let $\theta$ denote the true value, then a simple measure of effect size could be something like the difference between the true value and null (i.e., $\theta - \theta_0$), or possibly just the magnitude of this difference,  $\mbox{abs}(\theta - \theta_0)$.
 
 ```{r echo=FALSE}
 knitr::kable(data.frame(stringsAsFactors=FALSE,
