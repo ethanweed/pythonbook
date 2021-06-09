@@ -17,31 +17,37 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-{r powerfunction, fig.cap="The probability that we will reject the null hypothesis, plotted as a function of the true value of $\\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\\theta$ is very different from the value that the null hypothesis specifies (i.e., $\\theta=.5$). Notice that when $\\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.", echo=FALSE}
-width <- 8
-	height <- 5.5
-	
-	# distribution
-	theta <- seq(.01,.99,.01)
-	pow <- vector("numeric",length(theta))
-	for( i in seq_along(theta) ) {
-		pow[i] <- 	pbinom(40,100,theta[i],lower.tail=TRUE) +
-					pbinom(59,100,theta[i],lower.tail=FALSE) 
-	}
-	
-	# plot
-	plot(theta,pow,type="l",lwd=3, col=ifelse(colour,emphCol,"black"),
-		xlab=expression(paste("True Value of ",theta)), ylab="Probability of Rejecting the Null",
-		main="Power Function for the Test (N=100)",
-		font.main=1, frame.plot=FALSE, ylim=c(0,1)
-	)
-	lines(.5,.05,type="p",pch=19)
+from myst_nb import glue
+import numpy as np
+from scipy.stats import binom
+import seaborn as sns
+theta = numpy.arange(0.01,.99,0.01)
+#data = random.binomial(n=100, p=.5, size=10000)
+n = 100 
+
+prob = []
+for k in theta:
+    prob.append(binom.cdf(40,n, k) + 1 - binom.cdf(59,n, k))
+
+
+#sns.lineplot(theta, prob_lower)
+ax = sns.lineplot(x = theta, y = prob)
+ax.set_title("Power Function for the Test (N=100)")
+ax.set(xlabel='True value of $\\theta$', ylabel='Probablility of rejecting the Null')
+
+
+glue("powerfunction_fig", ax, display=False)
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-7-0b25dde20c3e>"[0;36m, line [0;32m1[0m
-[0;31m    {r powerfunction, fig.cap="The probability that we will reject the null hypothesis, plotted as a function of the true value of $\\theta$. Obviously, the test is more powerful (greater chance of correct rejection) if the true value of $\\theta$ is very different from the value that the null hypothesis specifies (i.e., $\\theta=.5$). Notice that when $\\theta$ actually is equal to .5 (plotted as a black dot), the null hypothesis is in fact true: rejecting the null hypothesis in this instance would be a Type I error.", echo=FALSE}[0m
-[0m       ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-7-f50fea121ed3>[0m in [0;36m<module>[0;34m[0m
+[1;32m      3[0m [0;32mfrom[0m [0mscipy[0m[0;34m.[0m[0mstats[0m [0;32mimport[0m [0mbinom[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;32mimport[0m [0mseaborn[0m [0;32mas[0m [0msns[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 5[0;31m [0mtheta[0m [0;34m=[0m [0mnumpy[0m[0;34m.[0m[0marange[0m[0;34m([0m[0;36m0.01[0m[0;34m,[0m[0;36m.99[0m[0;34m,[0m[0;36m0.01[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      6[0m [0;31m#data = random.binomial(n=100, p=.5, size=10000)[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      7[0m [0mn[0m [0;34m=[0m [0;36m100[0m[0;34m[0m[0;34m[0m[0m
 
-SyntaxError: invalid syntax (<ipython-input-7-0b25dde20c3e>, line 1)
+[0;31mNameError[0m: name 'numpy' is not defined
+NameError: name 'numpy' is not defined
 
