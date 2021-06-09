@@ -1,2 +1,3 @@
+(chisquare)=
 # Categorical data analysis
 
