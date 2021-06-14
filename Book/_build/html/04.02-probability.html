@@ -399,8 +399,8 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#probability-density-density">
-     2.5.1. Probability density{#density}
+    <a class="reference internal nav-link" href="#probability-density">
+     2.5.1. Probability density
     </a>
    </li>
   </ul>
@@ -971,7 +971,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <p class="caption"><span class="caption-number">Fig. 2.5 </span><span class="caption-text">The normal distribution with mean <span class="math notranslate nohighlight">\(mu = 0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma = 1\)</span>. The <span class="math notranslate nohighlight">\(x\)</span>-axis corresponds to the value of some variable, and the <span class="math notranslate nohighlight">\(y\)</span>-axis tells us something about how likely we are to observe that value. However, notice that the <span class="math notranslate nohighlight">\(y\)</span>-axis is labelled “Probability Density” and not “Probability”. There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the <span class="math notranslate nohighlight">\(y\)</span> axis behave a bit oddly: the height of the curve here isn’t actually the probability of observing a particular <span class="math notranslate nohighlight">\(x\)</span> value. On the other hand, it <em>is</em> true that the heights of the curve tells you which <span class="math notranslate nohighlight">\(x\)</span> values are more likely (the higher ones!).</span><a class="headerlink" href="#fig-normal" title="Permalink to this image">¶</a></p>
 </div>
-<p>With this in mind, let’s see if we can’t get an intuition for how the normal distribution works. Firstly, let’s have a look at what happens when we play around with the parameters of the distribution. To that end, Figure &#64;ref(fig:normmean) plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same “width”. The only difference between them is that they’ve been shifted to the left or to the right. In every other respect they’re identical. In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in Figure &#64;ref(fig:normsd). Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to <em>sum</em> to 1, the total <em>area under the curve</em> for the normal distribution must equal 1.</p>
+<p>With this in mind, let’s see if we can’t get an intuition for how the normal distribution works. Firstly, let’s have a look at what happens when we play around with the parameters of the distribution. To that end, <a class="reference internal" href="#fig-two-normals"><span class="std std-numref">Fig. 2.6</span></a> plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same “width”. The only difference between them is that they’ve been shifted to the left or to the right. In every other respect they’re identical.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -989,70 +989,170 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <span class="n">y1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 <span class="n">y2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span><span class="p">)</span>
 
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;two-normals_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#glue(&quot;two-normals_fig&quot;, fig, display=False)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_26_1.png" src="_images/04.02-probability_26_1.png" />
+<img alt="_images/04.02-probability_26_0.png" src="_images/04.02-probability_26_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.6 </span><span class="caption-text">An illustration of what happens when you change the mean of a normal distribution. The solid line depicts a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=4\)</span>. The dashed line shows a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=7\)</span>. In both cases, the standard deviation is <span class="math notranslate nohighlight">\(sigma=1\)</span>. Not surprisingly, the two distributions have the same shape, but the dashed line is shifted to the right.</span><a class="headerlink" href="#fig-two-normals" title="Permalink to this image">¶</a></p>
+</div>
+<p>In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in <a class="reference internal" href="#fig-two-normals2"><span class="std std-numref">Fig. 2.7</span></a>. Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to <em>sum</em> to 1, the total <em>area under the curve</em> for the normal distribution must equal 1.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;two-normals_fig2&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_29_1.png" src="_images/04.02-probability_29_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-two-normals2" style="width: 600px">
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
 </pre></div>
 </div>
 </div>
-<p class="caption"><span class="caption-number">Fig. 2.6 </span><span class="caption-text">An illustration of what happens when you change the mean of a normal distribution. The peak on to the left depicts a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=4\)</span>. The peak to the right shows a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=7\)</span>. In both cases, the standard deviation is <span class="math notranslate nohighlight">\(sigma=1\)</span>. Not surprisingly, the two distributions have the same shape, but one is shifted to the right of the other.</span><a class="headerlink" href="#fig-two-normals" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 2.7 </span><span class="caption-text">An illustration of what happens when you change the the standard deviation of a normal distribution. Both distributions plotted in this figure have a mean of μ “ 5, but they have different standard deviations. The solid line plots a distribution with standard deviation σ “ 1, and the dashed line shows a distribution with standard deviation σ “ 2. As a consequence, both distributions are “centred” on the same spot, but the dashed line is wider than the solid one.</span><a class="headerlink" href="#fig-two-normals2" title="Permalink to this image">¶</a></p>
 </div>
-<p>Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3% of the area falls within 1 standard deviation of the mean. Similarly, 95.4% of the distribution falls within 2 standard deviations of the mean, and 99.7% of the distribution is within 3 standard deviations. This idea is illustrated in Figures &#64;ref(fig:sdnorm1) and &#64;ref(fig:sdnorm2).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
-par(mfrow=c(1,2))
+<p>Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3% of the area falls within 1 standard deviation of the mean. Similarly, 95.4% of the distribution falls within 2 standard deviations of the mean, and 99.7% of the distribution is within 3 standard deviations. This idea is illustrated in <a class="reference internal" href="#fig-sdnorm"><span class="std std-numref">Fig. 2.8</span></a> and <a class="reference internal" href="#fig-sdnorm2"><span class="std std-numref">Fig. 2.9</span></a>.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> agg
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-	plotOne &lt;- function( a,b ) {
-		plot.new()
-		w&lt;-4
-		plot.window( xlim = c(-w,w), ylim = c(0,.4))
-		xval &lt;- seq( max(a,-w),min(b,w),.01)
-		yval &lt;- dnorm(xval,0,1)
-		end &lt;- length(xval)
-		polygon( c(xval[1],xval,xval[end]), 
-				 c(0,yval,0),
-				 col=ifelse(colour,emphCol,&quot;black&quot;),
-				 density = 10 
-				)
-		xval &lt;- seq(-w,w,.01)
-		yval &lt;- dnorm( xval, 0, 1)				
-		lines( xval,yval, lwd=2, col=&quot;black&quot; )
-		axis( side=1, at=-w:w )
-		area &lt;- abs(pnorm(b,0,1)-pnorm(a,0,1))
-		title( main= paste(&quot;Shaded Area = &quot;,round(area*100,1),&quot;%&quot;, sep=&quot;&quot;), font.main=1 )
-		
-	}
-	
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-plotOne(-1,1)
-plotOne(-2,2)
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Observed Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
 
-par(mfrow=c(1,1))
+<span class="n">x_fill1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="n">x_fill2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
+<span class="n">y_fill1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_fill2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span><span class="n">y_fill1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span><span class="n">y_fill2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 68.3%&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 95.4%&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sdnorm_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
-par(mfrow=c(1,2))
-plotOne(-1,0)
-plotOne(-50,-1)
-par(mfrow=c(1,1))
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="figure align-default" id="fig-sdnorm" style="width: 600px">
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_32_0.png" src="_images/04.02-probability_32_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 2.8 </span><span class="caption-text">The area under the curve tells you the probability that an observation falls within a particular range. The solid lines plot normal distributions with mean <span class="math notranslate nohighlight">\(mu=0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma=1\)</span> The shaded areas illustrate “areas under the curve” for two important cases. On the left, we can see that there is a 68.3% chance that an observation will fall within one standard deviation of the mean. On the right, we see that there is a 95.4% chance that an observation will fall within two standard deviations of the mean.</span><a class="headerlink" href="#fig-sdnorm" title="Permalink to this image">¶</a></p>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> agg
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Observed Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
+
+<span class="n">x_fill1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="n">x_fill2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="n">y_fill1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_fill2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span><span class="n">y_fill1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span><span class="n">y_fill2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 15.9%&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 34.1%&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sdnorm_fig2&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="probability-density-density">
-<h3><span class="section-number">2.5.1. </span>Probability density{#density}<a class="headerlink" href="#probability-density-density" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="figure align-default" id="fig-sdnorm2" style="width: 600px">
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_34_0.png" src="_images/04.02-probability_34_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 2.9 </span><span class="caption-text">Two more examples of the “area under the curve idea”. There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.</span><a class="headerlink" href="#fig-sdnorm2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="probability-density">
+<span id="density"></span><h3><span class="section-number">2.5.1. </span>Probability density<a class="headerlink" href="#probability-density" title="Permalink to this headline">¶</a></h3>
 <p>There’s something I’ve been trying to hide throughout my discussion of the normal distribution, something that some introductory textbooks omit completely. They might be right to do so: this “thing” that I’m hiding is weird and counterintuitive even by the admittedly distorted standards that apply in statistics. Fortunately, it’s not something that you need to understand at a deep level in order to do basic statistics: rather, it’s something that starts to become important later on when you move beyond the basics. So, if it doesn’t make complete sense, don’t worry: try to make sure that you follow the gist of it.</p>
 <p>Throughout my discussion of the normal distribution, there’s been one or two things that don’t quite make sense. Perhaps you noticed that the <span class="math notranslate nohighlight">\(y\)</span>-axis in these figures is labelled “Probability Density” rather than density. Maybe you noticed that I used <span class="math notranslate nohighlight">\(p(X)\)</span> instead of <span class="math notranslate nohighlight">\(P(X)\)</span> when giving the formula for the normal distribution. Maybe you’re wondering why R uses the “d” prefix for functions like <code class="docutils literal notranslate"><span class="pre">dnorm()</span></code>. And maybe, just maybe, you’ve been playing around with the <code class="docutils literal notranslate"><span class="pre">dnorm()</span></code> function, and you accidentally typed in a command like this:</p>
 <p>And if you’ve done the last part, you’re probably very confused. I’ve asked R to calculate the probability that <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">1</span></code>, for a normally distributed variable with <code class="docutils literal notranslate"><span class="pre">mean</span> <span class="pre">=</span> <span class="pre">1</span></code> and standard deviation <code class="docutils literal notranslate"><span class="pre">sd</span> <span class="pre">=</span> <span class="pre">0.1</span></code>; and it tells me that the probability is 3.99. But, as we discussed earlier, probabilities <em>can’t</em> be larger than 1. So either I’ve made a mistake, or that’s not a probability.</p>

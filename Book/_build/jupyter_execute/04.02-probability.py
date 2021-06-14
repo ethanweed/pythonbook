@@ -394,7 +394,7 @@ glue("normal_fig", fig, display=False)
 The normal distribution with mean $mu = 0$ and standard deviation $sigma = 1$. The $x$-axis corresponds to the value of some variable, and the $y$-axis tells us something about how likely we are to observe that value. However, notice that the $y$-axis is labelled \"Probability Density\" and not \"Probability\". There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the $y$ axis behave a bit oddly: the height of the curve here isn't actually the probability of observing a particular $x$ value. On the other hand, it *is* true that the heights of the curve tells you which $x$ values are more likely (the higher ones!).
 ```
 
-With this in mind, let's see if we can't get an intuition for how the normal distribution works. Firstly, let's have a look at what happens when we play around with the parameters of the distribution. To that end, Figure \@ref(fig:normmean) plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same "width". The only difference between them is that they've been shifted to the left or to the right. In every other respect they're identical. In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in Figure \@ref(fig:normsd). Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to *sum* to 1, the total *area under the curve* for the normal distribution must equal 1. 
+With this in mind, let's see if we can't get an intuition for how the normal distribution works. Firstly, let's have a look at what happens when we play around with the parameters of the distribution. To that end, {numref}`fig-two-normals` plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same "width". The only difference between them is that they've been shifted to the left or to the right. In every other respect they're identical. 
 
 %matplotlib inline
 from myst_nb import glue
@@ -411,67 +411,155 @@ x = np.linspace(1, 10, 100)
 y1 = stats.norm.pdf(x, 4, sigma)
 y2 = stats.norm.pdf(x, 7, sigma)
 
-fig = sns.lineplot(x = x, y = y1)
 
+fig = sns.lineplot(x = x, y = y1)
 ax2=fig.twinx()
-sns.lineplot(x = x, y = y2, ax=ax2)
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+
+
+sns.lineplot(x = x, y = y2, ax=ax2, linestyle='--')
 sns.despine()
 
-glue("two-normals_fig", fig, display=False)
+#glue("two-normals_fig", fig, display=False)
 
  ```{glue:figure} two-normals_fig
 :figwidth: 600px
 :name: fig-two-normals
 
-An illustration of what happens when you change the mean of a normal distribution. The peak on to the left depicts a normal distribution with a mean of $mu=4$. The peak to the right shows a normal distribution with a mean of $mu=7$. In both cases, the standard deviation is $sigma=1$. Not surprisingly, the two distributions have the same shape, but one is shifted to the right of the other.
+An illustration of what happens when you change the mean of a normal distribution. The solid line depicts a normal distribution with a mean of $mu=4$. The dashed line shows a normal distribution with a mean of $mu=7$. In both cases, the standard deviation is $sigma=1$. Not surprisingly, the two distributions have the same shape, but the dashed line is shifted to the right.
 
 ```
 
-Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3\% of the area falls within 1 standard deviation of the mean. Similarly, 95.4\% of the distribution falls within 2 standard deviations of the mean, and 99.7\% of the distribution is within 3 standard deviations. This idea is illustrated in Figures \@ref(fig:sdnorm1) and \@ref(fig:sdnorm2).
+In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in {numref}`fig-two-normals2`. Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to *sum* to 1, the total *area under the curve* for the normal distribution must equal 1. 
 
-```{r sdnorm1, fig.cap="The area under the curve tells you the probability that an observation falls within a particular range. The solid lines plot normal distributions with mean $mu=0$ and standard deviation $sigma=1$ The shaded areas illustrate \"areas under the curve\" for two important cases. On the left, we can see that there is a 68.3% chance that an observation will fall within one standard deviation of the mean. On the right, we see that there is a 95.4% chance that an observation will fall within two standard deviations of the mean", echo=FALSE}
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import pandas as pd
+import seaborn as sns
 
-par(mfrow=c(1,2))
 
-	plotOne <- function( a,b ) {
-		plot.new()
-		w<-4
-		plot.window( xlim = c(-w,w), ylim = c(0,.4))
-		xval <- seq( max(a,-w),min(b,w),.01)
-		yval <- dnorm(xval,0,1)
-		end <- length(xval)
-		polygon( c(xval[1],xval,xval[end]), 
-				 c(0,yval,0),
-				 col=ifelse(colour,emphCol,"black"),
-				 density = 10 
-				)
-		xval <- seq(-w,w,.01)
-		yval <- dnorm( xval, 0, 1)				
-		lines( xval,yval, lwd=2, col="black" )
-		axis( side=1, at=-w:w )
-		area <- abs(pnorm(b,0,1)-pnorm(a,0,1))
-		title( main= paste("Shaded Area = ",round(area*100,1),"%", sep=""), font.main=1 )
-		
-	}
-	
+mu = 5
 
-plotOne(-1,1)
-plotOne(-2,2)
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(1, 10, 100)
+y1 = stats.norm.pdf(x, mu, 1)
 
-par(mfrow=c(1,1))
+variance = 2
+sigma = np.sqrt(variance)
+y2 = stats.norm.pdf(x, mu, 2)
 
+
+fig = sns.lineplot(x = x, y = y1)
+ax2=fig.twiny()
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+sns.lineplot(x = x, y = y2, ax=ax2, linestyle='--')
+sns.despine()
+
+glue("two-normals_fig2", fig, display=False)
+
+ ```{glue:figure} two-normals_fig2
+:figwidth: 600px
+:name: fig-two-normals2
+
+An illustration of what happens when you change the the standard deviation of a normal distribution. Both distributions plotted in this figure have a mean of μ “ 5, but they have different standard deviations. The solid line plots a distribution with standard deviation σ “ 1, and the dashed line shows a distribution with standard deviation σ “ 2. As a consequence, both distributions are “centred” on the same spot, but the dashed line is wider than the solid one.
 ```
 
 
-```{r sdnorm2, fig.cap="Two more examples of the \"area under the curve idea\". There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.", echo=FALSE}
+Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3\% of the area falls within 1 standard deviation of the mean. Similarly, 95.4\% of the distribution falls within 2 standard deviations of the mean, and 99.7\% of the distribution is within 3 standard deviations. This idea is illustrated in {numref}`fig-sdnorm` and {numref}`fig-sdnorm2`.
 
-par(mfrow=c(1,2))
-plotOne(-1,0)
-plotOne(-50,-1)
-par(mfrow=c(1,1))
+%matplotlib agg
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
+plt.xlabel('Observed Value')
+plt.ylabel('Probability Density')
+
+x_fill1 = np.arange(-1, 1, 0.001)
+x_fill2 = np.arange(-2, 2, 0.001)
+
+y_fill1 = stats.norm.pdf(x_fill1,0,1)
+y_fill2 = stats.norm.pdf(x_fill2,0,1)
+
+axes[0].fill_between(x_fill1,y_fill1,0, alpha=0.2, color='blue')
+axes[1].fill_between(x_fill2,y_fill2,0, alpha=0.2, color='blue')
+
+axes[0].set_title("Shaded Area = 68.3%")
+axes[1].set_title("Shaded Area = 95.4%")
+
+sns.despine()
+
+glue("sdnorm_fig", fig, display=False)
+
+ ```{glue:figure} sdnorm_fig
+:figwidth: 600px
+:name: fig-sdnorm
+
+The area under the curve tells you the probability that an observation falls within a particular range. The solid lines plot normal distributions with mean $mu=0$ and standard deviation $sigma=1$ The shaded areas illustrate \"areas under the curve\" for two important cases. On the left, we can see that there is a 68.3% chance that an observation will fall within one standard deviation of the mean. On the right, we see that there is a 95.4% chance that an observation will fall within two standard deviations of the mean.
 ```
 
-### Probability density{#density}
+
+%matplotlib agg
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
+plt.xlabel('Observed Value')
+plt.ylabel('Probability Density')
+
+x_fill1 = np.arange(-4, -1, 0.001)
+x_fill2 = np.arange(-1, 0, 0.001)
+
+y_fill1 = stats.norm.pdf(x_fill1,0,1)
+y_fill2 = stats.norm.pdf(x_fill2,0,1)
+
+axes[0].fill_between(x_fill1,y_fill1,0, alpha=0.2, color='blue')
+axes[1].fill_between(x_fill2,y_fill2,0, alpha=0.2, color='blue')
+
+axes[0].set_title("Shaded Area = 15.9%")
+axes[1].set_title("Shaded Area = 34.1%")
+
+sns.despine()
+
+glue("sdnorm_fig2", fig, display=False)
+
+ ```{glue:figure} sdnorm_fig2
+:figwidth: 600px
+:name: fig-sdnorm2
+
+Two more examples of the \"area under the curve idea\". There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.
+```
+
+
+
+(density)=
+
+### Probability density
 
 There's something I've been trying to hide throughout my discussion of the normal distribution, something that some introductory textbooks omit completely. They might be right to do so: this "thing" that I'm hiding is weird and counterintuitive even by the admittedly distorted standards that apply in statistics. Fortunately, it's not something that you need to understand at a deep level in order to do basic statistics: rather, it's something that starts to become important later on when you move beyond the basics. So, if it doesn't make complete sense, don't worry: try to make sure that you follow the gist of it.
 
