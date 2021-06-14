@@ -860,7 +860,7 @@ X \sim \mbox{Binomial}(\theta, N)
 <p class="caption"><span class="caption-number">Fig. 2.3 </span><span class="caption-text">The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/6. Each vertical bar depicts the probability of one specific outcome (i.e., one possible value of X). Because this is a probability distribution, each of the probabilities must be a number between 0 and 1, and the heights of the bars must sum to 1 as well.</span><a class="headerlink" href="#fig-skulls" title="Permalink to this image">¶</a></p>
 </div>
 <p>Below, you can see the formulas for the binomial and normal distributions. We don’t really use these formulas for anything in this book, but they’re pretty important for more advanced work, so I thought it might be best to put them here anyway. In the equation for the binomial, <span class="math notranslate nohighlight">\(X!\)</span> is the factorial function (i.e., multiply all whole numbers from 1 to <span class="math notranslate nohighlight">\(X\)</span>), and for the normal distribution “exp” refers to the exponential function. If these equations don’t make a lot of sense to you, don’t worry too much about them.</p>
-<p>The formulat for the binomial distribution looks like this:</p>
+<p id="binomial-normal-formulas">The formula for the binomial distribution looks like this:</p>
 <div class="math notranslate nohighlight">
 \[
 P(X | \theta, N) = \frac{N!}{X! (N-X)!}  \theta^X (1-\theta)^{N-X}
@@ -886,6 +886,7 @@ P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> agg
 
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -917,25 +918,13 @@ P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 </div>
 <div class="figure align-default" id="binomial-fig" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_20_0.png" src="_images/04.02-probability_20_0.png" />
+<img alt="_images/04.02-probability_19_0.png" src="_images/04.02-probability_19_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 2.4 </span><span class="caption-text">The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in <a class="reference internal" href="#fig-skulls"><span class="std std-numref">Fig. 2.3</span></a>, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.</span><a class="headerlink" href="#binomial-fig" title="Permalink to this image">¶</a></p>
 </div>
 <p>At this point, I should probably explain what <code class="docutils literal notranslate"><span class="pre">random.binom</span></code> is actually doing. What’s random about it, anyway? I thought the binomial distribution was a known quantity? What the <code class="docutils literal notranslate"><span class="pre">random.binom</span></code> method does is to take the input arguments (<code class="docutils literal notranslate"><span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">p</span></code>, and <code class="docutils literal notranslate"><span class="pre">size</span></code>), and simulate an experiment that can be reduced to counts of “successes” (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of “success”, I could get Python to simulate the results of these experiments by using the following command:</p>
 <p><code class="docutils literal notranslate"><span class="pre">random.binomial(n=20,</span> <span class="pre">p=1/6,</span> <span class="pre">size=1000)</span></code></p>
 <p>If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, <a class="footnote-reference brackets" href="#note4" id="id6">4</a> but for the purposes of this book we don’t need to worry too much about them.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-align:left head"><p>Binomial</p></th>
-<th class="text-align:left head"><p>Normal</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-align:left"><p><span class="math notranslate nohighlight">\(P(X &amp;#124; \theta, N) = \displaystyle\frac{N!}{X! (N-X)!}  \theta^X (1-\theta)^{N-X}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(p(X &amp;#124; \mu, \sigma) = \displaystyle\frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}{2\sigma^2} \right)\)</span></p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="section" id="the-normal-distribution">
@@ -945,8 +934,41 @@ P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 \[
 X \sim \mbox{Normal}(\mu,\sigma)
 \]</div>
-<p>Of course, that’s just notation. It doesn’t tell us anything interesting about the normal distribution itself. As was the case with the binomial distribution, I have included the formula for the normal distribution in this book, because I think it’s important enough that everyone who learns statistics should at least look at it, but since this is an introductory text I don’t want to focus on it, so I’ve tucked it away in Table &#64;ref(tab:distformulas). Similarly, the R functions for the normal distribution are <code class="docutils literal notranslate"><span class="pre">dnorm()</span></code>, <code class="docutils literal notranslate"><span class="pre">pnorm()</span></code>, <code class="docutils literal notranslate"><span class="pre">qnorm()</span></code> and <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code>. However, they behave in pretty much exactly the same way as the corresponding functions for the binomial distribution, so there’s not a lot that you need to know. The only thing that I should point out is that the argument names for the parameters are <code class="docutils literal notranslate"><span class="pre">mean</span></code> and <code class="docutils literal notranslate"><span class="pre">sd</span></code>. In pretty much every other respect, there’s nothing else to add.</p>
+<p>Of course, that’s just notation. It doesn’t tell us anything interesting about the normal distribution itself. As was the case with the binomial distribution, I have included the formula for the normal distribution in this book, because I think it’s important enough that everyone who learns statistics should at least look at it, but since this is an introductory text I don’t want to focus on it, so I’ve just quietly put them in the text <a class="reference internal" href="#binomial-normal-formulas"><span class="std std-ref">above</span></a>.</p>
 <p>Instead of focusing on the maths, let’s try to get a sense for what it means for a variable to be normally distributed. To that end, have a look at Figure &#64;ref(fig:normdist), which plots a normal distribution with mean <span class="math notranslate nohighlight">\(\mu = 0\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma = 1\)</span>. You can see where the name “bell curve” comes from: it looks a bit like a bell. Notice that, unlike the plots that I drew to illustrate the binomial distribution, the picture of the normal distribution in Figure &#64;ref(fig:normdist) shows a smooth curve instead of “histogram-like” bars. This isn’t an arbitrary choice: the normal distribution is continuous, whereas the binomial is discrete. For instance, in the die rolling example from the last section, it was possible to get 3 skulls or 4 skulls, but impossible to get 3.9 skulls. The figures that I drew in the previous section reflected this fact: in Figure &#64;ref(fig:binomial1), for instance, there’s a bar located at <span class="math notranslate nohighlight">\(X=3\)</span> and another one at <span class="math notranslate nohighlight">\(X=4\)</span>, but there’s nothing in between. Continuous quantities don’t have this constraint. For instance, suppose we’re talking about the weather. The temperature on a pleasant Spring day could be 23 degrees, 24 degrees, 23.9 degrees, or anything in between since temperature is a continuous variable, and so a normal distribution might be quite appropriate for describing Spring temperatures.^[In practice, the normal distribution is so handy that people tend to use it even when the variable isn’t actually continuous. As long as there are enough categories (e.g., Likert scale responses to a questionnaire), it’s pretty standard practice to use the normal distribution as an approximation. This works out much better in practice than you’d think.]</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Observed Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;normal_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="figure align-default" id="fig-normal" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;100 flips&#39;}, xlabel=&#39;Observed Value&#39;, ylabel=&#39;Probability Density&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 2.5 </span><span class="caption-text">The normal distribution with mean <span class="math notranslate nohighlight">\(mu = 0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma = 1\)</span>. The <span class="math notranslate nohighlight">\(x\)</span>-axis corresponds to the value of some variable, and the <span class="math notranslate nohighlight">\(y\)</span>-axis tells us something about how likely we are to observe that value. However, notice that the <span class="math notranslate nohighlight">\(y\)</span>-axis is labelled “Probability Density” and not “Probability”. There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the <span class="math notranslate nohighlight">\(y\)</span> axis behave a bit oddly: the height of the curve here isn’t actually the probability of observing a particular <span class="math notranslate nohighlight">\(x\)</span> value. On the other hand, it <em>is</em> true that the heights of the curve tells you which <span class="math notranslate nohighlight">\(x\)</span> values are more likely (the higher ones!).</span><a class="headerlink" href="#fig-normal" title="Permalink to this image">¶</a></p>
+</div>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span># plots the standard normal
 	
 	# needed for printing
