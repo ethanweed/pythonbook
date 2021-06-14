@@ -656,8 +656,10 @@ P(\mbox{heads}) = 0.5
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 
 
 <span class="k">def</span> <span class="nf">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -669,18 +671,54 @@ P(\mbox{heads}) = 0.5
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="p">{</span><span class="s1">&#39;flips&#39;</span><span class="p">:</span> <span class="n">flips</span><span class="p">,</span>
-         <span class="s1">&#39;proportion_heads&#39;</span><span class="p">:</span> <span class="n">proportion</span>
+         <span class="s1">&#39;proportion&#39;</span><span class="p">:</span> <span class="n">proportion</span>
         <span class="p">})</span>
 
-    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;flips&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;proportion_heads&#39;</span><span class="p">])</span>
+    <span class="c1">#ax = sns. lineplot(x=df[&#39;flips&#39;], y=df[&#39;proportion_heads&#39;])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-    <span class="n">coin_flips</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">run1</span> <span class="o">=</span> <span class="n">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">run2</span> <span class="o">=</span> <span class="n">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">run3</span> <span class="o">=</span> <span class="n">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">run4</span> <span class="o">=</span> <span class="n">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">run1</span><span class="p">,</span> <span class="n">run2</span><span class="p">,</span> <span class="n">run3</span><span class="p">,</span> <span class="n">run4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;run1&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;run2&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;run3&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;run4&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;runs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">runs</span>
+
+
+
+<span class="c1">#ax = sns.lineplot(data = df_wide, x = flips, y = proportion_heads, hue = runs)</span>
+
+<span class="c1">#glue(&quot;frequentist_probability_fig&quot;, ax, display=False)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>```{glue:figure} frequentist_probability_fig
+:figwidth: 600px
+:name: fig-frequentist_probability
+
+An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each panel shows four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.
+```
+
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_4_0.png" src="_images/04.02-probability_4_0.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  File &quot;&lt;ipython-input-3-b65115ca7d06&gt;&quot;, line 1
+    ```{glue:figure} frequentist_probability_fig
+    ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
 </div>
 </div>
 <p>The frequentist definition of probability has some desirable characteristics. Firstly, it is objective: the probability of an event is <em>necessarily</em> grounded in the world. The only way that probability statements can make sense is if they refer to (a sequence of) events that occur in the physical universe. <a class="footnote-reference brackets" href="#note1" id="id1">1</a> Secondly, it is unambiguous: any two people watching the same sequence of events unfold, trying to calculate the probability of an event, must inevitably come up with the same answer. However, it also has undesirable characteristics. Firstly, infinite sequences don’t exist in the physical world. Suppose you picked up a coin from your pocket and started to flip it. Every time it lands, it impacts on the ground. Each impact wears the coin down a bit; eventually, the coin will be destroyed.</p>
@@ -754,7 +792,7 @@ P(\mbox{heads}) = 0.5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_9_1.png" src="_images/04.02-probability_9_1.png" />
+<img alt="_images/04.02-probability_10_1.png" src="_images/04.02-probability_10_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-pants" style="width: 600px">
@@ -827,7 +865,7 @@ X \sim \mbox{Binomial}(\theta, N)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_13_1.png" src="_images/04.02-probability_13_1.png" />
+<img alt="_images/04.02-probability_14_1.png" src="_images/04.02-probability_14_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skulls" style="width: 600px">
@@ -884,12 +922,12 @@ P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_19_1.png" src="_images/04.02-probability_19_1.png" />
+<img alt="_images/04.02-probability_20_1.png" src="_images/04.02-probability_20_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="binomial-fig" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_19_0.png" src="_images/04.02-probability_19_0.png" />
+<img alt="_images/04.02-probability_20_0.png" src="_images/04.02-probability_20_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 2.3 </span><span class="caption-text">The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in <a class="reference internal" href="#fig-skulls"><span class="std std-numref">Fig. 2.2</span></a>, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.</span><a class="headerlink" href="#binomial-fig" title="Permalink to this image">¶</a></p>
 </div>
