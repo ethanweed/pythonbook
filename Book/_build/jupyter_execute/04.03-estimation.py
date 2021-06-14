@@ -568,6 +568,7 @@ To finish this section off, here's another couple of tables to help keep things 
 |$\hat{\sigma}^2$ |Estimate of the population variance           |Yes -  but not the same as the sample variance          |
 
 
+(ci)=
 ## Estimating a confidence interval
 
 > *Statistics means never having to say you're certain* -- Unknown origin^[This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I've never found the original source.

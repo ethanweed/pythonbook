@@ -133,7 +133,7 @@ glue("frequentist_probability_fig", ax, display=False)
 :figwidth: 600px
 :name: fig-frequentist_probability
 
-An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each panel shows four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.
+An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each line shows the result of one of four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.
 ```
 
 
@@ -142,27 +142,29 @@ The frequentist definition of probability has some desirable characteristics. Fi
 
 So, one might ask whether it really makes sense to pretend that an "infinite" sequence of coin flips is even a meaningful concept, or an objective one. We can't say that an "infinite sequence" of events is a real thing in the physical universe, because the physical universe doesn't allow infinite anything.  More seriously, the frequentist definition has a narrow scope. There are lots of things out there that human beings are happy to assign probability to in everyday language, but cannot (even in theory) be mapped onto a hypothetical sequence of events. For instance, if a meteorologist comes on TV and says, "the probability of rain in Adelaide on 2 November 2048 is 60\%" we humans are happy to accept this. But it's not clear how to define this in frequentist terms. There's only one city of Adelaide, and only 2 November 2048. There's no infinite sequence of events here, just a once-off thing. Frequentist probability genuinely *forbids* us from making probability statements about a single event. From the frequentist perspective, it will either rain tomorrow or it will not; there is no "probability" that attaches to a single non-repeatable event. 
 
-Now, it should be said that there are some very clever tricks that frequentists can use to get around this. One possibility is that what the meteorologist means is something like this: "There is a category of days for which I predict a 60\% chance of rain; if we look only across those days for which I make this prediction, then on 60\% of those days it will actually rain". It's very weird and counterintuitive to think of it this way, but you do see frequentists do this sometimes. And it *will* come up later in this book (see Section \@ref(ci)).
+Now, it should be said that there are some very clever tricks that frequentists can use to get around this. One possibility is that what the meteorologist means is something like this: "There is a category of days for which I predict a 60\% chance of rain; if we look only across those days for which I make this prediction, then on 60\% of those days it will actually rain". It's very weird and counterintuitive to think of it this way, but you do see frequentists do this sometimes. And it *will* come up [later in this book](ci).
 
 [^note1]: This doesn't mean that frequentists can't make hypothetical statements, of course; it's just that if you want to make a statement about probability, then it must be possible to redescribe that statement in terms of a sequence of potentially observable events, and the relative frequencies of different outcomes that appear within that sequence.
 
 ### The Bayesian view
 
-The **_Bayesian view_** of probability is often called the subjectivist view, and it is a minority view among statisticians, but one that has been steadily gaining traction for the last several decades. There are many flavours of Bayesianism, making hard to say exactly what "the" Bayesian view is. The most common way of thinking about subjective probability is to define the probability of an event as the **_degree of belief_** that an intelligent and rational agent assigns to that truth of that event. From that perspective, probabilities don't exist in the world, but rather in the thoughts and assumptions of people and other intelligent beings.
+The **_Bayesian view_** of probability is often called the subjectivist view, and it is a minority view among statisticians, but one that has been steadily gaining traction for the last several decades [^note2]. There are many flavours of Bayesianism, making hard to say exactly what "the" Bayesian view is. The most common way of thinking about subjective probability is to define the probability of an event as the **_degree of belief_** that an intelligent and rational agent assigns to that truth of that event. From that perspective, probabilities don't exist in the world, but rather in the thoughts and assumptions of people and other intelligent beings.
 
 However, in order for this approach to work, we need some way of operationalising "degree of belief". One way that you can do this is to formalise it in terms of "rational gambling", though there are many other ways. Suppose that I believe that there's a 60\% probability of rain tomorrow. If someone offers me a bet: if it rains tomorrow, then I win 5 dollars, but if it doesn't rain then I lose 5 dollars. Clearly, from my perspective, this is a pretty good bet. On the other hand, if I think that the probability of rain is only 40\%, then it's a bad bet to take. Thus, we can operationalise the notion of a "subjective probability" in terms of what bets I'm willing to accept. 
 
 What are the advantages and disadvantages to the Bayesian approach? The main advantage is that it allows you to assign probabilities to any event you want to. You don't need to be limited to those events that are repeatable. The main disadvantage (to many people) is that we can't be purely objective -- specifying a probability requires us to specify an entity that has the relevant degree of belief. This entity might be a human, an alien, a robot, or even a statistician, but there has to be an intelligent agent out there that believes in things. To many people this is uncomfortable: it seems to make probability arbitrary. While the Bayesian approach does require that the agent in question be rational (i.e., obey the rules of probability), it does allow everyone to have their own beliefs; I can believe the coin is fair and you don't have to, even though we're both rational. The frequentist view doesn't allow any two observers to attribute different probabilities to the same event: when that happens, then at least one of them must be wrong. The Bayesian view does not prevent this from occurring. Two observers with different background knowledge can legitimately hold different beliefs about the same event. In short, where the frequentist view is sometimes considered to be too narrow (forbids lots of things that that we want to assign probabilities to), the Bayesian view is sometimes thought to be too broad (allows too many differences between observers). 
 
+[^note2]: Translator's note: This is even more true today than when *Learning Statistics with R* was originally published. Bayesian methods are becoming increasingly common and less controversial in many fields.
+
 ### What's the difference? And who is right?
 
 Now that you've seen each of these two views independently, it's useful to make sure you can compare the two. Go back to the hypothetical robot soccer game at the start of the section. What do you think a frequentist and a Bayesian would say about these three statements? Which statement would a frequentist say is the correct definition of probability? Which one would a Bayesian do? Would some of these statements be meaningless to a frequentist or a Bayesian? If you've understood the two perspectives, you should have some sense of how to answer those questions.
 
-Okay, assuming you understand the different, you might be wondering which of them is *right*? Honestly, I don't know that there is a right answer. As far as I can tell there's nothing mathematically incorrect about the way frequentists think about sequences of events, and there's nothing mathematically incorrect about the way that Bayesians define the beliefs of a rational agent. In fact, when you dig down into the details, Bayesians and frequentists actually agree about a lot of things. Many frequentist methods lead to decisions that Bayesians agree a rational agent would make. Many Bayesian methods have very good frequentist properties. 
+Okay, assuming you understand the difference, you might be wondering which of them is *right*? Honestly, I don't know that there is a right answer. As far as I can tell there's nothing mathematically incorrect about the way frequentists think about sequences of events, and there's nothing mathematically incorrect about the way that Bayesians define the beliefs of a rational agent. In fact, when you dig down into the details, Bayesians and frequentists actually agree about a lot of things. Many frequentist methods lead to decisions that Bayesians agree a rational agent would make. Many Bayesian methods have very good frequentist properties. 
 
 For the most part, I'm a pragmatist so I'll use any statistical method that I trust. As it turns out, that makes me prefer Bayesian methods, for reasons I'll explain towards the end of the book, but I'm not fundamentally opposed to frequentist methods. Not everyone is quite so relaxed. For instance, consider Sir Ronald Fisher, one of the towering figures of 20th century statistics and a vehement opponent to all things Bayesian, whose paper on the mathematical foundations of statistics referred to Bayesian probability as "an impenetrable jungle [that] arrests progress towards precision of statistical concepts" {cite}`Fisher1922b`. Or the psychologist Paul Meehl, who suggests that relying on frequentist methods could turn you into "a potent but sterile intellectual rake who leaves in his merry path a long train of ravished maidens but no viable scientific offspring" {cite}`Meehl1967`. The history of statistics, as you might gather, is not devoid of entertainment.
 
-In any case, while I personally prefer the Bayesian view, the majority of statistical analyses are based on the frequentist approach. My reasoning is pragmatic: the goal of this book is to cover roughly the same territory as a typical undergraduate stats class in psychology, and if you want to understand the statistical tools used by most psychologists, you'll need a good grasp of frequentist methods. I promise you that this isn't wasted effort. Even if you end up wanting to switch to the Bayesian perspective, you really should read through at least one book on the "orthodox" frequentist view. And since R is the most widely used statistical language for Bayesians, you might as well read a book that uses R. Besides, I won't completely ignore the Bayesian perspective. Every now and then I'll add some commentary from a Bayesian point of view, and I'll revisit the topic in more depth in Chapter [](Bayesian Statistics).
+In any case, while I personally prefer the Bayesian view, the majority of statistical analyses are based on the frequentist approach. My reasoning is pragmatic: the goal of this book is to cover roughly the same territory as a typical undergraduate stats class in psychology, and if you want to understand the statistical tools used by most psychologists, you'll need a good grasp of frequentist methods. I promise you that this isn't wasted effort. Even if you end up wanting to switch to the Bayesian perspective, you really should read through at least one book on the "orthodox" frequentist view. Besides, I won't completely ignore the Bayesian perspective. Every now and then I'll add some commentary from a Bayesian point of view, and I'll revisit the topic in more depth in the chapter on [Bayesian Statistics](bayes).
 
 
  
@@ -218,7 +220,7 @@ $$
 
 and, since the probabilities of blue, grey and black jeans respectively are .5, .3 and .1, the probability that I wear jeans is equal to .9. 
 
-At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list -- in  Table \@ref(tab:probrules) -- some of the other rules that probabilities satisfy. These rules can be derived from the simple assumptions that I've outlined above, but since we don't actually use these rules for anything in this book, I won't do so here.
+At this point you might be thinking that this is all terribly obvious and simple and you'd be right. All we've really done is wrap some basic mathematics around a few common sense intuitions. However, from these simple beginnings it's possible to construct some extremely powerful mathematical tools. I'm definitely not going to go into the details in this book, but what I will do is list some of the other rules that probabilities satisfy, in the table below. These rules can be derived from the simple assumptions that I've outlined above, and they are important if you want to understand probability theory a bit more deeply, but since we don't actually use these rules for anything in this book, I won't do so here.
 
 |English     |Notation      |Formula                     |
 |:-----------|:------------ |:---------------------------|
@@ -226,7 +228,6 @@ At this point you might be thinking that this is all terribly obvious and simple
 |$A$ or $B$  |$P(A \cup B)$ |$P(A) + P(B) - P(A \cap B)$ |
 |$A$ and $B$ |$P(A \cap B)$ |$P(A|B) P(B)$               |
 
-Some basic rules that probabilities must satisfy. You don't really need to know these rules in order to understand the analyses that we'll talk about later in the book, but they are important if you want to understand probability theory a bit more deeply.
 
 (binomial)=
 
@@ -235,9 +236,9 @@ As you might imagine, probability distributions vary enormously, and there's an 
 
 ### Introducing the binomial
 
-The theory of probability originated in the attempt to describe how games of chance work, so it seems fitting that our discussion of the **_binomial distribution_** should involve a discussion of rolling dice and flipping coins. Let's imagine a simple "experiment": in my hot little hand I'm holding 20 identical six-sided dice. On one face of each die there's a picture of a skull; the other five faces are all blank. If I proceed to roll all 20 dice, what's the probability that I'll get exactly 4 skulls? Assuming that the dice are fair, we know that the chance of any one die coming up skulls is 1 in 6; to say this another way, the skull probability for a single die is approximately $.167$. This is enough information to answer our question, so let's have a look at how it's done. 
+The theory of probability originated in the attempt to describe how games of chance work, so it seems fitting that our discussion of the **_binomial distribution_** should involve a discussion of rolling dice and flipping coins. Let's imagine a simple "experiment": in my hot little hand I'm holding 20 identical six-sided dice. On one face of each die there's a picture of a skull; the other five faces are all blank. If I proceed to roll all 20 dice, what's the probability that I'll get exactly 4 skulls? Assuming that the dice are fair, we know that the chance of any one die coming up skulls is 1 in 6; to say this another way, the skull probability for a single die is approximately $0.167$. This is enough information to answer our question, so let's have a look at how it's done. 
 
-As usual, we'll want to introduce some names and some notation. We'll let $N$ denote the number of dice rolls in our experiment; which is often referred to as the **_size parameter_** of our binomial distribution. We'll also use $\theta$ to refer to the the probability that a single die comes up skulls, a quantity that is usually called the **_success probability_** of the binomial.[^note2] Finally, we'll use $X$ to refer to the results of our experiment, namely the number of skulls I get when I roll the dice. Since the actual value of $X$ is due to chance, we refer to it as a **_random variable_**. In any case, now that we have all this terminology and notation, we can use it to state the problem a little more precisely. The quantity that we want to calculate is the probability that $X = 4$ given that we know that $\theta = .167$ and $N=20$. The general "form" of the thing I'm interested in calculating could be written as 
+As usual, we'll want to introduce some names and some notation. We'll let $N$ denote the number of dice rolls in our experiment; which is often referred to as the **_size parameter_** of our binomial distribution. We'll also use $\theta$ to refer to the the probability that a single die comes up skulls, a quantity that is usually called the **_success probability_** of the binomial.[^note3] Finally, we'll use $X$ to refer to the results of our experiment, namely the number of skulls I get when I roll the dice. Since the actual value of $X$ is due to chance, we refer to it as a **_random variable_**. In any case, now that we have all this terminology and notation, we can use it to state the problem a little more precisely. The quantity that we want to calculate is the probability that $X = 4$ given that we know that $\theta = .167$ and $N=20$. The general "form" of the thing I'm interested in calculating could be written as 
 
 $$
 P(X \ | \ \theta, N)
@@ -251,6 +252,8 @@ X \sim \mbox{Binomial}(\theta, N)
 $$ 
 
 Yeah, yeah. I know what you're thinking: notation, notation, notation. Really, who cares? Very few readers of this book are here for the notation, so I should probably move on and talk about how to use the binomial distribution. I've included the formula for the binomial distribution below, since some readers may want to play with it themselves, but since most people probably don't care that much and because we don't need the formula in this book, I won't talk about it in any detail. Instead, I just want to show you what the binomial distribution looks like. To that end, {numref}`fig-skulls` plots the binomial probabilities for all possible values of $X$ for our dice rolling experiment, from $X=0$ (no skulls) all the way up to $X=20$ (all skulls). Note that this is basically a bar chart, and is no different to the "pants probability" plot I drew in {numref}`fig-pants`. On the horizontal axis we have all the possible events, and on the vertical axis we can read off the probability of each of those events. So, the probability of rolling 4 skulls out of 20 times is about 0.20 (the actual answer is 0.2022036, as we'll see in a moment). In other words, you'd expect that to happen about 20\% of the times you repeated this experiment.
+
+[^note3]: Note that the term "success" is pretty arbitrary, and doesn't actually imply that the outcome is something to be desired. If $\theta$ referred to the probability that any one passenger gets injured in a bus crash, I'd still call it the success probability, but that doesn't mean I want people to get hurt in bus crashes!
 
 from myst_nb import glue
 from numpy import random
@@ -275,13 +278,16 @@ The binomial distribution with size parameter of N = 20 and an underlying succes
 
 Below, you can see the formulas for the binomial and normal distributions. We don't really use these formulas for anything in this book, but they're pretty important for more advanced work, so I thought it might be best to put them here anyway. In the equation for the binomial, $X!$ is the factorial function (i.e., multiply all whole numbers from 1 to $X$), and for the normal distribution \"exp\" refers to the exponential function. If these equations don't make a lot of sense to you, don't worry too much about them.
 
-[^note2]: Note that the term "success" is pretty arbitrary, and doesn't actually imply that the outcome is something to be desired. If $\theta$ referred to the probability that any one passenger gets injured in a bus crash, I'd still call it the success probability, but that doesn't mean I want people to get hurt in bus crashes!
 
-The formulat for the binomial distribution looks like this:
+
+(binomial_normal_formulas)=
+
+The formula for the binomial distribution looks like this:
 
 $$
 P(X | \theta, N) = \frac{N!}{X! (N-X)!}  \theta^X (1-\theta)^{N-X}
 $$ 
+
 
 
 and the formula for the normal distribution looks like this:
@@ -297,7 +303,7 @@ Although some people find it handy to know the above formulas, most people just 
 
 - `n`. This is a number, or vector of numbers, specifying the outcomes whose probability you're trying to calculate.
 - `prob`. This is the success probability for any one trial in the experiment.
-- `size`. This is a number telling R the size of the experiment.
+- `size`. This is a number telling Python the size of the experiment.
 
 
 So, in order to calculate the probability of getting `n = 4` skulls, from an experiment of `size = 20` trials, in which the probability of getting a skull on any one trial is `prob = 1/6` ... well, the command I would use is simply this:
@@ -306,14 +312,18 @@ So, in order to calculate the probability of getting `n = 4` skulls, from an exp
 
 To give you a feel for how the binomial distribution changes when we alter the values of $\theta$ and $N$, let's suppose that instead of rolling dice, I'm actually flipping coins. This time around, my experiment involves flipping a fair coin repeatedly, and the outcome that I'm interested in is the number of heads that I observe. In this scenario, the success probability is now $\theta = 1/2$. Suppose I were to flip the coin $N=20$ times. In this example, I've changed the success probability, but kept the size of the experiment the same. What does this do to our binomial distribution? Well, as {numref}`binomial-fig` shows, the main effect of this is to shift the whole distribution, as you'd expect. Okay, what if we flipped a coin $N=100$ times? Well, in that case, the distribution stays roughly in the middle, but there's a bit more variability in the possible outcomes. 
 
+%matplotlib agg
+
+from myst_nb import glue
 from numpy import random
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-x_20 = random.binomial(n=20, p=1/2, size=1000)
-x_100 = random.binomial(n=20, p=1/2, size=1000)
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
+x_20 = random.binomial(n=20, p=1/2, size=1000)
+x_100 = random.binomial(n=100, p=1/2, size=1000)
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 fig.suptitle('Coin Flips')
 
 # 20 flips
@@ -324,7 +334,7 @@ axes[0].set(xlim=(0,20))
 # 100 flips
 sns.histplot(x_100, bins=20,binwidth=1, ax=axes[1])
 axes[1].set_title('100 flips')
-axes[1].set(xlim=(0,20))
+axes[1].set(xlim=(0,100))
 
 
 glue("fig-binomial", fig, display=False)
@@ -336,69 +346,84 @@ glue("fig-binomial", fig, display=False)
 The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in {numref}`fig-skulls`, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.
 ```
 
-At this point, I should probably explain what `random.binom`is actually doing. What's random about it, anyway? I thought the binomial distribution was a known quantity? What the `random.binom` method does is to take the input arguments (`N`, `p`, and `size`), and simulate an experiment that can be reduced to counts of "successes" (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of "success", I could get Python to simulate the results of these experiments by using the following command:
+At this point, I should probably explain what `random.binom` is actually doing. What's random about it, anyway? I thought the binomial distribution was a known quantity? What the `random.binom` method does is to take the input arguments (`N`, `p`, and `size`), and simulate an experiment that can be reduced to counts of "successes" (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of "success", I could get Python to simulate the results of these experiments by using the following command:
 
 `random.binomial(n=20, p=1/6, size=1000)`
 
-If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, [^note6] but for the purposes of this book we don't need to worry too much about them.
+If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, [^note4] but for the purposes of this book we don't need to worry too much about them.
 
-[^note6]: Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are *pseudorandom*, and the quality of those numbers depends on the specific method used. But for our purposes, we can just think of these numbers as random.
-
+[^note4]: Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are *pseudorandom*, and the quality of those numbers depends on the specific method used. But for our purposes, we can just think of these numbers as random.
 
 
 (normal)=
 ## The normal distribution
 
 While the binomial distribution is conceptually the simplest distribution to understand, it's not the most important one. That particular honour goes to the **_normal distribution_**, which is also referred to as "the bell curve" or a "Gaussian distribution". A normal distribution is described using two parameters, the mean of the distribution $\mu$ and the standard deviation of the distribution $\sigma$. The notation that we sometimes use to say that a variable $X$ is normally distributed is as follows:
+
 $$
 X \sim \mbox{Normal}(\mu,\sigma)
 $$
-Of course, that's just notation. It doesn't tell us anything interesting about the normal distribution itself. As was the case with the binomial distribution, I have included the formula for the normal distribution in this book, because I think it's important enough that everyone who learns statistics should at least look at it, but since this is an introductory text I don't want to focus on it, so I've tucked it away in Table \@ref(tab:distformulas). Similarly, the R functions for the normal distribution are `dnorm()`, `pnorm()`, `qnorm()` and `rnorm()`. However, they behave in pretty much exactly the same way as the corresponding functions for the binomial distribution, so there's not a lot that you need to know. The only thing that I should point out is that the argument names for the parameters are `mean` and `sd`. In pretty much every other respect, there's nothing else to add.
+
+Of course, that's just notation. It doesn't tell us anything interesting about the normal distribution itself. As was the case with the binomial distribution, I have included the formula for the normal distribution in this book, because I think it's important enough that everyone who learns statistics should at least look at it, but since this is an introductory text I don't want to focus on it, so I've just quietly put them in the text [above](binomial_normal_formulas).
 
 Instead of focusing on the maths, let's try to get a sense for what it means for a variable to be normally distributed. To that end, have a look at Figure \@ref(fig:normdist), which plots a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$. You can see where the name "bell curve" comes from: it looks a bit like a bell. Notice that, unlike the plots that I drew to illustrate the binomial distribution, the picture of the normal distribution in Figure \@ref(fig:normdist) shows a smooth curve instead of "histogram-like" bars. This isn't an arbitrary choice: the normal distribution is continuous, whereas the binomial is discrete. For instance, in the die rolling example from the last section, it was possible to get 3 skulls or 4 skulls, but impossible to get 3.9 skulls. The figures that I drew in the previous section reflected this fact: in Figure \@ref(fig:binomial1), for instance, there's a bar located at $X=3$ and another one at $X=4$, but there's nothing in between. Continuous quantities don't have this constraint. For instance, suppose we're talking about the weather. The temperature on a pleasant Spring day could be 23 degrees, 24 degrees, 23.9 degrees, or anything in between since temperature is a continuous variable, and so a normal distribution might be quite appropriate for describing Spring temperatures.^[In practice, the normal distribution is so handy that people tend to use it even when the variable isn't actually continuous. As long as there are enough categories (e.g., Likert scale responses to a questionnaire), it's pretty standard practice to use the normal distribution as an approximation. This works out much better in practice than you'd think.] 
 
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
 
-```{r normdist, fig.cap="The normal distribution with mean $mu = 0$ and standard deviation $sigma = 1$. The $x$-axis corresponds to the value of some variable, and the $y$-axis tells us something about how likely we are to observe that value. However, notice that the $y$-axis is labelled \"Probability Density\" and not \"Probability\". There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the $y$ axis behave a bit oddly: the height of the curve here isn't actually the probability of observing a particular $x$ value. On the other hand, it *is* true that the heights of the curve tells you which $x$ values are more likely (the higher ones!).", echo=FALSE}
-# plots the standard normal
-	
-	# needed for printing
-	width <- 8
-	height <- 6
-	fileName <- "standardNormal.eps"	
-	
-	# draw the plot
-	xval <- seq(-3,3,.01)
-	yval <- dnorm( xval, 0, 1)
-	plot( 	xval, yval, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l"
-	)
 
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+fig = sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma))
+plt.xlabel('Observed Value')
+plt.ylabel('Probability Density')
+
+sns.despine()
+
+glue("normal_fig", fig, display=False)
+
+ ```{glue:figure} normal_fig
+:figwidth: 600px
+:name: fig-normal
+
+The normal distribution with mean $mu = 0$ and standard deviation $sigma = 1$. The $x$-axis corresponds to the value of some variable, and the $y$-axis tells us something about how likely we are to observe that value. However, notice that the $y$-axis is labelled \"Probability Density\" and not \"Probability\". There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the $y$ axis behave a bit oddly: the height of the curve here isn't actually the probability of observing a particular $x$ value. On the other hand, it *is* true that the heights of the curve tells you which $x$ values are more likely (the higher ones!).
 ```
 
 With this in mind, let's see if we can't get an intuition for how the normal distribution works. Firstly, let's have a look at what happens when we play around with the parameters of the distribution. To that end, Figure \@ref(fig:normmean) plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same "width". The only difference between them is that they've been shifted to the left or to the right. In every other respect they're identical. In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in Figure \@ref(fig:normsd). Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to *sum* to 1, the total *area under the curve* for the normal distribution must equal 1. 
 
-```{r normmean, fig.cap="An illustration of what happens when you change the mean of a normal distribution. The solid line depicts a normal distribution with a mean of $mu=4$. The dashed line shows a normal distribution with a mean of $mu=7$. In both cases, the standard deviation is $sigma=1$. Not surprisingly, the two distributions have the same shape, but the dashed line is shifted to the right.", echo=FALSE}
-	# draw the plot
-	xval <- seq(0,11,.01)
-	yval.1 <- dnorm( xval, 4, 1)
-	yval.2 <- dnorm( xval, 7, 1)
-	plot( 	xval, yval.1, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l"
-	)
-	lines(	xval, yval.2, lwd=3, col=ifelse(colour,emphCol,"black"), lty=2 )
-
-```
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import pandas as pd
+import seaborn as sns
 
 
-```{r normsd, fig.cap="An illustration of what happens when you change the the standard deviation of a normal distribution. Both distributions plotted in this figure have a mean of $mu = 5$, but they have different standard deviations. The solid line plots a distribution with standard deviation $sigma=1$, and the dashed line shows a distribution with standard deviation $sigma = 2$. As a consequence, both distributions are \"centred\" on the same spot, but the dashed line is wider than the solid one.", echo=FALSE}
-# draw the plot
-	xval <- seq(0,10,.01)
-	yval.1 <- dnorm( xval, 5, 1)
-	yval.2 <- dnorm( xval, 5, 2)
-	plot( 	xval, yval.1, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l"
-	)
-	lines(	xval, yval.2, lwd=3, col=ifelse(colour,emphCol,"black"), lty=2 )
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(1, 10, 100)
+y1 = stats.norm.pdf(x, 4, sigma)
+y2 = stats.norm.pdf(x, 7, sigma)
+
+fig = sns.lineplot(x = x, y = y1)
+
+ax2=fig.twinx()
+sns.lineplot(x = x, y = y2, ax=ax2)
+sns.despine()
+
+glue("two-normals_fig", fig, display=False)
+
+ ```{glue:figure} two-normals_fig
+:figwidth: 600px
+:name: fig-two-normals
+
+An illustration of what happens when you change the mean of a normal distribution. The peak on to the left depicts a normal distribution with a mean of $mu=4$. The peak to the right shows a normal distribution with a mean of $mu=7$. In both cases, the standard deviation is $sigma=1$. Not surprisingly, the two distributions have the same shape, but one is shifted to the right of the other.
 
 ```
 
