@@ -17,7 +17,7 @@ The answer to the question is pretty obvious: if I call 1000 people at random, a
 
 **_Inferential statistics_** provides the tools that we need to answer these sorts of questions, and since these kinds of questions lie at the heart of the scientific enterprise, they take up the lions share of every introductory course on statistics and research methods. However, the theory of statistical inference is built on top of **_probability theory_**. And it is to probability theory that we must now turn. This discussion of probability theory is basically background: there's not a lot of statistics per se in this chapter, and you don't need to understand this material in as much depth as the other chapters in this part of the book. Nevertheless, because probability theory does underpin so much of statistics, it's worth covering some of the basics. 
 
-{probstats)=
+(probstats)=
 ## How are probability and statistics different?
 
 Before we start talking about probability theory, it's helpful to spend a moment thinking about the relationship between probability and statistics. The two disciplines are closely related but they're not identical. Probability theory is "the doctrine of chances". It's a branch of mathematics that tells you how often different kinds of events will happen. For example, all of these questions are things you can answer using probability theory:
@@ -72,8 +72,6 @@ T,H,H,H,H,T,T,H,H,H,H,T,H,H,T,T,T,T,T,H
 ```
 In this case 11 of these 20 coin flips (55\%) came up heads. Now suppose that I'd been keeping a running tally of the number of heads (which I'll call $N_H$) that I've seen, across the first $N$ flips, and calculate the proportion of heads $N_H / N$ every time. Here's what I'd get (I did literally flip coins to produce this!):
 
-
-
 import pandas as pd
 number_of_flips = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10, 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20]
 number_of_heads = [0 , 1 , 2 , 3 , 4 , 4 , 4 , 5 , 6 , 7,  8  ,  8 ,  9 , 10 , 10 , 10 , 10 , 10 , 10 , 11] 
@@ -87,12 +85,14 @@ df = pd.DataFrame(
 
 df
 
-Notice that at the start of the sequence, the *proportion* of heads fluctuates wildly, starting at .00 and rising as high as .80. Later on, one gets the impression that it dampens out a bit, with more and more of the values actually being pretty close to the "right" answer of .50. This is the frequentist definition of probability in a nutshell: flip a fair coin over and over again, and as $N$ grows large (approaches infinity, denoted $N\rightarrow \infty$), the proportion of heads will converge to 50\%. There are some subtle technicalities that the mathematicians care about, but qualitatively speaking, that's how the frequentists define probability. Unfortunately, I don't have an infinite number of coins, or the infinite patience required to flip a coin an infinite number of times. However, I do have a computer, and computers excel at mindless repetitive tasks. So I asked my computer to simulate flipping a coin 1000 times, and then drew a picture of what happens to the proportion $N_H / N$ as $N$ increases. Actually, I did it four times, just to make sure it wasn't a fluke. The results are shown in Figure \@ref(fig:frequentistprobability). As you can see, the *proportion of observed heads* eventually stops fluctuating, and settles down; when it does, the number at which it finally settles is the true probability of heads.
+Notice that at the start of the sequence, the *proportion* of heads fluctuates wildly, starting at .00 and rising as high as .80. Later on, one gets the impression that it dampens out a bit, with more and more of the values actually being pretty close to the "right" answer of .50. This is the frequentist definition of probability in a nutshell: flip a fair coin over and over again, and as $N$ grows large (approaches infinity, denoted $N\rightarrow \infty$), the proportion of heads will converge to 50\%. There are some subtle technicalities that the mathematicians care about, but qualitatively speaking, that's how the frequentists define probability. Unfortunately, I don't have an infinite number of coins, or the infinite patience required to flip a coin an infinite number of times. However, I do have a computer, and computers excel at mindless repetitive tasks. So I asked my computer to simulate flipping a coin 1000 times, and then drew a picture of what happens to the proportion $N_H / N$ as $N$ increases. Actually, I did it four times, just to make sure it wasn't a fluke. The results are shown in {numref}`fig-frequentist_probability`. As you can see, the *proportion of observed heads* eventually stops fluctuating, and settles down; when it does, the number at which it finally settles is the true probability of heads.
 
 import random
 import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from myst_nb import glue
 
 
 def coin_flips(n):
@@ -107,10 +107,34 @@ def coin_flips(n):
          'proportion_heads': proportion
         })
 
-    sns.lineplot(x=df['flips'], y=df['proportion_heads'])
+    #ax = sns. lineplot(x=df['flips'], y=df['proportion_heads'])
+    return(df)
 
-for i in range(4):
-    coin_flips(1000)
+n = 1000
+
+run1 = coin_flips(n)
+run2 = coin_flips(n)
+run3 = coin_flips(n)
+run4 = coin_flips(n)
+
+
+df = pd.concat([run1, run2, run3, run4], axis=0)
+
+runs = ['run1']*n + ['run2']*n + ['run3']*n + ['run4']*1000
+
+df['runs'] = runs
+
+
+ax = sns.lineplot(data = df, x = 'flips', y = 'proportion_heads', hue = 'runs')
+
+glue("frequentist_probability_fig", ax, display=False)
+
+```{glue:figure} frequentist_probability_fig
+:figwidth: 600px
+:name: fig-frequentist_probability
+
+An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each panel shows four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.
+```
 
 
 
