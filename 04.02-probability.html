@@ -971,44 +971,45 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <p class="caption"><span class="caption-number">Fig. 2.5 </span><span class="caption-text">The normal distribution with mean <span class="math notranslate nohighlight">\(mu = 0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma = 1\)</span>. The <span class="math notranslate nohighlight">\(x\)</span>-axis corresponds to the value of some variable, and the <span class="math notranslate nohighlight">\(y\)</span>-axis tells us something about how likely we are to observe that value. However, notice that the <span class="math notranslate nohighlight">\(y\)</span>-axis is labelled “Probability Density” and not “Probability”. There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the <span class="math notranslate nohighlight">\(y\)</span> axis behave a bit oddly: the height of the curve here isn’t actually the probability of observing a particular <span class="math notranslate nohighlight">\(x\)</span> value. On the other hand, it <em>is</em> true that the heights of the curve tells you which <span class="math notranslate nohighlight">\(x\)</span> values are more likely (the higher ones!).</span><a class="headerlink" href="#fig-normal" title="Permalink to this image">¶</a></p>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span># plots the standard normal
-	
-	# needed for printing
-	width &lt;- 8
-	height &lt;- 6
-	fileName &lt;- &quot;standardNormal.eps&quot;	
-	
-	# draw the plot
-	xval &lt;- seq(-3,3,.01)
-	yval &lt;- dnorm( xval, 0, 1)
-	plot( 	xval, yval, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
-			frame.plot = FALSE, col=ifelse(colour,emphCol,&quot;black&quot;), type=&quot;l&quot;
-	)
-
-</pre></div>
-</div>
 <p>With this in mind, let’s see if we can’t get an intuition for how the normal distribution works. Firstly, let’s have a look at what happens when we play around with the parameters of the distribution. To that end, Figure &#64;ref(fig:normmean) plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same “width”. The only difference between them is that they’ve been shifted to the left or to the right. In every other respect they’re identical. In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in Figure &#64;ref(fig:normsd). Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to <em>sum</em> to 1, the total <em>area under the curve</em> for the normal distribution must equal 1.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	# draw the plot
-	xval &lt;- seq(0,11,.01)
-	yval.1 &lt;- dnorm( xval, 4, 1)
-	yval.2 &lt;- dnorm( xval, 7, 1)
-	plot( 	xval, yval.1, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
-			frame.plot = FALSE, col=ifelse(colour,emphCol,&quot;black&quot;), type=&quot;l&quot;
-	)
-	lines(	xval, yval.2, lwd=3, col=ifelse(colour,emphCol,&quot;black&quot;), lty=2 )
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;two-normals_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span># draw the plot
-	xval &lt;- seq(0,10,.01)
-	yval.1 &lt;- dnorm( xval, 5, 1)
-	yval.2 &lt;- dnorm( xval, 5, 2)
-	plot( 	xval, yval.1, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
-			frame.plot = FALSE, col=ifelse(colour,emphCol,&quot;black&quot;), type=&quot;l&quot;
-	)
-	lines(	xval, yval.2, lwd=3, col=ifelse(colour,emphCol,&quot;black&quot;), lty=2 )
-
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_26_1.png" src="_images/04.02-probability_26_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-two-normals" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
 </pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 2.6 </span><span class="caption-text">An illustration of what happens when you change the mean of a normal distribution. The peak on to the left depicts a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=4\)</span>. The peak to the right shows a normal distribution with a mean of <span class="math notranslate nohighlight">\(mu=7\)</span>. In both cases, the standard deviation is <span class="math notranslate nohighlight">\(sigma=1\)</span>. Not surprisingly, the two distributions have the same shape, but one is shifted to the right of the other.</span><a class="headerlink" href="#fig-two-normals" title="Permalink to this image">¶</a></p>
 </div>
 <p>Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3% of the area falls within 1 standard deviation of the mean. Similarly, 95.4% of the distribution falls within 2 standard deviations of the mean, and 99.7% of the distribution is within 3 standard deviations. This idea is illustrated in Figures &#64;ref(fig:sdnorm1) and &#64;ref(fig:sdnorm2).</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
