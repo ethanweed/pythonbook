@@ -17,20 +17,43 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-```{glue:figure} frequentist_probability_fig
-:figwidth: 600px
-:name: fig-frequentist_probability
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
 
-An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each panel shows four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.
-```
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
+plt.xlabel('Observed Value')
+plt.ylabel('Probability Density')
+
+x_fill1 = np.arange(-1, 1, 0.001)
+x_fill2 = np.arange(-2, 2, 0.001)
+y_fill1 = stats.norm.pdf(x_fill1,0,1)
+y_fill2 = stats.norm.pdf(x_fill2,0,1)
+axes[0].fill_between(x_fill1,y_fill,0, alpha=0.2, color='blue')
+axes[1].fill_between(x_fill2,y_fill,0, alpha=0.2, color='blue')
 
 
+sns.despine()
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-3-b65115ca7d06>"[0;36m, line [0;32m1[0m
-[0;31m    ```{glue:figure} frequentist_probability_fig[0m
-[0m    ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-9-e30f90a78005>[0m in [0;36m<module>[0;34m[0m
+[1;32m     20[0m [0my_fill1[0m [0;34m=[0m [0mstats[0m[0;34m.[0m[0mnorm[0m[0;34m.[0m[0mpdf[0m[0;34m([0m[0mx_fill1[0m[0;34m,[0m[0;36m0[0m[0;34m,[0m[0;36m1[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     21[0m [0my_fill2[0m [0;34m=[0m [0mstats[0m[0;34m.[0m[0mnorm[0m[0;34m.[0m[0mpdf[0m[0;34m([0m[0mx_fill2[0m[0;34m,[0m[0;36m0[0m[0;34m,[0m[0;36m1[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 22[0;31m [0maxes[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m.[0m[0mfill_between[0m[0;34m([0m[0mx_fill1[0m[0;34m,[0m[0my_fill[0m[0;34m,[0m[0;36m0[0m[0;34m,[0m [0malpha[0m[0;34m=[0m[0;36m0.2[0m[0;34m,[0m [0mcolor[0m[0;34m=[0m[0;34m'blue'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     23[0m [0maxes[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m.[0m[0mfill_between[0m[0;34m([0m[0mx_fill2[0m[0;34m,[0m[0my_fill[0m[0;34m,[0m[0;36m0[0m[0;34m,[0m [0malpha[0m[0;34m=[0m[0;36m0.2[0m[0;34m,[0m [0mcolor[0m[0;34m=[0m[0;34m'blue'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     24[0m [0;34m[0m[0m
 
-SyntaxError: invalid syntax (<ipython-input-3-b65115ca7d06>, line 1)
+[0;31mNameError[0m: name 'y_fill' is not defined
+NameError: name 'y_fill' is not defined
 
