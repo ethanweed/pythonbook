@@ -293,7 +293,7 @@ $$
 and the formula for the normal distribution looks like this:
 
 $$
-P(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}{2\sigma^2} \right)
+p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}{2\sigma^2} \right)
 $$
 
 ### Working with the binomial distribution in Python
@@ -455,9 +455,12 @@ y2 = stats.norm.pdf(x, mu, 2)
 
 
 fig = sns.lineplot(x = x, y = y1)
+
 ax2=fig.twiny()
 ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
                    right=False, labelright=False, bottom=False, labelbottom=False)
+
+
 
 sns.lineplot(x = x, y = y2, ax=ax2, linestyle='--')
 sns.despine()
@@ -487,9 +490,11 @@ variance = 1
 sigma = np.sqrt(variance)
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
-sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
 plt.xlabel('Observed Value')
 plt.ylabel('Probability Density')
+
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
+
 
 x_fill1 = np.arange(-1, 1, 0.001)
 x_fill2 = np.arange(-2, 2, 0.001)
@@ -528,9 +533,11 @@ variance = 1
 sigma = np.sqrt(variance)
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
-sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
 plt.xlabel('Observed Value')
 plt.ylabel('Probability Density')
+
+sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
+
 
 x_fill1 = np.arange(-4, -1, 0.001)
 x_fill2 = np.arange(-1, 0, 0.001)
@@ -558,33 +565,70 @@ Two more examples of the \"area under the curve idea\". There is a 15.9% chance 
 
 
 (density)=
-
 ### Probability density
 
 There's something I've been trying to hide throughout my discussion of the normal distribution, something that some introductory textbooks omit completely. They might be right to do so: this "thing" that I'm hiding is weird and counterintuitive even by the admittedly distorted standards that apply in statistics. Fortunately, it's not something that you need to understand at a deep level in order to do basic statistics: rather, it's something that starts to become important later on when you move beyond the basics. So, if it doesn't make complete sense, don't worry: try to make sure that you follow the gist of it.
 
-Throughout my discussion of the normal distribution, there's been one or two things that don't quite make sense. Perhaps you noticed that the $y$-axis in these figures is labelled "Probability Density" rather than density. Maybe you noticed that I used $p(X)$ instead of $P(X)$ when giving the formula for the normal distribution. Maybe you're wondering why R uses the "d" prefix for functions like `dnorm()`. And maybe, just maybe, you've been playing around with the `dnorm()` function, and you accidentally typed in a command like this:
-```{r}
-dnorm( x = 1, mean = 1, sd = 0.1 )
-```
-And if you've done the last part, you're probably very confused. I've asked R to calculate the probability that `x = 1`, for a normally distributed variable with `mean = 1` and standard deviation `sd = 0.1`; and it tells me that the probability is 3.99. But, as we discussed earlier, probabilities *can't* be larger than 1. So either I've made a mistake, or that's not a probability. 
+Throughout my discussion of the normal distribution, there's been one or two things that don't quite make sense. Perhaps you noticed that the $y$-axis in these figures is labelled "Probability Density" rather than density. Maybe you noticed that I used $p(X)$ instead of $P(X)$ when giving the formula for the normal distribution. Maybe you're wondering what the `d`in  `stats.norm.pdf()` stands for. Ok, probably not. But still, you've probably guessed that `pdf` has little to do with the [Portable Document Format](https://en.wikipedia.org/wiki/PDF). And maybe, just maybe, you've been playing around with the `stats.norm.pdf()` function, and you accidentally typed in a command like this:
+
+
+stats.norm.pdf(1,1,0.1)
+
+
+And if you've done the last part, you're probably very confused. I've asked Python to calculate the probability that `x = 1`, for a normally distributed variable with `mean = 1` and standard deviation `sd = 0.1`; and it tells me that the probability is 3.99. But, as we discussed earlier, probabilities *can't* be larger than 1. So either I've made a mistake, or that's not a probability. 
 
 As it turns out, the second answer is correct. What we've calculated here isn't actually a probability: it's something else. To understand what that something is, you have to spend a little time thinking about what it really *means* to say that $X$ is a continuous variable. Let's say we're talking about the temperature outside. The thermometer tells me it's 23 degrees, but I know that's not really true. It's not *exactly* 23 degrees. Maybe it's 23.1 degrees, I think to myself. But I know that that's not really true either, because it might actually be 23.09 degrees. But, I know that... well, you get the idea. The tricky thing with genuinely continuous quantities is that you never really know exactly what they are.
 
 Now think about what this implies when we talk about probabilities. Suppose that tomorrow's maximum temperature is sampled from a normal distribution with mean 23 and standard deviation 1. What's the probability that the temperature will be *exactly* 23 degrees? The answer is "zero", or possibly, "a number so close to zero that it might as well be zero". Why is this? It's like trying to throw a dart at an infinitely small dart board: no matter how good your aim, you'll never hit it. In real life you'll never get a value of exactly 23. It'll always be something like 23.1 or 22.99998 or something. In other words, it's completely meaningless to talk about the probability that the temperature is exactly 23 degrees. However, in everyday language, if I told you that it was 23 degrees outside and it turned out to be 22.9998 degrees, you probably wouldn't call me a liar. Because in everyday language, "23 degrees" usually means something like "somewhere between 22.5 and 23.5 degrees". And while it doesn't feel very meaningful to ask about the probability that the temperature is exactly 23 degrees, it does seem sensible to ask about the probability that the temperature lies between 22.5 and 23.5, or between 20 and 30, or any other range of temperatures. 
 
-The point of this discussion is to make clear that, when we're talking about continuous distributions, it's not meaningful to talk about the probability of a specific value. However, what we *can* talk about is the probability that the value lies within a particular range of values. To find out the probability associated with a particular range, what you need to do is calculate the "area under the curve". We've seen this concept already: in Figure \@ref(fig:sdnorm1), the shaded areas shown depict genuine probabilities (e.g., in the left hand panel of Figure \@ref(fig:sdnorm1) it shows the probability of observing a value that falls within 1 standard deviation of the mean). 
+The point of this discussion is to make clear that, when we're talking about continuous distributions, it's not meaningful to talk about the probability of a specific value. However, what we *can* talk about is the probability that the value lies within a particular range of values. To find out the probability associated with a particular range, what you need to do is calculate the "area under the curve". We've seen this concept already: in {numref}(fig-sdnorm), the shaded areas shown depict genuine probabilities (e.g., in the left hand panel of {numref}(fig-sdnorm) it shows the probability of observing a value that falls within 1 standard deviation of the mean). 
 
-Okay, so that explains part of the story. I've explained a little bit about how continuous probability distributions should be interpreted (i.e., area under the curve is the key thing), but I haven't actually explained what the `dnorm()` function actually calculates. Equivalently, what does the formula for $p(x)$ that I described earlier actually mean? Obviously, $p(x)$ doesn't describe a probability, but what is it? The name for this quantity $p(x)$ is a **_probability density_**, and in terms of the plots we've been drawing, it corresponds to the *height* of the curve. The densities themselves aren't meaningful in and of themselves: but they're "rigged" to ensure that the *area* under the curve is always interpretable as genuine probabilities. To be honest, that's about as much as you really need to know for now.^[For those readers who know a little calculus, I'll give a slightly more precise explanation. In the same way that probabilities are non-negative numbers that must sum to 1, probability densities are non-negative numbers that must integrate to 1 (where the integral is taken across all possible values of $X$). To calculate the probability that $X$ falls between $a$ and $b$ we calculate the definite integral of the density function over the corresponding range, $\int_a^b p(x) \ dx$. If you don't remember or never learned calculus, don't worry about this. It's not needed for this book.]
+Okay, so that explains part of the story. I've explained a little bit about how continuous probability distributions should be interpreted (i.e., area under the curve is the key thing), but I haven't actually explained what the `stats.norm.pdf()` function actually calculates. Equivalently, what does the formula for $p(x)$ that I described earlier actually mean? Obviously, $p(x)$ doesn't describe a probability, but what is it? The name for this quantity $p(x)$ is a **_probability density_**, and in terms of the plots we've been drawing, it corresponds to the *height* of the curve. The densities themselves aren't meaningful in and of themselves: but they're "rigged" to ensure that the *area* under the curve is always interpretable as genuine probabilities. To be honest, that's about as much as you really need to know for now. [^note5]
 
+[^note5]: For those readers who know a little calculus, I'll give a slightly more precise explanation. In the same way that probabilities are non-negative numbers that must sum to 1, probability densities are non-negative numbers that must integrate to 1 (where the integral is taken across all possible values of $X$). To calculate the probability that $X$ falls between $a$ and $b$ we calculate the definite integral of the density function over the corresponding range, $\int_a^b p(x) \ dx$. If you don't remember or never learned calculus, don't worry about this. It's not needed for this book.
 
-
-
-## Other useful distributions{#otherdists}
+(otherdists)=
+## Other useful distributions
 
 The normal distribution is the distribution that statistics makes most use of (for reasons to be discussed shortly), and the binomial distribution is a very useful one for lots of purposes. But the world of statistics is filled with probability distributions, some of which we'll run into in passing. In particular, the three that will appear in this book are the $t$ distribution, the $\chi^2$ distribution and the $F$ distribution. I won't give formulas for any of these, or talk about them in too much detail, but I will show you some pictures. 
 
--  The **_$t$ distribution_** is a continuous distribution that looks very similar to a normal distribution, but has heavier tails: see Figure \@ref(fig:tdist). This distribution tends to arise in situations where you think that the data actually follow a normal distribution, but you don't know the mean or standard deviation. As you might expect, the relevant R functions are `dt()`, `pt()`, `qt()` and `rt()`, and we'll run into this distribution again in Chapter \@ref(ttest). 
+-  The **_$t$ distribution_** is a continuous distribution that looks very similar to a normal distribution, but has heavier tails: see Figure \@ref(fig:tdist). This distribution tends to arise in situations where you think that the data actually follow a normal distribution, but you don't know the mean or standard deviation. As you might expect, the relevant R functions are `dt()`, `pt()`, `qt()` and `rt()`, and we'll run into this distribution again in the chapter on [Comparing Two Means](ttest). 
+
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
+
+
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+degfree = 3
+x = np.linspace(-4, 4, 100)
+
+y1 = stats.norm.pdf(x, mu, sigma)
+
+y2 = stats.t.pdf(x, degfree)
+
+
+fig = sns.lineplot(x = x, y = y1, linestyle='--')
+ax2 = fig.twinx()
+
+sns.lineplot(x = x, y = y2, ax=ax2)
+
+
+sns.despine()
+glue("tdist-fig", fig, display=False)
+
+ ```{glue:figure} tdist_fig
+:figwidth: 600px
+:name: fig-tdist
+
+A $t$ distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution, but it's not quite the same. For comparison purposes, I've plotted a standard normal distribution as the dashed line. Note that the \"tails\" of the $t$ distribution are \"heavier\" (i.e., extend further outwards) than the tails of the normal distribution? That's the important difference between the two.
+```
+
+
 
 ```{r tdist, fig.cap="A $t$ distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution, but it's not quite the same. For comparison purposes, I've plotted a standard normal distribution as the dashed line. Note that the \"tails\" of the $t$ distribution are \"heavier\" (i.e., extend further outwards) than the tails of the normal distribution? That's the important difference between the two. ", echo=FALSE}
 xval <- seq(-5,5,.01)
@@ -747,3 +791,4 @@ In this chapter we've talked about probability. We've talked what probability me
 As you'd expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the "simpler" task of documenting standard probability distributions is a big topic. I've described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called "Statistical Distributions" @Evans2000 that lists a *lot* more than that. Fortunately for you, very little of this is necessary. You're unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won't need them for this book, but it never hurts to know that there's other possibilities out there.
 
 Picking up on that last point, there's a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often "forget" to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it's important to understand these things before moving onto the applications. For example, there are a lot of rules about what you're "allowed" to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in Chapter \@ref(ttest) we're going to talk about something called the $t$-test, and if you really want to have a grasp of the mechanics of the $t$-test it really helps to have a sense of what a $t$-distribution actually looks like. You get the idea, I hope.
+
