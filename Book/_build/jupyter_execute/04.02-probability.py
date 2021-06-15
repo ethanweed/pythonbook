@@ -256,14 +256,15 @@ Yeah, yeah. I know what you're thinking: notation, notation, notation. Really, w
 [^note3]: Note that the term "success" is pretty arbitrary, and doesn't actually imply that the outcome is something to be desired. If $\theta$ referred to the probability that any one passenger gets injured in a bus crash, I'd still call it the success probability, but that doesn't mean I want people to get hurt in bus crashes!
 
 from myst_nb import glue
-from numpy import random
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-x = random.binomial(n=20, p=1/6, size=1000)
+x = np.random.binomial(n=20, p=1/6, size=1000)
 
 skulls = sns.histplot(x, bins=20,binwidth=1)
 skulls.set(xlim=(0,20))
+plt.xticks(np.arange(min(x), 20, 1.0))
 
 glue("skulls-fig", skulls, display=False)
 
@@ -366,7 +367,7 @@ $$
 
 Of course, that's just notation. It doesn't tell us anything interesting about the normal distribution itself. As was the case with the binomial distribution, I have included the formula for the normal distribution in this book, because I think it's important enough that everyone who learns statistics should at least look at it, but since this is an introductory text I don't want to focus on it, so I've just quietly put them in the text [above](binomial_normal_formulas).
 
-Instead of focusing on the maths, let's try to get a sense for what it means for a variable to be normally distributed. To that end, have a look at Figure \@ref(fig:normdist), which plots a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$. You can see where the name "bell curve" comes from: it looks a bit like a bell. Notice that, unlike the plots that I drew to illustrate the binomial distribution, the picture of the normal distribution in Figure \@ref(fig:normdist) shows a smooth curve instead of "histogram-like" bars. This isn't an arbitrary choice: the normal distribution is continuous, whereas the binomial is discrete. For instance, in the die rolling example from the last section, it was possible to get 3 skulls or 4 skulls, but impossible to get 3.9 skulls. The figures that I drew in the previous section reflected this fact: in Figure \@ref(fig:binomial1), for instance, there's a bar located at $X=3$ and another one at $X=4$, but there's nothing in between. Continuous quantities don't have this constraint. For instance, suppose we're talking about the weather. The temperature on a pleasant Spring day could be 23 degrees, 24 degrees, 23.9 degrees, or anything in between since temperature is a continuous variable, and so a normal distribution might be quite appropriate for describing Spring temperatures.^[In practice, the normal distribution is so handy that people tend to use it even when the variable isn't actually continuous. As long as there are enough categories (e.g., Likert scale responses to a questionnaire), it's pretty standard practice to use the normal distribution as an approximation. This works out much better in practice than you'd think.] 
+Instead of focusing on the maths, let's try to get a sense for what it means for a variable to be normally distributed. To that end, have a look at {numref}`fig-normal`, which plots a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$. You can see where the name "bell curve" comes from: it looks a bit like a bell. Notice that, unlike the plots that I drew to illustrate the binomial distribution, the picture of the normal distribution in {numref}`fig-normal` shows a smooth curve instead of "histogram-like" bars. This isn't an arbitrary choice: the normal distribution is continuous, whereas the binomial is discrete. For instance, in the die rolling example from the last section, it was possible to get 3 skulls or 4 skulls, but impossible to get 3.9 skulls. The figures that I drew in the previous section reflected this fact: in {numref}`fig-skulls`, for instance, there's a bar located at $X=3$ and another one at $X=4$, but there's nothing in between. Continuous quantities don't have this constraint. For instance, suppose we're talking about the weather. The temperature on a pleasant Spring day could be 23 degrees, 24 degrees, 23.9 degrees, or anything in between since temperature is a continuous variable, and so a normal distribution might be quite appropriate for describing Spring temperatures. In fact, the normal distribution is so handy that people tend to use it even when the variable isn't actually continuous. As long as there are enough categories (e.g., Likert scale responses to a questionnaire), it's pretty standard practice to use the normal distribution as an approximation. This works out much better in practice than you'd think.
 
 %matplotlib inline
 from myst_nb import glue
@@ -391,7 +392,7 @@ glue("normal_fig", fig, display=False)
 :figwidth: 600px
 :name: fig-normal
 
-The normal distribution with mean $mu = 0$ and standard deviation $sigma = 1$. The $x$-axis corresponds to the value of some variable, and the $y$-axis tells us something about how likely we are to observe that value. However, notice that the $y$-axis is labelled \"Probability Density\" and not \"Probability\". There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the $y$ axis behave a bit oddly: the height of the curve here isn't actually the probability of observing a particular $x$ value. On the other hand, it *is* true that the heights of the curve tells you which $x$ values are more likely (the higher ones!).
+The normal distribution with mean $mu = 0$ and standard deviation $sigma = 1$. The $x$-axis corresponds to the value of some variable, and the $y$-axis tells us something about how likely we are to observe that value. However, notice that the $y$-axis is labelled "Probability Density" and not "Probability". There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the $y$ axis behave a bit oddly: the height of the curve here isn't actually the probability of observing a particular $x$ value. On the other hand, it *is* true that the heights of the curve tells you which $x$ values are more likely (the higher ones!).
 ```
 
 With this in mind, let's see if we can't get an intuition for how the normal distribution works. Firstly, let's have a look at what happens when we play around with the parameters of the distribution. To that end, {numref}`fig-two-normals` plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same "width". The only difference between them is that they've been shifted to the left or to the right. In every other respect they're identical. 
@@ -490,8 +491,7 @@ variance = 1
 sigma = np.sqrt(variance)
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
-plt.xlabel('Observed Value')
-plt.ylabel('Probability Density')
+
 
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
 
@@ -507,6 +507,9 @@ axes[1].fill_between(x_fill2,y_fill2,0, alpha=0.2, color='blue')
 
 axes[0].set_title("Shaded Area = 68.3%")
 axes[1].set_title("Shaded Area = 95.4%")
+
+axes[0].set(xlabel='Observed value', ylabel='Probability density')
+axes[1].set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
 
@@ -533,8 +536,7 @@ variance = 1
 sigma = np.sqrt(variance)
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
-plt.xlabel('Observed Value')
-plt.ylabel('Probability Density')
+
 
 sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
 
@@ -550,6 +552,9 @@ axes[1].fill_between(x_fill2,y_fill2,0, alpha=0.2, color='blue')
 
 axes[0].set_title("Shaded Area = 15.9%")
 axes[1].set_title("Shaded Area = 34.1%")
+
+axes[0].set(xlabel='Observed value', ylabel='Probability density')
+axes[1].set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
 
@@ -592,7 +597,7 @@ Okay, so that explains part of the story. I've explained a little bit about how 
 
 The normal distribution is the distribution that statistics makes most use of (for reasons to be discussed shortly), and the binomial distribution is a very useful one for lots of purposes. But the world of statistics is filled with probability distributions, some of which we'll run into in passing. In particular, the three that will appear in this book are the $t$ distribution, the $\chi^2$ distribution and the $F$ distribution. I won't give formulas for any of these, or talk about them in too much detail, but I will show you some pictures. 
 
--  The **_$t$ distribution_** is a continuous distribution that looks very similar to a normal distribution, but has heavier tails: see Figure \@ref(fig:tdist). This distribution tends to arise in situations where you think that the data actually follow a normal distribution, but you don't know the mean or standard deviation. As you might expect, the relevant R functions are `dt()`, `pt()`, `qt()` and `rt()`, and we'll run into this distribution again in the chapter on [Comparing Two Means](ttest). 
+-  The **_$t$ distribution_** is a continuous distribution that looks very similar to a normal distribution, but has heavier tails: see {numref}`fig-tdist`. This distribution tends to arise in situations where you think that the data actually follow a normal distribution, but you don't know the mean or standard deviation. To plot the probability density for a $t$ distribution, we just need `stats.t.pdf()` instead of `stats.norm.pdf()`. We'll run into this distribution again in the chapter on [Comparing Two Means](ttest). 
 
 %matplotlib inline
 from myst_nb import glue
@@ -613,10 +618,12 @@ y2 = stats.t.pdf(x, degfree)
 
 
 fig = sns.lineplot(x = x, y = y1, linestyle='--')
-ax2 = fig.twinx()
+ax2 = fig.twiny()
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
 
 sns.lineplot(x = x, y = y2, ax=ax2)
-
+fig.set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
 glue("tdist-fig", fig, display=False)
@@ -630,165 +637,231 @@ A $t$ distribution with 3 degrees of freedom (solid line). It looks similar to a
 
 
 
-```{r tdist, fig.cap="A $t$ distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution, but it's not quite the same. For comparison purposes, I've plotted a standard normal distribution as the dashed line. Note that the \"tails\" of the $t$ distribution are \"heavier\" (i.e., extend further outwards) than the tails of the normal distribution? That's the important difference between the two. ", echo=FALSE}
-xval <- seq(-5,5,.01)
-	yval <- dt( xval, df=3)
-	plot( 	xval, yval, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l", ylim=c(0,.4)
-	)
-	lines( xval, dnorm(xval,0,1), lty=2, col=emphGrey)
+- The **_$\chi^2$ distribution_** is another distribution that turns up in lots of different places. The situation in which we'll see it is when doing [categorical data analysis](chisquare), but it's one of those things that actually pops up all over the place. When you dig into the maths (and who doesn't love doing that?), it turns out that the main reason why the $\chi^2$ distribution turns up all over the place is that, if you have a bunch of variables that are normally distributed, square their values and then add them up (a procedure referred to as taking a "sum of squares"), this sum has a $\chi^2$ distribution. You'd be amazed how often this fact turns out to be useful. Anyway, here's what a $\chi^2$ distribution looks like: {numref}`fig-chi2`. By this point, you probably won't be surprised to find out that we can plot a chi2 distribution using `stats.chi2.pdf()`.
+
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
+
+
+degfree = 3
+x = np.linspace(0, 10, 100)
+
+y = stats.chi2.pdf(x, degfree)
+
+
+fig = sns.lineplot(x = x, y = y)
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.despine()
+glue("chi2-fig", fig, display=False)
+
+ ```{glue:figure} chi2_fig
+:figwidth: 600px
+:name: fig-chi2
+
+A $chi^2$ distribution with 3 degrees of freedom. Notice that the observed values must always be greater than zero, and that the distribution is pretty skewed. These are the key features of a chi-square distribution.
 
 ```
 
-- The **_$\chi^2$ distribution_** is another distribution that turns up in lots of different places. The situation in which we'll see it is when doing categorical data analysis (Chapter \@ref(chisquare)), but it's one of those things that actually pops up all over the place. When you dig into the maths (and who doesn't love doing that?), it turns out that the main reason why the $\chi^2$ distribution turns up all over the place is that, if you have a bunch of variables that are normally distributed, square their values and then add them up (a procedure referred to as taking a "sum of squares"), this sum has a $\chi^2$ distribution. You'd be amazed how often this fact turns out to be useful. Anyway, here's what a $\chi^2$ distribution looks like: Figure \@ref(fig:chisqdist).  Once again, the R commands for this one are pretty predictable: `dchisq()`,  `pchisq()`,  `qchisq()`, `rchisq()`.
+- The **_$F$ distribution_** looks a bit like a $\chi^2$ distribution, and it arises whenever you need to compare two $\chi^2$ distributions to one another. Admittedly, this doesn't exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that $\chi^2$ turns out to be the key distribution when we're taking a "sum of squares"? Well, what that means is if you want to compare two different "sums of squares", you're probably talking about something that has an $F$ distribution. Of course, as yet I still haven't given you an example of anything that involves a sum of squares, but I will... in the chapter on [comparing several means](ANOVA). And that's where we'll run into the $F$ distribution. Oh, and here's a picture: {numref}`fig-Fdist`. Predictably, we can plot the F distribution using `stats.f.pdf()`.
 
-```{r chisqdist, fig.cap="A $chi^2$ distribution with 3 degrees of freedom. Notice that the observed values must always be greater than zero, and that the distribution is pretty skewed. These are the key features of a chi-square distribution.", echo=FALSE}
-	xval <- seq(0,10,.01)
-	yval <- dchisq( xval, df=3)
-	plot( 	xval, yval, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l"
-	)
+%matplotlib inline
+from myst_nb import glue
+import numpy as np
+import scipy.stats as stats
+import seaborn as sns
 
+
+degfree1 = 3
+degfree2 = 5
+x = np.linspace(0, 10, 100)
+
+y = stats.f.pdf(x, degfree1, degfree2)
+
+
+fig = sns.lineplot(x = x, y = y)
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.despine()
+glue("Fdist-fig", fig, display=False)
+
+ ```{glue:figure} Fdist_fig
+:figwidth: 600px
+:name: fig-Fdist
+
+An $F$ distribution with 3 and 5 degrees of freedom. Qualitatively speaking, it looks pretty similar to a chi-square distribution, but they're not quite the same in general.
 ```
 
-- The **_$F$ distribution_** looks a bit like a $\chi^2$ distribution, and it arises whenever you need to compare two $\chi^2$ distributions to one another. Admittedly, this doesn't exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that $\chi^2$ turns out to be the key distribution when we're taking a "sum of squares"? Well, what that means is if you want to compare two different "sums of squares", you're probably talking about something that has an $F$ distribution. Of course, as yet I still haven't given you an example of anything that involves a sum of squares, but I will... in Chapter \@ref(anova). And that's where we'll run into the $F$ distribution. Oh, and here's a picture: Figure \@ref(fig:Fdist). And of course we can get R to do things with $F$ distributions just by using the commands `df()`, `pf()`, `qf()` and `rf()`.
+Because these distributions are all tightly related to the normal distribution and to each other, and because they are will turn out to be the important distributions when doing inferential statistics later in this book, I think it's useful to do a little demonstration using Python, just to "convince ourselves" that these distributions really are related to each other in the way that they're supposed to be. First, we'll use the `random.normal()` function to generate 1000 normally-distributed observations: 
 
-```{r Fdist, fig.cap="An $F$ distribution with 3 and 5 degrees of freedom. Qualitatively speaking, it looks pretty similar to a chi-square distribution, but they're not quite the same in general.", echo=FALSE}
-	# draw the plot
-	xval <- seq(0,10,.01)
-	yval <- df( xval, df1=3, df2=5)
-	plot( 	xval, yval, lwd=3, ylab="Probability Density", xlab="Observed Value",
-			frame.plot = FALSE, col=ifelse(colour,emphCol,"black"), type="l"
-	)
+import numpy as np
 
-```
+mu = 0 
+sigma = 1
+n = 1000
+dist = np.random.normal(mu, sigma, n)
 
+# inspect the first 10 samples
+print(dist[0:10])
 
-Because these distributions are all tightly related to the normal distribution and to each other, and because they are will turn out to be the important distributions when doing inferential statistics later in this book, I think it's useful to do a little demonstration using R, just to "convince ourselves" that these distributions really are related to each other in the way that they're supposed to be. First, we'll use the `rnorm()` function to generate 1000 normally-distributed observations: 
-```{r}
-normal.a <- rnorm( n=1000, mean=0, sd=1 )  
-print(head(normal.a))
-```
-So the `normal.a` variable contains 1000 numbers that are normally distributed, and have mean 0 and standard deviation 1, and the actual print out of these numbers goes on for rather a long time. Note that, because the default parameters of the `rnorm()` function are `mean=0` and `sd=1`, I could have shortened the command to `rnorm( n=1000 )`. In any case, what we can do is use the `hist()` function to draw a histogram of the data, like so:
-```{r eval=FALSE}
-hist( normal.a ) 
-```
+So the `dist` variable contains 1000 numbers that are normally distributed, and have mean 0 and standard deviation 1, and the actual print out of these numbers goes on for rather a long time. Next, what we can do is use the `histplot()` function from `seaborn` to draw a histogram of the data, like so:
 
-If you do this, you should see something similar to Figure \@ref(fig:variaterelations). Your plot won't look quite as pretty as the one in the figure, of course, because I've played around with all the formatting (see Chapter \@ref(graphics)), and I've also plotted the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1) so that you can compare the data that we just generated to the true distribution. 
+import seaborn as sns
 
-```{r variaterelations, echo=FALSE, fig.cap="A histogram of different distributions with some advanced formatting"}
-old_par<-par()
-par(mfrow=c(2,2))
-	# generate the data 
-	n <- 1000
-	normal.a <- rnorm( n )
-	normal.b <- rnorm( n )
-	normal.c <- rnorm( n )
-	chi.sq.3 <- (normal.a)^2 + (normal.b)^2 + (normal.c)^2	
-	normal.d <- rnorm( n )
-	t.3 <- normal.d / sqrt( chi.sq.3 / 3 )
-	chi.sq.20 <- rchisq( n, 20)
-	F.3.20 <- (chi.sq.3 / 3) / (chi.sq.20 / 20)
-	
-	# histogram for the normal data
-	bw <- .25
-	hist( 	normal.a, seq(min(normal.a)-bw,max(normal.a)+bw,bw),
-			freq=FALSE, xlim=c(-4,4), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border="white", ylim=c(0,.45), axes=FALSE,
-			xlab="",ylab="", main="Simulated Normal Data",
-			font.main = 1
-	 		)
-	lines( x<-seq(-4,4,.1), dnorm(x), lwd=3, col="black"  )
-	axis(1)
-	
-	bw<- .5
-	hist( 	chi.sq.3, seq(0,max(chi.sq.3)+bw,bw),
-			freq=FALSE, xlim=c(0,16), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border="white", axes=FALSE, ylim=c(0,.25),
-			xlab="",ylab="", main="Simulated Chi-Square Data",
-			font.main=1
-	 		)
-	lines( x<-seq(0,16,.1), dchisq(x,3), lwd=3, col="black"  )	
-	axis(1)
-	# histogram for the t data
-	bw <- .3
-	hist( 	t.3, seq(min(t.3)-bw,max(t.3)+bw,bw),
-			freq=FALSE, xlim=c(-5,5), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border="white", axes=FALSE, ylim=c(0,.4),
-			xlab="",ylab="", main="Simulated t Data",
-			font.main = 1
-	 		)
-	lines( x<-seq(-4,4,.1), dt(x,3), lwd=3, col="black"  )
-	axis(1)	
-	
-	# histogram for the F dist data
-	bw <- .2
-	hist( 	F.3.20, seq(0,max(F.3.20)+bw,bw),
-			freq=FALSE, xlim=c(0,6), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border="white", axes=FALSE, ylim=c(0,.7),
-			xlab="",ylab="", main="Simulated F Data",
-			font.main=1
-	 		)
-	lines( x<-seq(0,6,.01), df(x,3,20), lwd=3, col="black"  )	
-	axis(1)
-
-par(mfrow=c(1,1))
-```
+sns.histplot(dist)
 
 
-In the previous example all I did was generate lots of normally distributed observations using `rnorm()` and then compared those to the true probability distribution in the figure (using `dnorm()` to generate the black line in the figure, but I didn't show the commmands for that). Now let's try something trickier. We'll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using `rchisq()`, we'll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with $k$ degrees of freedom is what you get when you take $k$ normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we'll need to supplement our `normal.a` data with two more sets of normally-distributed observations, imaginatively named `normal.b` and `normal.c`:
-```{r}
-normal.b <- rnorm( n=1000 )  # another set of normally distributed data
-normal.c <- rnorm( n=1000 )  # and another!
-```
+If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on [Drawing Graphs](DrawingGraphs)), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution. 
+
+import numpy as np
+import seaborn as sns
+from scipy import stats
+
+x = np.linspace(-4,4,100)
+
+mu = 0 
+sigma = 1
+n = 1000
+dist = np.random.normal(mu, sigma, n)
+
+y = stats.norm.pdf(x, mu, sigma)
+
+fig = sns.histplot(dist, binwidth=0.2)
+ax2 = fig.twinx()
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.lineplot(x=x,y=y, ax=ax2, color='black')
+
+sns.despine()
+
+In the previous example all I did was generate lots of normally distributed observations using `random.normal()` and then compared those to the true probability distribution in the figure (using `stats.norm.pdf()` to generate the black line in the figure. Now let's try something trickier. We'll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using `stats.chi2.pdf()`, we'll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with $k$ degrees of freedom is what you get when you take $k$ normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we'll need to create three sets of normally-distributed data. Let's call them `normal_a`, `normal_b`, and `normal_c`.[^note6]
+
+[^note6]: Of course, you can give variables any name you want, and we could just as well call these Larry, Moe, and Curly, or Huey, Dewey, and Louie, but in programming, the most boringly obvious names are usually the best ones. When writing code, we are looking for clarity, not dramatic effect!
+
+import numpy as np
+
+normal_a = np.random.normal(0, 1, 1000) # a set of normally-distributed data
+normal_b = np.random.normal(0, 1, 1000) # another set of normally-distributed data
+normal_c = np.random.normal(0, 1, 1000) # and another!
+
 Now that we've done that, the theory says we should square these and add them together, like this
-```{r}
-chi.sq.3 <- (normal.a)^2 + (normal.b)^2 + (normal.c)^2	
-```
-and the resulting `chi.sq.3` variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the `hist()` function to have a look at these observations yourself, using a command like this,
-```{r eval=FALSE}
-hist( chi.sq.3 )  
-```
-and you should obtain a result that looks pretty similar to the chi-square plot in Figure \@ref(fig:variaterelations). Once again, the plot that I've drawn is a little fancier: in addition to the histogram of `chi.sq.3`, I've also plotted a chi-square distribution with 3 degrees of freedom. It's pretty clear that -- even though I used `rnorm()` to do all the work rather than `rchisq()` -- the observations stored in the `chi.sq.3` variable really do follow a chi-square distribution. Admittedly, this probably doesn't seem all that interesting right now, but later on when we start encountering the chi-square distribution in Chapter \@ref(chisquare), it will be useful to understand the fact that these distributions are related to one another. 
 
-We can extend this demonstration to the $t$ distribution and the $F$ distribution. Earlier, I implied that the $t$ distribution is related to the normal distribution when the standard deviation is unknown. That's certainly true, and that's the what we'll see later on in  Chapter \@ref(ttest), but there's a somewhat more precise relationship between the normal, chi-square and $t$ distributions. Suppose we "scale" our chi-square data by dividing it by the degrees of freedom, like so
-```{r}
-scaled.chi.sq.3 <- chi.sq.3 / 3
-```
-We then take a set of normally distributed variables and divide them by (the square root of) our scaled chi-square variable which had $df=3$, and the result is a $t$ distribution with 3 degrees of freedom. If we plot the histogram of `t.3`, we end up with something that looks very similar to the t distribution in Figure \@ref(fig:variaterelations). 
-```{r eval=FALSE}
-normal.d <- rnorm( n=1000 )                # yet another set of normally distributed data
-t.3 <- normal.d / sqrt( scaled.chi.sq.3 )  # divide by square root of scaled chi-square to get t
-hist (t.3)
-```
+chi_square_data = np.square(normal_a) + np.square(normal_b) + np.square(normal_c)
 
-Similarly, we can obtain an $F$ distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an $F$ distribution with 3 and 20 degrees of freedom. We could do this using `df()`, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with `chi.sq.3` illustrates, we can actually do this using `rnorm()` if we really want to, but this time I'll take a short cut:
-```{r eval = FALSE}
-chi.sq.20 <- rchisq( 1000, 20)                 # generate chi square data with df = 20...
-scaled.chi.sq.20 <- chi.sq.20 / 20             # scale the chi square variable...
-F.3.20 <-  scaled.chi.sq.3  / scaled.chi.sq.20 # take the ratio of the two chi squares...
-hist( F.3.20 )                                 # ... and draw a picture
-```
-The resulting `F.3.20` variable does in fact store variables that follow an $F$ distribution with 3 and 20 degrees of freedom. This is illustrated in Figure \@ref(fig:variaterelations), which plots the histgram of the observations stored in `F.3.20` against the true $F$ distribution with $df_1 = 3$ and $df_2 = 20$. Again, they match. 
+and the resulting `chi_square_data` variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the `sns.histplot()` function to have a look at these observations yourself, using a command like this,
 
-Okay, time to wrap this section up. We've seen three new distributions: $\chi^2$, $t$ and $F$. They're all continuous distributions, and they're all closely related to the normal distribution. I've talked a little bit about the precise nature of this relationship, and shown you some R commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we're going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn't be surprised to see $\chi^2$, $t$ and $F$ distributions popping up all over the place when you start trying to do your data analysis. 
+import seaborn as sns
 
+sns.histplot(chi_square_data)
+
+and you should obtain a result that looks pretty similar to the chi-square plot in {numref}`fig-chi2`. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:
+
+import numpy as np
+import seaborn as sns
+from scipy import stats
+
+x = np.linspace(0, 15, 100)
+y = stats.chi2.pdf(x, 3)
+
+fig = sns.histplot(chi_square_data)
+ax2 = fig.twinx()
+
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.lineplot(x=x, y=y, ax=ax2, color='black')
+
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+sns.despine()
+
+
+It's pretty clear that -- even though I used `random.norm()` to do all the work rather than `stats.chi2.pdf` -- the observations stored in the `chi_square_data` variable really do follow a chi-square distribution. Admittedly, this probably doesn't seem all that interesting right now, but later on when we start encountering the chi-square distribution in the chapter on [Categorical data analysis](chisquare), it will be useful to understand the fact that these distributions are related to one another. 
+
+We can extend this demonstration to the $t$ distribution and the $F$ distribution. Earlier, I implied that the $t$ distribution is related to the normal distribution when the standard deviation is unknown. That's certainly true, and that's the what we'll see later on in the chapter on [Comparing two means](ttest), but there's a somewhat more precise relationship between the normal, chi-square and $t$ distributions. Suppose we "scale" our chi-square data by dividing it by the degrees of freedom, like so:
+
+scaled_chi_square_data = chi_square_data / 3
+
+We then take a set of normally distributed variables and divide them by (the square root of) our scaled chi-square variable which had $df=3$, and the result is a $t$ distribution with 3 degrees of freedom. If we plot the histogram of `t_3`, we end up with something that looks very similar to the t distribution.
+
+normal_d = np.random.normal(0, 1, 1000) # yet another set of normally distributed data
+t_3 = normal_d / np.sqrt(scaled_chi_square_data) # divide by square root of scaled chi-square to get t
+
+sns.histplot(t_3)
+
+Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:
+
+import numpy as np
+import seaborn as sns
+from scipy import stats
+
+x = np.linspace(-10, 10, 100)
+y = stats.t.pdf(x, 3)
+
+fig = sns.histplot(t_3)
+ax2 = fig.twinx()
+
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.lineplot(x=x, y=y, ax=ax2, color='black')
+
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+sns.despine()
+
+Similarly, we can obtain an $F$ distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an $F$ distribution with 3 and 20 degrees of freedom. We could do this using `numpy.random.f()`, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with `chi_square_data` illustrates, we can actually do this using `numpy.random.normal()` if we really want to, but this time I'll take a short cut:
+
+chi_square_3 = np.random.chisquare(3, 1000)         # generate chi square data with df = 3...
+chi_square_20 = np.random.chisquare(20, 1000)       # generate chi square data with df = 20...
+
+scaled_chi_square_3 = chi_square_3 / 3              # scale first the chi square variable...
+scaled_chi_square_20 = chi_square_20 / 20           # and scale the other one...
+
+f_3_20 = scaled_chi_square_3 / scaled_chi_square_20 # take the ratio of the two chi squares...
+
+sns.histplot(f_3_20)                                # ... and draw a picture
+
+
+The resulting `f_3_20` variable does in fact store variables that follow an $F$ distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real $F$ distribution with $df_1 = 3$ and $df_2 = 20$. Again, they match. I'll hide the code this time, but you can click the button to take a look.
+
+import numpy as np
+import seaborn as sns
+from scipy import stats
+
+x = np.linspace(0, 9, 100)
+y = stats.f.pdf(x, 3,20)
+
+fig = sns.histplot(f_3_20)
+ax2 = fig.twinx()
+
+fig.set(xlabel='Observed value', ylabel='Probability density')
+
+sns.lineplot(x=x, y=y, ax=ax2, color='black')
+
+ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
+                   right=False, labelright=False, bottom=False, labelbottom=False)
+
+sns.despine()
+
+Okay, time to wrap this section up. We've seen three new distributions: $\chi^2$, $t$ and $F$. They're all continuous distributions, and they're all closely related to the normal distribution. I've talked a little bit about the precise nature of this relationship, and shown you some Python commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we're going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn't be surprised to see $\chi^2$, $t$ and $F$ distributions popping up all over the place when you start trying to do your data analysis. 
 
 ## Summary
 
 In this chapter we've talked about probability. We've talked what probability means, and why statisticians can't agree on what it means. We talked about the rules that probabilities have to obey. And we introduced the idea of a probability distribution, and spent a good chunk of the chapter talking about some of the more important probability distributions that statisticians work with. The section by section breakdown looks like this:
 
-- Probability theory versus statistics (Section \@ref(probstats))
-- Frequentist versus Bayesian views of probability (Section \@ref(probmeaning))
-- Basics of probability theory (Section \@ref(basicprobability))
-- Binomial distribution (Section \@ref(binomial)), normal distribution (Section \@ref(normal)), and others (Section \@ref(otherdists))
+- [Probability theory versus statistics](probstats)
+- Frequentist versus Bayesian [views of probability](probmeaning)
+- Basics of [probability theory](basicprobability)
+- [Binomial](binomial) distribution, [normal](normal) distribution, and [others](otherdists)
 
 
-As you'd expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the "simpler" task of documenting standard probability distributions is a big topic. I've described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called "Statistical Distributions" @Evans2000 that lists a *lot* more than that. Fortunately for you, very little of this is necessary. You're unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won't need them for this book, but it never hurts to know that there's other possibilities out there.
+As you'd expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the "simpler" task of documenting standard probability distributions is a big topic. I've described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called "Statistical Distributions" {cite}`Evans2000` that lists a *lot* more than that. Fortunately for you, very little of this is necessary. You're unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won't need them for this book, but it never hurts to know that there are other possibilities out there.
 
-Picking up on that last point, there's a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often "forget" to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it's important to understand these things before moving onto the applications. For example, there are a lot of rules about what you're "allowed" to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in Chapter \@ref(ttest) we're going to talk about something called the $t$-test, and if you really want to have a grasp of the mechanics of the $t$-test it really helps to have a sense of what a $t$-distribution actually looks like. You get the idea, I hope.
-
+Picking up on that last point, there's a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often "forget" to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it's important to understand these things before moving onto the applications. For example, there are a lot of rules about what you're "allowed" to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in the chapter on [comparing two means](ttest) we're going to talk about something called the $t$-test, and if you really want to have a grasp of the mechanics of the $t$-test, it really helps to have a sense of what a $t$-distribution actually looks like. You get the idea, I hope.
