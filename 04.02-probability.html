@@ -1265,7 +1265,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <p class="caption"><span class="caption-number">Fig. 2.11 </span><span class="caption-text">A <span class="math notranslate nohighlight">\(chi^2\)</span> distribution with 3 degrees of freedom. Notice that the observed values must always be greater than zero, and that the distribution is pretty skewed. These are the key features of a chi-square distribution.</span><a class="headerlink" href="#fig-chi2" title="Permalink to this image">¶</a></p>
 </div>
 <ul class="simple">
-<li><p>The <strong><em><span class="math notranslate nohighlight">\(F\)</span> distribution</em></strong> looks a bit like a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution, and it arises whenever you need to compare two <span class="math notranslate nohighlight">\(\chi^2\)</span> distributions to one another. Admittedly, this doesn’t exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that <span class="math notranslate nohighlight">\(\chi^2\)</span> turns out to be the key distribution when we’re taking a “sum of squares”? Well, what that means is if you want to compare two different “sums of squares”, you’re probably talking about something that has an <span class="math notranslate nohighlight">\(F\)</span> distribution. Of course, as yet I still haven’t given you an example of anything that involves a sum of squares, but I will… in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">comparing several means</span></a>. And that’s where we’ll run into the <span class="math notranslate nohighlight">\(F\)</span> distribution. Oh, and here’s a picture: <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-Fdist</span></code>. Predictably, we can plot the F distribution using <code class="docutils literal notranslate"><span class="pre">stats.f.pdf()</span></code>.</p></li>
+<li><p>The <strong><em><span class="math notranslate nohighlight">\(F\)</span> distribution</em></strong> looks a bit like a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution, and it arises whenever you need to compare two <span class="math notranslate nohighlight">\(\chi^2\)</span> distributions to one another. Admittedly, this doesn’t exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that <span class="math notranslate nohighlight">\(\chi^2\)</span> turns out to be the key distribution when we’re taking a “sum of squares”? Well, what that means is if you want to compare two different “sums of squares”, you’re probably talking about something that has an <span class="math notranslate nohighlight">\(F\)</span> distribution. Of course, as yet I still haven’t given you an example of anything that involves a sum of squares, but I will… in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">comparing several means</span></a>. And that’s where we’ll run into the <span class="math notranslate nohighlight">\(F\)</span> distribution. Oh, and here’s a picture: <a class="reference internal" href="#fig-fdist"><span class="std std-numref">Fig. 2.12</span></a>. Predictably, we can plot the F distribution using <code class="docutils literal notranslate"><span class="pre">stats.f.pdf()</span></code>.</p></li>
 </ul>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	# draw the plot
 	xval &lt;- seq(0,10,.01)
@@ -1293,7 +1293,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;Fdist-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1304,12 +1304,81 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <img alt="_images/04.02-probability_47_1.png" src="_images/04.02-probability_47_1.png" />
 </div>
 </div>
-<p>Because these distributions are all tightly related to the normal distribution and to each other, and because they are will turn out to be the important distributions when doing inferential statistics later in this book, I think it’s useful to do a little demonstration using R, just to “convince ourselves” that these distributions really are related to each other in the way that they’re supposed to be. First, we’ll use the <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> function to generate 1000 normally-distributed observations:</p>
-<p>So the <code class="docutils literal notranslate"><span class="pre">normal.a</span></code> variable contains 1000 numbers that are normally distributed, and have mean 0 and standard deviation 1, and the actual print out of these numbers goes on for rather a long time. Note that, because the default parameters of the <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> function are <code class="docutils literal notranslate"><span class="pre">mean=0</span></code> and <code class="docutils literal notranslate"><span class="pre">sd=1</span></code>, I could have shortened the command to <code class="docutils literal notranslate"><span class="pre">rnorm(</span> <span class="pre">n=1000</span> <span class="pre">)</span></code>. In any case, what we can do is use the <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function to draw a histogram of the data, like so:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>hist( normal.a ) 
+<div class="figure align-default" id="fig-fdist" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.12 </span><span class="caption-text">An <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 5 degrees of freedom. Qualitatively speaking, it looks pretty similar to a chi-square distribution, but they’re not quite the same in general.</span><a class="headerlink" href="#fig-fdist" title="Permalink to this image">¶</a></p>
+</div>
+<p>Because these distributions are all tightly related to the normal distribution and to each other, and because they are will turn out to be the important distributions when doing inferential statistics later in this book, I think it’s useful to do a little demonstration using Python, just to “convince ourselves” that these distributions really are related to each other in the way that they’re supposed to be. First, we’ll use the <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> function to generate 1000 normally-distributed observations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span> 
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># inspect the first 10 samples</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>If you do this, you should see something similar to Figure &#64;ref(fig:variaterelations). Your plot won’t look quite as pretty as the one in the figure, of course, because I’ve played around with all the formatting (see Chapter &#64;ref(graphics)), and I’ve also plotted the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1) so that you can compare the data that we just generated to the true distribution.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.24381557  0.57822143 -0.11646993 -0.01152043 -0.27739475 -0.98200487
+ -0.24657209 -2.02077226  0.56648022  0.49077598]
+</pre></div>
+</div>
+</div>
+</div>
+<p>So the <code class="docutils literal notranslate"><span class="pre">dist</span></code> variable contains 1000 numbers that are normally distributed, and have mean 0 and standard deviation 1, and the actual print out of these numbers goes on for rather a long time. Next, what we can do is use the <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> function from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> to draw a histogram of the data, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_52_1.png" src="_images/04.02-probability_52_1.png" />
+</div>
+</div>
+<p>If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1">#y = stats.norm.pdf(0,1,100)</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span> 
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_54_0.png" src="_images/04.02-probability_54_0.png" />
+</div>
+</div>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>old_par&lt;-par()
 par(mfrow=c(2,2))
 	# generate the data 
@@ -1372,7 +1441,7 @@ par(mfrow=c(2,2))
 par(mfrow=c(1,1))
 </pre></div>
 </div>
-<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">dnorm()</span></code> to generate the black line in the figure, but I didn’t show the commmands for that). Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">rchisq()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to supplement our <code class="docutils literal notranslate"><span class="pre">normal.a</span></code> data with two more sets of normally-distributed observations, imaginatively named <code class="docutils literal notranslate"><span class="pre">normal.b</span></code> and <code class="docutils literal notranslate"><span class="pre">normal.c</span></code>:</p>
+<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">rchisq()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to supplement our <code class="docutils literal notranslate"><span class="pre">normal.a</span></code> data with two more sets of normally-distributed observations, imaginatively named <code class="docutils literal notranslate"><span class="pre">normal.b</span></code> and <code class="docutils literal notranslate"><span class="pre">normal.c</span></code>:</p>
 <p>Now that we’ve done that, the theory says we should square these and add them together, like this</p>
 <p>and the resulting <code class="docutils literal notranslate"><span class="pre">chi.sq.3</span></code> variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function to have a look at these observations yourself, using a command like this,</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>hist( chi.sq.3 )  
