@@ -1323,8 +1323,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.24381557  0.57822143 -0.11646993 -0.01152043 -0.27739475 -0.98200487
- -0.24657209 -2.02077226  0.56648022  0.49077598]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.65579917  1.36324512 -0.1672629   1.07344737 -1.1955803   0.91427124
+ -0.15864518  1.29288462  1.25753056 -0.89887521]
 </pre></div>
 </div>
 </div>
@@ -1353,7 +1353,6 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="c1">#y = stats.norm.pdf(0,1,100)</span>
 
 <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span> 
 <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1441,41 +1440,193 @@ par(mfrow=c(2,2))
 par(mfrow=c(1,1))
 </pre></div>
 </div>
-<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">rchisq()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to supplement our <code class="docutils literal notranslate"><span class="pre">normal.a</span></code> data with two more sets of normally-distributed observations, imaginatively named <code class="docutils literal notranslate"><span class="pre">normal.b</span></code> and <code class="docutils literal notranslate"><span class="pre">normal.c</span></code>:</p>
+<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to create three sets of normally-distributed data. Let’s call them <code class="docutils literal notranslate"><span class="pre">normal_a</span></code>, <code class="docutils literal notranslate"><span class="pre">normal_b</span></code>, and <code class="docutils literal notranslate"><span class="pre">normal_c</span></code>.<a class="footnote-reference brackets" href="#note6" id="id8">6</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">normal_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1"># a set of normally-distributed data</span>
+<span class="n">normal_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1"># another set of normally-distributed data</span>
+<span class="n">normal_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1"># and another!</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>Now that we’ve done that, the theory says we should square these and add them together, like this</p>
-<p>and the resulting <code class="docutils literal notranslate"><span class="pre">chi.sq.3</span></code> variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function to have a look at these observations yourself, using a command like this,</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>hist( chi.sq.3 )  
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chi_square_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">normal_a</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">normal_b</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">normal_c</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>and you should obtain a result that looks pretty similar to the chi-square plot in Figure &#64;ref(fig:variaterelations). Once again, the plot that I’ve drawn is a little fancier: in addition to the histogram of <code class="docutils literal notranslate"><span class="pre">chi.sq.3</span></code>, I’ve also plotted a chi-square distribution with 3 degrees of freedom. It’s pretty clear that – even though I used <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> to do all the work rather than <code class="docutils literal notranslate"><span class="pre">rchisq()</span></code> – the observations stored in the <code class="docutils literal notranslate"><span class="pre">chi.sq.3</span></code> variable really do follow a chi-square distribution. Admittedly, this probably doesn’t seem all that interesting right now, but later on when we start encountering the chi-square distribution in Chapter &#64;ref(chisquare), it will be useful to understand the fact that these distributions are related to one another.</p>
-<p>We can extend this demonstration to the <span class="math notranslate nohighlight">\(t\)</span> distribution and the <span class="math notranslate nohighlight">\(F\)</span> distribution. Earlier, I implied that the <span class="math notranslate nohighlight">\(t\)</span> distribution is related to the normal distribution when the standard deviation is unknown. That’s certainly true, and that’s the what we’ll see later on in  Chapter &#64;ref(ttest), but there’s a somewhat more precise relationship between the normal, chi-square and <span class="math notranslate nohighlight">\(t\)</span> distributions. Suppose we “scale” our chi-square data by dividing it by the degrees of freedom, like so</p>
-<p>We then take a set of normally distributed variables and divide them by (the square root of) our scaled chi-square variable which had <span class="math notranslate nohighlight">\(df=3\)</span>, and the result is a <span class="math notranslate nohighlight">\(t\)</span> distribution with 3 degrees of freedom. If we plot the histogram of <code class="docutils literal notranslate"><span class="pre">t.3</span></code>, we end up with something that looks very similar to the t distribution in Figure &#64;ref(fig:variaterelations).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>normal.d &lt;- rnorm( n=1000 )                # yet another set of normally distributed data
-t.3 &lt;- normal.d / sqrt( scaled.chi.sq.3 )  # divide by square root of scaled chi-square to get t
-hist (t.3)
+</div>
+</div>
+<p>and the resulting <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the <code class="docutils literal notranslate"><span class="pre">sns.histplot()</span></code> function to have a look at these observations yourself, using a command like this,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">chi_square_data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Similarly, we can obtain an <span class="math notranslate nohighlight">\(F\)</span> distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. We could do this using <code class="docutils literal notranslate"><span class="pre">df()</span></code>, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with <code class="docutils literal notranslate"><span class="pre">chi.sq.3</span></code> illustrates, we can actually do this using <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> if we really want to, but this time I’ll take a short cut:</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_61_1.png" src="_images/04.02-probability_61_1.png" />
+</div>
+</div>
+<p>and you should obtain a result that looks pretty similar to the chi-square plot in <a class="reference internal" href="#fig-chi2"><span class="std std-numref">Fig. 2.11</span></a>. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">chi_square_data</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_63_0.png" src="_images/04.02-probability_63_0.png" />
+</div>
+</div>
+<p>It’s pretty clear that – even though I used <code class="docutils literal notranslate"><span class="pre">random.norm()</span></code> to do all the work rather than <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf</span></code> – the observations stored in the <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> variable really do follow a chi-square distribution. Admittedly, this probably doesn’t seem all that interesting right now, but later on when we start encountering the chi-square distribution in the chapter on <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">Categorical data analysis</span></a>, it will be useful to understand the fact that these distributions are related to one another.</p>
+<p>We can extend this demonstration to the <span class="math notranslate nohighlight">\(t\)</span> distribution and the <span class="math notranslate nohighlight">\(F\)</span> distribution. Earlier, I implied that the <span class="math notranslate nohighlight">\(t\)</span> distribution is related to the normal distribution when the standard deviation is unknown. That’s certainly true, and that’s the what we’ll see later on in the chapter on <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">Comparing two means</span></a>, but there’s a somewhat more precise relationship between the normal, chi-square and <span class="math notranslate nohighlight">\(t\)</span> distributions. Suppose we “scale” our chi-square data by dividing it by the degrees of freedom, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled_chi_square_data</span> <span class="o">=</span> <span class="n">chi_square_data</span> <span class="o">/</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We then take a set of normally distributed variables and divide them by (the square root of) our scaled chi-square variable which had <span class="math notranslate nohighlight">\(df=3\)</span>, and the result is a <span class="math notranslate nohighlight">\(t\)</span> distribution with 3 degrees of freedom. If we plot the histogram of <code class="docutils literal notranslate"><span class="pre">t_3</span></code>, we end up with something that looks very similar to the t distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">normal_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1"># yet another set of normally distributed data</span>
+<span class="n">t_3</span> <span class="o">=</span> <span class="n">normal_d</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">scaled_chi_square_data</span><span class="p">)</span> <span class="c1"># divide by square root of scaled chi-square to get t</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">t_3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_67_1.png" src="_images/04.02-probability_67_1.png" />
+</div>
+</div>
+<p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">t_3</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_69_0.png" src="_images/04.02-probability_69_0.png" />
+</div>
+</div>
+<p>Similarly, we can obtain an <span class="math notranslate nohighlight">\(F\)</span> distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. We could do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.f()</span></code>, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> illustrates, we can actually do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.normal()</span></code> if we really want to, but this time I’ll take a short cut:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>chi.sq.20 &lt;- rchisq( 1000, 20)                 # generate chi square data with df = 20...
 scaled.chi.sq.20 &lt;- chi.sq.20 / 20             # scale the chi square variable...
 F.3.20 &lt;-  scaled.chi.sq.3  / scaled.chi.sq.20 # take the ratio of the two chi squares...
 hist( F.3.20 )                                 # ... and draw a picture
 </pre></div>
 </div>
-<p>The resulting <code class="docutils literal notranslate"><span class="pre">F.3.20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. This is illustrated in Figure &#64;ref(fig:variaterelations), which plots the histgram of the observations stored in <code class="docutils literal notranslate"><span class="pre">F.3.20</span></code> against the true <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match.</p>
-<p>Okay, time to wrap this section up. We’ve seen three new distributions: <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span>. They’re all continuous distributions, and they’re all closely related to the normal distribution. I’ve talked a little bit about the precise nature of this relationship, and shown you some R commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we’re going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn’t be surprised to see <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span> distributions popping up all over the place when you start trying to do your data analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chi_square_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">chisquare</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>         <span class="c1"># generate chi square data with df = 3...</span>
+<span class="n">chi_square_20</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">chisquare</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>       <span class="c1"># generate chi square data with df = 20...</span>
+
+<span class="n">scaled_chi_square_3</span> <span class="o">=</span> <span class="n">chi_square_3</span> <span class="o">/</span> <span class="mi">3</span>              <span class="c1"># scale first the chi square variable...</span>
+<span class="n">scaled_chi_square_20</span> <span class="o">=</span> <span class="n">chi_square_20</span> <span class="o">/</span> <span class="mi">20</span>           <span class="c1"># and scale the other one...</span>
+
+<span class="n">f_3_20</span> <span class="o">=</span> <span class="n">scaled_chi_square_3</span> <span class="o">/</span> <span class="n">scaled_chi_square_20</span> <span class="c1"># take the ratio of the two chi squares...</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">f_3_20</span><span class="p">)</span>                                <span class="c1"># ... and draw a picture</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_72_1.png" src="_images/04.02-probability_72_1.png" />
+</div>
+</div>
+<p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">f_3_20</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_74_0.png" src="_images/04.02-probability_74_0.png" />
+</div>
+</div>
+<p>Okay, time to wrap this section up. We’ve seen three new distributions: <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span>. They’re all continuous distributions, and they’re all closely related to the normal distribution. I’ve talked a little bit about the precise nature of this relationship, and shown you some Python commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we’re going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn’t be surprised to see <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span> distributions popping up all over the place when you start trying to do your data analysis.</p>
 </div>
 <div class="section" id="summary">
 <h2><span class="section-number">2.7. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>In this chapter we’ve talked about probability. We’ve talked what probability means, and why statisticians can’t agree on what it means. We talked about the rules that probabilities have to obey. And we introduced the idea of a probability distribution, and spent a good chunk of the chapter talking about some of the more important probability distributions that statisticians work with. The section by section breakdown looks like this:</p>
 <ul class="simple">
-<li><p>Probability theory versus statistics (Section &#64;ref(probstats))</p></li>
-<li><p>Frequentist versus Bayesian views of probability (Section &#64;ref(probmeaning))</p></li>
-<li><p>Basics of probability theory (Section &#64;ref(basicprobability))</p></li>
-<li><p>Binomial distribution (Section &#64;ref(binomial)), normal distribution (Section &#64;ref(normal)), and others (Section &#64;ref(otherdists))</p></li>
+<li><p><a class="reference internal" href="#probstats"><span class="std std-ref">Probability theory versus statistics</span></a></p></li>
+<li><p>Frequentist versus Bayesian <a class="reference internal" href="#probmeaning"><span class="std std-ref">views of probability</span></a></p></li>
+<li><p>Basics of <a class="reference internal" href="#basicprobability"><span class="std std-ref">probability theory</span></a></p></li>
+<li><p><a class="reference internal" href="#binomial"><span class="std std-ref">Binomial</span></a> distribution, <a class="reference internal" href="#normal"><span class="std std-ref">normal</span></a> distribution, and <a class="reference internal" href="#otherdists"><span class="std std-ref">others</span></a></p></li>
 </ul>
-<p>As you’d expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the “simpler” task of documenting standard probability distributions is a big topic. I’ve described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called “Statistical Distributions” &#64;Evans2000 that lists a <em>lot</em> more than that. Fortunately for you, very little of this is necessary. You’re unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won’t need them for this book, but it never hurts to know that there’s other possibilities out there.</p>
-<p>Picking up on that last point, there’s a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often “forget” to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it’s important to understand these things before moving onto the applications. For example, there are a lot of rules about what you’re “allowed” to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in Chapter &#64;ref(ttest) we’re going to talk about something called the <span class="math notranslate nohighlight">\(t\)</span>-test, and if you really want to have a grasp of the mechanics of the <span class="math notranslate nohighlight">\(t\)</span>-test it really helps to have a sense of what a <span class="math notranslate nohighlight">\(t\)</span>-distribution actually looks like. You get the idea, I hope.</p>
+<p>As you’d expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the “simpler” task of documenting standard probability distributions is a big topic. I’ve described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called “Statistical Distributions” <span id="id9">[<a class="reference internal" href="bibliography.html#id19"><span>EHP11</span></a>]</span> that lists a <em>lot</em> more than that. Fortunately for you, very little of this is necessary. You’re unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won’t need them for this book, but it never hurts to know that there are other possibilities out there.</p>
+<p>Picking up on that last point, there’s a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often “forget” to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it’s important to understand these things before moving onto the applications. For example, there are a lot of rules about what you’re “allowed” to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in the chapter on <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">comparing two means</span></a> we’re going to talk about something called the <span class="math notranslate nohighlight">\(t\)</span>-test, and if you really want to have a grasp of the mechanics of the <span class="math notranslate nohighlight">\(t\)</span>-test, it really helps to have a sense of what a <span class="math notranslate nohighlight">\(t\)</span>-distribution actually looks like. You get the idea, I hope.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -1492,6 +1643,9 @@ hist( F.3.20 )                                 # ... and draw a picture
 </dd>
 <dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id7">5</a></span></dt>
 <dd><p>For those readers who know a little calculus, I’ll give a slightly more precise explanation. In the same way that probabilities are non-negative numbers that must sum to 1, probability densities are non-negative numbers that must integrate to 1 (where the integral is taken across all possible values of <span class="math notranslate nohighlight">\(X\)</span>). To calculate the probability that <span class="math notranslate nohighlight">\(X\)</span> falls between <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> we calculate the definite integral of the density function over the corresponding range, <span class="math notranslate nohighlight">\(\int_a^b p(x) \ dx\)</span>. If you don’t remember or never learned calculus, don’t worry about this. It’s not needed for this book.</p>
+</dd>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id8">6</a></span></dt>
+<dd><p>Of course, you can give variables any name you want, and we could just as well call these Larry, Moe, and Curly, or Huey, Dewey, and Louie, but in programming, the most boringly obvious names are usually the best ones. When writing code, we are looking for clarity, not dramatic effect!</p>
 </dd>
 </dl>
 </div>
