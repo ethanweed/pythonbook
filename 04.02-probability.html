@@ -1227,18 +1227,36 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="figure align-default" id="fig-tdist" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 2.10 </span><span class="caption-text">A <span class="math notranslate nohighlight">\(t\)</span> distribution with 3 degrees of freedom (solid line). It looks similar to a normal distribution, but it’s not quite the same. For comparison purposes, I’ve plotted a standard normal distribution as the dashed line. Note that the “tails” of the <span class="math notranslate nohighlight">\(t\)</span> distribution are “heavier” (i.e., extend further outwards) than the tails of the normal distribution? That’s the important difference between the two.</span><a class="headerlink" href="#fig-tdist" title="Permalink to this image">¶</a></p>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>xval &lt;- seq(-5,5,.01)
-	yval &lt;- dt( xval, df=3)
-	plot( 	xval, yval, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
-			frame.plot = FALSE, col=ifelse(colour,emphCol,&quot;black&quot;), type=&quot;l&quot;, ylim=c(0,.4)
-	)
-	lines( xval, dnorm(xval,0,1), lty=2, col=emphGrey)
-
-</pre></div>
-</div>
 <ul class="simple">
 <li><p>The <strong><em><span class="math notranslate nohighlight">\(\chi^2\)</span> distribution</em></strong> is another distribution that turns up in lots of different places. The situation in which we’ll see it is when doing categorical data analysis (Chapter &#64;ref(chisquare)), but it’s one of those things that actually pops up all over the place. When you dig into the maths (and who doesn’t love doing that?), it turns out that the main reason why the <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution turns up all over the place is that, if you have a bunch of variables that are normally distributed, square their values and then add them up (a procedure referred to as taking a “sum of squares”), this sum has a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution. You’d be amazed how often this fact turns out to be useful. Anyway, here’s what a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution looks like: Figure &#64;ref(fig:chisqdist).  Once again, the R commands for this one are pretty predictable: <code class="docutils literal notranslate"><span class="pre">dchisq()</span></code>,  <code class="docutils literal notranslate"><span class="pre">pchisq()</span></code>,  <code class="docutils literal notranslate"><span class="pre">qchisq()</span></code>, <code class="docutils literal notranslate"><span class="pre">rchisq()</span></code>.</p></li>
 </ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">degfree</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degfree</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;chi2-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_43_1.png" src="_images/04.02-probability_43_1.png" />
+</div>
+</div>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	xval &lt;- seq(0,10,.01)
 	yval &lt;- dchisq( xval, df=3)
 	plot( 	xval, yval, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
