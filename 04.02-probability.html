@@ -1267,15 +1267,6 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <ul class="simple">
 <li><p>The <strong><em><span class="math notranslate nohighlight">\(F\)</span> distribution</em></strong> looks a bit like a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution, and it arises whenever you need to compare two <span class="math notranslate nohighlight">\(\chi^2\)</span> distributions to one another. Admittedly, this doesn’t exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that <span class="math notranslate nohighlight">\(\chi^2\)</span> turns out to be the key distribution when we’re taking a “sum of squares”? Well, what that means is if you want to compare two different “sums of squares”, you’re probably talking about something that has an <span class="math notranslate nohighlight">\(F\)</span> distribution. Of course, as yet I still haven’t given you an example of anything that involves a sum of squares, but I will… in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">comparing several means</span></a>. And that’s where we’ll run into the <span class="math notranslate nohighlight">\(F\)</span> distribution. Oh, and here’s a picture: <a class="reference internal" href="#fig-fdist"><span class="std std-numref">Fig. 2.12</span></a>. Predictably, we can plot the F distribution using <code class="docutils literal notranslate"><span class="pre">stats.f.pdf()</span></code>.</p></li>
 </ul>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	# draw the plot
-	xval &lt;- seq(0,10,.01)
-	yval &lt;- df( xval, df1=3, df2=5)
-	plot( 	xval, yval, lwd=3, ylab=&quot;Probability Density&quot;, xlab=&quot;Observed Value&quot;,
-			frame.plot = FALSE, col=ifelse(colour,emphCol,&quot;black&quot;), type=&quot;l&quot;
-	)
-
-</pre></div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -1301,7 +1292,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_47_1.png" src="_images/04.02-probability_47_1.png" />
+<img alt="_images/04.02-probability_46_1.png" src="_images/04.02-probability_46_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-fdist" style="width: 600px">
@@ -1323,8 +1314,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.65579917  1.36324512 -0.1672629   1.07344737 -1.1955803   0.91427124
- -0.15864518  1.29288462  1.25753056 -0.89887521]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.1920872  -0.22659769 -0.6927102   1.41322915  0.7189413  -0.2765451
+ -1.46656561  0.0642512  -2.05751208  1.15131168]
 </pre></div>
 </div>
 </div>
@@ -1342,7 +1333,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_52_1.png" src="_images/04.02-probability_52_1.png" />
+<img alt="_images/04.02-probability_51_1.png" src="_images/04.02-probability_51_1.png" />
 </div>
 </div>
 <p>If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution.</p>
@@ -1375,70 +1366,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_54_0.png" src="_images/04.02-probability_54_0.png" />
+<img alt="_images/04.02-probability_53_0.png" src="_images/04.02-probability_53_0.png" />
 </div>
-</div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>old_par&lt;-par()
-par(mfrow=c(2,2))
-	# generate the data 
-	n &lt;- 1000
-	normal.a &lt;- rnorm( n )
-	normal.b &lt;- rnorm( n )
-	normal.c &lt;- rnorm( n )
-	chi.sq.3 &lt;- (normal.a)^2 + (normal.b)^2 + (normal.c)^2	
-	normal.d &lt;- rnorm( n )
-	t.3 &lt;- normal.d / sqrt( chi.sq.3 / 3 )
-	chi.sq.20 &lt;- rchisq( n, 20)
-	F.3.20 &lt;- (chi.sq.3 / 3) / (chi.sq.20 / 20)
-	
-	# histogram for the normal data
-	bw &lt;- .25
-	hist( 	normal.a, seq(min(normal.a)-bw,max(normal.a)+bw,bw),
-			freq=FALSE, xlim=c(-4,4), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border=&quot;white&quot;, ylim=c(0,.45), axes=FALSE,
-			xlab=&quot;&quot;,ylab=&quot;&quot;, main=&quot;Simulated Normal Data&quot;,
-			font.main = 1
-	 		)
-	lines( x&lt;-seq(-4,4,.1), dnorm(x), lwd=3, col=&quot;black&quot;  )
-	axis(1)
-	
-	bw&lt;- .5
-	hist( 	chi.sq.3, seq(0,max(chi.sq.3)+bw,bw),
-			freq=FALSE, xlim=c(0,16), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border=&quot;white&quot;, axes=FALSE, ylim=c(0,.25),
-			xlab=&quot;&quot;,ylab=&quot;&quot;, main=&quot;Simulated Chi-Square Data&quot;,
-			font.main=1
-	 		)
-	lines( x&lt;-seq(0,16,.1), dchisq(x,3), lwd=3, col=&quot;black&quot;  )	
-	axis(1)
-	# histogram for the t data
-	bw &lt;- .3
-	hist( 	t.3, seq(min(t.3)-bw,max(t.3)+bw,bw),
-			freq=FALSE, xlim=c(-5,5), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border=&quot;white&quot;, axes=FALSE, ylim=c(0,.4),
-			xlab=&quot;&quot;,ylab=&quot;&quot;, main=&quot;Simulated t Data&quot;,
-			font.main = 1
-	 		)
-	lines( x&lt;-seq(-4,4,.1), dt(x,3), lwd=3, col=&quot;black&quot;  )
-	axis(1)	
-	
-	# histogram for the F dist data
-	bw &lt;- .2
-	hist( 	F.3.20, seq(0,max(F.3.20)+bw,bw),
-			freq=FALSE, xlim=c(0,6), 
-			col=ifelse(colour,emphColLight,emphGrey),
-	 		border=&quot;white&quot;, axes=FALSE, ylim=c(0,.7),
-			xlab=&quot;&quot;,ylab=&quot;&quot;, main=&quot;Simulated F Data&quot;,
-			font.main=1
-	 		)
-	lines( x&lt;-seq(0,6,.01), df(x,3,20), lwd=3, col=&quot;black&quot;  )	
-	axis(1)
-
-par(mfrow=c(1,1))
-</pre></div>
 </div>
 <p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to create three sets of normally-distributed data. Let’s call them <code class="docutils literal notranslate"><span class="pre">normal_a</span></code>, <code class="docutils literal notranslate"><span class="pre">normal_b</span></code>, and <code class="docutils literal notranslate"><span class="pre">normal_c</span></code>.<a class="footnote-reference brackets" href="#note6" id="id8">6</a></p>
 <div class="cell docutils container">
@@ -1473,7 +1402,7 @@ par(mfrow=c(1,1))
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_61_1.png" src="_images/04.02-probability_61_1.png" />
+<img alt="_images/04.02-probability_59_1.png" src="_images/04.02-probability_59_1.png" />
 </div>
 </div>
 <p>and you should obtain a result that looks pretty similar to the chi-square plot in <a class="reference internal" href="#fig-chi2"><span class="std std-numref">Fig. 2.11</span></a>. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:</p>
@@ -1501,7 +1430,7 @@ par(mfrow=c(1,1))
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_63_0.png" src="_images/04.02-probability_63_0.png" />
+<img alt="_images/04.02-probability_61_0.png" src="_images/04.02-probability_61_0.png" />
 </div>
 </div>
 <p>It’s pretty clear that – even though I used <code class="docutils literal notranslate"><span class="pre">random.norm()</span></code> to do all the work rather than <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf</span></code> – the observations stored in the <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> variable really do follow a chi-square distribution. Admittedly, this probably doesn’t seem all that interesting right now, but later on when we start encountering the chi-square distribution in the chapter on <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">Categorical data analysis</span></a>, it will be useful to understand the fact that these distributions are related to one another.</p>
@@ -1527,7 +1456,7 @@ par(mfrow=c(1,1))
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_67_1.png" src="_images/04.02-probability_67_1.png" />
+<img alt="_images/04.02-probability_65_1.png" src="_images/04.02-probability_65_1.png" />
 </div>
 </div>
 <p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
@@ -1555,16 +1484,10 @@ par(mfrow=c(1,1))
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_69_0.png" src="_images/04.02-probability_69_0.png" />
+<img alt="_images/04.02-probability_67_0.png" src="_images/04.02-probability_67_0.png" />
 </div>
 </div>
 <p>Similarly, we can obtain an <span class="math notranslate nohighlight">\(F\)</span> distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. We could do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.f()</span></code>, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> illustrates, we can actually do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.normal()</span></code> if we really want to, but this time I’ll take a short cut:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>chi.sq.20 &lt;- rchisq( 1000, 20)                 # generate chi square data with df = 20...
-scaled.chi.sq.20 &lt;- chi.sq.20 / 20             # scale the chi square variable...
-F.3.20 &lt;-  scaled.chi.sq.3  / scaled.chi.sq.20 # take the ratio of the two chi squares...
-hist( F.3.20 )                                 # ... and draw a picture
-</pre></div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chi_square_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">chisquare</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>         <span class="c1"># generate chi square data with df = 3...</span>
@@ -1583,7 +1506,7 @@ hist( F.3.20 )                                 # ... and draw a picture
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_72_1.png" src="_images/04.02-probability_72_1.png" />
+<img alt="_images/04.02-probability_69_1.png" src="_images/04.02-probability_69_1.png" />
 </div>
 </div>
 <p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>
@@ -1611,7 +1534,7 @@ hist( F.3.20 )                                 # ... and draw a picture
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_74_0.png" src="_images/04.02-probability_74_0.png" />
+<img alt="_images/04.02-probability_71_0.png" src="_images/04.02-probability_71_0.png" />
 </div>
 </div>
 <p>Okay, time to wrap this section up. We’ve seen three new distributions: <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span>. They’re all continuous distributions, and they’re all closely related to the normal distribution. I’ve talked a little bit about the precise nature of this relationship, and shown you some Python commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we’re going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn’t be surprised to see <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span> distributions popping up all over the place when you start trying to do your data analysis.</p>
