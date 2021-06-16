@@ -8,5 +8,5 @@ Since Danielle has been so kind as to open-source the book, I have gone to work 
 
 <del>It's hard to say how far I'll get, but for now</del> I'm having fun, and am excited that the students in my course won't have to forego this fantastic book, just because they need to do their stats in Python.
 
-Update: having by now gotten as far as figuring out how to use Python to overlay the probability density for an F-distribution on top of a distribution created by taking the ratio of random samples from two scaled chi-square distributions, I think I'm committed to seeing this thing through.
+Update: having by now gotten as far as figuring out how to use Python to overlay the probability density for an F-distribution on top of a distribution created by taking the ratio of scaled random samples from two chi-square distributions, I think I'm committed to seeing this thing through.
 
