@@ -463,7 +463,7 @@
 <div class="section" id="samples-populations-and-sampling">
 <h2><span class="section-number">3.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p>In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
-<p>In almost every situation of interest, what we have available to us as researchers is a <strong><em>sample</em></strong> of data. We might have run an experiment with some number of participants; a polling company might have phoned some number of people to ask questions about voting intentions; etc. Regardless: the data set available to us is finite, and incomplete. We can’t possibly get every person in the  world to do our experiment; a polling company doesn’t have the time or the money to ring up every voter in the country etc. In our earlier discussion of descriptive statistics (Chapter &#64;ref(descriptives), this sample was the only thing we were interested in. Our only goal was to find ways of describing, summarising and graphing that sample. This is about to change.</p>
+<p>In almost every situation of interest, what we have available to us as researchers is a <strong><em>sample</em></strong> of data. We might have run an experiment with some number of participants; a polling company might have phoned some number of people to ask questions about voting intentions; etc. Regardless: the data set available to us is finite, and incomplete. We can’t possibly get every person in the  world to do our experiment; a polling company doesn’t have the time or the money to ring up every voter in the country etc. In our earlier discussion of <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, this sample was the only thing we were interested in. Our only goal was to find ways of describing, summarising and graphing that sample. This is about to change.</p>
 <div class="section" id="defining-a-population">
 <h3><span class="section-number">3.1.1. </span>Defining a population<a class="headerlink" href="#defining-a-population" title="Permalink to this headline">¶</a></h3>
 <p>A sample is a concrete thing. You can open up a data file, and there’s the data from your sample. A <strong><em>population</em></strong>, on the other hand, is a more abstract idea. It refers to the set of all possible people, or all possible observations, that you want to draw conclusions about, and is generally <em>much</em> bigger than the sample. In an ideal world, the researcher would begin the study with a clear idea of what the population of interest is, since the process of designing a study and testing hypotheses about the data that it produces does depend on the population about which you want to make statements. However, that doesn’t always happen in practice: usually the researcher has a fairly vague idea of what the population is and designs the study as best he/she can on that basis.</p>
@@ -489,10 +489,9 @@
 </div>
 <div class="section" id="simple-random-samples">
 <h3><span class="section-number">3.1.2. </span>Simple random samples<a class="headerlink" href="#simple-random-samples" title="Permalink to this headline">¶</a></h3>
-<a class="reference internal image-reference" href="_images/srs1.png"><img alt="simple-random-sample" class="align-center" src="_images/srs1.png" style="width: 600px;" /></a>
 <p>Irrespective of how I define the population, the critical point is that the sample is a subset of the population, and our goal is to use our knowledge of the sample to draw inferences about the properties of the population. The relationship between the two depends on the <em>procedure</em> by which the sample was selected. This procedure is referred to as a <strong><em>sampling method</em></strong>, and it is important to understand why it matters.</p>
-<p>To keep things simple, let’s imagine that we have a bag containing 10 chips. Each chip has a unique letter printed on it, so we can distinguish between the 10 chips. The chips come in two colours, black and white. This set of chips is the population of interest, and it is depicted graphically on the left of Figure &#64;ref(fig:srs1). As you can see from looking at the picture, there are 4 black chips and 6 white chips, but of course in real life we wouldn’t know that unless we looked in the bag. Now imagine you run the following “experiment”: you shake up the bag, close your eyes, and pull out 4 chips without putting any of them back into the bag. First out comes the <span class="math notranslate nohighlight">\(a\)</span> chip (black), then the <span class="math notranslate nohighlight">\(c\)</span> chip (white), then <span class="math notranslate nohighlight">\(j\)</span> (white) and then finally <span class="math notranslate nohighlight">\(b\)</span> (black). If you wanted, you could then put all the chips back in the bag and repeat the experiment, as depicted on the right hand side of Figure &#64;ref(fig:srs1). Each time you get different results, but the procedure is identical in each case. The fact that the same procedure can lead to different results each time, we refer to it as a <em>random</em> process.^[The proper mathematical definition of randomness is extraordinarily technical, and way beyond the scope of this book. We’ll be non-technical here and say that a process has an element of randomness to it whenever it is possible to repeat the process and get different answers each time.] However, because we shook the bag before pulling any chips out, it seems reasonable to think that every chip has the same chance of being selected. A procedure in which every member of the population has the same chance of being selected is called a <strong><em>simple random sample</em></strong>. The fact that we did <em>not</em> put the chips back in the bag after pulling them out means that you can’t observe the same thing twice, and in such cases the observations are said to have been sampled <strong><em>without replacement</em></strong>.</p>
-<p>To help make sure you understand the importance of the sampling procedure, consider an alternative way in which the experiment could have been run. Suppose that my 5-year old son had opened the bag, and decided to pull out four black chips without putting any of them back in the bag. This <em>biased</em> sampling scheme is depicted in Figure &#64;ref(fig:brs). Now consider the evidentiary value of seeing 4 black chips and 0 white chips. Clearly, it depends on the sampling scheme, does it not? If you know that the sampling scheme is biased to select only black chips, then a sample that consists of only black chips doesn’t tell you very much about the population! For this reason, statisticians really like it when a data set can be considered a simple random sample, because it makes the data analysis <em>much</em> easier.</p>
+<p>To keep things simple, let’s imagine that we have a bag containing 10 chips. Each chip has a unique letter printed on it, so we can distinguish between the 10 chips. The chips come in two colours, black and white. This set of chips is the population of interest, and it is depicted graphically on the left of <code class="xref std std-numref docutils literal notranslate"><span class="pre">srs1-fig</span></code>. As you can see from looking at the picture, there are 4 black chips and 6 white chips, but of course in real life we wouldn’t know that unless we looked in the bag. Now imagine you run the following “experiment”: you shake up the bag, close your eyes, and pull out 4 chips without putting any of them back into the bag. First out comes the <span class="math notranslate nohighlight">\(a\)</span> chip (black), then the <span class="math notranslate nohighlight">\(c\)</span> chip (white), then <span class="math notranslate nohighlight">\(j\)</span> (white) and then finally <span class="math notranslate nohighlight">\(b\)</span> (black). If you wanted, you could then put all the chips back in the bag and repeat the experiment, as depicted on the right hand side of <code class="xref std std-numref docutils literal notranslate"><span class="pre">srs1-fig</span></code>. Each time you get different results, but the procedure is identical in each case. The fact that the same procedure can lead to different results each time, we refer to it as a <em>random</em> process. <a class="footnote-reference brackets" href="#note1" id="id1">1</a> However, because we shook the bag before pulling any chips out, it seems reasonable to think that every chip has the same chance of being selected. A procedure in which every member of the population has the same chance of being selected is called a <strong><em>simple random sample</em></strong>. The fact that we did <em>not</em> put the chips back in the bag after pulling them out means that you can’t observe the same thing twice, and in such cases the observations are said to have been sampled <strong><em>without replacement</em></strong>.</p>
+<p>To help make sure you understand the importance of the sampling procedure, consider an alternative way in which the experiment could have been run. Suppose that my 5-year old son had opened the bag, and decided to pull out four black chips without putting any of them back in the bag. This <em>biased</em> sampling scheme is depicted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">brs-fig</span></code>. Now consider the evidentiary value of seeing 4 black chips and 0 white chips. Clearly, it depends on the sampling scheme, does it not? If you know that the sampling scheme is biased to select only black chips, then a sample that consists of only black chips doesn’t tell you very much about the population! For this reason, statisticians really like it when a data set can be considered a simple random sample, because it makes the data analysis <em>much</em> easier.</p>
 <a class="reference internal image-reference" href="_images/brs.png"><img alt="biased-random-sample" class="align-center" src="_images/brs.png" style="width: 600px;" /></a>
 <p>A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample <strong><em>with replacement</em></strong>. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated in Figure &#64;ref(fig:srs2).</p>
 <a class="reference internal image-reference" href="_images/srs2.png"><img alt="biased-random-sample" class="align-center" src="_images/srs2.png" style="width: 600px;" /></a>
@@ -598,9 +597,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  98.62940661917412  Standard deviation:  12.751886920458144
-100 samples. Mean:  99.52579322606445  Standard deviation:  16.772600263582405
-10000 samples. Mean:  100.14778526288103  Standard deviation:  15.148318398823882
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  100.51575876538577  Standard deviation:  15.809191273277598
+100 samples. Mean:  99.8778708198222  Standard deviation:  16.737963401065596
+10000 samples. Mean:  99.91148659677621  Standard deviation:  14.812312089763958
 </pre></div>
 </div>
 </div>
@@ -631,8 +630,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 96  88  90 101 127]
-Mean of simulated data:  100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [119  86  91 105  89]
+Mean of simulated data:  98
 </pre></div>
 </div>
 </div>
@@ -647,8 +646,8 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 81  94 104  89  91]
-Mean of simulated data:  91
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [104 102 110  62  98]
+Mean of simulated data:  95
 </pre></div>
 </div>
 </div>
@@ -707,59 +706,59 @@ Mean of simulated data:  91
     </tr>
     <tr>
       <th>mean</th>
-      <td>102.800000</td>
-      <td>85.400000</td>
-      <td>106.400000</td>
-      <td>109.800000</td>
-      <td>96.200000</td>
+      <td>109.000000</td>
+      <td>101.800000</td>
+      <td>103.200000</td>
+      <td>97.200000</td>
+      <td>105.000000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>18.074844</td>
-      <td>11.696153</td>
-      <td>23.060789</td>
-      <td>7.155418</td>
-      <td>12.316655</td>
+      <td>16.613248</td>
+      <td>13.255188</td>
+      <td>9.471008</td>
+      <td>18.860011</td>
+      <td>12.041595</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>89.000000</td>
-      <td>74.000000</td>
-      <td>73.000000</td>
-      <td>100.000000</td>
-      <td>81.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>89.000000</td>
-      <td>74.000000</td>
-      <td>99.000000</td>
-      <td>106.000000</td>
+      <td>88.000000</td>
+      <td>82.000000</td>
+      <td>96.000000</td>
+      <td>78.000000</td>
       <td>88.000000</td>
     </tr>
     <tr>
-      <th>50%</th>
-      <td>96.000000</td>
-      <td>86.000000</td>
-      <td>104.000000</td>
-      <td>110.000000</td>
+      <th>25%</th>
+      <td>98.000000</td>
+      <td>97.000000</td>
+      <td>98.000000</td>
+      <td>88.000000</td>
       <td>98.000000</td>
     </tr>
     <tr>
-      <th>75%</th>
+      <th>50%</th>
+      <td>110.000000</td>
+      <td>103.000000</td>
+      <td>98.000000</td>
+      <td>93.000000</td>
       <td>108.000000</td>
-      <td>92.000000</td>
-      <td>125.000000</td>
-      <td>115.000000</td>
-      <td>101.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>119.000000</td>
+      <td>111.000000</td>
+      <td>105.000000</td>
+      <td>99.000000</td>
+      <td>113.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>132.000000</td>
-      <td>101.000000</td>
-      <td>131.000000</td>
+      <td>130.000000</td>
+      <td>116.000000</td>
+      <td>119.000000</td>
+      <td>128.000000</td>
       <td>118.000000</td>
-      <td>113.000000</td>
     </tr>
   </tbody>
 </table>
@@ -795,7 +794,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;417ca995-e3cf-4b00-8009-3824c47e7b89&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c8e34490-0787-411d-8420-34fe5eabced4&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_20_1.png" src="_images/04.03-estimation_20_1.png" />
@@ -841,7 +840,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;898a0657-32b0-4fe3-9de9-029c62871301&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;3114fd44-154f-464b-bfae-4b54a7b31a35&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_23_1.png" src="_images/04.03-estimation_23_1.png" />
@@ -884,7 +883,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;0dbb3e59-6d76-4ad1-8aa8-47a9617c07f0&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;9db7f240-019d-47d8-bd44-df0e8d462b68&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_25_1.png" src="_images/04.03-estimation_25_1.png" />
@@ -909,7 +908,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;cc8ea8bc-8ef1-4d56-ab34-508880dfa229&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;cbc482d2-d13d-49e3-b62e-30622a0f322f&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_27_1.png" src="_images/04.03-estimation_27_1.png" />
@@ -934,7 +933,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;a1b3a402-816e-42fb-839e-7bf862e18266&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;9fe7cbb7-4979-47e4-8bff-5baafabf4e64&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_29_1.png" src="_images/04.03-estimation_29_1.png" />
@@ -1118,7 +1117,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x130acaf70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1387b3070&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_42_1.png" src="_images/04.03-estimation_42_1.png" />
@@ -1424,9 +1423,9 @@ Of course, there’s nothing special about the number 1.96: it just happens to b
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[40, 43, 47]
-[92.15237303113537, 97.09526109998637, 90.39106267174839]
-[104.64762696886464, 111.46473890001363, 101.44893732825162]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[45, 9, 24]
+[94.75595700703582, 92.82933440280782, 92.72231603326618]
+[107.00404299296417, 106.13066559719219, 104.39768396673382]
 </pre></div>
 </div>
 </div>
@@ -1641,6 +1640,12 @@ Method 2:  (2.894915862570057, 7.105084137429943)
 <li><p>Estimating a confidence interval (Section &#64;ref(ci))</p></li>
 </ul>
 <p>As always, there’s a lot of topics related to sampling and estimation that aren’t covered in this chapter, but for an introductory psychology class this is fairly comprehensive I think. For most applied researchers you won’t need much more theory than this. One big question that I haven’t touched on in this chapter is what you do when you don’t have a simple random sample. There is a lot of statistical theory you can draw on to handle this situation, but it’s well beyond the scope of this book.</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The proper mathematical definition of randomness is extraordinarily technical, and way beyond the scope of this book. We’ll be non-technical here and say that a process has an element of randomness to it whenever it is possible to repeat the process and get different answers each time.</p>
+</dd>
+</dl>
 </div>
 </div>
 
