@@ -389,6 +389,11 @@
        2.3.2. Taking powers
       </a>
      </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#doing-calculations-in-the-right-order">
+       2.3.3. Doing calculations in the right order
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -607,6 +612,52 @@
 </div>
 </div>
 <p>Much easier.<a class="footnote-reference brackets" href="#note3" id="id4">3</a></p>
+</div>
+<div class="section" id="doing-calculations-in-the-right-order">
+<span id="bedmas"></span><h3><span class="section-number">2.3.3. </span>Doing calculations in the right order<a class="headerlink" href="#doing-calculations-in-the-right-order" title="Permalink to this headline">¶</a></h3>
+<p>Okay. At this point, you know how to take one of the most powerful pieces of statistical software in the world, and use it as a \<span class="math notranslate nohighlight">\(2 calculator. And as a bonus, you've learned a few very basic programming concepts. That's not nothing (you could argue that you've just saved yourself \\\)</span>2) but on the other hand, it’s not very much either. In order to use Python more effectively, we need to introduce more programming concepts.</p>
+<p>In most situations where you would want to use a calculator, you might want to do multiple calculations. Python lets you do this, just by typing in longer commands. <a class="footnote-reference brackets" href="#note4" id="id5">4</a> In fact, we’ve already seen an example of this earlier, when I typed in <code class="docutils literal notranslate"><span class="pre">5</span> <span class="pre">*</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">5</span></code>. However, let’s try a slightly different example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9
+</pre></div>
+</div>
+</div>
+</div>
+<p>Clearly, this isn’t a problem for Python either. However, it’s worth stopping for a second, and thinking about what Python just did. Clearly, since it gave us an answer of <code class="docutils literal notranslate"><span class="pre">9</span></code> it must have multiplied <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">4</span></code> (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if Python had decided instead to add <code class="docutils literal notranslate"><span class="pre">1+2</span></code> (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of <code class="docutils literal notranslate"><span class="pre">12</span></code>.</p>
+<p>To answer this, you need to know the <strong><em>order of operations</em></strong> that Python uses. If you remember back to your high school maths classes, it’s actually the same order that you got taught when you were at school: the “<strong><em>BEDMAS</em></strong>” order. That is, first calculate things inside <strong>B</strong>rackets <code class="docutils literal notranslate"><span class="pre">()</span></code>, then calculate <strong>E</strong>xponents <code class="docutils literal notranslate"><span class="pre">^</span></code>, then <strong>D</strong>ivision <code class="docutils literal notranslate"><span class="pre">/</span></code> and <strong>M</strong>ultiplication <code class="docutils literal notranslate"><span class="pre">*</span></code>, then <strong>A</strong>ddition <code class="docutils literal notranslate"><span class="pre">+</span></code> and <strong>S</strong>ubtraction <code class="docutils literal notranslate"><span class="pre">-</span></code>. So, to continue the example above, if we want to force Python to calculate the <code class="docutils literal notranslate"><span class="pre">1+2</span></code> part before the multiplication, all we would have to do is enclose it in brackets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is a fairly useful thing to be able to do. The only other thing I should point out about order of operations is what to expect when you have two operations that have the same priority: that is, how does Python resolve ties? For instance, multiplication and division are actually the same priority, but what should we expect when we give Python a problem like <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">/</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></code> to solve? If it evaluates the multiplication first and then the division, it would calculate a value of two-thirds. But if it evaluates the division first it calculates a value of 6. The answer, in this case, is that Python goes from <em>left to right</em>, so in this case the division step would come first:</p>
+<p>This is a fairly useful thing to be able to do. The only other thing I should point out about order of operations is what to expect when you have two operations that have the same priority: that is, how does R resolve ties? For instance, multiplication and division are actually the same priority, but what should we expect when we give R a problem like <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">/</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></code> to solve? If it evaluates the multiplication first and then the division, it would calculate a value of two-thirds. But if it evaluates the division first it calculates a value of 6. The answer, in this case, is that R goes from <em>left to right</em>, so in this case the division step would come first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>All of the above being said, it’s helpful to remember that <em>brackets always come first</em>. So, if you’re ever unsure about what order Python will do things in, an easy solution is to enclose the thing <em>you</em> want it to do first in brackets.  There’s nothing stopping you from typing <code class="docutils literal notranslate"><span class="pre">(4</span> <span class="pre">/</span> <span class="pre">2)</span> <span class="pre">*</span> <span class="pre">3</span></code>. By enclosing the division in brackets we make it clear which thing is supposed to happen first. In this instance you wouldn’t have needed to, since Python would have done the division first anyway, but when you’re first starting out it’s better to make sure Python does what you want!</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
@@ -616,7 +667,10 @@
 <dd><p>Seriously. If you’re in a position to do so, open up Python and start typing. The simple act of typing it rather than “just reading” makes a big difference. It makes the concepts more concrete, and it ties the abstract ideas (programming and statistics) to the actual context in which you need to use them. Statistics is something you <em>do</em>, not just something you read about in a textbook.</p>
 </dd>
 <dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
-<dd><p>In fact, Python has two other ways to calculate powers. We could also have written <code class="docutils literal notranslate"><span class="pre">pow(5,4)</span></code>, or imported the <code class="docutils literal notranslate"><span class="pre">math</span></code> module and then written <code class="docutils literal notranslate"><span class="pre">math.pow(5,4)</span></code>. If you this, you will see that a key difference is that <code class="docutils literal notranslate"><span class="pre">math.pow</span></code> will always return a number with a decimal place. In computer speak, <code class="docutils literal notranslate"><span class="pre">math.pow()</span></code> converts the numbers you enter into it into “floating-point values”. Just FYI.</p>
+<dd><p>In fact, Python has two other ways to calculate powers. We could also have written <code class="docutils literal notranslate"><span class="pre">pow(5,4)</span></code>, or imported the <code class="docutils literal notranslate"><span class="pre">math</span></code> module and then written <code class="docutils literal notranslate"><span class="pre">math.pow(5,4)</span></code>. If you try this, you will see that a key difference is that <code class="docutils literal notranslate"><span class="pre">math.pow</span></code> will always return a number with a decimal place. In computer speak, <code class="docutils literal notranslate"><span class="pre">math.pow()</span></code> converts the numbers you enter into it into “floating-point values”. Just FYI.</p>
+</dd>
+<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p>If you’re reading this with Python open, a good learning trick is to try typing in a few different variations on what I’ve done here. If you experiment with your commands, you’ll quickly learn what works and what doesn’t.</p>
 </dd>
 </dl>
 </div>
