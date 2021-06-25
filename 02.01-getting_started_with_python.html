@@ -52,6 +52,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. More Python Concepts" href="02.02-more_python_concepts.html" />
@@ -372,6 +374,23 @@
      2.2. Python is (a teeny bit) flexible with spacing
     </a>
    </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#doing-simple-calculations-with-python">
+     2.3. Doing simple calculations with Python
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#adding-subtracting-multiplying-and-dividing">
+       2.3.1. Adding, subtracting, multiplying and dividing
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#taking-powers">
+       2.3.2. Taking powers
+      </a>
+     </li>
+    </ul>
+   </li>
   </ul>
  </li>
 </ul>
@@ -494,6 +513,113 @@
 </div>
 </div>
 <p>and I would get exactly the same answer. However, by now the people reading this who are already familiar with Python are howling in anger at my characterization of Python as flexible with spacing, because there are other ways in which Python is <em>notoriously</em> inflexible when it comes to spaces. In certain (ok, in very many) situations, Python cares a <em>lot</em> about where there are and are not spaces, and how many spaces there are. We will get to these situations later, but for now just be aware that although Python is fairly liberal when it comes to spaces within a line of code, it is zealously conservative when it comes to indenting lines of code. There are strict rules for when and how lines of code are to be indented in Python, and Python will enforce these rules with an iron fist.</p>
+<p>Whether you use <code class="docutils literal notranslate"><span class="pre">10+20</span></code> or <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">+</span> <span class="pre">20</span></code> is a matter of preference. Personally, I prefer to put the spaces in, because I like the way it looks better, but I will probably write it both ways in this book. Sometimes I get lazy and leave the spaces out.</p>
+</div>
+<div class="section" id="doing-simple-calculations-with-python">
+<span id="arithmetic"></span><h2><span class="section-number">2.3. </span>Doing simple calculations with Python<a class="headerlink" href="#doing-simple-calculations-with-python" title="Permalink to this headline">¶</a></h2>
+<p>Okay, now that we’ve discussed some of the tedious details associated with typing Python commands, let’s get back to learning how to use some of the most powerful piece of statistical software in the world as a $2 calculator. So far, all we know how to do is addition. Clearly, a calculator that only did addition would be a bit stupid, so I should tell you about how to perform other simple calculations using Python. But first, some more terminology. Addition is an example of an “operation” that you can perform (specifically, an arithmetic operation), and the <em><strong>operator</strong></em> that performs it is <code class="docutils literal notranslate"><span class="pre">+</span></code>. To people with a programming or mathematics background, this terminology probably feels pretty natural, but to other people it might feel like I’m trying to make something very simple (addition) sound more complicated than it is (by calling it an arithmetic operation). To some extent, that’s true: if addition was the only operation that we were interested in, it’d be a bit silly to introduce all this extra terminology. However, as we go along, we’ll start using more and more different kinds of operations, so it’s probably a good idea to get the language straight now, while we’re still talking about very familiar concepts like addition!</p>
+<div class="section" id="adding-subtracting-multiplying-and-dividing">
+<h3><span class="section-number">2.3.1. </span>Adding, subtracting, multiplying and dividing<a class="headerlink" href="#adding-subtracting-multiplying-and-dividing" title="Permalink to this headline">¶</a></h3>
+<p>So, now that we have the terminology, let’s learn how to perform some arithmetic operations in R. To that end, the table below lists the operators that correspond to the basic arithmetic we learned in primary school: addition, subtraction, multiplication and division.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p>operation</p></th>
+<th class="text-align:center head"><p>operator</p></th>
+<th class="text-align:center head"><p>example input</p></th>
+<th class="text-align:center head"><p>example output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p>addition</p></td>
+<td class="text-align:center"><p>+</p></td>
+<td class="text-align:center"><p>10 + 2</p></td>
+<td class="text-align:center"><p>12</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p>subtraction</p></td>
+<td class="text-align:center"><p>-</p></td>
+<td class="text-align:center"><p>9 - 3</p></td>
+<td class="text-align:center"><p>6</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p>multiplication</p></td>
+<td class="text-align:center"><p>*</p></td>
+<td class="text-align:center"><p>5 * 5</p></td>
+<td class="text-align:center"><p>25</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p>division</p></td>
+<td class="text-align:center"><p>/</p></td>
+<td class="text-align:center"><p>10 / 3</p></td>
+<td class="text-align:center"><p>3.333</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p>power</p></td>
+<td class="text-align:center"><p>**</p></td>
+<td class="text-align:center"><p>5 ^ 2</p></td>
+<td class="text-align:center"><p>25</p></td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, Python uses fairly standard symbols to denote each of the different operations you might want to perform: addition is done using the <code class="docutils literal notranslate"><span class="pre">+</span></code> operator, subtraction is performed by the <code class="docutils literal notranslate"><span class="pre">-</span></code> operator, and so on. The double <code class="docutils literal notranslate"><span class="pre">*</span></code> So if I wanted to find out what 57 times 61 is (and who wouldn’t?), I can use Python instead of a calculator, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">57</span> <span class="o">*</span> <span class="mi">61</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3477
+</pre></div>
+</div>
+</div>
+</div>
+<p>So that’s handy.</p>
+</div>
+<div class="section" id="taking-powers">
+<h3><span class="section-number">2.3.2. </span>Taking powers<a class="headerlink" href="#taking-powers" title="Permalink to this headline">¶</a></h3>
+<p>The first four operations listed above are things we all learned in primary school, but they aren’t the only arithmetic operations built into Python. There are three other arithmetic operations that I should probably mention: taking powers, doing integer division, and calculating a modulus. Of the three, the only one that is of any real importance for the purposes of this book is taking powers, so I’ll discuss that one here.</p>
+<p>For those of you who can still remember your high school maths, this should be familiar. But for some people high school maths was a long time ago, and others of us didn’t listen very hard in high school. It’s not complicated. As I’m sure everyone will probably remember the moment they read this, the act of multiplying a number <span class="math notranslate nohighlight">\(x\)</span> by itself <span class="math notranslate nohighlight">\(n\)</span> times is called “raising <span class="math notranslate nohighlight">\(x\)</span> to the <span class="math notranslate nohighlight">\(n\)</span>-th power”. Mathematically, this is written as <span class="math notranslate nohighlight">\(x^n\)</span>. Some values of <span class="math notranslate nohighlight">\(n\)</span> have special names: in particular <span class="math notranslate nohighlight">\(x^2\)</span> is called <span class="math notranslate nohighlight">\(x\)</span>-squared, and <span class="math notranslate nohighlight">\(x^3\)</span> is called <span class="math notranslate nohighlight">\(x\)</span>-cubed. So, the 4th power of 5 is calculated like this:</p>
+<div class="math notranslate nohighlight">
+\[
+5^4 = 5 \times 5 \times 5 \times 5 
+\]</div>
+<p>One way that we could calculate <span class="math notranslate nohighlight">\(5^4\)</span> in Python would be to type in the complete multiplication as it is shown in the equation above. That is, we could do this</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>625
+</pre></div>
+</div>
+</div>
+</div>
+<p>but it does seem a bit tedious. It would be very annoying indeed if you wanted to calculate <span class="math notranslate nohighlight">\(5^{15}\)</span>, since the command would end up being quite long. Therefore, to make our lives easier, we use the power operator instead. When we do that, our command to calculate <span class="math notranslate nohighlight">\(5^4\)</span> goes like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">5</span> <span class="o">**</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>625
+</pre></div>
+</div>
+</div>
+</div>
+<p>Much easier.<a class="footnote-reference brackets" href="#note3" id="id4">3</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>625.0
+</pre></div>
+</div>
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
@@ -502,7 +628,11 @@
 <dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
 <dd><p>Seriously. If you’re in a position to do so, open up R and start typing. The simple act of typing it rather than “just reading” makes a big difference. It makes the concepts more concrete, and it ties the abstract ideas (programming and statistics) to the actual context in which you need to use them. Statistics is something you <em>do</em>, not just something you read about in a textbook.</p>
 </dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p>In fact, Python has two other ways to calculate powers. We could also have written <code class="docutils literal notranslate"><span class="pre">pow(5,4)</span></code>, or imported the <code class="docutils literal notranslate"><span class="pre">math</span></code> module and then written <code class="docutils literal notranslate"><span class="pre">math.pow(5,4)</span></code>. If you this, you will see that a key difference is that <code class="docutils literal notranslate"><span class="pre">math.pow</span></code> will always return a number with a decimal place. In computer speak, <code class="docutils literal notranslate"><span class="pre">math.pow()</span></code> converts the numbers you enter into it into “floating-point values”. Just FYI.</p>
+</dd>
 </dl>
+</div>
 </div>
 </div>
 
