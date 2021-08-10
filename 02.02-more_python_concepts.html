@@ -362,6 +362,23 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#listing-the-objects-in-active-memory">
+   3.3. Listing the objects in active memory
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#removing-variables-from-the-workspace">
+     3.3.1. Removing variables from the workspace
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-and-saving-data">
+   3.4. Loading and saving data
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -468,7 +485,7 @@
 </div>
 </div>
 </div>
-<p>because Python doesn’t know what that, er, means. Luckily, we don’t have to resort to first finding the sum and then dividing by the number of numbers, because there are libraries that <em>do</em> have built-in commands for finding means. The <code class="docutils literal notranslate"><span class="pre">statistics</span></code> library is one. To use the commands in this library, we first have to <code class="docutils literal notranslate"><span class="pre">import</span></code> it. This gives us access to all the many useful commands in the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> library, one of which is <code class="docutils literal notranslate"><span class="pre">mean</span></code>:</p>
+<p>because Python doesn’t know what mean, er, means. Luckily, we don’t have to resort to first finding the sum and then dividing by the number of numbers, because there are libraries that <em>do</em> have built-in commands for finding means. The <code class="docutils literal notranslate"><span class="pre">statistics</span></code> library is one. To use the commands in this library, we first have to <code class="docutils literal notranslate"><span class="pre">import</span></code> it. This gives us access to all the many useful commands in the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> library, one of which is <code class="docutils literal notranslate"><span class="pre">mean</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
@@ -486,201 +503,140 @@
 </div>
 </div>
 <p>You probably noticed the <code class="docutils literal notranslate"><span class="pre">.</span></code> in the code above. This is the way we tell Python that we want to use a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code> which is found inside the library <code class="docutils literal notranslate"><span class="pre">statistics</span></code>. Without the <code class="docutils literal notranslate"><span class="pre">.</span></code>, even though we have imported <code class="docutils literal notranslate"><span class="pre">statistics</span></code>, which has a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code>, we still can’t just write <code class="docutils literal notranslate"><span class="pre">mean(numbers)</span></code>. We have to tell Python where to look for this command. This all seems very cumbersome, but it’s really not so bad, there are good reasons for doing it this way<a class="footnote-reference brackets" href="#note4" id="id5">4</a>, and you will get used to it fairly quickly.</p>
+<p>One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:</p>
+<blockquote>
+<div><p>Choose to import only a portion of a library
+rename libraries of portions of libraries when importing</p>
+</div></blockquote>
+<p>Let’s say we don’t want to import the entire <code class="docutils literal notranslate"><span class="pre">statistics</span></code> library — we only want the <code class="docutils literal notranslate"><span class="pre">mean</span></code> command. We can achieve this like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Managing the workspace{#workspace}
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Why would we want to do this? Well, one good reason is that now we <em>can</em> simply write <code class="docutils literal notranslate"><span class="pre">mean(numbers)</span></code>; we no longer have to write out <code class="docutils literal notranslate"><span class="pre">statistics.mean(numbers</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">mean</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.6
+</pre></div>
+</div>
+</div>
+</div>
+<p>Is this the height of laziness? Maybe. But if you start writing the same thing over and over again, saving a few characters here and there is pretty sweet. And this brings us to the other import option: renaming libraries. It is common practice in Python to give libraries abbreviations when we import them. Many of the most common libraries have conventional abbreviations, although you could use anything you like. Thus, you will often see e.g.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is very convenient, but be careful: if you e.g. import <code class="docutils literal notranslate"><span class="pre">numpy</span></code> as <code class="docutils literal notranslate"><span class="pre">np</span></code>, the Python will only recognize it as <code class="docutils literal notranslate"><span class="pre">np</span></code>, at least for the time your code is in Python’s active memory. Also, although you can use whatever abbreviations you like, I highly recommend sticking to the conventional ones, for your sake and others. It’s kind of fun the first time to do something like</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span> <span class="k">as</span> <span class="nn">why_you_gotta_be_so</span>
 
-Let&#39;s suppose that you&#39;re reading through this book, and what you&#39;re doing is sitting down with it once a week and working through a whole chapter in each sitting. Not only that, you&#39;ve been following my advice and typing in all these commands into R. So far during this chapter, you&#39;d have typed quite a few commands, although the only ones that actually involved creating variables were the ones you typed during Section \@ref(comments). As a result, you currently have three variables; `seeker`, `lover`, and `keeper`. These three variables are the contents of your **_workspace_**, also referred to as the **global environment**. The workspace is a key concept in R, so in this section we&#39;ll talk a lot about what it is and how to manage its contents.
-
-
-
-### Listing the contents of the workspace
-
-
-```{r workspace, fig.cap=&quot;The RStudio Environment panel shows you the contents of the workspace. The view shown above is the list view. To switch to the grid view, click on the menu item on the top right that currently reads list. Select grid from the dropdown menu, and then it will switch to a view like the one shown in the other workspace figure&quot;, echo=FALSE}
-knitr::include_graphics(here::here(&quot;bookdown&quot;, &quot;img&quot;, &quot;mechanics&quot;, &quot;workspacepanel.png&quot;))
-
-```
-
-```{r workspace2, fig.cap=&quot;The RStudio \&quot;Environment\&quot; panel shows you the contents of the workspace. Compare this \&quot;grid\&quot; view to the \&quot;list\&quot; earlier&quot;, echo=FALSE}
-knitr::include_graphics(here::here(&quot;bookdown&quot;, &quot;img&quot;, &quot;mechanics&quot;, &quot;workspacepanel2.png&quot;))
-
-```
-
-
-The first thing that you need to know how to do is examine the contents of the workspace. If you&#39;re using RStudio, you will probably find that the easiest way to do this is to use the &quot;Environment&quot; panel in the top right hand corner. Click on that, and you&#39;ll see a list that looks very much like the one shown in Figures \@ref(fig:workspace) and \@ref(fig:workspace2).  If you&#39;re using the commmand line, then the `objects()` function may come in handy:
-```{r}
-objects()
-```
-Of course, in the true R tradition, the `objects()` function has a lot of fancy capabilities that I&#39;m glossing over in this example. Moreover there are also several other functions that you can use, including `ls()` which is pretty much identical to `objects()`, and `ls.str()` which you can use to get a fairly detailed description of all the variables in the workspace. In fact, the `lsr` package actually includes its own function that you can use for this purpose, called `who()`. The reason for using the `who()` function is pretty straightforward: in my everyday work I find that the output produced by the `objects()` command isn&#39;t *quite* informative enough, because the only thing it prints out is the name of each variable; but the `ls.str()` function is *too* informative, because it prints out a lot of additional information that I really don&#39;t like to look at. The `who()` function is a compromise between the two. First, now that we&#39;ve got the `lsr` package installed, we need to load it:
-```{r}
-library(lsr)
-```
-and now we can use the `who()` function:
-```{r}
-who()
-```
-As you can see, the `who()` function lists all the variables and provides some basic information about what kind of variable each one is and how many elements it contains. Personally, I find this output much easier more useful than the very compact output of the `objects()` function, but less overwhelming than the extremely verbose `ls.str()` function. Throughout this book you&#39;ll see me using the `who()` function a lot. You don&#39;t have to use it yourself: in fact, I suspect you&#39;ll find it easier to look at the RStudio environment panel. But for the purposes of writing a textbook I found it handy to have a nice text based description: otherwise there would be about another 100 or so screenshots added to the book.^[This would be especially annoying if you&#39;re reading an electronic copy of the book because the text displayed by the `who()` function is searchable, whereas text shown in a screen shot isn&#39;t!]
-
-
-### Removing variables from the workspace
-
-Looking over that list of variables, it occurs to me that I really don&#39;t need them any more. I created them originally just to make a point, but they don&#39;t serve any useful purpose anymore, and now I want to get rid of them.  I&#39;ll show you how to do this, but first I want to warn you -- there&#39;s no &quot;undo&quot; option for variable removal. Once a variable is removed, it&#39;s gone forever unless you save it to disk. I&#39;ll show you how to do *that* in Section \@ref(load), but quite clearly we have no need for these variables at all, so we can safely get rid of them.
-
-In RStudio, the easiest way to remove variables is to use the environment panel. Assuming that you&#39;re in grid view (i.e., Figure \@ref(fig:workspace2)), check the boxes next to the variables that you want to delete, then click on the &quot;Clear&quot; button at the top of the panel. When you do this, RStudio will show a dialog box asking you to confirm that you really do want to delete the variables. It&#39;s always worth checking that you really do, because as RStudio is at pains to point out, you can&#39;t undo this. Once a variable is deleted, it&#39;s gone.^[Mind you, all that means is that it&#39;s been removed from the workspace. If you&#39;ve got the data saved to file somewhere, then that *file* is perfectly safe.] In any case, if you click &quot;yes&quot;, that variable will disappear from the workspace: it will no longer appear in the environment panel, and it won&#39;t show up when you use the `who()` command.
-
-Suppose you don&#39;t access to RStudio, and you still want to remove variables. This is where the **_remove_** function `rm()` comes in handy. The simplest way to use `rm()` is just to type in a (comma separated) list of all the variables you want to remove. Let&#39;s say I want to get rid of `seeker` and `lover`, but I would like to keep `keeper`. To do this, all I have to do is type:
-```{r}
-rm( seeker, lover )
-```
-There&#39;s no visible output, but if I now inspect the workspace
-```{r}
-who()
-```
-I see that there&#39;s only the `keeper` variable left. As you can see, `rm()` can be very handy for keeping the workspace tidy. 
-
-
-
-
-
-
-## Navigating the file system{#navigation}
-
-
-In this section I talk a little about how R interacts with the file system on your computer. It&#39;s not a terribly interesting topic, but it&#39;s useful.  As background to this discussion, I&#39;ll talk a bit about how file system locations work in Section \@ref(filesystem). Once upon a time *everyone* who used computers could safely be assumed to understand how the file system worked, because it was impossible to successfully use a computer if you didn&#39;t! However, modern operating systems are much more &quot;user friendly&quot;, and as a consequence of this they go to great lengths to hide the file system from users. So these days it&#39;s not at all uncommon for people to have used computers most of their life and not be familiar with the way that computers organise files. If you already know this stuff, skip straight to Section \@ref(navigationR). Otherwise, read on. I&#39;ll try to give a brief introduction that will be useful for those of you who have never been forced to learn how to navigate around a computer using a DOS or UNIX shell. 
-
-### The file system itself{#filesystem}
-
-In this section I describe the basic idea behind file locations and file paths. Regardless of whether you&#39;re using Window, Mac OS or Linux, every file on the computer is assigned a (fairly) human readable address, and every address has the same basic structure: it describes a *path* that starts from a *root* location , through as series of *folders* (or if you&#39;re an old-school computer user, *directories*), and finally ends up at the file. 
-
-On a Windows computer the root is the physical drive^[Well, the partition, technically.] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that comes the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
-```
-C:\Users\danRbook\LSR.pdf
-```
-and what that *means* is that the book is called LSR.pdf, and it&#39;s in a folder called `book` which itself is in a folder called dan which itself is ... well, you get the idea. On Linux, Unix and Mac OS systems, the addresses look a little different, but they&#39;re more or less identical in spirit. Instead of using the backslash, folders are separated using a forward slash, and unlike Windows, they don&#39;t treat the physical drive as being the root of the file system. So, the path to this book on my Mac might be something like this:
-```
-/Users/dan/Rbook/LSR.pdf
-```
-
-So that&#39;s what we mean by the &quot;path&quot; to a file. The next concept to grasp is the idea of a **_working directory_** and how to change it. For those of you who have used command line interfaces previously, this should be obvious already. But if not, here&#39;s what I mean. The working directory is just &quot;whatever folder I&#39;m currently looking at&quot;. Suppose that I&#39;m currently looking for files in Explorer (if you&#39;re using Windows) or using Finder (on a Mac). The folder I currently have open is my user directory (i.e., `C:\Users\dan` or `/Users/dan`). That&#39;s my current working directory. 
-
-The fact that we can imagine that the program is &quot;in&quot; a particular directory means that we can talk about moving *from* our current location *to* a new one. What that means is that we might want to specify a new location in relation to our current location. To do so, we need to introduce two new conventions. Regardless of what operating system you&#39;re using, we use `.` to refer to the current working directory, and `..` to refer to the directory above it. This allows us to specify a path to a new location in relation to our current location, as the following examples illustrate. Let&#39;s assume that I&#39;m using my Windows computer, and my working directory is `C:\Users\danRbook`). The table below shows several addresses in relation to my current one:
-
-
-```{r echo=FALSE}
-knitr::kable(rbind(
-                  c(&quot;C:\\\\Users\\\\dan&quot; , &quot;..&quot;),
-                  c(&quot;C:\\\\Users &quot;, &quot;..\\\\.. \\\\&quot;),
-                  c(&quot;C:\\\\Users\\\\danRbook\\\\source &quot;, &quot;.\\\\source &quot;),
-                  c(&quot;C:\\\\Users\\\\dan\\\\nerdstuff &quot;, &quot;..\\\\nerdstuff&quot;)),
-caption = &#39;Basic arithmetic operations in R. These five operators are used very frequently throughout the text, so it\&#39;s important to be familiar with them at the outset.&#39;,col.names = c(&quot;absolute path (i.e., from root)&quot;  , &quot;relative path (i.e. from C:\\Users\\danRbook)&quot;),
-  booktabs = TRUE)
-```
-
-There&#39;s one last thing I want to call attention to: the `~` directory. I normally wouldn&#39;t bother, but R makes reference to this concept sometimes. It&#39;s quite common on computers that have multiple users to define `~` to be the user&#39;s home directory. On my Mac, for instance, the home directory `~` for the &quot;dan&quot; user is `\Users\dan\`. And so, not surprisingly, it is possible to define other directories in terms of their relationship to the home directory. For example, an alternative way to describe the location of the `LSR.pdf` file on my Mac would be 
-
-```
-~Rbook\LSR.pdf
-```
-
-
-That&#39;s about all you really need to know about file paths. And since this section already feels too long, it&#39;s time to look at how to navigate the file system in R. 
-
-### Navigating the file system using the R console{#navigationR}
-
-In this section I&#39;ll talk about how to navigate this file system from within R itself. It&#39;s not particularly user friendly, and so you&#39;ll probably be happy to know that RStudio provides you with an easier method, and I will describe it in Section \@ref(nav3). So in practice, you won&#39;t *really* need to use the commands that I babble on about in this section, but I do think it helps to see them in operation at least once before forgetting about them forever.
-
-Okay, let&#39;s get started. When you want to load or save a file in R it&#39;s important to know what the working directory is. You can find out by using the `getwd()` command. For the moment, let&#39;s assume that I&#39;m using Mac OS or Linux, since there&#39;s some subtleties to Windows. Here&#39;s what happens:
-```
-getwd()
-## [1] &quot;/Users/dan&quot;
-```
-We can change the working directory quite easily using `setwd()`. The `setwd()` function has only the one argument, `dir`,  is a character string specifying a path to a directory, or a path relative to the working directory. Since I&#39;m currently located at `/Users/dan`, the following two are equivalent: 
-```
-setwd(&quot;/Users/dan/Rbook/data&quot;)
-setwd(&quot;./Rbook/data&quot;)
-```
-Now that we&#39;re here, we can type `list.files()` command to get a listing of all the files in that directory. Since this is the directory in which I store all of the data files that we&#39;ll use in this book, here&#39;s what we get as the result:
-```
-list.files()
-## [1] &quot;afl24.Rdata&quot;             &quot;aflsmall.Rdata&quot;          &quot;aflsmall2.Rdata&quot;        
-## [4] &quot;agpp.Rdata&quot;              &quot;all.zip&quot;                 &quot;annoying.Rdata&quot;         
-## [7] &quot;anscombesquartet.Rdata&quot;  &quot;awesome.Rdata&quot;           &quot;awesome2.Rdata&quot;         
-## [10] &quot;booksales.csv&quot;           &quot;booksales.Rdata&quot;         &quot;booksales2.csv&quot;         
-## [13] &quot;cakes.Rdata&quot;             &quot;cards.Rdata&quot;             &quot;chapek9.Rdata&quot;          
-## [16] &quot;chico.Rdata&quot;             &quot;clinicaltrial_old.Rdata&quot; &quot;clinicaltrial.Rdata&quot;    
-## [19] &quot;coffee.Rdata&quot;            &quot;drugs.wmc.rt.Rdata&quot;      &quot;dwr_all.Rdata&quot;          
-## [22] &quot;effort.Rdata&quot;            &quot;happy.Rdata&quot;             &quot;harpo.Rdata&quot;            
-## [25] &quot;harpo2.Rdata&quot;            &quot;likert.Rdata&quot;            &quot;nightgarden.Rdata&quot;      
-## [28] &quot;nightgarden2.Rdata&quot;      &quot;parenthood.Rdata&quot;        &quot;parenthood2.Rdata&quot;      
-## [31] &quot;randomness.Rdata&quot;        &quot;repeated.Rdata&quot;          &quot;rtfm.Rdata&quot;             
-## [34] &quot;salem.Rdata&quot;             &quot;zeppo.Rdata&quot;
-```
-Not terribly exciting, I&#39;ll admit, but it&#39;s useful to know about. In any case, there&#39;s only one more thing I want to make a note of, which is that R also makes use of the home directory. You can find out what it is by using the `path.expand()` function, like this:
-```
-path.expand(&quot;~&quot;)
-## [1] &quot;/Users/dan&quot;
-```
-You can change the user directory if you want, but we&#39;re not going to make use of it very much so there&#39;s no reason to. The only reason I&#39;m even bothering to mention it at all is that when you use RStudio to open a file, you&#39;ll see output on screen that defines the path to the file relative to  the `~` directory. I&#39;d prefer you not to be confused when you see it.^[One additional thing worth calling your attention to is the `file.choose()` function. Suppose you want to load a file and you don&#39;t quite remember where it is, but would like to browse for it. Typing `file.choose()` at the command line will open a window in which you can browse to find the file; when you click on the file you want, R will print out the full path to that file. This is kind of handy.]
-
-
-
-
-### Why do the Windows paths use the wrong slash?
-
-Let&#39;s suppose I&#39;m on Windows. As before, I can find out what my current working directory is like this:
-```
-getwd()
-## [1] &quot;C:/Users/dan/
-```
-This seems about right, but you might be wondering why R is displaying a Windows path using the wrong type of slash. The answer is slightly complicated, and has to do with the fact that R treats the `\` character as &quot;special&quot; (see Section \@ref(escapechars)). If you&#39;re deeply wedded to the idea of specifying a path using the Windows style slashes, then what you need to do is to type `/` whenever you mean `\`. In other words, if you want to specify the working directory on a Windows computer, you need to use one of the following commands:
-```
-setwd( &quot;C:/Users/dan&quot; )
-setwd( &quot;C:\\Users\\dan&quot; )
-```
-It&#39;s kind of annoying to have to do it this way, but as you&#39;ll see later on in Section \@ref(escapechars) it&#39;s a necessary evil. Fortunately, as we&#39;ll see in the next section, RStudio provides a much simpler way of changing directories...
-
-### Navigating the file system using the RStudio file panel{#nav3}
-
-Although I think it&#39;s important to understand how all this command line stuff works, in many (maybe even most) situations there&#39;s an easier way. For our purposes, the easiest way to navigate the file system is to make use of RStudio&#39;s built in tools. The &quot;file&quot; panel -- the lower right hand area in Figure \@ref(fig:filepanel) -- is actually a pretty decent file browser. Not only can you just point and click on the names to move around the file system, you can also use it to set the working directory, and even load files. 
-
-```{r filepanel, fig.cap=&quot;The \&quot;file panel\&quot; is the area shown in the lower right hand corner. It provides a very easy way to browse and navigate your computer using R. See main text for details.&quot;, echo=FALSE}
-
-knitr::include_graphics(here::here(&quot;bookdown&quot;, &quot;img&quot;, &quot;mechanics&quot;, &quot;filepanel.png&quot;))
-
-```
-
-
-Here&#39;s what you need to do to change the working directory using the file panel. Let&#39;s say I&#39;m looking at the actual screen shown in Figure \@ref(fig:filepanel). At the top of the file panel you see some text that says &quot;Home $&gt;$ Rbook $&gt;$ data&quot;. What that means is that it&#39;s *displaying* the files that are stored in the 
-```
-/Users/dan/Rbook/data
-```
-directory on my computer. It does *not* mean that this is the R working directory. If you want to change the R working directory, using the file panel, you need to click on the button that reads &quot;More&quot;. This will bring up a little menu, and one of the options will be &quot;Set as Working Directory&quot;. If you select that option, then R really will change the working directory. You can tell that it has done so because this command appears in the console: 
-```
-setwd(&quot;~/Rbook/data&quot;)
-```
-In other words, RStudio sends a command to the R console, exactly as if you&#39;d typed it yourself. The file panel can be used to do other things too. If you want to move &quot;up&quot; to the parent folder (e.g., from `/Users/dan/Rbook/data` to `/Users/dan/Rbook` click on the &quot;..&quot; link in the file panel. To move to a subfolder, click on the name of the folder that you want to open. You can open some types of file by clicking on them. You can delete files from your computer using the &quot;delete&quot; button, rename them with the &quot;rename&quot; button, and so on.
-
-
-As you can tell, the file panel is a very handy little tool for navigating the file system. But it can do more than just navigate. As we&#39;ll see later, it can be used to open files. And if you look at the buttons and menu options that it presents, you can even use it to rename, delete, copy or move files, and create new folders. However, since most of that functionality isn&#39;t critical to the basic goals of this book, I&#39;ll let you discover those on your own.
-
-
-
-## Loading and saving data{#load}
-
-
-There are several different types of files that are likely to be relevant to us when doing data analysis. There are three in particular that are especially important from the perspective of this book:
-
-- *Workspace files* are those with a .Rdata file extension. This is the standard kind of file that R uses to store data and variables. They&#39;re called &quot;workspace files&quot; because you can use them to save your whole workspace. 
-- *Comma separated value (CSV) files* are those with a .csv file extension. These are just regular old text files, and they can be opened with almost any software. It&#39;s quite typical for people to store data in CSV files, precisely because they&#39;re so simple.
-- *Script files* are those with a .R file extension. These aren&#39;t data files at all; rather, they&#39;re used to save a collection of commands that you want R to execute later. They&#39;re just text files, but we won&#39;t make use of them until Chapter \@ref(scripting).
- 
-There are also several other types of file that R makes use of,^[Notably those with .rda, .Rd, .Rhistory, .rdb and .rdx extensions] but they&#39;re not really all that central to our interests. There are also several other kinds of data file that you might want to import into R. For instance, you might want to open  Microsoft Excel spreadsheets (.xlsx files), or data files that have been saved in the native file formats for other statistics software, such as SPSS, SAS, Minitab, Stata or Systat.  Finally, you might have to handle databases. R tries hard to play nicely with other software, so it has tools that let you open and work with any of these and many others. I&#39;ll discuss some of these other possibilities elsewhere in this book (Section \@ref(importing)), but for now I want to focus primarily on the two kinds of data file that you&#39;re most likely to need: .Rdata files and .csv files.
-In this section I&#39;ll talk about how to load a workspace file, how to import data from a CSV file, and how to save your workspace to a workspace file. Throughout this section I&#39;ll first describe the (sometimes awkward) R commands that do all the work, and then I&#39;ll show you the (much easier) way to do it using RStudio.
-
-
-
-### Loading workspace files using R
+<span class="n">why_you_gotta_be_so</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.6
+</pre></div>
+</div>
+</div>
+</div>
+<p>but good code should be easy to read by yourself and others, and if you start playing too fast and loose with renaming, it starts to get less clear what’s going on.</p>
+</div>
+</div>
+<div class="section" id="listing-the-objects-in-active-memory">
+<h2><span class="section-number">3.3. </span>Listing the objects in active memory<a class="headerlink" href="#listing-the-objects-in-active-memory" title="Permalink to this headline">¶</a></h2>
+<p>Let’s suppose that you’re reading through this book, and what you’re doing is sitting down with it once a week and working through a whole chapter in each sitting. Not only that, you’ve been following my advice and typing in all these commands into Python. So far during this chapter, you’d have typed quite a few commands, although not all of them actually created variables.</p>
+<p>An important part of learning to program is to develop the ability to keep a mental model of what Python knows and doesn’t know at any given time active in your mind. This sounds very abstract, and it is, but as you become more familar with coding I think you will see what I mean. I won’t dwell on this here, but it may be useful to take a quick peak at what I mean. If you are working in e.g. a Jupyter Notebook (and I do suggest you do this, at least at first), then by typing <code class="docutils literal notranslate"><span class="pre">%who</span></code> you can see a list of all the variable that Python is currently aware of. So, in my case, I get the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">who</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>keeper	 lover	 mean	 mean_numbers	 np	 numbers	 seeker	 sns	 statistics	 
+sum_numbers	 why_you_gotta_be_so	 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we can see variable that we defined, like <code class="docutils literal notranslate"><span class="pre">keeper</span></code> and <code class="docutils literal notranslate"><span class="pre">lover</span></code>, and also libraries that we imported (and renamed), like <code class="docutils literal notranslate"><span class="pre">np</span></code> and <code class="docutils literal notranslate"><span class="pre">sns</span></code>, as well as the library <code class="docutils literal notranslate"><span class="pre">statistics</span></code> which I then ill-advisedly re-imported and renamed <code class="docutils literal notranslate"><span class="pre">why_you_gotta_be_so</span></code>. To see more details on these variables, we can type <code class="docutils literal notranslate"><span class="pre">%whos</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">whos</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variable              Type        Data/Info
+-------------------------------------------
+keeper                float       8.539539450000001
+lover                 float       2.7183
+mean                  function    &lt;function mean at 0x7fd3d2cdfc20&gt;
+mean_numbers          float       3.6
+np                    module      &lt;module &#39;numpy&#39; from &#39;/op&lt;...&gt;kages/numpy/__init__.py&#39;&gt;
+numbers               list        n=5
+seeker                float       3.1415
+sns                   module      &lt;module &#39;seaborn&#39; from &#39;/&lt;...&gt;ges/seaborn/__init__.py&#39;&gt;
+statistics            module      &lt;module &#39;statistics&#39; from&lt;...&gt;python3.7/statistics.py&#39;&gt;
+sum_numbers           int         18
+why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt;python3.7/statistics.py&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This tells us that e.g. <code class="docutils literal notranslate"><span class="pre">keeper</span></code> is a floating-point decimal number with the value 8.539539450000001, and shows us the true names of the objects we have renamed on import. These commands that start with a <code class="docutils literal notranslate"><span class="pre">%</span></code> sign, by the way, are called “magic” commands, and can only be used in environments like Jupyter, which support them. If you are not working in such an environment, you can use the command <code class="docutils literal notranslate"><span class="pre">dir()</span></code>, which achieve the same thing, but will also show you lots of information you probably aren’t interested in at this stage.</p>
+<div class="section" id="removing-variables-from-the-workspace">
+<h3><span class="section-number">3.3.1. </span>Removing variables from the workspace<a class="headerlink" href="#removing-variables-from-the-workspace" title="Permalink to this headline">¶</a></h3>
+<p>Looking over that list of variables, it occurs to me that I really don’t need them any more. I created them originally just to make a point, but they don’t serve any useful purpose anymore, and now I want to get rid of them.  I’ll show you how to do this, but first I want to warn you – there’s no “undo” option for variable removal. Once a variable is removed, it’s gone forever unless you save it to disk. I’ll show you how to do <em>that</em> in a later section, but quite clearly we have no need for these variables at all, so we can safely get rid of them by using the <code class="docutils literal notranslate"><span class="pre">del()</span></code> command.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span><span class="p">(</span><span class="n">keeper</span><span class="p">,</span> <span class="n">lover</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">%who</span></code> or <code class="docutils literal notranslate"><span class="pre">dir()</span></code> we can check that they are gone.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">who</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean	 mean_numbers	 np	 numbers	 seeker	 sns	 statistics	 sum_numbers	 why_you_gotta_be_so	 
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want to remove all the variables in memory, and you are working in a Jupyter environment, then <code class="docutils literal notranslate"><span class="pre">%reset</span></code> is a handy way to do this, although I must say that in practice I rarely if ever have a need to remove variables from memory. There is usually no harm in them sitting around unused, and if you define a new variable with the same name as an old one, it will just write over the old variable with the same name.</p>
+</div>
+</div>
+<div class="section" id="loading-and-saving-data">
+<span id="load"></span><h2><span class="section-number">3.4. </span>Loading and saving data<a class="headerlink" href="#loading-and-saving-data" title="Permalink to this headline">¶</a></h2>
+<p>There are two main types of files that are likely to be relevant to us when doing data analysis. There are three in particular that are especially important from the perspective of this book:</p>
+<ul class="simple">
+<li><p><em>Comma separated value (CSV) files</em> are those with a .csv file extension. These are just regular old text files, and they can be opened with almost any software. It’s quite typical for people to store data in CSV files, precisely because they’re so simple.</p></li>
+<li><p><em>Script files</em> are those with a .py file extension or an .ipynb extension. These aren’t data files at all; rather, they’re used to save a collection of commands that you want Python to execute later. They’re just text files, but we won’t make use of them until later.</p></li>
+</ul>
+<p>In this section I’ll talk about how to import data from a CSV file, and how to save your workspace to a workspace file. Throughout this section I’ll first describe the (sometimes awkward) R commands that do all the work, and then I’ll show you the (much easier) way to do it using RStudio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### Loading workspace files using R
 
 When I used the `list.files()` command to list the contents of the `/Users/dan/Rbook/data` directory (in Section \@ref(navigationR)), the output referred to a file called booksales.Rdata. Let&#39;s say I want to load the data from this file into my workspace. The way I do this is with the `load()` function. There are two arguments to this function, but the only one we&#39;re interested in is
 
@@ -1405,7 +1361,6 @@ Taken together, Chapters \@ref(introR) and \@ref(mechanics) provide enough of a 
 <dd><p>Basically, the reason is that there are thousands of libraries, and probably thousands of authors of libraries, and no-one really knows what all of them do. Keeping the installation separate from the loading minimizes the chances that two libraries will interact with each other in a nasty way.</p>
 </dd>
 </dl>
-</div>
 </div>
 </div>
 
