@@ -147,7 +147,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.03-pragmatic_matters.html">
-   3. Pragmatic Matters
+   3. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
@@ -436,18 +436,13 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pulling-out-the-contents-of-the-data-frame-using">
-     3.7.1. Pulling out the contents of the data frame using
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       $
-      </span>
-     </code>
+    <a class="reference internal nav-link" href="#pulling-out-the-contents-of-a-data-frame">
+     3.7.1. Pulling out the contents of a data frame
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#getting-information-about-a-data-frame">
-     3.7.2. Getting information about a data frame
+    <a class="reference internal nav-link" href="#three-more-dataframe-tips-for-the-road">
+     3.7.2. Three more dataframe tips for the road
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -458,40 +453,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lists-lists">
-   3.8. Lists{#lists}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formulas-formulas">
-   3.9. Formulas{#formulas}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generic-functions-generics">
-   3.10. Generic functions{#generics}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-help-help">
-   3.11. Getting help{#help}
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-to-read-the-help-documentation">
-     3.11.1. How to read the help documentation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#other-resources">
-     3.11.2. Other resources
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   3.12. Summary
+   3.8. Summary
   </a>
  </li>
 </ul>
@@ -1106,267 +1069,238 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 </div></div></div>
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">df</span></code> is a completely self-contained variable. Once you’ve created it, it no longer depends on the original variables from which it was constructed. That is, if we make changes to the original <code class="docutils literal notranslate"><span class="pre">age</span></code> variable, it will <em>not</em> lead to any changes to the age data stored in <code class="docutils literal notranslate"><span class="pre">df</span></code>.</p>
-<div class="section" id="pulling-out-the-contents-of-the-data-frame-using">
-<h3><span class="section-number">3.7.1. </span>Pulling out the contents of the data frame using <code class="docutils literal notranslate"><span class="pre">$</span></code><a class="headerlink" href="#pulling-out-the-contents-of-the-data-frame-using" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>rm(age, gender, group, score)
+<div class="section" id="pulling-out-the-contents-of-a-data-frame">
+<span id="indexing"></span><h3><span class="section-number">3.7.1. </span>Pulling out the contents of a data frame<a class="headerlink" href="#pulling-out-the-contents-of-a-data-frame" title="Permalink to this headline">¶</a></h3>
+<p>Let’s take another look at our dataframe. We have created a dataframe called <code class="docutils literal notranslate"><span class="pre">df</span></code>, which contains all of our data for “The Very Exciting Psychology Experiment”. Each row contains the data for one participant, so we can see that e.g. the first participant (in row zero, because Python!) was 17 years old, had a score of 12, responded in 3.552 seconds, and was placed in the test group. That’s great, but how do we get this information out again? After all, there’s no point in storing information if you don’t use it, and there’s no way to use information if you can’t access it. So let’s talk a bit about how to pull information out of a data frame.</p>
+<p>The first thing we might want to do is pull out one of our stored variables, let’s say <code class="docutils literal notranslate"><span class="pre">score</span></code>. As usual, there are several ways to achieve this, but here we will use the simplest method I know. To access the data in the <code class="docutils literal notranslate"><span class="pre">score</span></code> column by the column name, we can write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+<span class="n">score_data</span>
 </pre></div>
 </div>
-<p>At this point, our workspace contains only the one variable, a data frame called <code class="docutils literal notranslate"><span class="pre">expt</span></code>. But as we can see when we told R to print the variable out, this data frame contains 4 variables, each of which has 9 observations. So how do we get this information out again? After all, there’s no point in storing information if you don’t use it, and there’s no way to use information if you can’t access it. So let’s talk a bit about how to pull information out of a data frame.</p>
-<p>The first thing we might want to do is pull out one of our stored variables, let’s say <code class="docutils literal notranslate"><span class="pre">score</span></code>. One thing you might try to do is ignore the fact that <code class="docutils literal notranslate"><span class="pre">score</span></code> is locked up inside the <code class="docutils literal notranslate"><span class="pre">expt</span></code> data frame. For instance, you might try to print it out like this:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>score
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    12
+1    10
+2    11
+3    15
+4    16
+5    14
+6    25
+7    21
+8    29
+Name: score, dtype: int64
 </pre></div>
 </div>
-<p>This doesn’t work, because R doesn’t go “peeking” inside the data frame unless you explicitly tell it to do so. There’s actually a very good reason for this, which I’ll explain in a moment, but for now let’s just assume R knows what it’s doing. How do we tell R to look inside the data frame? As is always the case with R there are several ways. The simplest way is to use the <code class="docutils literal notranslate"><span class="pre">$</span></code> operator to extract the variable you’re interested in, like this:</p>
 </div>
-<div class="section" id="getting-information-about-a-data-frame">
-<h3><span class="section-number">3.7.2. </span>Getting information about a data frame<a class="headerlink" href="#getting-information-about-a-data-frame" title="Permalink to this headline">¶</a></h3>
-<p>One problem that sometimes comes up in practice is that you forget what you called all your variables. Normally you might try to type <code class="docutils literal notranslate"><span class="pre">objects()</span></code> or <code class="docutils literal notranslate"><span class="pre">who()</span></code>, but neither of those commands will tell you what the names are for those variables inside a data frame! One way is to ask R to tell you what the <em>names</em> of all the variables stored in the data frame are, which you can do using the <code class="docutils literal notranslate"><span class="pre">names()</span></code> function:</p>
-<p>An alternative method is to use the <code class="docutils literal notranslate"><span class="pre">who()</span></code> function, as long as you tell it to look at the variables inside data frames. If you set <code class="docutils literal notranslate"><span class="pre">expand</span> <span class="pre">=</span> <span class="pre">TRUE</span></code> then it will not only list the variables in the workspace, but it will “expand” any data frames that you’ve got in the workspace, so that you can see what they look like. That is:</p>
-<p>or, since <code class="docutils literal notranslate"><span class="pre">expand</span></code> is the first argument in the <code class="docutils literal notranslate"><span class="pre">who()</span></code> function you can just type <code class="docutils literal notranslate"><span class="pre">who(TRUE)</span></code>. I’ll do that a lot in this book.</p>
+</div>
+<p>Pretty easy, right? We could also choose to ask for only data from e.g. the first 4 particpants. To do this, we write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">score_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    12
+1    10
+2    11
+3    15
+Name: score, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>As always, we have to be very careful about the numbering, and things are even more confusing than I have let on, because what we are doing here is what Python calls <em>slicing</em> the data, and slice numbers work a little differently than index numbers. To get a slice of data from the first to the fourth rows, we need to write <code class="docutils literal notranslate"><span class="pre">[0:4]</span></code>, rather than <code class="docutils literal notranslate"><span class="pre">[0:3]</span></code>. Is this confusing? Yes, I think so! In any case, this is the way Python behaves, and we just need to get used to it. The best way to get the hang of it just to practice slicing a bunch of data, until you learn how to get the results you want.</p>
+<p>What if we want to get data from a row instead? In this case, we will use the <code class="docutils literal notranslate"><span class="pre">loc</span></code> attribute of a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe, and use a number instead of name (i.e., no quotation marks), like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">score_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age         21
+score       11
+rt       6.431
+group     test
+Name: 2, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have what we need to get the data for columns and rows. Great! Unfortunately, there is one more thing I mention<a class="footnote-reference brackets" href="#note7" id="id9">6</a>. If you look at the contents of <code class="docutils literal notranslate"><span class="pre">score_data</span></code> above, you will see that it is still not <em>just</em> the data: it also has information about the data, including which column and row it came from. And if we use <code class="docutils literal notranslate"><span class="pre">type()</span></code> to check, we can see that it is yet another variable type: this time, a <code class="docutils literal notranslate"><span class="pre">pandas.core.series.Series</span></code>. Yikes!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">score_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.series.Series
+</pre></div>
+</div>
+</div>
+</div>
+<p>Luckily, it’s not too hard to get the raw data out of a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> series. The simplest way is to just turn it into a list variable, using the command <code class="docutils literal notranslate"><span class="pre">list()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_row</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">score_data</span><span class="p">)</span>
+<span class="n">my_row</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[21, 11, 6.431, &#39;test&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want to get fancy, you can combine these steps, and do it all in one go:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_row</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">my_column</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_row</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_column</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[21, 11, 6.431, &#39;test&#39;]
+[12, 10, 11, 15, 16, 14, 25, 21, 29]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="three-more-dataframe-tips-for-the-road">
+<h3><span class="section-number">3.7.2. </span>Three more dataframe tips for the road<a class="headerlink" href="#three-more-dataframe-tips-for-the-road" title="Permalink to this headline">¶</a></h3>
+<p>One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;age&#39;, &#39;score&#39;, &#39;rt&#39;, &#39;group&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute <code class="docutils literal notranslate"><span class="pre">head</span></code> is useful for this. By default it shows the first 5 lines of the dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Finally, if you just want to get all of your data out of the dataframe and into a list, then <code class="docutils literal notranslate"><span class="pre">.values.tolist()</span></code> will do the job, giving you a list of lists, with each item in the list containing the data for a single row:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[17, 12, 3.552, &#39;test&#39;],
+ [19, 10, 1.624, &#39;test&#39;],
+ [21, 11, 6.431, &#39;test&#39;],
+ [37, 15, 7.132, &#39;test&#39;],
+ [18, 16, 2.925, &#39;test&#39;],
+ [19, 14, 4.662, &#39;control&#39;],
+ [47, 25, 3.634, &#39;control&#39;],
+ [18, 21, 3.635, &#39;control&#39;],
+ [19, 29, 5.234, &#39;control&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="looking-for-more-on-data-frames">
 <h3><span class="section-number">3.7.3. </span>Looking for more on data frames?<a class="headerlink" href="#looking-for-more-on-data-frames" title="Permalink to this headline">¶</a></h3>
-<p>There’s a lot more that can be said about data frames: they’re fairly complicated beasts, and the longer you use R the more important it is to make sure you really understand them. We’ll talk a lot more about them in Chapter &#64;ref(datahandling).</p>
-</div>
-</div>
-<div class="section" id="lists-lists">
-<h2><span class="section-number">3.8. </span>Lists{#lists}<a class="headerlink" href="#lists-lists" title="Permalink to this headline">¶</a></h2>
-<p>The next kind of data I want to mention are <strong><em>lists</em></strong>. Lists are an extremely fundamental data structure in R, and as you start making the transition from a novice to a savvy R user you will use lists all the time. I don’t use lists very often in this book – not directly – but most of the advanced data structures in R are built from lists (e.g., data frames are actually a specific type of list). Because lists are so important to how R stores things, it’s useful to have a basic understanding of them. Okay, so what is a list, exactly? Like data frames, lists are just “collections of variables.” However, unlike data frames – which are basically supposed to look like a nice “rectangular” table of data – there are no constraints on what kinds of variables we include, and no requirement that the variables have any particular relationship to one another. In order to understand what this actually <em>means</em>, the best thing to do is create a list, which we can do using the <code class="docutils literal notranslate"><span class="pre">list()</span></code> function. If I type this as my command:</p>
-<p>R creates a new list variable called <code class="docutils literal notranslate"><span class="pre">Dan</span></code>, which is a bundle of three different variables: <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">nerd</span></code> and <code class="docutils literal notranslate"><span class="pre">parents</span></code>. Notice, that the <code class="docutils literal notranslate"><span class="pre">parents</span></code> variable is longer than the others. This is perfectly acceptable for a list, but it wouldn’t be for a data frame. If we now print out the variable, you can see the way that R stores the list:</p>
-<p>As you might have guessed from those <code class="docutils literal notranslate"><span class="pre">$</span></code> symbols everywhere, the variables are stored in exactly the same way that they are for a data frame (again, this is not surprising: data frames <em>are</em> a type of list). So you will (I hope) be entirely unsurprised and probably quite bored when I tell you that you can extract the variables from the list using the <code class="docutils literal notranslate"><span class="pre">$</span></code> operator, like so:</p>
-<p>If you need to add new entries to the list, the easiest way to do so is to again use <code class="docutils literal notranslate"><span class="pre">$</span></code>, as the following example illustrates. If I type a command like this</p>
-<p>then R creates a new entry to the end of the list called <code class="docutils literal notranslate"><span class="pre">children</span></code>, and assigns it a value of <code class="docutils literal notranslate"><span class="pre">&quot;Alex&quot;</span></code>. If I were now to <code class="docutils literal notranslate"><span class="pre">print()</span></code> this list out, you’d see a new entry at the bottom of the printout. Finally, it’s actually possible for lists to contain other lists, so it’s quite possible that I would end up using a command like <code class="docutils literal notranslate"><span class="pre">Dan$children$age</span></code> to find out how old my son is. Or I could try to remember it myself I suppose.</p>
-</div>
-<div class="section" id="formulas-formulas">
-<h2><span class="section-number">3.9. </span>Formulas{#formulas}<a class="headerlink" href="#formulas-formulas" title="Permalink to this headline">¶</a></h2>
-<p>The last kind of variable that I want to introduce before finally being able to start talking about statistics is the <strong><em>formula</em></strong>. Formulas were originally introduced into R as a convenient way to specify a particular type of statistical model (see Chapter &#64;ref(regression)) but they’re such handy things that they’ve spread. Formulas are now used in a lot of different contexts, so it makes sense to introduce them early.</p>
-<p>Stated simply, a formula object is a variable, but it’s a special type of variable that specifies a relationship between other variables. A formula is specified using the “tilde operator” <code class="docutils literal notranslate"><span class="pre">~</span></code>. A very simple example of a formula is shown below:^[Note that, when I write out the formula, R doesn’t check to see if the <code class="docutils literal notranslate"><span class="pre">out</span></code> and <code class="docutils literal notranslate"><span class="pre">pred</span></code> variables actually exist: it’s only later on when you try to use the formula for something that this happens.]</p>
-<p>The <em>precise</em> meaning of this formula depends on exactly what you want to do with it, but in broad terms it means “the <code class="docutils literal notranslate"><span class="pre">out</span></code> (outcome) variable, analysed in terms of the <code class="docutils literal notranslate"><span class="pre">pred</span></code> (predictor) variable”. That said, although the simplest and most common form of a formula uses the  “one variable on the left, one variable on the right” format, there are others. For instance, the following examples are all reasonably common</p>
-<p>and there are many more variants besides. Formulas are pretty flexible things, and so different functions will make use of different formats, depending on what the function is intended to do.</p>
-</div>
-<div class="section" id="generic-functions-generics">
-<h2><span class="section-number">3.10. </span>Generic functions{#generics}<a class="headerlink" href="#generic-functions-generics" title="Permalink to this headline">¶</a></h2>
-<p>There’s one really important thing that I omitted when I discussed functions earlier on in Section &#64;ref(usingfunctions), and that’s the concept of a <strong><em>generic function</em></strong>. The two most notable examples that you’ll see in the next few chapters are <code class="docutils literal notranslate"><span class="pre">summary()</span></code> and <code class="docutils literal notranslate"><span class="pre">plot()</span></code>, although you’ve already seen an example of one working behind the scenes, and that’s the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function. The thing that makes generics different from the other functions is that their behaviour changes, often quite dramatically, depending on the <code class="docutils literal notranslate"><span class="pre">class()</span></code> of the input you give it. The easiest way to explain the concept is with an example. With that in mind, lets take a closer look at what the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function actually does. I’ll do this by creating a formula, and printing it out in a few different ways. First, let’s stick with what we know:</p>
-<p>So far, there’s nothing very surprising here. But there’s actually a lot going on behind the scenes here. When I type <code class="docutils literal notranslate"><span class="pre">print(</span> <span class="pre">my.formula</span> <span class="pre">)</span></code>, what actually happens is the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function checks the class of the <code class="docutils literal notranslate"><span class="pre">my.formula</span></code> variable. When the function discovers that the variable it’s been given is a formula, it goes looking for a function called <code class="docutils literal notranslate"><span class="pre">print.formula()</span></code>, and then delegates the whole business of printing out the variable to the <code class="docutils literal notranslate"><span class="pre">print.formula()</span></code> function.^[For readers with a programming background: what I’m describing is the very basics of how S3 methods work. However, you should be aware that R has two entirely distinct systems for doing object oriented programming, known as S3 and S4. Of the two, S3 is simpler and more informal, whereas S4 supports all the stuff that you might expect of a fully object oriented language. Most of the generics we’ll run into in this book use the S3 system, which is convenient for me because I’m still trying to figure out S4. ] For what it’s worth, the name for a “dedicated” function like <code class="docutils literal notranslate"><span class="pre">print.formula()</span></code> that exists only to be a special case of a generic function like <code class="docutils literal notranslate"><span class="pre">print()</span></code> is a <strong><em>method</em></strong>, and the name for the process in which the generic function passes off all the hard work onto a method is called <strong><em>method dispatch</em></strong>. You won’t need to understand the details at all for this book, but you do need to know the gist of it; if only because a lot of the functions we’ll use are actually generics. Anyway, to help expose a little more of the workings to you, let’s bypass the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function entirely and call the formula method directly:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>print.formula( my.formula )       # print it out using the print.formula() method
-
-## Appears to be deprecated
-</pre></div>
-</div>
-<p>There’s no difference in the output at all. But this shouldn’t surprise you because it was actually the <code class="docutils literal notranslate"><span class="pre">print.formula()</span></code> method that was doing all the hard work in the first place. The <code class="docutils literal notranslate"><span class="pre">print()</span></code> function itself is a lazy bastard that doesn’t do anything other than select which of the methods is going to do the actual printing.</p>
-<p>Okay, fair enough, but you might be wondering what would have happened if <code class="docutils literal notranslate"><span class="pre">print.formula()</span></code> didn’t exist? That is, what happens if there isn’t a specific method defined for the class of variable that you’re using? In that case, the generic function passes off the hard work to a “default” method, whose name in this case would be <code class="docutils literal notranslate"><span class="pre">print.default()</span></code>. Let’s see what happens if we bypass the <code class="docutils literal notranslate"><span class="pre">print()</span></code> formula, and try to print out <code class="docutils literal notranslate"><span class="pre">my.formula</span></code> using the  <code class="docutils literal notranslate"><span class="pre">print.default()</span></code> function:</p>
-<p>Hm. You can kind of see that it is trying to print out the same formula, but there’s a bunch of ugly low-level details that have also turned up on screen. This is because the <code class="docutils literal notranslate"><span class="pre">print.default()</span></code> method doesn’t know anything about formulas, and doesn’t know that it’s supposed to be hiding the obnoxious internal gibberish that R produces sometimes.</p>
-<p>At this stage, this is about as much as we need to know about generic functions and their methods. In fact, you can get through the entire book without learning any more about them than this, so it’s probably a good idea to end this discussion here.</p>
-</div>
-<div class="section" id="getting-help-help">
-<h2><span class="section-number">3.11. </span>Getting help{#help}<a class="headerlink" href="#getting-help-help" title="Permalink to this headline">¶</a></h2>
-<p>The very last topic I want to mention in this chapter is where to go to find help. Obviously, I’ve tried to make this book as helpful as possible, but it’s not even close to being a comprehensive guide, and there’s thousands of things it doesn’t cover. So where should you go for help?</p>
-<div class="section" id="how-to-read-the-help-documentation">
-<h3><span class="section-number">3.11.1. </span>How to read the help documentation<a class="headerlink" href="#how-to-read-the-help-documentation" title="Permalink to this headline">¶</a></h3>
-<p>I have somewhat mixed feelings about the help documentation in R. On the plus side, there’s a lot of it, and it’s very thorough. On the minus side, there’s a lot of it, and it’s very thorough. There’s so much help documentation that it sometimes doesn’t help, and most of it is written with an advanced user in mind. Often it feels like most of the help ﬁles work on the assumption that the reader already understands everything about R except for the speciﬁc topic that it’s providing help for. What that means is that, once you’ve been using R for a long time and are beginning to get a feel for how to use it, the help documentation is awesome. These days, I ﬁnd myself really liking the help ﬁles (most of them anyway). But when I ﬁrst started using R I found it very dense.</p>
-<p>To some extent, there’s not much I can do to help you with this. You just have to work at it yourself; once you’re moving away from being a pure beginner and are becoming a skilled user, you’ll start ﬁnding the help documentation more and more helpful. In the meantime, I’ll help as much as I can by trying to explain to you what you’re looking at when you open a help ﬁle. To that end, let’s look at the help documentation for the <code class="docutils literal notranslate"><span class="pre">load()</span></code> function. To do so, I type either of the following:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>?load 
-help(&quot;load&quot;)
-</pre></div>
-</div>
-<p>When I do that, R goes looking for the help ﬁle for the “load” topic. If it ﬁnds one, Rstudio takes it and displays it in the help panel. Alternatively, you can try a fuzzy search for a help topic</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>??load 
-help.search(&quot;load&quot;)
-
-</pre></div>
-</div>
-<p>This will bring up a list of possible topics that you might want to follow up in. Regardless, at some point you’ll ﬁnd yourself looking at an actual help ﬁle. And when you do, you’ll see there’s a quite a lot of stuﬀ written down there, and it comes in a pretty standardised format. So let’s go through it slowly, using the “<code class="docutils literal notranslate"><span class="pre">load</span></code>” topic as our example. Firstly, at the very top we see this:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;table width=&quot;100%&quot; summary=&quot;page for load {base}&quot;&gt;&lt;tr&gt;&lt;td&gt;load {base}&lt;/td&gt;&lt;td style=&quot;text-align: right;&quot;&gt;R Documentation&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-
-&lt;h4&gt;Reload Saved Datasets&lt;/h4&gt;
-
-&lt;h5&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;Reload datasets written with the function &lt;code&gt;save&lt;/code&gt;.
-&lt;/p&gt;
-</pre></div>
-</div>
-<p>Fairly straightforward. The next section describes how the function is used:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Usage&lt;/h5&gt;
-
-&lt;pre&gt;
-load(file, envir = parent.frame(), verbose = FALSE)
-&lt;/pre&gt;
-</pre></div>
-</div>
-<p>In this instance, the usage section is actually pretty readable. It’s telling you that there are two arguments to the <code class="docutils literal notranslate"><span class="pre">load()</span></code> function: the ﬁrst one is called <code class="docutils literal notranslate"><span class="pre">file</span></code>, and the second one is called <code class="docutils literal notranslate"><span class="pre">envir</span></code>. It’s also telling you that there is a default value for the envir argument; so if the user doesn’t specify what the value of envir should be, then R will assume that <code class="docutils literal notranslate"><span class="pre">envir</span> <span class="pre">=</span> <span class="pre">parent.frame()</span></code>. In contrast, the file argument has no default value at all, so the user must specify a value for it. So in one sense, this section is very straightforward.</p>
-<p>The problem, of course, is that you don’t know what the <code class="docutils literal notranslate"><span class="pre">parent.frame()</span></code> function actually does, so it’s hard for you to know what the <code class="docutils literal notranslate"><span class="pre">envir</span> <span class="pre">=</span> <span class="pre">parent.frame()</span></code> bit is all about. What you could do is then go look up the help documents for the <code class="docutils literal notranslate"><span class="pre">parent.frame()</span></code> function (and sometimes that’s actually a good idea), but often you’ll ﬁnd that the help documents for those functions are just as dense (if not more dense) than the help ﬁle that you’re currently reading. As an alternative, my general approach when faced with something like this is to skim over it, see if I can make any sense of it. If so, great. If not, I ﬁnd that the best thing to do is ignore it. In fact, the ﬁrst time I read the help ﬁle for the load() function, I had no idea what any of the <code class="docutils literal notranslate"><span class="pre">envir</span></code> related stuﬀ was about. But fortunately I didn’t have to: the default setting here (i.e., <code class="docutils literal notranslate"><span class="pre">envir</span> <span class="pre">=</span> <span class="pre">parent.frame()</span></code>) is actually the thing you want in about 99% of cases, so it’s safe to ignore it.</p>
-<p>Basically, what I’m trying to say is: don’t let the scary, incomprehensible parts of the help ﬁle intimidate you. Especially because there’s often some parts of the help ﬁle that will make sense. Of course, I guarantee you that sometimes this strategy will lead you to make mistakes… often embarrassing mistakes. But it’s still better than getting paralysed with fear.</p>
-<p>So, let’s continue on. The next part of the help documentation discusses each of the arguments, and what they’re supposed to do:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Arguments&lt;/h5&gt;
-
-&lt;table summary=&quot;R argblock&quot;&gt;
-&lt;tr valign=&quot;top&quot;&gt;&lt;td&gt;&lt;code&gt;file&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;a (readable binary-mode) &lt;a href=&quot;../../base/help/connection&quot;&gt;connection&lt;/a&gt; or a character string
-giving the name of the file to load (when &lt;a href=&quot;../../base/help/tilde expansion&quot;&gt;tilde expansion&lt;/a&gt;
-is done).&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;
-&lt;tr valign=&quot;top&quot;&gt;&lt;td&gt;&lt;code&gt;envir&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;the environment where the data should be loaded.&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;
-&lt;tr valign=&quot;top&quot;&gt;&lt;td&gt;&lt;code&gt;verbose&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;should item names be printed during loading?&lt;/p&gt;
-&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-</pre></div>
-</div>
-<p>Okay, so what this is telling us is that the <code class="docutils literal notranslate"><span class="pre">file</span></code> argument needs to be a string (i.e., text data) which tells R the name of the ﬁle to load. It also seems to be hinting that there’s other possibilities too (e.g., a “binary mode connection”), and you probably aren’t quite sure what “tilde expansion” means^[It’s extremely simple, by the way. We discussed it in Section 4.4, though I didn’t call it by that name. Tilde expansion is the thing where R recognises that, in the context of specifying a ﬁle location, the tilde symbol ~ corresponds to the user home directory (e.g., /Users/dan/).]. But overall, the meaning is pretty clear.</p>
-<p>Turning to the <code class="docutils literal notranslate"><span class="pre">envir</span></code> argument, it’s now a little clearer what the Usage section was babbling about. The <code class="docutils literal notranslate"><span class="pre">envir</span></code> argument speciﬁes the name of an environment (see Section 4.3 if you’ve forgotten what environments are) into which R should place the variables when it loads the ﬁle. Almost always, this is a no-brainer: you want R to load the data into the same damn environment in which you’re invoking the <code class="docutils literal notranslate"><span class="pre">load()</span></code> command. That is, if you’re typing <code class="docutils literal notranslate"><span class="pre">load()</span></code> at the R prompt, then you want the data to be loaded into your workspace (i.e., the global environment). But if you’re writing your own function that needs to load some data, you want the data to be loaded inside that function’s private workspace. And in fact, that’s exactly what the <code class="docutils literal notranslate"><span class="pre">parent.frame()</span></code> thing is all about. It’s telling the <code class="docutils literal notranslate"><span class="pre">load()</span></code> function to send the data to the same place that the <code class="docutils literal notranslate"><span class="pre">load()</span></code> command itself was coming from. As it turns out, if we’d just ignored the envir bit we would have been totally safe. Which is nice to know.</p>
-<p>Moving on, next up we get a detailed description of what the function actually does:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Details&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;load&lt;/code&gt; can load &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; objects saved in the current or any earlier
-format.  It can read a compressed file (see &lt;code&gt;&lt;a href=&quot;../../base/help/save&quot;&gt;save&lt;/a&gt;&lt;/code&gt;)
-directly from a file or from a suitable connection (including a call
-to &lt;code&gt;&lt;a href=&quot;../../base/help/url&quot;&gt;url&lt;/a&gt;&lt;/code&gt;).
-&lt;/p&gt;
-&lt;p&gt;A not-open connection will be opened in mode &lt;code&gt;&quot;rb&quot;&lt;/code&gt; and closed
-after use.  Any connection other than a &lt;code&gt;&lt;a href=&quot;../../base/help/gzfile&quot;&gt;gzfile&lt;/a&gt;&lt;/code&gt; or
-&lt;code&gt;&lt;a href=&quot;../../base/help/gzcon&quot;&gt;gzcon&lt;/a&gt;&lt;/code&gt; connection will be wrapped in &lt;code&gt;&lt;a href=&quot;../../base/help/gzcon&quot;&gt;gzcon&lt;/a&gt;&lt;/code&gt;
-to allow compressed saves to be handled: note that this leaves the
-connection in an altered state (in particular, binary-only), and that
-it needs to be closed explicitly (it will not be garbage-collected).
-&lt;/p&gt;
-&lt;p&gt;Only &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; objects saved in the current format (used since &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; 1.4.0)
-can be read from a connection.  If no input is available on a
-connection a warning will be given, but any input not in the current
-format will result in a error.
-&lt;/p&gt;
-&lt;p&gt;Loading from an earlier version will give a warning about the
-&amp;lsquo;magic number&amp;rsquo;: magic numbers &lt;code&gt;1971:1977&lt;/code&gt; are from &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; &amp;lt;
-0.99.0, and &lt;code&gt;RD[ABX]1&lt;/code&gt; from &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; 0.99.0 to &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; 1.3.1.  These are all
-obsolete, and you are strongly recommended to re-save such files in a
-current format.
-&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;verbose&lt;/code&gt; argument is mainly intended for debugging.  If it
-is &lt;code&gt;TRUE&lt;/code&gt;, then as objects from the file are loaded, their
-names will be printed to the console.  If &lt;code&gt;verbose&lt;/code&gt; is set to
-an integer value greater than one, additional names corresponding to
-attributes and other parts of individual objects will also be printed.
-Larger values will print names to a greater depth.
-&lt;/p&gt;
-&lt;p&gt;Objects can be saved with references to namespaces, usually as part of
-the environment of a function or formula.  Such objects can be loaded
-even if the namespace is not available: it is replaced by a reference
-to the global environment with a warning.  The warning identifies the
-first object with such a reference (but there may be more than one).
-&lt;/p&gt;
-</pre></div>
-</div>
-<p>Then it tells you what the output value of the function is:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Value&lt;/h5&gt;
-
-&lt;p&gt;A character vector of the names of objects created, invisibly.
-&lt;/p&gt;
-</pre></div>
-</div>
-<p>This is usually a bit more interesting, but since the <code class="docutils literal notranslate"><span class="pre">load()</span></code> function is mainly used to load variables into the workspace rather than to return a value, it’s no surprise that this doesn’t do much or say much. Moving on, we sometimes see a few additional sections in the help ﬁle, which can be diﬀerent depending on what the function is:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Warning&lt;/h5&gt;
-
-&lt;p&gt;Saved &lt;span style=&quot;font-family: Courier New, Courier; color: #666666;&quot;&gt;&lt;b&gt;R&lt;/b&gt;&lt;/span&gt; objects are binary files, even those saved with
-&lt;code&gt;ascii = TRUE&lt;/code&gt;, so ensure that they are transferred without
-conversion of end of line markers.  &lt;code&gt;load&lt;/code&gt; tries to detect such a
-conversion and gives an informative error message.
-&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;load(&amp;lt;file&amp;gt;)&lt;/code&gt; replaces all existing objects with the same names
-in the current environment (typically your workspace,
-&lt;code&gt;&lt;a href=&quot;../../base/help/.GlobalEnv&quot;&gt;.GlobalEnv&lt;/a&gt;&lt;/code&gt;) and hence potentially overwrites important data.
-It is considerably safer to use &lt;code&gt;envir = &lt;/code&gt; to load into a
-different environment, or to &lt;code&gt;&lt;a href=&quot;../../base/help/attach&quot;&gt;attach&lt;/a&gt;(file)&lt;/code&gt; which
-&lt;code&gt;load()&lt;/code&gt;s into a new entry in the &lt;code&gt;&lt;a href=&quot;../../base/help/search&quot;&gt;search&lt;/a&gt;&lt;/code&gt; path.
-&lt;/p&gt;
-
-&lt;h5&gt;Note&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;file&lt;/code&gt; can be a UTF-8-encoded filepath that cannot be translated to
-the current locale.
-&lt;/p&gt;
-</pre></div>
-</div>
-<p>Yeah, yeah. Warning, warning, blah blah blah. Towards the bottom of the help ﬁle, we see something like this, which suggests a bunch of related topics that you might want to look at. These can be quite helpful:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;See Also&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;&lt;a href=&quot;../../base/help/save&quot;&gt;save&lt;/a&gt;&lt;/code&gt;, &lt;code&gt;&lt;a href=&quot;../../base/help/download.file&quot;&gt;download.file&lt;/a&gt;&lt;/code&gt;; further
-&lt;code&gt;&lt;a href=&quot;../../base/help/attach&quot;&gt;attach&lt;/a&gt;&lt;/code&gt; as wrapper for &lt;code&gt;load()&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;For other interfaces to the underlying serialization format, see
-&lt;code&gt;&lt;a href=&quot;../../base/help/unserialize&quot;&gt;unserialize&lt;/a&gt;&lt;/code&gt; and &lt;code&gt;&lt;a href=&quot;../../base/help/readRDS&quot;&gt;readRDS&lt;/a&gt;&lt;/code&gt;.
-&lt;/p&gt;
-</pre></div>
-</div>
-<p>Finally, it gives you some examples of how to use the function(s) that the help ﬁle describes. These are supposed to be proper R commands, meaning that you should be able to type them into the console yourself and they’ll actually work. Sometimes it can be quite helpful to try the examples yourself. Anyway, here they are for the “<code class="docutils literal notranslate"><span class="pre">load</span></code>” help ﬁle:</p>
-<div class="highlight-{block2, notranslate"><div class="highlight"><pre><span></span>&lt;h5&gt;Examples&lt;/h5&gt;
-
-&lt;pre&gt;
-
-
-## save all data
-xx &amp;lt;- pi # to ensure there is some data
-save(list = ls(all = TRUE), file= &quot;all.rda&quot;)
-rm(xx)
-
-## restore the saved values to the current environment
-local({
-   load(&quot;all.rda&quot;)
-   ls()
-})
-
-xx &amp;lt;- exp(1:3)
-## restore the saved values to the user&#39;s workspace
-load(&quot;all.rda&quot;) ## which is here *equivalent* to
-## load(&quot;all.rda&quot;, .GlobalEnv)
-## This however annihilates all objects in .GlobalEnv with the same names !
-xx # no longer exp(1:3)
-rm(xx)
-attach(&quot;all.rda&quot;) # safer and will warn about masked objects w/ same name in .GlobalEnv
-ls(pos = 2)
-##  also typically need to cleanup the search path:
-detach(&quot;file:all.rda&quot;)
-
-## clean up (the example):
-unlink(&quot;all.rda&quot;)
-
-
-## Not run: 
-con &amp;lt;- url(&quot;http://some.where.net/R/data/example.rda&quot;)
-## print the value to see what objects were created.
-print(load(con))
-close(con) # url() always opens the connection
-
-## End(Not run)&lt;/pre&gt;
-</pre></div>
-</div>
-<p>As you can see, they’re pretty dense, and not at all obvious to the novice user. However, they do provide good examples of the various diﬀerent things that you can do with the <code class="docutils literal notranslate"><span class="pre">load()</span></code> function, so it’s not a bad idea to have a look at them, and to try not to ﬁnd them too intimidating.</p>
-</div>
-<div class="section" id="other-resources">
-<h3><span class="section-number">3.11.2. </span>Other resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>The Rseek website (www.rseek.org). One thing that I really find annoying about the R help documentation is that it’s hard to search properly. When coupled with the fact that the documentation is dense and highly technical, it’s often a better idea to search or ask online for answers to your questions. With that in mind, the Rseek website is great: it’s an R specific search engine. I find it really useful, and it’s almost always my first port of call when I’m looking around.</p></li>
-<li><p>The R-help mailing list (see http://www.r-project.org/mail.html for details). This is the official R help mailing list. It can be very helpful, but it’s <em>very</em> important that you do your homework before posting a question. The list gets a lot of traffic. While the people on the list try as hard as they can to answer questions, they do so for free, and you <em>really</em> don’t want to know how much money they could charge on an hourly rate if they wanted to apply market rates. In short, they are doing you a favour, so be polite. Don’t waste their time asking questions that can be easily answered by a quick search on Rseek (it’s rude), make sure your question is clear, and all of the relevant information is included. In short, read the posting guidelines carefully (http://www.r-project.org/posting-guide.html), and make use of the <code class="docutils literal notranslate"><span class="pre">help.request()</span></code> function that R provides to check that you’re actually doing what you’re expected.</p></li>
-</ul>
+<p>There’s a lot more that can be said about data frames: they’re fairly complicated beasts, and the longer you use Python the more important it is to make sure you really understand them. We’ll talk a lot more about them in the chapter on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">Data Wrangling</span></a></p>
 </div>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">3.12. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>This chapter continued where Chapter &#64;ref(introR) left off. The focus was still primarily on introducing basic R concepts, but this time at least you can see how those concepts are related to data analysis:</p>
+<h2><span class="section-number">3.8. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>This chapter continued where <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">the previous chapter</span></a> left off. The focus was still primarily on introducing basic Python concepts, but this time at least you can see how those concepts are related to data analysis:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="#packageinstall">Installing, loading and updating packages</a>. Knowing how to extend the functionality of R by installing and using packages is critical to becoming an effective R user</p></li>
-<li><p>Getting around. Section &#64;ref(workspace) talked about how to manage your workspace and how to keep it tidy. Similarly, Section &#64;ref(navigation) talked about how to get R to interact with the rest of the file system.</p></li>
-<li><p><a class="reference external" href="#load">Loading and saving data</a>. Finally, we encountered actual data files. Loading and saving data is obviously a crucial skill, one we discussed in Section &#64;ref(load).</p></li>
-<li><p><a class="reference external" href="#useful">Useful things to know about variables</a>. In particular, we talked about special values, element names and classes.</p></li>
-<li><p>More complex types of variables. R has a number of important variable types that will be useful when analysing real data. I talked about factors in Section &#64;ref(factors), data frames in Section &#64;ref(dataframes), lists in Section &#64;ref(lists) and formulas in Section &#64;ref(formulas).</p></li>
-<li><p><a class="reference external" href="#generics">Generic functions</a>. How is it that some function seem to be able to do lots of different things? Section &#64;ref(generics) tells you how.</p></li>
-<li><p><a class="reference external" href="#help">Getting help</a>. Assuming that you’re not looking for counselling, Section &#64;ref(help) covers several possibilities. If you are looking for counselling, well, this book really can’t help you there. Sorry.</p></li>
+<li><p><a class="reference internal" href="#packageinstall"><span class="std std-ref">Installing and importing libraries</span></a>. Knowing how to extend the functionality of Python by installing and using libraries is critical to becoming an effective Python user</p></li>
+<li><p><a class="reference internal" href="#load"><span class="std std-ref">Loading and saving data</span></a>. Finally, we encountered actual data files. Loading and saving data is obviously a crucial skill, this was dealt with here.</p></li>
+<li><p>[Getting around]. This section dealt very briefly with the concept of filesystems. Mostly, I just told you what a filesystem path is, and left it up to you to figure out how to find paths on your machine.</p></li>
+<li><p><a class="reference internal" href="#useful"><span class="std std-ref">Useful things to know about variables</span></a>. In this section, we talked about variable types, with a special focus on lists and dataframes. There is much more to say about these topics, but hopefully this is enough to get you started.</p></li>
 </ul>
-<p>Taken together, Chapters &#64;ref(introR) and &#64;ref(mechanics) provide enough of a background that you can finally get started doing some statistics! Yes, there’s a lot more R concepts that you ought to know (and we’ll talk about some of them in Chapters&#64;ref(datahandling) and&#64;ref(scripting)), but I think that we’ve talked quite enough about programming for the moment. It’s time to see how your experience with programming can be used to do some data analysis…</p>
+<p>Taken together, the chapter on <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a> and <a class="reference internal" href="#mechanics"><span class="std std-ref">More Python Concepts</span></a> provide enough of a background that you can finally get started doing some statistics! Yes, there’s a lot more Python concepts that you ought to know (and we’ll talk about some of them in the chapters on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">Data Wrangling</span></a> and <a class="reference internal" href="03.04-basic_programming.html#programming"><span class="std std-ref">Basic Programming</span></a>, but I think that we’ve talked quite enough about programming for the moment. It’s time to see how your experience with programming can be used to do some data analysis…</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -1383,6 +1317,9 @@ close(con) # url() always opens the connection
 </dd>
 <dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id8">5</a></span></dt>
 <dd><p>Although it really doesn’t matter at this point, you may have noticed a new symbol here: the “curly brackets” or “curly braces”. Python uses these to indicate yet another variable type: the dictionary. Here we are using the dictionary variable type in passing to feed our lists into a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe.</p>
+</dd>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id9">6</a></span></dt>
+<dd><p>Actually, there are lots more things I should mention, but now is not the time. Working with dataframes takes practice, and there are some catches, but it’s worth the effort!</p>
 </dd>
 </dl>
 </div>
