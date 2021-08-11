@@ -64,7 +64,7 @@ To help make sure you understand the importance of the sampling procedure, consi
 ```
 
 
-A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample **_with replacement_**. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated in Figure \@ref(fig:srs2). 
+A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample **_with replacement_**. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated below. 
 
 ```{image} ../img/estimation/srs2.png
 :alt: biased-random-sample
