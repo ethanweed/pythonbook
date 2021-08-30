@@ -385,13 +385,13 @@
 </div>
 <div class="section" id="an-introduction-to-plotting">
 <span id="introplotting"></span><h2><span class="section-number">2.2. </span>An introduction to plotting<a class="headerlink" href="#an-introduction-to-plotting" title="Permalink to this headline">¶</a></h2>
-<p>Before I discuss any specialised graphics, let’s start by drawing a few very simple graphs just to get a feel for what it’s like to draw pictures using Python and <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. To that end, let’s start by importing <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and create a small list called <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> that contains a few numbers we’d like Python to draw for us. The customary abbreviation for <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is <code class="docutils literal notranslate"><span class="pre">sns</span></code>, so let’s use that. We’ll use our list <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> to provide the values for the y-axis, but of course, we’ll need something for the x-axis as well. Since <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> contains 7 digits, we’ll create another list, <code class="docutils literal notranslate"><span class="pre">x</span></code>, which has increasing integers from 1 to 7.</p>
+<p>Before I discuss any specialised graphics, let’s start by drawing a few very simple graphs just to get a feel for what it’s like to draw pictures using Python and <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. To that end, let’s start by importing <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and create a small list called <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> that contains a few numbers we’d like Python to draw for us. The customary abbreviation for <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is <code class="docutils literal notranslate"><span class="pre">sns</span></code>, so let’s use that. We’ll use our list <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> to provide the values for the y-axis, but of course, we’ll need something for the x-axis as well. Since <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> contains 7 digits, we’ll create another list, <code class="docutils literal notranslate"><span class="pre">x</span></code>, which has increasing integers from 1 to 7. Then we’ll use <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> to plot the x and y axes against each other:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">fibonacci</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
 <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -400,6 +400,20 @@
 </pre></div>
 </div>
 <img alt="_images/03.02-drawing_graphs_7_1.png" src="_images/03.02-drawing_graphs_7_1.png" />
+</div>
+</div>
+<p>Already, we can see <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>’s opinion expressing itself in a variety of subtle ways. For example, it has chosen a size and color for the points in the scatterplot. These seem a little small to me, and while blue is a great color, I am partial to orange. So..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_9_1.png" src="_images/03.02-drawing_graphs_9_1.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
