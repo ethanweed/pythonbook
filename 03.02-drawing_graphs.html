@@ -334,6 +334,26 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-overview-of-python-graphics">
+   2.1. An overview of Python graphics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-introduction-to-plotting">
+   2.2. An introduction to plotting
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -349,16 +369,52 @@
 <p>–Edward Tufte<a class="footnote-reference brackets" href="#note1" id="id1">1</a></p>
 </div></blockquote>
 <p>Visualising data is one of the most important tasks facing the data analyst. It’s important for two distinct but closely related reasons. Firstly, there’s the matter of drawing “presentation graphics”: displaying your data in a clean, visually appealing fashion makes it easier for your reader to understand what you’re trying to tell them. Equally important, perhaps even more important, is the fact that drawing graphs helps <em>you</em> to understand the data. To that end, it’s important to draw “exploratory graphics” that help you learn about the data as you go about analysing it. These points might seem pretty obvious, but I cannot count the number of times I’ve seen people forget them.</p>
-<div class="figure align-center" id="fig-meanmedian">
+<div class="figure align-center" id="fig-ghostmap">
 <a class="reference internal image-reference" href="_images/snow_ghost_map2.png"><img alt="_images/snow_ghost_map2.png" src="_images/snow_ghost_map2.png" style="width: 600px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 2.1 </span><span class="caption-text">A stylised redrawing of John Snow’s original cholera map. Each small dot represents the location of a cholera case, and each large circle shows the location of a well. As the plot makes clear, the cholera outbreak is centred very closely on the Broad St pump.</span><a class="headerlink" href="#fig-meanmedian" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 2.1 </span><span class="caption-text">A stylised redrawing of John Snow’s original cholera map. Each small dot represents the location of a cholera case, and each large circle shows the location of a well. As the plot makes clear, the cholera outbreak is centred very closely on the Broad St pump.</span><a class="headerlink" href="#fig-ghostmap" title="Permalink to this image">¶</a></p>
+</div>
+<p>To give a sense of the importance of this chapter, I want to start with a classic illustration of just how powerful a good graph can be. To that end, <a class="reference internal" href="#fig-ghostmap"><span class="std std-numref">Fig. 2.1</span></a> shows a redrawing of one of the most famous data visualisations of all time: John Snow’s 1854 map of cholera deaths. The map is elegant in its simplicity. In the background we have a street map, which helps orient the viewer. Over the top, we see a large number of small dots, each one representing the location of a cholera case. The larger symbols show the location of water pumps, labelled by name. Even the most casual inspection of the graph makes it very clear that the source of the outbreak is almost certainly the Broad Street pump. Upon viewing this graph, Dr Snow arranged to have the handle removed from the pump, ending the outbreak that had killed over 500 people. Such is the power of a good data visualisation.</p>
+<p>The goals in this chapter are twofold: firstly, to discuss several fairly standard graphs that we use a lot when analysing and presenting data, and secondly, to show you how to create these graphs in Python. The graphs themselves tend to be pretty straightforward, so in that respect this chapter is pretty simple. Where people usually struggle is learning how to produce graphs, and especially, learning how to produce good graphs.<a class="footnote-reference brackets" href="#note2" id="id2">2</a> Fortunately, learning how to draw graphs in Python is reasonably simple, as long as you’re not too picky about what your graph looks like. What I mean when I say this is that Python has a lot of good graphing functions, and most of the time you can produce a clean, high-quality graphic without having to learn very much about the low-level details of how Python handles graphics. Unfortunately, on those occasions when you do want to do something non-standard, or if you need to make highly specific changes to the figure, you actually do need to learn a fair bit about these details; and those details are both complicated and boring. With that in mind, the structure of this chapter is as follows: I’ll start out by giving you a very quick overview of how graphics work in Python. I’ll then discuss several different kinds of graph and how to draw them, as well as showing the basics of how to customise these plots. In a future version of this book, I intend to finish this chapter off by talking about what makes a good or a bad graph, but I haven’t yet had the time to write that section.</p>
+<div class="section" id="an-overview-of-python-graphics">
+<span id="graphics"></span><h2><span class="section-number">2.1. </span>An overview of Python graphics<a class="headerlink" href="#an-overview-of-python-graphics" title="Permalink to this headline">¶</a></h2>
+<p>Reduced to its simplest form, you can think of a Python graphic as being much like a painting. You start out with an empty canvas. Every time you use a graphics function, it paints some new things onto your canvas. Later on, you can paint more things over the top if you want; but just like painting, you can’t “undo” your strokes. If you make a mistake, you have to throw away your painting and start over. Fortunately, this is way more easy to do when using Python than it is when painting a picture in real life: you delete the plot and then type a new set of commands.<a class="footnote-reference brackets" href="#note3" id="id3">3</a> This way of thinking about drawing graphs is referred to as the <strong><em>painter’s model</em></strong>. So far, this probably doesn’t sound particularly complicated, and for the vast majority of graphs you’ll want to draw it’s exactly as simple as it sounds. Much like painting in real life, the headaches usually start when we dig into details. To see why, I’ll  expand this “painting metaphor” a bit further just to show you the basics of what’s going on under the hood, but before I do I want to stress that you really don’t need to understand all these complexities in order to draw graphs. I’d been using Python for years before I even realised that most of these issues existed! However, I don’t want you to go through the same pain I went through every time I inadvertently discovered one of these things, so here’s a quick overview.</p>
+<p>When you paint a picture, you need to paint it <strong>with</strong> something. Maybe you want to do an oil painting, but maybe you want to use watercolour. And, generally speaking, you pretty much have to pick one or the other. The analog to this in Python is a plotting library. A plotting library is a collection of commands about what to draw and where to draw it. In scientific plotting in Python, this usually comes down to something called <a class="reference external" href="https://matplotlib.org"><em>matplotlib</em></a>. <code class="docutils literal notranslate"><span class="pre">Matplotlib</span></code> is a very powerful collection of paints and brushes that allows you to be quite creative and make some lovely and customized figures, but it can be a real pain to work with at times. Fortunately, there are ways to ease the pain. In this book, we will mostly produce figures with the library <a class="reference external" href="https://seaborn.pydata.org"><em>seaborn</em></a>, whose purpose is to make it easier to produce statistical figures with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. <code class="docutils literal notranslate"><span class="pre">Seaborn</span></code> greatly simplifies the process of data visualization in Python, and this is why we will rely on it so heavily. <code class="docutils literal notranslate"><span class="pre">Seaborn</span></code>’s simplicity is both its strength and its weakness, however, and sooner or later, you will probably need to dip into <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> to make your painting just the way you want it. Luckily for us, because <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is built on top of <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, using one doesn’t rule out the other. In keeping with our painting analogy, perhaps we can think of <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> a bit like a stencil, that lets us quickly make a nice image. But there’s nothing to stop us from coloring outside the lines if we want to.</p>
+<p>Thirdly, a painting is usually done in a particular <strong>style</strong>. Maybe it’s a still life, maybe it’s an impressionist piece, or maybe you’re trying to annoy me by pretending that cubism is a legitimate artistic style. Regardless, each artistic style imposes some overarching aesthetic and perhaps even constraints on what can (or should) be painted using that style. <code class="docutils literal notranslate"><span class="pre">Seaborn</span></code> has an opinion about how plots should look, and how they should be created; it has a nice, clean style that I personally like, but it definitely is a style.</p>
+<p>At this point, I think we’ve covered more than enough background material. The point that I’m trying to make by providing this discussion isn’t to scare you with all these horrible details, but rather to try to convey to you the fact that Python doesn’t really provide a single coherent graphics system. Instead, Python itself provides a platform, and different people have built different graphical tools using that platform. As a consequence of this fact, there’s (once again!) many different ways to achieve the goal of drawing graphs with Python. At this stage you don’t need to understand these complexities, but it’s useful to know that they’re there. For now, I think we can be happy with a simpler view of things: to the extent possible, we’ll draw pictures using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and dip into <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> as needed.</p>
+<p>So let’s start painting.</p>
+</div>
+<div class="section" id="an-introduction-to-plotting">
+<span id="introplotting"></span><h2><span class="section-number">2.2. </span>An introduction to plotting<a class="headerlink" href="#an-introduction-to-plotting" title="Permalink to this headline">¶</a></h2>
+<p>Before I discuss any specialised graphics, let’s start by drawing a few very simple graphs just to get a feel for what it’s like to draw pictures using Python and <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. To that end, let’s start by importing <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and create a small list called <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> that contains a few numbers we’d like Python to draw for us. The customary abbreviation for <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is <code class="docutils literal notranslate"><span class="pre">sns</span></code>, so let’s use that. We’ll use our list <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> to provide the values for the y-axis, but of course, we’ll need something for the x-axis as well. Since <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> contains 7 digits, we’ll create another list, <code class="docutils literal notranslate"><span class="pre">x</span></code>, which has increasing integers from 1 to 7.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">fibonacci</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_7_1.png" src="_images/03.02-drawing_graphs_7_1.png" />
+</div>
 </div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>The origin of this quote is Tufte’s lovely book <em>The Visual Display of Quantitative Information</em>.</p>
 </dd>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>I should add that this isn’t unique to Python. Like everything in Python, there’s a pretty steep learning curve to learning how to draw graphs, and like always there’s a massive payoff at the end in terms of the quality of what you can produce. But to be honest, I’ve seen the same problems show up regardless of what system people use. I suspect that the hardest thing to do is to force yourself to take the time to think deeply about what your graphs are doing. I say that in full knowledge that only about half of my graphs turn out as well as they ought to. Understanding what makes a good graph is easy: actually designing a good graph is <em>hard</em>.</p>
+</dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Of course, if you are using something like a Jupyter notebook to write your code (and you are doing that, right?), this is even easier, since all you have to do is edit your script and then run it again.</p>
+</dd>
 </dl>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
