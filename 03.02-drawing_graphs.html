@@ -399,6 +399,16 @@
    2.4. Scatterplots
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bar-graphs">
+   2.5. Bar graphs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#saving-image-files">
+   2.6. Saving image files
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -1049,6 +1059,213 @@
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/03.02-drawing_graphs_51_0.png" src="_images/03.02-drawing_graphs_51_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="bar-graphs">
+<span id="bargraphs"></span><h2><span class="section-number">2.5. </span>Bar graphs<a class="headerlink" href="#bar-graphs" title="Permalink to this headline">¶</a></h2>
+<p>Another form of graph that you often want to plot is the <strong><em>bar graph</em></strong>. To illustrate the use of the function, I’ll use the <code class="docutils literal notranslate"><span class="pre">finalists</span></code> variable that I introduced in the section on . What I want to do is draw a bar graph that displays the number of finals that each team has played in over the time spanned by the <code class="docutils literal notranslate"><span class="pre">afl</span></code> data set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_finalists.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># count up the number of times each team has been in the finals</span>
+<span class="n">finalists</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;afl.finalists&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="c1"># convert the result to a dataframe</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">finalists</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+
+<span class="c1"># convert the row names to a column of data</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Team&#39;</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># rename columns with clearer names</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Team&#39;</span><span class="p">,</span> <span class="s1">&#39;Finals&#39;</span><span class="p">]</span>
+
+<span class="n">df2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Team</th>
+      <th>Finals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Geelong</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>West Coast</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Essendon</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Collingwood</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Melbourne</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>North Melbourne</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Hawthorn</td>
+      <td>27</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Sydney</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Carlton</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Adelaide</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Brisbane</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Western Bulldogs</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>St Kilda</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Port Adelaide</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Fremantle</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Richmond</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>By now, if you have been following along, you can probably guess the syntax yourself. Specify the x data, specify the y data, and specify the data source:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Team&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_56_0.png" src="_images/03.02-drawing_graphs_56_0.png" />
+</div>
+</div>
+<p>Lovely, right? Pretty colors! Unfortunately, the team’s names are entirely illegible. Sometimes people try to deal with this sort of problem by rotating the x-axis tick labels 45 degrees so that they don’t run all over each other. That is an option, but an easy fix to this problem that you should always keep in mind is to simply switch the x an y axes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Team&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_58_0.png" src="_images/03.02-drawing_graphs_58_0.png" />
+</div>
+</div>
+<p>There, now isn’t that better? I haven’t been touching up these plots much in this chapter, because I want to focus on how easy is can be to generate nice simple plots, but in this case that y-axis label is just staring me in the face, now that I have turned the bars onto their sides. Normally I would insist that a figure should always have clear axis labels, but presumably, if we are putting this in a paper or presentation, the audience already knows that we are talking about AFL teams, and we could also put this info in the title instead. So let’s do a little makeover:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Team&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Number of Finals per Team&#39;</span><span class="p">,</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_60_0.png" src="_images/03.02-drawing_graphs_60_0.png" />
+</div>
+</div>
+<p>Now we’re talking! A nice clear figure, that is pretty and easy to read. Yum!</p>
+</div>
+<div class="section" id="saving-image-files">
+<span id="saveimage"></span><h2><span class="section-number">2.6. </span>Saving image files<a class="headerlink" href="#saving-image-files" title="Permalink to this headline">¶</a></h2>
+<p>Hold on, you might be thinking. What’s the good of being able to draw pretty pictures in Python if I can’t save them and send them to friends to brag about how awesome my data is? How do I save the picture? A (fairly) easy solution is to use the <code class="docutils literal notranslate"><span class="pre">savefig</span></code> command from the <code class="docutils literal notranslate"><span class="pre">pyplot</span></code> library in <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. I say fairly, because without a few tweaks, it may give you less than desirable results. In particular, I would like to draw your attention to the arguements <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> in the last line of the code below. Without setting <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> to “white” and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> to “tight”, the image is saved with a dark background outside of the main area of the figure, and most of the team names get cut off on the margins. Why these settings aren’t the default I can’t imagine, but there is probably some good reason. In any case, using savefig you can save your figure in a variety of formats including</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Team&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Number of Finals per Team&#39;</span><span class="p">,</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Finals&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;/Users/ethan/Desktop/AFL.png&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_63_0.png" src="_images/03.02-drawing_graphs_63_0.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
