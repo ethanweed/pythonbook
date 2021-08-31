@@ -373,8 +373,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plotting-dataframes">
-   2.3. Plotting dataframes
+  <a class="reference internal nav-link" href="#plotting-more-complex-data">
+   2.3. Plotting more complex data
   </a>
  </li>
 </ul>
@@ -511,9 +511,119 @@
 </div>
 </div>
 </div>
-<div class="section" id="plotting-dataframes">
-<h2><span class="section-number">2.3. </span>Plotting dataframes<a class="headerlink" href="#plotting-dataframes" title="Permalink to this headline">¶</a></h2>
-<p>At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. However, ususally the data we want to plot are more complicated than this simple series of numbers. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a “dataframe”. We talked about dataframes back in the chapter called <a class="reference internal" href="02.02-more_python_concepts.html#mechanics"><span class="std std-ref">More Python concepts</span></a> and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> much easier.</p>
+<div class="section" id="plotting-more-complex-data">
+<h2><span class="section-number">2.3. </span>Plotting more complex data<a class="headerlink" href="#plotting-more-complex-data" title="Permalink to this headline">¶</a></h2>
+<p>At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. However, ususally the data we want to plot are more complicated than this simple series of numbers. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a “dataframe”. We talked about dataframes back in the chapter called <a class="reference internal" href="02.02-more_python_concepts.html#mechanics"><span class="std std-ref">More Python concepts</span></a> and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> much easier. We’ll use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to organize our data in dataframes. So, let’s grab some data, put it in a dataframe, and talk more seriously about some real life graphics that you’ll want to draw.</p>
+<p>You can read more about importing data from a .csv file <a class="reference internal" href="02.02-more_python_concepts.html#loadingcsv"><span class="std std-ref">here</span></a>. The key line in the code below is <code class="docutils literal notranslate"><span class="pre">afl_margins</span> <span class="pre">=</span> <span class="pre">pd.read_csv('afl_margins.csv')</span></code>. The rest is just a convenience for me in writing this book. If you put the full path to your data between the quotation marks, you should be alright without the rest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
+
+<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Just to remind ourselves what the data look like, we can use <code class="docutils literal notranslate"><span class="pre">head</span></code> to take a peek:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can begin with the humble <strong><em>histogram</em></strong>. Histograms are one of the simplest and most useful ways of visualising data. They make most sense when you have an interval or ratio scale (e.g., the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data from the chapter on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>) and what you want to do is get an overall impression of the data. Most of you probably know how histograms work, since they’re so widely used, but for the sake of completeness I’ll describe them. All you do is divide up the possible values into <strong><em>bins</em></strong>, and then count the number of observations that fall within each bin. This count is referred to as the frequency of the bin, and is displayed as a bar: in the AFL winning margins data, there are 33 games in which the winning margin was less than 10 points, and it is this fact that is represented by the height of the leftmost bar in the figure below. Drawing this histogram with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is pretty straightforward. The function you need to use is called <code class="docutils literal notranslate"><span class="pre">histplot</span></code>, and it has pretty reasonable default settings.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;afl.margins&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;afl.margins&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_22_1.png" src="_images/03.02-drawing_graphs_22_1.png" />
+</div>
+</div>
+<p>Although this image would need some cleaning up in order to make a good presentation graphic (i.e., one you’d include in a report), it nevertheless does a pretty good job of describing the data. In fact, the big strength of a histogram is that (properly used) it does show the entire spread of the data, so you can get a pretty good sense about what it looks like. The downside to histograms is that they aren’t very compact: unlike some of the other plots I’ll talk about it’s hard to cram 20-30 histograms into a single image without overwhelming the viewer. And of course, if your data are nominal scale (e.g., the <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data) then histograms are useless.</p>
+<p>The main subtlety that you need to be aware of when drawing histograms is determining where the “breaks” that separate bins should be located, and (relatedly) how many bins there should be. In the figure above, you can see that <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has made pretty sensible choices all by itself: the breaks are located at 0, 10, 20, … 120, which is exactly what I would have done had I been forced to make a choice myself. On the other hand, consider the following two histograms, which have divided the data into fewer and more bins, respectively:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;afl.margins&quot;</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;afl.margins&quot;</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">116</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Too few bins!&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Too many bins!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Too many bins!&#39;)
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_25_1.png" src="_images/03.02-drawing_graphs_25_1.png" />
+</div>
+</div>
+<p>In the plot to the right, the bins are only 1 point wide. As a result, although the plot is very informative (it displays the entire data set with no loss of information at all!) the plot is very hard to interpret, and feels quite cluttered. On the other hand, the plot to the left has a bin width of 50 points, and has the opposite problem: it’s very easy to “read” this plot, but it doesn’t convey a lot of information. One gets the sense that this histogram is hiding too much. In short, the way in which you specify the number of bins has a big effect on what the histogram looks like, so it’s important to make sure you choose the breaks sensibly. In general <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> does a pretty good job of selecting the breaks on its own, but nevertheless it’s usually a good idea to play around with the breaks a bit to see what happens.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
