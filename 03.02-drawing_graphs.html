@@ -387,6 +387,11 @@
      2.3.2. Boxplots
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#drawing-multiple-boxplots">
+     2.3.3. Drawing multiple boxplots
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -794,6 +799,148 @@
 <p>Aha! Game 177 had a margin of 327. Now, in this case this should come as no surprise to me, since I added this data point myself with the code <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">327</span></code> above. But if we play along for a minute, then a game with a margin of 327 definitely doesn’t sound right. So then I go back to the original data source (the internet!) and I discover that the actual margin of that game was 33 points. Now it’s pretty clear what happened. Someone must have typed in the wrong number. Easily fixed, just by typing <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">33</span></code>.   While this might seem like a silly example, I should stress that this kind of thing actually happens a lot. Real world data sets are often riddled with stupid errors, especially when someone had to type something into a computer at some point. In fact, there’s actually a name for this phase of data analysis, since in practice it can waste a huge chunk of our time: <strong><em>data cleaning</em></strong>. It involves searching for typos, missing data and all sorts of other obnoxious errors in raw data files.</p>
 <p>What about the real data? There is still that <em>other</em> extreme point at 116. Does the value of 116 constitute a funny observation not? Possibly. As it turns out the game in question was Fremantle v Hawthorn, and was played in round 21 (the second last home and away round of the season). Fremantle had already qualified for the final series and for them the outcome of the game was irrelevant; and the team decided to rest several of their star players. As a consequence, Fremantle went into the game severely underpowered. In contrast, Hawthorn had started the season very poorly but had ended on a massive winning streak, and for them a win could secure a place in the finals. With the game played on Hawthorn’s home turf<a class="footnote-reference brackets" href="#note7" id="id8">6</a> and with so many unusual factors at play, it is perhaps no surprise that Hawthorn annihilated Fremantle by 116 points. Two weeks later, however, the two teams met again in an elimination final on Fremantle’s home ground, and Fremantle won comfortably by 30 points.<a class="footnote-reference brackets" href="#note8" id="id9">7</a></p>
 <p>So, should we exclude the game from subsequent analyses? If this were a psychology experiment rather than an AFL season, I’d be quite tempted to exclude it because there’s pretty strong evidence that Fremantle weren’t really trying very hard: and to the extent that my research question is based on an assumption that participants are genuinely trying to do the task. On the other hand, in a lot of studies we’re actually interested in seeing the full range of possible behaviour, and that includes situations where people decide not to try very hard: so excluding that observation would be a bad idea. In the context of the AFL data, a similar distinction applies. If I’d been trying to make tips about who would perform well in the finals, I would have (and in fact did) disregard the Round 21 massacre, because it’s way too misleading. On the other hand, if my interest is solely in the home and away season itself, I think it would be a shame to throw away information pertaining to one of the most distinctive (if boring) games of the year. In other words, the decision about whether to include outliers or exclude them depends heavily on <em>why</em> you think the data look they way they do, and what you want to use the data <em>for</em>. Statistical tools can provide an automatic method for suggesting candidates for deletion, but you really need to exercise good judgment here. As I’ve said before, Python is a mindless automaton. It doesn’t watch the footy, so it lacks the broader context to make an informed decision. You are <em>not</em> a mindless automaton, so you should exercise judgment: if the outlier looks legitimate to you, then keep it. In any case, let’s return to our discussion of how to draw boxplots.</p>
+</div>
+<div class="section" id="drawing-multiple-boxplots">
+<span id="multipleboxplots"></span><h3><span class="section-number">2.3.3. </span>Drawing multiple boxplots<a class="headerlink" href="#drawing-multiple-boxplots" title="Permalink to this headline">¶</a></h3>
+<p>One last thing. What if you want to draw multiple boxplots at once? Suppose, for instance, I wanted separate boxplots showing the AFL margins not just for 2010, but for every year between 1987 and 2010. To do that, the first thing we’ll have to do is find the data. These are stored in the <code class="docutils literal notranslate"><span class="pre">aflsmall2.csv</span></code> file. So let’s load it and take a quick peek at what’s inside:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>margin</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>33</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>59</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>45</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>91</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>39</td>
+      <td>1987</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">df.head</span></code> we can peek at the first few rows of the dataframe, and see that indeed it has one column with game margins, and another column with the year the game was played. The first five are indeed from 1987. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> also lets us peek at the <em>last</em> few rows, with <code class="docutils literal notranslate"><span class="pre">tail</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>margin</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4291</th>
+      <td>5</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>4292</th>
+      <td>41</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>4293</th>
+      <td>24</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>4294</th>
+      <td>0</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>4295</th>
+      <td>56</td>
+      <td>2010</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>and these games are from 2010, also as we might expect, so everything looks good. Incidently, these data are arranged in what is known as <em>long</em> format, with all the margins in one column, and a second column indicating the year. This is as opposed to <em>wide</em> format, in which there would be a separate column for every year. We’ll return to these in following chapter on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">data wrangling</span></a>.</p>
+<p>To plot these data, we just need to call up <code class="docutils literal notranslate"><span class="pre">boxplot()</span></code> once again, give <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> the name of our dataframe, set the x-axis to “year” and the y-axis to “margin”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;year&#39;, ylabel=&#39;margin&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_44_1.png" src="_images/03.02-drawing_graphs_44_1.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
