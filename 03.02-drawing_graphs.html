@@ -725,6 +725,73 @@
 </div>
 <p>When you look at this plot, this is how you should interpret it: the line in the middle of the box is the median; the box itself spans the range from the 25th percentile to the 75th percentile, and the “whiskers” extend to 1.5 times the interquartile range. The two points above the top whisker represent “extreme values”, that is, points that fall outside the range of the whiskers.</p>
 <p>One small note on the code above: since we are now drawing from data in a dataframe, rather then simply using lists as our data, like we did for the first scatterplots with the <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> data, there are two changes to the way we tell <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> to make a plot. First, we specify the dataframe that stores the data by writing <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">=</span> <span class="pre">afl_margins</span></code>. Second, we told <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> which column in <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> to look in for the data by using the name of the column in quotes: <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">'afl.margins'</span></code>.</p>
+<p>In the example above, we made a vertical boxplot, which in this case resulted in a fairly squat-looking boxplot. As an alternative, we could display the data on the x-axis instead, which will result in a horizontal boxplot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;afl.margins&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_33_1.png" src="_images/03.02-drawing_graphs_33_1.png" />
+</div>
+</div>
+<p>Because the boxplot automatically (unless you change the range argument) separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">177</span><span class="p">]</span> <span class="o">=</span> <span class="mi">327</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;afl.margins&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_35_1.png" src="_images/03.02-drawing_graphs_35_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>177</th>
+      <td>327</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Aha! Game 177 had a margin of 327. Now, in this case this should come as no surprise to me, since I added this data point myself with the code <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">327</span></code> above. But if we play along for a minute, then a game with a margin of 327 definitely doesn’t sound right. So then I go back to the original data source (the internet!) and I discover that the actual margin of that game was 33 points. Now it’s pretty clear what happened. Someone must have typed in the wrong number. Easily fixed, just by typing <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">33</span></code>.   While this might seem like a silly example, I should stress that this kind of thing actually happens a lot. Real world data sets are often riddled with stupid errors, especially when someone had to type something into a computer at some point. In fact, there’s actually a name for this phase of data analysis, since in practice it can waste a huge chunk of our time: <strong><em>data cleaning</em></strong>. It involves searching for typos, missing data and all sorts of other obnoxious errors in raw data files.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
