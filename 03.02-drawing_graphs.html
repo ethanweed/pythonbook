@@ -349,6 +349,28 @@
   <a class="reference internal nav-link" href="#an-introduction-to-plotting">
    2.2. An introduction to plotting
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-little-color">
+     2.2.1. A little color
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#title-and-axis-labels">
+     2.2.2. Title and axis labels
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#font-size-and-related-matters">
+     2.2.3. Font size and related matters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#open-the-box">
+     2.2.4. Open the box
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -402,6 +424,8 @@
 <img alt="_images/03.02-drawing_graphs_7_1.png" src="_images/03.02-drawing_graphs_7_1.png" />
 </div>
 </div>
+<div class="section" id="a-little-color">
+<h3><span class="section-number">2.2.1. </span>A little color<a class="headerlink" href="#a-little-color" title="Permalink to this headline">¶</a></h3>
 <p>Already, we can see <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>’s opinion expressing itself in a variety of subtle ways. For example, it has chosen a size and color for the points in the scatterplot. These seem a little small to me, and while blue is a great color, I am partial to orange. So..</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -416,8 +440,11 @@
 <img alt="_images/03.02-drawing_graphs_9_1.png" src="_images/03.02-drawing_graphs_9_1.png" />
 </div>
 </div>
-<p>This is great, but a good figure should have a title, and axis labels. You would think this was straightforward. After all, shouldn’t all figures have these things by default? After all, we’re not making <a class="reference external" href="https://twitter.com/jsnell/status/481863414180896769">Bezos charts</a> here, right? It’s not quite as easy as you’d expect, but it’s not so bad, either. The easiest way to add titles and labels to your figure is to first put your figure into a variable, and then <code class="docutils literal notranslate"><span class="pre">set</span></code> the title and axis labels of that variable. Sounds complicated, but it’s ok, once you get used to it. By convention, the figure is called <code class="docutils literal notranslate"><span class="pre">ax</span></code>.<a class="footnote-reference brackets" href="#note4" id="id4">4</a></p>
-<p>Now that the figure is safely stored inside of <code class="docutils literal notranslate"><span class="pre">ax</span></code>, we can use <code class="docutils literal notranslate"><span class="pre">.set</span></code> to set the title and axis labels:</p>
+</div>
+<div class="section" id="title-and-axis-labels">
+<h3><span class="section-number">2.2.2. </span>Title and axis labels<a class="headerlink" href="#title-and-axis-labels" title="Permalink to this headline">¶</a></h3>
+<p>This is great, but a good figure should have a title, and axis labels. You would think this was straightforward. After all, shouldn’t all figures have these things by default? After all, we’re not making <a class="reference external" href="https://twitter.com/jsnell/status/481863414180896769">Bezos charts</a> here, right? It’s not quite as easy as you’d expect, but it’s not so bad, either. The easiest way to add titles and labels to your figure is to first put your figure into a variable, and then <code class="docutils literal notranslate"><span class="pre">set</span></code> the title and axis labels of that variable. Sounds complicated, but it’s ok, once you get used to it. By convention, the variable for storing the figure is called <code class="docutils literal notranslate"><span class="pre">ax</span></code>.<a class="footnote-reference brackets" href="#note4" id="id4">4</a></p>
+<p>Once the figure is safely stored inside of <code class="docutils literal notranslate"><span class="pre">ax</span></code><a class="footnote-reference brackets" href="#note5" id="id5">5</a>, we can use <code class="docutils literal notranslate"><span class="pre">.set</span></code> to set the title and axis labels:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
@@ -434,6 +461,49 @@
 <img alt="_images/03.02-drawing_graphs_11_1.png" src="_images/03.02-drawing_graphs_11_1.png" />
 </div>
 </div>
+</div>
+<div class="section" id="font-size-and-related-matters">
+<h3><span class="section-number">2.2.3. </span>Font size and related matters<a class="headerlink" href="#font-size-and-related-matters" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have a title and axis labels, it would be nice to change the size of the text. At least, my weak eyes wouldn’t mind bumping it up a little bit. As always, there is more than one way to do this, but a simple approach is to use what <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> calls “contexts”. Remember, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is all about providing a quick way to make an attractive graph without messing around too much with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. So while you <em>can</em> dive in and set everything manually, using the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> guts that <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> tidly covers over, the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> way is to just to just say “Hey, I want to make a plot for my presentation, please make it look ok.” This is what <code class="docutils literal notranslate"><span class="pre">context</span></code> does. With the <code class="docutils literal notranslate"><span class="pre">context</span></code> command, you tell <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> if your figure is going to remain in a jupyter notebook, or whether it is for some other purpose. Your options are: “paper”, “notebook”, “talk”, and “poster”. You can then supply <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> with a <code class="docutils literal notranslate"><span class="pre">font_scale</span></code>, which is basically a number telling <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> how much larger than the default font size (1) you would like your text to be. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> then adjusts things and tries to make it work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;My first plot&#39;</span><span class="p">,</span> 
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;My x-axis&#39;</span><span class="p">,</span> 
+       <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;My y-axis&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 1.0, &#39;My first plot&#39;),
+ Text(0.5, 0, &#39;My x-axis&#39;),
+ Text(0, 0.5, &#39;My y-axis&#39;)]
+</pre></div>
+</div>
+<img alt="_images/03.02-drawing_graphs_13_1.png" src="_images/03.02-drawing_graphs_13_1.png" />
+</div>
+</div>
+<p>Notice that not only did <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> change the font size for the title and labels, but it also increased the size of the tick-marks on the axes, and changed the size of the numbers on the axes as well, with the added consequence that while we used to have numbers from one to seven on the x-axis, we now only have numbers 2, 4, and 6. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has opinions about what looks good, remember, and its opinions might or might now suit your needs. Most of the time, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> will make reasonable decisions, and will make you a decent-looking plot, but you do need to keep an eye on what it is up to. Luckily, if it makes a choice that you don’t like, you can always dip down into <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> and touch things up to get them just the way you want. Going through all the options in <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> is beyond the scope of this book though, and there are many good resources out there to help you; mostly if you run into a problem, you just need to do some internet searching, and you will find someone who had a similar problem, and received good (and possibly contradictory!) advice on sites like <a class="reference external" href="https://stackoverflow.com">stackoverflow</a>. Sooner or later, this is where all coders end up in their search for answers to coding problems. Goodness knows this Python translation of Learning Statistics with R would never have happened without copious consulation of stackoverflow and similar sites.</p>
+</div>
+<div class="section" id="open-the-box">
+<h3><span class="section-number">2.2.4. </span>Open the box<a class="headerlink" href="#open-the-box" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has quite more customization options that you will probably want to know about, but many of them are more applicable to more complex figures, so I’ll wait to mention them until later. For now, though, I just want to show you one more option: removing the top and right lines of the box that <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> draws around the data. To me, these make the data feel cramped, and I’d rather give them room to breathe and flourish. So I like to use the <code class="docutils literal notranslate"><span class="pre">despine</span></code> command to remove these, and give the data a little elbow room. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has its opinions, and I have mine!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;My first plot&#39;</span><span class="p">,</span> 
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;My x-axis&#39;</span><span class="p">,</span> 
+       <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;My y-axis&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">top</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_16_0.png" src="_images/03.02-drawing_graphs_16_0.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -448,7 +518,11 @@
 <dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">ax</span></code> for “axis”, I assume. I think this name harkens back to a different programming language, MATLAB, which inspired <code class="docutils literal notranslate"><span class="pre">pyplot</span></code>, which is part of <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, which is… well, anyway… it’s often called <code class="docutils literal notranslate"><span class="pre">ax</span></code>, ok?</p>
 </dd>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>Actually, you can also apply <code class="docutils literal notranslate"><span class="pre">set</span></code> directly to the initial command creating the figure, like this: <code class="docutils literal notranslate"><span class="pre">sns.scatterplot(x</span> <span class="pre">=</span> <span class="pre">x,</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">fibonacci,</span> <span class="pre">s</span> <span class="pre">=</span> <span class="pre">400,</span> <span class="pre">color</span> <span class="pre">=</span> <span class="pre">'orange').set(title</span> <span class="pre">=</span> <span class="pre">'My</span> <span class="pre">first</span> <span class="pre">plot',</span> <span class="pre">xlabel</span> <span class="pre">=</span> <span class="pre">'My</span> <span class="pre">x-axis',</span> <span class="pre">ylabel='My</span> <span class="pre">y-axis')</span></code> but most of the time when preparing a figure it is useful to store it as a variable, so you might as well get in the habit now.</p>
+</dd>
 </dl>
+</div>
 </div>
 </div>
 
