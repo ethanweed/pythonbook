@@ -392,6 +392,18 @@
      2.3.3. Drawing multiple boxplots
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alternatives-to-boxplots">
+     2.3.4. Alternatives to boxplots
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#a-word-of-caution-on-violin-plots">
+       2.3.4.1. A word of caution on violin plots
+      </a>
+     </li>
+    </ul>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -953,7 +965,87 @@
 <img alt="_images/03.02-drawing_graphs_44_0.png" src="_images/03.02-drawing_graphs_44_0.png" />
 </div>
 </div>
-<p>Clearly, there are things we could do to touch this figure up. gives a sense of why it’s sometimes useful to choose boxplots instead of histograms. Even before taking the time to turn this basic output into something more readable, it’s possible to get a good sense of what the data look like from year to year without getting overwhelmed with too much detail. Now imagine what would have happened if I’d tried to cram 24 histograms into this space: no chance at all that the reader is going to learn anything useful.</p>
+<p>Clearly, there are things we could do to touch this figure up, but at least it gives a sense of why it’s sometimes useful to choose boxplots instead of histograms. Even before taking the time to turn this basic output into something more readable, it’s possible to get a good sense of what the data look like from year to year without getting overwhelmed with too much detail. Now imagine what would have happened if I’d tried to cram 24 histograms into this space: no chance at all that the reader is going to learn anything useful.</p>
+</div>
+<div class="section" id="alternatives-to-boxplots">
+<h3><span class="section-number">2.3.4. </span>Alternatives to boxplots<a class="headerlink" href="#alternatives-to-boxplots" title="Permalink to this headline">¶</a></h3>
+<p>Boxplots are a very effective way to summarize data visually, but there are other methods that are worth pointing out. In the figure below, the same data (AFL game margins in the years 2005-2010) represented in three different ways. In the first panel, we see the boxplot, which we already know and love. The middle panel simply plots the data points. All of them. This approach, <code class="docutils literal notranslate"><span class="pre">stripplot</span></code>, shifts (or, as we say in the scientific plotting business, “jitters”) the points slightly on the x-axis, so that they don’t overlap each other. In the <code class="docutils literal notranslate"><span class="pre">stripplot</span></code>, we can’t see exactly where the median or quartiles lie, for instance, like we can in the boxplot, but we can actually see all the data, which I tend to be in favor of. To me, in the boxplots, it sort of looks like all the data points lie inside the box, even though I know that of course this is not true. Then again, although the random jitter insures that the points don’t all lie on top of each other, it is still a little difficult to get a feeling for how where most of the points lie. The third plot, in the panel to the right, attempts to solve this problem. This is a <code class="docutils literal notranslate"><span class="pre">violinplot</span></code>, in which the width of the colored area indicates the <em>density</em> of data points. Thus, by looking at where the figure is wide and where it is thin, we can get an intuitive feeling for where most of the points lie.</p>
+<div class="section" id="a-word-of-caution-on-violin-plots">
+<h4><span class="section-number">2.3.4.1. </span>A word of caution on violin plots<a class="headerlink" href="#a-word-of-caution-on-violin-plots" title="Permalink to this headline">¶</a></h4>
+<p>An important point to stress is that while every part of the boxplot and stripplot represent exact features of the data, the shape of the violinplot is an estimate (a kernal density estimate, if you want to get techinical), that attempts to show the underlying distribution that produced the data. This will of course always be a best guess, since the true distribution is unknowable, in most cases. Because violin plots show distribution estimates, they cannot be interpreted in exactly the same way as, say, a boxplot. A glance at the y-axes in the figure below shows why. While the boxplots and strip plots share an identical y axis, the violin plot’s y-axis is different. If you look at the bottom, for instance, you will see that it extends below zero, and a winning margin of e.g. -1 is nonsensical. But this is because kernal density estimators don’t know anything about how games are decided in the Australian Football League. They just look at the data, and make a best guess about the distribution that these data were sampled from. So violin plots are very informative, especially in cases where they actually are violin-shaped, indicating that the data may come from a distribution with more than one peak, you have to remember what you are looking at, and not confuse them with curvy boxplots. Perhaps to alleviate this problem, the default setting in <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is to draw a little mini boxplot inside the violin plot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2004</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_48_0.png" src="_images/03.02-drawing_graphs_48_0.png" />
+</div>
+</div>
+<p>One final alternative to the plain boxplot that I will show you here is to <em>overlay</em> a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the left is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;boxprops&#39;</span><span class="p">:{</span><span class="s1">&#39;facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;medianprops&#39;</span><span class="p">:{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;whiskerprops&#39;</span><span class="p">:{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;capprops&#39;</span><span class="p">:{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Where are my points?&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Where are my outliers?&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Is this better?&quot;</span><span class="p">)</span>
+
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.02-drawing_graphs_50_0.png" src="_images/03.02-drawing_graphs_50_0.png" />
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="scatterplots">
@@ -1047,7 +1139,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_49_0.png" src="_images/03.02-drawing_graphs_49_0.png" />
+<img alt="_images/03.02-drawing_graphs_54_0.png" src="_images/03.02-drawing_graphs_54_0.png" />
 </div>
 </div>
 <p>This does show a nice clear relationship between hours of sleep and grumpiness, but it would be nice to make that relationship even clearer with a line through the middle of the points. This can be easily done by replacing <code class="docutils literal notranslate"><span class="pre">scatterplot</span></code> with <code class="docutils literal notranslate"><span class="pre">regplot</span></code>. Everything else stays the same:</p>
@@ -1058,9 +1150,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_51_0.png" src="_images/03.02-drawing_graphs_51_0.png" />
+<img alt="_images/03.02-drawing_graphs_56_0.png" src="_images/03.02-drawing_graphs_56_0.png" />
 </div>
 </div>
+<p>In this case, the line fits the data quite closely. In fact, we could easily see the relationship even without the line. Nevertheless, it is still just a model: the <em>exact</em>, true relationship between hours of sleep and grumpiness level is probably unknowable, so the slope of the line represents a best guess, given the data available. This uncertainty is represented by the faint translucent shaded area around the line. This area represents the <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> of the model. In this case, the shaded area is quite narrow because the model (the line) does a pretty good job of representing the data. In other cases, this shaded area will be larger.</p>
 </div>
 <div class="section" id="bar-graphs">
 <span id="bargraphs"></span><h2><span class="section-number">2.5. </span>Bar graphs<a class="headerlink" href="#bar-graphs" title="Permalink to this headline">¶</a></h2>
@@ -1146,12 +1239,12 @@
     </tr>
     <tr>
       <th>4</th>
-      <td>North Melbourne</td>
+      <td>Melbourne</td>
       <td>28</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Melbourne</td>
+      <td>North Melbourne</td>
       <td>28</td>
     </tr>
     <tr>
@@ -1161,17 +1254,17 @@
     </tr>
     <tr>
       <th>7</th>
-      <td>Sydney</td>
-      <td>26</td>
-    </tr>
-    <tr>
-      <th>8</th>
       <td>Carlton</td>
       <td>26</td>
     </tr>
     <tr>
-      <th>9</th>
+      <th>8</th>
       <td>Adelaide</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Sydney</td>
       <td>26</td>
     </tr>
     <tr>
@@ -1196,12 +1289,12 @@
     </tr>
     <tr>
       <th>14</th>
-      <td>Richmond</td>
+      <td>Fremantle</td>
       <td>6</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>Fremantle</td>
+      <td>Richmond</td>
       <td>6</td>
     </tr>
   </tbody>
@@ -1216,7 +1309,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_56_0.png" src="_images/03.02-drawing_graphs_56_0.png" />
+<img alt="_images/03.02-drawing_graphs_62_0.png" src="_images/03.02-drawing_graphs_62_0.png" />
 </div>
 </div>
 <p>Lovely, right? Pretty colors! Unfortunately, the team’s names are entirely illegible. Sometimes people try to deal with this sort of problem by rotating the x-axis tick labels 45 degrees so that they don’t run all over each other. That is an option, but an easy fix to this problem that you should always keep in mind is to simply switch the x an y axes:</p>
@@ -1227,7 +1320,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_58_0.png" src="_images/03.02-drawing_graphs_58_0.png" />
+<img alt="_images/03.02-drawing_graphs_64_0.png" src="_images/03.02-drawing_graphs_64_0.png" />
 </div>
 </div>
 <p>There, now isn’t that better? I haven’t been touching up these plots much in this chapter, because I want to focus on how easy is can be to generate nice simple plots, but in this case that y-axis label is just staring me in the face, now that I have turned the bars onto their sides. Normally I would insist that a figure should always have clear axis labels, but presumably, if we are putting this in a paper or presentation, the audience already knows that we are talking about AFL teams, and we could also put this info in the title instead. So let’s do a little makeover:</p>
@@ -1241,14 +1334,14 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_60_0.png" src="_images/03.02-drawing_graphs_60_0.png" />
+<img alt="_images/03.02-drawing_graphs_66_0.png" src="_images/03.02-drawing_graphs_66_0.png" />
 </div>
 </div>
 <p>Now we’re talking! A nice clear figure, that is pretty and easy to read. Yum!</p>
 </div>
 <div class="section" id="saving-image-files">
 <span id="saveimage"></span><h2><span class="section-number">2.6. </span>Saving image files<a class="headerlink" href="#saving-image-files" title="Permalink to this headline">¶</a></h2>
-<p>Hold on, you might be thinking. What’s the good of being able to draw pretty pictures in Python if I can’t save them and send them to friends to brag about how awesome my data is? How do I save the picture? A (fairly) easy solution is to use the <code class="docutils literal notranslate"><span class="pre">savefig</span></code> command from the <code class="docutils literal notranslate"><span class="pre">pyplot</span></code> library in <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. I say fairly, because without a few tweaks, it may give you less than desirable results. In particular, I would like to draw your attention to the arguements <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> in the last line of the code below. Without setting <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> to “white” and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> to “tight”, the image is saved with a dark background outside of the main area of the figure, and most of the team names get cut off on the margins. Why these settings aren’t the default I can’t imagine, but there is probably some good reason. In any case, using savefig you can save your figure in a variety of formats. Here I have used the .png format.</p>
+<p>Hold on, you might be thinking. What’s the good of being able to draw pretty pictures in Python if I can’t save them and send them to friends to brag about how awesome my data is? How do I save the picture? A (fairly) easy solution is to use the <code class="docutils literal notranslate"><span class="pre">savefig</span></code> command from the <code class="docutils literal notranslate"><span class="pre">pyplot</span></code> library in <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. I say fairly, because without a few tweaks, it may give you less than desirable results. In particular, I would like to draw your attention to the arguements <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> in the last line of the code below. Without setting <code class="docutils literal notranslate"><span class="pre">facecolor</span></code> to “white” and <code class="docutils literal notranslate"><span class="pre">bbox_inches</span></code> to “tight”, the image is saved with a dark background outside of the main area of the figure, and most of the team names get cut off on the margins. Why these settings aren’t the default I can’t imagine, but there is probably some good reason. In any case, using ‘savefig’ you can export your figure in a variety of formats. Here I have used the .png format.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -1265,7 +1358,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_63_0.png" src="_images/03.02-drawing_graphs_63_0.png" />
+<img alt="_images/03.02-drawing_graphs_69_0.png" src="_images/03.02-drawing_graphs_69_0.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
