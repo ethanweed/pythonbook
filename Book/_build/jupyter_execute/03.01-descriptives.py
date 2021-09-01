@@ -571,7 +571,7 @@ for ax in axes:
     ax.set_xlim(-6,6)
     ax.set_ylim(0,25000)
     ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False);
+    ax.spines['top'].set_visible(False)
 
 
 
@@ -759,6 +759,8 @@ One thing to note: just because Python can calculate dozens of different statist
 |Dan's son's hours slept |3.25 |12.07 |8.05  |7.95   |2.07     |3.21 |
 
 [^note11]: Actually, even that table is more than I'd bother with. In practice most people pick *one* measure of central tendency, and *one* measure of variability only.
+
+(correlation)=
 
 ### The strength and direction of a relationship
 

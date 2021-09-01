@@ -355,6 +355,7 @@ LINK TO: https://docs.python.org/2/tutorial/introduction.html
 #  0   1   2   3   4   5   6
 # -6  -5  -4  -3  -2  -1
 
+(indexingdataframes)=
 ### Pulling out the contents of a data frame
 
 Let's take another look at our dataframe. We have created a dataframe called `df`, which contains all of our data for "The Very Exciting Psychology Experiment". Each row contains the data for one participant, so we can see that e.g. the first participant (in row zero, because Python!) was 17 years old, had a score of 12, responded in 3.552 seconds, and was placed in the test group. That's great, but how do we get this information out again? After all, there's no point in storing information if you don't use it, and there's no way to use information if you can't access it. So let's talk a bit about how to pull information out of a data frame. 
