@@ -1130,7 +1130,7 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#age = [60,58,24,26,34,42,31,30,33,2,9]</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">60</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
     <span class="p">})</span>
 
 <span class="n">df</span>
@@ -1162,43 +1162,47 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
   <tbody>
     <tr>
       <th>0</th>
-      <td>1</td>
+      <td>60</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>7</td>
+      <td>58</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>3</td>
+      <td>24</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>4</td>
+      <td>26</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>4</td>
+      <td>34</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>4</td>
+      <td>42</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>2</td>
+      <td>31</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>6</td>
+      <td>30</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>5</td>
+      <td>33</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
     </tr>
   </tbody>
 </table>
@@ -1206,6 +1210,96 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 </div>
 <p>In some situations it can be quite helpful to group these into a smallish number of categories. For example, we could group the data into three broad categories: young (0-20), adult (21-40) and older (41-60). This is a quite coarse-grained classification, and the labels that I’ve attached only make sense in the context of this data set (e.g., viewed more generally, a 42 year old wouldn’t consider themselves as “older”).</p>
 <p>As it happens, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has a convenient method called <code class="docutils literal notranslate"><span class="pre">cut</span></code> for grouping data in this way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">],</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;young&#39;</span><span class="p">,</span> <span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="s1">&#39;older&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>young</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>young</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
