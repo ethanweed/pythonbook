@@ -371,6 +371,11 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-few-more-mathematical-functions-and-operations">
+   3.3. A few more mathematical functions and operations
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -1306,13 +1311,254 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 <li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code>. This is either a vector containing the locations of the breaks separating the categories, or a number indicating how many categories you want.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code>. The labels attached to the categories. This is optional: if you don’t specify this Python will attach a boring label showing the range associated with each category.</p></li>
 </ul>
+<p>In the example above, I made all the decisions myself, but if you want to you can delegate a lot of the choices to Python. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow Python to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>(1.942, 21.333]</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>(1.942, 21.333]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With this command, I’ve asked for three categories, but let Python make the choices for where the boundaries should be. All of the important information can be extracted by looking at the tabulated data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;categories&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>col_0</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>categories</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(1.942, 21.333]</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>(21.333, 40.667]</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>(40.667, 60.0]</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This output takes a little bit of interpretation, but it’s not complicated. What Python has done is determined that the lowest age category should run from 1.94 years up to 21.3 years, the second category should run from 21.3 years to 40.7 years, and so on. These labels are not nearly as easy on the eyes as our “young, adult, and older” categories, so it’s usually a good idea to specify your own, meaningful labels to the categories.</p>
+<p>Before moving on, I should take a moment to talk a little about the mechanics of the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function. Notice that Python has tried to divide the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable into three roughly equal sized bins. Unless you specify the particular breaks you want, that’s what it will do. But suppose you want to divide the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable into three categories of different size, but with approximately identical numbers of people. How would you do that? Well, if that’s the case, then what you want to do is have the breaks correspond to the 0th, 33rd, 66th and 100th percentiles of the data. One way to do this would be to calculate those values using the <code class="docutils literal notranslate"><span class="pre">np.quantile()</span></code> function and then use those quantiles as input to the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function. That’s pretty easy to do, but it does take a couple of lines to type. So instead, the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library has a function called <code class="docutils literal notranslate"><span class="pre">qCut()</span></code> that does exactly this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">33</span><span class="p">,</span> <span class="o">.</span><span class="mi">66</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Notice the difference in the boundaries that the <code class="docutils literal notranslate"><span class="pre">qcut()</span></code> method selects. The first and third categories now span an age range of about 25 years each, whereas the middle category has shrunk to a span of only 6 years. There are some situations where this is genuinely what you want (that’s why I wrote the function!), but in general you should be careful. Usually the numeric variable that you’re trying to cut into categories is already expressed in meaningful units (i.e., it’s interval scale), but if you cut it into unequal bin sizes then it’s often very difficult to attach meaningful interpretations to the resulting categories.</p>
+<p>More generally, regardless of whether you’re using the original <code class="docutils literal notranslate"><span class="pre">cut()</span></code> method or the <code class="docutils literal notranslate"><span class="pre">qcut()</span></code> version, it’s important to take the time to figure out whether or not the resulting categories make any sense at all in terms of your research project. If they don’t make any sense to you as meaningful categories, then any data analysis that uses those categories is likely to be just as meaningless. More generally, in practice I’ve noticed that people have a very strong desire to carve their (continuous and messy) data into a few (discrete and simple) categories; and then run analysis using the categorised data instead of the original one.<a class="footnote-reference brackets" href="#note3" id="id2">2</a> I wouldn’t go so far as to say that this is an inherently bad idea, but it does have some fairly serious drawbacks at times, so I would advise some caution if you are thinking about doing it.</p>
+</div>
+</div>
+<div class="section" id="a-few-more-mathematical-functions-and-operations">
+<span id="mathfunc"></span><h2><span class="section-number">3.3. </span>A few more mathematical functions and operations<a class="headerlink" href="#a-few-more-mathematical-functions-and-operations" title="Permalink to this headline">¶</a></h2>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>The quote comes from <em>Home is the Hangman</em>, published in 1975.]</p>
 </dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>If you’ve read further into the book, and are re-reading this section, then a good example of this would be someone choosing to do an ANOVA using age categories as the grouping variable, instead of running a regression using <code class="docutils literal notranslate"><span class="pre">age</span></code> as a predictor. There are sometimes good reasons for do this: for instance, if the relationship between <code class="docutils literal notranslate"><span class="pre">age</span></code> and your outcome variable is highly non-linear, and you aren’t comfortable with trying to run non-linear regression! However, unless you really do have a good rationale for doing this, it’s best not to. It tends to introduce all sorts of other problems (e.g., the data will probably violate the normality assumption), and you can lose a lot of power.</p>
+</dd>
 </dl>
-</div>
 </div>
 </div>
 
