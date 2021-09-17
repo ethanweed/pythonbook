@@ -52,6 +52,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Basic Programming" href="03.04-basic_programming.html" />
@@ -356,6 +358,18 @@
   <a class="reference internal nav-link" href="#transforming-and-recoding-a-variable">
    3.2. Transforming and recoding a variable
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-transformed-variable">
+     3.2.1. Creating a transformed variable
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cutting-a-numeric-variable-into-categories">
+     3.2.2. Cutting a numeric variable into categories
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -839,12 +853,366 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 </div>
 <div class="section" id="transforming-and-recoding-a-variable">
 <span id="transform"></span><h2><span class="section-number">3.2. </span>Transforming and recoding a variable<a class="headerlink" href="#transforming-and-recoding-a-variable" title="Permalink to this headline">¶</a></h2>
+<p>It’s not uncommon in real world data analysis to find that one of your variables isn’t quite equivalent to the variable that you really want. For instance, it’s often convenient to take a continuous-valued variable (e.g., age) and break it up into a smallish number of categories (e.g., younger, middle, older). At other times, you may need to convert a numeric variable into a different numeric variable (e.g., you may want to analyse at the absolute value of the original variable). In this section I’ll describe a few key tricks that you can make use of to do this.</p>
+<div class="section" id="creating-a-transformed-variable">
+<h3><span class="section-number">3.2.1. </span>Creating a transformed variable<a class="headerlink" href="#creating-a-transformed-variable" title="Permalink to this headline">¶</a></h3>
+<p>The first trick to discuss is the idea of <strong><em>transforming</em></strong> a variable. Taken literally, <em>anything</em> you do to a variable is a transformation, but in practice what it usually means is that you apply a relatively simple mathematical function to the original variable, in order to create new variable that either (a) provides a better way of describing the thing you’re actually interested in or (b) is more closely in agreement with the assumptions of the statistical tests you want to do.  Since – at this stage – I haven’t talked about statistical tests or their assumptions, I’ll show you an example based on the first case.</p>
+<p>To keep the explanation simple, the variable we’ll try to transform isn’t inside a data frame, though in real life it almost certainly would be. However, I think it’s useful to start with an example that doesn’t use data frames because it illustrates the fact that you already know how to do variable transformations. To see this, let’s go through an example. Suppose I’ve run a short study in which I ask 10 people a single question:</p>
+<blockquote>
+<div><p>On a scale of 1 (strongly disagree) to 7 (strongly agree), to what extent do you agree with the proposition that “Dinosaurs are awesome”?</p>
+</div></blockquote>
+<p>The data look like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, if you think about it, this isn’t the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there’s a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be <span class="math notranslate nohighlight">\(+3\)</span> (strong agree) and <span class="math notranslate nohighlight">\(-3\)</span> (strong disagree). By recoding the data in this way, it’s a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores. Since these data are in a list, we can use a “list comprehension” to step through each element in the list, and subtract 4 from it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">4</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-3, 3, -1, 0, 0, 0, -2, 2, 1, 1]
+</pre></div>
+</div>
+</div>
+</div>
+<p>If your data is in a <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span></code> rather than a <code class="docutils literal notranslate"><span class="pre">list</span></code>, it is even easier: just subtract 4 from array, and Python takes care of the rest:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="mi">4</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-3,  3, -1,  0,  0,  0, -2,  2,  1,  1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>One reason why it might be useful to center the data is that there are a lot of situations where you might prefer to analyse the <em>strength</em> of the opinion separately from the <em>direction</em> of the opinion. We can do two different transformations on this variable in order to distinguish between these two different concepts. Firstly, to compute an <code class="docutils literal notranslate"><span class="pre">opinion_strength</span></code> variable, we want to take the absolute value of the centred data (using the <code class="docutils literal notranslate"><span class="pre">abs()</span></code> function that we’ve seen previously), like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Secondly, to compute a variable that contains only the direction of the opinion and ignores the strength, we can use the <code class="docutils literal notranslate"><span class="pre">numpy.sign()</span></code> method to do this. This method is really simple: all negative numbers are converted to <span class="math notranslate nohighlight">\(-1\)</span>, all positive numbers are converted to <span class="math notranslate nohighlight">\(1\)</span> and zero stays as <span class="math notranslate nohighlight">\(0\)</span>. So, when we apply <code class="docutils literal notranslate"><span class="pre">numpy.sign()</span></code> to our data we obtain the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="mi">4</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1,  1, -1,  0,  0,  0, -1,  1,  1,  1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’re done. We now have three shiny new variables, all of which are useful transformations of the original likert data. Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. So, we can put our data in a dataframe, in a column called “scores”…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>scores</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>… and then do some calculations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;centered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">4</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;opinion_strength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;centered&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;opinion_direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>scores</th>
+      <th>centered</th>
+      <th>opinion_strength</th>
+      <th>opinion_direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>-3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+      <td>-2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In other words, even though the data are now columns in a dataframe, we can use exactly the same means to calculate new variable. Even better, we can simply create new columns willy-nilly within the same dataframe, so we can keep everything together, all neat and tidy.</p>
+</div>
+<div class="section" id="cutting-a-numeric-variable-into-categories">
+<h3><span class="section-number">3.2.2. </span>Cutting a numeric variable into categories<a class="headerlink" href="#cutting-a-numeric-variable-into-categories" title="Permalink to this headline">¶</a></h3>
+<p>One pragmatic task that arises more often than you’d think is the problem of cutting a numeric variable up into discrete categories. For instance, suppose I’m interested in looking at the age distribution of people at a social gathering:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#age = [60,58,24,26,34,42,31,30,33,2,9]</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In some situations it can be quite helpful to group these into a smallish number of categories. For example, we could group the data into three broad categories: young (0-20), adult (21-40) and older (41-60). This is a quite coarse-grained classification, and the labels that I’ve attached only make sense in the context of this data set (e.g., viewed more generally, a 42 year old wouldn’t consider themselves as “older”).</p>
+<p>As it happens, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has a convenient method called <code class="docutils literal notranslate"><span class="pre">cut</span></code> for grouping data in this way:</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>The quote comes from <em>Home is the Hangman</em>, published in 1975.]</p>
 </dd>
 </dl>
+</div>
 </div>
 </div>
 
