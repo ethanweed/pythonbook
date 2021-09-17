@@ -52,6 +52,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Basic Programming" href="03.04-basic_programming.html" />
@@ -334,6 +336,50 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tabulating-and-cross-tabulating-data">
+   3.1. Tabulating and cross-tabulating data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#converting-a-table-of-counts-to-a-table-of-proportions">
+     3.1.1. Converting a table of counts to a table of proportions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transforming-and-recoding-a-variable">
+   3.2. Transforming and recoding a variable
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-transformed-variable">
+     3.2.1. Creating a transformed variable
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cutting-a-numeric-variable-into-categories">
+     3.2.2. Cutting a numeric variable into categories
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-few-more-mathematical-functions-and-operations">
+   3.3. A few more mathematical functions and operations
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -344,6 +390,1176 @@
                 
   <div class="section" id="data-wrangling">
 <span id="datawrangling"></span><h1><span class="section-number">3. </span>Data Wrangling<a class="headerlink" href="#data-wrangling" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p><em>The garden of life never seems to confine itself to the plots philosophers have
+laid out for its convenience. Maybe a few more tractors would do the trick.</em></p>
+<p>–Roger Zelazny <a class="footnote-reference brackets" href="#note1" id="id1">1</a></p>
+</div></blockquote>
+<p>This is a somewhat strange chapter, even by my standards. My goal in this chapter is to talk a bit more honestly about the realities of working with data than you’ll see anywhere else in the book. The problem with real world data sets is that they are <em>messy</em>. Very often the data file that you start out with doesn’t have the variables stored in the right format for the analysis you want to do. Sometimes might be a lot of missing values in your data set. Sometimes you only want to analyse a subset of the data. Et cetera. In other words, there’s a lot of <strong><em>data manipulation</em></strong> that you need to do, just to get all your data set into the format that you need it. The purpose of this chapter is to provide a basic introduction to all these pragmatic topics. Although the chapter is motivated by the kinds of practical issues that arise when manipulating real data, I’ll stick with the practice that I’ve adopted through most of the book and rely on very small, toy data sets that illustrate the underlying issue. Because this chapter is essentially a collection of “tricks” and doesn’t tell a single coherent story, it may be useful to start with a list of topics:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#freqtables"><span class="std std-ref">Tabulating data</span></a></p></li>
+<li><p><a class="reference internal" href="#transform"><span class="std std-ref">Transforming or recoding a variable</span></a></p></li>
+<li><p><a class="reference internal" href="#mathfunc"><span class="std std-ref">Some useful mathematical functions</span></a></p></li>
+<li><p>Section &#64;ref(subset). Extracting a subset of a vector.</p></li>
+<li><p>Section &#64;ref(subsetdataframe). Extracting a subset of a data frame.</p></li>
+<li><p>Section &#64;ref(sort). Sorting, flipping or merging data sets.</p></li>
+<li><p>Section &#64;ref(reshape). Reshaping a data frame.</p></li>
+<li><p>Section &#64;ref(textprocessing). Manipulating text.</p></li>
+<li><p>Section &#64;ref(importing). Opening data from different file types.</p></li>
+<li><p>Section &#64;ref(coercion). Coercing data from one type to another.</p></li>
+<li><p>Section &#64;ref(datastructures). Other important data types.</p></li>
+<li><p>Section &#64;ref(miscdatahandling). Miscellaneous topics.</p></li>
+</ul>
+<p>As you can see, the list of topics that the chapter covers is pretty broad, and there’s a <em>lot</em> of content there. Even though this is one of the longest and hardest chapters in the book, I’m really only scratching the surface of several fairly different and important topics. My advice, as usual, is to read through the chapter once and try to follow as much of it as you can. Don’t worry too much if you can’t grasp it all at once, especially the later sections. The rest of the book is only lightly reliant on this chapter, so you can get away with just understanding the basics. However, what you’ll probably find is that later on you’ll need to flick back to this chapter in order to understand some of the concepts that I refer to here.</p>
+<div class="section" id="tabulating-and-cross-tabulating-data">
+<span id="freqtables"></span><h2><span class="section-number">3.1. </span>Tabulating and cross-tabulating data<a class="headerlink" href="#tabulating-and-cross-tabulating-data" title="Permalink to this headline">¶</a></h2>
+<p>A very common task when analysing data is the construction of frequency tables, or cross-tabulation of one variable against another. There are several functions that you can use in Python for that purpose.</p>
+<p>Let’s start with a simple example. As the father of a small child, I naturally spend a lot of time watching TV shows like <em>In the Night Garden</em>, and I have transcribed a short section of the dialogue. Let’s make a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe with two variables, <code class="docutils literal notranslate"><span class="pre">speaker</span></code> and <code class="docutils literal notranslate"><span class="pre">utterance</span></code>. When we take a look at the data, it becomes very clear what happened to my sanity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speaker&#39;</span><span class="p">:[</span><span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">],</span>
+       <span class="s1">&#39;utterance&#39;</span><span class="p">:[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;ee&quot;</span><span class="p">,</span>  <span class="s2">&quot;oo&quot;</span><span class="p">,</span>  <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">]}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">,</span><span class="s1">&#39;utterance&#39;</span><span class="p">])</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>speaker</th>
+      <th>utterance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>tombliboo</td>
+      <td>ee</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>tombliboo</td>
+      <td>oo</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the <code class="docutils literal notranslate"><span class="pre">crosstab</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code> provides an easy way to do this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>col_0</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>speaker</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The output here tells us on the first line that what we’re looking at is a tabulation of the speaker variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it’s a frequency table. Notice that we set the argument <code class="docutils literal notranslate"><span class="pre">columns</span></code> to “count”. If instead we want to cross-tabulate the speakers with the utterances, we can set <code class="docutils literal notranslate"><span class="pre">columns</span></code> to the “utterances” column in the dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;utterance&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>utterance</th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>speaker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="converting-a-table-of-counts-to-a-table-of-proportions">
+<h3><span class="section-number">3.1.1. </span>Converting a table of counts to a table of proportions<a class="headerlink" href="#converting-a-table-of-counts-to-a-table-of-proportions" title="Permalink to this headline">¶</a></h3>
+<p>The tabulation commands discussed so far all construct a table of raw frequencies: that is, a count of the total number of cases that satisfy certain conditions. However, often you want your data to be organised in terms of proportions rather than counts. This could be as a proportion of the row totals or the column totals. Currently, these are both just called “All”, so let’s first save the output of our crosstab to a variable, and rename the row and column totals to “rowtotals” and “coltotals”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;utterance&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">tabs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">columns</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;rowtotals&#39;</span><span class="p">]</span>
+<span class="n">tabs</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">index</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;coltotals&#39;</span><span class="p">]</span>
+
+<span class="n">tabs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now we can divide the entire frequency table by the totals in each column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">/</span><span class="n">tabs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;coltotals&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The columns sum to one, so we can see that makka-pakka and upsy-daisy each produced 40% of the utterances, while tombliboo only produced 20%. We can also see the proportion of characters associated with each utterance. For instance, whenever the utterance “ee” is made (in this data set), 100% of the time it’s a Tombliboo saying it.</p>
+<p>The procedure to obtain the row-wise proportion, the procedure is slightly different:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">tabs</span><span class="p">[</span><span class="s2">&quot;rowtotals&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>0.1</td>
+      <td>0.4</td>
+      <td>0.1</td>
+      <td>0.4</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Each row now sums to one, but that’s not true for each column. What we’re looking at here is the proportions of utterances made by each character. In other words, 50% of Makka-Pakka’s utterances are “pip”, and the other 50% are “onk”.</p>
+</div>
+</div>
+<div class="section" id="transforming-and-recoding-a-variable">
+<span id="transform"></span><h2><span class="section-number">3.2. </span>Transforming and recoding a variable<a class="headerlink" href="#transforming-and-recoding-a-variable" title="Permalink to this headline">¶</a></h2>
+<p>It’s not uncommon in real world data analysis to find that one of your variables isn’t quite equivalent to the variable that you really want. For instance, it’s often convenient to take a continuous-valued variable (e.g., age) and break it up into a smallish number of categories (e.g., younger, middle, older). At other times, you may need to convert a numeric variable into a different numeric variable (e.g., you may want to analyse at the absolute value of the original variable). In this section I’ll describe a few key tricks that you can make use of to do this.</p>
+<div class="section" id="creating-a-transformed-variable">
+<h3><span class="section-number">3.2.1. </span>Creating a transformed variable<a class="headerlink" href="#creating-a-transformed-variable" title="Permalink to this headline">¶</a></h3>
+<p>The first trick to discuss is the idea of <strong><em>transforming</em></strong> a variable. Taken literally, <em>anything</em> you do to a variable is a transformation, but in practice what it usually means is that you apply a relatively simple mathematical function to the original variable, in order to create new variable that either (a) provides a better way of describing the thing you’re actually interested in or (b) is more closely in agreement with the assumptions of the statistical tests you want to do.  Since – at this stage – I haven’t talked about statistical tests or their assumptions, I’ll show you an example based on the first case.</p>
+<p>To keep the explanation simple, the variable we’ll try to transform isn’t inside a data frame, though in real life it almost certainly would be. However, I think it’s useful to start with an example that doesn’t use data frames because it illustrates the fact that you already know how to do variable transformations. To see this, let’s go through an example. Suppose I’ve run a short study in which I ask 10 people a single question:</p>
+<blockquote>
+<div><p>On a scale of 1 (strongly disagree) to 7 (strongly agree), to what extent do you agree with the proposition that “Dinosaurs are awesome”?</p>
+</div></blockquote>
+<p>The data look like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, if you think about it, this isn’t the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there’s a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be <span class="math notranslate nohighlight">\(+3\)</span> (strong agree) and <span class="math notranslate nohighlight">\(-3\)</span> (strong disagree). By recoding the data in this way, it’s a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores. Since these data are in a list, we can use a “list comprehension” to step through each element in the list, and subtract 4 from it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">4</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-3, 3, -1, 0, 0, 0, -2, 2, 1, 1]
+</pre></div>
+</div>
+</div>
+</div>
+<p>If your data is in a <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span></code> rather than a <code class="docutils literal notranslate"><span class="pre">list</span></code>, it is even easier: just subtract 4 from array, and Python takes care of the rest:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="mi">4</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-3,  3, -1,  0,  0,  0, -2,  2,  1,  1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>One reason why it might be useful to center the data is that there are a lot of situations where you might prefer to analyse the <em>strength</em> of the opinion separately from the <em>direction</em> of the opinion. We can do two different transformations on this variable in order to distinguish between these two different concepts. Firstly, to compute an <code class="docutils literal notranslate"><span class="pre">opinion_strength</span></code> variable, we want to take the absolute value of the centred data (using the <code class="docutils literal notranslate"><span class="pre">abs()</span></code> function that we’ve seen previously), like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Secondly, to compute a variable that contains only the direction of the opinion and ignores the strength, we can use the <code class="docutils literal notranslate"><span class="pre">numpy.sign()</span></code> method to do this. This method is really simple: all negative numbers are converted to <span class="math notranslate nohighlight">\(-1\)</span>, all positive numbers are converted to <span class="math notranslate nohighlight">\(1\)</span> and zero stays as <span class="math notranslate nohighlight">\(0\)</span>. So, when we apply <code class="docutils literal notranslate"><span class="pre">numpy.sign()</span></code> to our data we obtain the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="mi">4</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1,  1, -1,  0,  0,  0, -1,  1,  1,  1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’re done. We now have three shiny new variables, all of which are useful transformations of the original likert data. Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. So, we can put our data in a dataframe, in a column called “scores”…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>scores</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>… and then do some calculations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;centered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">4</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;opinion_strength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;centered&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;opinion_direction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>scores</th>
+      <th>centered</th>
+      <th>opinion_strength</th>
+      <th>opinion_direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>-3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+      <td>-2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In other words, even though the data are now columns in a dataframe, we can use exactly the same means to calculate new variable. Even better, we can simply create new columns willy-nilly within the same dataframe, so we can keep everything together, all neat and tidy.</p>
+</div>
+<div class="section" id="cutting-a-numeric-variable-into-categories">
+<h3><span class="section-number">3.2.2. </span>Cutting a numeric variable into categories<a class="headerlink" href="#cutting-a-numeric-variable-into-categories" title="Permalink to this headline">¶</a></h3>
+<p>One pragmatic task that arises more often than you’d think is the problem of cutting a numeric variable up into discrete categories. For instance, suppose I’m interested in looking at the age distribution of people at a social gathering:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#age = [60,58,24,26,34,42,31,30,33,2,9]</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">60</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In some situations it can be quite helpful to group these into a smallish number of categories. For example, we could group the data into three broad categories: young (0-20), adult (21-40) and older (41-60). This is a quite coarse-grained classification, and the labels that I’ve attached only make sense in the context of this data set (e.g., viewed more generally, a 42 year old wouldn’t consider themselves as “older”).</p>
+<p>As it happens, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has a convenient method called <code class="docutils literal notranslate"><span class="pre">cut</span></code> for grouping data in this way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">],</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;young&#39;</span><span class="p">,</span> <span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="s1">&#39;older&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>older</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>adult</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>young</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>young</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Note that there are four numbers in the <code class="docutils literal notranslate"><span class="pre">bins</span></code> argument, but only three labels in the <code class="docutils literal notranslate"><span class="pre">labels</span></code> argument; this is because the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function requires that you specify the <em>edges</em> of the categories rather than the mid-points. In any case, now that we’ve done this, we can use the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function to assign each observation to one of these three categories. There are several arguments to the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function, but the three that we need to care about are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>. The variable that needs to be categorised.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code>. This is either a vector containing the locations of the breaks separating the categories, or a number indicating how many categories you want.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code>. The labels attached to the categories. This is optional: if you don’t specify this Python will attach a boring label showing the range associated with each category.</p></li>
+</ul>
+<p>In the example above, I made all the decisions myself, but if you want to you can delegate a lot of the choices to Python. For instance, if you want you can specify the <em>number</em> of categories you want, rather than giving explicit ranges for them, and you can allow Python to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>(40.667, 60.0]</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>(21.333, 40.667]</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>(1.942, 21.333]</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>(1.942, 21.333]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With this command, I’ve asked for three categories, but let Python make the choices for where the boundaries should be. All of the important information can be extracted by looking at the tabulated data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;categories&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>col_0</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>categories</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(1.942, 21.333]</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>(21.333, 40.667]</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>(40.667, 60.0]</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This output takes a little bit of interpretation, but it’s not complicated. What Python has done is determined that the lowest age category should run from 1.94 years up to 21.3 years, the second category should run from 21.3 years to 40.7 years, and so on. These labels are not nearly as easy on the eyes as our “young, adult, and older” categories, so it’s usually a good idea to specify your own, meaningful labels to the categories.</p>
+<p>Before moving on, I should take a moment to talk a little about the mechanics of the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function. Notice that Python has tried to divide the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable into three roughly equal sized bins. Unless you specify the particular breaks you want, that’s what it will do. But suppose you want to divide the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable into three categories of different size, but with approximately identical numbers of people. How would you do that? Well, if that’s the case, then what you want to do is have the breaks correspond to the 0th, 33rd, 66th and 100th percentiles of the data. One way to do this would be to calculate those values using the <code class="docutils literal notranslate"><span class="pre">np.quantile()</span></code> function and then use those quantiles as input to the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function. That’s pretty easy to do, but it does take a couple of lines to type. So instead, the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library has a function called <code class="docutils literal notranslate"><span class="pre">qCut()</span></code> that does exactly this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">33</span><span class="p">,</span> <span class="o">.</span><span class="mi">66</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>60</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>58</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>42</td>
+      <td>(33.6, 60.0]</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>31</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>30</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>33</td>
+      <td>(27.2, 33.6]</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>9</td>
+      <td>(1.999, 27.2]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Notice the difference in the boundaries that the <code class="docutils literal notranslate"><span class="pre">qcut()</span></code> method selects. The first and third categories now span an age range of about 25 years each, whereas the middle category has shrunk to a span of only 6 years. There are some situations where this is genuinely what you want (that’s why I wrote the function!), but in general you should be careful. Usually the numeric variable that you’re trying to cut into categories is already expressed in meaningful units (i.e., it’s interval scale), but if you cut it into unequal bin sizes then it’s often very difficult to attach meaningful interpretations to the resulting categories.</p>
+<p>More generally, regardless of whether you’re using the original <code class="docutils literal notranslate"><span class="pre">cut()</span></code> method or the <code class="docutils literal notranslate"><span class="pre">qcut()</span></code> version, it’s important to take the time to figure out whether or not the resulting categories make any sense at all in terms of your research project. If they don’t make any sense to you as meaningful categories, then any data analysis that uses those categories is likely to be just as meaningless. More generally, in practice I’ve noticed that people have a very strong desire to carve their (continuous and messy) data into a few (discrete and simple) categories; and then run analysis using the categorised data instead of the original one.<a class="footnote-reference brackets" href="#note2" id="id2">2</a> I wouldn’t go so far as to say that this is an inherently bad idea, but it does have some fairly serious drawbacks at times, so I would advise some caution if you are thinking about doing it.</p>
+</div>
+</div>
+<div class="section" id="a-few-more-mathematical-functions-and-operations">
+<span id="mathfunc"></span><h2><span class="section-number">3.3. </span>A few more mathematical functions and operations<a class="headerlink" href="#a-few-more-mathematical-functions-and-operations" title="Permalink to this headline">¶</a></h2>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The quote comes from <em>Home is the Hangman</em>, published in 1975.]</p>
+</dd>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>If you’ve read further into the book, and are re-reading this section, then a good example of this would be someone choosing to do an ANOVA using age categories as the grouping variable, instead of running a regression using <code class="docutils literal notranslate"><span class="pre">age</span></code> as a predictor. There are sometimes good reasons for do this: for instance, if the relationship between <code class="docutils literal notranslate"><span class="pre">age</span></code> and your outcome variable is highly non-linear, and you aren’t comfortable with trying to run non-linear regression! However, unless you really do have a good rationale for doing this, it’s best not to. It tends to introduce all sorts of other problems (e.g., the data will probably violate the normality assumption), and you can lose a lot of power.</p>
+</dd>
+</dl>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
