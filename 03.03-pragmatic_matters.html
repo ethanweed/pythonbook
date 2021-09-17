@@ -1212,7 +1212,7 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 <p>As it happens, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has a convenient method called <code class="docutils literal notranslate"><span class="pre">cut</span></code> for grouping data in this way:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">],</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;young&#39;</span><span class="p">,</span> <span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="s1">&#39;older&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">],</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;young&#39;</span><span class="p">,</span> <span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="s1">&#39;older&#39;</span><span class="p">])</span>
 <span class="n">df</span>
 </pre></div>
 </div>
@@ -1300,6 +1300,12 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 </table>
 </div></div></div>
 </div>
+<p>Note that there are four numbers in the <code class="docutils literal notranslate"><span class="pre">bins</span></code> argument, but only three labels in the <code class="docutils literal notranslate"><span class="pre">labels</span></code> argument; this is because the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function requires that you specify the <em>edges</em> of the categories rather than the mid-points. In any case, now that we’ve done this, we can use the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function to assign each observation to one of these three categories. There are several arguments to the <code class="docutils literal notranslate"><span class="pre">cut()</span></code> function, but the three that we need to care about are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>. The variable that needs to be categorised.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code>. This is either a vector containing the locations of the breaks separating the categories, or a number indicating how many categories you want.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code>. The labels attached to the categories. This is optional: if you don’t specify this Python will attach a boring label showing the range associated with each category.</p></li>
+</ul>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
