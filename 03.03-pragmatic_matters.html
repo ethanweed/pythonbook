@@ -334,6 +334,33 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tabulating-and-cross-tabulating-data">
+   3.1. Tabulating and cross-tabulating data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#converting-a-table-of-counts-to-a-table-of-proportions">
+     3.1.1. Converting a table of counts to a table of proportions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transforming-and-recoding-a-variable">
+   3.2. Transforming and recoding a variable
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -344,6 +371,481 @@
                 
   <div class="section" id="data-wrangling">
 <span id="datawrangling"></span><h1><span class="section-number">3. </span>Data Wrangling<a class="headerlink" href="#data-wrangling" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p><em>The garden of life never seems to confine itself to the plots philosophers have
+laid out for its convenience. Maybe a few more tractors would do the trick.</em></p>
+<p>–Roger Zelazny <a class="footnote-reference brackets" href="#note1" id="id1">1</a></p>
+</div></blockquote>
+<p>This is a somewhat strange chapter, even by my standards. My goal in this chapter is to talk a bit more honestly about the realities of working with data than you’ll see anywhere else in the book. The problem with real world data sets is that they are <em>messy</em>. Very often the data file that you start out with doesn’t have the variables stored in the right format for the analysis you want to do. Sometimes might be a lot of missing values in your data set. Sometimes you only want to analyse a subset of the data. Et cetera. In other words, there’s a lot of <strong><em>data manipulation</em></strong> that you need to do, just to get all your data set into the format that you need it. The purpose of this chapter is to provide a basic introduction to all these pragmatic topics. Although the chapter is motivated by the kinds of practical issues that arise when manipulating real data, I’ll stick with the practice that I’ve adopted through most of the book and rely on very small, toy data sets that illustrate the underlying issue. Because this chapter is essentially a collection of “tricks” and doesn’t tell a single coherent story, it may be useful to start with a list of topics:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#freqtables"><span class="std std-ref">Tabulating data</span></a></p></li>
+<li><p><a class="reference internal" href="#transform"><span class="std std-ref">Transforming or recoding a variable</span></a></p></li>
+<li><p>Section &#64;ref(mathfunc). Some useful mathematical functions.</p></li>
+<li><p>Section &#64;ref(subset). Extracting a subset of a vector.</p></li>
+<li><p>Section &#64;ref(subsetdataframe). Extracting a subset of a data frame.</p></li>
+<li><p>Section &#64;ref(sort). Sorting, flipping or merging data sets.</p></li>
+<li><p>Section &#64;ref(reshape). Reshaping a data frame.</p></li>
+<li><p>Section &#64;ref(textprocessing). Manipulating text.</p></li>
+<li><p>Section &#64;ref(importing). Opening data from different file types.</p></li>
+<li><p>Section &#64;ref(coercion). Coercing data from one type to another.</p></li>
+<li><p>Section &#64;ref(datastructures). Other important data types.</p></li>
+<li><p>Section &#64;ref(miscdatahandling). Miscellaneous topics.</p></li>
+</ul>
+<p>As you can see, the list of topics that the chapter covers is pretty broad, and there’s a <em>lot</em> of content there. Even though this is one of the longest and hardest chapters in the book, I’m really only scratching the surface of several fairly different and important topics. My advice, as usual, is to read through the chapter once and try to follow as much of it as you can. Don’t worry too much if you can’t grasp it all at once, especially the later sections. The rest of the book is only lightly reliant on this chapter, so you can get away with just understanding the basics. However, what you’ll probably find is that later on you’ll need to flick back to this chapter in order to understand some of the concepts that I refer to here.</p>
+<div class="section" id="tabulating-and-cross-tabulating-data">
+<span id="freqtables"></span><h2><span class="section-number">3.1. </span>Tabulating and cross-tabulating data<a class="headerlink" href="#tabulating-and-cross-tabulating-data" title="Permalink to this headline">¶</a></h2>
+<p>A very common task when analysing data is the construction of frequency tables, or cross-tabulation of one variable against another. There are several functions that you can use in Python for that purpose.</p>
+<p>Let’s start with a simple example. As the father of a small child, I naturally spend a lot of time watching TV shows like <em>In the Night Garden</em>, and I have transcribed a short section of the dialogue. Let’s make a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe with two variables, <code class="docutils literal notranslate"><span class="pre">speaker</span></code> and <code class="docutils literal notranslate"><span class="pre">utterance</span></code>. When we take a look at the data, it becomes very clear what happened to my sanity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speaker&#39;</span><span class="p">:[</span><span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">],</span>
+       <span class="s1">&#39;utterance&#39;</span><span class="p">:[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;ee&quot;</span><span class="p">,</span>  <span class="s2">&quot;oo&quot;</span><span class="p">,</span>  <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">]}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">,</span><span class="s1">&#39;utterance&#39;</span><span class="p">])</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>speaker</th>
+      <th>utterance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>tombliboo</td>
+      <td>ee</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>tombliboo</td>
+      <td>oo</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the <code class="docutils literal notranslate"><span class="pre">crosstab</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code> provides an easy way to do this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>col_0</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>speaker</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The output here tells us on the first line that what we’re looking at is a tabulation of the speaker variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it’s a frequency table. Notice that we set the argument <code class="docutils literal notranslate"><span class="pre">columns</span></code> to “count”. If instead we want to cross-tabulate the speakers with the utterances, we can set <code class="docutils literal notranslate"><span class="pre">columns</span></code> to the “utterances” column in the dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;utterance&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>utterance</th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>speaker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="converting-a-table-of-counts-to-a-table-of-proportions">
+<h3><span class="section-number">3.1.1. </span>Converting a table of counts to a table of proportions<a class="headerlink" href="#converting-a-table-of-counts-to-a-table-of-proportions" title="Permalink to this headline">¶</a></h3>
+<p>The tabulation commands discussed so far all construct a table of raw frequencies: that is, a count of the total number of cases that satisfy certain conditions. However, often you want your data to be organised in terms of proportions rather than counts. This could be as a proportion of the row totals or the column totals. Currently, these are both just called “All”, so let’s first save the output of our crosstab to a variable, and rename the row and column totals to “rowtotals” and “coltotals”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;utterance&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">tabs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">columns</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;rowtotals&#39;</span><span class="p">]</span>
+<span class="n">tabs</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">index</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;coltotals&#39;</span><span class="p">]</span>
+
+<span class="n">tabs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now we can divide the entire frequency table by the totals in each column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">/</span><span class="n">tabs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;coltotals&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The columns sum to one, so we can see that makka-pakka and upsy-daisy each produced 40% of the utterances, while tombliboo only produced 20%. We can also see the proportion of characters associated with each utterance. For instance, whenever the utterance “ee” is made (in this data set), 100% of the time it’s a Tombliboo saying it.</p>
+<p>The procedure to obtain the row-wise proportion, the procedure is slightly different:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">tabs</span><span class="p">[</span><span class="s2">&quot;rowtotals&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ee</th>
+      <th>onk</th>
+      <th>oo</th>
+      <th>pip</th>
+      <th>rowtotals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>makka-pakka</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tombliboo</th>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>upsy-daisy</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>coltotals</th>
+      <td>0.1</td>
+      <td>0.4</td>
+      <td>0.1</td>
+      <td>0.4</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Each row now sums to one, but that’s not true for each column. What we’re looking at here is the proportions of utterances made by each character. In other words, 50% of Makka-Pakka’s utterances are “pip”, and the other 50% are “onk”.</p>
+</div>
+</div>
+<div class="section" id="transforming-and-recoding-a-variable">
+<span id="transform"></span><h2><span class="section-number">3.2. </span>Transforming and recoding a variable<a class="headerlink" href="#transforming-and-recoding-a-variable" title="Permalink to this headline">¶</a></h2>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The quote comes from <em>Home is the Hangman</em>, published in 1975.]</p>
+</dd>
+</dl>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
