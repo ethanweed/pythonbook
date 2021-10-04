@@ -1097,16 +1097,16 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
 Collingwood         28
+North Melbourne     28
 Melbourne           28
 Hawthorn            27
-Sydney              26
 Carlton             26
 Adelaide            26
+Sydney              26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
 Fremantle            6
 Richmond             6
@@ -1273,7 +1273,7 @@ Name: afl.finalists, dtype: int64
 <p>And we’re done. The mean absolute deviation for these five scores is 15.52.</p>
 <p>However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, “mean absolute deviation” and “median absolute deviation” have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you <em><strong>both use the abbreviation MAD even though they mean different things!</strong></em> Sigh. What I’ll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here’s the formula that describes what we just calculated: Now that we have some unambiguous notation, here’s the formula that describes what we just calculated:</p>
 <div class="math notranslate nohighlight">
-\[\mbox{}(ADD) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
+\[ADD\mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
 <p>The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that’s pretty tedious. You’d end up with a series of commands that might look like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1434,17 +1434,65 @@ Statsmodels MAD is the median absolute deviation: 35.58245324413445
 </div>
 </div>
 <p>… we end up with a variance of 324.64. Exciting, isn’t it? For the moment, let’s ignore the burning question that you’re all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in Python, because this will reveal something very weird.</p>
-<p>As always, we want to avoid having to type in a whole lot of numbers ourselves.</p>
-<p>and as usual we get the same answer as the one that we got when we did everything by hand. However, I <em>still</em> think that this is too much typing. Fortunately, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a function called <code class="docutils literal notranslate"><span class="pre">var()</span></code> which does calculate variances. So we could also do this…</p>
+<p>As always, we want to avoid having to type in a whole lot of numbers ourselves, and fortunately the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> module provides a function called <code class="docutils literal notranslate"><span class="pre">variance</span></code> which saves us the trouble. And as it happens, we have the values lying around in the variable <code class="docutils literal notranslate"><span class="pre">data</span></code>, which we created in the previous section. With this in mind, we can just calculate the variance of <code class="docutils literal notranslate"><span class="pre">data</span></code> by using the following command</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
-<span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+
+<span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>324.64
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>405
+</pre></div>
+</div>
+</div>
+</div>
+<p>and you get the same… no, wait… you get a completely different answer. That’s just weird. Is Python broken? Is this a typo? Is Dan an idiot?
+As it happens, the answer is no<a class="footnote-reference brackets" href="#note9" id="id11">9</a>. It’s not a typo, and Python is not making a mistake. To get a feel for what’s happening, let’s stop using the tiny data set containing only 5 data points, and switch to the full set of 176 games that we’ve got stored in our  <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> vector. First, let’s calculate the variance by using the formula that I described above:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
+<span class="n">v</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]:</span>
+    <span class="n">squared_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">squared_error</span><span class="p">)</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">var</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>675.9718168904958
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
+
+<span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1">#np.var(data)</span>
+
+<span class="n">afl</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">32</span><span class="o">-</span><span class="mi">100</span><span class="n">cc72e6535</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1">#np.var(data)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> 
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">afl</span>
+
+<span class="ne">NameError</span>: name &#39;afl&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -1490,7 +1538,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 </div>
-<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id11">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <a class="reference internal" href="#fig-aflsd"><span class="std std-numref">Fig. 1.5</span></a>.</p>
+<p>Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn’t have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it’s not exact: it’s actually calculated based on an <em>assumption</em> that the histogram is symmetric and “bell shaped”. <a class="footnote-reference brackets" href="#note9" id="id12">9</a> As you can tell from looking at the AFL winning margins histogram in Figure &#64;ref(fig:histogram1), this isn’t exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in <a class="reference internal" href="#fig-aflsd"><span class="std std-numref">Fig. 1.5</span></a>.</p>
 <div class="figure align-center" id="fig-aflsd">
 <a class="reference internal image-reference" href="_images/figure_2.5_mean_SD.png"><img alt="_images/figure_2.5_mean_SD.png" src="_images/figure_2.5_mean_SD.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1.5 </span><span class="caption-text">An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the “approximately 68% rule” discussed in the main text.</span><a class="headerlink" href="#fig-aflsd" title="Permalink to this image">¶</a></p>
@@ -1549,7 +1597,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="section" id="skew-and-kurtosis">
-<span id="id12"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
+<span id="id13"></span><h2><span class="section-number">1.3. </span>Skew and kurtosis<a class="headerlink" href="#skew-and-kurtosis" title="Permalink to this headline">¶</a></h2>
 <p>There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we’ve been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I’ve actually never seen kurtosis reported in a scientific article to date.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
@@ -1577,12 +1625,12 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_83_1.png" src="_images/03.01-descriptives_83_1.png" />
+<img alt="_images/03.01-descriptives_86_1.png" src="_images/03.01-descriptives_86_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13c407ee0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x133ea0d90&gt;
 </pre></div>
 </div>
 </div>
@@ -1673,7 +1721,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_88_1.png" src="_images/03.01-descriptives_88_1.png" />
+<img alt="_images/03.01-descriptives_91_1.png" src="_images/03.01-descriptives_91_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -2001,8 +2049,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>anxifree</td>
-      <td>no.therapy</td>
+      <td>joyzepam</td>
+      <td>CBT</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2082,10 +2130,10 @@ z = \frac{35 - 17}{5} = 3.6
 <p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>  yet  I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
 <p>To interpret this value, recall the rough heuristic that I provided in the section on <a class="reference internal" href="#sd"><span class="std std-ref">standard deviation</span></a>, in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <span class="math notranslate nohighlight">\(z\)</span> score of 3.6 indicates that I’m very grumpy indeed.</p>
 <p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
-<p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other. <a class="footnote-reference brackets" href="#note10" id="id13">10</a>  I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
+<p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other. <a class="footnote-reference brackets" href="#note10" id="id14">10</a>  I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
 </div>
 <div class="section" id="correlations">
-<span id="id14"></span><h2><span class="section-number">1.6. </span>Correlations<a class="headerlink" href="#correlations" title="Permalink to this headline">¶</a></h2>
+<span id="id15"></span><h2><span class="section-number">1.6. </span>Correlations<a class="headerlink" href="#correlations" title="Permalink to this headline">¶</a></h2>
 <p>Up to this point we have focused entirely on how to construct descriptive statistics for a single variable. What we haven’t done is talked about how to describe the relationships <em>between</em> variables in the data. To do that, we want to talk mostly about the <strong><em>correlation</em></strong> between variables. But first, we need some data.</p>
 <div class="section" id="the-data">
 <h3><span class="section-number">1.6.1. </span>The data<a class="headerlink" href="#the-data" title="Permalink to this headline">¶</a></h3>
@@ -2293,16 +2341,16 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_111_1.png" src="_images/03.01-descriptives_111_1.png" />
+<img alt="_images/03.01-descriptives_114_1.png" src="_images/03.01-descriptives_114_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_111_0.png" src="_images/03.01-descriptives_111_0.png" />
+<img alt="_images/03.01-descriptives_114_0.png" src="_images/03.01-descriptives_114_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.8 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
 </div>
-<p>One thing to note: just because Python can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. <a class="footnote-reference brackets" href="#note11" id="id15">11</a> Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
+<p>One thing to note: just because Python can calculate dozens of different statistics doesn’t mean you should report all of them. If I were writing this up for a report, I’d probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. <a class="footnote-reference brackets" href="#note11" id="id16">11</a> Notice that when I put it into a table, I gave everything “human readable” names. This is always good practice. Notice also that I’m not getting enough sleep. This isn’t good practice, but other parents tell me that it’s standard practice.</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p>variable</p></th>
@@ -2364,7 +2412,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_115_1.png" src="_images/03.01-descriptives_115_1.png" />
+<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
@@ -2391,7 +2439,7 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
+<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -2432,12 +2480,12 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
+<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_121_0.png" src="_images/03.01-descriptives_121_0.png" />
+<img alt="_images/03.01-descriptives_124_0.png" src="_images/03.01-descriptives_124_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.11 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
 </div>
@@ -2456,7 +2504,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 <div class="section" id="calculating-correlations-in-python">
 <h3><span class="section-number">1.6.4. </span>Calculating correlations in Python<a class="headerlink" href="#calculating-correlations-in-python" title="Permalink to this headline">¶</a></h3>
-<p>Calculating correlations in Python can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note12" id="id16">12</a></p>
+<p>Calculating correlations in Python can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note12" id="id17">12</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan.sleep&#39;</span><span class="p">]</span>
@@ -2656,7 +2704,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div></div></div>
 <p class="caption"><span class="caption-number">Fig. 1.12 </span><span class="caption-text">A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.</span><a class="headerlink" href="#table-corr-interpretation" title="Permalink to this image">¶</a></p>
 </div>
-<p>However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is “Anscombe’s Quartet”  <span id="id17">[<span>anscombe1973graphs</span>]</span>, which is a collection of four data sets. Each data set has two variables, an <span class="math notranslate nohighlight">\(X\)</span> and a <span class="math notranslate nohighlight">\(Y\)</span>. For all four data sets the mean value for <span class="math notranslate nohighlight">\(X\)</span> is 9 and the mean for <span class="math notranslate nohighlight">\(Y\)</span> is 7.5. The, standard deviations for all <span class="math notranslate nohighlight">\(X\)</span> variables are almost identical, as are those for the the <span class="math notranslate nohighlight">\(Y\)</span> variables. And in each case the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(r = 0.816\)</span>. You can verify this yourself, like this:</p>
+<p>However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is “Anscombe’s Quartet”  <span id="id18">[<span>anscombe1973graphs</span>]</span>, which is a collection of four data sets. Each data set has two variables, an <span class="math notranslate nohighlight">\(X\)</span> and a <span class="math notranslate nohighlight">\(Y\)</span>. For all four data sets the mean value for <span class="math notranslate nohighlight">\(X\)</span> is 9 and the mean for <span class="math notranslate nohighlight">\(Y\)</span> is 7.5. The, standard deviations for all <span class="math notranslate nohighlight">\(X\)</span> variables are almost identical, as are those for the the <span class="math notranslate nohighlight">\(Y\)</span> variables. And in each case the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(r = 0.816\)</span>. You can verify this yourself, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
@@ -2717,12 +2765,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_136_1.png" src="_images/03.01-descriptives_136_1.png" />
+<img alt="_images/03.01-descriptives_139_1.png" src="_images/03.01-descriptives_139_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_136_0.png" src="_images/03.01-descriptives_136_0.png" />
+<img alt="_images/03.01-descriptives_139_0.png" src="_images/03.01-descriptives_139_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.13 </span><span class="caption-text">Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.</span><a class="headerlink" href="#fig-anscombe" title="Permalink to this image">¶</a></p>
 </div>
@@ -2852,12 +2900,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_143_1.png" src="_images/03.01-descriptives_143_1.png" />
+<img alt="_images/03.01-descriptives_146_1.png" src="_images/03.01-descriptives_146_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_143_0.png" src="_images/03.01-descriptives_143_0.png" />
+<img alt="_images/03.01-descriptives_146_0.png" src="_images/03.01-descriptives_146_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.14 </span><span class="caption-text">The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each dot corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</span><a class="headerlink" href="#fig-rankcorr" title="Permalink to this image">¶</a></p>
 </div>
@@ -2936,7 +2984,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 </div>
-<p>What we’ve just re-invented is <strong><em>Spearman’s rank order correlation</em></strong>, usually denoted <span class="math notranslate nohighlight">\(\rho\)</span> to distinguish it from the Pearson correlation <span class="math notranslate nohighlight">\(r\)</span>. We can calculate Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> using R in two different ways. Firstly we could do it the way I just showed, using the <code class="docutils literal notranslate"><span class="pre">rank()</span></code> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that’s way too much effort to do every time. It’s much easier to just specify the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> method. <a class="footnote-reference brackets" href="#note13" id="id18">13</a> Since we are skipping the extra step of “manually” creating new, ranked variables, we can just operate directly on the dataframe columns:</p>
+<p>What we’ve just re-invented is <strong><em>Spearman’s rank order correlation</em></strong>, usually denoted <span class="math notranslate nohighlight">\(\rho\)</span> to distinguish it from the Pearson correlation <span class="math notranslate nohighlight">\(r\)</span>. We can calculate Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> using R in two different ways. Firstly we could do it the way I just showed, using the <code class="docutils literal notranslate"><span class="pre">rank()</span></code> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that’s way too much effort to do every time. It’s much easier to just specify the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> method. <a class="footnote-reference brackets" href="#note13" id="id19">13</a> Since we are skipping the extra step of “manually” creating new, ranked variables, we can just operate directly on the dataframe columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;hours&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
@@ -3432,7 +3480,7 @@ nan
 </div>
 </div>
 <p>The results from <code class="docutils literal notranslate"><span class="pre">parenthood2.corr()</span></code> and <code class="docutils literal notranslate"><span class="pre">parenthood2.dropna().corr()</span></code> are similar, but not quite the same. The two approaches have different strengths and weaknesses. The “pairwise” approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you’re making use of more of your data and (as we’ll discuss in tedious detail in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you’ve got.</p>
-<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note14" id="id19">14</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
+<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note14" id="id20">14</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
 </div>
 </div>
 <div class="section" id="summary">
@@ -3457,7 +3505,7 @@ The death of millions is a statistic.</em></p>
 <blockquote>
 <div><p><em>950,000 – 1,200,000</em></p>
 <p>– Estimate of Soviet repression deaths,
-1937-1938 <span id="id20">[<span>ellman2002soviet</span>]</span></p>
+1937-1938 <span id="id21">[<span>ellman2002soviet</span>]</span></p>
 </div></blockquote>
 <p>Stalin’s infamous quote about the statistical character death of millions is worth giving some thought. The clear intent of his statement is that the death of an individual touches us personally and its force cannot be denied, but that the deaths of a multitude are incomprehensible, and as a consequence mere statistics, more easily ignored. I’d argue that Stalin was half right. A statistic is an abstraction, a description of events beyond our personal experience, and so hard to visualise. Few if any of us can imagine what the deaths of millions is “really” like, but we can imagine one death, and this gives the lone death its feeling of immediate tragedy, a feeling that is missing from Ellman’s cold statistical description.</p>
 <p>Yet it is not so simple: without numbers, without counts, without a description of what happened, we have <em>no chance</em> of understanding what really happened, no opportunity event to try to summon the missing feeling. And in truth, as I write this, sitting in comfort on a Saturday morning, half a world and a whole lifetime away from the Gulags, when I put the Ellman estimate next to the Stalin quote a dull dread settles in my stomach and a chill settles over me. The Stalinist repression is something truly beyond my experience, but with a combination of statistical data and those recorded personal histories that have come down to us, it is not entirely beyond my comprehension. Because what Ellman’s numbers tell us is this: over a two year period, Stalinist repression wiped out the equivalent of every man, woman and child currently alive in the city where I live. Each one of those deaths had it’s own story, was it’s own tragedy, and only some of those are known to us now. Even so, with a few carefully chosen statistics, the scale of the atrocity starts to come into focus.</p>
@@ -3488,22 +3536,22 @@ The death of millions is a statistic.</em></p>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id10">8</a></span></dt>
 <dd><p>Well, I will very briefly mention the one that I think is coolest, for a very particular definition of “cool”, that is. Variances are <em>additive</em>. Here’s what that means: suppose I have two variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, whose variances are <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span> and <span class="math notranslate nohighlight">\(\mbox{Var}(Y)\)</span> respectively. Now imagine I want to define a new variable <span class="math notranslate nohighlight">\(Z\)</span> that is the sum of the two, <span class="math notranslate nohighlight">\(Z = X+Y\)</span>. As it turns out, the variance of <span class="math notranslate nohighlight">\(Z\)</span> is equal to <span class="math notranslate nohighlight">\(\mbox{Var}(X) + \mbox{Var}(Y)\)</span>. This is a <em>very</em> useful property, but it’s not true of the other measures that I talk about in this section.</p>
 </dd>
-<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">9</a></span></dt>
-<dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in Chapter &#64;ref(probability), and will turn up over and over again later in the book.</p>
+<dt class="label" id="note9"><span class="brackets">9</span><span class="fn-backref">(<a href="#id11">1</a>,<a href="#id12">2</a>)</span></dt>
+<dd><p>With the possible exception of the third question.</p>
 </dd>
-<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id13">10</a></span></dt>
+<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id14">10</a></span></dt>
 <dd><p>Though some caution is usually warranted. It’s not always the case that one standard deviation on variable A corresponds to the same “kind” of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the <span class="math notranslate nohighlight">\(z\)</span> scores of two variables can be meaningfully compared.</p>
 </dd>
-<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
+<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id16">11</a></span></dt>
 <dd><p>Actually, even that table is more than I’d bother with. In practice most people pick <em>one</em> measure of central tendency, and <em>one</em> measure of variability only.</p>
 </dd>
-<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
+<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id17">12</a></span></dt>
 <dd><p>If you are reading this after having already completed the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a> you might be wondering about hypothesis tests for correlations. This can be done with <code class="docutils literal notranslate"><span class="pre">scipy.stats.pearsonr</span></code> (or <code class="docutils literal notranslate"><span class="pre">scipy.stats.spearmanr</span></code>).</p>
 </dd>
-<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id18">13</a></span></dt>
+<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id19">13</a></span></dt>
 <dd><p>Yikes, that’s two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!</p>
 </dd>
-<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
+<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id20">14</a></span></dt>
 <dd><p>The technical term here is “missing completely at random” (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.</p>
 </dd>
 </dl>
