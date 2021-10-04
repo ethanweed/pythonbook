@@ -1097,16 +1097,16 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
-Melbourne           28
 North Melbourne     28
+Melbourne           28
+Collingwood         28
 Hawthorn            27
-Sydney              26
-Adelaide            26
 Carlton             26
+Adelaide            26
+Sydney              26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
 Richmond             6
 Fremantle            6
@@ -1629,7 +1629,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13e0c4880&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x137054610&gt;
 </pre></div>
 </div>
 </div>
@@ -2043,8 +2043,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>anxifree</td>
-      <td>no.therapy</td>
+      <td>joyzepam</td>
+      <td>CBT</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2967,7 +2967,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 </div>
-<p>The default value of the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument is <code class="docutils literal notranslate"><span class="pre">&quot;pearson&quot;</span></code>, which is why we didn’t have to specify it earlier on when we were doing Pearson correlations.</p>
+<p>The default value of the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument is <code class="docutils literal notranslate"><span class="pre">&quot;pearson&quot;</span></code>, which is why we didn’t have to specify it earlier on when we were doing Pearson correlations, although we could have, for extra clarity.</p>
 </div>
 </div>
 <div class="section" id="handling-missing-values">
@@ -2996,9 +2996,6 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 </div>
-<p>Technically correct, but deeply unhelpful.</p>
-<p>To fix this, all of the descriptive statistics functions that I’ve discussed in this chapter (with the exception of <code class="docutils literal notranslate"><span class="pre">cor()</span></code> which is a special case I’ll discuss below) have an optional argument called <code class="docutils literal notranslate"><span class="pre">na.rm</span></code>, which is shorthand for “remove NA values”. By default, <code class="docutils literal notranslate"><span class="pre">na.rm</span> <span class="pre">=</span> <span class="pre">FALSE</span></code>, so R does nothing about the missing data problem. Let’s try setting <code class="docutils literal notranslate"><span class="pre">na.rm</span> <span class="pre">=</span> <span class="pre">TRUE</span></code> and see what happens:</p>
-<p>When calculating sums and means when missing data are present (i.e., when there are <code class="docutils literal notranslate"><span class="pre">NA</span></code> values) there’s actually an additional argument to the function that you should be aware of. This argument is called <code class="docutils literal notranslate"><span class="pre">na.rm</span></code>, and is a logical value indicating whether R should ignore (or “remove”) the missing data for the purposes of doing the calculations. By default, R assumes that you want to keep the missing values, so unless you say otherwise it will set <code class="docutils literal notranslate"><span class="pre">na.rm</span> <span class="pre">=</span> <span class="pre">FALSE</span></code>. However, R assumes that <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">NA</span> <span class="pre">=</span> <span class="pre">NA</span></code>: if I add 1 to some number that I don’t know (i.e., the <code class="docutils literal notranslate"><span class="pre">NA</span></code>) then the answer is <em>also</em> a number that I don’t know. As a consequence, if you don’t explicitly tell R to ignore the <code class="docutils literal notranslate"><span class="pre">NA</span></code> values, and the data set does have missing values, then the output will itself be a missing value. This is illustrated in the following extract:</p>
 <p>Technically correct, but deeply unhelpful. There are a few ways to deal with this. The first is to use methods from <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. <code class="docutils literal notranslate"><span class="pre">numpy</span></code> has a collection of methods to calculate nan-friendly versions of your favorite descriptive statistics (although correlation is a special case, more on that below), such as <code class="docutils literal notranslate"><span class="pre">nanmean</span></code>, <code class="docutils literal notranslate"><span class="pre">nanmedian</span></code>, <code class="docutils literal notranslate"><span class="pre">nanpercentile</span></code>, <code class="docutils literal notranslate"><span class="pre">nanmax</span></code>, <code class="docutils literal notranslate"><span class="pre">nanmin</span></code>, <code class="docutils literal notranslate"><span class="pre">nansum</span></code>, <code class="docutils literal notranslate"><span class="pre">nanstd</span></code>, etc. So:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
