@@ -838,7 +838,7 @@ following command:</p>
 <li><p>If your data are ordinal scale, you’re more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn’t depend on the precise numbers involved. That’s exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it’s not really appropriate for ordinal data.</p></li>
 <li><p>For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you’re trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don’t have a lot of data), but it’s very sensitive to extreme values, as we’ll see in <a class="reference internal" href="#trimmed-mean"><span class="std std-ref">Trimmed mean</span></a>.</p></li>
 </ul>
-<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (skewed; see <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">Skew and kurtosis</span></a>). This is illustrated in <a class="reference internal" href="#fig-meanmedian"><span class="std std-numref">Fig. 1.4</span></a>, above. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
+<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (or “skewed”:  see the section on <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">Skew and kurtosis</span></a>). This is illustrated in <a class="reference internal" href="#fig-meanmedian"><span class="std std-numref">Fig. 1.4</span></a>, above. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
 </div>
 <div class="section" id="a-real-life-example">
 <h3><span class="section-number">1.1.5. </span>A real life example<a class="headerlink" href="#a-real-life-example" title="Permalink to this headline">¶</a></h3>
@@ -946,7 +946,7 @@ following command:</p>
 </div>
 <div class="section" id="mode">
 <span id="id8"></span><h3><span class="section-number">1.1.7. </span>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">¶</a></h3>
-<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">.head()</span></code> method. <code class="docutils literal notranslate"><span class="pre">.head()</span></code> is a method that can be used when the data is contained in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> object (which ours is). It can be useful when you’re working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using <code class="docutils literal notranslate"><span class="pre">print(afl_finalists)</span></code> will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.</p>
+<p>The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let’s examine a different aspect to the data set. Who has played in the most finals? The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> data contains the name of every team that played in any AFL final from 1987-2010, so let’s have a look at it. To do this we will use the <code class="docutils literal notranslate"><span class="pre">head()</span></code> method. <code class="docutils literal notranslate"><span class="pre">head()</span></code> is a method that can be used when the data is contained in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> object (which ours is). It can be useful when you’re working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using <code class="docutils literal notranslate"><span class="pre">print(afl_finalists)</span></code> will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
@@ -1092,12 +1092,12 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Melbourne           28
 Collingwood         28
+Melbourne           28
 North Melbourne     28
 Hawthorn            27
-Carlton             26
 Sydney              26
+Carlton             26
 Adelaide            26
 Brisbane            25
 Western Bulldogs    24
@@ -1472,7 +1472,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13ff9a9a0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13d1e5520&gt;
 </pre></div>
 </div>
 </div>
@@ -1891,8 +1891,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
-      <td>no.therapy</td>
+      <td>placebo</td>
+      <td>CBT</td>
       <td>NaN</td>
     </tr>
     <tr>
