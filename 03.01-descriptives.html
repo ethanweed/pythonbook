@@ -1097,8 +1097,8 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
 Melbourne           28
+North Melbourne     28
 Collingwood         28
 Hawthorn            27
 Sydney              26
@@ -1273,12 +1273,74 @@ Name: afl.finalists, dtype: int64
 <p>And we’re done. The mean absolute deviation for these five scores is 15.52.</p>
 <p>However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, “mean absolute deviation” and “median absolute deviation” have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you <em><strong>both use the abbreviation MAD even though they mean different things!</strong></em> Sigh. What I’ll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here’s the formula that describes what we just calculated: Now that we have some unambiguous notation, here’s the formula that describes what we just calculated:</p>
 <div class="math notranslate nohighlight">
-\[\mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
+\[\mbox{}(ADD) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
 <p>The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that’s pretty tedious. You’d end up with a series of commands that might look like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">]</span>             <span class="c1"># 1. enter the data</span>
+<span class="n">X_bar</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>                     <span class="c1"># 2. find the mean of the data</span>
+<span class="n">AD</span> <span class="o">=</span> <span class="p">[]</span>                             <span class="c1"># 3. find the  absolute value of the difference between</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>                         <span class="c1">#    each value and the mean and add it to the list AD    </span>
+    <span class="n">AD</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">X_bar</span><span class="p">)))</span>       
+<span class="n">ADD</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">AD</span><span class="p">)</span>                      <span class="c1"># 4. find the mean of the absolute values</span>
+<span class="n">ADD</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each of those commands is pretty simple, but there’s just too many of them. And because I find that to be too much typing, I suggest using the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> method <code class="docutils literal notranslate"><span class="pre">mad()</span></code> to make life easier. There is one important thing to notice, however: <code class="docutils literal notranslate"><span class="pre">pandas</span></code> will want the data to be in a different format, namely the simply and elegantly named <code class="docutils literal notranslate"><span class="pre">pandas.core.series.Series</span></code> format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can’t, so it is worth putting up with the name. To find the AAD, we can just do:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="n">data</span><span class="o">.</span><span class="n">mad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok, I lied again. There is more than one thing to notice (when isn’t there?). “AAD” is a good acronym, but unfortunately, it’s one I just made up. Pandas calls this the “MAD”. And, as we have seen, this is <em>also</em> the acronym for the <em>median absolute difference</em>. To find the median absolute difference, we can use the <code class="docutils literal notranslate"><span class="pre">robust</span></code> module from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package, which has a function called, you guessed it, <code class="docutils literal notranslate"><span class="pre">mad</span></code>. Except this time the “m” in “MAD” stand for “median” and not “mean”. Haha, isn’t naming fun?</p>
+<p>Just be careful to be aware of which one you are using, and why, and everything will be ok!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">statsmodels</span> <span class="kn">import</span> <span class="n">robust</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="n">pandas_mad</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mad</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">56</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="n">statsmodels_mad</span> <span class="o">=</span> <span class="n">robust</span><span class="o">.</span><span class="n">mad</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pandas MAD is the mean absolute deviation:&quot;</span><span class="p">,</span> <span class="n">pandas_mad</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statsmodels MAD is the median absolute deviation:&quot;</span><span class="p">,</span> <span class="n">statsmodels_mad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pandas MAD is the mean absolute deviation: 15.52
+Statsmodels MAD is the median absolute deviation: 35.58245324413445
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="variance">
 <h3><span class="section-number">1.2.4. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
-<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
+<p>Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
 <div class="math notranslate nohighlight">
 \[
 \mbox{Var}(X) = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
@@ -1321,7 +1383,7 @@ Name: afl.finalists, dtype: int64
 </tr>
 </tbody>
 </table>
-<p>The same table again, translated into Mathese, looks like this:</p>
+<p>The same table again, translated into Math-ese, looks like this:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:center head"><p><em>i</em></p></th>
@@ -1515,12 +1577,12 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_78_1.png" src="_images/03.01-descriptives_78_1.png" />
+<img alt="_images/03.01-descriptives_83_1.png" src="_images/03.01-descriptives_83_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10e730f40&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x138bbc880&gt;
 </pre></div>
 </div>
 </div>
@@ -1611,7 +1673,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_83_1.png" src="_images/03.01-descriptives_83_1.png" />
+<img alt="_images/03.01-descriptives_88_1.png" src="_images/03.01-descriptives_88_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -1939,7 +2001,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
+      <td>anxifree</td>
       <td>no.therapy</td>
       <td>NaN</td>
     </tr>
@@ -2231,12 +2293,12 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
+<img alt="_images/03.01-descriptives_111_1.png" src="_images/03.01-descriptives_111_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_106_0.png" src="_images/03.01-descriptives_106_0.png" />
+<img alt="_images/03.01-descriptives_111_0.png" src="_images/03.01-descriptives_111_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.8 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
 </div>
@@ -2302,7 +2364,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_110_1.png" src="_images/03.01-descriptives_110_1.png" />
+<img alt="_images/03.01-descriptives_115_1.png" src="_images/03.01-descriptives_115_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
@@ -2329,7 +2391,7 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_113_1.png" src="_images/03.01-descriptives_113_1.png" />
+<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -2370,12 +2432,12 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_116_1.png" src="_images/03.01-descriptives_116_1.png" />
+<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_116_0.png" src="_images/03.01-descriptives_116_0.png" />
+<img alt="_images/03.01-descriptives_121_0.png" src="_images/03.01-descriptives_121_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.11 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
 </div>
@@ -2655,12 +2717,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_131_1.png" src="_images/03.01-descriptives_131_1.png" />
+<img alt="_images/03.01-descriptives_136_1.png" src="_images/03.01-descriptives_136_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_131_0.png" src="_images/03.01-descriptives_131_0.png" />
+<img alt="_images/03.01-descriptives_136_0.png" src="_images/03.01-descriptives_136_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.13 </span><span class="caption-text">Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.</span><a class="headerlink" href="#fig-anscombe" title="Permalink to this image">¶</a></p>
 </div>
@@ -2790,12 +2852,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_138_1.png" src="_images/03.01-descriptives_138_1.png" />
+<img alt="_images/03.01-descriptives_143_1.png" src="_images/03.01-descriptives_143_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_138_0.png" src="_images/03.01-descriptives_138_0.png" />
+<img alt="_images/03.01-descriptives_143_0.png" src="_images/03.01-descriptives_143_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.14 </span><span class="caption-text">The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each dot corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</span><a class="headerlink" href="#fig-rankcorr" title="Permalink to this image">¶</a></p>
 </div>
