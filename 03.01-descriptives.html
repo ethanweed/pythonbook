@@ -1101,15 +1101,15 @@ Collingwood         28
 Melbourne           28
 North Melbourne     28
 Hawthorn            27
-Adelaide            26
 Sydney              26
 Carlton             26
+Adelaide            26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1629,7 +1629,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1111bb340&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x12fc07dc0&gt;
 </pre></div>
 </div>
 </div>
@@ -1749,7 +1749,7 @@ already knows how to calculate skew:</p>
 </tr>
 </tbody>
 </table>
-<p>The equation for kurtosis is pretty similar in spirit to the formulas we’ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power: <a class="footnote-reference brackets" href="#note15" id="id15">11</a></p>
+<p>The equation for kurtosis is pretty similar in spirit to the formulas we’ve seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power: <a class="footnote-reference brackets" href="#note-kurtosis" id="id15">11</a></p>
 <div class="math notranslate nohighlight">
 \[
 \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3
@@ -2044,7 +2044,7 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
+      <td>anxifree</td>
       <td>no.therapy</td>
       <td>NaN</td>
     </tr>
@@ -3475,7 +3475,7 @@ nan
 </div>
 </div>
 <p>The results from <code class="docutils literal notranslate"><span class="pre">parenthood2.corr()</span></code> and <code class="docutils literal notranslate"><span class="pre">parenthood2.dropna().corr()</span></code> are similar, but not quite the same. The two approaches have different strengths and weaknesses. The “pairwise” approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you’re making use of more of your data and (as we’ll discuss in tedious detail in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you’ve got.</p>
-<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note15" id="id22">11</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
+<p>So which method should you use? It depends a lot on <em>why</em> you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were “chosen” completely randomly <a class="footnote-reference brackets" href="#note15" id="id22">16</a> then you’ll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there’s no pattern to which observations are “rubbish”, then it’s probably safer to keep only those observations that are complete. If you think there’s something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.</p>
 </div>
 </div>
 <div class="section" id="summary">
@@ -3537,7 +3537,7 @@ The death of millions is a statistic.</em></p>
 <dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id13">10</a></span></dt>
 <dd><p>Strictly, the assumption is that the data are <em>normally</em> distributed, which is an important concept that we’ll discuss more in the chapter <a class="reference internal" href="04.02-probability.html#probability"><span class="std std-ref">Introduction to Probability</span></a>, and will turn up over and over again later in the book.</p>
 </dd>
-<dt class="label" id="note15"><span class="brackets">11</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id22">2</a>)</span></dt>
+<dt class="label" id="note-kurtosis"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
 <dd><p>The “<span class="math notranslate nohighlight">\(-3\)</span>” part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a “-3” at the end of the formula, but there are good mathematical reasons for doing this.</p>
 </dd>
 <dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
@@ -3551,6 +3551,9 @@ The death of millions is a statistic.</em></p>
 </dd>
 <dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id21">15</a></span></dt>
 <dd><p>Yikes, that’s two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!</p>
+</dd>
+<dt class="label" id="note15"><span class="brackets"><a class="fn-backref" href="#id22">16</a></span></dt>
+<dd><p>The technical term here is “missing completely at random” (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.</p>
 </dd>
 </dl>
 </div>
