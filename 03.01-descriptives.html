@@ -1097,19 +1097,19 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-North Melbourne     28
-Melbourne           28
 Collingwood         28
+Melbourne           28
+North Melbourne     28
 Hawthorn            27
-Adelaide            26
 Sydney              26
 Carlton             26
+Adelaide            26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1629,7 +1629,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x116b7cb50&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x105bd6580&gt;
 </pre></div>
 </div>
 </div>
@@ -1923,16 +1923,15 @@ Name: blowouts, dtype: object
 </div>
 </div>
 </div>
-<p>In this context, <code class="docutils literal notranslate"><span class="pre">describe</span></code> gives us the total number of games (176), the number of categories for those games(2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable.</p>
+<p>In this context, <code class="docutils literal notranslate"><span class="pre">describe</span></code> gives us the total number of games (176), the number of categories for those games (2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable.</p>
 </div>
 <div class="section" id="describing-a-data-frame">
 <h3><span class="section-number">1.4.2. </span>“Describing” a data frame<a class="headerlink" href="#describing-a-data-frame" title="Permalink to this headline">¶</a></h3>
 <p>Okay what about data frames? When you <code class="docutils literal notranslate"><span class="pre">describe()</span></code> a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want <code class="docutils literal notranslate"><span class="pre">'all'</span></code> the variables). To give you a sense of how this can be useful, let’s try this for a new data set, one that you’ve never seen before. The data is stored in the <code class="docutils literal notranslate"><span class="pre">clinical_trial_data.csv</span></code> file, and we’ll use it a lot in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">Comparing several means</span></a> (you can find a complete description of the data at the start of that chapter). Let’s load it, and see what we’ve got:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load data</span>
-<span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;clinical_trial_data.csv&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clinical_trial_data.csv&#39;</span>
 
 <span class="n">df_clintrial</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 <span class="n">df_clintrial</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -2044,8 +2043,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>joyzepam</td>
-      <td>CBT</td>
+      <td>anxifree</td>
+      <td>no.therapy</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2124,7 +2123,7 @@ z = \frac{35 - 17}{5} = 3.6
 \]</div>
 <p>Technically, because I’m calculating means and standard deviations from a sample of data, but want to talk about my grumpiness relative to a population, what I’m actually doing is <em>estimating</em> a <span class="math notranslate nohighlight">\(z\)</span> score. However, since we haven’t talked about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>  yet  I think it’s best to ignore this subtlety, especially as it makes very little difference to our calculations.</p>
 <p>To interpret this value, recall the rough heuristic that I provided in the section on <a class="reference internal" href="#sd"><span class="std std-ref">standard deviation</span></a>, in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a <span class="math notranslate nohighlight">\(z\)</span> score of 3.6 indicates that I’m very grumpy indeed.</p>
-<p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
+<p>In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can’t. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4, and I scored a 2. As you can imagine, it doesn’t make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are “about” fundamentally different things, so this would be like comparing apples to oranges.</p>
 <p>What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get <span class="math notranslate nohighlight">\(z = (35-17)/5 = 3.6\)</span> for grumpiness and <span class="math notranslate nohighlight">\(z = (2-13)/4 = -2.75\)</span> for extraversion. These two numbers <em>can</em> be compared to each other. <a class="footnote-reference brackets" href="#note11" id="id16">12</a>  I’m much less extraverted than most people (<span class="math notranslate nohighlight">\(z = -2.75\)</span>) and much grumpier than most people (<span class="math notranslate nohighlight">\(z = 3.6\)</span>): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls <em>relative to its own population</em>, it <em>is</em> possible to compare standardised scores across completely different variables.</p>
 </div>
 <div class="section" id="correlations">
@@ -2135,15 +2134,11 @@ z = \frac{35 - 17}{5} = 3.6
 <p>After spending so much time looking at the AFL data, I’m starting to get bored with sports. Instead, let’s turn to a topic close to every parent’s heart: sleep. The following data set is fictitious, but based on real events. Suppose I’m curious to find out how much my infant son’s sleeping habits affect my mood. Let’s say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I’ve been measuring my grumpiness, my sleeping patterns and my son’s sleeping patterns for quite some time now. Let’s say, for 100 days. And, being a nerd, I’ve saved the data as a file called <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code>. If we load the data…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span> <span class="k">as</span> <span class="n">cd</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;parenthood.csv&#39;</span>
-
-<span class="n">cd</span><span class="p">(</span><span class="n">pathin</span><span class="p">)</span>
-
+<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv&#39;</span>
 <span class="n">parenthood</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
 <span class="n">parenthood</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
