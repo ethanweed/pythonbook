@@ -1101,15 +1101,15 @@ Collingwood         28
 North Melbourne     28
 Melbourne           28
 Hawthorn            27
-Carlton             26
-Adelaide            26
 Sydney              26
+Adelaide            26
+Carlton             26
 Brisbane            25
-St Kilda            24
 Western Bulldogs    24
+St Kilda            24
 Port Adelaide       17
-Fremantle            6
 Richmond             6
+Fremantle            6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1470,48 +1470,46 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 </div>
 </div>
 </div>
+<p>Now let’s use the <code class="docutils literal notranslate"><span class="pre">statistics.variance()</span></code> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">]</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
 
-<span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="c1">#np.var(data)</span>
-
-<span class="n">afl</span>
+<span class="n">var</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">32</span><span class="o">-</span><span class="mi">100</span><span class="n">cc72e6535</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1">#np.var(data)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> 
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">afl</span>
-
-<span class="ne">NameError</span>: name &#39;afl&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>679.834512987013
 </pre></div>
 </div>
 </div>
 </div>
-<p>and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we’ll discuss in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. To calculate the population parameter, we need to make a small adjustment:</p>
+<p>Hm. These two numbers are very similar this time. That seems like too much of a coincidence to be a mistake. And of course it isn’t a mistake. In fact, it’s very simple to explain what Python is doing here, but slightly trickier to explain <em>why</em> Python is doing it. So let’s start with the “what”. What Python is doing is evaluating a slightly different formula to the one I showed you above. Instead of averaging the squared deviations, which requires you to divide by the number of data points <span class="math notranslate nohighlight">\(N\)</span>, Python has chosen to divide by <span class="math notranslate nohighlight">\(N-1\)</span>. In other words, the formula that Python is using is this one</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2\]</div>
+<p>So that’s the <em>what</em>. The real question is <em>why</em> Python is dividing by <span class="math notranslate nohighlight">\(N-1\)</span> and not by <span class="math notranslate nohighlight">\(N\)</span>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn’t we be dividing by <span class="math notranslate nohighlight">\(N\)</span>, the actual number of observations in the sample? Well, yes, we should. However, as we’ll discuss in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. However, I’m getting ahead of myself. For now, let’s just take it on faith that Python knows what it’s doing, and we’ll revisit the question later on when we talk about estimation in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>.</p>
+<p>By the way, if you <em>do</em> want to calculate variance and divide by <span class="math notranslate nohighlight">\(N\)</span> and not <span class="math notranslate nohighlight">\(N-1\)</span>, Python does a have a way to do this as well; you just need to ask for <code class="docutils literal notranslate"><span class="pre">pvariance</span></code>()<code class="docutils literal notranslate"><span class="pre">instead</span> <span class="pre">of</span></code>variance()`:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">population_variance</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">pvariance</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
+<span class="n">sample_variance</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;statistics.pvariance divides by N: &quot;</span><span class="p">,</span> <span class="n">population_variance</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;statistics.variance divide by N-1: &quot;</span><span class="p">,</span> <span class="n">sample_variance</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>405.8
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>statistics.pvariance divides by N:  675.9718168904958
+statistics.variance divide by N-1:  679.834512987013
 </pre></div>
 </div>
 </div>
 </div>
-<p>This gives us a rather different value for the variance in our data. Going into the how’s and whyfore’s will need to wait for a later chapter, however. For now, it is enough to know that this difference exists, and to know how to get the value we want.</p>
-<p>Okay, one last thing. This section so far has read a bit like a mystery novel. I’ve shown you how to calculate the variance, alluded to a mysterious difference between sample statistics and population parameters, but I haven’t mentioned the single most important thing… how do you <em>interpret</em> the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven’t given you the human-friendly interpretation of the variance is that there really isn’t one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it’s completely useless if you want to communicate with an actual human… variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don’t mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was “376.36 points-squared higher than the average margin”. This is <em>exactly</em> as stupid as it sounds; and so when we calculate a variance of 324.64, we’re in the same situation. I’ve watched a lot of footy games, and never has anyone referred to “points squared”. It’s <em>not</em> a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.</p>
+<p>Okay, one last thing. This section so far has read a bit like a mystery novel. I’ve shown you how to calculate the variance, described the weird “<span class="math notranslate nohighlight">\(N-1\)</span>” thing that Python does and hinted at the reason why it’s there, but I haven’t mentioned the single most important thing… how do you <em>interpret</em> the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven’t given you the human-friendly interpretation of the variance is that there really isn’t one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it’s completely useless if you want to communicate with an actual human… variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don’t mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was “376.36 points-squared higher than the average margin”. This is <em>exactly</em> as stupid as it sounds; and so when we calculate a variance of 324.64, we’re in the same situation. I’ve watched a lot of footy games, and never has anyone referred to “points squared”. It’s <em>not</em> a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.</p>
 </div>
 <div class="section" id="standard-deviation">
 <span id="sd"></span><h3><span class="section-number">1.2.5. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
@@ -1625,12 +1623,12 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_86_1.png" src="_images/03.01-descriptives_86_1.png" />
+<img alt="_images/03.01-descriptives_89_1.png" src="_images/03.01-descriptives_89_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x133ea0d90&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13b2ee6d0&gt;
 </pre></div>
 </div>
 </div>
@@ -1721,7 +1719,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_91_1.png" src="_images/03.01-descriptives_91_1.png" />
+<img alt="_images/03.01-descriptives_94_1.png" src="_images/03.01-descriptives_94_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -2341,12 +2339,12 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_114_1.png" src="_images/03.01-descriptives_114_1.png" />
+<img alt="_images/03.01-descriptives_117_1.png" src="_images/03.01-descriptives_117_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_114_0.png" src="_images/03.01-descriptives_114_0.png" />
+<img alt="_images/03.01-descriptives_117_0.png" src="_images/03.01-descriptives_117_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.8 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
 </div>
@@ -2412,7 +2410,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_118_1.png" src="_images/03.01-descriptives_118_1.png" />
+<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
@@ -2439,7 +2437,7 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_121_1.png" src="_images/03.01-descriptives_121_1.png" />
+<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -2480,12 +2478,12 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_124_1.png" src="_images/03.01-descriptives_124_1.png" />
+<img alt="_images/03.01-descriptives_127_1.png" src="_images/03.01-descriptives_127_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_124_0.png" src="_images/03.01-descriptives_124_0.png" />
+<img alt="_images/03.01-descriptives_127_0.png" src="_images/03.01-descriptives_127_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.11 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
 </div>
@@ -2765,12 +2763,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_139_1.png" src="_images/03.01-descriptives_139_1.png" />
+<img alt="_images/03.01-descriptives_142_1.png" src="_images/03.01-descriptives_142_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_139_0.png" src="_images/03.01-descriptives_139_0.png" />
+<img alt="_images/03.01-descriptives_142_0.png" src="_images/03.01-descriptives_142_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.13 </span><span class="caption-text">Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.</span><a class="headerlink" href="#fig-anscombe" title="Permalink to this image">¶</a></p>
 </div>
@@ -2900,12 +2898,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_146_1.png" src="_images/03.01-descriptives_146_1.png" />
+<img alt="_images/03.01-descriptives_149_1.png" src="_images/03.01-descriptives_149_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_146_0.png" src="_images/03.01-descriptives_146_0.png" />
+<img alt="_images/03.01-descriptives_149_0.png" src="_images/03.01-descriptives_149_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.14 </span><span class="caption-text">The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each dot corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</span><a class="headerlink" href="#fig-rankcorr" title="Permalink to this image">¶</a></p>
 </div>
