@@ -1097,13 +1097,13 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
+Melbourne           28
 Collingwood         28
 North Melbourne     28
-Melbourne           28
 Hawthorn            27
+Carlton             26
 Sydney              26
 Adelaide            26
-Carlton             26
 Brisbane            25
 Western Bulldogs    24
 St Kilda            24
@@ -1491,7 +1491,7 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 <div class="math notranslate nohighlight">
 \[\frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2\]</div>
 <p>So that’s the <em>what</em>. The real question is <em>why</em> Python is dividing by <span class="math notranslate nohighlight">\(N-1\)</span> and not by <span class="math notranslate nohighlight">\(N\)</span>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn’t we be dividing by <span class="math notranslate nohighlight">\(N\)</span>, the actual number of observations in the sample? Well, yes, we should. However, as we’ll discuss in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. However, I’m getting ahead of myself. For now, let’s just take it on faith that Python knows what it’s doing, and we’ll revisit the question later on when we talk about estimation in <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">Estimating unknown quantities from a sample</span></a>.</p>
-<p>By the way, if you <em>do</em> want to calculate variance and divide by <span class="math notranslate nohighlight">\(N\)</span> and not <span class="math notranslate nohighlight">\(N-1\)</span>, Python does a have a way to do this as well; you just need to ask for <code class="docutils literal notranslate"><span class="pre">pvariance</span></code>()<code class="docutils literal notranslate"><span class="pre">instead</span> <span class="pre">of</span></code>variance()`:</p>
+<p>By the way, if you <em>do</em> want to calculate variance and divide by <span class="math notranslate nohighlight">\(N\)</span> and not <span class="math notranslate nohighlight">\(N-1\)</span>, Python does a have a way to do this as well; you just need to ask for <code class="docutils literal notranslate"><span class="pre">pvariance()</span></code> instead of <code class="docutils literal notranslate"><span class="pre">variance()</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">population_variance</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">pvariance</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
@@ -1628,7 +1628,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13b2ee6d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x13a17fe20&gt;
 </pre></div>
 </div>
 </div>
@@ -2048,7 +2048,7 @@ Name: blowouts, dtype: object
     <tr>
       <th>top</th>
       <td>joyzepam</td>
-      <td>CBT</td>
+      <td>no.therapy</td>
       <td>NaN</td>
     </tr>
     <tr>
