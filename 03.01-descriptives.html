@@ -400,23 +400,28 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mean-absolute-deviation">
+     1.2.3. Mean absolute deviation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#variance">
-     1.2.3. Variance
+     1.2.4. Variance
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#standard-deviation">
-     1.2.4. Standard deviation
+     1.2.5. Standard deviation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#median-absolute-deviation">
-     1.2.5. Median absolute deviation
+     1.2.6. Median absolute deviation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#which-measure-to-use">
-     1.2.6. Which measure to use?
+     1.2.7. Which measure to use?
     </a>
    </li>
   </ul>
@@ -1093,12 +1098,12 @@ following command:</p>
 West Coast          38
 Essendon            32
 North Melbourne     28
-Collingwood         28
 Melbourne           28
+Collingwood         28
 Hawthorn            27
 Sydney              26
-Adelaide            26
 Carlton             26
+Adelaide            26
 Brisbane            25
 St Kilda            24
 Western Bulldogs    24
@@ -1228,8 +1233,51 @@ Name: afl.finalists, dtype: int64
 </div>
 <p>While it’s obvious how to interpret the range, it’s a little less obvious how to interpret the IQR. The simplest way to think about it is like this: the interquartile range is the range spanned by the “middle half” of the data. That is, one quarter of the data falls below the 25th percentile, one quarter of the data is above the 75th percentile, leaving the “middle half” of the data lying in between the two. And the IQR is the range covered by that middle half.</p>
 </div>
+<div class="section" id="mean-absolute-deviation">
+<span id="mad"></span><h3><span class="section-number">1.2.3. </span>Mean absolute deviation<a class="headerlink" href="#mean-absolute-deviation" title="Permalink to this headline">¶</a></h3>
+<p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean or median value of these deviations! In practice, this leads to two different measures, the “mean absolute deviation (from the mean)” and the “median absolute deviation (from the median)”. From what I’ve read, the measure based on the median seems to be used in statistics, and does seem to be the better of the two, but to be honest I don’t think I’ve seen it used much in psychology. The measure based on the mean does occasionally show up in psychology though. In this section I’ll talk about the first one, and I’ll come back to talk about the second one later.</p>
+<p>Since the previous paragraph might sound a little abstract, let’s go through the <strong><em>mean absolute deviation</em></strong> from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let’s think about our AFL winning margins data, and once again we’ll start by pretending that there’s only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, <span class="math notranslate nohighlight">\(\bar{X}\)</span>. For these five observations, our mean is <span class="math notranslate nohighlight">\(\bar{X} = 36.6\)</span>. The next step is to convert each of our observations <span class="math notranslate nohighlight">\(X_i\)</span> into a deviation score. We do this by calculating the difference between the observation <span class="math notranslate nohighlight">\(X_i\)</span> and the mean <span class="math notranslate nohighlight">\(\bar{X}\)</span>. That is, the deviation score is defined to be <span class="math notranslate nohighlight">\(X_i - \bar{X}\)</span>. For the first observation in our sample, this is equal to <span class="math notranslate nohighlight">\(56 - 36.6 = 19.4\)</span>. Okay, that’s simple enough. The next step in the process is to convert these deviations to absolute deviations. We do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of <span class="math notranslate nohighlight">\(-3\)</span> as <span class="math notranslate nohighlight">\(|-3|\)</span>, and so we say that <span class="math notranslate nohighlight">\(|-3| = 3\)</span>. We use the absolute value function here because we don’t really care whether the value is higher than the mean or lower than the mean, we’re just interested in how <em>close</em> it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>the observation</p></th>
+<th class="text-align:left head"><p>its symbol</p></th>
+<th class="text-align:left head"><p>the observed value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 1</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_1\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 2</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_2\)</span></p></td>
+<td class="text-align:left"><p>31 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 3</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_3\)</span></p></td>
+<td class="text-align:left"><p>56 points</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 4</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_4\)</span></p></td>
+<td class="text-align:left"><p>8 points</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>winning margin, game 5</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_5\)</span></p></td>
+<td class="text-align:left"><p>32 points</p></td>
+</tr>
+</tbody>
+</table>
+<p>Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let’s do that:</p>
+<div class="math notranslate nohighlight">
+\[\frac{19.4 + 5.6 + 19.4 + 28.6 + 4.6}{5} = 15.52\]</div>
+<p>And we’re done. The mean absolute deviation for these five scores is 15.52.</p>
+<p>However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, “mean absolute deviation” and “median absolute deviation” have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you <em><strong>both use the abbreviation MAD even though they mean different things!</strong></em> Sigh. What I’ll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here’s the formula that describes what we just calculated: Now that we have some unambiguous notation, here’s the formula that describes what we just calculated:</p>
+<div class="math notranslate nohighlight">
+\[\mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
+<p>The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that’s pretty tedious. You’d end up with a series of commands that might look like this:</p>
+</div>
 <div class="section" id="variance">
-<h3><span class="section-number">1.2.3. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.2.4. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h3>
 <p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it’s not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the <strong><em>variance</em></strong>, which has a lot of really nice statistical properties that I’m going to ignore, <a class="footnote-reference brackets" href="#note8" id="id10">8</a> and one massive psychological flaw that I’m going to make a big deal out of in a moment. The variance of a data set <span class="math notranslate nohighlight">\(X\)</span> is sometimes written as <span class="math notranslate nohighlight">\(\mbox{Var}(X)\)</span>, but it’s more commonly denoted <span class="math notranslate nohighlight">\(s^2\)</span> (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1356,7 +1404,7 @@ Name: afl.finalists, dtype: int64
 <p>Okay, one last thing. This section so far has read a bit like a mystery novel. I’ve shown you how to calculate the variance, alluded to a mysterious difference between sample statistics and population parameters, but I haven’t mentioned the single most important thing… how do you <em>interpret</em> the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven’t given you the human-friendly interpretation of the variance is that there really isn’t one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it’s completely useless if you want to communicate with an actual human… variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don’t mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was “376.36 points-squared higher than the average margin”. This is <em>exactly</em> as stupid as it sounds; and so when we calculate a variance of 324.64, we’re in the same situation. I’ve watched a lot of footy games, and never has anyone referred to “points squared”. It’s <em>not</em> a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.</p>
 </div>
 <div class="section" id="standard-deviation">
-<span id="sd"></span><h3><span class="section-number">1.2.4. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
+<span id="sd"></span><h3><span class="section-number">1.2.5. </span>Standard deviation<a class="headerlink" href="#standard-deviation" title="Permalink to this headline">¶</a></h3>
 <p>Okay, suppose that you like the idea of using the variance because of those nice mathematical properties that I haven’t talked about, but – since you’re a human and not a robot – you’d like to have a measure that is expressed in the same units as the data itself (i.e., points, not points-squared). What should you do? The solution to the problem is obvious: take the square root of the variance, known as the <strong><em>standard deviation</em></strong>, also called the “root mean squared deviation”, or RMSD. This solves our problem fairly neatly: while nobody has a clue what “a variance of 324.68 points-squared” really means, it’s much easier to understand “a standard deviation of 18.01 points”, since it’s expressed in the original units. It is traditional to refer to the standard deviation of a sample of data as <span class="math notranslate nohighlight">\(s\)</span>, though 	“sd” and “std dev.” are also used at times. Because the standard deviation is equal to the square root of the variance, you probably won’t be surprised to see that the formula is:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1387,7 +1435,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="section" id="median-absolute-deviation">
-<h3><span class="section-number">1.2.5. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.2.6. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
 <p>The last measure of variability that I want to talk about is the <strong><em>median absolute deviation</em></strong> (MAD). The basic idea behind MAD is very simple: it’s just the median of the absolute deviations from the median of the data. Find the distance of each data point from the median of all the data points (ignoring the signs), and then take the median of that.</p>
 <p>This has a straightforward interpretation: every observation in the data set lies some distance away from the typical value (the median). So the MAD is an attempt to describe a <em>typical deviation from a typical value</em> in the data set. It wouldn’t be unreasonable to interpret the MAD value of 19.5 for our AFL data by saying something like this:</p>
 <blockquote>
@@ -1426,7 +1474,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 <p>I should point out, though, that if you want to use this “corrected” MAD value as a robust version of the standard deviation, you really are relying on the assumption that the data are (or at least, are “supposed to be” in some sense) symmetric and basically shaped like a bell curve. That’s really <em>not</em> true for our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, so in this case I wouldn’t try to use the MAD value this way.</p>
 </div>
 <div class="section" id="which-measure-to-use">
-<h3><span class="section-number">1.2.6. </span>Which measure to use?<a class="headerlink" href="#which-measure-to-use" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.2.7. </span>Which measure to use?<a class="headerlink" href="#which-measure-to-use" title="Permalink to this headline">¶</a></h3>
 <p>We’ve discussed quite a few measures of spread (range, IQR, MAD, variance and standard deviation), and hinted at their strengths and weaknesses. Here’s a quick summary:</p>
 <ul class="simple">
 <li><p><em>Range</em>. Gives you the full spread of the data. It’s very vulnerable to outliers, and as a consequence it isn’t often used unless you have good reasons to care about the extremes in the data.</p></li>
@@ -1467,12 +1515,12 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_75_1.png" src="_images/03.01-descriptives_75_1.png" />
+<img alt="_images/03.01-descriptives_78_1.png" src="_images/03.01-descriptives_78_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10db54490&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x10e730f40&gt;
 </pre></div>
 </div>
 </div>
@@ -1563,7 +1611,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_80_1.png" src="_images/03.01-descriptives_80_1.png" />
+<img alt="_images/03.01-descriptives_83_1.png" src="_images/03.01-descriptives_83_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -1892,7 +1940,7 @@ Name: blowouts, dtype: object
     <tr>
       <th>top</th>
       <td>joyzepam</td>
-      <td>CBT</td>
+      <td>no.therapy</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2183,12 +2231,12 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_103_1.png" src="_images/03.01-descriptives_103_1.png" />
+<img alt="_images/03.01-descriptives_106_1.png" src="_images/03.01-descriptives_106_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_103_0.png" src="_images/03.01-descriptives_103_0.png" />
+<img alt="_images/03.01-descriptives_106_0.png" src="_images/03.01-descriptives_106_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.8 </span><span class="caption-text">Histograms for the three interesting variables in the parenthood data set.</span><a class="headerlink" href="#fig-grump" title="Permalink to this image">¶</a></p>
 </div>
@@ -2254,7 +2302,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_107_1.png" src="_images/03.01-descriptives_107_1.png" />
+<img alt="_images/03.01-descriptives_110_1.png" src="_images/03.01-descriptives_110_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
@@ -2281,7 +2329,7 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_110_1.png" src="_images/03.01-descriptives_110_1.png" />
+<img alt="_images/03.01-descriptives_113_1.png" src="_images/03.01-descriptives_113_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -2322,12 +2370,12 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_113_1.png" src="_images/03.01-descriptives_113_1.png" />
+<img alt="_images/03.01-descriptives_116_1.png" src="_images/03.01-descriptives_116_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_113_0.png" src="_images/03.01-descriptives_113_0.png" />
+<img alt="_images/03.01-descriptives_116_0.png" src="_images/03.01-descriptives_116_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.11 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
 </div>
@@ -2607,12 +2655,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_128_1.png" src="_images/03.01-descriptives_128_1.png" />
+<img alt="_images/03.01-descriptives_131_1.png" src="_images/03.01-descriptives_131_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_128_0.png" src="_images/03.01-descriptives_128_0.png" />
+<img alt="_images/03.01-descriptives_131_0.png" src="_images/03.01-descriptives_131_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.13 </span><span class="caption-text">Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.</span><a class="headerlink" href="#fig-anscombe" title="Permalink to this image">¶</a></p>
 </div>
@@ -2742,12 +2790,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_135_1.png" src="_images/03.01-descriptives_135_1.png" />
+<img alt="_images/03.01-descriptives_138_1.png" src="_images/03.01-descriptives_138_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_135_0.png" src="_images/03.01-descriptives_135_0.png" />
+<img alt="_images/03.01-descriptives_138_0.png" src="_images/03.01-descriptives_138_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 1.14 </span><span class="caption-text">The relationship between hours worked and grade received, for a toy data set consisting of only 10 students (each dot corresponds to one student). The dashed line through the middle shows the linear relationship between the two variables. This produces a strong Pearson correlation of <span class="math notranslate nohighlight">\(r = .91\)</span>. However, the interesting thing to note here is that there’s actually a perfect monotonic relationship between the two variables: in this toy example at least, increasing the hours worked always increases the grade received, as illustrated by the solid line. This is reflected in a Spearman correlation of <span class="math notranslate nohighlight">\(rho = 1\)</span>. With such a small data set, however, it’s an open question as to which version better describes the actual relationship involved.</span><a class="headerlink" href="#fig-rankcorr" title="Permalink to this image">¶</a></p>
 </div>
