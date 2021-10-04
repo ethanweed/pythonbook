@@ -43,7 +43,7 @@ A histogram of the AFL 2010 winning margin data (the `afl_margins` variable). As
 (central-tendency)=
 ## Measures of central tendency
 
-Drawing pictures of the data, as I did in {numref}`fig-AFL-Margins` is an excellent way to convey the "gist" of what the data is trying to tell you, it's often extremely useful to try to condense the data into a few simple "summary" statistics. In most situations, the first thing that you'll want to calculate is a measure of **_central tendency_**. That is, you'd like to know something about the "average" or "middle" of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I'll explain each of these in turn, and then discuss when each of them is useful.
+Athough drawing pictures of the data, as I did in {numref}`fig-AFL-Margins` is an excellent way to convey the "gist" of what the data is trying to tell you, it's often extremely useful to try to condense the data into a few simple "summary" statistics. In most situations, the first thing that you'll want to calculate is a measure of **_central tendency_**. That is, you'd like to know something about the "average" or "middle" of your data lies. The two most commonly used measures are the mean, median and mode; occasionally people will also report a trimmed mean. I'll explain each of these in turn, and then discuss when each of them is useful.
 
 ### The mean
 
@@ -53,7 +53,7 @@ The **_mean_** of a set of observations is just a normal, old-fashioned average:
 $\frac{56 + 31 + 56 + 8 + 32}{5} = \frac{183}{5} = 36.60$
 
 
-Of course, this definition of the mean isn't news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I'll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in R. 
+Of course, this definition of the mean isn't news to anyone: averages (i.e., means) are used so often in everyday life that this is pretty familiar stuff. However, since the concept of a mean is something that everyone already understands, I'll use this as an excuse to start introducing some of the mathematical notation that statisticians use to describe this calculation, and talk about how the calculations would be done in Python. 
 
 The first piece of notation to introduce is $N$, which we'll use to refer to the number of observations that we're averaging (in this case $N = 5$). Next, we need to attach a label to the observations themselves. It's traditional to use $X$ for this, and to use subscripts to indicate which observation we're actually talking about. That is, we'll use $X_1$ to refer to the first observation, $X_2$ to refer to the second observation, and so on, all the way up to $X_N$ for the last one. Or, to say the same thing in a slightly more abstract way, we use $X_i$ to refer to the $i$-th observation. Just to make sure we're clear on the notation, the following table lists the 5 observations in the `afl_margins` variable, along with the mathematical symbol used to refer to it, and the actual value that the observation corresponds to:
 
@@ -106,13 +106,13 @@ margins[0:5]
 
 #Dataframe.loc[["row1", "row2"...], ["column1", "column2", "column3"...]]
 
-Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this now, but we'll get back to it in [](getting-started-with-python). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
+Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this again here, but I touched on it in back in the section on [](indexing). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
 
 margins[0:5].sum()/5
 
 
 
-Although it's pretty easy to calculate the mean using the `sum()` function, we can do it in an even easier way, since Python also provides us with the `mean()` function. To calculate the mean for all 176 games, we would use the 
+Although it's pretty easy to calculate the mean using the `sum()` function, we can do it in an even easier way, since Python also provides us with the `mean()` method from the `statistics` module. To calculate the mean for all 176 games, we would use the 
 following command:
 
 import statistics
@@ -155,7 +155,7 @@ statistics.median(margins)
 
 which outputs the median value of 30.5. 
 
-By the way, in the code above, I imported the `statistics` package. Actually, I didn't really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time (unless I forget, or it just seems unnecessary), but you won't need to do this when you are writing your own code, and in fact it will just make your code messier if you do.
+By the way, in the code above, I imported the `statistics` package (or module, or library, or whatever you like to call it). Actually, I didn't really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time (unless I forget, or it just seems unnecessary), but you won't need to do this when you are writing your own code, and in fact it will just make your code messier if you do.
 
 
 ### Mean or median? What's the difference?
@@ -169,13 +169,13 @@ By the way, in the code above, I imported the `statistics` package. Actually, I 
 An illustration of the difference between how the mean and the median should be interpreted. The mean is basically the “centre of gravity” of the data set: if you imagine that the histogram of the data is a solid object, then the point on which you could balance it (as if on a see-saw) is the mean. In contrast, the median is the middle observation. Half of the observations are smaller, and half of the observations are larger.
 ```
 
-Knowing how to calculate means and medians is only a part of the story. You also need to understand what each one is saying about the data, and what that implies for when you should use each one. This is illustrated in {ref}the figure above <fig-meanmedian>. The mean is kind of like the "centre of gravity" of the data set, whereas the median is the "middle value" in the data. What this implies, as far as which one you should use, depends a little on what type of data you've got and what you're trying to achieve. As a rough guide:
+Knowing how to calculate means and medians is only a part of the story. You also need to understand what each one is saying about the data, and what that implies for when you should use each one. This is illustrated in {numref}`fig-meanmedian`. The mean is kind of like the "centre of gravity" of the data set, whereas the median is the "middle value" in the data. What this implies, as far as which one you should use, depends a little on what type of data you've got and what you're trying to achieve. As a rough guide:
  
 - If your data are nominal scale, you probably shouldn't be using either the mean or the median. Both the mean and the median rely on the idea that the numbers assigned to values are meaningful. If the numbering scheme is arbitrary, then it's probably best to use the [](mode) instead. 
 - If your data are ordinal scale, you're more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn't depend on the precise numbers involved. That's exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it's not really appropriate for ordinal data.
 - For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you're trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don't have a lot of data), but it's very sensitive to extreme values, as we'll see in [](trimmed_mean).  
 
-Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (skewed; see [](skew-and-kurtosis)). This is illustrated in {ref}the figure above <fig-meanmedian>. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
+Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed":  see the section on [](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
 
 ### A real life example
 
@@ -257,7 +257,7 @@ stats.trim_mean(dataset3, 0.05)
 (mode)=  
 ### Mode
 
-The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let's examine a different aspect to the data set. Who has played in the most finals? The `afl_finalists` data contains the name of every team that played in any AFL final from 1987-2010, so let's have a look at it. To do this we will use the `.head()` method. `.head()` is a method that can be used when the data is contained in a `pandas` `dataframe` object (which ours is). It can be useful when you're working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using `print(afl_finalists)` will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.
+The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let's examine a different aspect to the data set. Who has played in the most finals? The `afl_finalists` data contains the name of every team that played in any AFL final from 1987-2010, so let's have a look at it. To do this we will use the `head()` method. `head()` is a method that can be used when the data is contained in a `pandas` `dataframe` object (which ours is). It can be useful when you're working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using `print(afl_finalists)` will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.
 
 
 afl_finalists.head(n=25)
@@ -269,20 +269,20 @@ finalists = afl_finalists['afl.finalists']
 finalists.value_counts()
 
 
-Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the `finalists` data is `"Geelong"` If we want to extract the mode without inspecting the table, we can use the `statistics.mode` function to tell us which team has most often played in the finals.
+Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the `finalists` data is `"Geelong"`. If we want to extract the mode without inspecting the table, we can use the `statistics.mode` function to tell us which team has most often played in the finals.
 
 
 statistics.mode(finalists)
 
 
-If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with `value_counts` and then find the largest value with `max`
+If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with `value_counts` and then find the largest value with `max`.
 
 freq = finalists.value_counts()
 freq.max()
 
 Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period. 
 
-One last point to make with respect to the mode. While it's generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let's go back to thinking about our `afl_margins` variable. This variable is clearly ratio scale (if it's not clear to you, it may help to re-read [](scales_of_measurement)), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario... a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the *exact* margin. If you guess correctly, you win \$50. If you don't, you lose \$1. There are no consolation prizes for "almost" getting the right answer. You have to guess exactly the right margin. [^note7] For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value
+One last point to make with respect to the mode. While it's generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let's go back to thinking about our `afl_margins` variable. This variable is clearly ratio scale (if it's not clear to you, it may help to re-read [](scales)), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario... a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the *exact* margin. If you guess correctly, you win \$50. If you don't, you lose \$1. There are no consolation prizes for "almost" getting the right answer. You have to guess exactly the right margin. [^note7] For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value
 
 [^note7]: This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.
 
@@ -299,6 +299,7 @@ So the 2010 data suggest you should bet on a 3 point margin, and since this was 
 
 The statistics that we've discussed so far all relate to *central tendency*. That is, they all talk about which values are "in the middle" or "popular" in the data. However, central tendency is not the only type of summary statistic that we want to calculate. The second thing that we really want is a measure of the **_variability_** of the data. That is, how "spread out" are the data? How "far" away from the mean or median do the observed values tend to be? For now, let's assume that the data are interval or ratio scale, so we'll continue to use the `afl_margins` data.  We'll use this data to discuss several different measures of spread, each with different strengths and weaknesses. 
 
+(range)=
 ### Range
 
 The **_range_** of a variable is very simple: it's the biggest value minus the smallest value. For the AFL winning margins data, the maximum value is 116, and the minimum value is 0. We can calculate these values in Python using the `max()` and `min()` functions:
@@ -317,6 +318,7 @@ $$
 $$
 ... it is clear that the range is not robust, since this has a range of 110, but if the outlier were removed we would have a range of only 8.
 
+(iqr)=
 ### Interquartile range
 
 The **_interquartile range_** (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a **_quantile_** is (they're more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number $x$ such that 10% of the data is less than $x$. In fact, we've already come across the idea: the median of a data set is its 50th quantile / percentile! The `numpy` module actually provides you with a way of calculating quantiles, using the (surprise, surprise) `quantile()` function. Let's use it to calculate the median AFL winning margin:
@@ -331,7 +333,7 @@ And not surprisingly, this agrees with the answer that we saw earlier with the `
 np.quantile(margins, [0.25, .75])
 
 
-And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, so we can again use the `iqr.stats` function from `scipy` to give us what we want.
+And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `iqr.stats` function, which will give us what we want.
 
 
 from scipy import stats
@@ -340,11 +342,83 @@ stats.iqr(margins)
 
 While it's obvious how to interpret the range, it's a little less obvious how to interpret the IQR. The simplest way to think about it is like this: the interquartile range is the range spanned by the "middle half" of the data. That is, one quarter of the data falls below the 25th percentile, one quarter of the data is above the 75th percentile, leaving the "middle half" of the data lying in between the two. And the IQR is the range covered by that middle half.
 
+(aad)=
+
+### Mean absolute deviation
+
+The two measures we've looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn't the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the "typical" deviations from that reference point. What do we mean by "typical" deviation? Usually, the mean or median value of these deviations! In practice, this leads to two different measures, the "mean absolute deviation (from the mean)" and the "median absolute deviation (from the median)". From what I've read, the measure based on the median seems to be used in statistics, and does seem to be the better of the two, but to be honest I don't think I've seen it used much in psychology. The measure based on the mean does occasionally show up in psychology though. In this section I'll talk about the first one, and I'll come back to talk about the second one later.
+
+Since the previous paragraph might sound a little abstract, let's go through the **_mean absolute deviation_** from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let's think about our AFL winning margins data, and once again we'll start by pretending that there's only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, $\bar{X}$. For these five observations, our mean is $\bar{X} = 36.6$. The next step is to convert each of our observations $X_i$ into a deviation score. We do this by calculating the difference between the observation $X_i$ and the mean $\bar{X}$. That is, the deviation score is defined to be $X_i - \bar{X}$. For the first observation in our sample, this is equal to $56 - 36.6 = 19.4$. Okay, that's simple enough. The next step in the process is to convert these deviations to absolute deviations. We do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of $-3$ as $|-3|$, and so we say that $|-3| = 3$. We use the absolute value function here because we don't really care whether the value is higher than the mean or lower than the mean, we're just interested in how *close* it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:
+
+|the observation        |its symbol |the observed value |
+|:----------------------|:----------|:------------------|
+|winning margin, game 1 |$X_1$      |56 points          |
+|winning margin, game 2 |$X_2$      |31 points          |
+|winning margin, game 3 |$X_3$      |56 points          |
+|winning margin, game 4 |$X_4$      |8 points           |
+|winning margin, game 5 |$X_5$      |32 points          |
+
+Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let's do that:
+
+$$
+
+\frac{19.4 + 5.6 + 19.4 + 28.6 + 4.6}{5} = 15.52
+
+$$
+
+And we're done. The mean absolute deviation for these five scores is 15.52. 
+
+However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, "mean absolute deviation" and "median absolute deviation" have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you _**both use the abbreviation MAD even though they mean different things!**_ Sigh. What I'll do is use AAD instead, short for *average* absolute deviation. Now that we have some unambiguous notation, here's the formula that describes what we just calculated: Now that we have some unambiguous notation, here's the formula that describes what we just calculated:
+
+$$
+
+ADD\mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|
+
+$$
+
+The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
+
+from statistics import mean
+
+X = [56, 31, 56, 8, 32]             # 1. enter the data
+X_bar = mean(X)                     # 2. find the mean of the data
+AD = []                             # 3. find the  absolute value of the difference between
+for i in X:                         #    each value and the mean and add it to the list AD    
+    AD.append(abs((i-X_bar)))       
+ADD = mean(AD)                      # 4. find the mean of the absolute values
+ADD
+
+
+Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, I suggest using the `pandas` method `mad()` to make life easier. There is one important thing to notice, however: `pandas` will want the data to be in a different format, namely the simply and elegantly named `pandas.core.series.Series` format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can't, so it is worth putting up with the name. To find the AAD, we can just do:
+
+import pandas as pd
+
+data = pd.Series( [56, 31, 56, 8, 32])
+data.mad()
+
+
+Ok, I lied again. There is more than one thing to notice (when isn't there?). "AAD" is a good acronym, but unfortunately, it's one I just made up. `pandas` calls this the "MAD". And, as we have seen, this is _also_ the acronym for the _median absolute difference_. To find the median absolute difference, we can use the `robust` module from the `statsmodels` package, which has a function called, you guessed it, `mad`. Except this time the "m" in "MAD" stand for "median" and not "mean". Haha, isn't naming fun?
+
+We'll talk more about [](mad) below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!
+
+import pandas as pd
+import numpy as np
+from statsmodels import robust
+
+data = pd.Series( [56, 31, 56, 8, 32])
+pandas_mad = data.mad()
+
+data = np.array([56, 31, 56, 8, 32])
+statsmodels_mad = robust.mad(data, c = 1)
+
+print("Pandas MAD is the mean absolute deviation:", pandas_mad)
+print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
+
+(var)=
 ### Variance 
 
 
-
-The two measures we've looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn't the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the "typical" deviations from that reference point. What do we mean by "typical" deviation? Usually, the mean value of these deviations! At least, more or less. Although mean absolute deviation measure has its uses, it's not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the **_variance_**, which has a lot of really nice statistical properties that I'm going to ignore, [^note8] and one massive psychological flaw that I'm going to make a big deal out of in a moment. The variance of a data set $X$ is sometimes written as $\mbox{Var}(X)$, but it's more commonly denoted $s^2$ (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:
+Although mean absolute deviation measure has its uses, it's not the best measure of variability to use. From a purely mathematical perspective, there are some solid reasons to prefer squared deviations rather than absolute deviations. If we do that, we obtain a measure is called the **_variance_**, which has a lot of really nice statistical properties that I'm going to ignore, [^note8] and one massive psychological flaw that I'm going to make a big deal out of in a moment. The variance of a data set $X$ is sometimes written as $\mbox{Var}(X)$, but it's more commonly denoted $s^2$ (the reason for this will become clearer shortly). The formula that we use to calculate the variance of a set of observations is as follows:
 
 $$
 \mbox{Var}(X) = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
@@ -363,7 +437,7 @@ Now that we've got the basic idea, let's have a look at a concrete example. Once
 |     4      |   8   |        -28.6        |      817.96       |
 |     5      |  32   |        -4.6         |       21.16       |
 
-The same table again, translated into Mathese, looks like this:
+The same table again, translated into Math-ese, looks like this:
 
 | *i*      | $X_i$ | $X_i - \bar{X}$     | $X_i - \bar{X}$)$^2$                      |
 | :--------: | :---: | :-----------------: | :-----------------------------------------: 
@@ -375,29 +449,63 @@ The same table again, translated into Mathese, looks like this:
 
 That last column contains all of our squared deviations, so all we have to do is average them. If we do that by typing all the numbers into Python by hand...
 
-[^note8]: Well, I will very briefly mention the one that I think is coolest, for a very particular definition of "cool", that is. Variances are *additive*. Here's what that means: suppose I have two variables $X$ and $Y$, whose variances are $\mbox{Var}](X)$ and $\mbox{Var}(Y)$ respectively. Now imagine I want to define a new variable $Z$ that is the sum of the two, $Z = X+Y$. As it turns out, the variance of $Z$ is equal to $\mbox{Var}(X) + \mbox{Var}(Y)$. This is a *very* useful property, but it's not true of the other measures that I talk about in this section.
+[^note8]: Well, I will very briefly mention the one that I think is coolest, for a very particular definition of "cool", that is. Variances are *additive*. Here's what that means: suppose I have two variables $X$ and $Y$, whose variances are $\mbox{Var}(X)$ and $\mbox{Var}(Y)$ respectively. Now imagine I want to define a new variable $Z$ that is the sum of the two, $Z = X+Y$. As it turns out, the variance of $Z$ is equal to $\mbox{Var}(X) + \mbox{Var}(Y)$. This is a *very* useful property, but it's not true of the other measures that I talk about in this section.
 
 
 ( 376.36 + 31.36 + 376.36 + 817.96 + 21.16 ) / 5
 
 
-... we end up with a variance of 324.64. Exciting, isn't it? For the moment, let's ignore the burning question that you're all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in R, because this will reveal something very weird.
+... we end up with a variance of 324.64. Exciting, isn't it? For the moment, let's ignore the burning question that you're all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in Python, because this will reveal something very weird.
 
-As always, we want to avoid having to type in a whole lot of numbers ourselves. 
+As always, we want to avoid having to type in a whole lot of numbers ourselves, and fortunately the `statistics` module provides a function called `variance` which saves us the trouble. And as it happens, we have the values lying around in the variable `data`, which we created in the previous section. With this in mind, we can just calculate the variance of `data` by using the following command
+
+import statistics
+
+statistics.variance(data)
+
+and you get the same... no, wait... you get a completely different answer. That’s just weird. Is Python broken? Is this a typo? Is Dan an idiot?
+As it happens, the answer is no[^note9]. It's not a typo, and Python is not making a mistake. To get a feel for what's happening, let's stop using the tiny data set containing only 5 data points, and switch to the full set of 176 games that we've got stored in our  `afl_margins` vector. First, let's calculate the variance by using the formula that I described above:
+
+[^note9]: With the possible exception of the third question.
+
+import statistics
+m = statistics.mean(afl_margins['afl.margins'])
+v = []
+for n in afl_margins['afl.margins']:
+    squared_error = (n-m)**2
+    v.append(squared_error)
+var = statistics.mean(v)
+var
+
+Now let's use the `statistics.variance()` function:
+
+import statistics
+
+var = statistics.variance(afl_margins['afl.margins'])
+
+var
+
+Hm. These two numbers are very similar this time. That seems like too much of a coincidence to be a mistake. And of course it isn't a mistake. In fact, it's very simple to explain what Python is doing here, but slightly trickier to explain *why* Python is doing it. So let's start with the "what". What Python is doing is evaluating a slightly different formula to the one I showed you above. Instead of averaging the squared deviations, which requires you to divide by the number of data points $N$, Python has chosen to divide by $N-1$. In other words, the formula that Python is using is this one 
+
+$$
+
+\frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
+
+$$
+
+So that's the *what*. The real question is *why* Python is dividing by $N-1$ and not by $N$. After all, the variance is supposed to be the *mean* squared deviation, right? So shouldn't we be dividing by $N$, the actual number of observations in the sample? Well, yes, we should. However, as we'll discuss in [](estimation), there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by $N$) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample *in and of itself*. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". However, I'm getting ahead of myself. For now, let's just take it on faith that Python knows what it's doing, and we'll revisit the question later on when we talk about estimation in [](estimation). 
+
+By the way, if you _do_ want to calculate variance and divide by $N$ and not $N-1$, Python does a have a way to do this as well; you just need to ask for `pvariance()` instead of `variance()`:
+
+population_variance = statistics.pvariance(afl_margins['afl.margins'])
+sample_variance = statistics.variance(afl_margins['afl.margins'])
+
+print("statistics.pvariance divides by N: ", population_variance)
+print("statistics.variance divide by N-1: ", sample_variance)
+
+Okay, one last thing. This section so far has read a bit like a mystery novel. I've shown you how to calculate the variance, described the weird "$N-1$" thing that Python does and hinted at the reason why it's there, but I haven't mentioned the single most important thing... how do you *interpret* the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven't given you the human-friendly interpretation of the variance is that there really isn't one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it's completely useless if you want to communicate with an actual human... variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don't mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was "376.36 points-squared higher than the average margin". This is *exactly* as stupid as it sounds; and so when we calculate a variance of 324.64, we're in the same situation. I've watched a lot of footy games, and never has anyone referred to "points squared". It's *not* a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.
 
 
-and as usual we get the same answer as the one that we got when we did everything by hand. However, I *still* think that this is too much typing. Fortunately, the `numpy` module has a function called `var()` which does calculate variances. So we could also do this...
-
-data = [56,31,56,8,32]
-np.var(data)
-
-and you get the same thing. Now, there is a little catch here. Python is doing what we asked, and calculating the variance of our data. However, as we'll discuss in [](estimation), there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by $N$) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample *in and of itself*. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". To calculate the population parameter, we need to make a small adjustment:
-
-np.var(data, ddof = 1)
-
-This gives us a rather different value for the variance in our data. Going into the how's and whyfore's will need to wait for a later chapter, however. For now, it is enough to know that this difference exists, and to know how to get the value we want. 
-
-Okay, one last thing. This section so far has read a bit like a mystery novel. I've shown you how to calculate the variance, alluded to a mysterious difference between sample statistics and population parameters, but I haven't mentioned the single most important thing... how do you *interpret* the variance? Descriptive statistics are supposed to describe things, after all, and right now the variance is really just a gibberish number. Unfortunately, the reason why I haven't given you the human-friendly interpretation of the variance is that there really isn't one. This is the most serious problem with the variance. Although it has some elegant mathematical properties that suggest that it really is a fundamental quantity for expressing variation, it's completely useless if you want to communicate with an actual human... variances are completely uninterpretable in terms of the original variable! All the numbers have been squared, and they don't mean anything anymore. This is a huge issue. For instance, according to the table I presented earlier, the margin in game 1 was "376.36 points-squared higher than the average margin". This is *exactly* as stupid as it sounds; and so when we calculate a variance of 324.64, we're in the same situation. I've watched a lot of footy games, and never has anyone referred to "points squared". It's *not* a real unit of measurement, and since the variance is expressed in terms of this gibberish unit, it is totally meaningless to a human.
 
 (sd)=
 ### Standard deviation
@@ -418,9 +526,9 @@ With that in mind, calculating standard deviations in Python is simple:
 
 statistics.stdev(margins)
 
-Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn't have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it's not exact: it's actually calculated based on an *assumption* that the histogram is symmetric and "bell shaped". [^note9] As you can tell from looking at the AFL winning margins histogram in Figure \@ref(fig:histogram1), this isn't exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in {numref}`fig-aflsd`.
+Interpreting standard deviations is slightly more complex. Because the standard deviation is derived from the variance, and the variance is a quantity that has little to no meaning that makes sense to us humans, the standard deviation doesn't have a simple interpretation. As a consequence, most of us just rely on a simple rule of thumb: in general, you should expect 68% of the data to fall within 1 standard deviation of the mean, 95% of the data to fall within 2 standard deviation of the mean, and 99.7% of the data to fall within 3 standard deviations of the mean. This rule tends to work pretty well most of the time, but it's not exact: it's actually calculated based on an *assumption* that the histogram is symmetric and "bell shaped". [^note10] As you can tell from looking at the AFL winning margins histogram in {numref}`fig-aflsd`, this isn't exactly true of our data! Even so, the rule is approximately correct. As it turns out, 65.3% of the AFL margins data fall within one standard deviation of the mean. This is shown visually in {numref}`fig-aflsd`.
 
-[^note9]: Strictly, the assumption is that the data are *normally* distributed, which is an important concept that we'll discuss more in Chapter \@ref(probability), and will turn up over and over again later in the book.
+[^note10]: Strictly, the assumption is that the data are *normally* distributed, which is an important concept that we'll discuss more in the chapter [](probability), and will turn up over and over again later in the book.
 
 
 ```{figure} ../img/descriptives2/figure_2.5_mean_SD.png
@@ -432,6 +540,7 @@ Interpreting standard deviations is slightly more complex. Because the standard 
 An illustration of the standard deviation, applied to the AFL winning margins data. The shaded bars in the histogram show how much of the data fall within one standard deviation of the mean. In this case, 65.3% of the data set lies within this range, which is pretty consistent with the \"approximately 68% rule\" discussed in the main text.
 ```
 
+(mad)=
 ### Median absolute deviation
 
 The last measure of variability that I want to talk about is the **_median absolute deviation_** (MAD). The basic idea behind MAD is very simple: it's just the median of the absolute deviations from the median of the data. Find the distance of each data point from the median of all the data points (ignoring the signs), and then take the median of that.
@@ -449,7 +558,7 @@ robust.mad(margins, c=1)
 
 Apart from the weirdness of having to type that `c = 1` part, this is pretty straightforward.
 
-Okay, so what exactly is this `c = 1` argument? I won't go into all the details here, but here's the gist. Although the "raw" MAD value that I've described above is completely interpretable on its own terms, that's not actually how it's used in a lot of real world contexts. Instead, what happens a lot is that the researcher *actually* wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a "robust" way of calculating "something that is like the mean", it's not uncommon to use MAD as a method for calculating "something that is like the standard deviation". Unfortunately, the *raw* MAD value doesn't do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions^[The assumption again being that the data are normally-distributed!], you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of `constant` is 1.4826, and so when you use the `mad()` command without manually setting a value, here's what you get:
+Okay, so what exactly is this `c = 1` argument? I won't go into all the details here, but here's the gist. Although the "raw" MAD value that I've described above is completely interpretable on its own terms, that's not actually how it's used in a lot of real world contexts. Instead, what happens a lot is that the researcher *actually* wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a "robust" way of calculating "something that is like the mean", it's not uncommon to use MAD as a method for calculating "something that is like the standard deviation". Unfortunately, the *raw* MAD value doesn't do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions (the assumption again being that the data are normally-distributed!), you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of `constant` is 1.4826, and so when you use the `mad()` command without manually setting a value, here's what you get:
 
 robust.mad(margins)
 
@@ -461,11 +570,12 @@ I should point out, though, that if you want to use this "corrected" MAD value a
 We've discussed quite a few measures of spread (range, IQR, MAD, variance and standard deviation), and hinted at their strengths and weaknesses. Here's a quick summary:
 
 
-- *Range*. Gives you the full spread of the data. It's very vulnerable to outliers, and as a consequence it isn't often used unless you have good reasons to care about the extremes in the data.
-- *Interquartile range*. Tells you where the "middle half" of the data sits. It's pretty robust, and complements the median nicely. This is used a lot.
-- *Variance*. Tells you the average squared deviation from the mean. It's mathematically elegant, and is probably the "right" way to describe variation around the mean, but it's completely uninterpretable because it doesn't use the same units as the data. Almost never used except as a mathematical tool; but it's buried "under the hood" of a very large number of statistical tools.
-- *Standard deviation*. This is the square root of the variance. It's fairly elegant mathematically, and it's expressed in the same units as the data so it can be interpreted pretty well. In situations where the mean is the measure of central tendency, this is the default. This is by far the most popular measure of variation. 
-- *Median absolute deviation*. The typical (i.e., median) deviation from the median value. In the raw form it's simple and interpretable; in the corrected form it's a robust way to estimate the standard deviation, for some kinds of data sets. Not used very often, but it does get reported sometimes.
+- [*Range*](range). Gives you the full spread of the data. It's very vulnerable to outliers, and as a consequence it isn't often used unless you have good reasons to care about the extremes in the data.
+- [*Interquartile range*](iqr). Tells you where the "middle half" of the data sits. It's pretty robust, and complements the median nicely. This is used a lot.
+- [*Mean absolute deviation*](aad). Tells you how far “on average” the observations are from the mean. It’s very interpretable, but has a few minor issues (not discussed here) that make it less attractive to statisticians than the standard deviation. Used sometimes, but not often.
+- [*Variance*](var). Tells you the average squared deviation from the mean. It's mathematically elegant, and is probably the "right" way to describe variation around the mean, but it's completely uninterpretable because it doesn't use the same units as the data. Almost never used except as a mathematical tool; but it's buried "under the hood" of a very large number of statistical tools.
+- [*Standard deviation*](sd). This is the square root of the variance. It's fairly elegant mathematically, and it's expressed in the same units as the data so it can be interpreted pretty well. In situations where the mean is the measure of central tendency, this is the default. This is by far the most popular measure of variation. 
+- [*Median absolute deviation*](mad). The typical (i.e., median) deviation from the median value. In the raw form it's simple and interpretable; in the corrected form it's a robust way to estimate the standard deviation, for some kinds of data sets. Not used very often, but it does get reported sometimes.
 
 
 In short, the IQR and the standard deviation are easily the two most common measures used to report the variability of the data; but there are situations in which the others are used. I've described all of them in this book because there's a fair chance you'll run into most of these somewhere.
@@ -552,16 +662,11 @@ ax3 = sns.histplot(data=leptokurtic, x = "Values", binwidth=.5, ax=axes[2])
 
 
 
-#ax1a = ax1.twinx()
-#ax2a = ax2.twinx()
-#ax3a = ax3.twinx()
-
 #ax2 = ax.twinx()
 sns.lineplot(x=x,y=y*40000, ax=ax1, color='black')
 sns.lineplot(x=x,y=y*40000, ax=ax2, color='black')
 sns.lineplot(x=x,y=y*40000, ax=ax3, color='black')
 
-#sns.lineplot(x=x,y=y, ax=ax1a, color='black')
 
 axes[0].set_title("Platykurtic\n\"too flat\"")
 axes[1].set_title("Mesokurtic\n\"just right\"")
@@ -582,7 +687,7 @@ glue("kurtosis_fig", ax, display=False)
 :figwidth: 600px
 :name: fig-kurtosis
 
-An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis =  ́.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis “ 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).
+An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis = -.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis = 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).
 ```
 
 By convention, we say that the "normal curve" (black lines) has zero kurtosis, so the pointiness of a data set is assessed relative to this curve. In this Figure, the data on the left are not pointy enough, so the kurtosis is negative and we call the data *platykurtic*. The data on the right are too pointy, so the kurtosis is positive and we say that the data is *leptokurtic*. But the data in the middle are just pointy enough, so we say that it is *mesokurtic* and has kurtosis zero. This is summarised in the table below:
@@ -594,17 +699,21 @@ By convention, we say that the "normal curve" (black lines) has zero kurtosis, s
 |too pointy         |leptokurtic    |positive       |
 
 
-The equation for kurtosis is pretty similar in spirit to the formulas we've seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power:^[The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.]
+The equation for kurtosis is pretty similar in spirit to the formulas we've seen already for the variance and the skewness; except that where the variance involved squared deviations and the skewness involved cubed deviations, the kurtosis involves raising the deviations to the fourth power: [^note_kurtosis]
+
 $$
 \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3
 $$
+
 I know, it's not terribly interesting to me either. To make things worse, there are several different formulae for calculating kurtosis, so different statistics packages may give you different results, depending on which formula they use.  For instance, if we were to do this for the AFL margins, these three different methods give three different results:
+
+[^note_kurtosis]: The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.
 
 print("Pandas: ", margins.kurtosis())
 print("Fischer: ",stats.kurtosis(margins, fisher=True))
 print("Pearson: ",stats.kurtosis(margins, fisher=False))
 
-Take your pick, I guess? If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.
+Take your pick, I guess? `pandas` actually also calculates Fischer kurtosis, but `stats.kurtosis(margins, fisher=True)` adds a "bias correction" by default, while the `pandas` version doesn't. `stats.kurtosis(margins, fisher=True, bias=False)`will get you the same thing as the `pandas` version. Ugh. If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.
 
 ## Getting an overall summary of a variable
 
@@ -620,7 +729,7 @@ afl_margins.describe()
 
 For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.
 
-Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout see [](studydesign) as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
+Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
 
 afl_margins['blowouts'] = np.where(afl_margins['afl.margins'] > 50, True, False)
 afl_margins.head()
@@ -629,7 +738,7 @@ So that's what the `blowouts` variable looks like. Now let's ask Python to `desc
 
 afl_margins['blowouts'].describe()
 
-In this context, `describe` gives us the total number of games (176), the number of categories for those games(2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable. 
+In this context, `describe` gives us the total number of games (176), the number of categories for those games (2, either blowout or not a blowout), the most common category (False, that is, not a blowout), and a count for the more common category. A little cryptic, but not entirely unreasonable. 
 
 
 
@@ -637,9 +746,8 @@ In this context, `describe` gives us the total number of games (176), the number
 
 Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in the chapter on [](ANOVA) (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
-# load data
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'clinical_trial_data.csv'
+import pandas as pd
+file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clinical_trial_data.csv'
 
 df_clintrial = pd.read_csv(file)
 df_clintrial.head()
@@ -684,11 +792,11 @@ Technically, because I'm calculating means and standard deviations from a sample
 
 To interpret this value, recall the rough heuristic that I provided in the section on [standard deviation](sd), in which I noted that 99.7% of values are expected to lie within 3 standard deviations of the mean. So the fact that my grumpiness corresponds to a $z$ score of 3.6 indicates that I'm very grumpy indeed. 
 
-In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can't. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4; and I scored a 2. As you can imagine, it doesn't make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are "about" fundamentally different things, so this would be like comparing apples to oranges.
+In addition to allowing you to interpret a raw score in relation to a larger population (and thereby allowing you to make sense of variables that lie on arbitrary scales), standard scores serve a second useful function. Standard scores can be compared to one another in situations where the raw scores can't. Suppose, for instance, my friend also had another questionnaire that measured extraversion using a 24 items questionnaire. The overall mean for this measure turns out to be 13 with standard deviation 4, and I scored a 2. As you can imagine, it doesn't make a lot of sense to try to compare my raw score of 2 on the extraversion questionnaire to my raw score of 35 on the grumpiness questionnaire. The raw scores for the two variables are "about" fundamentally different things, so this would be like comparing apples to oranges.
 
-What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get $z = (35-17)/5 = 3.6$ for grumpiness and $z = (2-13)/4 = -2.75$ for extraversion. These two numbers *can* be compared to each other. [^note10]  I'm much less extraverted than most people ($z = -2.75$) and much grumpier than most people ($z = 3.6$): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls *relative to its own population*, it *is* possible to compare standardised scores across completely different variables. 
+What about the standard scores? Well, this is a little different. If we calculate the standard scores, we get $z = (35-17)/5 = 3.6$ for grumpiness and $z = (2-13)/4 = -2.75$ for extraversion. These two numbers *can* be compared to each other. [^note11]  I'm much less extraverted than most people ($z = -2.75$) and much grumpier than most people ($z = 3.6$): but the extent of my unusualness is much more extreme for grumpiness (since 3.6 is a bigger number than 2.75).  Because each standardised score is a statement about where an observation falls *relative to its own population*, it *is* possible to compare standardised scores across completely different variables. 
 
-[^note10]: Though some caution is usually warranted. It's not always the case that one standard deviation on variable A corresponds to the same "kind" of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the $z$ scores of two variables can be meaningfully compared.
+[^note11]: Though some caution is usually warranted. It's not always the case that one standard deviation on variable A corresponds to the same "kind" of thing as one standard deviation on variable B. Use common sense when trying to determine whether or not the $z$ scores of two variables can be meaningfully compared.
 
 (correlations)=
 ## Correlations
@@ -699,15 +807,11 @@ Up to this point we have focused entirely on how to construct descriptive statis
 
 After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-from os import chdir as cd
 import pandas as pd
 
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'parenthood.csv'
-
-cd(pathin)
-
+file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv'
 parenthood = pd.read_csv(file)
+
 parenthood.head()
 
 
@@ -741,7 +845,7 @@ sns.histplot(baby_sleep, ax=axes[2])
 axes[2].set_title(baby_sleep.name);
 
 # You know the drill by now: this is just for the purpose of linking to the figure in the book
-glue("grump_fig", fig, display=False)
+#glue("grump_fig", fig, display=False)
 
 ```{glue:figure} grump_fig
 :figwidth: 650px
@@ -750,7 +854,7 @@ glue("grump_fig", fig, display=False)
 Histograms for the three interesting variables in the parenthood data set.
 ```
 
-One thing to note: just because Python can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. [^note11] Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.  
+One thing to note: just because Python can calculate dozens of different statistics doesn't mean you should report all of them. If I were writing this up for a report, I'd probably pick out those statistics that are of most interest to me (and to my readership), and then put them into a nice, simple table like the one in the table below. [^note12] Notice that when I put it into a table, I gave everything "human readable" names. This is always good practice. Notice also that I'm not getting enough sleep. This isn't good practice, but other parents tell me that it's standard practice.  
 
 |variable                |min  |max   |mean  |median |std. dev |IQR  |
 |:-----------------------|:----|:-----|:-----|:------|:--------|:----|
@@ -758,7 +862,7 @@ One thing to note: just because Python can calculate dozens of different statist
 |Dan's hours slept       |4.84 |9     |6.97  |7.03   |1.02     |1.45 |
 |Dan's son's hours slept |3.25 |12.07 |8.05  |7.95   |2.07     |3.21 |
 
-[^note11]: Actually, even that table is more than I'd bother with. In practice most people pick *one* measure of central tendency, and *one* measure of variability only.
+[^note12]: Actually, even that table is more than I'd bother with. In practice most people pick *one* measure of central tendency, and *one* measure of variability only.
 
 (correlation)=
 
@@ -815,7 +919,7 @@ to the relationship between baby.sleep and dan.sleep (right).
 
 ### The correlation coefficient
 
-We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at Figure \@ref(fig:corr), you can see several plots showing what different correlations look like.
+We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at {numref}`fig-corrs`, you can see several plots showing what different correlations look like.
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -840,7 +944,7 @@ for s, val in enumerate(rneg):
     sns.scatterplot(x=x,y=y, ax = axes[s,1])
     axes[s,1].set_title('r = ' + str(val))
 
-glue("corrs-fig", fig, display=False)
+#glue("corrs-fig", fig, display=False)
 
 ```{glue:figure} corrs-fig
 :figwidth: 600px
@@ -855,7 +959,7 @@ $$
 \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
 $$
 
-Because we're multiplying (i.e., taking the "product" of) a quantity that depends on $X$ by a quantity that depends on $Y$ and then averaging^[Just like we saw with the variance and the standard deviation, in practice we divide by $N-1$ rather than $N$.], you can think of the formula for the covariance as an "average cross product" between $X$ and $Y$. The covariance has the nice property that, if $X$ and $Y$ are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in Figure@reffig:corr) then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which $X$ and $Y$ are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if $X$ refers to the `dan.sleep` variable (units: hours) and $Y$ refers to the `dan.grump` variable (units: grumps), then the units for their covariance are "hours $\times$ grumps". And I have no freaking idea what that would even mean. 
+Because we're multiplying (i.e., taking the "product" of) a quantity that depends on $X$ by a quantity that depends on $Y$ and then averaging [^note_covariance], you can think of the formula for the covariance as an "average cross product" between $X$ and $Y$. The covariance has the nice property that, if $X$ and $Y$ are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in {numref}`fig-corrs` then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which $X$ and $Y$ are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if $X$ refers to the `dan.sleep` variable (units: hours) and $Y$ refers to the `dan.grump` variable (units: grumps), then the units for their covariance are "hours $\times$ grumps". And I have no freaking idea what that would even mean. 
 
 The Pearson correlation coefficient $r$ fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the $z$-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it'll do for our purposes)  In other words, the correlation between $X$ and $Y$ can be written as follows:
 
@@ -865,13 +969,15 @@ $$
 
 By doing this standardisation, not only do we keep all of the nice properties of the covariance discussed earlier, but the actual values of $r$ are on a meaningful scale: $r= 1$ implies a perfect positive relationship, and $r = -1$ implies a perfect negative relationship. I'll expand a little more on this point later, in section on [interpreting correlations](interpreting-correlations). But before I do, let's look at how to calculate correlations in Python.
 
+[^note_covariance]: Just like we saw with the variance and the standard deviation, in practice we divide by $N-1$ rather than $N$.
+
 ### Calculating correlations in Python
 
 
 
-Calculating correlations in Python can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note12] 
+Calculating correlations in Python can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note13] 
 
-[^note12]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
+[^note13]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
 
 
 x = parenthood['dan.sleep']
@@ -879,7 +985,7 @@ y = parenthood['dan.grump']
 
 x.corr(y)
 
-However, the `cor()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:^[An alternative usage of `cor()` is to correlate one set of variables with another subset of variables. If `X` and `Y` are both data frames with the same number of rows, then `cor(x = X, y = Y)` will produce a correlation matrix that correlates all variables in `X` with all variables in `Y`.]
+However, the `cor()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:
 
 parenthood.corr()
 
@@ -909,7 +1015,7 @@ glue("corr-interpretation-table", df, display=False)
 A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.
 ```
 
-However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`anscombe1973graphs`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
+However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`Anscombe1973`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
 y1 = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
@@ -938,9 +1044,6 @@ You'd think that these four data sets would look pretty similar to one another. 
 
 import seaborn as sns
 
-
-import seaborn as sns
-
 fig, axes = plt.subplots(2, 2, figsize=(15, 10), sharey=True)
 fig.suptitle('Anscombe\'s quartet')
 
@@ -949,7 +1052,7 @@ sns.scatterplot(x = df['x'], y = df['y2'], ax = axes[0,1])
 sns.scatterplot(x = df['x'], y = df['y3'], ax = axes[1,0])
 sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
 
-glue("anscombe-fig", fig, display=False)
+#glue("anscombe-fig", fig, display=False)
 
 ```{glue:figure} anscombe-fig
 :figwidth: 600px
@@ -968,13 +1071,9 @@ One very common situation where the Pearson correlation isn't quite the right th
 
 To illustrate, consider the data plotted in {numref}`fig-rankcorr`, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
 
-from os import chdir as cd
 import pandas as pd
 
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'effort.csv'
-
-cd(pathin)
+file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/effort.csv'
 
 effort = pd.read_csv(file)
 
@@ -992,7 +1091,7 @@ sns.lineplot(x='hours', y='grade', data=effort, color = "black", ci=None, ax=ax)
 ax.lines[0].set_linestyle("--")
 
 
-glue("rankcorr-fig", fig, display=False)
+#glue("rankcorr-fig", fig, display=False)
 
 ```{glue:figure} rankcorr-fig
 :figwidth: 600px
@@ -1032,13 +1131,13 @@ As the table above shows, these two rankings are identical, so if we now correla
 
 ranked_hours.corr(ranked_grades)
 
-What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `cor()` method. [^note13] Since we are skipping the extra step of "manually" creating new, ranked variables, we can just operate directly on the dataframe columns:
+What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `cor()` method. [^note14] Since we are skipping the extra step of "manually" creating new, ranked variables, we can just operate directly on the dataframe columns:
 
-[^note13]: Yikes, that's two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!
+[^note14]: Yikes, that's two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!
 
 effort['hours'].corr(effort['grade'], method="spearman")
 
-The default value of the `method` argument is `"pearson"`, which is why we didn't have to specify it earlier on when we were doing Pearson correlations. 
+The default value of the `method` argument is `"pearson"`, which is why we didn't have to specify it earlier on when we were doing Pearson correlations, although we could have, for extra clarity. 
 
 (missing)=
 ## Handling missing values
@@ -1055,12 +1154,6 @@ partial = [10, 20, float('nan'), 30]
 Let's assume that you want to calculate the mean of this variable. By default, Python assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that although `nan` stands for "not a number", the more accurate interpretation of `nan` here is "There should be a number here, but I don't know what that number is". This means that `1 + nan = nan`: if I add 1 to some number that I don't know (i.e., the `nan`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell Python to ignore the `nan` values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the `partial` vector, without doing anything about the missing value, here's what happens:
 
 statistics.mean(partial)
-
-Technically correct, but deeply unhelpful. 
-
-To fix this, all of the descriptive statistics functions that I've discussed in this chapter (with the exception of `cor()` which is a special case I'll discuss below) have an optional argument called `na.rm`, which is shorthand for "remove NA values". By default, `na.rm = FALSE`, so R does nothing about the missing data problem. Let's try setting `na.rm = TRUE` and see what happens:
-
-When calculating sums and means when missing data are present (i.e., when there are `NA` values) there's actually an additional argument to the function that you should be aware of. This argument is called `na.rm`, and is a logical value indicating whether R should ignore (or "remove") the missing data for the purposes of doing the calculations. By default, R assumes that you want to keep the missing values, so unless you say otherwise it will set `na.rm = FALSE`. However, R assumes that `1 + NA = NA`: if I add 1 to some number that I don't know (i.e., the `NA`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell R to ignore the `NA` values, and the data set does have missing values, then the output will itself be a missing value. This is illustrated in the following extract:
 
 Technically correct, but deeply unhelpful. There are a few ways to deal with this. The first is to use methods from `numpy`. `numpy` has a collection of methods to calculate nan-friendly versions of your favorite descriptive statistics (although correlation is a special case, more on that below), such as `nanmean`, `nanmedian`, `nanpercentile`, `nanmax`, `nanmin`, `nansum`, `nanstd`, etc. So:
 
@@ -1106,13 +1199,9 @@ Notice that the mean is `20`  (i.e., `60 / 3`) and *not* `15`. When Python ignor
 
 I mentioned earlier that the correlation is a special case. It doesn't have an `np.nancorr` argument, because the story becomes a lot more complicated when more than one variable is involved. To explore this, lets look at the data in `parenthood2.csv`. This is just like the `parenthood` data from before, but with some missing values introducd. Maybe I was just too tired some mornings to record the baby's hours of sleep, or to measure my own grumpiness. It happens.
 
-from os import chdir as cd
 import pandas as pd
 
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'parenthood2.csv'
-
-cd(pathin)
+file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood2.csv'
 
 parenthood2 = pd.read_csv(file)
 parenthood2.head()
@@ -1134,11 +1223,11 @@ By checking the length of `parenthood2` and `parenthood2.dropna()`, we can see t
 print(len(parenthood2))
 print(len(parenthood2.dropna()))
 
-The results from `parenthood2.corr()` and `parenthood2.dropna().corr()` are similar, but not quite the same. The two approaches have different strengths and weaknesses. The "pairwise" approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you're making use of more of your data and (as we'll discuss in tedious detail in the chapter on [estimation](estimation)) and it improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you've got. 
+The results from `parenthood2.corr()` and `parenthood2.dropna().corr()` are similar, but not quite the same. The two approaches have different strengths and weaknesses. The "pairwise" approach, the one in which Python only drops observations when they are involved in the comparison at hand, has the advantage that it keeps more observations, so you're making use of more of your data and (as we'll discuss in tedious detail in the chapter on [estimation](estimation)) this improves the reliability of your estimated correlation. On the other hand, it means that every correlation in your correlation matrix is being computed from a slightly different set of observations, which can be awkward when you want to compare the different correlations that you've got. 
  
-So which method should you use? It depends a lot on *why* you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were "chosen" completely randomly [^note14] then you'll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there's no pattern to which observations are "rubbish", then it's probably safer to keep only those observations that are complete. If you think there's something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.
+So which method should you use? It depends a lot on *why* you think your values are missing, and probably depends a little on how paranoid you are. For instance, if you think that the missing values were "chosen" completely randomly [^note15] then you'll probably want to use the pairwise method. If you think that missing data are a cue to thinking that the whole observation might be rubbish (e.g., someone just selecting arbitrary responses in your questionnaire), but that there's no pattern to which observations are "rubbish", then it's probably safer to keep only those observations that are complete. If you think there's something systematic going on, in that some observations are more likely to be missing than others, then you have a much trickier problem to solve, and one that is beyond the scope of this book.
 
-[^note14]: The technical term here is "missing completely at random" (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.
+[^note15]: The technical term here is "missing completely at random" (often written MCAR for short). Makes sense, I suppose, but it does sound ungrammatical to me.
 
 ## Summary
 
@@ -1166,7 +1255,7 @@ In the next section we'll move on to a discussion of how to draw pictures! Every
 >*950,000 -- 1,200,000*
 >
 >-- Estimate of Soviet repression deaths, 
-> 1937-1938 {cite}`ellman2002soviet`
+> 1937-1938 (Ellman, 2002) {cite}`Ellman2002`
 
 Stalin's infamous quote about the statistical character death of millions is worth giving some thought. The clear intent of his statement is that the death of an individual touches us personally and its force cannot be denied, but that the deaths of a multitude are incomprehensible, and as a consequence mere statistics, more easily ignored. I'd argue that Stalin was half right. A statistic is an abstraction, a description of events beyond our personal experience, and so hard to visualise. Few if any of us can imagine what the deaths of millions is "really" like, but we can imagine one death, and this gives the lone death its feeling of immediate tragedy, a feeling that is missing from Ellman's cold statistical description.
 

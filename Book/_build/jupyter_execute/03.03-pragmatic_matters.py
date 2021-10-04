@@ -134,7 +134,7 @@ df
 
 df['centered'] = df['scores']-4
 df['opinion_strength'] = abs(df['centered'])
-df['opinion_direction'] = np.sign(df['scores'])
+df['opinion_direction'] = np.sign(df['scores']-4)
 df
 
 In other words, even though the data are now columns in a dataframe, we can use exactly the same means to calculate new variable. Even better, we can simply create new columns willy-nilly within the same dataframe, so we can keep everything together, all neat and tidy.
