@@ -1097,19 +1097,19 @@ following command:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
 West Coast          38
 Essendon            32
-Collingwood         28
 Melbourne           28
 North Melbourne     28
+Collingwood         28
 Hawthorn            27
-Sydney              26
 Carlton             26
 Adelaide            26
+Sydney              26
 Brisbane            25
-Western Bulldogs    24
 St Kilda            24
+Western Bulldogs    24
 Port Adelaide       17
-Richmond             6
 Fremantle            6
+Richmond             6
 Name: afl.finalists, dtype: int64
 </pre></div>
 </div>
@@ -1234,7 +1234,7 @@ Name: afl.finalists, dtype: int64
 <p>While it’s obvious how to interpret the range, it’s a little less obvious how to interpret the IQR. The simplest way to think about it is like this: the interquartile range is the range spanned by the “middle half” of the data. That is, one quarter of the data falls below the 25th percentile, one quarter of the data is above the 75th percentile, leaving the “middle half” of the data lying in between the two. And the IQR is the range covered by that middle half.</p>
 </div>
 <div class="section" id="mean-absolute-deviation">
-<span id="mad"></span><h3><span class="section-number">1.2.3. </span>Mean absolute deviation<a class="headerlink" href="#mean-absolute-deviation" title="Permalink to this headline">¶</a></h3>
+<span id="aad"></span><h3><span class="section-number">1.2.3. </span>Mean absolute deviation<a class="headerlink" href="#mean-absolute-deviation" title="Permalink to this headline">¶</a></h3>
 <p>The two measures we’ve looked at so far, the range and the interquartile range, both rely on the idea that we can measure the spread of the data by looking at the quantiles of the data. However, this isn’t the only way to think about the problem. A different approach is to select a meaningful reference point (usually the mean or the median) and then report the “typical” deviations from that reference point. What do we mean by “typical” deviation? Usually, the mean or median value of these deviations! In practice, this leads to two different measures, the “mean absolute deviation (from the mean)” and the “median absolute deviation (from the median)”. From what I’ve read, the measure based on the median seems to be used in statistics, and does seem to be the better of the two, but to be honest I don’t think I’ve seen it used much in psychology. The measure based on the mean does occasionally show up in psychology though. In this section I’ll talk about the first one, and I’ll come back to talk about the second one later.</p>
 <p>Since the previous paragraph might sound a little abstract, let’s go through the <strong><em>mean absolute deviation</em></strong> from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let’s think about our AFL winning margins data, and once again we’ll start by pretending that there’s only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, <span class="math notranslate nohighlight">\(\bar{X}\)</span>. For these five observations, our mean is <span class="math notranslate nohighlight">\(\bar{X} = 36.6\)</span>. The next step is to convert each of our observations <span class="math notranslate nohighlight">\(X_i\)</span> into a deviation score. We do this by calculating the difference between the observation <span class="math notranslate nohighlight">\(X_i\)</span> and the mean <span class="math notranslate nohighlight">\(\bar{X}\)</span>. That is, the deviation score is defined to be <span class="math notranslate nohighlight">\(X_i - \bar{X}\)</span>. For the first observation in our sample, this is equal to <span class="math notranslate nohighlight">\(56 - 36.6 = 19.4\)</span>. Okay, that’s simple enough. The next step in the process is to convert these deviations to absolute deviations. We do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of <span class="math notranslate nohighlight">\(-3\)</span> as <span class="math notranslate nohighlight">\(|-3|\)</span>, and so we say that <span class="math notranslate nohighlight">\(|-3| = 3\)</span>. We use the absolute value function here because we don’t really care whether the value is higher than the mean or lower than the mean, we’re just interested in how <em>close</em> it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:</p>
 <table class="colwidths-auto table">
@@ -1312,7 +1312,7 @@ Name: afl.finalists, dtype: int64
 </div>
 </div>
 <p>Ok, I lied again. There is more than one thing to notice (when isn’t there?). “AAD” is a good acronym, but unfortunately, it’s one I just made up. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> calls this the “MAD”. And, as we have seen, this is <em>also</em> the acronym for the <em>median absolute difference</em>. To find the median absolute difference, we can use the <code class="docutils literal notranslate"><span class="pre">robust</span></code> module from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package, which has a function called, you guessed it, <code class="docutils literal notranslate"><span class="pre">mad</span></code>. Except this time the “m” in “MAD” stand for “median” and not “mean”. Haha, isn’t naming fun?</p>
-<p>Just be careful to be aware of which one you are using, and why, and everything will be ok!</p>
+<p>We’ll talk more about <a class="reference internal" href="#mad"><span class="std std-ref">Median absolute deviation</span></a> below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1543,7 +1543,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 </div>
 <div class="section" id="median-absolute-deviation">
-<h3><span class="section-number">1.2.6. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
+<span id="mad"></span><h3><span class="section-number">1.2.6. </span>Median absolute deviation<a class="headerlink" href="#median-absolute-deviation" title="Permalink to this headline">¶</a></h3>
 <p>The last measure of variability that I want to talk about is the <strong><em>median absolute deviation</em></strong> (MAD). The basic idea behind MAD is very simple: it’s just the median of the absolute deviations from the median of the data. Find the distance of each data point from the median of all the data points (ignoring the signs), and then take the median of that.</p>
 <p>This has a straightforward interpretation: every observation in the data set lies some distance away from the typical value (the median). So the MAD is an attempt to describe a <em>typical deviation from a typical value</em> in the data set. It wouldn’t be unreasonable to interpret the MAD value of 19.5 for our AFL data by saying something like this:</p>
 <blockquote>
@@ -1628,7 +1628,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x139b96f40&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x1384ffee0&gt;
 </pre></div>
 </div>
 </div>
@@ -2047,8 +2047,8 @@ Name: blowouts, dtype: object
     </tr>
     <tr>
       <th>top</th>
-      <td>anxifree</td>
-      <td>no.therapy</td>
+      <td>joyzepam</td>
+      <td>CBT</td>
       <td>NaN</td>
     </tr>
     <tr>
