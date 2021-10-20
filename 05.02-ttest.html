@@ -400,35 +400,120 @@
 <div class="section" id="the-inference-problem-that-the-test-addresses">
 <h3><span class="section-number">3.1.1. </span>The inference problem that the test addresses<a class="headerlink" href="#the-inference-problem-that-the-test-addresses" title="Permalink to this headline">¶</a></h3>
 <p>To introduce the idea behind the <span class="math notranslate nohighlight">\(z\)</span>-test, let’s use a simple example. A friend of mine, Dr Zeppo, grades his introductory statistics class on a curve. Let’s suppose that the average grade in his class is 67.5, and the standard deviation is 9.5. Of his many hundreds of students, it turns out that 20 of them also take psychology classes. Out of curiosity, I find myself wondering: do the psychology students tend to get the same grades as everyone else (i.e., mean 67.5) or do they tend to score higher or lower? He emails me the <code class="docutils literal notranslate"><span class="pre">zeppo.csv</span></code> file, which I use to pull up the <code class="docutils literal notranslate"><span class="pre">grades</span></code> of those students,</p>
-<p>and calculate the mean:</p>
-<p>Hm. It <em>might</em> be that the psychology students are scoring a bit higher than normal: that sample mean of <span class="math notranslate nohighlight">\(\bar{X} = 72.3\)</span> is a fair bit higher than the hypothesised population mean of <span class="math notranslate nohighlight">\(\mu = 67.5\)</span>, but on the other hand, a sample size of <span class="math notranslate nohighlight">\(N = 20\)</span> isn’t all that big. Maybe it’s pure chance.</p>
-<p>To answer the question, it helps to be able to write down what it is that I think I know. Firstly, I know that the sample mean is <span class="math notranslate nohighlight">\(\bar{X} = 72.3\)</span>. If I’m willing to assume that the psychology students have the same standard deviation as the rest of the class then I can say that the population standard deviation is <span class="math notranslate nohighlight">\(\sigma = 9.5\)</span>. I’ll also assume that since Dr Zeppo is grading to a curve, the psychology student grades are normally distributed.</p>
-<p>Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the <em>population</em> mean <span class="math notranslate nohighlight">\(\mu\)</span> for the psychology student grades, which is unknown. Specifically, I want to know if <span class="math notranslate nohighlight">\(\mu = 67.5\)</span> or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in Figure &#64;ref(fig:zeppo). Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>
-ttestImg &lt;- list()
-emphCol &lt;- rgb(0,0,1)
-emphColLight &lt;- rgb(.5,.5,1)
-emphGrey &lt;- grey(.5)
-
-colour &lt;- TRUE
-
-plotHist &lt;- function(x,...) {
-    hist( x, border=&quot;white&quot;, 
-          col=ifelse(colour,emphColLight,emphGrey),...
-    )
-    axis(1)
-  }
- 
-  # needed for printing
-  width &lt;- 6
-  height &lt;- 6
-  
-  # Zeppo
-  plotHist(grades,xlim=c(40,90),xlab=&quot;Grades&quot;,axes=FALSE, ylab=&quot;&quot;, main=&quot;&quot;, freq=FALSE)
-
-  lines( x&lt;-40:90, dnorm(x,67.5,10), lwd=3, col=&quot;black&quot;)
-
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grades</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>64</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>66</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>and calculate the mean:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+<span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>72.3
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hm. It <em>might</em> be that the psychology students are scoring a bit higher than normal: that sample mean of <span class="math notranslate nohighlight">\(\bar{X} = 72.3\)</span> is a fair bit higher than the hypothesised population mean of <span class="math notranslate nohighlight">\(\mu = 67.5\)</span>, but on the other hand, a sample size of <span class="math notranslate nohighlight">\(N = 20\)</span> isn’t all that big. Maybe it’s pure chance.</p>
+<p>To answer the question, it helps to be able to write down what it is that I think I know. Firstly, I know that the sample mean is <span class="math notranslate nohighlight">\(\bar{X} = 72.3\)</span>. If I’m willing to assume that the psychology students have the same standard deviation as the rest of the class, then I can say that the population standard deviation is <span class="math notranslate nohighlight">\(\sigma = 9.5\)</span>. I’ll also assume that since Dr Zeppo is grading to a curve, the psychology student grades are normally distributed.</p>
+<p>Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the <em>population</em> mean <span class="math notranslate nohighlight">\(\mu\)</span> for the psychology student grades, which is unknown. Specifically, I want to know if <span class="math notranslate nohighlight">\(\mu = 67.5\)</span> or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in Figure &#64;ref(fig:zeppo). Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">67.5</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">9.5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">])</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;zeppo-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.02-ttest_7_1.png" src="_images/05.02-ttest_7_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="id3">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 3.2 </span><span class="caption-text">:name: fig-zeppo</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<div class="legend">
+<p>The theoretical distribution (solid line) from which the psychology student grades (blue bars) are supposed to have been generated.</p>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1759,7 +1844,7 @@ wilcox.test( x = happiness$after,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-1-af05d5f5cd6f&gt;&quot;</span><span class="gt">, line </span><span class="mi">3</span>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-4-af05d5f5cd6f&gt;&quot;</span><span class="gt">, line </span><span class="mi">3</span>
     <span class="n">The</span> <span class="n">first</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">constructing</span> <span class="n">a</span> <span class="n">hypothesis</span> <span class="n">test</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">be</span> <span class="n">clear</span> <span class="n">about</span> <span class="n">what</span> <span class="n">the</span> <span class="n">null</span> <span class="ow">and</span> <span class="n">alternative</span> <span class="n">hypotheses</span> <span class="n">are</span><span class="o">.</span> <span class="n">This</span> <span class="n">isn</span><span class="s1">&#39;t too hard to do. Our null hypothesis, $H_0$, is that the true population mean $\mu$ for psychology student grades is 67.5\%; and our alternative hypothesis is that the population mean *isn&#39;</span><span class="n">t</span><span class="o">*</span> <span class="mf">67.5</span>\<span class="o">%.</span> <span class="n">If</span> <span class="n">we</span> <span class="n">write</span> <span class="n">this</span> <span class="ow">in</span> <span class="n">mathematical</span> <span class="n">notation</span><span class="p">,</span> <span class="n">these</span> <span class="n">hypotheses</span> <span class="n">become</span><span class="p">,</span>
         <span class="o">^</span>
 <span class="ne">SyntaxError</span>: invalid syntax
