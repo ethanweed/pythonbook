@@ -113,9 +113,9 @@ data = random.binomial(n=100, p=.5, size=10000)
 esp = sns.histplot(data, bins=20,binwidth=0.5)
 esp.set(xlim=(20,80))
 
-glue("espestimation-fig", esp, display=False)
+glue("estimation-fig", esp, display=False)
 
-```{glue:figure} espestimation-fig
+```{glue:figure} estimation-fig
 :figwidth: 600px
 :name: fig-esp-estimation
 
