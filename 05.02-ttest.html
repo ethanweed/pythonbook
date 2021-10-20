@@ -829,36 +829,43 @@ H_1: &amp; \mu \neq 67.5
 </div>
 <p class="caption"><span class="caption-number">Fig. 3.3 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the one sample <span class="math notranslate nohighlight">\(z\)</span>-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value <span class="math notranslate nohighlight">\(\sigma_0\)</span>). The null hypothesis (left) is that the population mean <span class="math notranslate nohighlight">\(\mu\)</span> is equal to some specified value <span class="math notranslate nohighlight">\(\mu_0\)</span>. The alternative hypothesis is that the population mean differs from this value, <span class="math notranslate nohighlight">\(\mu \neq \mu_0\)</span>.</span><a class="headerlink" href="#fig-ztesthyp" title="Permalink to this image">¶</a></p>
 </div>
-<p>The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. Given that the hypotheses all refer to the population mean <span class="math notranslate nohighlight">\(\mu\)</span>, you’d feel pretty confident that the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> would be a pretty useful place to start. What we could do, is look at the difference between the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate <span class="math notranslate nohighlight">\(\bar{X} - 67.5\)</span>. More generally, if we let <span class="math notranslate nohighlight">\(\mu_0\)</span> refer to the value that the null hypothesis claims is our population mean, then we’d want to calculate
-$<span class="math notranslate nohighlight">\(
+<p>The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. Given that the hypotheses all refer to the population mean <span class="math notranslate nohighlight">\(\mu\)</span>, you’d feel pretty confident that the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> would be a pretty useful place to start. What we could do, is look at the difference between the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate <span class="math notranslate nohighlight">\(\bar{X} - 67.5\)</span>. More generally, if we let <span class="math notranslate nohighlight">\(\mu_0\)</span> refer to the value that the null hypothesis claims is our population mean, then we’d want to calculate</p>
+<div class="math notranslate nohighlight">
+\[
 \bar{X} - \mu_0
-\)</span><span class="math notranslate nohighlight">\(
-If this quantity equals or is very close to 0, things are looking good for the null hypothesis. If this quantity is a long way away from 0, then it's looking less likely that the null hypothesis is worth retaining. But how far away from zero should it be for us to reject \)</span>H_0$?</p>
-<p>To figure that out, we need to be a bit more sneaky, and we’ll need to rely on those two pieces of background knowledge that I wrote down previously, namely that the raw data are normally distributed, and we know the value of the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. If the null hypothesis is actually true, and the true mean is <span class="math notranslate nohighlight">\(\mu_0\)</span>, then these facts together mean that we know the complete population distribution of the data: a normal distribution with mean <span class="math notranslate nohighlight">\(\mu_0\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. Adopting the notation from Section &#64;ref(normal), a statistician might write this as:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>If this quantity equals or is very close to 0, things are looking good for the null hypothesis. If this quantity is a long way away from 0, then it’s looking less likely that the null hypothesis is worth retaining. But how far away from zero should it be for us to reject <span class="math notranslate nohighlight">\(H_0\)</span>?</p>
+<p>To figure that out, we need to be a bit more sneaky, and we’ll need to rely on those two pieces of background knowledge that I wrote down previously, namely that the raw data are normally distributed, and we know the value of the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. If the null hypothesis is actually true, and the true mean is <span class="math notranslate nohighlight">\(\mu_0\)</span>, then these facts together mean that we know the complete population distribution of the data: a normal distribution with mean <span class="math notranslate nohighlight">\(\mu_0\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. Adopting the notation from Section &#64;ref(normal), a statistician might write this as:</p>
+<div class="math notranslate nohighlight">
+\[
 X \sim \mbox{Normal}(\mu_0,\sigma^2)
-\)</span>$</p>
-<p>Okay, if that’s true, then what can we say about the distribution of <span class="math notranslate nohighlight">\(\bar{X}\)</span>? Well, as we discussed earlier (see Section &#64;ref(clt)), the sampling distribution of the mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> is also normal, and has mean <span class="math notranslate nohighlight">\(\mu\)</span>. But the standard deviation of this sampling distribution <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}})\)</span>, which is called the <em>standard error of the mean</em>, is
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>Okay, if that’s true, then what can we say about the distribution of <span class="math notranslate nohighlight">\(\bar{X}\)</span>? Well, as we discussed earlier, the sampling distribution of the mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> is also normal, and has mean <span class="math notranslate nohighlight">\(\mu\)</span>. But the standard deviation of this sampling distribution <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}})\)</span>, which is called the <em>standard error of the mean</em>, is</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}}
-\)</span><span class="math notranslate nohighlight">\(
-In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows:</p>
+<div class="math notranslate nohighlight">
+\[
 \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}}))
-\)</span><span class="math notranslate nohighlight">\(
-Now comes the trick. What we can do is convert the sample mean \)</span>\bar{X}<span class="math notranslate nohighlight">\( into a standard score (Section \&#64;ref(zscore)). This is conventionally written as \)</span>z<span class="math notranslate nohighlight">\(, but for now I'm going to refer to it as \)</span>z_{\bar{X}}<span class="math notranslate nohighlight">\(. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, *not* a standardised version of a single observation, which is what a \)</span>z<span class="math notranslate nohighlight">\(-score usually refers to). When we do so, the \)</span>z<span class="math notranslate nohighlight">\(-score for our sample mean is 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>Now comes the trick. What we can do is convert the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> into a <a class="reference internal" href="03.01-descriptives.html#zcores"><span class="std std-ref">standard score</span></a>. This is conventionally written as <span class="math notranslate nohighlight">\(z\)</span>, but for now I’m going to refer to it as <span class="math notranslate nohighlight">\(z_{\bar{X}}\)</span>. (The reason for using this expanded notation is to help you remember that we’re calculating standardised version of a sample mean, <em>not</em> a standardised version of a single observation, which is what a <span class="math notranslate nohighlight">\(z\)</span>-score usually refers to). When we do so, the <span class="math notranslate nohighlight">\(z\)</span>-score for our sample mean is</p>
+<div class="math notranslate nohighlight">
+\[
 z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})}
-\)</span><span class="math notranslate nohighlight">\(
-or, equivalently
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>or, equivalently</p>
+<div class="math notranslate nohighlight">
+\[
 z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}}
-\)</span><span class="math notranslate nohighlight">\(
-This \)</span>z<span class="math notranslate nohighlight">\(-score is our test statistic. The nice thing about using this as our test statistic is that like all \)</span>z<span class="math notranslate nohighlight">\(-scores, it has a standard normal distribution:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>This <span class="math notranslate nohighlight">\(z\)</span>-score is our test statistic. The nice thing about using this as our test statistic is that like all <span class="math notranslate nohighlight">\(z\)</span>-scores, it has a standard normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[
 z_{\bar{X}} \sim \mbox{Normal}(0,1)
-\)</span><span class="math notranslate nohighlight">\(
-(again, see Section \&#64;ref(zscore) if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the \)</span>z<span class="math notranslate nohighlight">\(-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean \)</span>\bar{X}<span class="math notranslate nohighlight">\( from the population mean \)</span>\mu_0<span class="math notranslate nohighlight">\( predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for \)</span>z$-test are always the same, as illustrated in Figures &#64;ref(fig:ztest1) and &#64;ref(fig:ztest2). And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:</p>
+\]</div>
+<p>(again, see the section on <a class="reference internal" href="03.01-descriptives.html#zcores"><span class="std std-ref">z-scores</span></a>) if you’ve forgotten why this is true). In other words, regardless of what scale the original data are on, the <span class="math notranslate nohighlight">\(z\)</span>-statistic iteself always has the same interpretation: it’s equal to the number of standard errors that separate the observed sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> from the population mean <span class="math notranslate nohighlight">\(\mu_0\)</span> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5% critical regions for <span class="math notranslate nohighlight">\(z\)</span>-test are always the same, as illustrated in Figures &#64;ref(fig:ztest1) and &#64;ref(fig:ztest2). And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
                          ~V1,                ~V2,                ~V3,
                       &quot;.1&quot;,      &quot;1.644854&quot;,       &quot;1.281552&quot;,
