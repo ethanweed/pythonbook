@@ -812,20 +812,22 @@ H_1: &amp; \mu \neq 67.5
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
 
+<span class="n">axez</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;value of &#39;</span>
+
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;ztesthyp-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_10_1.png" src="_images/05.02-ttest_10_1.png" />
-</div>
-</div>
-<div class="figure align-default" id="fig-ztesthyp" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-4-b85001a53d3d&gt;&quot;</span><span class="gt">, line </span><span class="mi">26</span>
+    <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;ztesthyp-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
 </pre></div>
 </div>
 </div>
+</div>
+<div class="figure align-default" id="fig-ztesthyp" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 3.3 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the one sample <span class="math notranslate nohighlight">\(z\)</span>-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value <span class="math notranslate nohighlight">\(\sigma_0\)</span>). The null hypothesis (left) is that the population mean <span class="math notranslate nohighlight">\(\mu\)</span> is equal to some specified value <span class="math notranslate nohighlight">\(\mu_0\)</span>. The alternative hypothesis is that the population mean differs from this value, <span class="math notranslate nohighlight">\(\mu \neq \mu_0\)</span>.</span><a class="headerlink" href="#fig-ztesthyp" title="Permalink to this image">¶</a></p>
 </div>
 <p>The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. Given that the hypotheses all refer to the population mean <span class="math notranslate nohighlight">\(\mu\)</span>, you’d feel pretty confident that the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> would be a pretty useful place to start. What we could do, is look at the difference between the sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate <span class="math notranslate nohighlight">\(\bar{X} - 67.5\)</span>. More generally, if we let <span class="math notranslate nohighlight">\(\mu_0\)</span> refer to the value that the null hypothesis claims is our population mean, then we’d want to calculate
