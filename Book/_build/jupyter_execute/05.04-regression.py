@@ -1,2 +1,3 @@
+(regression)=
 # Linear regression
 
