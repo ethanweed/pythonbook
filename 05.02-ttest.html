@@ -446,8 +446,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r">
-     2.3.6. Doing the test in R
+    <a class="reference internal nav-link" href="#id9">
+     2.3.6. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -476,7 +476,7 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
+    <a class="reference internal nav-link" href="#doing-the-test-in-r">
      2.4.1. Doing the test in R
     </a>
    </li>
@@ -1497,7 +1497,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x138731ac0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1320ecd00&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1544,7 +1544,7 @@ w_2 &amp;=&amp; N_2 - 1
 </div>
 <div class="section" id="the-same-pooled-estimate-described-differently">
 <h3><span class="section-number">2.3.4. </span>The same pooled estimate, described differently<a class="headerlink" href="#the-same-pooled-estimate-described-differently" title="Permalink to this headline">¶</a></h3>
-<p>I prefer to think about it like this. Our data set actually corresponds to a set of <span class="math notranslate nohighlight">\(N\)</span> observations, which are sorted into two groups. So let’s use the notation <span class="math notranslate nohighlight">\(X_{ik}\)</span> to refer to the grade received by the <span class="math notranslate nohighlight">\(i\)</span>-th student in the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group: that is, <span class="math notranslate nohighlight">\(X_{11}\)</span> is the grade received by the first student in Anastasia’s class, <span class="math notranslate nohighlight">\(X_{21}\)</span> is her second student, and so on. And we have two separate group means <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span>, which we could “generically” refer to using the notation <span class="math notranslate nohighlight">\(\bar{X}_k\)</span>, i.e., the mean grade for the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, and so we can describe their deviation from the group mean as the difference</p>
+<p>I prefer to think about it like this. Our data set actually corresponds to a set of <span class="math notranslate nohighlight">\(N\)</span> observations, which are sorted into two groups. So let’s use the notation <span class="math notranslate nohighlight">\(X_{ik}\)</span> to refer to the grade received by the <span class="math notranslate nohighlight">\(i\)</span>-th student in the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group: that is, <span class="math notranslate nohighlight">\(X_{11}\)</span> is the grade received by the first student in Anastasia’s class, <span class="math notranslate nohighlight">\(X_{21}\)</span> is her second student, and so on. And we have two separate group means <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span>, which we could “generically” refer to using the notation <span class="math notranslate nohighlight">\(\bar{X}_k\)</span>, i.e., the mean grade for the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, then we can describe their deviation from the group mean as the difference</p>
 <div class="math notranslate nohighlight">
 \[
 X_{ik} - \bar{X}_k
@@ -1563,18 +1563,19 @@ X_{ik} - \bar{X}_k
 </div>
 <div class="section" id="completing-the-test">
 <h3><span class="section-number">2.3.5. </span>Completing the test<a class="headerlink" href="#completing-the-test" title="Permalink to this headline">¶</a></h3>
-<p>Regardless of which way you want to think about it, we now have our pooled estimate of the standard deviation. From now on, I’ll drop the silly <span class="math notranslate nohighlight">\(p\)</span> subscript, and just refer to this estimate as <span class="math notranslate nohighlight">\(\hat\sigma\)</span>. Great. Let’s now go back to thinking about the bloody hypothesis test, shall we? Our whole reason for calculating this pooled estimate was that we knew it would be helpful when calculating our <em>standard error</em> estimate. But, standard error of <em>what</em>? In the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, it was the standard error of the sample mean, <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}})\)</span>, and since <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}}) = \sigma / \sqrt{N}\)</span> that’s what the denominator of our <span class="math notranslate nohighlight">\(t\)</span>-statistic looked like. This time around, however, we have <em>two</em> sample means. And what we’re interested in, specifically, is the the difference between the two <span class="math notranslate nohighlight">\(\bar{X}_1 - \bar{X}_2\)</span>. As a consequence, the standard error that we need to divide by is in fact the <strong><em>standard error of the difference</em></strong> between means. As long as the two variables really do have the same standard deviation, then our estimate for the standard error is
-$<span class="math notranslate nohighlight">\(
+<p>Regardless of which way you want to think about it, we now have our pooled estimate of the standard deviation. From now on, I’ll drop the silly <span class="math notranslate nohighlight">\(p\)</span> subscript, and just refer to this estimate as <span class="math notranslate nohighlight">\(\hat\sigma\)</span>. Great. Let’s now go back to thinking about the bloody hypothesis test, shall we? Our whole reason for calculating this pooled estimate was that we knew it would be helpful when calculating our <em>standard error</em> estimate. But, standard error of <em>what</em>? In the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, it was the standard error of the sample mean, <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}})\)</span>, and since <span class="math notranslate nohighlight">\(\mbox{SE}({\bar{X}}) = \sigma / \sqrt{N}\)</span> that’s what the denominator of our <span class="math notranslate nohighlight">\(t\)</span>-statistic looked like. This time around, however, we have <em>two</em> sample means. And what we’re interested in, specifically, is the the difference between the two <span class="math notranslate nohighlight">\(\bar{X}_1 - \bar{X}_2\)</span>. As a consequence, the standard error that we need to divide by is in fact the <strong><em>standard error of the difference</em></strong> between means. As long as the two variables really do have the same standard deviation, then our estimate for the standard error is</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \hat\sigma \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}
-\)</span><span class="math notranslate nohighlight">\(
-and our \)</span>t<span class="math notranslate nohighlight">\(-statistic is therefore 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>and our <span class="math notranslate nohighlight">\(t\)</span>-statistic is therefore
+$<span class="math notranslate nohighlight">\(
 t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
-\)</span><span class="math notranslate nohighlight">\(
-Just as we saw with our one-sample test, the sampling distribution of this \)</span>t<span class="math notranslate nohighlight">\(-statistic is a \)</span>t<span class="math notranslate nohighlight">\(-distribution (shocking, isn't it?) as long as the null hypothesis is true, and all of the assumptions of the test are met. The degrees of freedom, however, is slightly different. As usual, we can think of the degrees of freedom to be equal to the number of data points minus the number of constraints. In this case, we have \)</span>N<span class="math notranslate nohighlight">\( observations (\)</span>N_1<span class="math notranslate nohighlight">\( in sample 1, and \)</span>N_2<span class="math notranslate nohighlight">\( in sample 2), and 2 constraints (the sample means). So the total degrees of freedom for this test are \)</span>N-2$.</p>
+\)</span>$</p>
+<p>Just as we saw with our one-sample test, the sampling distribution of this <span class="math notranslate nohighlight">\(t\)</span>-statistic is a <span class="math notranslate nohighlight">\(t\)</span>-distribution (shocking, isn’t it?) as long as the null hypothesis is true, and all of the assumptions of the test are met. The degrees of freedom, however, is slightly different. As usual, we can think of the degrees of freedom to be equal to the number of data points minus the number of constraints. In this case, we have <span class="math notranslate nohighlight">\(N\)</span> observations (<span class="math notranslate nohighlight">\(N_1\)</span> in sample 1, and <span class="math notranslate nohighlight">\(N_2\)</span> in sample 2), and 2 constraints (the sample means). So the total degrees of freedom for this test are <span class="math notranslate nohighlight">\(N-2\)</span>.</p>
 </div>
-<div class="section" id="doing-the-test-in-r">
-<h3><span class="section-number">2.3.6. </span>Doing the test in R<a class="headerlink" href="#doing-the-test-in-r" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><span class="section-number">2.3.6. </span>Doing the test in Python<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Not surprisingly, you can run an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test using the <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> function (Section &#64;ref(ttestfunction)), but once again I’m going to start with a somewhat simpler function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package. That function is unimaginatively called <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code>. First, recall that our data look like this:</p>
 <p>The outcome variable for our test is the student <code class="docutils literal notranslate"><span class="pre">grade</span></code>, and the groups are defined in terms of the <code class="docutils literal notranslate"><span class="pre">tutor</span></code> for each class. So you probably won’t be too surprised to see that we’re going to describe the test that we want in terms of an R formula that reads like this <code class="docutils literal notranslate"><span class="pre">grade</span> <span class="pre">~</span> <span class="pre">tutor</span></code>. The specific command that we need is:</p>
 <p>The first two arguments should be familiar to you. The first one is the formula that tells R what variables to use and the second one tells R the name of the data frame that stores those variables. The third argument is not so obvious. By saying <code class="docutils literal notranslate"><span class="pre">var.equal</span> <span class="pre">=</span> <span class="pre">TRUE</span></code>, what we’re really doing is telling R to use the <em>Student</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. More on this later. For now, lets ignore that bit and look at the output:</p>
@@ -1703,8 +1704,8 @@ $<span class="math notranslate nohighlight">\(
 	plotOne( sd1 )
 </pre></div>
 </div>
-<div class="section" id="id9">
-<h3><span class="section-number">2.4.1. </span>Doing the test in R<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="doing-the-test-in-r">
+<h3><span class="section-number">2.4.1. </span>Doing the test in R<a class="headerlink" href="#doing-the-test-in-r" title="Permalink to this headline">¶</a></h3>
 <p>To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student’s <span class="math notranslate nohighlight">\(t\)</span>-test and drop the <code class="docutils literal notranslate"><span class="pre">var.equal</span> <span class="pre">=</span> <span class="pre">TRUE</span></code> bit. So the command for a Welch test becomes:</p>
 <p>Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too:</p>
 <p>The very first line is different, because it’s telling you that its run a Welch test rather than a Student test, and of course all the numbers are a bit different. But I hope that the interpretation of this output should be fairly obvious. You read the output in the same way that you would for the Student test. You’ve got your descriptive statistics, the hypotheses, the test results and some other information. So that’s all pretty easy.</p>
