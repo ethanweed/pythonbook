@@ -1502,7 +1502,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13b0f4fa0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x131faf610&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1627,6 +1627,55 @@ mean grade for B&#39;s students: 69.05555555555556
 </div>
 </div>
 <p>You probably noticed that in addition to telling <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> which means I wanted to compare, I also added the argument <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code> to the command. This wasn’t strictly necessary in this case, because by default this argument is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. But I made it explicit anyway, because we will be using this argument again later. By saying <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code>, what we’re really doing is telling Python to use the <em>Student</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. More on this later.</p>
+<p>But what, I hear you saying, about confidence intervals? We calculated them for the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test; wouldn’t it be a good idea to do that for the independent-samples <span class="math notranslate nohighlight">\(t\)</span>-test as well? Well, yes, you’re right, it would be a good idea, so let’s do it. It would be nice if <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> would provide these for us automatically, since the information is all there, but on the other hand, going through the steps <em>does</em> serve as a good reminder of what is actually happening.</p>
+<p>For an indenpendent samples <span class="math notranslate nohighlight">\(t\)</span>-test, the confidence interval is for the <em>difference</em> between the group means, that is, it is telling us that the true difference probably lies between the upper and lower bounds of the confidence interval. So, how do we calculate those bounds?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="c1"># Calculate the mean difference and 95% confidence interval</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">t_stat</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">N1</span> <span class="o">+</span> <span class="n">N2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">m1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">std1</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">std2</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+<span class="n">SE</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span> <span class="p">((</span><span class="n">N1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">std1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">N2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">std2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">N1</span><span class="o">+</span><span class="n">N2</span><span class="p">)</span> 
+
+<span class="n">diff_mean</span> <span class="o">=</span> <span class="n">m1</span> <span class="o">-</span> <span class="n">m2</span>
+
+<span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">degrees_freedom</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">ci_upper</span> <span class="o">=</span> <span class="n">diff_mean</span> <span class="o">-</span> <span class="n">t_stat</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">std1</span><span class="o">/</span><span class="n">n1</span><span class="p">)</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="n">std2</span><span class="o">/</span><span class="n">n2</span><span class="p">)</span>
+<span class="c1">#ci = t.interval(confidence_level, degrees_freedom, diff_mean, SE)</span>
+<span class="n">ci_upper</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">26</span><span class="o">-</span><span class="mi">2733</span><span class="n">d20e1661</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> 
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">N1</span> <span class="o">+</span> <span class="n">N2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> 
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">m1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;N1&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
 <p>It’s pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the <em>difference</em> between the group means. In our example, Anastasia’s students had an average grade of 74.5, and Bernadette’s students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function tells you that there’s a 95% chance that the true difference between means lies between 0.2 and 10.8.</p>
 <p>In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:</p>
 <blockquote>

@@ -17,15 +17,44 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-#len(df.loc[df['tutor'] == 'Anastasia'])
-#len(df.loc[df['tutor'] == 'Bernadette'])
-'N': [len(df.loc[df['tutor'] == 'Anastasia']),len(df.loc[df['tutor'] == 'Bernadette'])]
+from math import sqrt
+# Calculate the mean difference and 95% confidence interval
+
+res = stats.ttest_ind(Anastasia, Bernadette, equal_var = True)
+t_stat = round(res[0][0],2)
+
+n1 = len(Anastasia)
+n2 = len(Bernadette)
+
+df = (N1 + N2 - 2)
+
+m1 = round(statistics.mean(Anastasia['grade']),2)
+m2 = round(statistics.mean(Bernadette['grade']),2)
+
+std1 = statistics.stdev(Anastasia['grade'])
+std2 = statistics.stdev(Bernadette['grade'])
+
+SE = sqrt( ((N1 - 1)*(std1)**2 + (N2 - 1)*(std2)**2) / df) / sqrt(N1+N2) 
+
+diff_mean = m1 - m2
+
+confidence_level = 0.95
+degrees_freedom = 2
+
+ci_upper = diff_mean - t_stat * sqrt(std1/n1)+sqrt(std2/n2)
+#ci = t.interval(confidence_level, degrees_freedom, diff_mean, SE)
+ci_upper
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-20-a18d91877a5a>"[0;36m, line [0;32m3[0m
-[0;31m    'N': [len(df.loc[df['tutor'] == 'Anastasia']),len(df.loc[df['tutor'] == 'Bernadette'])][0m
-[0m    ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m illegal target for annotation
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-26-2733d20e1661>[0m in [0;36m<module>[0;34m[0m
+[1;32m      8[0m [0mn2[0m [0;34m=[0m [0mlen[0m[0;34m([0m[0mBernadette[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      9[0m [0;34m[0m[0m
+[0;32m---> 10[0;31m [0mdf[0m [0;34m=[0m [0;34m([0m[0mN1[0m [0;34m+[0m [0mN2[0m [0;34m-[0m [0;36m2[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     11[0m [0;34m[0m[0m
+[1;32m     12[0m [0mm1[0m [0;34m=[0m [0mround[0m[0;34m([0m[0mstatistics[0m[0;34m.[0m[0mmean[0m[0;34m([0m[0mAnastasia[0m[0;34m[[0m[0;34m'grade'[0m[0;34m][0m[0;34m)[0m[0;34m,[0m[0;36m2[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 
-SyntaxError: illegal target for annotation (<ipython-input-20-a18d91877a5a>, line 3)
+[0;31mNameError[0m: name 'N1' is not defined
+NameError: name 'N1' is not defined
 
