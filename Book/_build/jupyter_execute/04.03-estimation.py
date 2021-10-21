@@ -587,17 +587,23 @@ from scipy.stats import norm
 norm.ppf([.025, 0.975])
 
 Okay, so I lied earlier on. The more correct answer is that there is a 95\% chance that a normally-distributed quantity will fall within 1.96 standard deviations of the true mean. Next, recall that the standard deviation of the sampling distribution is referred to as the standard error, and the standard error of the mean is written as SEM. When we put all these pieces together, we learn that there is a 95\% probability that the sample mean $\bar{X}$ that we have actually observed lies within 1.96 standard errors of the population mean. Mathematically, we write this as:
+
 $$
 \mu - \left( 1.96 \times \mbox{SEM} \right) \ \leq \  \bar{X}\  \leq \  \mu + \left( 1.96 \times \mbox{SEM} \right) 
 $$
+
 where the SEM is equal to $\sigma / \sqrt{N}$, and we can be 95\% confident that this is true. However, that's not answering the question that we're actually interested in. The equation above tells us what we should expect about the sample mean, given that we know what the population parameters are. What we *want* is to have this work the other way around: we want to know what we should believe about the population parameters, given that we have observed a particular sample. However, it's not too difficult to do this. Using a little high school algebra, a sneaky way to rewrite our equation is like this:
+
 $$
 \bar{X} -  \left( 1.96 \times \mbox{SEM} \right) \ \leq \ \mu  \ \leq  \ \bar{X} +  \left( 1.96 \times \mbox{SEM}\right)
 $$
+
 What this is telling is is that the range of values has a 95\% probability of containing the population mean $\mu$. We refer to this range as a **_95\% confidence interval_**, denoted $\mbox{CI}_{95}$. In short, as long as $N$ is sufficiently large  -- large enough for us to believe that the sampling distribution of the mean is normal -- then we can write this as our formula for the 95\% confidence interval:
+
 $$
 \mbox{CI}_{95} = \bar{X} \pm \left( 1.96 \times \frac{\sigma}{\sqrt{N}} \right)
 $$
+
 Of course, there's nothing special about the number 1.96: it just happens to be the multiplier you need to use if you want a 95\% confidence interval. If I'd wanted a 70\% confidence interval, I could have used the `norm.ppf` function to calculate the 15th and 85th quantiles:
 
 norm.ppf([.15, .85])

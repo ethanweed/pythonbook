@@ -17,38 +17,41 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-mu = 0
-sigma = 1
-x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-y = 100* stats.norm.pdf(x, mu, sigma)
+n1 = len(Anastasia)
+n2 = len(Bernadette)
+m1 = statistics.mean(Anastasia['grade'])
+m2 = statistics.mean(Bernadette['grade'])
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+v1 = statistics.variance(Anastasia['grade'])
+v2 = statistics.variance(Bernadette['grade'])
 
-sns.lineplot(x=x,y=y, color='black', ax=axes[0])
-sns.lineplot(x=x,y=y, color='black', ax=axes[1])
+pooled_se = np.sqrt(v1 / n1 + v2 / n2)
+delta = m1-m2
 
-axes[0].set_frame_on(False)
-axes[1].set_frame_on(False)
-axes[0].get_yaxis().set_visible(False)
-axes[1].get_yaxis().set_visible(False)
-axes[0].get_xaxis().set_visible(False)
-axes[1].get_xaxis().set_visible(False)
+#tstat = delta /  pooled_se
+#tstat = ttest_ind(Anastasia, Bernadette)[0]
+#df = (v1 / n1 + v2 / n2)**2 / (v1**2 / (n1**2 * (n1 - 1)) + v2**2 / (n2**2 * (n2 - 1)))
 
-axes[0].axhline(y=0, color='black')
-axes[0].axvline(x=mu, color='black', linestyle='--')
+# two side t-test
+#p = 2 * t.cdf(-abs(tstat), df)
 
-axes[1].axhline(y=0, color='black')
-axes[1].axvline(x=mu + sigma, color='black', linestyle='--')
+# upper and lower bounds
+lb = delta - t.ppf(0.975,df)*pooled_se 
+ub = delta + t.ppf(0.975,df)*pooled_se
 
-axez[1].set(xlabel='value of '
-
-glue("ztesthyp-fig", ax, display=False)
+#print(lb)
+#print(ub)
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-4-b85001a53d3d>"[0;36m, line [0;32m26[0m
-[0;31m    glue("ztesthyp-fig", ax, display=False)[0m
-[0m    ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-26-c39bad49718f>[0m in [0;36m<module>[0;34m[0m
+[1;32m     18[0m [0;34m[0m[0m
+[1;32m     19[0m [0;31m# upper and lower bounds[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 20[0;31m [0mlb[0m [0;34m=[0m [0mdelta[0m [0;34m-[0m [0mt[0m[0;34m.[0m[0mppf[0m[0;34m([0m[0;36m0.975[0m[0;34m,[0m[0mdf[0m[0;34m)[0m[0;34m*[0m[0mpooled_se[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     21[0m [0mub[0m [0;34m=[0m [0mdelta[0m [0;34m+[0m [0mt[0m[0;34m.[0m[0mppf[0m[0;34m([0m[0;36m0.975[0m[0;34m,[0m[0mdf[0m[0;34m)[0m[0;34m*[0m[0mpooled_se[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     22[0m [0;34m[0m[0m
 
-SyntaxError: invalid syntax (<ipython-input-4-b85001a53d3d>, line 26)
+[0;31mNameError[0m: name 't' is not defined
+NameError: name 't' is not defined
 

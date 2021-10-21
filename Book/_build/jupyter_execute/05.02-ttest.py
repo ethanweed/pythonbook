@@ -425,57 +425,61 @@ The $t$ distribution with 2 degrees of freedom (left) and 10 degrees of freedom 
 
 
 
-
 ### Doing the test in Python
 
-As you might expect, the mechanics of the $t$-test are almost identical to the mechanics of the $z$-test. So there's not much point in going through the tedious exercise of showing you how to do the calculations using low level commands: it's pretty much identical to the calculations that we did earlier, except that we use the estimated standard deviation (i.e., something like `se.est <- sd(grades)`), and then we test our hypothesis using the $t$ distribution rather than the normal distribution  (i.e. we use `pt()` rather than `pnorm()`. And so instead of going through the calculations in tedious detail for a second time, I'll jump straight to showing you how $t$-tests are actually done in practice. 
+As you might expect, the mechanics of the $t$-test are almost identical to the mechanics of the $z$-test. So there's not much point in going through the tedious exercise of showing you how to do the calculations using low level commands: it's pretty much identical to the calculations that we did earlier, except that we use the estimated standard deviation (i.e., something like `se_est = statistics.stdev(grades)`), and then we test our hypothesis using the $t$ distribution rather than the normal distribution. And so instead of going through the calculations in tedious detail for a second time, I'll jump straight to showing you how $t$-tests are actually done in practice. 
 
-The situation with $t$-tests is very similar to the one we encountered with chi-squared tests in Chapter \@ref(chisquare). R comes with one function called `t.test()` that is very flexible (it can run lots of different kinds of $t$-tests) and is somewhat terse (the output is quite compressed). Later on in the chapter I'll show you how to use the `t.test()` function (Section \@ref(ttestfunction)), but to start out with I'm going to rely on some simpler functions in the `lsr` package. Just like last time, what I've done is written a few simpler functions, each of which does only one thing. So, if you want to run a one-sample $t$-test, use the `oneSampleTTest()` function! It's pretty straightforward to use: all you need to do is specify `x`, the variable containing the data, and `mu`, the true population mean according to the null hypothesis. All you need to type is this:
+The situation with $t$-tests is very similar to the one we encountered with chi-squared tests in Chapter \@ref(chisquare). `scipy.stats` includes a variety of methods for running different kinds of  $t$-tests. To run a one-sample $t$-test, use the `ttest_1samp` method. It's pretty straightforward to use: all you need to do is specify `a`, the variable containing the data, and `popmean`, the true population mean according to the null hypothesis. All you need to type is this:
 
-```{r}
-library(lsr)
+from scipy.stats import ttest_1samp
+ttest_1samp(a = grades, popmean = 67.5)
 
-oneSampleTTest( x=grades, mu=67.5 )
-```
-Easy enough. Now lets go through the output. Just like we saw in the last chapter, I've written the functions so that the output is pretty verbose. It tries to describe in a lot of detail what its actually done:
-```
-   One sample t-test 
 
-Data variable:   grades 
-
-Descriptive statistics: 
-            grades
-   mean     72.300
-   std dev.  9.521
-
-Hypotheses: 
-   null:        population mean equals 67.5 
-   alternative: population mean not equal to 67.5 
-
-Test results: 
-   t-statistic:  2.255 
-   degrees of freedom:  19 
-   p-value:  0.036 
-
-Other information: 
-   two-sided 95% confidence interval:  [67.844, 76.756] 
-   estimated effect size (Cohen's d):  0.504 
-```
-Reading this output from top to bottom, you can see it's trying to lead you through the data analysis process. The first two lines tell you what kind of test was run and what data were used. It then gives you some basic information about the sample: specifically, the sample mean and standard deviation of the data. It then moves towards the inferential statistics part. It starts by telling you what the null and alternative hypotheses were, and then it reports the results of the test: the $t$-statistic, the degrees of freedom, and the $p$-value. Finally, it reports two other things you might care about: the confidence interval for the mean, and a measure of effect size (we'll talk more about effect sizes later). 
-
-So that seems straightforward enough. Now what do we *do* with this output? Well, since we're pretending that we actually care about my toy example, we're overjoyed to discover that the result is statistically significant (i.e. $p$ value below .05). We could report the result by saying something like this:
+So that seems straightforward enough. Our calculation resulted in a $t$-statistic of 2.54, and a $p$-value of 0.36. Now what do we *do* with this output? Well, since we're pretending that we actually care about my toy example, we're overjoyed to discover that the result is statistically significant (i.e. $p$ value below .05), and we will probably want to report our result. We could report the result by saying something like this:
 
 > With a mean grade of 72.3, the psychology students scored slightly higher than the average grade of 67.5 ($t(19) = 2.25$, $p<.05$); the 95\% confidence interval is [67.8, 76.8].
 
-where $t(19)$ is shorthand notation for a $t$-statistic that has 19 degrees of freedom. That said, it's often the case that people don't report the confidence interval, or do so using a much more compressed form than I've done here. For instance, it's not uncommon to see the confidence interval included as part of the stat block, like this:
+where $t(19)$ is shorthand notation for a $t$-statistic that has 19 degrees of freedom.
+
+As you will have already noticed, `ttest_1samp()` does not give us all the information included in the report above. A $t$-statistic, yes, and a $p$-value as well. But what about 95% confidence intervals? Where can we find those, and what about the degrees of freedom? In a better, simpler, kinder world, `ttest_1samp()` would provide all this information for us, and it's honestly a bit shocking that it doesn't. But sadly that is not the world we live in, and we have a bit more work to do.
+
+First, off: degrees of freedom. In this case, that is not so difficult, because the degrees of freedom for a one-sample t-test is just $N-1$, so we can easily find that ourselves. We also already know how to find the sample mean of our data:
+
+N = len(grades)
+degfree = N-1
+sample_mean = statistics.mean(grades)
+print('Sample mean:', sample_mean)
+print('Degrees of freedom:', degfree)
+
+Now at least we have the bare minimum of what is necessary to report our results. Still, it would be sweet if we could get those confidence intervals as well. `scipy` actually has all the tools we need, and why these are not just built into the `ttest_1samp()` method is beyond me. To find the confidence interval, we need to:
+
+1. To set a confidence level
+1. To know the sample mean
+1. To know the degrees of freedom for the test
+1. To know the standard error of the sample
+
+We discussed confidence intervals [earlier](ci), and now is not the time to go into detail on this, so for now I'm just going to give you some code that you can use to find 95% confidence intervals for a one-sample t-test, so that we can get on with reporting our data:
+
+from scipy import stats
+
+confidence_level = 0.95
+degrees_freedom = len(grades)-1
+sample_mean = statistics.mean(grades)
+sample_standard_error = stats.sem(grades)
+
+confidence_interval = stats.t.interval(confidence_level, degrees_freedom, sample_mean, sample_standard_error)
+confidence_interval
+
+Whew. Now at least we have everything we need for a full report of our results.
+
+That said, it's often the case that people don't report the confidence interval, or do so using a much more compressed form than I've done here. For instance, it's not uncommon to see the confidence interval included as part of the stat block, like this:
 
 > $t(19) = 2.25$, $p<.05$, CI$_{95} = [67.8, 76.8]$
 
-With that much jargon crammed into half a line, you know it must be really smart.^[More seriously, I tend to think the reverse is true: I get very suspicious of technical reports that fill their results sections with nothing except the numbers. It might just be that I'm an arrogant jerk, but I often feel like an author that makes no attempt to explain and interpret their analysis to the reader either doesn't understand it themselves, or is being a bit lazy. Your readers are smart, but not infinitely patient. Don't annoy them if you can help it.]
+With that much jargon crammed into half a line, you know it must be really smart. [^note5]
 
-
-
-### Assumptions of the one sample $t$-test{#ttestoneassumptions}
+(ttestoneassumptions)=
+### Assumptions of the one sample $t$-test
 
 Okay, so what assumptions does the one-sample $t$-test make? Well, since the $t$-test is basically a $z$-test with the assumption of known standard deviation removed, you shouldn't be surprised to see that it makes the same assumptions as the $z$-test, minus the one about the known standard deviation. That is
 
@@ -484,51 +488,72 @@ Okay, so what assumptions does the one-sample $t$-test make? Well, since the $t$
 
 Overall, these two assumptions aren't terribly unreasonable, and as a consequence the one-sample $t$-test is pretty widely used in practice as a way of comparing a sample mean against a hypothesised population mean.
 
+(studentttest)=
+## The independent samples $t$-test (Student test)
 
-## The independent samples $t$-test (Student test){#studentttest}
-
-Although the one sample $t$-test has its uses, it's not the most typical example of a $t$-test^[Although it is the simplest, which is why I started with it.]. A much more common situation arises when you've got two different groups of observations. In psychology, this tends to correspond to two different groups of participants, where each group corresponds to a different condition in your study. For each person in the study, you measure some outcome variable of interest, and the research question that you're asking is whether or not the two groups have the same population mean. This is the situation that the independent samples $t$-test is designed for. 
-
+Although the one sample $t$-test has its uses, it's not the most typical example of a $t$-test[^note6]. A much more common situation arises when you've got two different groups of observations. In psychology, this tends to correspond to two different groups of participants, where each group corresponds to a different condition in your study. For each person in the study, you measure some outcome variable of interest, and the research question that you're asking is whether or not the two groups have the same population mean. This is the situation that the independent samples $t$-test is designed for. 
 
 ### The data
 
-Suppose we have 33 students taking Dr Harpo's statistics lectures, and Dr Harpo doesn't grade to a curve. Actually, Dr Harpo's grading is a bit of a mystery, so we don't really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are $N_1 = 15$ students in Anastasia's tutorials, and $N_2 = 18$ in Bernadette's tutorials. The research question I'm interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn't make much of a difference. Dr Harpo emails me the course grades, in the `harpo.Rdata` file. As usual, I'll load the file and have a look at what variables it contains:
-```{r}
-load (file.path(projecthome, "data/harpo.Rdata" ))
-str(harpo)
+Suppose we have 33 students taking Dr Harpo's statistics lectures, and Dr Harpo doesn't grade to a curve. Actually, Dr Harpo's grading is a bit of a mystery, so we don't really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are $N_1 = 15$ students in Anastasia's tutorials, and $N_2 = 18$ in Bernadette's tutorials. The research question I'm interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn't make much of a difference. Dr Harpo emails me the course grades, in the `harpo.csv` file. As usual, I'll load the file and have a look at what variables it contains:
+
+import pandas as pd
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
+df.head()
+
+As we can see, there's a single data frame with two variables, `grade` and `tutor`. The `grade` variable is a numeric vector, containing the grades for all $N = 33$ students taking Dr Harpo's class; the `tutor` variable is a factor that indicates who each student's tutor was. The first five observations in this data set are shown above, and below is a nice little table with some summary statistics:
+
+harpo_summary = pd.DataFrame(
+    {'students': ['Anastasia\'s students','Bernadette\'s students'],
+     'mean': [statistics.mean(df.loc[df['tutor'] == 'Anastasia']['grade']), 
+              statistics.mean(df.loc[df['tutor'] == 'Bernadette']['grade'])],
+     'std dev': [statistics.stdev(df.loc[df['tutor'] == 'Anastasia']['grade']), 
+                  statistics.stdev(df.loc[df['tutor'] == 'Bernadette']['grade'])],
+     'N': [len(df.loc[df['tutor'] == 'Anastasia']),
+           len(df.loc[df['tutor'] == 'Bernadette'])]
+    })
+harpo_summary
+
+To give you a more detailed sense of what's going on here, I've plotted histograms showing the distribution of grades for both tutors {numref}`fig-harpohist`. Inspection of these histograms suggests that the students in Anastasia's class may be getting slightly better grades on average, though they also seem a little more variable.
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+Anastasia = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+Bernadette = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
+
+sns.histplot(Anastasia['grade'], ax = axes[0], binwidth = 5)
+sns.histplot(Bernadette['grade'], ax = axes[1], binwidth = 5)
+
+axes[0].set_xlim(50,100)
+axes[1].set_xlim(50,100)
+
+axes[0].set_ylim(0,7)
+axes[1].set_ylim(0,7)
+
+axes[0].set_title('Anastasia')
+axes[1].set_title('Bernadette')
+
+sns.despine()
+
+
+ ```{glue:figure} harpohist_fig
+:figwidth: 600px
+:name: fig-harpohist
+
+Histogram showing the overall distribution of grades for students in Anastasia and Bernadette's classes
 ```
-As we can see, there's a single data frame with two variables, `grade` and `tutor`. The `grade` variable is a numeric vector, containing the grades for all $N = 33$ students taking Dr Harpo's class; the `tutor` variable is a factor that indicates who each student's tutor was. The first six observations in this data set are shown below:
-```{r}
-head( harpo )
-```
-We can calculate means and standard deviations, using the `mean()` and `sd()` functions. Rather than show the R output, here's a nice little summary table:
 
-```{r echo=FALSE}
-knitr::kable(tibble::tribble(
-                        ~V1,       ~V2,         ~V3,    ~V4,
-   "Anastasia's students", "74.53",    "9.00", "15",
-   "Bernadette's students", "69.06",    "5.77",  "18"
-  ), col.names = c("",  "mean", "std dev",  "N"), align="lccc")
-```
+{numref}`fig-ttestci` is a simpler plot showing the means and corresponding confidence intervals for both groups of students.
 
-To give you a more detailed sense of what's going on here, I've plotted histograms showing the distribution of grades for both tutors (Figure \@ref(fig:harpohistanastasia) and \@ref(fig:harpohistbernadette)). Inspection of these histograms suggests that the students in Anastasia's class may be getting slightly better grades on average, though they also seem a little more variable.
+sns.pointplot(x = 'tutor', y = 'grade', data = df)
+sns.despine()
 
-```{r harpohistanastasia, fig.cap="Histogram showing the overall distribution of grades for students in Anastasia's class", echo=FALSE}
-  plotHist(harpo$grade[harpo$tutor == "Anastasia"],
-           xlim=c(50,100),xlab="Grade", main="Anastasia's students",
-           font.main=1,breaks=seq(50,100,5), ylim=c(0,7))
-```
 
-```{r harpohistbernadette, fig.cap="Histogram showing the overall distribution of grades for students in Bernadette's class", echo=FALSE}
-  plotHist(harpo$grade[harpo$tutor == "Bernadette"],
-           xlim=c(50,100),xlab="Grade", main="Bernadette's students",
-           font.main=1,breaks=seq(50,100,5), ylim=c(0,7))
-```
+ ```{glue:figure} ttestci-fig
+:figwidth: 600px
+:name: fig-ttestci
 
-Here is a simpler plot showing the means and corresponding confidence intervals for both groups of students (Figure \@ref(fig:ttestci)).
-
-```{r ttestci, fig.cap="Plots showing the mean grade for the students in Anastasia's and Bernadette's tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there's a real difference between the groups, though it's hard to say for sure.", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/ttest2/ttestci.png"))
+Plot showing the mean grade for the students in Anastasia's and Bernadette's tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there's a real difference between the groups, though it's hard to say for sure.
 
 ```
 
@@ -536,7 +561,8 @@ knitr::include_graphics(file.path(projecthome, "img/ttest2/ttestci.png"))
 
 The **_independent samples $t$-test_** comes in two different forms, Student's and Welch's. The original Student $t$-test -- which is the one I'll describe in this section -- is the simpler of the two, but relies on much more restrictive assumptions than the Welch $t$-test. Assuming for the moment that you want to run a two-sided test, the goal is to determine whether two "independent samples" of data are drawn from populations with the same mean (the null hypothesis) or different means (the alternative hypothesis). When we say "independent" samples, what we really mean here is that there's no special relationship between observations in the two samples. This probably doesn't make a lot of sense right now, but it will be clearer when we come to talk about the paired samples $t$-test later on. For now, let's just point out that if we have an experimental design where participants are randomly allocated to one of two groups, and we want to compare the two groups' mean performance on some outcome measure, then an independent samples $t$-test (rather than a paired samples $t$-test) is what we're after.
 
-Okay, so let's let $\mu_1$ denote the true population mean for group 1 (e.g., Anastasia's students), and $\mu_2$ will be the true population mean for group 2 (e.g., Bernadette's students),^[A funny question almost always pops up at this point: what the heck *is* the population being referred to in this case? Is it the set of students actually taking Dr Harpo's class (all 33 of them)? The set of people who might take the class (an unknown number) of them? Or something else? Does it matter which of these we pick? It's traditional in an introductory behavioural stats class to mumble a lot at this point, but since I get asked this question every year by my students, I'll give a brief answer. Technically yes, it does matter: if you change your definition of what the "real world" population actually is, then the sampling distribution of your observed mean $\bar{X}$ changes too. The $t$-test relies on an assumption that the observations are sampled at random from an infinitely large population; and to the extent that real life isn't like that, then the $t$-test can be wrong. In practice, however, this isn't usually a big deal: even though the assumption is almost always wrong, it doesn't lead to a lot of pathological behaviour from the test, so we tend to just ignore it.] and as usual we'll let $\bar{X}_1$ and $\bar{X}_2$ denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical ($\mu_1 = \mu_2$) and the alternative to this is that they are not ($\mu_1 \neq \mu_2$). Written in mathematical-ese, this is...
+Okay, so let's let $\mu_1$ denote the true population mean for group 1 (e.g., Anastasia's students), and $\mu_2$ will be the true population mean for group 2 (e.g., Bernadette's students),[^note7] and as usual we'll let $\bar{X}_1$ and $\bar{X}_2$ denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical ($\mu_1 = \mu_2$) and the alternative to this is that they are not ($\mu_1 \neq \mu_2$). Written in mathematical-ese, this is...
+
 $$
 \begin{array}{ll}
 H_0: & \mu_1 = \mu_2  \\
@@ -544,179 +570,206 @@ H_1: & \mu_1 \neq \mu_2
 \end{array}
 $$
 
-```{r ttesthyp, fig.cap="Graphical illustration of the null and alternative hypotheses assumed by the Student $t$-test. The null hypothesis assumes that both groups have the same mean $\\mu$, whereas the alternative assumes that they have different means $\\mu_1$ and $\\mu_2$. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation", echo=FALSE}
+mu1 = 0
+sigma1 = 1
+mu2 = 2
 
-	
-	width <- 12
-	height <- 4
-
-	plotOne <- function( sd1 ) {
- 
-		Grade <- 40:100
-
-		mu1 <- c(60, 75)
-		mu0 <- 70
-		sd0 <- 9
-
-		plot.new()   # new figure window
-
-		old <- par( no.readonly = TRUE )
-	
-		par( mfcol = c(1,2),  # array of two plots
-	     	mfg = c(1,1) )   # start on the left
-
-		ymax <- .07
-		plot.window( xlim = range(Grade),
-	        ylim = c(0, ymax)
-	  	)
-
-		# null distribution
-		lines( x = Grade, 
-	       y = ynull <- dnorm(Grade, mu0, sd0), 
-	       lw = 2 )
-
-		axis(side = 1, at = seq(40,100,10), labels = F)
-
-		text(x = mu0, y = max(ynull)*1.1, 
-	     expression(mu) , cex = 1.2)
-
-		title( main = "null hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = rep(1,3))
-
-		par( mfg = c(1,2) ) 
-		plot.window( xlim = range(Grade),
-	             ylim = c(0, ymax) )
+x1 = np.linspace(mu1 - 4*sigma, mu1 + 4*sigma, 100)
+y1 = 100* stats.norm.pdf(x1, mu1, sigma)
+x2 = np.linspace(mu2 - 4*sigma, mu2 + 4*sigma, 100)
+y2 = 100* stats.norm.pdf(x2, mu2, sigma)
 
 
-		# alternative distributions
-		lines( x = Grade, 
-	       y = ya1 <- dnorm(Grade, mu1[1], sd1[1]), 
-	       lw = 2 )
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
-		lines( x = Grade, 
-	       y = ya2 <- dnorm(Grade, mu1[2], sd1[2]), 
-	       lw = 2 )
 
-		axis(side = 1, at = seq(40,100,10), labels = F)
+sns.lineplot(x=x,y=y, color='black', ax = ax1)
 
-		text(x = mu1[1], y = max(ya1)*1.1, 
-	     expression(mu[1]) , cex = 1.2)
-		text(x = mu1[2], y = max(ya2)*1.1, 
-	     expression(mu[2]) , cex = 1.2)
-	
+sns.lineplot(x=x,y=y, color='black', ax = ax2)
+sns.lineplot(x=x2,y=y2, color='black', ax = ax2)
 
-		title( main = "alternative hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = rep(1,3))
-	
-		par(old)
-	
-	}
+ax1.text(0, 43, 'null hypothesis', size=20, ha="center")
+ax2.text(0, 43, 'alternative hypothesis', size=20, ha="center")
 
-	# print 
-	sd1 <- c(6.5, 6.5)
-	plotOne( sd1 )
+ax1.set_frame_on(False)
+ax2.set_frame_on(False)
+ax1.get_yaxis().set_visible(False)
+ax2.get_yaxis().set_visible(False)
+ax1.get_xaxis().set_visible(False)
+ax2.get_xaxis().set_visible(False)
+ax1.axhline(y=0, color='black')
+ax2.axhline(y=0, color='black')
+
+ ```{glue:figure} ttesthyp_fig
+:figwidth: 600px
+:name: fig-ttesthyp
+
+Graphical illustration of the null and alternative hypotheses assumed by the Student $t$-test. The null hypothesis assumes that both groups have the same mean $\\mu$, whereas the alternative assumes that they have different means $\mu_1$ and $\mu_2$. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation
 ```
+
 
 To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is *exactly* zero, 
 $\mu_1 - \mu_2 = 0$
 As a consequence, a diagnostic test statistic will be based on the difference between the two sample means. Because if the null hypothesis is true, then we'd expect 
+
 $$
 \bar{X}_1 - \bar{X}_2
 $$
+
 to be *pretty close* to zero. However, just like we saw with our one-sample tests (i.e., the one-sample $z$-test and the one-sample $t$-test) we have to be precise about exactly *how close* to zero this difference should be. And the solution to the problem is more or less the same one: we calculate a standard error estimate (SE), just like last time, and then divide the difference between means by this estimate. So our **_$t$-statistic_** will be of the form
+
 $$
 t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}}
 $$
+
 We just need to figure out what this standard error estimate actually is. This is a bit trickier than was the case for either of the two tests we've looked at so far, so we need to go through it a lot more carefully to understand how it works.
 
 ### A "pooled estimate" of the standard deviation
 
 In the original "Student $t$-test", we make the assumption that the two groups have the same population standard deviation: that is, regardless of whether the population means are the same, we assume that the population standard deviations are identical, $\sigma_1 = \sigma_2$. Since we're assuming that the two standard deviations are the same, we drop the subscripts and refer to both of them as $\sigma$. How should we estimate this? How should we construct a single estimate of a standard deviation when we have two samples? The answer is, basically, we average them. Well, sort of. Actually, what we do is take a *weighed* average of the *variance* estimates, which we use as our **_pooled estimate of the variance_**. The weight assigned to each sample is equal to the number of observations in that sample, minus 1. Mathematically, we can write this as
+
 $$
 \begin{array}{rcl}
 w_1 &=& N_1 - 1\\
 w_2 &=& N_2 - 1
 \end{array}
 $$
+
 Now that we've assigned weights to each sample, we calculate the pooled estimate of the variance by taking the weighted average of the two variance estimates, ${\hat\sigma_1}^2$ and ${\hat\sigma_2}^2$ 
+
 $$
 \hat\sigma^2_p = \frac{w_1 {\hat\sigma_1}^2 + w_2 {\hat\sigma_2}^2}{w_1 + w_2}
 $$
+
 Finally, we convert the pooled variance estimate to a pooled standard deviation estimate, by taking the square root. This gives us the following formula for $\hat\sigma_p$,
+
 $$
 \hat\sigma_p = \sqrt{\frac{w_1 {\hat\sigma_1}^2 + w_2 {\hat\sigma_2}^2}{w_1 + w_2}}
 $$
-And if you mentally substitute $w_1 = N_1 -1$ and $w_2 = N_2 -1$ into this equation you get a very ugly looking formula; a very ugly formula that actually seems to be the "standard" way of describing the pooled standard deviation estimate. It's not my favourite way of thinking about pooled standard deviations, however.^[Yes, I  have a "favourite" way of thinking about pooled standard deviation estimates. So what?] 
+
+And if you mentally substitute $w_1 = N_1 -1$ and $w_2 = N_2 -1$ into this equation you get a very ugly looking formula; a very ugly formula that actually seems to be the "standard" way of describing the pooled standard deviation estimate. It's not my favourite way of thinking about pooled standard deviations, however.[^note8]
 
 ### The same pooled estimate, described differently
 
-I prefer to think about it like this. Our data set actually corresponds to a set of $N$ observations, which are sorted into two groups. So let's use the notation $X_{ik}$ to refer to the grade received by the $i$-th student in the $k$-th tutorial group: that is, $X_{11}$ is the grade received by the first student in Anastasia's class, $X_{21}$ is her second student, and so on. And we have two separate group means $\bar{X}_1$ and $\bar{X}_2$, which we could "generically" refer to using the notation $\bar{X}_k$, i.e., the mean grade for the $k$-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, and so we can describe their deviation from the group mean as the difference
+I prefer to think about it like this. Our data set actually corresponds to a set of $N$ observations, which are sorted into two groups. So let's use the notation $X_{ik}$ to refer to the grade received by the $i$-th student in the $k$-th tutorial group: that is, $X_{11}$ is the grade received by the first student in Anastasia's class, $X_{21}$ is her second student, and so on. And we have two separate group means $\bar{X}_1$ and $\bar{X}_2$, which we could "generically" refer to using the notation $\bar{X}_k$, i.e., the mean grade for the $k$-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, then we can describe their deviation from the group mean as the difference
+
 $$
 X_{ik} - \bar{X}_k
 $$
+
 So why not just use these deviations (i.e., the extent to which each student's grade differs from the mean grade in their tutorial?) Remember, a variance is just the average of a bunch of squared deviations, so let's do that. Mathematically, we could write it like this:
+
 $$
 \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N}
 $$
+
 where the notation "$\sum_{ik}$" is a lazy way of saying "calculate a sum by looking at all students in all tutorials", since each "$ik$" corresponds to one student.^[A more correct notation will be introduced in Chapter \@ref(anova).] But, as we saw in Chapter \@ref(estimation), calculating the variance by dividing by $N$ produces a biased estimate of the population variance. And previously, we needed to divide by $N-1$ to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn't equal to the population mean, it can systematically bias our estimate of the variance. But this time we're relying on *two* sample means! Does this mean that we've got more bias? Yes, yes it does. And does this mean we now need to divide by $N-2$ instead of $N-1$, in order to calculate our pooled variance estimate? Why, yes...
+
 $$
 \hat\sigma^2_p = \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N -2}
 $$
+
 Oh, and if you take the square root of this then you get $\hat{\sigma}_p$, the pooled standard deviation estimate. In other words, the pooled standard deviation calculation is nothing special: it's not terribly different to the regular standard deviation calculation. 
 
-
+(indsamplesttest_formula)=
 ### Completing the test
 
 Regardless of which way you want to think about it, we now have our pooled estimate of the standard deviation. From now on, I'll drop the silly $p$ subscript, and just refer to this estimate as $\hat\sigma$. Great. Let's now go back to thinking about the bloody hypothesis test, shall we? Our whole reason for calculating this pooled estimate was that we knew it would be helpful when calculating our *standard error* estimate. But, standard error of *what*? In the one-sample $t$-test, it was the standard error of the sample mean, $\mbox{SE}({\bar{X}})$, and since $\mbox{SE}({\bar{X}}) = \sigma / \sqrt{N}$ that's what the denominator of our $t$-statistic looked like. This time around, however, we have *two* sample means. And what we're interested in, specifically, is the the difference between the two $\bar{X}_1 - \bar{X}_2$. As a consequence, the standard error that we need to divide by is in fact the **_standard error of the difference_** between means. As long as the two variables really do have the same standard deviation, then our estimate for the standard error is
+
 $$
 \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \hat\sigma \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}
 $$
+
 and our $t$-statistic is therefore 
+
 $$
 t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 $$
+
 Just as we saw with our one-sample test, the sampling distribution of this $t$-statistic is a $t$-distribution (shocking, isn't it?) as long as the null hypothesis is true, and all of the assumptions of the test are met. The degrees of freedom, however, is slightly different. As usual, we can think of the degrees of freedom to be equal to the number of data points minus the number of constraints. In this case, we have $N$ observations ($N_1$ in sample 1, and $N_2$ in sample 2), and 2 constraints (the sample means). So the total degrees of freedom for this test are $N-2$. 
 
+### Doing the test in Python
 
-### Doing the test in R
+Not surprisingly, you can run an independent samples $t$-test with a method from `scipy`, and since the method for a one-sample $t$-test was `ttest_1samp`, it may come as no big surprise to you that the method for an independent-samples $t$-test is called `ttest_ind`.
 
-Not surprisingly, you can run an independent samples $t$-test using the `t.test()` function (Section \@ref(ttestfunction)), but once again I'm going to start with a somewhat simpler function in the `lsr` package. That function is unimaginatively called `independentSamplesTTest()`. First, recall that our data look like this: 
-```{r}
-head( harpo )
-```
-The outcome variable for our test is the student `grade`, and the groups are defined in terms of the `tutor` for each class. So you probably won't be too surprised to see that we're going to describe the test that we want in terms of an R formula that reads like this `grade ~ tutor`. The specific command that we need is:
-```{r}
-independentSamplesTTest( 
-      formula = grade ~ tutor,  # formula specifying outcome and group variables
-      data = harpo,             # data frame that contains the variables
-      var.equal = TRUE          # assume that the two groups have the same variance
-  )
-```
-The first two arguments should be familiar to you. The first one is the formula that tells R what variables to use and the second one tells R the name of the data frame that stores those variables. The third argument is not so obvious. By saying `var.equal = TRUE`, what we're really doing is telling R to use the *Student* independent samples $t$-test. More on this later. For now, lets ignore that bit and look at the output:
+Let's give it a try. An important point here, and one that can cause a lot of frustration if you don't realize what is going on, is that `ttest_ind` wants the data from the two groups served up as two separate variables. Since Dr Harpo sent the data to us in _long format_, that is, with all the grades in one column, and a second column telling us who the tutor was for each student, we will need to do something to break the grade data into two. There are different approaches that could be taken here, but I think the most straightforward is (as it so often is) the best. So, we will start by creating two new variables, `Anastasia`, and `Bernadette`, and then feed those into the test.
 
-The output has a very familiar form. First, it tells you what test was run, and it tells you the names of the variables that you used. The second part of the output reports the sample means and standard deviations for both groups (i.e., both tutorial groups). The third section of the output states the null hypothesis and the alternative hypothesis in a fairly explicit form. It then reports the test results: just like last time, the test results consist of a $t$-statistic, the degrees of freedom, and the $p$-value. The final section reports two things: it gives you a confidence interval, and an effect size. I'll talk about effect sizes later. The confidence interval, however, I should talk about now. 
+# create two new variables for the grades from each tutor's students
+Anastasia = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+Bernadette = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
+
+# run an independent samples t-test
+from scipy import stats
+stats.ttest_ind(Anastasia, Bernadette, equal_var = True)
+
+This is fairly straightforward, and just as it was for the one-sample $t$-test, `scipy` does very little to format its results or give you any information over the bare minimum. You get a $t$-statistic and a $p$-value and that's that. Luckily, as was the case with the one-sampel $t$-test, getting the other elements we need to report our results isn't too bad. We will need the $t$-statistic, the $p$-value, the mean of each group, and the degrees of freedom. The first two we already have, and the last two are easy to get. As we discussed [above](indsamplesttest_formula), the degrees of freedom for an independent samples $t$-test is $N-2$, so...
+
+print('N:',len(Anastasia) + len(Bernadette))
+print('df:', N-2)
+print('mean grade for A\'s students:', statistics.mean(Anastasia['grade']))
+print('mean grade for B\'s students:', statistics.mean(Bernadette['grade']))
+
+
+
+You probably noticed that in addition to telling `ttest_ind` which means I wanted to compare, I also added the argument `equal_var = True` to the command. This wasn't strictly necessary in this case, because by default this argument is set to `True`. But I made it explicit anyway, because we will be using this argument again later. By saying `equal_var = True`, what we're really doing is telling Python to use the *Student* independent samples $t$-test. More on this later.
+
+But what, I hear you saying, about confidence intervals? We calculated them for the one-sample $t$-test; wouldn't it be a good idea to do that for the independent-samples $t$-test as well? Well, yes, you're right, it would be a good idea, so let's do it. It would be nice if `ttest_ind` would provide these for us automatically, since the information is all there, but on the other hand, going through the steps _does_ serve as a good reminder of what is actually happening.
+
+For an indenpendent samples $t$-test, the confidence interval is for the *difference* between the group means, that is, it is telling us that the true difference probably lies between the upper and lower bounds of the confidence interval. So, how do we calculate those bounds?
+
+n1 = len(Anastasia)
+n2 = len(Bernadette)
+m1 = statistics.mean(Anastasia['grade'])
+m2 = statistics.mean(Bernadette['grade'])
+
+v1 = statistics.variance(Anastasia['grade'])
+v2 = statistics.variance(Bernadette['grade'])
+
+pooled_se = np.sqrt(v1 / n1 + v2 / n2)
+delta = m1-m2
+
+#tstat = delta /  pooled_se
+#tstat = ttest_ind(Anastasia, Bernadette)[0]
+#df = (v1 / n1 + v2 / n2)**2 / (v1**2 / (n1**2 * (n1 - 1)) + v2**2 / (n2**2 * (n2 - 1)))
+
+# two side t-test
+#p = 2 * t.cdf(-abs(tstat), df)
+
+# upper and lower bounds
+lb = delta - t.ppf(0.975,df)*pooled_se 
+ub = delta + t.ppf(0.975,df)*pooled_se
+
+#print(lb)
+#print(ub)
 
 It's pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the *difference* between the group means. In our example, Anastasia's students had an average grade of 74.5, and Bernadette's students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the `independentSamplesTTest()` function tells you that there's a 95\% chance that the true difference between means lies between 0.2 and 10.8.  
 
 In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
 
-> The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples $t$-test showed that this 5.4\% difference was significant ($t(31) = 2.1$, $p<.05$, $CI_{95} = [0.2, 10.8]$, $d = .74$), suggesting that a genuine difference in learning outcomes has occurred.  
+> The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples $t$-test showed that this 5.4\% difference was significant ($t(31) = 2.1$, $p<.05$), suggesting that a genuine difference in learning outcomes has occurred.
+
+
+In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
+
+> The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples $t$-test showed that this 5.4\% difference was significant ($t(31) = 2.1$, $p<.05$, $CI_{95} = [0.2, 10.8]$, $d = .74$), suggesting that a genuine difference in learning outcomes has occurred.
 
 Notice that I've included the confidence interval and the effect size in the stat block. People don't always do this. At a bare minimum, you'd expect to see the $t$-statistic, the degrees of freedom and the $p$ value. So you should include something like this at a minimum: $t(31) = 2.1$, $p<.05$. If statisticians had their way, everyone would also report the confidence interval and probably the effect size measure too, because they are useful things to know. But real life doesn't always work the way statisticians want it to: you should make a judgment based on whether you think it will help your readers, and (if you're writing a scientific paper) the editorial standard for the journal in question. Some journals expect you to report effect sizes, others don't. Within some scientific communities it is standard practice to report confidence intervals, in other it is not. You'll need to figure out what your audience expects. But, just for the sake of clarity, if you're taking my class: my default position is that it's usually worth includng the effect size, but don't worry about the confidence interval unless the assignment asks you to or implies that you should.
 
  
 ### Positive and negative $t$ values
 
-Before moving on to talk about the assumptions of the $t$-test, there's one additional point I want to make about the use of $t$-tests in practice. The first one relates to the sign of the $t$-statistic (that is, whether it is a positive number or a negative one).  One very common worry that students have when they start running their first $t$-test is that they often end up with negative values for the $t$-statistic, and don't know how to interpret it. In fact, it's not at all uncommon for two  people working independently to end up with R outputs that are almost identical, except that one person has a negative $t$ values and the other one has a positive $t$ value. Assuming that  you're running a two-sided test, then the $p$-values will be identical. On closer inspection, the students will notice that the confidence intervals also have the opposite signs. This is perfectly okay: whenever this happens, what you'll find is that the two versions of the R output arise from slightly different ways of running the $t$-test. What's happening here is very simple. The $t$-statistic that R is calculating here is always of the form 
+Before moving on to talk about the assumptions of the $t$-test, there's one additional point I want to make about the use of $t$-tests in practice. The first one relates to the sign of the $t$-statistic (that is, whether it is a positive number or a negative one).  One very common worry that students have when they start running their first $t$-test is that they often end up with negative values for the $t$-statistic, and don't know how to interpret it. In fact, it's not at all uncommon for two  people working independently to end up with Python outputs that are almost identical, except that one person has a negative $t$ values and the other one has a positive $t$ value. Assuming that  you're running a two-sided test, then the $p$-values will be identical. On closer inspection, the students will notice that the confidence intervals also have the opposite signs. This is perfectly okay: whenever this happens, what you'll find is that the two versions of the Python output arise from slightly different ways of running the $t$-test. What's happening here is very simple. The $t$-statistic that Python is calculating here is always of the form 
+
 $$
 t = \frac{\mbox{(mean 1)} -\mbox{(mean 2)}}{ \mbox{(SE)}}
 $$
+
 If "mean 1" is larger than "mean 2" the $t$ statistic will be positive, whereas if "mean 2" is larger then the $t$ statistic will be negative. Similarly, the confidence interval that R reports is the confidence interval for the difference "(mean 1) minus (mean 2)", which will be the reverse of what you'd get if you were calculating the confidence interval for the difference "(mean 2) minus (mean 1)".
 
-Okay, that's pretty straightforward when you think about it, but now consider our $t$-test comparing Anastasia's class to Bernadette's class. Which one should we call "mean 1" and which one should we call "mean 2". It's arbitrary. However, you really do need to designate one of them as "mean 1" and the other one as "mean 2". Not surprisingly, the way that R handles this is also pretty arbitrary. In earlier versions of the book I used to try to explain it, but after a while I gave up, because it's not really all that important, and to be honest I can never remember myself. Whenever I get a significant $t$-test result, and I want to figure out which mean is the larger one, I don't try to figure it out by looking at the $t$-statistic. Why would I bother doing that? It's foolish. It's easier just look at the actual group means, since the R output actually shows them!
+Okay, that's pretty straightforward when you think about it, but now consider our $t$-test comparing Anastasia's class to Bernadette's class. Which one should we call "mean 1" and which one should we call "mean 2". It's arbitrary. However, you really do need to designate one of them as "mean 1" and the other one as "mean 2". Not surprisingly, the way that Python handles this is also pretty arbitrary. In earlier versions of the book I used to try to explain it, but after a while I gave up, because it's not really all that important, and to be honest I can never remember myself. Whenever I get a significant $t$-test result, and I want to figure out which mean is the larger one, I don't try to figure it out by looking at the $t$-statistic. Why would I bother doing that? It's foolish. It's easier just look at the actual group means!
 
 
-Here's the important thing. Because it really doesn't matter what R printed out, I usually try to *report* the $t$-statistic in such a way that the numbers match up with the text. Here's what I mean... suppose that what I want to write in my report is "Anastasia's class had higher  grades than Bernadette's class". The phrasing here implies that Anastasia's group comes first, so it makes sense to report the $t$-statistic as if Anastasia's class corresponded to group 1. If so, I would write 
+Here's the important thing. Because it really doesn't matter what Python printed out, I usually try to *report* the $t$-statistic in such a way that the numbers match up with the text. Here's what I mean... suppose that what I want to write in my report is "Anastasia's class had higher  grades than Bernadette's class". The phrasing here implies that Anastasia's group comes first, so it makes sense to report the $t$-statistic as if Anastasia's class corresponded to group 1. If so, I would write 
 
 >Anastasia's class had *higher* grades than Bernadette's class ($t(31)= 2.1, p=.04$). 
 
@@ -727,9 +780,9 @@ Here's the important thing. Because it really doesn't matter what R printed out,
 Because I'm talking about one group having "lower" scores this time around, it is more sensible to use the negative form of the $t$-statistic. It just makes it read more cleanly.
 
 One last thing: please note that you *can't* do this for other types of test statistics. It works for $t$-tests, but it wouldn't be meaningful for  chi-square testsm $F$-tests or indeed for most of the tests I talk about in this book. So don't overgeneralise this advice! I'm really just talking about $t$-tests here and nothing else!
- 
- 
-### Assumptions of the test{#studentassumptions}
+
+(studentassumptions)= 
+### Assumptions of the test
 
 As always, our hypothesis test relies on some assumptions. So what are they? For the Student t-test there are three assumptions, some of which we saw previously in the context of the one sample $t$-test (see Section \@ref(ttestoneassumptions)):
 
@@ -738,115 +791,86 @@ As always, our hypothesis test relies on some assumptions. So what are they? For
 - *Independence*. Once again, it is assumed that the observations are independently sampled. In the context of the Student test this has two aspects to it. Firstly, we assume that the observations within each sample are independent of one another (exactly the same as for the one-sample test). However, we also assume that there are no cross-sample dependencies. If, for instance, it turns out that you included some participants in both experimental conditions of your study (e.g., by accidentally allowing the same person to sign up to different conditions), then there are some cross sample dependencies that you'd need to take into account.
 - *Homogeneity of variance* (also called "homoscedasticity"). The third assumption is that the population standard deviation is the same in both groups. You can test this assumption using the Levene test, which I'll talk about later on in the book (Section \@ref(levene)). However, there's a very simple remedy for this assumption, which I'll talk about in the next section.
 
-
-
-
-
-
-## The independent samples $t$-test (Welch test){#welchttest}
+(welchttest)=
+## The independent samples $t$-test (Welch test)
 
 The biggest problem with using the Student test in practice is the third assumption listed in the previous section: it assumes that both groups have the same standard deviation. This is rarely true in real life: if two samples don't have the same means, why should we expect them to have the same standard deviation? There's really no reason to expect this assumption to be true. We'll talk a little bit about how you can check this assumption later on because it does crop up in a few different places, not just the $t$-test. But right now I'll talk about a different form of the $t$-test [@Welch1947] that does not rely on this assumption. A graphical illustration of what the **_Welch $t$ test_** assumes about the data is shown in Figure \@ref(fig:ttesthyp2), to provide a contrast with the Student test version in Figure \@ref(fig:ttesthyp). I'll admit it's a bit odd to talk about the cure before talking about the diagnosis, but as it happens the Welch test is the default $t$-test in R, so this is probably the best place to discuss it. 
 
 The Welch test is very similar to the Student test. For example, the $t$-statistic that we use in the Welch test is calculated in much the same way as it is for the Student test. That is, we take the difference between the sample means, and then divide it by some estimate of the standard error of that difference:
+
 $$
 t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 $$
-The main difference is that the standard error calculations are different. If the two populations have different standard deviations, then it's a complete nonsense to try to calculate a pooled standard deviation estimate, because you're averaging apples and oranges.^[Well, I guess you can average apples and oranges, and what you end up with is a delicious fruit smoothie. But no one really thinks that a fruit smoothie is a very good way to describe the original fruits, do they?] But you can still estimate the standard error of the difference between sample means; it just ends up looking different:
+
+The main difference is that the standard error calculations are different. If the two populations have different standard deviations, then it's a complete nonsense to try to calculate a pooled standard deviation estimate, because you're averaging apples and oranges.[^note9] But you can still estimate the standard error of the difference between sample means; it just ends up looking different:
+
 $$
 \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \sqrt{ \frac{{\hat{\sigma}_1}^2}{N_1} + \frac{{\hat{\sigma}_2}^2}{N_2} }
 $$
+
 The reason why it's calculated this way is beyond the scope of this book. What matters for our purposes is that the $t$-statistic that comes out of the Welch test is actually somewhat different to the one that comes from the Student test. 
 
 The second difference between Welch and Student is that the degrees of freedom are calculated in a very different way. In the Welch test, the "degrees of freedom " doesn't have to be a whole number any more, and it doesn't correspond all that closely to the "number of data points minus the number of constraints" heuristic that I've been using up to this point. The degrees of freedom are, in fact...
+
 $$
 \mbox{df} = \frac{ ({\hat{\sigma}_1}^2 / N_1 + {\hat{\sigma}_2}^2 / N_2)^2 }{  ({\hat{\sigma}_1}^2 / N_1)^2 / (N_1 -1 )  + ({\hat{\sigma}_2}^2 / N_2)^2 / (N_2 -1 ) } 
 $$
+
 ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for out purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number. 
 
-```{r ttesthyp2, fig.cap="Graphical illustration of the null and alternative hypotheses assumed by the Welch $t$-test. Like the Student test we assume that both samples are drawn from a normal population; but the alternative hypothesis no longer requires the two populations to have equal variance.", echo=FALSE}
-	width <- 12
-	height <- 4
-
-	plotOne <- function( sd1 ) {
- 
-		Grade <- 40:100
-
-		mu1 <- c(60, 75)
-		mu0 <- 70
-		sd0 <- 9
-
-		plot.new()   # new figure window
-
-		old <- par( no.readonly = TRUE )
-	
-		par( mfcol = c(1,2),  # array of two plots
-	     	mfg = c(1,1) )   # start on the left
-
-		ymax <- .07
-		plot.window( xlim = range(Grade),
-	        ylim = c(0, ymax)
-	  	)
-
-		# null distribution
-		lines( x = Grade, 
-	       y = ynull <- dnorm(Grade, mu0, sd0), 
-	       lw = 2 )
-
-		axis(side = 1, at = seq(40,100,10), labels = F)
-
-		text(x = mu0, y = max(ynull)*1.1, 
-	     expression(mu) , cex = 1.2)
-
-		title( main = "null hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = rep(1,3))
-
-		par( mfg = c(1,2) ) 
-		plot.window( xlim = range(Grade),
-	             ylim = c(0, ymax) )
 
 
-		# alternative distributions
-		lines( x = Grade, 
-	       y = ya1 <- dnorm(Grade, mu1[1], sd1[1]), 
-	       lw = 2 )
+mu1 = 0
+sigma1 = 1
+mu2 = 2
+sigma2 = 1.45
 
-		lines( x = Grade, 
-	       y = ya2 <- dnorm(Grade, mu1[2], sd1[2]), 
-	       lw = 2 )
-
-		axis(side = 1, at = seq(40,100,10), labels = F)
-
-		text(x = mu1[1], y = max(ya1)*1.1, 
-	     expression(mu[1]) , cex = 1.2)
-		text(x = mu1[2], y = max(ya2)*1.1, 
-	     expression(mu[2]) , cex = 1.2)
-	
-
-		title( main = "alternative hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = rep(1,3))
-	
-		par(old)
-	
-	}
+x1 = np.linspace(mu1 - 4*sigma, mu1 + 4*sigma1, 100)
+y1 = 100* stats.norm.pdf(x1, mu1, sigma1)
+x2 = np.linspace(mu2 - 4*sigma, mu2 + 4*sigma2, 100)
+y2 = 100* stats.norm.pdf(x2, mu2, sigma2)
 
 
-	# print 
-	sd1 <- c(6.5, 7.95)
-	plotOne( sd1 )
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+
+sns.lineplot(x=x,y=y, color='black', ax = ax1)
+
+sns.lineplot(x=x,y=y, color='black', ax = ax2)
+sns.lineplot(x=x2,y=y2, color='black', ax = ax2)
+
+ax1.text(0, 47, 'null hypothesis', size=20, ha="center")
+ax2.text(0, 47, 'alternative hypothesis', size=20, ha="center")
+
+ax1.text(0, 41, r'$\mu$', size=20, ha="center")
+ax2.text(0, 41, r'$\mu_1$', size=20, ha="center")
+ax2.text(1.50, 30, r'$\mu_2$', size=20, ha="left")
+
+ax1.set_frame_on(False)
+ax2.set_frame_on(False)
+ax1.get_yaxis().set_visible(False)
+ax2.get_yaxis().set_visible(False)
+ax1.get_xaxis().set_visible(False)
+ax2.get_xaxis().set_visible(False)
+ax1.axhline(y=0, color='black')
+ax2.axhline(y=0, color='black')
+
+
+ ```{glue:figure} ttesthyp2_fig
+:figwidth: 600px
+:name: fig-ttesthyp2
+
+Graphical illustration of the null and alternative hypotheses assumed by the Welch $t$-test. Like the Student test we assume that both samples are drawn from a normal population; but the alternative hypothesis no longer requires the two populations to have equal variance.
 ```
 
-### Doing the test in R
+### Doing the test in Python
 
-To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's $t$-test and drop the `var.equal = TRUE` bit. So the command for a Welch test becomes:
-```{r}
-independentSamplesTTest( 
-      formula = grade ~ tutor,  # formula specifying outcome and group variables
-      data = harpo              # data frame that contains the variables
-  )
-```
-Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too:
+To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's $t$-test and set `equal_var` to `False` . So the command for a Welch test becomes:
 
-The very first line is different, because it's telling you that its run a Welch test rather than a Student test, and of course all the numbers are a bit different. But I hope that the interpretation of this output should be fairly obvious. You read the output in the same way that you would for the Student test. You've got your descriptive statistics, the hypotheses, the test results and some other information. So that's all pretty easy. 
+from scipy import stats
+stats.ttest_ind(Anastasia, Bernadette, equal_var = False)
+
+Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too: a test statistic $t$, and a $p$-value. So that's all pretty easy. 
 
 Except, except... our result isn't significant anymore. When we ran the Student test, we did get a significant effect; but the Welch test on the same data set is not ($t(23.03) = 2.03$, $p = .054$). What does this mean? Should we panic? Is the sky burning? Probably not. The fact that one test is significant and the other isn't doesn't itself mean very much, especially since I kind of rigged the data so that this would happen. As a general rule, it's not a good idea to go out of your way to try to interpret or explain the difference between a $p$-value of .049 and a $p$-value of .051. If this sort of thing happens in real life, the *difference* in these $p$-values is almost certainly due to chance. What does matter is that you take a little bit of care in thinking about what test you use. The Student test and the Welch test have different strengths and weaknesses. If the two populations really do have equal variances, then the Student test is slightly more powerful (lower Type II error rate) than the Welch test. However, if they *don't* have the same variances, then the assumptions of the Student test are violated and you may not be able to trust it: you might end up with a higher Type I error rate. So it's a trade off. However, in real life, I tend to prefer the Welch test; because almost no-one *actually* believes that the population variances are identical.
 
@@ -855,13 +879,14 @@ Except, except... our result isn't significant anymore. When we ran the Student 
 
 The assumptions of the Welch test are very similar to those made by the Student $t$-test (see Section \@ref(studentassumptions)), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test. 
 
-## The paired-samples $t$-test{#pairedsamplesttest}
+(pairedsamplesttest)=
+## The paired-samples $t$-test
 
-Regardless of whether we're talking about the Student test or the Welch test, an independent samples $t$-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design -- in which each participant is measured (with respect to the same outcome variable) in both experimental conditions -- is not suited for analysis using independent samples $t$-tests. For example, we might be interested in whether listening to music reduces people's working memory capacity. To that end, we could measure each person's working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,^[This design is very similar to the one in Section \@ref(mcnemar) that motivated the McNemar test. This should be no surprise. Both are standard repeated measures designs involving two measurements. The only difference is that this time our outcome variable is interval scale (working memory capacity) rather than a binary, nominal scale variable (a yes-or-no question).] each participant appears in *both* groups. This requires us to approach the problem in a different way; by using the **_paired samples $t$-test_**. 
+Regardless of whether we're talking about the Student test or the Welch test, an independent samples $t$-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design -- in which each participant is measured (with respect to the same outcome variable) in both experimental conditions -- is not suited for analysis using independent samples $t$-tests. For example, we might be interested in whether listening to music reduces people's working memory capacity. To that end, we could measure each person's working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,[^note10] each participant appears in *both* groups. This requires us to approach the problem in a different way; by using the **_paired samples $t$-test_**. 
 
 ### The data
 
-The data set that we'll use this time comes from Dr Chico's class.^[At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.] In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the `chico.Rdata` file: 
+The data set that we'll use this time comes from Dr Chico's class.[^note11] In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the `chico.Rdata` file: 
 ```{r}
 load( file.path(projecthome, "data/chico.Rdata" ))
 str(chico)     
@@ -1414,3 +1439,17 @@ wilcox.test( x = happiness$after,
 [^note3]: Actually this is too strong. Strictly speaking the $z$ test only requires that the sampling distribution of the mean be normally distributed; if the population is normal then it necessarily follows that the sampling distribution of the mean is also normal. However, as we saw when talking about the central limit theorem, it's quite possible (even commonplace) for the sampling distribution to be normal even if the population distribution itself is non-normal. However, in light of the sheer ridiculousness of the assumption that the true standard deviation is known, there really isn't much point in going into details on this front!
 
 [^note4]: Well, sort of. As I understand the history, Gosset only provided a partial solution: the general solution to the problem was provided by Sir Ronald Fisher.
+
+[^note5]: More seriously, I tend to think the reverse is true: I get very suspicious of technical reports that fill their results sections with nothing except the numbers. It might just be that I'm an arrogant jerk, but I often feel like an author that makes no attempt to explain and interpret their analysis to the reader either doesn't understand it themselves, or is being a bit lazy. Your readers are smart, but not infinitely patient. Don't annoy them if you can help it.
+
+[^note6]: Although it is the simplest, which is why I started with it.
+
+[^note7]: A funny question almost always pops up at this point: what the heck *is* the population being referred to in this case? Is it the set of students actually taking Dr Harpo's class (all 33 of them)? The set of people who might take the class (an unknown number) of them? Or something else? Does it matter which of these we pick? It's traditional in an introductory behavioural stats class to mumble a lot at this point, but since I get asked this question every year by my students, I'll give a brief answer. Technically yes, it does matter: if you change your definition of what the "real world" population actually is, then the sampling distribution of your observed mean $\bar{X}$ changes too. The $t$-test relies on an assumption that the observations are sampled at random from an infinitely large population; and to the extent that real life isn't like that, then the $t$-test can be wrong. In practice, however, this isn't usually a big deal: even though the assumption is almost always wrong, it doesn't lead to a lot of pathological behaviour from the test, so we tend to just ignore it.
+
+[^note8]: Yes, I  have a "favourite" way of thinking about pooled standard deviation estimates. So what?
+
+[^note9]: Well, I guess you can average apples and oranges, and what you end up with is a delicious fruit smoothie. But no one really thinks that a fruit smoothie is a very good way to describe the original fruits, do they?
+
+[^note10]: This design is very similar to the one in [](chisquare) that motivated the McNemar test. This should be no surprise. Both are standard repeated measures designs involving two measurements. The only difference is that this time our outcome variable is interval scale (working memory capacity) rather than a binary, nominal scale variable (a yes-or-no question).
+
+[^note11]: At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.
