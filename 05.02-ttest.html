@@ -875,65 +875,98 @@ z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}}
 \[
 z_{\bar{X}} \sim \mbox{Normal}(0,1)
 \]</div>
-<p>(again, see the section on <a class="reference internal" href="03.01-descriptives.html#zcores"><span class="std std-ref">z-scores</span></a>) if you’ve forgotten why this is true). In other words, regardless of what scale the original data are on, the <span class="math notranslate nohighlight">\(z\)</span>-statistic iteself always has the same interpretation: it’s equal to the number of standard errors that separate the observed sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> from the population mean <span class="math notranslate nohighlight">\(\mu_0\)</span> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5% critical regions for <span class="math notranslate nohighlight">\(z\)</span>-test are always the same, as illustrated in Figures &#64;ref(fig:ztest1) and &#64;ref(fig:ztest2). And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-                         ~V1,                ~V2,                ~V3,
-                      &quot;.1&quot;,      &quot;1.644854&quot;,       &quot;1.281552&quot;,
-                      &quot;.05&quot;,      &quot;1.959964&quot;,       &quot;1.644854&quot;,
-                      &quot;.01&quot;,      &quot;2.575829&quot;,       &quot;2.326348&quot;,
-                      &quot;.001&quot;,      &quot;3.290527&quot;,       &quot;3.090232&quot;
-  ), col.names = c(&quot;desired $\\alpha$ level&quot;, &quot; two-sided test&quot;, &quot; one-sided test&quot;), align = &#39;ccc&#39;)
-</pre></div>
-</div>
-<p>which in turn meant that researchers could calculate their <span class="math notranslate nohighlight">\(z\)</span>-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it’s kind of unnecessary these days, since it’s trivially easy to do it with software like R.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  width &lt;- 6
-  height &lt;- 4
-  
-  plot.new()
-  plot.window( xlim=c(-3,3), ylim=c(0,.4) )
-  
-  crit &lt;- qnorm(.975)
-  x&lt;-c(seq(crit,3,.01),3)
-  y&lt;-dnorm(x)
-  polygon(c(x[1],x,3),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  crit &lt;- qnorm(.025)
-  x&lt;-c(seq(-3,crit,.01),crit)
-  y&lt;-dnorm(x)
-  polygon(c(x[1],x,crit),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  x &lt;- seq(-3,3,.01)
-  y &lt;- dnorm(x)
-  lines(x,y,lwd=3,col=&quot;black&quot;)
+<p>(again, see the section on <a class="reference internal" href="03.01-descriptives.html#zcores"><span class="std std-ref">z-scores</span></a>) if you’ve forgotten why this is true). In other words, regardless of what scale the original data are on, the <span class="math notranslate nohighlight">\(z\)</span>-statistic iteself always has the same interpretation: it’s equal to the number of standard errors that separate the observed sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> from the population mean <span class="math notranslate nohighlight">\(\mu_0\)</span> predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5% critical regions for <span class="math notranslate nohighlight">\(z\)</span>-test are always the same, as illustrated in Figures &#64;ref(fig:ztest1) and &#64;ref(fig:ztest2).</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
 
-  axis(1,at=round(c(-3,crit,0,-crit,3),2),
-       labels=c(&quot;&quot;,round(crit,2),&quot;0&quot;,round(-crit,2),&quot;&quot;))
-  title(xlab=&quot;Value of z Statistic&quot;, main=&quot;Two Sided Test&quot;, font.main=1)
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+
+<span class="c1"># Two-sided test</span>
+<span class="n">crit</span> <span class="o">=</span> <span class="mf">1.96</span>
+<span class="n">p_lower</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&lt;</span><span class="n">crit</span><span class="o">*-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">p_upper</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="n">crit</span><span class="p">]</span>
+
+<span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">ax0</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">p_lower</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">p_lower</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">hatch</span><span class="o">=</span><span class="s2">&quot;///&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">p_upper</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">p_upper</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">hatch</span><span class="o">=</span><span class="s2">&quot;///&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Two sided test&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">1.96</span><span class="p">,</span><span class="o">-.</span><span class="mi">03</span><span class="p">,</span> <span class="s1">&#39;-1.96&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.96</span><span class="p">,</span><span class="o">-.</span><span class="mi">03</span><span class="p">,</span> <span class="s1">&#39;1.96&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="c1"># One-sided test</span>
+<span class="n">crit</span> <span class="o">=</span> <span class="mf">1.64</span>
+<span class="n">p_upper</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">&gt;</span><span class="n">crit</span><span class="p">]</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Two sided test&quot;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.64</span><span class="p">,</span><span class="o">-.</span><span class="mi">03</span><span class="p">,</span> <span class="s1">&#39;1.64&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">p_upper</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">p_upper</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">hatch</span><span class="o">=</span><span class="s2">&quot;///&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+
+<span class="n">ax0</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">ax0</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax0</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;ztest-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  plot.new()
-  plot.window( xlim=c(-3,3), ylim=c(0,.4) )
-  
-  crit &lt;- qnorm(.95)
-  x&lt;-c(seq(crit,3,.01),3)
-  y&lt;-dnorm(x)
-  polygon(c(x[1],x,3),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  x &lt;- seq(-3,3,.01)
-  y &lt;- dnorm(x)
-  lines(x,y,lwd=3,col=&quot;black&quot;)
-  
-  axis(1,at=round(c(-3,0,crit,3),2),
-       labels=c(&quot;&quot;,&quot;0&quot;,round(crit,2),&quot;&quot;))
-  title(xlab=&quot;Value of z Statistic&quot;, main=&quot;One Sided Test&quot;, font.main=1)
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.02-ttest_13_1.png" src="_images/05.02-ttest_13_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-ztest" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
+</div>
+<p class="caption"><span class="caption-number">Fig. 3.4 </span><span class="caption-text">Rejection regions for the two-sided z-test (left) and the one-sided z-test (right).</span><a class="headerlink" href="#fig-ztest" title="Permalink to this image">¶</a></p>
+</div>
+<p>And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p></p></th>
+<th class="text-align:center head"><p></p></th>
+<th class="text-align:center head"><p>critical z value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p>desired a level</p></td>
+<td class="text-align:center"><p>two-sided test</p></td>
+<td class="text-align:center"><p>one-sided test</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p>.1</p></td>
+<td class="text-align:center"><p>1.644854</p></td>
+<td class="text-align:center"><p>1.281552</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p>.05</p></td>
+<td class="text-align:center"><p>1.959964</p></td>
+<td class="text-align:center"><p>1.644854</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p>.01</p></td>
+<td class="text-align:center"><p>2.575829</p></td>
+<td class="text-align:center"><p>2.326348</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p>.001</p></td>
+<td class="text-align:center"><p>3.290527</p></td>
+<td class="text-align:center"><p>3.090232</p></td>
+</tr>
+</tbody>
+</table>
+<p>which in turn meant that researchers could calculate their <span class="math notranslate nohighlight">\(z\)</span>-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it’s kind of unnecessary these days, since it’s trivially easy to do it with software like Python.</p>
 </div>
 <div class="section" id="a-worked-example-using-r">
 <h3><span class="section-number">3.1.3. </span>A worked example using R<a class="headerlink" href="#a-worked-example-using-r" title="Permalink to this headline">¶</a></h3>
