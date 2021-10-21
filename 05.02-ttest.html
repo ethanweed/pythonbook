@@ -1405,23 +1405,43 @@ Degrees of freedom: 19
 </table>
 </div></div></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>We can calculate means and standard deviations, using the `mean()` and `sd()` functions. Rather than show the R output, here&#39;s a nice little summary table:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">Anastasia</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Anastasia&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">Bernadette</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bernadette&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 
-```{r echo=FALSE}
-knitr::kable(tibble::tribble(
-                        ~V1,       ~V2,         ~V3,    ~V4,
-   &quot;Anastasia&#39;s students&quot;, &quot;74.53&quot;,    &quot;9.00&quot;, &quot;15&quot;,
-   &quot;Bernadette&#39;s students&quot;, &quot;69.06&quot;,    &quot;5.77&quot;,  &quot;18&quot;
-  ), col.names = c(&quot;&quot;,  &quot;mean&quot;, &quot;std dev&quot;,  &quot;N&quot;), align=&quot;lccc&quot;)
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">binwidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">binwidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Anastasia&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Bernadette&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.02-ttest_54_0.png" src="_images/05.02-ttest_54_0.png" />
+</div>
+</div>
 <p>To give you a more detailed sense of what’s going on here, I’ve plotted histograms showing the distribution of grades for both tutors (Figure &#64;ref(fig:harpohistanastasia) and &#64;ref(fig:harpohistbernadette)). Inspection of these histograms suggests that the students in Anastasia’s class may be getting slightly better grades on average, though they also seem a little more variable.</p>
+<div class="figure align-default" id="fig-harpohist" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.19 </span><span class="caption-text">Histogram showing the overall distribution of grades for students in Anastasia and Bernadette’s classes</span><a class="headerlink" href="#fig-harpohist" title="Permalink to this image">¶</a></p>
+</div>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  plotHist(harpo$grade[harpo$tutor == &quot;Anastasia&quot;],
            xlim=c(50,100),xlab=&quot;Grade&quot;, main=&quot;Anastasia&#39;s students&quot;,
            font.main=1,breaks=seq(50,100,5), ylim=c(0,7))
-</pre></div>
-</div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  plotHist(harpo$grade[harpo$tutor == &quot;Bernadette&quot;],
+```a
+
+```{r harpohistbernadette, fig.cap=&quot;Histogram showing the overall distribution of grades for students in Bernadette&#39;s class&quot;, echo=FALSE}
+  plotHist(harpo$grade[harpo$tutor == &quot;Bernadette&quot;],
            xlim=c(50,100),xlab=&quot;Grade&quot;, main=&quot;Bernadette&#39;s students&quot;,
            font.main=1,breaks=seq(50,100,5), ylim=c(0,7))
 </pre></div>
