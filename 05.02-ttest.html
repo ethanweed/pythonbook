@@ -1197,33 +1197,13 @@ t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 <p>The situation with <span class="math notranslate nohighlight">\(t\)</span>-tests is very similar to the one we encountered with chi-squared tests in Chapter &#64;ref(chisquare). <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> includes a variety of methods for running different kinds of  <span class="math notranslate nohighlight">\(t\)</span>-tests. To run a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, use the <code class="docutils literal notranslate"><span class="pre">ttest_1samp</span></code> method. It’s pretty straightforward to use: all you need to do is specify <code class="docutils literal notranslate"><span class="pre">a</span></code>, the variable containing the data, and <code class="docutils literal notranslate"><span class="pre">popmean</span></code>, the true population mean according to the null hypothesis. All you need to type is this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ttest_1samp</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">grades</span><span class="p">,</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">)</span>
-
-<span class="c1">#from scipy.stats import ttest_1samp</span>
-<span class="c1">#from scipy.stats import t</span>
-<span class="c1">#from scipy.stats import sem</span>
-
-<span class="c1">#confidence_level = 0.95</span>
-<span class="c1">#degrees_freedom = len(grades)-1</span>
-<span class="c1">#sample_mean = statistics.mean(grades)</span>
-<span class="c1">#sample_standard_error = sem(grades)</span>
-
-<span class="c1">#confidence_interval = t.interval(confidence_level, degrees_freedom, sample_mean, sample_standard_error)</span>
-<span class="c1">#confidence_interval</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
+<span class="n">ttest_1samp</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">grades</span><span class="p">,</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">16</span><span class="o">-</span><span class="mi">24159</span><span class="n">f7b86d4</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ttest_1samp</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">grades</span><span class="p">,</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1">#from scipy.stats import ttest_1samp</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1">#from scipy.stats import t</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1">#from scipy.stats import sem</span>
-
-<span class="ne">NameError</span>: name &#39;ttest_1samp&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ttest_1sampResult(statistic=2.25471286700693, pvalue=0.03614521878144544)
 </pre></div>
 </div>
 </div>
