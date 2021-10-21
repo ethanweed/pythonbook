@@ -1,8 +1,6 @@
 (ttest)=
 # Comparing Two Means
 
-# Comparing two means{#ttest}
-
 
 In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable[^note1] is also nominal scale. Lots of real world situations have that character, and so you'll find that chi-square tests in particular are quite widely used. However, you're much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you're interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.[^note2] In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary "grouping" variable. In other words, we want to compare the means of the two groups. 
 
@@ -18,394 +16,417 @@ In this section I'll describe one of the most useless tests in all of statistics
 
 To introduce the idea behind the $z$-test, let's use a simple example. A friend of mine, Dr Zeppo, grades his introductory statistics class on a curve. Let's suppose that the average grade in his class is 67.5, and the standard deviation is 9.5. Of his many hundreds of students, it turns out that 20 of them also take psychology classes. Out of curiosity, I find myself wondering: do the psychology students tend to get the same grades as everyone else (i.e., mean 67.5) or do they tend to score higher or lower? He emails me the `zeppo.csv` file, which I use to pull up the `grades` of those students, 
 
-```{r}
-load( file.path(projecthome, "data/zeppo.Rdata" )) 
-print( grades )
-``` 
+import pandas as pd
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv")
+df.head()
 
 and calculate the mean:
 
-```{r}
-mean( grades )
-```
+import statistics
+statistics.mean(df['grades'])
 
 Hm. It *might* be that the psychology students are scoring a bit higher than normal: that sample mean of $\bar{X} = 72.3$ is a fair bit higher than the hypothesised population mean of $\mu = 67.5$, but on the other hand, a sample size of $N = 20$ isn't all that big. Maybe it's pure chance. 
 
-To answer the question, it helps to be able to write down what it is that I think I know. Firstly, I know that the sample mean is $\bar{X} = 72.3$. If I'm willing to assume that the psychology students have the same standard deviation as the rest of the class then I can say that the population standard deviation is $\sigma = 9.5$. I'll also assume that since Dr Zeppo is grading to a curve, the psychology student grades are normally distributed. 
+To answer the question, it helps to be able to write down what it is that I think I know. Firstly, I know that the sample mean is $\bar{X} = 72.3$. If I'm willing to assume that the psychology students have the same standard deviation as the rest of the class, then I can say that the population standard deviation is $\sigma = 9.5$. I'll also assume that since Dr Zeppo is grading to a curve, the psychology student grades are normally distributed. 
 
-Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the *population* mean $\mu$ for the psychology student grades, which is unknown. Specifically, I want to know if $\mu = 67.5$ or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in Figure \@ref(fig:zeppo). Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.
+Next, it helps to be clear about what I want to learn from the data. In this case, my research hypothesis relates to the *population* mean $\mu$ for the psychology student grades, which is unknown. Specifically, I want to know if $\mu = 67.5$ or not. Given that this is what I know, can we devise a hypothesis test to solve our problem? The data, along with the hypothesised distribution from which they are thought to arise, are shown in {numref}`fig-zeppo`. Not entirely obvious what the right answer is, is it? For this, we are going to need some statistics.
 
-```{r zeppo, fig.cap="The theoretical distribution (solid line) from which the psychology student grades (grey bars) are supposed to have been generated.", echo=FALSE}
+from myst_nb import glue
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+import scipy.stats as stats
 
-ttestImg <- list()
-emphCol <- rgb(0,0,1)
-emphColLight <- rgb(.5,.5,1)
-emphGrey <- grey(.5)
+mu = 67.5
+sigma = 9.5
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = 100* stats.norm.pdf(x, mu, sigma)
 
-colour <- TRUE
+fig, ax = plt.subplots()
+ax1 = sns.histplot(df['grades'])
 
-plotHist <- function(x,...) {
-    hist( x, border="white", 
-          col=ifelse(colour,emphColLight,emphGrey),...
-    )
-    axis(1)
-  }
- 
-  # needed for printing
-  width <- 6
-  height <- 6
-  
-  # Zeppo
-  plotHist(grades,xlim=c(40,90),xlab="Grades",axes=FALSE, ylab="", main="", freq=FALSE)
+ax2 = sns.lineplot(x=x,y=y, color='black')
 
-  lines( x<-40:90, dnorm(x,67.5,10), lwd=3, col="black")
+plt.ylim(bottom=-1)
+
+ax1.set_frame_on(False)
+ax1.axes.get_yaxis().set_visible(False)
+
+
+glue("zeppo-fig", ax, display=False)
+
+```{glue:figure} zeppo-fig
+:figwidth: 600px
+:name: fig-zeppo
+
+
+The theoretical distribution (solid line) from which the psychology student grades (blue bars) are supposed to have been generated.
 
 ```
 
 ### Constructing the hypothesis test
 
 The first step in constructing a hypothesis test is to be clear about what the null and alternative hypotheses are. This isn't too hard to do. Our null hypothesis, $H_0$, is that the true population mean $\mu$ for psychology student grades is 67.5\%; and our alternative hypothesis is that the population mean *isn't* 67.5\%. If we write this in mathematical notation, these hypotheses become,
+
 $$
 \begin{array}{ll}
 H_0: & \mu = 67.5 \\
 H_1: & \mu \neq 67.5
 \end{array}
 $$
-though to be honest this notation doesn't add much to our understanding of the problem, it's just a compact way of writing down what we're trying to learn from the data. The null hypotheses $H_0$ and the alternative hypothesis $H_1$ for our test are both illustrated in Figure \@ref(fig:ztesthyp). In addition to providing us with these hypotheses, the scenario outlined above provides us with a fair amount of background knowledge that might be useful. Specifically, there are two special pieces of information that we can add:
 
-1 The psychology grades are normally distributed.
-1 The true standard deviation of these scores $\sigma$ is known to be 9.5.
+though to be honest this notation doesn't add much to our understanding of the problem, it's just a compact way of writing down what we're trying to learn from the data. The null hypotheses $H_0$ and the alternative hypothesis $H_1$ for our test are both illustrated in {numref}`fig-ztesthyp`. In addition to providing us with these hypotheses, the scenario outlined above provides us with a fair amount of background knowledge that might be useful. Specifically, there are two special pieces of information that we can add:
+
+1. The psychology grades are normally distributed.
+1. The true standard deviation of these scores $\sigma$ is known to be 9.5.
 
 For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the *assumption* that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
 
-```{r ztesthyp,  fig.cap="Graphical illustration of the null and alternative hypotheses assumed by the one sample $z$-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value $\\sigma_0$). The null hypothesis (left) is that the population mean $\\mu$ is equal to some specified value $\\mu_0$. The alternative hypothesis is that the population mean differs from this value, $\\mu \\neq \\mu_0$.", echo=FALSE}
+mu = 0
+sigma = 1
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = 100* stats.norm.pdf(x, mu, sigma)
 
-	
-	width <- 12
-	height <- 4
-	
-	plotOne <- function( sigEx ) {
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-		x <- seq(-4,4,.1)
-		y <- dnorm(x,0,1)
+sns.lineplot(x=x,y=y, color='black', ax=axes[0])
+sns.lineplot(x=x,y=y, color='black', ax=axes[1])
 
-		plot.new()
-		
-		old <- par( no.readonly = TRUE )
-		par( mfcol= c(1,2), mfg = c(1,1))
+axes[0].set_frame_on(False)
+axes[1].set_frame_on(False)
+axes[0].get_yaxis().set_visible(False)
+axes[1].get_yaxis().set_visible(False)
+axes[0].get_xaxis().set_visible(False)
+axes[1].get_xaxis().set_visible(False)
 
-		plot.window( xlim = range(x), 
-	             	ylim = range(y)*1.2)
+axes[0].axhline(y=0, color='black')
+axes[0].axvline(x=mu, color='black', linestyle='--')
 
-		# plot density
-		lines( x ,y, lw =2 )
+axes[1].axhline(y=0, color='black')
+axes[1].axvline(x=mu + sigma, color='black', linestyle='--')
 
-		# lines and mean
-		lines(x=c(0,0), y = c(0,max(y)))
-		text(x=0, y = max(y)*1.1, 
-	     	labels= expression(mu == mu[0])
-		)    
-
-		# sd lines and text
-		tmp <- dnorm(-1,0,1)
-		lines(x=c(-1,0), y = rep(tmp,2))
-		text(x=-2.25, y = tmp, 
-	     	labels= sigEx
-	     )
-
-		axis(side = 1, labels = F)
-		title( main = "null hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = c(1,1,0))
-
-		par( mfg = c(1,2))
-
-		plot.window( xlim = range(x), 
-	             ylim = range(y)*1.2)
+axes[0].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
+axes[1].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
 
 
-				y <- dnorm(x,-.75,1)
+axes[0].text(mu,42, r'$\mu = \mu_0$', size=20, ha="center")
+axes[1].text(mu + sigma, 42, r'$\mu \neq \mu_0$', size=20, ha="center")
 
-		# plot density
-		lines( x ,y, lw =2 )
+axes[0].text(mu-sigma - 0.2, 23.6, r'$\sigma = \sigma_0$', size=20, ha="right")
+axes[1].text(mu-sigma - 0.2, 23.6, r'$\sigma = \sigma_0$', size=20, ha="right")
 
-		# lines and mean
-		lines(x=c(0,0), y = c(0,max(y)))
-		text(x=0, y = max(y)*1.1, 
-	     	labels= expression(mu != mu[0])
-	     )    
 
-		# sd lines and text
-		tmp <- dnorm(-1,0,1)
-		lines(x=c(-1.75,-.75), y = rep(tmp,2))
-		text(x=-3, y = tmp, 
-	     	labels= sigEx
-	     )
+glue("ztesthyp-fig", ax, display=False)
 
-		axis(side = 1, labels = F)
-		title( main = "alternative hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = c(1,1,0))
+```{glue:figure} ztesthyp-fig
+:figwidth: 600px
+:name: fig-ztesthyp
 
-		par(old)
-	}
-	
 
-	# one sample z-test
-	sigEx <- expression(sigma == sigma[0])
-	plotOne( sigEx )
+Graphical illustration of the null and alternative hypotheses assumed by the one sample $z$-test (the two sided version, that is). The null and alternative hypotheses both assume that the population distribution is normal, and additionally assumes that the population standard deviation is known (fixed at some value $\sigma_0$). The null hypothesis (left) is that the population mean $\mu$ is equal to some specified value $\mu_0$. The alternative hypothesis is that the population mean differs from this value, $\mu \neq \mu_0$.
+
 ```
 
+
+
+
 The next step is to figure out what we would be a good choice for a diagnostic test statistic; something that would help us discriminate between $H_0$ and $H_1$. Given that the hypotheses all refer to the population mean $\mu$, you'd feel pretty confident that the sample mean $\bar{X}$ would be a pretty useful place to start. What we could do, is look at the difference between the sample mean $\bar{X}$ and the value that the null hypothesis predicts for the population mean. In our example, that would mean we calculate $\bar{X} - 67.5$. More generally, if we let $\mu_0$ refer to the value that the null hypothesis claims is our population mean, then we'd want to calculate
+
 $$
 \bar{X} - \mu_0
 $$
+
 If this quantity equals or is very close to 0, things are looking good for the null hypothesis. If this quantity is a long way away from 0, then it's looking less likely that the null hypothesis is worth retaining. But how far away from zero should it be for us to reject $H_0$? 
 
 To figure that out, we need to be a bit more sneaky, and we'll need to rely on those two pieces of background knowledge that I wrote down previously, namely that the raw data are normally distributed, and we know the value of the population standard deviation $\sigma$. If the null hypothesis is actually true, and the true mean is $\mu_0$, then these facts together mean that we know the complete population distribution of the data: a normal distribution with mean $\mu_0$ and standard deviation $\sigma$. Adopting the notation from Section \@ref(normal), a statistician might write this as:
+
 $$
 X \sim \mbox{Normal}(\mu_0,\sigma^2)
 $$
 
 
 
-Okay, if that's true, then what can we say about the distribution of $\bar{X}$? Well, as we discussed earlier (see Section \@ref(clt)), the sampling distribution of the mean $\bar{X}$ is also normal, and has mean $\mu$. But the standard deviation of this sampling distribution $\mbox{SE}({\bar{X}})$, which is called the *standard error of the mean*, is
+Okay, if that's true, then what can we say about the distribution of $\bar{X}$? Well, as we discussed earlier, the sampling distribution of the mean $\bar{X}$ is also normal, and has mean $\mu$. But the standard deviation of this sampling distribution $\mbox{SE}({\bar{X}})$, which is called the *standard error of the mean*, is
+
 $$
 \mbox{SE}({\bar{X}}) = \frac{\sigma}{\sqrt{N}}
 $$
+
 In other words, if the null hypothesis is true then the sampling distribution of the mean can be written as follows:
+
 $$
 \bar{X} \sim \mbox{Normal}(\mu_0,\mbox{SE}({\bar{X}}))
 $$
-Now comes the trick. What we can do is convert the sample mean $\bar{X}$ into a standard score (Section \@ref(zscore)). This is conventionally written as $z$, but for now I'm going to refer to it as $z_{\bar{X}}$. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, *not* a standardised version of a single observation, which is what a $z$-score usually refers to). When we do so, the $z$-score for our sample mean is 
+
+Now comes the trick. What we can do is convert the sample mean $\bar{X}$ into a [standard score](zcores). This is conventionally written as $z$, but for now I'm going to refer to it as $z_{\bar{X}}$. (The reason for using this expanded notation is to help you remember that we're calculating standardised version of a sample mean, *not* a standardised version of a single observation, which is what a $z$-score usually refers to). When we do so, the $z$-score for our sample mean is 
+
 $$
 z_{\bar{X}} = \frac{\bar{X} - \mu_0}{\mbox{SE}({\bar{X}})}
 $$
+
 or, equivalently
+
 $$
 z_{\bar{X}} =  \frac{\bar{X} - \mu_0}{\sigma / \sqrt{N}}
 $$
+
 This $z$-score is our test statistic. The nice thing about using this as our test statistic is that like all $z$-scores, it has a standard normal distribution:
+
 $$
 z_{\bar{X}} \sim \mbox{Normal}(0,1)
 $$
-(again, see Section \@ref(zscore) if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the $z$-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean $\bar{X}$ from the population mean $\mu_0$ predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for $z$-test are always the same, as illustrated in Figures \@ref(fig:ztest1) and \@ref(fig:ztest2). And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
 
-```{r fig.cap = "Critical $z$ values", echo=FALSE}
-knitr::kable(tibble::tribble(
-                         ~V1,                ~V2,                ~V3,
-                      ".1",      "1.644854",       "1.281552",
-                      ".05",      "1.959964",       "1.644854",
-                      ".01",      "2.575829",       "2.326348",
-                      ".001",      "3.290527",       "3.090232"
-  ), col.names = c("desired $\\alpha$ level", " two-sided test", " one-sided test"), align = 'ccc')
+(again, see the section on [z-scores](zcores)) if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the $z$-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean $\bar{X}$ from the population mean $\mu_0$ predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for $z$-test are always the same, as illustrated in Figures \@ref(fig:ztest1) and \@ref(fig:ztest2). 
+
+mu = 0
+sigma = 1
+
+x = np.arange(-3,3,0.001)
+y = stats.norm.pdf(x, mu, sigma)
+
+
+fig, (ax0, ax1) = plt.subplots(1, 2, sharey = True, figsize=(15, 5))
+
+
+# Two-sided test
+crit = 1.96
+p_lower = x[x<crit*-1]
+p_upper = x[x>crit]
+
+ax0.plot(x, y)
+
+ax0.fill_between(p_lower, 0, stats.norm.pdf(p_lower, mu, sigma),color="none",hatch="///",edgecolor="b")
+ax0.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
+ax0.set_title("Two sided test", size = 20)
+ax0.text(-1.96,-.03, '-1.96', size=18, ha="right")
+ax0.text(1.96,-.03, '1.96', size=18, ha="left")
+
+# One-sided test
+crit = 1.64
+p_upper = x[x>crit]
+
+ax1.plot(x, y)
+ax1.set_title("One sided test", size = 20)
+ax1.text(1.64,-.03, '1.64', size=18, ha="left")
+ax1.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
+
+ax0.set_frame_on(False)
+ax1.set_frame_on(False)
+
+ax0.get_yaxis().set_visible(False)
+ax1.get_yaxis().set_visible(False)
+ax0.get_xaxis().set_visible(False)
+ax1.get_xaxis().set_visible(False)
+
+
+glue("ztest-fig", ax, display=False)
+
+```{glue:figure} ztest-fig
+:figwidth: 600px
+:name: fig-ztest
+
+
+Rejection regions for the two-sided z-test (left) and the one-sided z-test (right).
+
 ```
 
-which in turn meant that researchers could calculate their $z$-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it's kind of unnecessary these days, since it's trivially easy to do it with software like R.
 
-```{r ztest2, fig.cap="Rejection regions for the two-sided $z$-test", echo=FALSE}
-  width <- 6
-  height <- 4
-  
-  plot.new()
-  plot.window( xlim=c(-3,3), ylim=c(0,.4) )
-  
-  crit <- qnorm(.975)
-  x<-c(seq(crit,3,.01),3)
-  y<-dnorm(x)
-  polygon(c(x[1],x,3),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  crit <- qnorm(.025)
-  x<-c(seq(-3,crit,.01),crit)
-  y<-dnorm(x)
-  polygon(c(x[1],x,crit),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  x <- seq(-3,3,.01)
-  y <- dnorm(x)
-  lines(x,y,lwd=3,col="black")
 
-  axis(1,at=round(c(-3,crit,0,-crit,3),2),
-       labels=c("",round(crit,2),"0",round(-crit,2),""))
-  title(xlab="Value of z Statistic", main="Two Sided Test", font.main=1)
-```
 
-```{r ztest1, fig.cap="Rejection regions for the one-sided $z$-test", echo=FALSE}
-  plot.new()
-  plot.window( xlim=c(-3,3), ylim=c(0,.4) )
-  
-  crit <- qnorm(.95)
-  x<-c(seq(crit,3,.01),3)
-  y<-dnorm(x)
-  polygon(c(x[1],x,3),c(0,y,0),
-          col=ifelse(colour,emphColLight,emphGrey),
-          density=10)
-  
-  x <- seq(-3,3,.01)
-  y <- dnorm(x)
-  lines(x,y,lwd=3,col="black")
-  
-  axis(1,at=round(c(-3,0,crit,3),2),
-       labels=c("","0",round(crit,2),""))
-  title(xlab="Value of z Statistic", main="One Sided Test", font.main=1)
-```
+And what this meant, way back in the days where people did all their statistics by hand, is that someone could publish a table like this:
 
-### A worked example using R
+|                   || critical z value             |
+| :-------------: | :------------: | :------------: |
+| desired a level | two-sided test | one-sided test |
+|       .1        |    1.644854    |    1.281552    |
+|       .05       |    1.959964    |    1.644854    |
+|       .01       |    2.575829    |    2.326348    |
+|      .001       |    3.290527    |    3.090232    |
 
-Now, as I mentioned earlier, the $z$-test is almost never used in practice. It's so rarely used in real life that the basic installation of R doesn't have a built in function for it. However, the test is so incredibly simple that it's really easy to do one manually. Let's go back to the data from Dr Zeppo's class. Having loaded the `grades` data, the first thing I need to do is calculate the sample mean:
-```{r}
-sample.mean <- mean( grades )
-print( sample.mean )
-```
+
+which in turn meant that researchers could calculate their $z$-statistic by hand, and then look up the critical value in a text book.  That was an incredibly handy thing to be able to do back then, but it's kind of unnecessary these days, since it's trivially easy to do it with software like Python.
+
+### A worked example using Python
+
+Now, as I mentioned earlier, the $z$-test is almost never used in practice. However, the test is so incredibly simple that it's really easy to do one manually. Let's go back to the data from Dr Zeppo's class. Having loaded the `grades` data, the first thing I need to do is calculate the sample mean:
+
+grades = df['grades']
+sample_mean = statistics.mean(grades)
+sample_mean
+
 Then, I create variables corresponding to known population standard deviation ($\sigma = 9.5$), and the value of the population mean that the null hypothesis specifies ($\mu_0 = 67.5$):
-```{r}
-mu.null <- 67.5
-sd.true <- 9.5
-``` 
-Let's also create a variable for the sample size. We could count up the number of observations ourselves, and type `N <- 20` at the command prompt, but counting is tedious and repetitive. Let's get R to do the tedious repetitive bit by using the `length()` function, which tells us how many elements there are in a vector:
-```{r}
-N <- length( grades )
-print( N )
-```
+
+sd_true = 9.5
+mu_null = 67.5
+
+Let's also create a variable for the sample size. We could count up the number of observations ourselves, and type `N = 20` at the command prompt, but counting is tedious and repetitive. Let's get Python to do the tedious repetitive bit by using the `len()` function, which tells us how many elements there are in a vector:
+
+N = len(grades)
+N
+
 Next, let's calculate the (true) standard error of the mean:
-```{r}
-sem.true <- sd.true / sqrt(N)
-print(sem.true)
-```
+
+import math
+sem_true = sd_true / math.sqrt(N)
+sem_true
+
 And finally, we calculate our $z$-score:
-```{r}
-z.score <- (sample.mean - mu.null) / sem.true
-print( z.score )
-```
+
+z_score = (sample_mean - mu_null) / sem_true
+z_score
+
 At this point, we would traditionally look up the value 2.26 in our table of critical values. Our original hypothesis was two-sided (we didn't really have any theory about whether psych students would be better or worse at statistics than other students) so our hypothesis test is two-sided (or two-tailed) also. Looking at the little table that I showed earlier, we can see that 2.26 is bigger than the critical value of 1.96 that would be required to be significant at $\alpha = .05$, but smaller than the value of 2.58 that would be required to be significant at a level of $\alpha = .01$. Therefore, we can conclude that we have a significant effect, which we might write up by saying something like this:
 
 > With a mean grade of 73.2 in the sample of psychology students, and assuming a true population standard deviation of 9.5, we can conclude that the psychology students have significantly different statistics scores to the class average ($z = 2.26$, $N=20$, $p<.05$). 
 
-However, what if want an exact $p$-value? Well, back in the day, the tables of critical values were huge, and so you could look up your actual $z$-value, and find the smallest value of $\alpha$ for which your data would be significant (which, as discussed earlier, is the very definition of a $p$-value). However, looking things up in books is tedious, and typing things into computers is awesome. So let's do it using R instead. Now, notice that the $\alpha$ level of a $z$-test (or any other test, for that matter) defines the total area "under the curve" for the critical region, right? That is, if we set $\alpha = .05$ for a two-sided test, then the critical region is set up such that the area under the curve for the critical region is $.05$. And, for the $z$-test, the critical value of 1.96 is chosen that way because the area in the lower tail (i.e., below $-1.96$) is exactly $.025$ and the area under the upper tail (i.e., above $1.96$) is exactly $.025$. So, since our observed $z$-statistic is $2.26$, why not calculate the area under the curve below $-2.26$ or above $2.26$? In R we can calculate this using the `pnorm()` function. For the upper tail:
-```{r}
-upper.area <- pnorm( q = z.score, lower.tail = FALSE )
-print( upper.area )
-``` 
-The `lower.tail = FALSE`  is me telling R to calculate the area under the curve from 2.26 *and upwards*. If I'd told it that `lower.tail = TRUE`, then R would calculate the area from 2.26 *and below*, and it would give me an answer 0.9880771. Alternatively, to calculate the area from $-2.26$ and below, we get
-```{r}
-lower.area <- pnorm( q = -z.score, lower.tail = TRUE )
-print( lower.area )
-``` 
-Thus we get our $p$-value:
-```{r}
-p.value <- lower.area + upper.area
-print( p.value )
-```
+However, what if want an exact $p$-value? Well, back in the day, the tables of critical values were huge, and so you could look up your actual $z$-value, and find the smallest value of $\alpha$ for which your data would be significant (which, as discussed earlier, is the very definition of a $p$-value). However, looking things up in books is tedious, and typing things into computers is awesome. So let's do it using Python instead. Now, notice that the $\alpha$ level of a $z$-test (or any other test, for that matter) defines the total area "under the curve" for the critical region, right? That is, if we set $\alpha = .05$ for a two-sided test, then the critical region is set up such that the area under the curve for the critical region is $.05$. And, for the $z$-test, the critical value of 1.96 is chosen that way because the area in the lower tail (i.e., below $-1.96$) is exactly $.025$ and the area under the upper tail (i.e., above $1.96$) is exactly $.025$. So, since our observed $z$-statistic is $2.26$, why not calculate the area under the curve below $-2.26$ or above $2.26$? In Python we can calculate this using the `NormalDist().cdf()` method. For the lower tail:
 
- 
-### Assumptions of the $z$-test{#zassumptions}
+from statistics import NormalDist
+lower_area = NormalDist().cdf(-z_score)
+lower_area
+
+`NormalDist().cdf()` calculates the "cumulative density function" for a normal distribution. Translated to something slightly less opaque, this means that  `NormalDist().cdf()` gives us the probability that a random variable X will be less than or equal to a given value. In our case, the given value for the lower tail of the distribution was our z-score, $2.259$. So `NormalDist().cdf(-z_score)` gives us the probability that a random value draw from a normal distribution would be less than or equal to $-2.259$.
+
+Of course, becauwe we didn't have any particular theory about whether psychology students would do better worse than other students, our test should be two-tailed, that is, we are interested not only in the probability that a random value would be less than or equal to $-2.259$, but also whether it might fall in the upper tail, that is be greater than or equal to $-2.259$.
+
+Since the normal distribution is symmetrical, the upper area under the curve is identical to the lower area, and we can simply add them together to find our exact $p$-value:
+
+lower_area = NormalDist().cdf(-z_score)
+upper_area = lower_area
+p_value = lower_area + upper_area
+p_value
+
+(zassumptions)=
+### Assumptions of the $z$-test
 
 As I've said before, all statistical tests make assumptions. Some tests make reasonable assumptions, while other tests do not. The test I've just described -- the one sample $z$-test -- makes three basic assumptions.  These are:
 
-- *Normality*. As usually described, the $z$-test assumes that the true population distribution is normal.^[Actually this is too strong. Strictly speaking the $z$ test only requires that the sampling distribution of the mean be normally distributed; if the population is normal then it necessarily follows that the sampling distribution of the mean is also normal. However, as we saw when talking about the central limit theorem, it's quite possible (even commonplace) for the sampling distribution to be normal even if the population distribution itself is non-normal. However, in light of the sheer ridiculousness of the assumption that the true standard deviation is known, there really isn't much point in going into details on this front!] is often pretty reasonable, and not only that, it's an assumption that we can check if we feel worried about it (see Section \@ref(shapiro)). 
+- *Normality*. As usually described, the $z$-test assumes that the true population distribution is normal.[^note3] is often pretty reasonable, and not only that, it's an assumption that we can check if we feel worried about it (see Section \@ref(shapiro)). 
 - *Independence*. The second assumption of the test is that the observations in your data set are not correlated with each other, or related to each other in some funny way. This isn't as easy to check statistically: it relies a bit on good experimetal design. An obvious (and stupid) example of something that violates this assumption is a data set where you "copy" the same observation over and over again in your data file: so you end up with a massive "sample size", consisting of only one genuine observation. More realistically, you have to ask yourself if it's really plausible to imagine that each observation is a completely random sample from the population that you're interested in. In practice, this assumption is never met; but we try our best to design studies that minimise the problems of correlated data. 
 - *Known standard deviation*. The third assumption of the $z$-test is that the true standard deviation of the population is known to the researcher. This is just stupid. In no real world data analysis problem do you know the standard deviation $\sigma$ of some population, but are completely ignorant about the mean $\mu$. In other words, this assumption is *always* wrong. 
 
 In view of the stupidity of assuming that $\sigma$ is known, let's see if we can live without it. This takes us out of the dreary domain of the $z$-test, and into the magical kingdom of the $t$-test, with unicorns and fairies and leprechauns, and um...
 
-## The one-sample $t$-test{#onesamplettest}
+(onesamplettest)=
+## The one-sample $t$-test
 
 After some thought, I decided that it might not be safe to assume that the psychology student grades necessarily have the same standard deviation as the other students in Dr Zeppo's class. After all, if I'm entertaining the hypothesis that they don't have the same mean, then why should I believe that they absolutely have the same standard deviation? In view of this, I should really stop assuming that I know the true value of $\sigma$. This violates the assumptions of my $z$-test, so in one sense I'm back to square one. However, it's not like I'm completely bereft of options. After all, I've still got my raw data, and those raw data give me an *estimate* of the population standard deviation: 
-```{r}
-sd( grades )
-```
+
+import statistics
+statistics.stdev(grades)
+
 In other words, while I can't say that I know that $\sigma = 9.5$, I *can* say that $\hat\sigma = 9.52$. 
 
-Okay, cool. The obvious thing that you might think to do is run a $z$-test, but using the estimated standard deviation of 9.52 instead of relying on my assumption that the true standard deviation is 9.5. So, we could just type this new number into R and out would come the answer. And you probably wouldn't be surprised to hear that this would still give us a significant result. This approach is close, but it's not *quite* correct. Because we are now relying on an *estimate* of the population standard deviation, we need to make some adjustment for the fact that we have some uncertainty about what the true population standard deviation actually is. Maybe our data are just a fluke ... maybe the true population standard deviation is 11, for instance. But if that were actually true, and we ran the $z$-test assuming $\sigma=11$, then the result would end up being *non-significant*. That's a problem, and it's one we're going to have to address.
+Okay, cool. The obvious thing that you might think to do is run a $z$-test, but using the estimated standard deviation of 9.52 instead of relying on my assumption that the true standard deviation is 9.5. So, we could just type this new number into Python and out would come the answer. And you probably wouldn't be surprised to hear that this would still give us a significant result. This approach is close, but it's not *quite* correct. Because we are now relying on an *estimate* of the population standard deviation, we need to make some adjustment for the fact that we have some uncertainty about what the true population standard deviation actually is. Maybe our data are just a fluke ... maybe the true population standard deviation is 11, for instance. But if that were actually true, and we ran the $z$-test assuming $\sigma=11$, then the result would end up being *non-significant*. That's a problem, and it's one we're going to have to address.
 
-```{r ttesthyp_onesample, fig.cap="Graphical illustration of the null and alternative hypotheses assumed by the (two sided) one sample $t$-test. Note the similarity to the $z$-test. The null hypothesis is that the population mean $\\mu$ is equal to some specified value $\\mu_0$, and the alternative hypothesis is that it is not. Like the $z$-test, we assume that the data are normally distributed; but we do not assume that the population standard deviation $\\sigma$ is known in advance.", echo=FALSE}
-width <- 12
-	height <- 4
-	
-	plotOne <- function( sigEx ) {
+mu = 0
+sigma = 1
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = 100* stats.norm.pdf(x, mu, sigma)
 
-		x <- seq(-4,4,.1)
-		y <- dnorm(x,0,1)
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-		plot.new()
-		
-		old <- par( no.readonly = TRUE )
-		par( mfcol= c(1,2), mfg = c(1,1))
+sns.lineplot(x=x,y=y, color='black', ax=axes[0])
+sns.lineplot(x=x,y=y, color='black', ax=axes[1])
 
-		plot.window( xlim = range(x), 
-	             	ylim = range(y)*1.2)
-
-		# plot density
-		lines( x ,y, lw =2 )
-
-		# lines and mean
-		lines(x=c(0,0), y = c(0,max(y)))
-		text(x=0, y = max(y)*1.1, 
-	     	labels= expression(mu == mu[0])
-		)    
-
-		# sd lines and text
-		tmp <- dnorm(-1,0,1)
-		lines(x=c(-1,0), y = rep(tmp,2))
-		text(x=-2.25, y = tmp, 
-	     	labels= sigEx
-	     )
-
-		axis(side = 1, labels = F)
-		title( main = "null hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = c(1,1,0))
-
-		par( mfg = c(1,2))
-
-		plot.window( xlim = range(x), 
-	             ylim = range(y)*1.2)
+axes[0].set_frame_on(False)
+axes[1].set_frame_on(False)
+axes[0].get_yaxis().set_visible(False)
+axes[1].get_yaxis().set_visible(False)
+axes[0].get_xaxis().set_visible(False)
+axes[1].get_xaxis().set_visible(False)
 
 
-				y <- dnorm(x,-.75,1)
+axes[0].axhline(y=0, color='black')
+axes[0].axvline(x=mu, color='black', linestyle='--')
 
-		# plot density
-		lines( x ,y, lw =2 )
+axes[1].axhline(y=0, color='black')
+axes[1].axvline(x=mu + sigma, color='black', linestyle='--')
 
-		# lines and mean
-		lines(x=c(0,0), y = c(0,max(y)))
-		text(x=0, y = max(y)*1.1, 
-	     	labels= expression(mu != mu[0])
-	     )    
+axes[0].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
+axes[1].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
 
-		# sd lines and text
-		tmp <- dnorm(-1,0,1)
-		lines(x=c(-1.75,-.75), y = rep(tmp,2))
-		text(x=-3, y = tmp, 
-	     	labels= sigEx
-	     )
 
-		axis(side = 1, labels = F)
-		title( main = "alternative hypothesis", font.main = 1)
-		title( xlab = "value of X", mgp = c(1,1,0))
+axes[0].text(mu,42, r'$\mu = \mu_0$', size=20, ha="center")
+axes[1].text(mu + sigma, 42, r'$\mu \neq \mu_0$', size=20, ha="center")
 
-		par(old)
-	}
-	
-	# one sample t-test
-	sigEx <- expression(sigma == "??")
-	plotOne( sigEx )
+axes[0].text(mu-sigma - 0.2, 23.6, r'$\sigma = ??$', size=20, ha="right")
+axes[1].text(mu-sigma - 0.2, 23.6, r'$\sigma = ??$', size=20, ha="right")
+
+
+glue("ttesthyp_onesample-fig", ax, display=False)
+
+
+```{glue:figure} ttesthyp_onesample-fig
+:figwidth: 600px
+:name: fig-ttesthyp_onesample
+
+
+Graphical illustration of the null and alternative hypotheses assumed by the (two sided) one sample $t$-test. Note the similarity to the $z$-test. The null hypothesis is that the population mean $\mu$ is equal to some specified value $\mu_0$, and the alternative hypothesis is that it is not. Like the $z$-test, we assume that the data are normally distributed; but we do not assume that the population standard deviation $\sigma$ is known in advance.
+
 ```
+
+
+
+
+
 
 ### Introducing the $t$-test
 
-This ambiguity is annoying, and it was resolved in 1908 by a guy called William Sealy Gosset [@Student1908], who was working as a chemist for the Guinness brewery at the time [see @Box1987]. Because Guinness took a dim view of its employees publishing statistical analysis (apparently they felt it was a trade secret), he published the work under the pseudonym "A Student", and to this day, the full name of the $t$-test is actually **_Student's $t$-test_**. The key thing that Gosset figured out is how we should accommodate the fact that we aren't completely sure what the true standard deviation is.^[Well, sort of. As I understand the history, Gosset only provided a partial solution: the general solution to the problem was provided by Sir Ronald Fisher.] The answer is that it subtly changes the sampling distribution. In the $t$-test, our test statistic (now called a $t$-statistic) is calculated in exactly the same way I mentioned above. If our null hypothesis is that the true mean is $\mu$, but our sample has mean $\bar{X}$ and our estimate of the population standard deviation is $\hat{\sigma}$, then our $t$ statistic is:
+This ambiguity is annoying, and it was resolved in 1908 by a guy called William Sealy Gosset [@Student1908], who was working as a chemist for the Guinness brewery at the time [see @Box1987]. Because Guinness took a dim view of its employees publishing statistical analysis (apparently they felt it was a trade secret), he published the work under the pseudonym "A Student", and to this day, the full name of the $t$-test is actually **_Student's $t$-test_**. The key thing that Gosset figured out is how we should accommodate the fact that we aren't completely sure what the true standard deviation is.[^note4] The answer is that it subtly changes the sampling distribution. In the $t$-test, our test statistic (now called a $t$-statistic) is calculated in exactly the same way I mentioned above. If our null hypothesis is that the true mean is $\mu$, but our sample has mean $\bar{X}$ and our estimate of the population standard deviation is $\hat{\sigma}$, then our $t$ statistic is:
+
 $$
 t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 $$
-The only thing that has changed in the equation is that instead of using the known true value $\sigma$, we use the estimate $\hat{\sigma}$. And if this estimate has been constructed from $N$ observations, then the sampling distribution turns into a $t$-distribution with $N-1$ **_degrees of freedom_** (df). The $t$ distribution is very similar to the normal distribution, but has "heavier" tails, as discussed earlier in Section \@ref(otherdists) and illustrated in Figure \@ref(fig:ttestdist). Notice, though, that as df gets larger, the $t$-distribution starts to look identical to the standard normal distribution. This is as it should be: if you have a sample size of $N = 70,000,000$ then your "estimate" of the standard deviation would be pretty much perfect, right? So, you should expect that for large $N$, the $t$-test would behave exactly the same way as a $z$-test. And that's exactly what happens!  
 
-```{r ttestdist, fig.cap="The $t$ distribution with 2 degrees of freedom (left) and 10 degrees of freedom (right), with a standard normal distribution (i.e., mean 0 and std dev 1) plotted as dotted lines for comparison purposes. Notice that the $t$ distribution has heavier tails (higher kurtosis) than the normal distribution; this effect is quite exaggerated when the degrees of freedom are very small, but negligible for larger values. In other words, for large $df$ the $t$ distribution is essentially identical to a normal distribution.", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/ttest2/tdist_3.png"))
+The only thing that has changed in the equation is that instead of using the known true value $\sigma$, we use the estimate $\hat{\sigma}$. And if this estimate has been constructed from $N$ observations, then the sampling distribution turns into a $t$-distribution with $N-1$ **_degrees of freedom_** (df). The $t$ distribution is very similar to the normal distribution, but has "heavier" tails, as [discussed earlier](otherdists)  and illustrated in {numref}`fig-ttestdist`. Notice, though, that as df gets larger, the $t$-distribution starts to look identical to the standard normal distribution. This is as it should be: if you have a sample size of $N = 70,000,000$ then your "estimate" of the standard deviation would be pretty much perfect, right? So, you should expect that for large $N$, the $t$-test would behave exactly the same way as a $z$-test. And that's exactly what happens!  
+
+mu = 0
+variance = 1
+sigma = np.sqrt(variance)
+
+
+x = np.linspace(-4, 4, 100)
+y_norm = stats.norm.pdf(x, mu, sigma)
+
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+
+# t-distribution with 2 degrees of freedom
+y_t = stats.t.pdf(x, 2)
+sns.lineplot(x = x, y = y_norm, color = 'black', linestyle='--', ax = axes[0])
+sns.lineplot(x = x, y = y_t, color = 'black', ax = axes[0])
+
+# t-distribution with 10 degrees of freedom
+y_t = stats.t.pdf(x, 10)
+sns.lineplot(x = x, y = y_norm, color = 'black', linestyle='--', ax = axes[1])
+sns.lineplot(x = x, y = y_t, color = 'black', ax = axes[1])
+
+axes[0].text(0, 0.42, r'$df = 2$', size=20, ha="center")
+axes[1].text(0, 0.42, r'$df = 10$', size=20, ha="center")
+
+
+#sns.despine()
+axes[0].get_yaxis().set_visible(False)
+axes[1].get_yaxis().set_visible(False)
+axes[0].set_frame_on(False)
+axes[1].set_frame_on(False)
+
+
+```{glue:figure} ttestdist-fig
+:figwidth: 600px
+:name: fig-ttestdist
+
+The $t$ distribution with 2 degrees of freedom (left) and 10 degrees of freedom (right), with a standard normal distribution (i.e., mean 0 and std dev 1) plotted as dotted lines for comparison purposes. Notice that the $t$ distribution has heavier tails (higher kurtosis) than the normal distribution; this effect is quite exaggerated when the degrees of freedom are very small, but negligible for larger values. In other words, for large $df$ the $t$ distribution is essentially identical to a normal distribution.
+
 
 ```
 
-### Doing the test in R
+
+
+
+### Doing the test in Python
 
 As you might expect, the mechanics of the $t$-test are almost identical to the mechanics of the $z$-test. So there's not much point in going through the tedious exercise of showing you how to do the calculations using low level commands: it's pretty much identical to the calculations that we did earlier, except that we use the estimated standard deviation (i.e., something like `se.est <- sd(grades)`), and then we test our hypothesis using the $t$ distribution rather than the normal distribution  (i.e. we use `pt()` rather than `pnorm()`. And so instead of going through the calculations in tedious detail for a second time, I'll jump straight to showing you how $t$-tests are actually done in practice. 
 
@@ -1387,4 +1408,9 @@ wilcox.test( x = happiness$after,
 - If your data are non-normal, you can use Wilcoxon tests instead of $t$-tests. (Section \@ref(wilcox))
 
 [^note1]: We won't cover multiple predictors until the chapter on [regression](regression).
+
 [^note2]: Informal experimentation in my garden suggests that yes, it does. Australian natives are adapted to low phosphorus levels relative to everywhere else on Earth, apparently, so if you've bought a house with a bunch of exotics and you want to plant natives, don't follow my example: keep them separate. Nutrients to European plants are poison to Australian ones. There's probably a joke in that, but I can't figure out what it is.
+
+[^note3]: Actually this is too strong. Strictly speaking the $z$ test only requires that the sampling distribution of the mean be normally distributed; if the population is normal then it necessarily follows that the sampling distribution of the mean is also normal. However, as we saw when talking about the central limit theorem, it's quite possible (even commonplace) for the sampling distribution to be normal even if the population distribution itself is non-normal. However, in light of the sheer ridiculousness of the assumption that the true standard deviation is known, there really isn't much point in going into details on this front!
+
+[^note4]: Well, sort of. As I understand the history, Gosset only provided a partial solution: the general solution to the problem was provided by Sir Ronald Fisher.
