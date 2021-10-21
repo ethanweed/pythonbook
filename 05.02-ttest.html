@@ -1497,7 +1497,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x138dc27f0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13efe3c70&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1774,20 +1774,186 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 <p>Regardless of whether we’re talking about the Student test or the Welch test, an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design – in which each participant is measured (with respect to the same outcome variable) in both experimental conditions – is not suited for analysis using independent samples <span class="math notranslate nohighlight">\(t\)</span>-tests. For example, we might be interested in whether listening to music reduces people’s working memory capacity. To that end, we could measure each person’s working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,<a class="footnote-reference brackets" href="#note10" id="id13">10</a> each participant appears in <em>both</em> groups. This requires us to approach the problem in a different way; by using the <strong><em>paired samples <span class="math notranslate nohighlight">\(t\)</span>-test</em></strong>.</p>
 <div class="section" id="id14">
 <h3><span class="section-number">2.5.1. </span>The data<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<p>The data set that we’ll use this time comes from Dr Chico’s class.<a class="footnote-reference brackets" href="#note11" id="id15">11</a> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a “wake up call” for students: when they realise how hard her class really is, they’ll work harder for the second test and get a better mark. Is she right? To test this, let’s have a look at the <code class="docutils literal notranslate"><span class="pre">chico.Rdata</span></code> file:</p>
-<p>The data frame <code class="docutils literal notranslate"><span class="pre">chico</span></code> contains three variables: an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that identifies each student in the class, the <code class="docutils literal notranslate"><span class="pre">grade_test1</span></code> variable that records the student grade for the first test, and the <code class="docutils literal notranslate"><span class="pre">grade_test2</span></code> variable that has the grades for the second test. Here’s the first six students:</p>
-<p>At a glance, it does seem like the class is a hard one (most grades are between 50% and 60%), but it does look like there’s an improvement from the first test to the second one. If we take a quick look at the descriptive statistics</p>
-<p>we see that this impression seems to be supported. Across all 20 students^[This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I’ve</em> never taught an intro stats class with less than 350 students.] the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in Figure &#64;ref(fig:pairedta). If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>chico2 &lt;- wideToLong( data=chico, within=&quot;time&quot;)
-  
-  gplots::plotmeans( formula = grade ~ time,    # plot grade by test time
-             data = chico2,             # data frame
-             n.label = FALSE,           # don&#39;t show sample size
-             xlab = &quot;Testing Instance&quot;, # x-axis label
-             ylab = &quot;Grade&quot;             # y-axis label
-  )
-
+<p>The data set that we’ll use this time comes from Dr Chico’s class.<a class="footnote-reference brackets" href="#note11" id="id15">11</a> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a “wake up call” for students: when they realise how hard her class really is, they’ll work harder for the second test and get a better mark. Is she right? To test this, let’s have a look at the <code class="docutils literal notranslate"><span class="pre">chico.csv</span></code> file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+<p>The data frame <code class="docutils literal notranslate"><span class="pre">chico</span></code> contains three variables: an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that identifies each student in the class, the <code class="docutils literal notranslate"><span class="pre">grade_test1</span></code> variable that records the student grade for the first test, and the <code class="docutils literal notranslate"><span class="pre">grade_test2</span></code> variable that has the grades for the second test. Here’s the first five students:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>grade_test1</th>
+      <th>grade_test2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>student1</td>
+      <td>42.9</td>
+      <td>44.6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>student2</td>
+      <td>51.8</td>
+      <td>54.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>student3</td>
+      <td>71.7</td>
+      <td>72.3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>student4</td>
+      <td>51.6</td>
+      <td>53.4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>student5</td>
+      <td>63.5</td>
+      <td>63.8</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>At a glance, it does seem like the class is a hard one (most grades are between 50% and 60%), but it does look like there’s an improvement from the first test to the second one. If we take a quick look at the descriptive statistics</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grade_test1</th>
+      <th>grade_test2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>20.000000</td>
+      <td>20.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>56.980000</td>
+      <td>58.385000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>6.616137</td>
+      <td>6.405612</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>42.900000</td>
+      <td>44.600000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>51.750000</td>
+      <td>53.100000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>57.700000</td>
+      <td>59.700000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>62.050000</td>
+      <td>63.050000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>71.700000</td>
+      <td>72.300000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>we see that this impression seems to be supported. Across all 20 students<a class="footnote-reference brackets" href="#note12" id="id16">12</a> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">pairedta</span></code>. If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">)</span>
+
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df</span>
+<span class="n">df2</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;improvement&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.02-ttest_93_0.png" src="_images/05.02-ttest_93_0.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-pairedta" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.23 </span><span class="caption-text">Mean grade for test 1 and test 2, with associated 95% confidence intervals (panel a). Scat- terplot showing the individual grades for test 1 and test 2 (panel b). Histogram showing the improvement made by each student in Dr Chico’s class (panel c). In panel c, notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</span><a class="headerlink" href="#fig-pairedta" title="Permalink to this image">¶</a></p>
 </div>
 <p>Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in Figure &#64;ref(fig:pairedtb).</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  # first draw the basic scatterplot...
@@ -2143,6 +2309,9 @@ Similarly, the <code class="docutils literal notranslate"><span class="pre">wilc
 </dd>
 <dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
 <dd><p>At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.</p>
+</dd>
+<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
+<dd><p>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I’ve</em> never taught an intro stats class with less than 350 students.</p>
 </dd>
 </dl>
 </div>
