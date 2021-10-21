@@ -1345,7 +1345,7 @@ Degrees of freedom: 19
 </table>
 </div></div></div>
 </div>
-<p>As we can see, there’s a single data frame with two variables, <code class="docutils literal notranslate"><span class="pre">grade</span></code> and <code class="docutils literal notranslate"><span class="pre">tutor</span></code>. The <code class="docutils literal notranslate"><span class="pre">grade</span></code> variable is a numeric vector, containing the grades for all <span class="math notranslate nohighlight">\(N = 33\)</span> students taking Dr Harpo’s class; the <code class="docutils literal notranslate"><span class="pre">tutor</span></code> variable is a factor that indicates who each student’s tutor was. The first six observations in this data set are shown above, and below is a nice little table with some summary statistics:</p>
+<p>As we can see, there’s a single data frame with two variables, <code class="docutils literal notranslate"><span class="pre">grade</span></code> and <code class="docutils literal notranslate"><span class="pre">tutor</span></code>. The <code class="docutils literal notranslate"><span class="pre">grade</span></code> variable is a numeric vector, containing the grades for all <span class="math notranslate nohighlight">\(N = 33\)</span> students taking Dr Harpo’s class; the <code class="docutils literal notranslate"><span class="pre">tutor</span></code> variable is a factor that indicates who each student’s tutor was. The first five observations in this data set are shown above, and below is a nice little table with some summary statistics:</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">harpo_summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -1405,6 +1405,7 @@ Degrees of freedom: 19
 </table>
 </div></div></div>
 </div>
+<p>To give you a more detailed sense of what’s going on here, I’ve plotted histograms showing the distribution of grades for both tutors <a class="reference internal" href="#fig-harpohist"><span class="std std-numref">Fig. 2.19</span></a>. Inspection of these histograms suggests that the students in Anastasia’s class may be getting slightly better grades on average, though they also seem a little more variable.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1428,14 +1429,13 @@ Degrees of freedom: 19
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_54_0.png" src="_images/05.02-ttest_54_0.png" />
+<img alt="_images/05.02-ttest_55_0.png" src="_images/05.02-ttest_55_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-harpohist" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 2.19 </span><span class="caption-text">Histogram showing the overall distribution of grades for students in Anastasia and Bernadette’s classes</span><a class="headerlink" href="#fig-harpohist" title="Permalink to this image">¶</a></p>
 </div>
-<p>To give you a more detailed sense of what’s going on here, I’ve plotted histograms showing the distribution of grades for both tutors <a class="reference internal" href="#fig-harpohist"><span class="std std-numref">Fig. 2.19</span></a>. Inspection of these histograms suggests that the students in Anastasia’s class may be getting slightly better grades on average, though they also seem a little more variable.</p>
-<p>Here is a simpler plot showing the means and corresponding confidence intervals for both groups of students <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-ttestci</span></code>.</p>
+<p>Here is a simpler plot showing the means and corresponding confidence intervals for both groups of students <a class="reference internal" href="#fig-ttestci"><span class="std std-numref">Fig. 2.20</span></a>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;tutor&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
@@ -1446,6 +1446,9 @@ Degrees of freedom: 19
 <div class="cell_output docutils container">
 <img alt="_images/05.02-ttest_58_0.png" src="_images/05.02-ttest_58_0.png" />
 </div>
+</div>
+<div class="figure align-default" id="fig-ttestci" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 2.20 </span><span class="caption-text">Plot showing the mean grade for the students in Anastasia’s and Bernadette’s tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there’s a real difference between the groups, though it’s hard to say for sure.</span><a class="headerlink" href="#fig-ttestci" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="introducing-the-test">
@@ -1491,14 +1494,14 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13b6a9250&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x136ecc3a0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-ttesthyp" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 2.20 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the Student <span class="math notranslate nohighlight">\(t\)</span>-test. The null hypothesis assumes that both groups have the same mean <span class="math notranslate nohighlight">\(\\mu\)</span>, whereas the alternative assumes that they have different means <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span>. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation</span><a class="headerlink" href="#fig-ttesthyp" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 2.21 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the Student <span class="math notranslate nohighlight">\(t\)</span>-test. The null hypothesis assumes that both groups have the same mean <span class="math notranslate nohighlight">\(\\mu\)</span>, whereas the alternative assumes that they have different means <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span>. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation</span><a class="headerlink" href="#fig-ttesthyp" title="Permalink to this image">¶</a></p>
 </div>
 <p>To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is <em>exactly</em> zero,
 <span class="math notranslate nohighlight">\(\mu_1 - \mu_2 = 0\)</span>
