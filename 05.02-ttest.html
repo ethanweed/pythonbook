@@ -1491,7 +1491,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13a7df280&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13a775430&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1538,19 +1538,22 @@ w_2 &amp;=&amp; N_2 - 1
 </div>
 <div class="section" id="the-same-pooled-estimate-described-differently">
 <h3><span class="section-number">2.3.4. </span>The same pooled estimate, described differently<a class="headerlink" href="#the-same-pooled-estimate-described-differently" title="Permalink to this headline">¶</a></h3>
-<p>I prefer to think about it like this. Our data set actually corresponds to a set of <span class="math notranslate nohighlight">\(N\)</span> observations, which are sorted into two groups. So let’s use the notation <span class="math notranslate nohighlight">\(X_{ik}\)</span> to refer to the grade received by the <span class="math notranslate nohighlight">\(i\)</span>-th student in the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group: that is, <span class="math notranslate nohighlight">\(X_{11}\)</span> is the grade received by the first student in Anastasia’s class, <span class="math notranslate nohighlight">\(X_{21}\)</span> is her second student, and so on. And we have two separate group means <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span>, which we could “generically” refer to using the notation <span class="math notranslate nohighlight">\(\bar{X}_k\)</span>, i.e., the mean grade for the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, and so we can describe their deviation from the group mean as the difference
-$<span class="math notranslate nohighlight">\(
+<p>I prefer to think about it like this. Our data set actually corresponds to a set of <span class="math notranslate nohighlight">\(N\)</span> observations, which are sorted into two groups. So let’s use the notation <span class="math notranslate nohighlight">\(X_{ik}\)</span> to refer to the grade received by the <span class="math notranslate nohighlight">\(i\)</span>-th student in the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group: that is, <span class="math notranslate nohighlight">\(X_{11}\)</span> is the grade received by the first student in Anastasia’s class, <span class="math notranslate nohighlight">\(X_{21}\)</span> is her second student, and so on. And we have two separate group means <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span>, which we could “generically” refer to using the notation <span class="math notranslate nohighlight">\(\bar{X}_k\)</span>, i.e., the mean grade for the <span class="math notranslate nohighlight">\(k\)</span>-th tutorial group. So far, so good. Now, since every single student falls into one of the two tutorials, and so we can describe their deviation from the group mean as the difference</p>
+<div class="math notranslate nohighlight">
+\[
 X_{ik} - \bar{X}_k
-\)</span><span class="math notranslate nohighlight">\(
-So why not just use these deviations (i.e., the extent to which each student's grade differs from the mean grade in their tutorial?) Remember, a variance is just the average of a bunch of squared deviations, so let's do that. Mathematically, we could write it like this:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>So why not just use these deviations (i.e., the extent to which each student’s grade differs from the mean grade in their tutorial?) Remember, a variance is just the average of a bunch of squared deviations, so let’s do that. Mathematically, we could write it like this:</p>
+<div class="math notranslate nohighlight">
+\[
 \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N}
-\)</span><span class="math notranslate nohighlight">\(
-where the notation &quot;\)</span>\sum_{ik}<span class="math notranslate nohighlight">\(&quot; is a lazy way of saying &quot;calculate a sum by looking at all students in all tutorials&quot;, since each &quot;\)</span>ik<span class="math notranslate nohighlight">\(&quot; corresponds to one student.^[A more correct notation will be introduced in Chapter \&#64;ref(anova).] But, as we saw in Chapter \&#64;ref(estimation), calculating the variance by dividing by \)</span>N<span class="math notranslate nohighlight">\( produces a biased estimate of the population variance. And previously, we needed to divide by \)</span>N-1<span class="math notranslate nohighlight">\( to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn't equal to the population mean, it can systematically bias our estimate of the variance. But this time we're relying on *two* sample means! Does this mean that we've got more bias? Yes, yes it does. And does this mean we now need to divide by \)</span>N-2<span class="math notranslate nohighlight">\( instead of \)</span>N-1<span class="math notranslate nohighlight">\(, in order to calculate our pooled variance estimate? Why, yes...
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>where the notation “<span class="math notranslate nohighlight">\(\sum_{ik}\)</span>” is a lazy way of saying “calculate a sum by looking at all students in all tutorials”, since each “<span class="math notranslate nohighlight">\(ik\)</span>” corresponds to one student.^[A more correct notation will be introduced in Chapter &#64;ref(anova).] But, as we saw in Chapter &#64;ref(estimation), calculating the variance by dividing by <span class="math notranslate nohighlight">\(N\)</span> produces a biased estimate of the population variance. And previously, we needed to divide by <span class="math notranslate nohighlight">\(N-1\)</span> to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn’t equal to the population mean, it can systematically bias our estimate of the variance. But this time we’re relying on <em>two</em> sample means! Does this mean that we’ve got more bias? Yes, yes it does. And does this mean we now need to divide by <span class="math notranslate nohighlight">\(N-2\)</span> instead of <span class="math notranslate nohighlight">\(N-1\)</span>, in order to calculate our pooled variance estimate? Why, yes…</p>
+<div class="math notranslate nohighlight">
+\[
 \hat\sigma^2_p = \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N -2}
-\)</span><span class="math notranslate nohighlight">\(
-Oh, and if you take the square root of this then you get \)</span>\hat{\sigma}_p$, the pooled standard deviation estimate. In other words, the pooled standard deviation calculation is nothing special: it’s not terribly different to the regular standard deviation calculation.</p>
+\]</div>
+<p>Oh, and if you take the square root of this then you get <span class="math notranslate nohighlight">\(\hat{\sigma}_p\)</span>, the pooled standard deviation estimate. In other words, the pooled standard deviation calculation is nothing special: it’s not terribly different to the regular standard deviation calculation.</p>
 </div>
 <div class="section" id="completing-the-test">
 <h3><span class="section-number">2.3.5. </span>Completing the test<a class="headerlink" href="#completing-the-test" title="Permalink to this headline">¶</a></h3>
