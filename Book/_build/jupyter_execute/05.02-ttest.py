@@ -713,47 +713,10 @@ print('mean grade for B\'s students:', statistics.mean(Bernadette['grade']))
 
 You probably noticed that in addition to telling `ttest_ind` which means I wanted to compare, I also added the argument `equal_var = True` to the command. This wasn't strictly necessary in this case, because by default this argument is set to `True`. But I made it explicit anyway, because we will be using this argument again later. By saying `equal_var = True`, what we're really doing is telling Python to use the *Student* independent samples $t$-test. More on this later.
 
-But what, I hear you saying, about confidence intervals? We calculated them for the one-sample $t$-test; wouldn't it be a good idea to do that for the independent-samples $t$-test as well? Well, yes, you're right, it would be a good idea, so let's do it. It would be nice if `ttest_ind` would provide these for us automatically, since the information is all there, but on the other hand, going through the steps _does_ serve as a good reminder of what is actually happening.
-
-For an indenpendent samples $t$-test, the confidence interval is for the *difference* between the group means, that is, it is telling us that the true difference probably lies between the upper and lower bounds of the confidence interval. So, how do we calculate those bounds?
-
-n1 = len(Anastasia)
-n2 = len(Bernadette)
-m1 = statistics.mean(Anastasia['grade'])
-m2 = statistics.mean(Bernadette['grade'])
-
-v1 = statistics.variance(Anastasia['grade'])
-v2 = statistics.variance(Bernadette['grade'])
-
-pooled_se = np.sqrt(v1 / n1 + v2 / n2)
-delta = m1-m2
-
-#tstat = delta /  pooled_se
-#tstat = ttest_ind(Anastasia, Bernadette)[0]
-#df = (v1 / n1 + v2 / n2)**2 / (v1**2 / (n1**2 * (n1 - 1)) + v2**2 / (n2**2 * (n2 - 1)))
-
-# two side t-test
-#p = 2 * t.cdf(-abs(tstat), df)
-
-# upper and lower bounds
-lb = delta - t.ppf(0.975,df)*pooled_se 
-ub = delta + t.ppf(0.975,df)*pooled_se
-
-#print(lb)
-#print(ub)
-
-It's pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the *difference* between the group means. In our example, Anastasia's students had an average grade of 74.5, and Bernadette's students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the `independentSamplesTTest()` function tells you that there's a 95\% chance that the true difference between means lies between 0.2 and 10.8.  
-
 In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
 
 > The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples $t$-test showed that this 5.4\% difference was significant ($t(31) = 2.1$, $p<.05$), suggesting that a genuine difference in learning outcomes has occurred.
 
-
-In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:
-
-> The mean grade in Anastasia's class was 74.5\% (std dev = 9.0), whereas the mean in Bernadette's class was 69.1\% (std dev = 5.8). A Student's independent samples $t$-test showed that this 5.4\% difference was significant ($t(31) = 2.1$, $p<.05$, $CI_{95} = [0.2, 10.8]$, $d = .74$), suggesting that a genuine difference in learning outcomes has occurred.
-
-Notice that I've included the confidence interval and the effect size in the stat block. People don't always do this. At a bare minimum, you'd expect to see the $t$-statistic, the degrees of freedom and the $p$ value. So you should include something like this at a minimum: $t(31) = 2.1$, $p<.05$. If statisticians had their way, everyone would also report the confidence interval and probably the effect size measure too, because they are useful things to know. But real life doesn't always work the way statisticians want it to: you should make a judgment based on whether you think it will help your readers, and (if you're writing a scientific paper) the editorial standard for the journal in question. Some journals expect you to report effect sizes, others don't. Within some scientific communities it is standard practice to report confidence intervals, in other it is not. You'll need to figure out what your audience expects. But, just for the sake of clarity, if you're taking my class: my default position is that it's usually worth includng the effect size, but don't worry about the confidence interval unless the assignment asks you to or implies that you should.
 
  
 ### Positive and negative $t$ values
@@ -886,370 +849,351 @@ Regardless of whether we're talking about the Student test or the Welch test, an
 
 ### The data
 
-The data set that we'll use this time comes from Dr Chico's class.[^note11] In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the `chico.Rdata` file: 
-```{r}
-load( file.path(projecthome, "data/chico.Rdata" ))
-str(chico)     
-```
-The data frame `chico` contains three variables: an `id` variable that identifies each student in the class, the `grade_test1` variable that records the student grade for the first test, and the `grade_test2` variable that has the grades for the second test. Here's the first six students:
-```{r}
-head( chico )
-```
+The data set that we'll use this time comes from Dr Chico's class.[^note11] In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the `chico.csv` file: 
+
+import pandas as pd
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv")
+
+The data frame `chico` contains three variables: an `id` variable that identifies each student in the class, the `grade_test1` variable that records the student grade for the first test, and the `grade_test2` variable that has the grades for the second test. Here's the first five students:
+
+df.head()
+
 At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
-```{r}
-library( psych )
-describe( chico )
-```
-we see that this impression seems to be supported. Across all 20 students^[This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. *I've* never taught an intro stats class with less than 350 students.] the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in Figure \@ref(fig:pairedta). If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the `describe()` function produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
 
-```{r pairedta, fig.cap="Mean grade for test 1 and test 2, with associated 95% confidence intervals", echo=FALSE}
-chico2 <- wideToLong( data=chico, within="time")
-  
-  gplots::plotmeans( formula = grade ~ time,    # plot grade by test time
-             data = chico2,             # data frame
-             n.label = FALSE,           # don't show sample size
-             xlab = "Testing Instance", # x-axis label
-             ylab = "Grade"             # y-axis label
-  )
+df.describe()
 
-```
+we see that this impression seems to be supported. Across all 20 students[^note12] the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in {numref}`pairedta` panel A. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the `describe()` method produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
 
-Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in Figure \@ref(fig:pairedtb). 
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv")
+
+sns.pointplot(data=df, ax = ax1)
+sns.scatterplot(data = df, x='grade_test1', y='grade_test2', ax = ax2)
+
+ax2.plot(ax2.get_xlim(), ax2.get_ylim(), ls="--", c=".3")
+
+#ax1.set_ylim(40,80)
+#ax1.set_xlim(40,80)
+#ax1.set_ylim(40,80)
 
 
-```{r pairedtb, fig.cap="Scatterplot showing the individual grades for test 1 and test 2", echo=FALSE}
-  # first draw the basic scatterplot...
-  plot( x = chico$grade_test1,     # test 1 on the x-axis
-        y = chico$grade_test2,     # test 2 on the y-axis
-        xlab = "Grade for Test 1", # x-axis label
-        ylab = "Grade for Test 2", # y-axis label
-        pch = 19                   # solid dots as markers
-  )
-  
-  # now add the line...
-  abline( a = 0, # line has an intercept at 0
-          b = 1 # and a slope of 1 
-  )
-```
+df2 = df
+df2['improvement'] = df2['grade_test2']-df2['grade_test1']
 
-In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 ($x$ co-ordinate) equals their grade for test 2 ($y$ co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students *do* seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the *improvement* made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the `improvement` that each student makes, and add it to the `chico` data frame. The easiest way to do this is as follows: 
-```{r}
-chico$improvement <- chico$grade_test2 - chico$grade_test1 
-```
-Notice that I assigned the output to a variable called `chico$improvement`. That has the effect of creating a new variable called `improvement` inside the `chico` data frame. So now when I look at the `chico` data frame, I get an output that looks like this:
-```{r}
-head( chico )
-```
-Now that we've created and stored this `improvement` variable, we can draw a histogram showing the distribution of these improvement scores (using the `hist()` function), shown in Figure \@ref(fig:pairedtc). 
+sns.histplot(data = df2, x='improvement')
 
-```{r pairedtc, fig.cap="Histogram showing the improvement made by each student in Dr Chico's class. Notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one", echo=FALSE}
-chico3 <- within(chico, improvement <- grade_test2 - grade_test1)
-  
-  # hist
-  hist( x = chico3$improvement,        # data to plot
-        xlab = "Improvement in Grade", # x-axis label
-        main = "",                     # no title
-        border = "white",              # white borders on the bars
-        col = rgb(.5,.5,1)             # light blue fill colour
-  )
+ax1.title.set_text('A')
+ax2.title.set_text('B')
+ax3.title.set_text('C')
+
+
+sns.despine()
+
+```{glue:figure} pairedta_fig
+:figwidth: 600px
+:name: fig-pairedta
+
+Mean grade for test 1 and test 2, with associated 95% confidence intervals (panel a). Scat- terplot showing the individual grades for test 1 and test 2 (panel b). Histogram showing the improvement made by each student in Dr Chico’s class (panel c). In panel c, notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one
 
 ```
+
+Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in {numref}`fig-pairedta` panel B. 
+
+
+
+In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 ($x$ co-ordinate) equals their grade for test 2 ($y$ co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students *do* seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the *improvement* made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the `improvement` that each student makes, and add it to the data frame containing the `chico.csv` data. The easiest way to do this is as follows: 
+
+df['improvement'] = df['grade_test2']-df['grade_test1']
+
+Notice that I assigned the output to a variable called `df['improvement]`. That has the effect of creating a new column called `improvement` inside the `chico` data frame. Now that we've created and stored this `improvement` variable, we can draw a histogram showing the distribution of these improvement scores, shown in {numref}`fig-pairedta` panel C. 
+
 
 When we look at histogram, it's very clear that there *is* a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use `ciMean()` to compute a confidence interval for the population mean of this new variable, 
-```{r}
-ciMean( x = chico$improvement )
-```
-we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so). 
 
+import numpy as np
+from scipy import stats
+
+data = df['improvement']
+
+stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
+
+we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so). 
 
 ### What is the paired samples $t$-test?
 
 In light of the previous exploration, let's think about how to construct an appropriate $t$ test. One possibility would be to try to run an independent samples $t$-test using `grade_test1` and `grade_test2` as the variables of interest. However, this is clearly the wrong thing to do: the independent samples $t$-test assumes that there is no particular relationship between the two samples. Yet clearly that's not true in this case, because of the repeated measures structure to the data. To use the language that I introduced in the last section, if we were to try to do an independent samples $t$-test, we would be conflating the **_within subject_** differences (which is what we're interested in testing) with the **_between subject_** variability (which we are not). 
 
 The solution to the problem is obvious, I hope, since we already did all the hard work in the previous section. Instead of running an independent samples $t$-test on `grade_test1` and `grade_test2`, we run a *one-sample* $t$-test on the within-subject difference variable, `improvement`. To formalise this slightly, if $X_{i1}$ is the score that the $i$-th participant obtained on the first variable, and $X_{i2}$ is the score that the same person obtained on the second one, then the difference score is:
+
 $$
 D_{i} = X_{i1} - X_{i2} 
 $$
+
 Notice that the difference scores is *variable 1 minus variable 2* and not the other way around, so if we want improvement to correspond to a positive valued difference, we actually want "test 2" to be our "variable 1". Equally, we would say that $\mu_D = \mu_1 - \mu_2$ is the population mean for this difference variable. So, to convert this to a hypothesis test, our null hypothesis is that this mean difference is zero; the alternative hypothesis is that it is not:
+
 $$
 \begin{array}{ll}
 H_0: & \mu_D = 0  \\
 H_1: & \mu_D \neq 0
 \end{array}
 $$
+
 (this is assuming we're talking about a two-sided test here). This is more or less identical to the way we described the hypotheses for the one-sample $t$-test: the only difference is that the specific value that the null hypothesis predicts is 0. And so our $t$-statistic is defined in more or less the same way too. If we let $\bar{D}$ denote the mean of the difference scores, then 
+
 $$
 t = \frac{\bar{D}}{\mbox{SE}({\bar{D}})}
 $$
+
 which is 
+
 $$
 t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 $$
+
 where $\hat\sigma_D$ is the standard deviation of the difference scores. Since this is just an ordinary, one-sample $t$-test, with nothing special about it, the degrees of freedom are still $N-1$. And that's it: the paired samples $t$-test really isn't a new test at all: it's a one-sample $t$-test, but applied to the difference between two variables. It's actually very simple; the only reason it merits a discussion as long as the one we've just gone through is that you need to be able to recognise *when* a paired samples test is appropriate, and to understand *why* it's better than an independent samples $t$ test. 
 
-### Doing the test in R, part 1 
+### Doing the test in Python 
 
+How do you do a paired samples $t$-test in Python? One possibility is to follow the process I outlined above: create a "difference" variable and then run a one sample $t$-test on that, setting the population mean argument `popmean` to zero. Since we've already created a variable called `improvement`, let's do that:
 
-How do you do a paired samples $t$-test in R. One possibility is to follow the process I outlined above: create a "difference" variable and then run a one sample $t$-test on that. Since we've already created a variable called `chico$improvement`, let's do that:
-```{r}
-oneSampleTTest( chico$improvement, mu=0 )
-```
-The output here is (obviously) formatted exactly the same was as it was the last time we used the `oneSampleTTest()` function (Section \@ref(onesamplettest)), and it confirms our intuition. There's an average improvement of 1.4\% from test 1 to test 2, and this is significantly different from 0 ($t(19)=6.48, p<.001$). 
+from scipy.stats import ttest_1samp
+ttest_1samp(a = df['improvement'], popmean = 0)
 
-However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the `pairedSamplesTTest()` function, also in the `lsr` package. Let's assume that your data organised like they are in the `chico` data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a *one-sided* formula, just like you did when running a test of association using the `associationTest()` function in Chapter \@ref(chisquare). For the `chico` data frame, the formula that you need would be `~ grade_time2 + grade_time1`. As usual, you'll also need to input the name of the data frame too. So the command just looks like this:
+However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, `scipy` also has a built-in method for conducting paired $t$-tests called `ttest_rel` (the `_rel` part is for "related"). Using this method, we get:
 
-```{r}
-pairedSamplesTTest( 
-     formula = ~ grade_test2 + grade_test1, # one-sided formula listing the two variables
-     data = chico                           # data frame containing the two variables 
-  )
-```
-The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples $t$-test is just a one sample test under the hood. However, the output is a bit more detailed:
+from scipy.stats import ttest_rel
 
-This time around the descriptive statistics block shows you the means and standard deviations for the original variables, as well as for the difference variable (notice that it always defines the difference as the first listed variable mines the second listed one). The null hypothesis and the alternative hypothesis are now framed in terms of the original variables rather than the difference score, but you should keep in mind that in a paired samples test it's still the difference score being tested. The statistical information at the bottom about the test result is of course the same as before.
+ttest_rel(df['grade_test2'], df['grade_test1'])
 
-
-### Doing the test in R, part 2 
-
-The paired samples $t$-test is a little different from the other $t$-tests, because it is used in repeated measures designs. For the `chico` data, every student is "measured" twice, once for the first test, and again for the second test. Back in Section \@ref(reshape) I talked about the fact that repeated measures data can be expressed in two standard ways, known as *wide form* and *long form*. The `chico` data frame is in wide form: every row corresponds to a unique *person*. I've shown you the data in that form first because that's the form that you're most used to seeing, and it's also the format that you're most likely to receive data in. However, the majority of tools in R for dealing with repeated measures data expect to receive data in long form. The paired samples $t$-test is a bit of an exception that way. 
- 
-As you make the transition from a novice user to an advanced one, you're going to have to get comfortable with long form data, and switching between the two forms. To that end, I want to show you how to apply the `pairedSamplesTTest()` function to long form data. First, let's use the `wideToLong()` function to create a long form version of the `chico` data frame. If you've forgotten how the  `wideToLong()` function works, it might be worth your while quickly re-reading Section \@ref(reshape). Assuming that you've done so, or that you're already comfortable with data reshaping, I'll use it to create a new data frame called `chico2`:
-```{r}
-chico2 <- wideToLong( chico, within="time" )
-head( chico2 )
-```
-As you can see, this has created a new data frame containing three variables: an `id` variable indicating which person provided the data, a `time` variable indicating which test the data refers to (i.e., test 1 or test 2), and a `grade` variable that records what score the person got on that test. Notice that this data frame is in long form: every row corresponds to a unique *measurement*. Because every person provides two observations (test 1 and test 2), there are two rows for every person. To see this a little more clearly, I'll use the `sortFrame()` function to sort the rows of `chico2` by `id` variable (see Section \@ref(sortframe)).
-```{r}
-chico2 <- sortFrame( chico2, id )
-head( chico2 )
-```
-As you can see, there are two rows for "student1": one showing their grade on the first test, the other showing their grade on the second test.^[The `sortFrame()` function sorts factor variables like `id` in alphabetical order, which is why it jumps from "student1" to "student10"] 
-
-Okay, suppose that we were given the `chico2` data frame to analyse. How would we run our paired samples $t$-test now? One possibility would be to use the `longToWide()` function (Section \@ref(reshape)) to force the data back into wide form, and do the same thing that we did previously. But that's sort of defeating the point, and besides, there's an easier way. Let's think about what how the `chico2` data frame is structured: there are three variables here, and they all matter. The outcome measure is stored as the `grade`, and we effectively have two "groups" of measurements (test 1 and test 2) that are defined by the `time` points at which a test is given. Finally, because we want to keep track of which measurements should be paired together, we need to know which student obtained each grade, which is what the `id` variable gives us. So, when your data are presented to you in long form, we would want specify a *two-sided* formula and a data frame, in the same way that we do for an independent samples $t$-test: the formula specifies the outcome variable and the groups, so in this case it would be `grade ~ time`, and the data frame is `chico2`. However, we also need to tell it the id variable, which in this case is boringly called `id`. So our command is:
-```{r}
-pairedSamplesTTest( 
-     formula = grade ~ time,  # two sided formula: outcome ~ group
-     data = chico2,           # data frame
-     id = "id"                # name of the id variable
-  )
-```
-Note that the name of the id variable is `"id"` and not `id`. Note that the `id` variable must be a factor. As of the current writing, you do need to include the quote marks, because the `pairedSamplesTTest()` function is expecting a *character string* that specifies the name of a variable. If I ever find the time I'll try to relax this constraint. 
-
-As you can see, it's a bit more detailed than the output from `oneSampleTTest()`. It gives you the descriptive statistics for the original variables, states the null hypothesis in a fashion that is a bit more appropriate for a repeated measures design, and then reports all the nuts and bolts from the hypothesis test itself. Not surprisingly the numbers the same as the ones that we saw last time.
-
-One final comment about the `pairedSamplesTTest()` function. One of the reasons I designed it to be able handle long form and wide form data is that I want you to be get comfortable thinking about repeated measures data in both formats, and also to become familiar with the different ways in which R functions tend to specify models and tests for repeated measures data. With that last point in mind, I want to highlight a slightly different way of thinking about what the paired samples $t$-test is doing. There's a sense in which what you're really trying to do is look at how the outcome variable (`grade`) is related to the grouping variable (`time`), after taking account of the fact that there are individual differences between people (`id`). So there's a sense in which `id` is actually a *second* predictor: you're trying to predict the `grade` on the basis of the `time` and the `id`. With that in mind, the `pairedSamplesTTest()` function lets you specify a formula like this one
-```
-grade ~ time + (id)
-```
-This formula tells R everything it needs to know: the variable on the left (`grade`) is the outcome variable, the bracketed term on the right (`id`) is the id variable, and the other term on the right is the grouping variable (`time`). If you specify your formula that way, then you only need to specify the `formula` and the `data` frame, and so you can get away with using a command as simple as this one:
-```
-pairedSamplesTTest( 
-     formula = grade ~ time + (id),
-     data = chico2
-  )
-```
-or you can drop the argument names and just do this:
-```
-> pairedSamplesTTest( grade ~ time + (id), chico2 )
-```
-These commands will produce the same output as the last one, I personally find this format a lot more elegant. That being said, the main reason for allowing you to write your formulas that way is that they're quite similar to the way that mixed models (fancy pants repeated measures analyses) are specified in the `lme4` package. This book doesn't talk about mixed models (yet!), but if you go on to learn more statistics you'll find them pretty hard to avoid, so I've tried to lay a little bit of the groundwork here.
-
+Either way, the result is exactly the same, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 ($t$(19) = 6.48, $p$ < .001). In fact, $p$ is quite a bit less than one, since the $p$-value has been given in scientific notation. The exact $p$-value is $3.32^{-06}$, that is, $p$ = 0.0000032.
 
 ## One sided tests
 
-When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it's appropriate to specify a *one-sided* test (see Section \@ref(onesidedtests)). So far, all of the $t$-tests have been two-sided tests. For instance, when we specified a one sample $t$-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than *or* less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The `oneSampleTTest()` function lets you do this, by specifying the `one.sided` argument. If you set `one.sided="greater"`, it means that you're testing to see if the true mean is larger than `mu`. If you set `one.sided="less"`, then you're testing to see if the true mean is smaller than `mu`. Here's how it would work for Dr Zeppo's class:
-```{r}
-oneSampleTTest( x=grades, mu=67.5, one.sided="greater" )
-```
-Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the $t$-statistic and degrees of freedom have not changed, the $p$-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you've forgotten why this is and what it means, you may find it helpful to read back over Chapter \@ref(hypothesistesting), and Section \@ref(onesidedtests) in particular. The third thing to note is that the confidence interval is different too: it now reports a "one-sided" confidence interval rather than a two-sided one. In a two-sided confidence interval, we're trying to find numbers $a$ and $b$ such that we're 95\% confident that the true mean lies *between* $a$ and $b$. In a one-sided confidence interval, we're trying to find a single number $a$ such that we're 95\% confident that the true mean is *greater than* $a$ (or less than $a$ if you set `one.sided="less"`).
+When introducing the theory of null hypothesis tests, I mentioned that there are some situations [when it's appropriate to specify a *one-sided* test](one-two-sided). So far, all of the $t$-tests have been two-sided tests. For instance, when we specified a one sample $t$-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than *or* less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The `test_1samp` method lets you do this, by specifying the `alternative` argument. If you set `alternative = 'greater'`, it means that you're testing to see if the true mean is larger than `mu`. If you set `alternative = 'less'`, then you're testing to see if the true mean is smaller than `mu`. To see how it would work for Dr Zeppo's class, let's compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to "greater":
 
-So that's how to do a one-sided one sample $t$-test. However, all versions of the $t$-test can be one-sided. For an independent samples $t$ test, you could have a one-sided test if you're only interestd in testing to see if group A has *higher* scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The `independentSamplesTTest()` function lets you do this, again by specifying the `one.sided` argument. However, this time around you need to specify the name of the group that you're expecting to have the higher score. In our case, we'd write `one.sided = "Anastasia"`. So the command would be:
-```{r}
-independentSamplesTTest( 
-    formula = grade ~ tutor, 
-    data = harpo, 
-    one.sided = "Anastasia"
-  )
-```
-Again, the output changes in a predictable way. The definition of the null and alternative hypotheses has changed, the $p$-value has changed, and it now reports a one-sided confidence interval rather than a two-sided one.
+import pandas as pd
+from scipy.stats import ttest_1samp
 
-What about the paired samples $t$-test? Suppose we wanted to test the hypothesis that grades go *up* from test 1 to test 2 in Dr Zeppo's class, and are not prepared to consider the idea that the grades go down. Again, we can use the `one.sided` argument to specify the one-sided test, and it works the same way it does for the independent samples $t$-test. You need to specify the name of the group whose scores are expected to be larger under the alternative hypothesis. If your data are in wide form, as they are in the `chico` data frame, you'd use this command:
-```{r}
-pairedSamplesTTest( 
-     formula = ~ grade_test2 + grade_test1, 
-     data = chico, 
-     one.sided = "grade_test2" 
-  )
-```
-Yet again, the output changes in a predictable way. The hypotheses have changed, the $p$-value has changed, and the confidence interval is now one-sided. If your data are in long form, as they are in the `chico2` data frame, it still works the same way. Either of the following commands would work,
-```{r eval=FALSE}
-> pairedSamplesTTest( 
-    formula = grade ~ time, 
-    data = chico2, 
-    id = "id", 
-    one.sided = "test2" 
-  )
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv")
 
-> pairedSamplesTTest( 
-    formula = grade ~ time + (id), 
-    data = chico2, 
-    one.sided = "test2" 
-  )
-```
-and would produce the same answer as the output shown above.
+print('Two-sided:', ttest_1samp(df['grades'], popmean = 67.5, alternative = 'two-sided'))
+
+print('One-sided:', ttest_1samp(df['grades'], popmean = 67.5, alternative = 'greater'))
 
 
-## Using the t.test() function{#ttestfunction}
+The $t$-statistics are exactly the same, which makes sense, if you think about it, because the calculation of the $t$ is based on the mean and standard deviation, and these do not change. The $p$-value, on the other hand, is lower for the one-sided test. The only thing that changes between the two tests is the _expectation_ that we bring to data. The way that the $p$-value is calculated depends on those expectations, and they are the reason for choosing one test over the other. It should go without saying, but maybe is worth saying anyway, that our reasons for choosing one test over the other should be theoretical, and not based on which test is more likely to give us the $p$-value we want!
 
-In this chapter, we've talked about three different kinds of $t$-test: the one sample test, the independent samples test (Student's and Welch's), and the paired samples test. In order to run these different tests, I've shown you three different functions: `oneSampleTTest()`, `independentSamplesTTest()` and `pairedSamplesTTest()`. I wrote these as three different functions for two reasons. Firstly, I thought it made sense to have separate functions for each test, in order to help make it clear to beginners that there *are* different tests. Secondly, I wanted to show you some functions that produced "verbose" output, to help you see what hypotheses are being tested and so on. 
 
-However, once you've started to become familiar with $t$-tests and with using R, you might find it easier to use the `t.test()` function. It's one function, but it can run all four of the different $t$-tests that we've talked about. Here's how it works.  Firstly, suppose you want to run a one sample $t$-test. To run the test on the `grades` data from Dr Zeppo's class (Section \@ref(onesamplettest)), we'd use a command like this:
-```{r}
-t.test( x = grades, mu = 67.5 )
-```
-The input is the same as for the `oneSampleTTest()`: we specify the sample data using the argument `x`, and the value against which it is to be tested using the argument `mu`. The output is a lot more compressed.
+So that's how to do a one-sided one sample $t$-test. However, all versions of the $t$-test can be one-sided. For an independent samples $t$ test, you could have a one-sided test if you're only interestd in testing to see if group A has *higher* scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The `ttest_ind` function lets you do this, again by specifying the `alternative` argument. However, this time around the order that we enter the variables in the test makes a difference. If we expect that Anastasia's students have higher grades, and we want to conduct a one-sided test, we need to the data for Anastasia's students _first_. Otherwise, we end up testing the hypothesis that _Bernadette's_ students had the higher grade, which is the opposite of what we intended:
 
-As you can see, it still has all the information you need. It tells you what type of test it ran and the data it tested it on. It gives you the $t$-statistic, the degrees of freedom and the $p$-value. And so on. There's nothing wrong with this output, but in my experience it can be a little confusing when you're just starting to learn statistics, because it's a little disorganised. Once you know what you're looking at though, it's pretty easy to read off the relevant information. 
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
 
-What about independent samples $t$-tests? As it happens, the `t.test()` function can be used in much the same way as the `independentSamplesTTest()` function, by specifying a formula, a data frame, and using `var.equal` to indicate whether you want a Student test or a Welch test. If you want to run the Welch test from Section \@ref(welchttest), then you'd use this command:
-```{r}
-t.test( formula = grade ~ tutor, data = harpo )
-```
+# create two new variables for the grades from each tutor's students
+Anastasia = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+Bernadette = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
 
-If you want to do the Student test, it's exactly the same except that you need to add an additional argument indicating that `var.equal = TRUE`. This is no different to how it worked in the `independentSamplesTTest()` function. 
+# run an independent samples t-test
+from scipy import stats
 
-Finally, we come to the paired samples $t$-test. Somewhat surprisingly, given that most R functions for dealing with repeated measures data require data to be in long form, the `t.test()` function isn't really set up to handle data in long form. Instead it expects to be given two separate variables, `x` and `y`, and you need to specify `paired=TRUE`. And on top of that, you'd better make sure that the first element of `x` and the first element of `y` actually correspond to the same person! Because it doesn't ask for an "id" variable. I don't know why. So, in order to run the paired samples $t$ test on the data from Dr Chico's class, we'd use this command:
-```{r}
-t.test( x = chico$grade_test2,   # variable 1 is the "test2" scores
-         y = chico$grade_test1,   # variable 2 is the "test1" scores
-         paired = TRUE           # paired test
- )
-```
+print('Two-sided:', stats.ttest_ind(Anastasia, Bernadette, equal_var = True))
+print('')
+print('One-sided, Anastasia first:', stats.ttest_ind(Anastasia, Bernadette, equal_var = True, alternative = 'greater'))
+print('')
+print('One-sided, Bernadette first:', stats.ttest_ind(Bernadette, Anastasia, equal_var = True, alternative = 'greater'))
 
-Yet again, these are the same numbers that we saw in Section \@ref(pairedsamplesttest). Feel free to check. 
+What about the paired samples $t$-test? Suppose we wanted to test the hypothesis that grades go *up* from test 1 to test 2 in Dr. Chico's class, and are not prepared to consider the idea that the grades go down. Again, we can use the `alternative` argument to specify the one-sided test, and it works the same way it does for the independent samples $t$-test. Since we are comparing test 1 to test 2 by substracting one from the other, it makes a difference whether we subract test 1 from test 2, or test 2 from test 1. So, to test the hypothesis that grades for test 2 are higher than test 2, we will need to enter the grades from test 2 first; otherwise we are testing the opposite hypothesis: 
 
-## Effect size{#cohensd}
+import pandas as pd
+from scipy.stats import ttest_rel
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv")
+
+print('test 2 - test 1:', ttest_rel(df['grade_test2'], df['grade_test1'], alternative = 'greater'))
+print('')
+print('test 1 - test 2:', ttest_rel(df['grade_test1'], df['grade_test2'], alternative = 'greater'))      
+
+(cohensd)=
+## Effect size
 
 The most commonly used measure of effect size for a $t$-test is **_Cohen's $d$_** [@Cohen1988]. It's a very simple measure in principle, with quite a few wrinkles when you start digging into the details. Cohen himself defined it primarily in the context of an independent samples $t$-test, specifically the Student test. In that context, a natural way of defining the effect size is to divide the difference between the means by an estimate of the standard deviation. In other words, we're looking to calculate *something* along the lines of this:
+
 $$
 d = \frac{\mbox{(mean 1)} - \mbox{(mean 2)}}{\mbox{std dev}}
 $$
-and he suggested a rough guide for interpreting $d$ in Table \@ref(tab:cohensdinterpretation). You'd think that this would be pretty unambiguous, but it's not; largely because Cohen wasn't too specific on what he thought should be used as the measure of the standard deviation (in his defence, he was trying to make a broader point in his book, not nitpick about tiny details). As discussed by @McGrath2006, there are several different version in common usage, and each author tends to adopt slightly different notation. For the sake of simplicity (as opposed to accuracy) I'll use $d$ to refer to any statistic that you calculate from the sample, and  use $\delta$ to refer to a theoretical population effect. Obviously, that does mean that there are several different things all called $d$. The `cohensD()` function in the `lsr` package uses the `method` argument to distinguish between them, so that's what I'll do in the text.
 
-My suspicion is that the only time that you would want Cohen's $d$ is when you're running a $t$-test, and if you're using the `oneSampleTTest`, `independentSamplesTTest` and `pairedSamplesTTest()` functions to run your $t$-tests, then you don't need to learn any new commands, because they automatically produce an estimate of Cohen's $d$ as part of the output. However, if you're using `t.test()` then you'll need to use the `cohensD()` function (also in the `lsr` package) to do the calculations. 
+and he suggested a rough guide for interpreting $d$ in the table below. You'd think that this would be pretty unambiguous, but it's not; largely because Cohen wasn't too specific on what he thought should be used as the measure of the standard deviation (in his defence, he was trying to make a broader point in his book, not nitpick about tiny details). As discussed by @McGrath2006, there are several different version in common usage, and each author tends to adopt slightly different notation. For the sake of simplicity (as opposed to accuracy) I'll use $d$ to refer to any statistic that you calculate from the sample, and  use $\delta$ to refer to a theoretical population effect. Obviously, that does mean that there are several different things all called $d$.
 
-```{r cohensdinterpretation, fig.cap="A (very) rough guide to interpreting Cohen's $d$. My personal recommendation is to not use these blindly. The $d$ statistic has a natural interpretation in and of itself: it redescribes the different in means as the number of standard deviations that separates those means. So it's generally a good idea to think about what that means in practical terms. In some contexts a \"small\" effect could be of big practical importance. In other situations a \"large\" effect may not be all that interesting.", echo=FALSE}
-knitr::kable(tibble::tribble(
-          ~V1,                    ~V2,
-  "about 0.2",         "small effect",
-  "about 0.5",      "moderate effect",
-  "about 0.8",         "large effect"
-  ), col.names = c(  "$d$-value", "rough interpretation"))
-```
+Although Cohen's $d$ is a very commonly-reported measure of effect size, there are not currently any modules that provide built-in tools to calculate it. At least, not any that I am aware of. Luckily, it isn't too hard to calculate "by hand".
+
+(dinterpretation)=
+
+The table below gives a (very) rough guide to interpreting Cohen's $d$. My personal recommendation is to not use these blindly. The $d$ statistic has a natural interpretation in and of itself: it redescribes the different in means as the number of standard deviations that separates those means. So it's generally a good idea to think about what that means in practical terms. In some contexts a \"small\" effect could be of big practical importance. In other situations a \"large\" effect may not be all that interesting.
+
+| d-value   | rough interpretation |
+| :-------- | :------------------- |
+| about 0.2 | "small" effect       |
+| about 0.5 | "moderate" effect    |
+| about 0.8 | "large" effect       |
 
 ### Cohen's $d$ from one sample
 
 The simplest situation to consider is the one corresponding to a one-sample $t$-test. In this case, the one sample mean $\bar{X}$ and one (hypothesised) population mean $\mu_o$ to compare it to. Not only that, there's really only one sensible way to estimate the population standard deviation: we just use our usual estimate $\hat{\sigma}$. Therefore, we end up with the following as the only way to calculate $d$, 
+
 $$
 d = \frac{\bar{X} - \mu_0}{\hat{\sigma}}
 $$
-When writing the `cohensD()` function, I've made some attempt to make it work in a similar way to `t.test()`. As a consequence, `cohensD()` can calculate your effect size regardless of which type of $t$-test you performed. If what you want is a measure of Cohen's $d$ to accompany a one-sample $t$-test, there's only two arguments that you need to care about. These are:
 
-- `x`. A numeric vector containing the sample data.
-- `mu`. The mean against which the mean of `x` is compared (default value is `mu = 0`).
+import pandas as pd
+import statistics
 
-We don't need to specify what `method` to use, because there's only one version of $d$ that makes sense in this context. So, in order to compute an effect size for the data from Dr Zeppo's class (Section \@ref(onesamplettest)), we'd type something like this:
-```{r}
-cohensD( x = grades,    # data are stored in the grades vector
-          mu = 67.5      # compare students to a mean of 67.5
- )
-```
-and, just so that you can see that there's nothing fancy going on, the command below shows you how to calculate it if there weren't no fancypants `cohensD()` function available:
-```{r}
-( mean(grades) - 67.5 ) / sd(grades)
-```
-Yep, same number. Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
+# load Zeppo data
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv")
 
+# subract the population mean from the sample mean, and divide by 
+#the estimated population standard deviation
+
+d = (statistics.mean(df['grades']) - 67.5) / statistics.stdev(df['grades'])
+print('Cohen\'s d:', d)
+
+What does this effect size mean? Overall, then, the psychology students in Dr Zeppo's class are achieving grades (mean = 72.3\%) that are about .5 standard deviations higher than the level that you'd expect (67.5\%) if they were performing at the same level as other students. Judged against Cohen's rough guide, this is a moderate effect size.
 
 ### Cohen's $d$ from a Student $t$ test
 
-The majority of discussions of Cohen's $d$ focus on a situation that is analogous to Student's independent samples $t$ test, and it's in this context that the story becomes messier, since there are several different versions of $d$ that you might want to use in this situation, and you can use the `method` argument to the `cohensD()` function to pick the one you want. To understand why there are multiple versions of $d$, it helps to take the time to write down a formula that corresponds to the true population effect size $\delta$. It's pretty straightforward, 
+The majority of discussions of Cohen's $d$ focus on a situation that is analogous to Student's independent samples $t$ test, and it's in this context that the story becomes messier, since there are several different versions of $d$ that you might want to use in this situation. To understand why there are multiple versions of $d$, it helps to take the time to write down a formula that corresponds to the true population effect size $\delta$. It's pretty straightforward, 
+
 $$
 \delta = \frac{\mu_1 - \mu_2}{\sigma}
 $$
+
 where, as usual, $\mu_1$ and $\mu_2$ are the population means corresponding to group 1 and group 2 respectively, and $\sigma$ is the standard deviation (the same for both populations). The obvious way to estimate $\delta$ is to do exactly the same thing that we did in the $t$-test itself: use the sample means as the top line, and a pooled standard deviation estimate for the bottom line:
+
 $$
 d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 $$
-where $\hat\sigma_p$ is the exact same pooled standard deviation measure that appears in the $t$-test. This is the most commonly used version of Cohen's $d$ when applied to the outcome of a Student $t$-test ,and is sometimes referred to as Hedges' $g$ statistic [@Hedges1981]. It corresponds to `method = "pooled"` in the `cohensD()` function, and it's the default. 
 
-However, there are other possibilities, which I'll briefly describe. Firstly, you may have reason to want to use only one of the two groups as the basis for calculating the standard deviation. This approach (often called Glass' $\Delta$) only makes most sense when you have good reason to treat one of the two groups as a purer reflection of "natural variation" than the other. This can happen if, for instance, one of the two groups is a control group. If that's what you want, then use `method = "x.sd"` or `method = "y.sd"` when using `cohensD()`. Secondly, recall that in the usual calculation of the pooled standard deviation we divide by $N-2$ to correct for the bias in the sample variance; in one version of Cohen's $d$ this correction is omitted. Instead, we divide by $N$. This version (`method = "raw"`) makes sense primarily when you're trying to calculate the effect size in the sample; rather than estimating an effect size in the population. Finally, there is a version based on @Hedges1985, who point out there is a small bias in the usual (pooled) estimation for Cohen's $d$. Thus they introduce a small correction (`method = "corrected"`), by multiplying the usual value of $d$ by $(N-3)/(N-2.25)$. 
+where $\hat\sigma_p$ is the exact same pooled standard deviation measure that appears in the $t$-test. This is the most commonly used version of Cohen's $d$ when applied to the outcome of a Student $t$-test ,and is sometimes referred to as Hedges' $g$ statistic [@Hedges1981].
 
-In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class (the `harpo` data frame). The command that we want to use is very similar to the relevant `t.test()` command, but also specifies a `method`
-```{r}
-cohensD( formula = grade ~ tutor,  # outcome ~ group
-          data = harpo,             # data frame 
-          method = "pooled"         # which version to calculate?
-)
-```
-This is the version of Cohen's $d$ that gets reported by the `independentSamplesTTest()` function whenever it runs a Student $t$-test.
+However, there are other possibilities, which I'll briefly describe. Firstly, you may have reason to want to use only one of the two groups as the basis for calculating the standard deviation. This approach (often called Glass' $\Delta$) only makes most sense when you have good reason to treat one of the two groups as a purer reflection of "natural variation" than the other. This can happen if, for instance, one of the two groups is a control group. Secondly, recall that in the usual calculation of the pooled standard deviation we divide by $N-2$ to correct for the bias in the sample variance; in one version of Cohen's $d$ this correction is omitted. Instead, we divide by $N$. This version makes sense primarily when you're trying to calculate the effect size in the sample; rather than estimating an effect size in the population. Finally, there is a version based on @Hedges1985, who point out there is a small bias in the usual (pooled) estimation for Cohen's $d$. Thus they introduce a small correction, by multiplying the usual value of $d$ by $(N-3)/(N-2.25)$. 
+
+In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class.
+
+import pandas as pd
+import statistics
+from numpy import sqrt, mean, std
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
+
+# create two new variables for the grades from each tutor's students
+tutor1 = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+tutor2 = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
+
+# find number of student grades for each tutor
+n1 = len(tutor1)
+n2 = len(tutor2)
+
+# find mean student grade for each tutor
+u1 = mean(tutor1['grade'])
+u2 = mean(tutor2['grade'])
+
+# find variance in students' grades for each tutor
+s1 = var(tutor1['grade'])
+s2 = var(tutor2['grade'])
+
+
+# find pooled standard deviation (square root of weighted variation, 
+# divided by total N, with a correction for bias of -2)
+
+s = sqrt(((n1) * s1 + (n2) * s2) / (n1 + n2 - 2))
+
+# calculate Cohen's d
+d = (u1 - u2) / s
+d
 
 ### Cohen's $d$ from a Welch test
 
 Suppose the situation you're in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I'll refer to this new measure as $\delta^\prime$, so as to keep it distinct from the measure $\delta$ which we defined previously. What @Cohen1988 suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get:
+
 $$
 \delta^\prime = \frac{\mu_1 - \mu_2}{\sigma^\prime}
 $$
-where 
+
+where
+
 $$
 \sigma^\prime = \sqrt{\displaystyle{\frac{ {\sigma_1}^2 + {\sigma_2}^2}{2}}}
 $$
+
 This seems quite reasonable, but notice that none of the measures that we've discussed so far are attempting to estimate this new quantity. It might just be my own ignorance of the topic, but I'm only aware of one version of Cohen's $d$ that actually estimates the unequal-variance effect size $\delta^\prime$ rather than the equal-variance effect size $\delta$.
-All we do to calculate $d$ for this version (`method = "unequal"`) is substitute the sample means $\bar{X}_1$ and $\bar{X}_2$ and the corrected sample standard deviations $\hat{\sigma}_1$ and $\hat{\sigma}_2$ into the equation for $\delta^\prime$. This gives us the following equation for $d$, 
+All we do to calculate $d$ for this version is substitute the sample means $\bar{X}_1$ and $\bar{X}_2$ and the corrected sample standard deviations $\hat{\sigma}_1$ and $\hat{\sigma}_2$ into the equation for $\delta^\prime$. This gives us the following equation for $d$, 
+
 $$
 d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {\hat\sigma_2}^2}{2}}}}
 $$
-as our estimate of the effect size. There's nothing particularly difficult about calculating this version in R, since all we have to do is change the `method` argument:
-```{r}
-cohensD( formula = grade ~ tutor, 
-          data = harpo,
-          method = "unequal" 
- )
-```
-This is the version of Cohen's $d$ that gets reported by the `independentSamplesTTest()` function whenever it runs a Welch $t$-test.
+
+as our estimate of the effect size. 
 
 
+# find mean student grade for each tutor
+u1 = mean(tutor1['grade'])
+u2 = mean(tutor2['grade'])
 
+# find variance in students' grades for each tutor
+s1 = var(tutor1['grade'])
+s2 = var(tutor2['grade'])
+
+
+# find the mean variance of the two samples
+s = sqrt((s1 + s2)/2)
+
+# calculate Cohen's d
+d = (u1 - u2) / s
+d
 
 ### Cohen's $d$ from a paired-samples test
 
 
-Finally, what should we do for a paired samples $t$-test? In this case, the answer depends on what it is you're trying to do. *If* you want to measure your effect sizes relative to the distribution of difference scores, the measure of $d$ that you calculate is just (`method = "paired"`)
+Finally, what should we do for a paired samples $t$-test? In this case, the answer depends on what it is you're trying to do. *If* you want to measure your effect sizes relative to the distribution of difference scores, the measure of $d$ that you calculate is just 
+
 $$
 d = \frac{\bar{D}}{\hat{\sigma}_D}
 $$
+
 where $\hat{\sigma}_D$ is the estimate of the standard deviation of the differences. The calculation here is pretty straightforward
-```{r}
-cohensD( x = chico$grade_test2, 
-          y = chico$grade_test1,
-          method = "paired" 
- )
-```
-This is the version of Cohen's $d$ that gets reported by the `pairedSamplesTTest()` function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the *original* variables, not the *difference* scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's $d$ that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class, 
-```{r}
-cohensD( x = chico$grade_test2, 
-          y = chico$grade_test1,
-          method = "pooled" 
- )
-```
+
+from numpy import mean, std
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv")
+
+difference = df['grade_test2'] - df['grade_test1']
+mean_diff = mean(difference)
+sd_diff = std(difference)
+
+d = mean_diff/sd_diff
+d
+
+The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the *original* variables, not the *difference* scores (e.g., the 1\% improvement in Dr Chico's class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen's $d$ that you would use for a Student or Welch test. For instance, when we do that for Dr Chico's class, 
+
+# find mean student grade for each tutor
+u1 = mean(df['grade_test1'])
+u2 = mean(df['grade_test2'])
+
+# find variance in students' grades for each tutor
+s1 = var(df['grade_test1'])
+s2 = var(df['grade_test2'])
+
+
+# find the mean variance of the two samples
+s = sqrt((s1 + s2)/2)
+
+# calculate Cohen's d
+d = (u2 - u1) / s
+d
+
 what we see is that the overall effect size is quite small, when assessed on the scale of the original variables.
 
-
-
-
-
-
-## Checking the normality of a sample{#shapiro}
+(shapiro)=
+## Checking the normality of a sample
 
 All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section \@ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is *actually* an average of lots of different things, there's a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using $t$-tests. However, life doesn't come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there's a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.^[This is a massive oversimplification.] This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.
 
@@ -1325,10 +1269,6 @@ normal.data <- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
 hist( x = normal.data )          # draw a histogram of these numbers
 qqnorm( y = normal.data )        # draw the QQ plot
 ```
-
-
-
-
 
 ### Shapiro-Wilk tests
 
@@ -1453,3 +1393,5 @@ wilcox.test( x = happiness$after,
 [^note10]: This design is very similar to the one in [](chisquare) that motivated the McNemar test. This should be no surprise. Both are standard repeated measures designs involving two measurements. The only difference is that this time our outcome variable is interval scale (working memory capacity) rather than a binary, nominal scale variable (a yes-or-no question).
 
 [^note11]: At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.
+
+[^note12]: This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. *I've* never taught an intro stats class with less than 350 students.
