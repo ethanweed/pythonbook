@@ -587,8 +587,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#testing-non-normal-data-with-wilcoxon-tests-wilcox">
-   2.9. Testing non-normal data with Wilcoxon tests{#wilcox}
+  <a class="reference internal nav-link" href="#testing-non-normal-data-with-wilcoxon-tests">
+   2.9. Testing non-normal data with Wilcoxon tests
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1487,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x135505be0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13a2fe520&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1702,7 +1702,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1355b60a0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13a3bc850&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -2425,50 +2425,368 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 <a class="reference internal image-reference" href="_images/shapirowilkdist.png"><img alt="_images/shapirowilkdist.png" src="_images/shapirowilkdist.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 2.27 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">¶</a></p>
 </div>
-<p>To run the test in R, we use the <code class="docutils literal notranslate"><span class="pre">shapiro.test()</span></code> function. It has only a single argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <code class="docutils literal notranslate"><span class="pre">normal.data</span></code>, we get the following:</p>
+<p>To run the test in Python, we use the <code class="docutils literal notranslate"><span class="pre">scipy.stats.shapiro</span></code> method. It has only a single argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, we get the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="n">shapiro</span><span class="p">(</span><span class="n">normal_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9898834228515625, pvalue=0.6551706790924072)
+</pre></div>
+</div>
+</div>
+</div>
 <p>So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic <span class="math notranslate nohighlight">\(W\)</span> and the <span class="math notranslate nohighlight">\(p\)</span> value, though given that the sampling distribution depends so heavily on <span class="math notranslate nohighlight">\(N\)</span> it would probably be a politeness to include <span class="math notranslate nohighlight">\(N\)</span> as well.</p>
 </div>
 </div>
-<div class="section" id="testing-non-normal-data-with-wilcoxon-tests-wilcox">
-<h2><span class="section-number">2.9. </span>Testing non-normal data with Wilcoxon tests{#wilcox}<a class="headerlink" href="#testing-non-normal-data-with-wilcoxon-tests-wilcox" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="testing-non-normal-data-with-wilcoxon-tests">
+<span id="wilcox"></span><h2><span class="section-number">2.9. </span>Testing non-normal data with Wilcoxon tests<a class="headerlink" href="#testing-non-normal-data-with-wilcoxon-tests" title="Permalink to this headline">¶</a></h2>
 <p>Okay, suppose your data turn out to be pretty substantially non-normal, but you still want to run something like a <span class="math notranslate nohighlight">\(t\)</span>-test? This situation occurs a lot in real life: for the AFL winning margins data, for instance, the Shapiro-Wilk test made it very clear that the normality assumption is violated. This is the situation where you want to use Wilcoxon tests.</p>
 <p>Like the <span class="math notranslate nohighlight">\(t\)</span>-test, the Wilcoxon test comes in two forms, one-sample and two-sample, and they’re used in more or less the exact same situations as the corresponding <span class="math notranslate nohighlight">\(t\)</span>-tests. Unlike the <span class="math notranslate nohighlight">\(t\)</span>-test, the Wilcoxon test doesn’t assume normality, which is nice. In fact, they don’t make any assumptions about what kind of distribution is involved: in statistical jargon, this makes them <strong><em>nonparametric tests</em></strong>. While avoiding the normality assumption is nice, there’s a drawback: the Wilcoxon test is usually less powerful than the <span class="math notranslate nohighlight">\(t\)</span>-test (i.e., higher Type II error rate). I won’t discuss the Wilcoxon tests in as much detail as the <span class="math notranslate nohighlight">\(t\)</span>-tests, but I’ll give you a brief overview.</p>
 <div class="section" id="two-sample-wilcoxon-test">
 <h3><span class="section-number">2.9.1. </span>Two sample Wilcoxon test<a class="headerlink" href="#two-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
 <p>I’ll start by describing the <strong><em>two sample Wilcoxon test</em></strong> (also known as the Mann-Whitney test), since it’s actually simpler than the one sample version. Suppose we’re looking at the scores of 10 people on some test. Since my imagination has now failed me completely, let’s pretend it’s a “test of awesomeness”, and there are two groups of people, “A” and “B”. I’m curious to know which group is more awesome. The data are included in the file <code class="docutils literal notranslate"><span class="pre">awesome.Rdata</span></code>, and like many of the data sets I’ve been using, it contains only a single data frame, in this case called <code class="docutils literal notranslate"><span class="pre">awesome</span></code>. Here’s the data:</p>
-<p>As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <span class="math notranslate nohighlight">\(A\)</span> against every observation in group <span class="math notranslate nohighlight">\(B\)</span>. Whenever the group <span class="math notranslate nohighlight">\(A\)</span> datum is larger, we place a check mark in the table:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/ttest2/wilcox1.png&quot;))
-
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/awesome2.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 </div>
-<p>We then count up the number of checkmarks. This is our test statistic, <span class="math notranslate nohighlight">\(W\)</span>.^[Actually, there are two different versions of the test statistic; they differ from each other by a constant value. The version that I’ve described is the one that R calculates.] The actual sampling distribution for <span class="math notranslate nohighlight">\(W\)</span> is somewhat complicated, and I’ll skip the details. For our purposes, it’s sufficient to note that the interpretation of <span class="math notranslate nohighlight">\(W\)</span> is qualitatively the same as the interpretation of <span class="math notranslate nohighlight">\(t\)</span> or <span class="math notranslate nohighlight">\(z\)</span>. That is, if we want a two-sided test, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(W\)</span> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.</p>
-<p>The structure of the <code class="docutils literal notranslate"><span class="pre">wilcox.test()</span></code> function should feel very familiar to you by now. When you have your data organised in terms of an outcome variable and a grouping variable, then you use the <code class="docutils literal notranslate"><span class="pre">formula</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> arguments, so your command looks like this:</p>
-<p>Just like we saw with the <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> function, there is an <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument that you can use to switch between two-sided tests and one-sided tests, plus a few other arguments that we don’t need to worry too much about at an introductory level.
-Similarly, the <code class="docutils literal notranslate"><span class="pre">wilcox.test()</span></code> function allows you to use the  <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> arguments when you have your data stored separately for each group. For instance, suppose we use the data from the <code class="docutils literal notranslate"><span class="pre">awesome2.Rdata</span></code> file:</p>
-<p>When your data are organised like this, then you would use a command like this:</p>
-<p>The output that R produces is pretty much the same as last time.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>score_A</th>
+      <th>score_B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6.4</td>
+      <td>14.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10.7</td>
+      <td>10.4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>11.9</td>
+      <td>12.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.3</td>
+      <td>11.7</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10.0</td>
+      <td>13.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <span class="math notranslate nohighlight">\(A\)</span> against every observation in group <span class="math notranslate nohighlight">\(B\)</span>. Whenever the group <span class="math notranslate nohighlight">\(A\)</span> datum is larger, we place a check mark in the table:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p>group B</p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>14.5</p></td>
+<td><p>10.4</p></td>
+<td><p>12.4</p></td>
+<td><p>11.7</p></td>
+<td><p>13</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>6.4</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p>group A</p></td>
+<td><p>10.7</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>11.9</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>7.3</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>10</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>We then count up the number of checkmarks. This is our test statistic, <span class="math notranslate nohighlight">\(W\)</span>.<a class="footnote-reference brackets" href="#note15" id="id20">15</a> The actual sampling distribution for <span class="math notranslate nohighlight">\(W\)</span> is somewhat complicated, and I’ll skip the details. For our purposes, it’s sufficient to note that the interpretation of <span class="math notranslate nohighlight">\(W\)</span> is qualitatively the same as the interpretation of <span class="math notranslate nohighlight">\(t\)</span> or <span class="math notranslate nohighlight">\(z\)</span>. That is, if we want a two-sided test, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(W\)</span> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">wilcoxon</span>
+ 
+<span class="n">w</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">wilcoxon</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;score_A&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;score_B&#39;</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">w</span><span class="p">,</span><span class="n">p</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.0, 0.125)
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="one-sample-wilcoxon-test">
 <h3><span class="section-number">2.9.2. </span>One sample Wilcoxon test<a class="headerlink" href="#one-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
 <p>What about the <strong><em>one sample Wilcoxon test</em></strong> (or equivalently, the paired samples Wilcoxon test)? Suppose I’m interested in finding out whether taking a statistics class has any effect on the happiness of students. Here’s my data:</p>
-<p>What I’ve measured here is the happiness of each student <code class="docutils literal notranslate"><span class="pre">before</span></code> taking the class and <code class="docutils literal notranslate"><span class="pre">after</span></code> taking the class; the <code class="docutils literal notranslate"><span class="pre">change</span></code> score is the difference between the two. Just like we saw with the <span class="math notranslate nohighlight">\(t\)</span>-test, there’s no fundamental difference between doing a paired-samples test using <code class="docutils literal notranslate"><span class="pre">before</span></code> and <code class="docutils literal notranslate"><span class="pre">after</span></code>, versus doing a one-sample test using the <code class="docutils literal notranslate"><span class="pre">change</span></code> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/ttest2/wilcox2.png&quot;))
-
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/happiness.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 </div>
-<p>Counting up the tick marks this time, we get a test statistic of <span class="math notranslate nohighlight">\(V = 7\)</span>. As before, if our test is two sided, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(V\)</span> is very large or very small. As far of running it in R goes, it’s pretty much what you’d expect. For the one-sample version, the command you would use is</p>
-<p>As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness. Switching to a paired samples version of the test won’t give us different answers, of course; but here’s the command to do it:</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>before</th>
+      <th>after</th>
+      <th>change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30</td>
+      <td>6</td>
+      <td>-24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>43</td>
+      <td>29</td>
+      <td>-14</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>-10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>24</td>
+      <td>31</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>23</td>
+      <td>17</td>
+      <td>-6</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>40</td>
+      <td>2</td>
+      <td>-38</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>29</td>
+      <td>31</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>56</td>
+      <td>21</td>
+      <td>-35</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>38</td>
+      <td>8</td>
+      <td>-30</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>16</td>
+      <td>21</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>What I’ve measured here is the happiness of each student <code class="docutils literal notranslate"><span class="pre">before</span></code> taking the class and <code class="docutils literal notranslate"><span class="pre">after</span></code> taking the class; the <code class="docutils literal notranslate"><span class="pre">change</span></code> score is the difference between the two. Just like we saw with the <span class="math notranslate nohighlight">\(t\)</span>-test, there’s no fundamental difference between doing a paired-samples test using <code class="docutils literal notranslate"><span class="pre">before</span></code> and <code class="docutils literal notranslate"><span class="pre">after</span></code>, versus doing a one-sample test using the <code class="docutils literal notranslate"><span class="pre">change</span></code> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>all differences</p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p>-24</p></td>
+<td><p>-14</p></td>
+<td><p>-10</p></td>
+<td><p>7</p></td>
+<td><p>-6</p></td>
+<td><p>-38</p></td>
+<td><p>2</p></td>
+<td><p>-35</p></td>
+<td><p>-30</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>positive differences</p></td>
+<td><p>7</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p></p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>2</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>5</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+<td><p>.</p></td>
+<td><p>.</p></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+<p>Counting up the tick marks this time, we get a test statistic of <span class="math notranslate nohighlight">\(V = 7\)</span>. As before, if our test is two sided, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(V\)</span> is very large or very small. As far of running it with Python goes, it’s pretty much what you’d expect. For the one-sample version, the command you would use is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">wilcoxon</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
+<span class="n">w</span><span class="p">,</span><span class="n">p</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(7.0, 0.037109375)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness.</p>
 </div>
 </div>
 <div class="section" id="summary">
 <h2><span class="section-number">2.10. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>A one sample <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare a single sample mean against a hypothesised value for the population mean. (Section &#64;ref(onesamplettest))</p></li>
-<li><p>An independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (Section &#64;ref(studentttest) assumes that the groups have the same standard deviation, the Welch test (Section &#64;ref(welchttest)) does not.</p></li>
-<li><p>A paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is used when you have two scores from each person, and you want to test the null hypothesis that the two scores have the same mean. It is equivalent to taking the difference between the two scores for each person, and then running a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on the difference scores. (Section &#64;ref(pairedsamplesttest))</p></li>
-<li><p>Effect size calculations for the difference between means can be calculated via the Cohen’s <span class="math notranslate nohighlight">\(d\)</span> statistic. (Section &#64;ref(cohensd)).</p></li>
-<li><p>You can check the normality of a sample using QQ plots and the Shapiro-Wilk test. (Section &#64;ref(shapiro))</p></li>
-<li><p>If your data are non-normal, you can use Wilcoxon tests instead of <span class="math notranslate nohighlight">\(t\)</span>-tests. (Section &#64;ref(wilcox))</p></li>
+<li><p>A one sample <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare a single sample mean against a hypothesised value for the population mean.</p></li>
+<li><p>An independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (Section &#64;ref(studentttest) assumes that the groups have the same standard deviation, the Welch test does not.</p></li>
+<li><p>A paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is used when you have two scores from each person, and you want to test the null hypothesis that the two scores have the same mean. It is equivalent to taking the difference between the two scores for each person, and then running a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on the difference scores.</p></li>
+<li><p>Effect size calculations for the difference between means can be calculated via the Cohen’s <span class="math notranslate nohighlight">\(d\)</span> statistic..</p></li>
+<li><p>You can check the normality of a sample using QQ plots and the Shapiro-Wilk test.</p></li>
+<li><p>If your data are non-normal, you can use Wilcoxon tests instead of <span class="math notranslate nohighlight">\(t\)</span>-tests.</p></li>
 </ul>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
@@ -2513,6 +2831,9 @@ Similarly, the <code class="docutils literal notranslate"><span class="pre">wilc
 </dd>
 <dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
 <dd><p>Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I’ve read seem to suggest Shapiro-Wilk is the better test of normality, although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests.</p>
+</dd>
+<dt class="label" id="note15"><span class="brackets"><a class="fn-backref" href="#id20">15</a></span></dt>
+<dd><p>Actually, there are two different versions of the test statistic; they differ from each other by a constant value. I’ll just describe one of them here.</p>
 </dd>
 </dl>
 </div>
