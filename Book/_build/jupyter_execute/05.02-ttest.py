@@ -1195,95 +1195,93 @@ what we see is that the overall effect size is quite small, when assessed on the
 (shapiro)=
 ## Checking the normality of a sample
 
-All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section \@ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is *actually* an average of lots of different things, there's a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using $t$-tests. However, life doesn't come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there's a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.^[This is a massive oversimplification.] This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.
+All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section \@ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is *actually* an average of lots of different things, there's a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using $t$-tests. However, life doesn't come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there's a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.[^note13] This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.
 
 ### QQ plots
 
-```{r qq1a, fig.cap="Histogram of `normal.data`, a normally distributed sample with 100 observations.", echo=FALSE}
-  width <- 5
-  height <- 5
-  
-  plotOne <- function( data, title ) {
-    
+One way to check whether a sample violates the normality assumption is to draw a **_"quantile-quantile" plot_** (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot, using `probplot` from `scipy`. We can compare this with a histogram of the data as well:
 
-    hist( x = data ,
-          xlab = "Value", # x-axis label
-          main = title,                     
-          border="white", 
-          col=ifelse(colour,emphColLight,emphGrey),
-          font.main = 1
-    )         
-    
-    require(psych)
-    cat(title,"\n")
-    cat( "skew=",skew(data),"\n")
-    cat( "kurtosis=",kurtosi(data),"\n")
-    print( shapiro.test(data) )
-    
-    
-  }
-  
-  normal.data <- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
-  plotOne( normal.data, "Normally Distributed Data" )
+import numpy as np
+import seaborn as sns
+from scipy.stats import probplot
+
+np.random.seed(42)
+normal_data = np.random.normal(size=100)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+qq = probplot(normal_data, dist="norm", plot = ax1)
+hist = sns.histplot(normal_data, axes=ax2)
+
+glue("qq_fig", ax, display=False)
+
+ ```{glue:figure} qq_fig
+:figwidth: 600px
+:name: fig-qq
+
+QQ plot (left) and histogram (right) of `normal_data`, a normally distributed sample with 100 observations. The Shapiro-Wilk statistic associated with these data is $W = .99$, indicating that no significant departures from normality were detected ($p = .73$).
 ```
 
-```{r qq1b, fig.cap="Normal QQ plot of `normal.data`, a normally distributed sample with 100 observations.", echo=FALSE}
-  plotTwo <- function( data ) {   
-    qqnorm( y = data,
-            pch=19,
-            font.main = 1
-    )        # draw the QQ plot
-  
-  }
+And the results are shown in {numref}(`fig-qq`), above.
 
-  plotTwo( normal.data )
+As you can see, these data form a pretty straight line; which is no surprise given that we sampled them from a normal distribution! In contrast, have a look at the data shown in {numref}(qqskew) and {numref}(qqheavy), which show the histogram and a QQ plot for a data sets that are highly skewed and have a heavy tail (i.e., high kurtosis), respectively.
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/skewed_data.csv")
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+qq = probplot(df['data'], dist="norm", plot = ax1)
+hist = sns.histplot(df['data'], axes=ax2)
+
+glue("qqskew_fig", ax, display=False)
+
+ ```{glue:figure} qqskew_fig
+:figwidth: 600px
+:name: fig-qqskew
+
+The skewness of these data of 100 observations is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is $W=.80$, reflecting a significant departure from normality ($p<.001$). 
+
 ```
 
-The Shapiro-Wilk statistic associated with the data in Figures \@ref(fig:qq1a) and \@ref(fig:qq1b) is $W = .99$, indicating that no significant departures from normality were detected ($p = .73$). As you can see, these data form a pretty straight line; which is no surprise given that we sampled them from a normal distribution! In contrast, have a look at the two data sets shown in Figures \@ref(fig:qq2a), \@ref(fig:qq2b), \@ref(fig:qq2c), \@ref(fig:qq2d). Figures \@ref(fig:qq2a) and \@ref(fig:qq2b) show the histogram and a QQ plot for a data set that is highly skewed: the QQ plot curves upwards. Figures \@ref(fig:qq2c) and \@ref(fig:qq2d) show the same plots for a heavy tailed (i.e., high kurtosis) data set: in this case, the QQ plot flattens in the middle and curves sharply at either end.
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/heavy_tailed_data.csv")
 
-```{r qq2a, fig.cap="A histogram of the 100 observations in a `skewed.data` set", echo=FALSE}
-  skewed.data <- rgamma( n = 100,1,2 ) 
-  plotOne( skewed.data, "Skewed Data" )
-```
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
-```{r qq2b, fig.cap="A normal QQ plot of the 100 observations in a `skewed.data` set", echo=FALSE}
-  plotTwo( skewed.data )
-```
+qq = probplot(df['data'], dist="norm", plot = ax1)
+hist = sns.histplot(df['data'], axes=ax2)
 
-The skewness of the data in Figures \@ref(fig:qq2a) and \@ref(fig:qq2b) is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is $W=.80$, reflecting a significant departure from normality ($p<.001$). 
+glue("qqheavy_fig", ax, display=False)
 
-```{r qq2c, fig.cap="A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. ", echo=FALSE}
-  heavy.tailed.data <- c(rnorm( n = 80 ) , rnorm( 20, sd=5))
-  plotOne( heavy.tailed.data, "Heavy-Tailed Data" )
-```
+ ```{glue:figure} qqheavy_fig
+:figwidth: 600px
+:name: fig-qqheavy
 
-```{r qq2d, fig.cap="A histogram of the 100 observations in a *heavy tailed*` data set, again consisting of 100 observations. ", echo=FALSE}
-  plotTwo( heavy.tailed.data )
-```
+Plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is $W = .93$, again reflecting significant non-normality ($p < .001$).
 
-Figures \@ref(fig:qq2c) and \@ref(fig:qq2d) shows the same plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is $W = .93$, again reflecting significant non-normality ($p < .001$).
-
-One way to check whether a sample violates the normality assumption is to draw a **_"quantile-quantile" plot_** (QQ plot). This allows you to visually check whether you're seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function `qqnorm()`. The `qqnorm()` function has a few arguments, but the only one we really need to care about here is `y`, a vector specifying the data whose normality we're interested in checking. Here's the R commands:
-```{r}
-normal.data <- rnorm( n = 100 )  # generate N = 100 normally distributed numbers
-hist( x = normal.data )          # draw a histogram of these numbers
-qqnorm( y = normal.data )        # draw the QQ plot
 ```
 
 ### Shapiro-Wilk tests
 
-Although QQ plots provide a nice way to informally check the normality of your data, sometimes you'll want to do something a bit more formal. And when that moment comes, the **_Shapiro-Wilk test_** [@Shapiro1965] is probably what you're looking for.^[Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I've read seem to suggest Shapiro-Wilk is the better test of normality; although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests; in R it's implemented via the `ks.test()` function.] As you'd expect, the null hypothesis being tested is that a set of $N$ observations is normally distributed. The test statistic that it calculates is conventionally denoted as $W$, and it's calculated as follows. First, we sort the observations in order of increasing size, and let $X_1$ be the smallest value in the sample, $X_2$ be the second smallest and so on. Then the value of $W$ is given by
+Although QQ plots provide a nice way to informally check the normality of your data, sometimes you'll want to do something a bit more formal. And when that moment comes, the **_Shapiro-Wilk test_** [@Shapiro1965] is probably what you're looking for.[^note14] As you'd expect, the null hypothesis being tested is that a set of $N$ observations is normally distributed. The test statistic that it calculates is conventionally denoted as $W$, and it's calculated as follows. First, we sort the observations in order of increasing size, and let $X_1$ be the smallest value in the sample, $X_2$ be the second smallest and so on. Then the value of $W$ is given by
+
 $$
 W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar{X})^2}
 $$
+
 where $\bar{X}$ is the mean of the observations, and the $a_i$ values are ... mumble, mumble ... something complicated that is a bit beyond the scope of an introductory text. 
 
 Because it's a little hard to explain the maths behind the $W$ statistic, a better idea is to give a broad brush description of how it behaves. Unlike most of the test statistics that we'll encounter in this book, it's actually *small* values of $W$ that indicated departure from normality. The $W$ statistic has a maximum value of 1, which arises when the data look "perfectly normal". The smaller the value of $W$, the less normal the data are. However, the sampling distribution for $W$  -- which is not one of the standard ones that I discussed in Chapter \@ref(probability) and is in fact a complete pain in the arse to work with -- does depend on the sample size $N$. To give you a feel for what these sampling distributions look like, I've plotted three of them in Figure \@ref(fig:swdist). Notice that, as the sample size starts to get large, the sampling distribution becomes very tightly clumped up near $W=1$, and as a consequence, for larger samples $W$ doesn't have to be very much smaller than 1 in order for the test to be significant. 
 
-```{r swdist, fig.cap="Sampling distribution of the Shapiro-Wilk $W$ statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that *small* values of $W$ indicate departure from normality.", echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/ttest2/shapirowilkdist.png"))
+```{figure} ../img/ttest2/shapirowilkdist.png
+:name: fig-shapirowilk
+:width: 600px
+:align: center
+
+Sampling distribution of the Shapiro-Wilk $W$ statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that *small* values of $W$ indicate departure from normality.
 
 ```
+
+
 
 To run the test in R, we use the `shapiro.test()` function. It has only a single argument `x`, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our `normal.data`, we get the following:
 ```{r}
@@ -1395,3 +1393,7 @@ wilcox.test( x = happiness$after,
 [^note11]: At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.
 
 [^note12]: This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. *I've* never taught an intro stats class with less than 350 students.
+
+[^note13]: This is a massive oversimplification.
+
+[^note14]: Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I've read seem to suggest Shapiro-Wilk is the better test of normality, although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests.
