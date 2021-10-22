@@ -1487,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x136a7ef70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13cc53730&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1702,7 +1702,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x136766760&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13cd06490&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -2347,14 +2347,21 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 
 <span class="n">qq</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">normal_data</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s2">&quot;norm&quot;</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
 <span class="n">hist</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">normal_data</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;qq_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_126_0.png" src="_images/05.02-ttest_126_0.png" />
+<img alt="_images/05.02-ttest_126_1.png" src="_images/05.02-ttest_126_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qq" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 2.24 </span><span class="caption-text">QQ plot (left) and histogram (right) of <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, a normally distributed sample with 100 observations. The Shapiro-Wilk statistic associated with these data is <span class="math notranslate nohighlight">\(W = .99\)</span>, indicating that no significant departures from normality were detected (<span class="math notranslate nohighlight">\(p = .73\)</span>).</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">¶</a></p>
 </div>
 <p>And the results are shown in {numref}(<code class="docutils literal notranslate"><span class="pre">fig-qq</span></code>), above.</p>
@@ -2367,6 +2374,8 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 
 <span class="n">qq</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dist</span><span class="o">=</span><span class="s2">&quot;norm&quot;</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
 <span class="n">hist</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;qqskew_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2384,18 +2393,24 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 
 <span class="n">qq</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dist</span><span class="o">=</span><span class="s2">&quot;norm&quot;</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
 <span class="n">hist</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;qqheavy_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_131_0.png" src="_images/05.02-ttest_131_0.png" />
+<img alt="_images/05.02-ttest_131_1.png" src="_images/05.02-ttest_131_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qqheavy" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
 </div>
-<p>The skewness of the data in {numre}(qqskew) is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W=.80\)</span>, reflecting a significant departure from normality (<span class="math notranslate nohighlight">\(p&lt;.001\)</span>).</p>
+</div>
+</div>
+<p>The skewness of the data in {numref}(qqskew) is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W=.80\)</span>, reflecting a significant departure from normality (<span class="math notranslate nohighlight">\(p&lt;.001\)</span>).</p>
 <p>{numref}(qqheavy) shows the same plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W = .93\)</span>, again reflecting significant non-normality (<span class="math notranslate nohighlight">\(p &lt; .001\)</span>).</p>
-<p>One way to check whether a sample violates the normality assumption is to draw a <strong><em>“quantile-quantile” plot</em></strong> (QQ plot). This allows you to visually check whether you’re seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <code class="docutils literal notranslate"><span class="pre">qqnorm()</span></code>. The <code class="docutils literal notranslate"><span class="pre">qqnorm()</span></code> function has a few arguments, but the only one we really need to care about here is <code class="docutils literal notranslate"><span class="pre">y</span></code>, a vector specifying the data whose normality we’re interested in checking. Here’s the R commands:</p>
 </div>
 <div class="section" id="shapiro-wilk-tests">
 <h3><span class="section-number">2.8.2. </span>Shapiro-Wilk tests<a class="headerlink" href="#shapiro-wilk-tests" title="Permalink to this headline">¶</a></h3>
