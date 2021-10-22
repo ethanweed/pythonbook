@@ -511,13 +511,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-python-part-1">
-     2.5.3. Doing the test in Python, part 1
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r-part-2">
-     2.5.4. Doing the test in R, part 2
+    <a class="reference internal nav-link" href="#id17">
+     2.5.3. Doing the test in Python
     </a>
    </li>
   </ul>
@@ -528,18 +523,13 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#using-the-t-test-function-ttestfunction">
-   2.7. Using the t.test() function{#ttestfunction}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#effect-size-cohensd">
-   2.8. Effect size{#cohensd}
+   2.7. Effect size{#cohensd}
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#cohen-s-d-from-one-sample">
-     2.8.1. Cohen’s
+     2.7.1. Cohen’s
      <span class="math notranslate nohighlight">
       \(d\)
      </span>
@@ -548,7 +538,7 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#cohen-s-d-from-a-student-t-test">
-     2.8.2. Cohen’s
+     2.7.2. Cohen’s
      <span class="math notranslate nohighlight">
       \(d\)
      </span>
@@ -561,7 +551,7 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#cohen-s-d-from-a-welch-test">
-     2.8.3. Cohen’s
+     2.7.3. Cohen’s
      <span class="math notranslate nohighlight">
       \(d\)
      </span>
@@ -570,7 +560,7 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#cohen-s-d-from-a-paired-samples-test">
-     2.8.4. Cohen’s
+     2.7.4. Cohen’s
      <span class="math notranslate nohighlight">
       \(d\)
      </span>
@@ -581,41 +571,41 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#checking-the-normality-of-a-sample-shapiro">
-   2.9. Checking the normality of a sample{#shapiro}
+   2.8. Checking the normality of a sample{#shapiro}
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#qq-plots">
-     2.9.1. QQ plots
+     2.8.1. QQ plots
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#shapiro-wilk-tests">
-     2.9.2. Shapiro-Wilk tests
+     2.8.2. Shapiro-Wilk tests
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#testing-non-normal-data-with-wilcoxon-tests-wilcox">
-   2.10. Testing non-normal data with Wilcoxon tests{#wilcox}
+   2.9. Testing non-normal data with Wilcoxon tests{#wilcox}
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#two-sample-wilcoxon-test">
-     2.10.1. Two sample Wilcoxon test
+     2.9.1. Two sample Wilcoxon test
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#one-sample-wilcoxon-test">
-     2.10.2. One sample Wilcoxon test
+     2.9.2. One sample Wilcoxon test
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   2.11. Summary
+   2.10. Summary
   </a>
  </li>
 </ul>
@@ -1497,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13b563cd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134424220&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1617,34 +1607,10 @@ mean grade for B&#39;s students: 69.05555555555556
 </div>
 </div>
 <p>You probably noticed that in addition to telling <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> which means I wanted to compare, I also added the argument <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code> to the command. This wasn’t strictly necessary in this case, because by default this argument is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. But I made it explicit anyway, because we will be using this argument again later. By saying <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code>, what we’re really doing is telling Python to use the <em>Student</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. More on this later.</p>
-<p>But what, I hear you saying, about confidence intervals? We calculated them for the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test; wouldn’t it be a good idea to do that for the independent-samples <span class="math notranslate nohighlight">\(t\)</span>-test as well? Well, yes, you’re right, it would be a good idea, so let’s do it. It would be nice if <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> would provide these for us automatically, since the information is all there, but on the other hand, going through the steps <em>does</em> serve as a good reminder of what is actually happening.</p>
-<p>For an indenpendent samples <span class="math notranslate nohighlight">\(t\)</span>-test, the confidence interval is for the <em>difference</em> between the group means, that is, it is telling us that the true difference probably lies between the upper and lower bounds of the confidence interval. So, how do we calculate those bounds?</p>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">26</span><span class="o">-</span><span class="n">c39bad49718f</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> 
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># upper and lower bounds</span>
-<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">lb</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="n">pooled_se</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="n">pooled_se</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> 
-
-<span class="ne">NameError</span>: name &#39;t&#39; is not defined
-</pre></div>
-</div>
-</div>
-</div>
-<p>It’s pretty important to be clear on what this confidence interval actually refers to: it is a confidence interval for the <em>difference</em> between the group means. In our example, Anastasia’s students had an average grade of 74.5, and Bernadette’s students had an average grade of 69.1, so the difference between the two sample means is 5.4. But of course the difference between population means might be bigger or smaller than this. The confidence interval reported by the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function tells you that there’s a 95% chance that the true difference between means lies between 0.2 and 10.8.</p>
 <p>In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:</p>
 <blockquote>
 <div><p>The mean grade in Anastasia’s class was 74.5% (std dev = 9.0), whereas the mean in Bernadette’s class was 69.1% (std dev = 5.8). A Student’s independent samples <span class="math notranslate nohighlight">\(t\)</span>-test showed that this 5.4% difference was significant (<span class="math notranslate nohighlight">\(t(31) = 2.1\)</span>, <span class="math notranslate nohighlight">\(p&lt;.05\)</span>), suggesting that a genuine difference in learning outcomes has occurred.</p>
 </div></blockquote>
-<p>In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:</p>
-<blockquote>
-<div><p>The mean grade in Anastasia’s class was 74.5% (std dev = 9.0), whereas the mean in Bernadette’s class was 69.1% (std dev = 5.8). A Student’s independent samples <span class="math notranslate nohighlight">\(t\)</span>-test showed that this 5.4% difference was significant (<span class="math notranslate nohighlight">\(t(31) = 2.1\)</span>, <span class="math notranslate nohighlight">\(p&lt;.05\)</span>, <span class="math notranslate nohighlight">\(CI_{95} = [0.2, 10.8]\)</span>, <span class="math notranslate nohighlight">\(d = .74\)</span>), suggesting that a genuine difference in learning outcomes has occurred.</p>
-</div></blockquote>
-<p>Notice that I’ve included the confidence interval and the effect size in the stat block. People don’t always do this. At a bare minimum, you’d expect to see the <span class="math notranslate nohighlight">\(t\)</span>-statistic, the degrees of freedom and the <span class="math notranslate nohighlight">\(p\)</span> value. So you should include something like this at a minimum: <span class="math notranslate nohighlight">\(t(31) = 2.1\)</span>, <span class="math notranslate nohighlight">\(p&lt;.05\)</span>. If statisticians had their way, everyone would also report the confidence interval and probably the effect size measure too, because they are useful things to know. But real life doesn’t always work the way statisticians want it to: you should make a judgment based on whether you think it will help your readers, and (if you’re writing a scientific paper) the editorial standard for the journal in question. Some journals expect you to report effect sizes, others don’t. Within some scientific communities it is standard practice to report confidence intervals, in other it is not. You’ll need to figure out what your audience expects. But, just for the sake of clarity, if you’re taking my class: my default position is that it’s usually worth includng the effect size, but don’t worry about the confidence interval unless the assignment asks you to or implies that you should.</p>
 </div>
 <div class="section" id="positive-and-negative-t-values">
 <h3><span class="section-number">2.3.7. </span>Positive and negative <span class="math notranslate nohighlight">\(t\)</span> values<a class="headerlink" href="#positive-and-negative-t-values" title="Permalink to this headline">¶</a></h3>
@@ -1736,10 +1702,10 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x141ca25e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1347150a0&gt;
 </pre></div>
 </div>
-<img alt="_images/05.02-ttest_80_1.png" src="_images/05.02-ttest_80_1.png" />
+<img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-ttesthyp2" style="width: 600px">
@@ -1956,7 +1922,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_93_0.png" src="_images/05.02-ttest_93_0.png" />
+<img alt="_images/05.02-ttest_89_0.png" src="_images/05.02-ttest_89_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-pairedta" style="width: 600px">
@@ -2020,48 +1986,95 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\hat\sigma_D\)</span> is the standard deviation of the difference scores. Since this is just an ordinary, one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, with nothing special about it, the degrees of freedom are still <span class="math notranslate nohighlight">\(N-1\)</span>. And that’s it: the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test really isn’t a new test at all: it’s a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, but applied to the difference between two variables. It’s actually very simple; the only reason it merits a discussion as long as the one we’ve just gone through is that you need to be able to recognise <em>when</em> a paired samples test is appropriate, and to understand <em>why</em> it’s better than an independent samples <span class="math notranslate nohighlight">\(t\)</span> test.</p>
 </div>
-<div class="section" id="doing-the-test-in-python-part-1">
-<h3><span class="section-number">2.5.3. </span>Doing the test in Python, part 1<a class="headerlink" href="#doing-the-test-in-python-part-1" title="Permalink to this headline">¶</a></h3>
-<p>How do you do a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test in R. One possibility is to follow the process I outlined above: create a “difference” variable and then run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on that. Since we’ve already created a variable called <code class="docutils literal notranslate"><span class="pre">chico$improvement</span></code>, let’s do that:</p>
-<p>The output here is (obviously) formatted exactly the same was as it was the last time we used the <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code> function (Section &#64;ref(onesamplettest)), and it confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<span class="math notranslate nohighlight">\(t(19)=6.48, p&lt;.001\)</span>).</p>
-<p>However, suppose you’re lazy and you don’t want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function, also in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package. Let’s assume that your data organised like they are in the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a <em>one-sided</em> formula, just like you did when running a test of association using the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in Chapter &#64;ref(chisquare). For the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, the formula that you need would be <code class="docutils literal notranslate"><span class="pre">~</span> <span class="pre">grade_time2</span> <span class="pre">+</span> <span class="pre">grade_time1</span></code>. As usual, you’ll also need to input the name of the data frame too. So the command just looks like this:</p>
-<p>The numbers are identical to those that come from the one sample test, which of course they have to be given that the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is just a one sample test under the hood. However, the output is a bit more detailed:</p>
-<p>This time around the descriptive statistics block shows you the means and standard deviations for the original variables, as well as for the difference variable (notice that it always defines the difference as the first listed variable mines the second listed one). The null hypothesis and the alternative hypothesis are now framed in terms of the original variables rather than the difference score, but you should keep in mind that in a paired samples test it’s still the difference score being tested. The statistical information at the bottom about the test result is of course the same as before.</p>
-</div>
-<div class="section" id="doing-the-test-in-r-part-2">
-<h3><span class="section-number">2.5.4. </span>Doing the test in R, part 2<a class="headerlink" href="#doing-the-test-in-r-part-2" title="Permalink to this headline">¶</a></h3>
-<p>The paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is a little different from the other <span class="math notranslate nohighlight">\(t\)</span>-tests, because it is used in repeated measures designs. For the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data, every student is “measured” twice, once for the first test, and again for the second test. Back in Section &#64;ref(reshape) I talked about the fact that repeated measures data can be expressed in two standard ways, known as <em>wide form</em> and <em>long form</em>. The <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame is in wide form: every row corresponds to a unique <em>person</em>. I’ve shown you the data in that form first because that’s the form that you’re most used to seeing, and it’s also the format that you’re most likely to receive data in. However, the majority of tools in R for dealing with repeated measures data expect to receive data in long form. The paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is a bit of an exception that way.</p>
-<p>As you make the transition from a novice user to an advanced one, you’re going to have to get comfortable with long form data, and switching between the two forms. To that end, I want to show you how to apply the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function to long form data. First, let’s use the <code class="docutils literal notranslate"><span class="pre">wideToLong()</span></code> function to create a long form version of the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame. If you’ve forgotten how the  <code class="docutils literal notranslate"><span class="pre">wideToLong()</span></code> function works, it might be worth your while quickly re-reading Section &#64;ref(reshape). Assuming that you’ve done so, or that you’re already comfortable with data reshaping, I’ll use it to create a new data frame called <code class="docutils literal notranslate"><span class="pre">chico2</span></code>:</p>
-<p>As you can see, this has created a new data frame containing three variables: an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable indicating which person provided the data, a <code class="docutils literal notranslate"><span class="pre">time</span></code> variable indicating which test the data refers to (i.e., test 1 or test 2), and a <code class="docutils literal notranslate"><span class="pre">grade</span></code> variable that records what score the person got on that test. Notice that this data frame is in long form: every row corresponds to a unique <em>measurement</em>. Because every person provides two observations (test 1 and test 2), there are two rows for every person. To see this a little more clearly, I’ll use the <code class="docutils literal notranslate"><span class="pre">sortFrame()</span></code> function to sort the rows of <code class="docutils literal notranslate"><span class="pre">chico2</span></code> by <code class="docutils literal notranslate"><span class="pre">id</span></code> variable (see Section &#64;ref(sortframe)).</p>
-<p>As you can see, there are two rows for “student1”: one showing their grade on the first test, the other showing their grade on the second test.^[The <code class="docutils literal notranslate"><span class="pre">sortFrame()</span></code> function sorts factor variables like <code class="docutils literal notranslate"><span class="pre">id</span></code> in alphabetical order, which is why it jumps from “student1” to “student10”]</p>
-<p>Okay, suppose that we were given the <code class="docutils literal notranslate"><span class="pre">chico2</span></code> data frame to analyse. How would we run our paired samples <span class="math notranslate nohighlight">\(t\)</span>-test now? One possibility would be to use the <code class="docutils literal notranslate"><span class="pre">longToWide()</span></code> function (Section &#64;ref(reshape)) to force the data back into wide form, and do the same thing that we did previously. But that’s sort of defeating the point, and besides, there’s an easier way. Let’s think about what how the <code class="docutils literal notranslate"><span class="pre">chico2</span></code> data frame is structured: there are three variables here, and they all matter. The outcome measure is stored as the <code class="docutils literal notranslate"><span class="pre">grade</span></code>, and we effectively have two “groups” of measurements (test 1 and test 2) that are defined by the <code class="docutils literal notranslate"><span class="pre">time</span></code> points at which a test is given. Finally, because we want to keep track of which measurements should be paired together, we need to know which student obtained each grade, which is what the <code class="docutils literal notranslate"><span class="pre">id</span></code> variable gives us. So, when your data are presented to you in long form, we would want specify a <em>two-sided</em> formula and a data frame, in the same way that we do for an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test: the formula specifies the outcome variable and the groups, so in this case it would be <code class="docutils literal notranslate"><span class="pre">grade</span> <span class="pre">~</span> <span class="pre">time</span></code>, and the data frame is <code class="docutils literal notranslate"><span class="pre">chico2</span></code>. However, we also need to tell it the id variable, which in this case is boringly called <code class="docutils literal notranslate"><span class="pre">id</span></code>. So our command is:</p>
-<p>Note that the name of the id variable is <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code> and not <code class="docutils literal notranslate"><span class="pre">id</span></code>. Note that the <code class="docutils literal notranslate"><span class="pre">id</span></code> variable must be a factor. As of the current writing, you do need to include the quote marks, because the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function is expecting a <em>character string</em> that specifies the name of a variable. If I ever find the time I’ll try to relax this constraint.</p>
-<p>As you can see, it’s a bit more detailed than the output from <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code>. It gives you the descriptive statistics for the original variables, states the null hypothesis in a fashion that is a bit more appropriate for a repeated measures design, and then reports all the nuts and bolts from the hypothesis test itself. Not surprisingly the numbers the same as the ones that we saw last time.</p>
-<p>One final comment about the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function. One of the reasons I designed it to be able handle long form and wide form data is that I want you to be get comfortable thinking about repeated measures data in both formats, and also to become familiar with the different ways in which R functions tend to specify models and tests for repeated measures data. With that last point in mind, I want to highlight a slightly different way of thinking about what the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test is doing. There’s a sense in which what you’re really trying to do is look at how the outcome variable (<code class="docutils literal notranslate"><span class="pre">grade</span></code>) is related to the grouping variable (<code class="docutils literal notranslate"><span class="pre">time</span></code>), after taking account of the fact that there are individual differences between people (<code class="docutils literal notranslate"><span class="pre">id</span></code>). So there’s a sense in which <code class="docutils literal notranslate"><span class="pre">id</span></code> is actually a <em>second</em> predictor: you’re trying to predict the <code class="docutils literal notranslate"><span class="pre">grade</span></code> on the basis of the <code class="docutils literal notranslate"><span class="pre">time</span></code> and the <code class="docutils literal notranslate"><span class="pre">id</span></code>. With that in mind, the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function lets you specify a formula like this one</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grade</span> <span class="o">~</span> <span class="n">time</span> <span class="o">+</span> <span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+<div class="section" id="id17">
+<h3><span class="section-number">2.5.3. </span>Doing the test in Python<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>How do you do a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test in Python? One possibility is to follow the process I outlined above: create a “difference” variable and then run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on that, setting the population mean argument <code class="docutils literal notranslate"><span class="pre">popmean</span></code> to zero. Since we’ve already created a variable called <code class="docutils literal notranslate"><span class="pre">improvement</span></code>, let’s do that:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
+<span class="n">ttest_1samp</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This formula tells R everything it needs to know: the variable on the left (<code class="docutils literal notranslate"><span class="pre">grade</span></code>) is the outcome variable, the bracketed term on the right (<code class="docutils literal notranslate"><span class="pre">id</span></code>) is the id variable, and the other term on the right is the grouping variable (<code class="docutils literal notranslate"><span class="pre">time</span></code>). If you specify your formula that way, then you only need to specify the <code class="docutils literal notranslate"><span class="pre">formula</span></code> and the <code class="docutils literal notranslate"><span class="pre">data</span></code> frame, and so you can get away with using a command as simple as this one:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pairedSamplesTTest</span><span class="p">(</span> 
-     <span class="n">formula</span> <span class="o">=</span> <span class="n">grade</span> <span class="o">~</span> <span class="n">time</span> <span class="o">+</span> <span class="p">(</span><span class="nb">id</span><span class="p">),</span>
-     <span class="n">data</span> <span class="o">=</span> <span class="n">chico2</span>
-  <span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ttest_1sampResult(statistic=6.475436088339379, pvalue=3.320670056126948e-06)
 </pre></div>
 </div>
-<p>or you can drop the argument names and just do this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pairedSamplesTTest</span><span class="p">(</span> <span class="n">grade</span> <span class="o">~</span> <span class="n">time</span> <span class="o">+</span> <span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="n">chico2</span> <span class="p">)</span>
+</div>
+</div>
+<p>However, suppose you’re lazy and you don’t want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, <code class="docutils literal notranslate"><span class="pre">scipy</span></code> also has a built-in method for conducting paired <span class="math notranslate nohighlight">\(t\)</span>-tests called <code class="docutils literal notranslate"><span class="pre">ttest_rel</span></code> (the <code class="docutils literal notranslate"><span class="pre">_rel</span></code> part is for “related”). Using this method, we get:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_rel</span>
+
+<span class="n">ttest_rel</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>These commands will produce the same output as the last one, I personally find this format a lot more elegant. That being said, the main reason for allowing you to write your formulas that way is that they’re quite similar to the way that mixed models (fancy pants repeated measures analyses) are specified in the <code class="docutils literal notranslate"><span class="pre">lme4</span></code> package. This book doesn’t talk about mixed models (yet!), but if you go on to learn more statistics you’ll find them pretty hard to avoid, so I’ve tried to lay a little bit of the groundwork here.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ttest_relResult(statistic=6.475436088339379, pvalue=3.320670056126948e-06)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Either way, the result is exactly the same, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<span class="math notranslate nohighlight">\(t\)</span>(19) = 6.48, <span class="math notranslate nohighlight">\(p\)</span> &lt; .001). In fact, <span class="math notranslate nohighlight">\(p\)</span> is quite a bit less than one, since the <span class="math notranslate nohighlight">\(p\)</span>-value has been given in scientific notation. The exact <span class="math notranslate nohighlight">\(p\)</span>-value is <span class="math notranslate nohighlight">\(3.32^{-06}\)</span>, that is, <span class="math notranslate nohighlight">\(p\)</span> = 0.0000032.</p>
 </div>
 </div>
 <div class="section" id="one-sided-tests">
 <h2><span class="section-number">2.6. </span>One sided tests<a class="headerlink" href="#one-sided-tests" title="Permalink to this headline">¶</a></h2>
-<p>When introducing the theory of null hypothesis tests, I mentioned that there are some situations when it’s appropriate to specify a <em>one-sided</em> test (see Section &#64;ref(onesidedtests)). So far, all of the <span class="math notranslate nohighlight">\(t\)</span>-tests have been two-sided tests. For instance, when we specified a one sample <span class="math notranslate nohighlight">\(t\)</span>-test for the grades in Dr Zeppo’s class, the null hypothesis was that the true mean was 67.5%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5%. Suppose we were only interested in finding out if the true mean is greater than 67.5%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5%. If so, our null hypothesis would be that the true mean is 67.5% or less, and the alternative hypothesis would be that the true mean is greater than 67.5%. The <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code> function lets you do this, by specifying the <code class="docutils literal notranslate"><span class="pre">one.sided</span></code> argument. If you set <code class="docutils literal notranslate"><span class="pre">one.sided=&quot;greater&quot;</span></code>, it means that you’re testing to see if the true mean is larger than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. If you set <code class="docutils literal notranslate"><span class="pre">one.sided=&quot;less&quot;</span></code>, then you’re testing to see if the true mean is smaller than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. Here’s how it would work for Dr Zeppo’s class:</p>
-<p>Notice that there are a few changes from the output that we saw last time. Most important is the fact that the null and alternative hypotheses have changed, to reflect the different test. The second thing to note is that, although the <span class="math notranslate nohighlight">\(t\)</span>-statistic and degrees of freedom have not changed, the <span class="math notranslate nohighlight">\(p\)</span>-value has. This is because the one-sided test has a different rejection region from the two-sided test. If you’ve forgotten why this is and what it means, you may find it helpful to read back over Chapter &#64;ref(hypothesistesting), and Section &#64;ref(onesidedtests) in particular. The third thing to note is that the confidence interval is different too: it now reports a “one-sided” confidence interval rather than a two-sided one. In a two-sided confidence interval, we’re trying to find numbers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that we’re 95% confident that the true mean lies <em>between</em> <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. In a one-sided confidence interval, we’re trying to find a single number <span class="math notranslate nohighlight">\(a\)</span> such that we’re 95% confident that the true mean is <em>greater than</em> <span class="math notranslate nohighlight">\(a\)</span> (or less than <span class="math notranslate nohighlight">\(a\)</span> if you set <code class="docutils literal notranslate"><span class="pre">one.sided=&quot;less&quot;</span></code>).</p>
-<p>So that’s how to do a one-sided one sample <span class="math notranslate nohighlight">\(t\)</span>-test. However, all versions of the <span class="math notranslate nohighlight">\(t\)</span>-test can be one-sided. For an independent samples <span class="math notranslate nohighlight">\(t\)</span> test, you could have a one-sided test if you’re only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let’s suppose that, for Dr Harpo’s class, you wanted to see if Anastasia’s students had higher grades than Bernadette’s. The <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function lets you do this, again by specifying the <code class="docutils literal notranslate"><span class="pre">one.sided</span></code> argument. However, this time around you need to specify the name of the group that you’re expecting to have the higher score. In our case, we’d write <code class="docutils literal notranslate"><span class="pre">one.sided</span> <span class="pre">=</span> <span class="pre">&quot;Anastasia&quot;</span></code>. So the command would be:</p>
-<p>Again, the output changes in a predictable way. The definition of the null and alternative hypotheses has changed, the <span class="math notranslate nohighlight">\(p\)</span>-value has changed, and it now reports a one-sided confidence interval rather than a two-sided one.</p>
-<p>What about the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test? Suppose we wanted to test the hypothesis that grades go <em>up</em> from test 1 to test 2 in Dr Zeppo’s class, and are not prepared to consider the idea that the grades go down. Again, we can use the <code class="docutils literal notranslate"><span class="pre">one.sided</span></code> argument to specify the one-sided test, and it works the same way it does for the independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. You need to specify the name of the group whose scores are expected to be larger under the alternative hypothesis. If your data are in wide form, as they are in the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, you’d use this command:</p>
+<p>When introducing the theory of null hypothesis tests, I mentioned that there are some situations <a class="reference internal" href="04.04-hypothesis-testing.html#one-two-sided"><span class="std std-ref">when it’s appropriate to specify a <em>one-sided</em> test</span></a>. So far, all of the <span class="math notranslate nohighlight">\(t\)</span>-tests have been two-sided tests. For instance, when we specified a one sample <span class="math notranslate nohighlight">\(t\)</span>-test for the grades in Dr Zeppo’s class, the null hypothesis was that the true mean was 67.5%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5%. Suppose we were only interested in finding out if the true mean is greater than 67.5%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5%. If so, our null hypothesis would be that the true mean is 67.5% or less, and the alternative hypothesis would be that the true mean is greater than 67.5%. The <code class="docutils literal notranslate"><span class="pre">test_1samp</span></code> method lets you do this, by specifying the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'greater'</span></code>, it means that you’re testing to see if the true mean is larger than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'less'</span></code>, then you’re testing to see if the true mean is smaller than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. To see how it would work for Dr Zeppo’s class, let’s compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to “greater”:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Two-sided:&#39;</span><span class="p">,</span> <span class="n">ttest_1samp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;One-sided:&#39;</span><span class="p">,</span> <span class="n">ttest_1samp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;greater&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Two-sided: Ttest_1sampResult(statistic=2.25471286700693, pvalue=0.03614521878144544)
+One-sided: Ttest_1sampResult(statistic=2.25471286700693, pvalue=0.01807260939072272)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <span class="math notranslate nohighlight">\(t\)</span>-statistics are exactly the same, which makes sense, if you think about it, because the calculation of the <span class="math notranslate nohighlight">\(t\)</span> is based on the mean and standard deviation, and these do not change. The <span class="math notranslate nohighlight">\(p\)</span>-value, on the other hand, is lower for the one-sided test. The only thing that changes between the two test is the <em>expectation</em> that we bring to data. The way that the <span class="math notranslate nohighlight">\(p\)</span>-value is calculated depends on those expectations, and they are the reason for choosing one test over the other. It should go without saying, but maybe is worth saying anyway, that our reasons for choosing one test over the other should be theoretical, and not based on which test is more likely to give us the <span class="math notranslate nohighlight">\(p\)</span>-value we want!</p>
+<p>So that’s how to do a one-sided one sample <span class="math notranslate nohighlight">\(t\)</span>-test. However, all versions of the <span class="math notranslate nohighlight">\(t\)</span>-test can be one-sided. For an independent samples <span class="math notranslate nohighlight">\(t\)</span> test, you could have a one-sided test if you’re only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let’s suppose that, for Dr Harpo’s class, you wanted to see if Anastasia’s students had higher grades than Bernadette’s. The <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> function lets you do this, again by specifying the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument. However, this time around the order that we enter the variables in the test makes a difference. If we expect that Anastasia’s students have higher grades, and we want to conduct a one-sided test, we need to the data for Anastasia’s students <em>first</em>. Otherwise, we end up testing the hypothesis that <em>Bernadette’s</em> students had the higher grade, which is the opposite of what we intended:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># create two new variables for the grades from each tutor&#39;s students</span>
+<span class="n">Anastasia</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Anastasia&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">Bernadette</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bernadette&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+<span class="c1"># run an independent samples t-test</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Two-sided:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;One-sided, Anastasia first:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;greater&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;One-sided, Bernadette first:&#39;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">,</span> <span class="n">Anastasia</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;greater&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Two-sided: Ttest_indResult(statistic=array([2.11543239]), pvalue=array([0.04252949]))
+
+One-sided, Anastasia first: Ttest_indResult(statistic=array([2.11543239]), pvalue=array([0.02126474]))
+
+One-sided, Bernadette first: Ttest_indResult(statistic=array([-2.11543239]), pvalue=array([0.97873526]))
+</pre></div>
+</div>
+</div>
+</div>
+<p>What about the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test? Suppose we wanted to test the hypothesis that grades go <em>up</em> from test 1 to test 2 in Dr Zeppo’s class, and are not prepared to consider the idea that the grades go down. Again, we can use the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument to specify the one-sided test, and it works the same way it does for the independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. You need to specify the name of the group whose scores are expected to be larger under the alternative hypothesis. If your data are in wide form, as they are in the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, you’d use this command:</p>
 <p>Yet again, the output changes in a predictable way. The hypotheses have changed, the <span class="math notranslate nohighlight">\(p\)</span>-value has changed, and the confidence interval is now one-sided. If your data are in long form, as they are in the <code class="docutils literal notranslate"><span class="pre">chico2</span></code> data frame, it still works the same way. Either of the following commands would work,</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>&gt; pairedSamplesTTest( 
     formula = grade ~ time, 
@@ -2079,19 +2092,8 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 </div>
 <p>and would produce the same answer as the output shown above.</p>
 </div>
-<div class="section" id="using-the-t-test-function-ttestfunction">
-<h2><span class="section-number">2.7. </span>Using the t.test() function{#ttestfunction}<a class="headerlink" href="#using-the-t-test-function-ttestfunction" title="Permalink to this headline">¶</a></h2>
-<p>In this chapter, we’ve talked about three different kinds of <span class="math notranslate nohighlight">\(t\)</span>-test: the one sample test, the independent samples test (Student’s and Welch’s), and the paired samples test. In order to run these different tests, I’ve shown you three different functions: <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code>, <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> and <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code>. I wrote these as three different functions for two reasons. Firstly, I thought it made sense to have separate functions for each test, in order to help make it clear to beginners that there <em>are</em> different tests. Secondly, I wanted to show you some functions that produced “verbose” output, to help you see what hypotheses are being tested and so on.</p>
-<p>However, once you’ve started to become familiar with <span class="math notranslate nohighlight">\(t\)</span>-tests and with using R, you might find it easier to use the <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> function. It’s one function, but it can run all four of the different <span class="math notranslate nohighlight">\(t\)</span>-tests that we’ve talked about. Here’s how it works.  Firstly, suppose you want to run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test. To run the test on the <code class="docutils literal notranslate"><span class="pre">grades</span></code> data from Dr Zeppo’s class (Section &#64;ref(onesamplettest)), we’d use a command like this:</p>
-<p>The input is the same as for the <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code>: we specify the sample data using the argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, and the value against which it is to be tested using the argument <code class="docutils literal notranslate"><span class="pre">mu</span></code>. The output is a lot more compressed.</p>
-<p>As you can see, it still has all the information you need. It tells you what type of test it ran and the data it tested it on. It gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, the degrees of freedom and the <span class="math notranslate nohighlight">\(p\)</span>-value. And so on. There’s nothing wrong with this output, but in my experience it can be a little confusing when you’re just starting to learn statistics, because it’s a little disorganised. Once you know what you’re looking at though, it’s pretty easy to read off the relevant information.</p>
-<p>What about independent samples <span class="math notranslate nohighlight">\(t\)</span>-tests? As it happens, the <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> function can be used in much the same way as the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function, by specifying a formula, a data frame, and using <code class="docutils literal notranslate"><span class="pre">var.equal</span></code> to indicate whether you want a Student test or a Welch test. If you want to run the Welch test from Section &#64;ref(welchttest), then you’d use this command:</p>
-<p>If you want to do the Student test, it’s exactly the same except that you need to add an additional argument indicating that <code class="docutils literal notranslate"><span class="pre">var.equal</span> <span class="pre">=</span> <span class="pre">TRUE</span></code>. This is no different to how it worked in the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function.</p>
-<p>Finally, we come to the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test. Somewhat surprisingly, given that most R functions for dealing with repeated measures data require data to be in long form, the <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> function isn’t really set up to handle data in long form. Instead it expects to be given two separate variables, <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, and you need to specify <code class="docutils literal notranslate"><span class="pre">paired=TRUE</span></code>. And on top of that, you’d better make sure that the first element of <code class="docutils literal notranslate"><span class="pre">x</span></code> and the first element of <code class="docutils literal notranslate"><span class="pre">y</span></code> actually correspond to the same person! Because it doesn’t ask for an “id” variable. I don’t know why. So, in order to run the paired samples <span class="math notranslate nohighlight">\(t\)</span> test on the data from Dr Chico’s class, we’d use this command:</p>
-<p>Yet again, these are the same numbers that we saw in Section &#64;ref(pairedsamplesttest). Feel free to check.</p>
-</div>
 <div class="section" id="effect-size-cohensd">
-<h2><span class="section-number">2.8. </span>Effect size{#cohensd}<a class="headerlink" href="#effect-size-cohensd" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.7. </span>Effect size{#cohensd}<a class="headerlink" href="#effect-size-cohensd" title="Permalink to this headline">¶</a></h2>
 <p>The most commonly used measure of effect size for a <span class="math notranslate nohighlight">\(t\)</span>-test is <strong><em>Cohen’s <span class="math notranslate nohighlight">\(d\)</span></em></strong> [&#64;Cohen1988]. It’s a very simple measure in principle, with quite a few wrinkles when you start digging into the details. Cohen himself defined it primarily in the context of an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test, specifically the Student test. In that context, a natural way of defining the effect size is to divide the difference between the means by an estimate of the standard deviation. In other words, we’re looking to calculate <em>something</em> along the lines of this:
 $<span class="math notranslate nohighlight">\(
 d = \frac{\mbox{(mean 1)} - \mbox{(mean 2)}}{\mbox{std dev}}
@@ -2107,7 +2109,7 @@ and he suggested a rough guide for interpreting \)</span>d<span class="math notr
 </pre></div>
 </div>
 <div class="section" id="cohen-s-d-from-one-sample">
-<h3><span class="section-number">2.8.1. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from one sample<a class="headerlink" href="#cohen-s-d-from-one-sample" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.7.1. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from one sample<a class="headerlink" href="#cohen-s-d-from-one-sample" title="Permalink to this headline">¶</a></h3>
 <p>The simplest situation to consider is the one corresponding to a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test. In this case, the one sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> and one (hypothesised) population mean <span class="math notranslate nohighlight">\(\mu_o\)</span> to compare it to. Not only that, there’s really only one sensible way to estimate the population standard deviation: we just use our usual estimate <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span>. Therefore, we end up with the following as the only way to calculate <span class="math notranslate nohighlight">\(d\)</span>,
 $<span class="math notranslate nohighlight">\(
 d = \frac{\bar{X} - \mu_0}{\hat{\sigma}}
@@ -2122,7 +2124,7 @@ When writing the `cohensD()` function, I've made some attempt to make it work in
 <p>Yep, same number. Overall, then, the psychology students in Dr Zeppo’s class are achieving grades (mean = 72.3%) that are about .5 standard deviations higher than the level that you’d expect (67.5%) if they were performing at the same level as other students. Judged against Cohen’s rough guide, this is a moderate effect size.</p>
 </div>
 <div class="section" id="cohen-s-d-from-a-student-t-test">
-<h3><span class="section-number">2.8.2. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Student <span class="math notranslate nohighlight">\(t\)</span> test<a class="headerlink" href="#cohen-s-d-from-a-student-t-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.7.2. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Student <span class="math notranslate nohighlight">\(t\)</span> test<a class="headerlink" href="#cohen-s-d-from-a-student-t-test" title="Permalink to this headline">¶</a></h3>
 <p>The majority of discussions of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> focus on a situation that is analogous to Student’s independent samples <span class="math notranslate nohighlight">\(t\)</span> test, and it’s in this context that the story becomes messier, since there are several different versions of <span class="math notranslate nohighlight">\(d\)</span> that you might want to use in this situation, and you can use the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">cohensD()</span></code> function to pick the one you want. To understand why there are multiple versions of <span class="math notranslate nohighlight">\(d\)</span>, it helps to take the time to write down a formula that corresponds to the true population effect size <span class="math notranslate nohighlight">\(\delta\)</span>. It’s pretty straightforward,
 $<span class="math notranslate nohighlight">\(
 \delta = \frac{\mu_1 - \mu_2}{\sigma}
@@ -2137,7 +2139,7 @@ where \)</span>\hat\sigma_p<span class="math notranslate nohighlight">\( is the 
 <p>This is the version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that gets reported by the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function whenever it runs a Student <span class="math notranslate nohighlight">\(t\)</span>-test.</p>
 </div>
 <div class="section" id="cohen-s-d-from-a-welch-test">
-<h3><span class="section-number">2.8.3. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Welch test<a class="headerlink" href="#cohen-s-d-from-a-welch-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.7.3. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Welch test<a class="headerlink" href="#cohen-s-d-from-a-welch-test" title="Permalink to this headline">¶</a></h3>
 <p>Suppose the situation you’re in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I’ll refer to this new measure as <span class="math notranslate nohighlight">\(\delta^\prime\)</span>, so as to keep it distinct from the measure <span class="math notranslate nohighlight">\(\delta\)</span> which we defined previously. What &#64;Cohen1988 suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get:
 $<span class="math notranslate nohighlight">\(
 \delta^\prime = \frac{\mu_1 - \mu_2}{\sigma^\prime}
@@ -2155,7 +2157,7 @@ as our estimate of the effect size. There’s nothing particularly difficult abo
 <p>This is the version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that gets reported by the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function whenever it runs a Welch <span class="math notranslate nohighlight">\(t\)</span>-test.</p>
 </div>
 <div class="section" id="cohen-s-d-from-a-paired-samples-test">
-<h3><span class="section-number">2.8.4. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a paired-samples test<a class="headerlink" href="#cohen-s-d-from-a-paired-samples-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.7.4. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a paired-samples test<a class="headerlink" href="#cohen-s-d-from-a-paired-samples-test" title="Permalink to this headline">¶</a></h3>
 <p>Finally, what should we do for a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test? In this case, the answer depends on what it is you’re trying to do. <em>If</em> you want to measure your effect sizes relative to the distribution of difference scores, the measure of <span class="math notranslate nohighlight">\(d\)</span> that you calculate is just (<code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">=</span> <span class="pre">&quot;paired&quot;</span></code>)
 $<span class="math notranslate nohighlight">\(
 d = \frac{\bar{D}}{\hat{\sigma}_D}
@@ -2166,10 +2168,10 @@ where \)</span>\hat{\sigma}_D$ is the estimate of the standard deviation of the 
 </div>
 </div>
 <div class="section" id="checking-the-normality-of-a-sample-shapiro">
-<h2><span class="section-number">2.9. </span>Checking the normality of a sample{#shapiro}<a class="headerlink" href="#checking-the-normality-of-a-sample-shapiro" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.8. </span>Checking the normality of a sample{#shapiro}<a class="headerlink" href="#checking-the-normality-of-a-sample-shapiro" title="Permalink to this headline">¶</a></h2>
 <p>All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section &#64;ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is <em>actually</em> an average of lots of different things, there’s a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using <span class="math notranslate nohighlight">\(t\)</span>-tests. However, life doesn’t come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there’s a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.^[This is a massive oversimplification.] This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.</p>
 <div class="section" id="qq-plots">
-<h3><span class="section-number">2.9.1. </span>QQ plots<a class="headerlink" href="#qq-plots" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.8.1. </span>QQ plots<a class="headerlink" href="#qq-plots" title="Permalink to this headline">¶</a></h3>
 <p>```{r qq1a, fig.cap=”Histogram of <code class="docutils literal notranslate"><span class="pre">normal.data</span></code>, a normally distributed sample with 100 observations.”, echo=FALSE}
 width &lt;- 5
 height &lt;- 5</p>
@@ -2227,7 +2229,7 @@ plotOne( heavy.tailed.data, “Heavy-Tailed Data” )</p>
 <p>One way to check whether a sample violates the normality assumption is to draw a <strong><em>“quantile-quantile” plot</em></strong> (QQ plot). This allows you to visually check whether you’re seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot using the R function <code class="docutils literal notranslate"><span class="pre">qqnorm()</span></code>. The <code class="docutils literal notranslate"><span class="pre">qqnorm()</span></code> function has a few arguments, but the only one we really need to care about here is <code class="docutils literal notranslate"><span class="pre">y</span></code>, a vector specifying the data whose normality we’re interested in checking. Here’s the R commands:</p>
 </div>
 <div class="section" id="shapiro-wilk-tests">
-<h3><span class="section-number">2.9.2. </span>Shapiro-Wilk tests<a class="headerlink" href="#shapiro-wilk-tests" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.8.2. </span>Shapiro-Wilk tests<a class="headerlink" href="#shapiro-wilk-tests" title="Permalink to this headline">¶</a></h3>
 <p>Although QQ plots provide a nice way to informally check the normality of your data, sometimes you’ll want to do something a bit more formal. And when that moment comes, the <strong><em>Shapiro-Wilk test</em></strong> [&#64;Shapiro1965] is probably what you’re looking for.^[Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I’ve read seem to suggest Shapiro-Wilk is the better test of normality; although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests; in R it’s implemented via the <code class="docutils literal notranslate"><span class="pre">ks.test()</span></code> function.] As you’d expect, the null hypothesis being tested is that a set of <span class="math notranslate nohighlight">\(N\)</span> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <span class="math notranslate nohighlight">\(W\)</span>, and it’s calculated as follows. First, we sort the observations in order of increasing size, and let <span class="math notranslate nohighlight">\(X_1\)</span> be the smallest value in the sample, <span class="math notranslate nohighlight">\(X_2\)</span> be the second smallest and so on. Then the value of <span class="math notranslate nohighlight">\(W\)</span> is given by
 $<span class="math notranslate nohighlight">\(
 W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar{X})^2}
@@ -2243,11 +2245,11 @@ where \)</span>\bar{X}<span class="math notranslate nohighlight">\( is the mean 
 </div>
 </div>
 <div class="section" id="testing-non-normal-data-with-wilcoxon-tests-wilcox">
-<h2><span class="section-number">2.10. </span>Testing non-normal data with Wilcoxon tests{#wilcox}<a class="headerlink" href="#testing-non-normal-data-with-wilcoxon-tests-wilcox" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.9. </span>Testing non-normal data with Wilcoxon tests{#wilcox}<a class="headerlink" href="#testing-non-normal-data-with-wilcoxon-tests-wilcox" title="Permalink to this headline">¶</a></h2>
 <p>Okay, suppose your data turn out to be pretty substantially non-normal, but you still want to run something like a <span class="math notranslate nohighlight">\(t\)</span>-test? This situation occurs a lot in real life: for the AFL winning margins data, for instance, the Shapiro-Wilk test made it very clear that the normality assumption is violated. This is the situation where you want to use Wilcoxon tests.</p>
 <p>Like the <span class="math notranslate nohighlight">\(t\)</span>-test, the Wilcoxon test comes in two forms, one-sample and two-sample, and they’re used in more or less the exact same situations as the corresponding <span class="math notranslate nohighlight">\(t\)</span>-tests. Unlike the <span class="math notranslate nohighlight">\(t\)</span>-test, the Wilcoxon test doesn’t assume normality, which is nice. In fact, they don’t make any assumptions about what kind of distribution is involved: in statistical jargon, this makes them <strong><em>nonparametric tests</em></strong>. While avoiding the normality assumption is nice, there’s a drawback: the Wilcoxon test is usually less powerful than the <span class="math notranslate nohighlight">\(t\)</span>-test (i.e., higher Type II error rate). I won’t discuss the Wilcoxon tests in as much detail as the <span class="math notranslate nohighlight">\(t\)</span>-tests, but I’ll give you a brief overview.</p>
 <div class="section" id="two-sample-wilcoxon-test">
-<h3><span class="section-number">2.10.1. </span>Two sample Wilcoxon test<a class="headerlink" href="#two-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.9.1. </span>Two sample Wilcoxon test<a class="headerlink" href="#two-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
 <p>I’ll start by describing the <strong><em>two sample Wilcoxon test</em></strong> (also known as the Mann-Whitney test), since it’s actually simpler than the one sample version. Suppose we’re looking at the scores of 10 people on some test. Since my imagination has now failed me completely, let’s pretend it’s a “test of awesomeness”, and there are two groups of people, “A” and “B”. I’m curious to know which group is more awesome. The data are included in the file <code class="docutils literal notranslate"><span class="pre">awesome.Rdata</span></code>, and like many of the data sets I’ve been using, it contains only a single data frame, in this case called <code class="docutils literal notranslate"><span class="pre">awesome</span></code>. Here’s the data:</p>
 <p>As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group <span class="math notranslate nohighlight">\(A\)</span> against every observation in group <span class="math notranslate nohighlight">\(B\)</span>. Whenever the group <span class="math notranslate nohighlight">\(A\)</span> datum is larger, we place a check mark in the table:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/ttest2/wilcox1.png&quot;))
@@ -2262,7 +2264,7 @@ Similarly, the <code class="docutils literal notranslate"><span class="pre">wilc
 <p>The output that R produces is pretty much the same as last time.</p>
 </div>
 <div class="section" id="one-sample-wilcoxon-test">
-<h3><span class="section-number">2.10.2. </span>One sample Wilcoxon test<a class="headerlink" href="#one-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.9.2. </span>One sample Wilcoxon test<a class="headerlink" href="#one-sample-wilcoxon-test" title="Permalink to this headline">¶</a></h3>
 <p>What about the <strong><em>one sample Wilcoxon test</em></strong> (or equivalently, the paired samples Wilcoxon test)? Suppose I’m interested in finding out whether taking a statistics class has any effect on the happiness of students. Here’s my data:</p>
 <p>What I’ve measured here is the happiness of each student <code class="docutils literal notranslate"><span class="pre">before</span></code> taking the class and <code class="docutils literal notranslate"><span class="pre">after</span></code> taking the class; the <code class="docutils literal notranslate"><span class="pre">change</span></code> score is the difference between the two. Just like we saw with the <span class="math notranslate nohighlight">\(t\)</span>-test, there’s no fundamental difference between doing a paired-samples test using <code class="docutils literal notranslate"><span class="pre">before</span></code> and <code class="docutils literal notranslate"><span class="pre">after</span></code>, versus doing a one-sample test using the <code class="docutils literal notranslate"><span class="pre">change</span></code> scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/ttest2/wilcox2.png&quot;))
@@ -2274,7 +2276,7 @@ Similarly, the <code class="docutils literal notranslate"><span class="pre">wilc
 </div>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">2.11. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.10. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>A one sample <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare a single sample mean against a hypothesised value for the population mean. (Section &#64;ref(onesamplettest))</p></li>
 <li><p>An independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (Section &#64;ref(studentttest) assumes that the groups have the same standard deviation, the Welch test (Section &#64;ref(welchttest)) does not.</p></li>
