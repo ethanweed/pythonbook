@@ -511,8 +511,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r-part-1">
-     2.5.3. Doing the test in R, part 1
+    <a class="reference internal nav-link" href="#doing-the-test-in-python-part-1">
+     2.5.3. Doing the test in Python, part 1
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1497,7 +1497,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13f018760&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13b563cd0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1924,7 +1924,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </table>
 </div></div></div>
 </div>
-<p>we see that this impression seems to be supported. Across all 20 students<a class="footnote-reference brackets" href="#note12" id="id16">12</a> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">pairedta</span></code>. If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
+<p>we see that this impression seems to be supported. Across all 20 students<a class="footnote-reference brackets" href="#note12" id="id16">12</a> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">pairedta</span></code> panel A. If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -1938,7 +1938,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 
 <span class="c1">#ax1.set_ylim(40,80)</span>
 <span class="c1">#ax1.set_xlim(40,80)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+<span class="c1">#ax1.set_ylim(40,80)</span>
 
 
 <span class="n">df2</span> <span class="o">=</span> <span class="n">df</span>
@@ -1962,65 +1962,66 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 <div class="figure align-default" id="fig-pairedta" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 2.23 </span><span class="caption-text">Mean grade for test 1 and test 2, with associated 95% confidence intervals (panel a). Scat- terplot showing the individual grades for test 1 and test 2 (panel b). Histogram showing the improvement made by each student in Dr Chico’s class (panel c). In panel c, notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</span><a class="headerlink" href="#fig-pairedta" title="Permalink to this image">¶</a></p>
 </div>
-<p>Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in Figure &#64;ref(fig:pairedtb).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>  # first draw the basic scatterplot...
-  plot( x = chico$grade_test1,     # test 1 on the x-axis
-        y = chico$grade_test2,     # test 2 on the y-axis
-        xlab = &quot;Grade for Test 1&quot;, # x-axis label
-        ylab = &quot;Grade for Test 2&quot;, # y-axis label
-        pch = 19                   # solid dots as markers
-  )
-  
-  # now add the line...
-  abline( a = 0, # line has an intercept at 0
-          b = 1 # and a slope of 1 
-  )
+<p>Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in <a class="reference internal" href="#fig-pairedta"><span class="std std-numref">Fig. 2.23</span></a> panel B.</p>
+<p>In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 (<span class="math notranslate nohighlight">\(x\)</span> co-ordinate) equals their grade for test 2 (<span class="math notranslate nohighlight">\(y\)</span> co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students <em>do</em> seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the <em>improvement</em> made by each student from one test to the next, and treating that as our raw data. To do this, we’ll need to create a new variable for the <code class="docutils literal notranslate"><span class="pre">improvement</span></code> that each student makes, and add it to the data frame containing the <code class="docutils literal notranslate"><span class="pre">chico.csv</span></code> data. The easiest way to do this is as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 (<span class="math notranslate nohighlight">\(x\)</span> co-ordinate) equals their grade for test 2 (<span class="math notranslate nohighlight">\(y\)</span> co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students <em>do</em> seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the <em>improvement</em> made by each student from one test to the next, and treating that as our raw data. To do this, we’ll need to create a new variable for the <code class="docutils literal notranslate"><span class="pre">improvement</span></code> that each student makes, and add it to the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame. The easiest way to do this is as follows:</p>
-<p>Notice that I assigned the output to a variable called <code class="docutils literal notranslate"><span class="pre">chico$improvement</span></code>. That has the effect of creating a new variable called <code class="docutils literal notranslate"><span class="pre">improvement</span></code> inside the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame. So now when I look at the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, I get an output that looks like this:</p>
-<p>Now that we’ve created and stored this <code class="docutils literal notranslate"><span class="pre">improvement</span></code> variable, we can draw a histogram showing the distribution of these improvement scores (using the <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function), shown in Figure &#64;ref(fig:pairedtc).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>chico3 &lt;- within(chico, improvement &lt;- grade_test2 - grade_test1)
-  
-  # hist
-  hist( x = chico3$improvement,        # data to plot
-        xlab = &quot;Improvement in Grade&quot;, # x-axis label
-        main = &quot;&quot;,                     # no title
-        border = &quot;white&quot;,              # white borders on the bars
-        col = rgb(.5,.5,1)             # light blue fill colour
-  )
-
-</pre></div>
 </div>
+</div>
+<p>Notice that I assigned the output to a variable called <code class="docutils literal notranslate"><span class="pre">df['improvement]</span></code>. That has the effect of creating a new column called <code class="docutils literal notranslate"><span class="pre">improvement</span></code> inside the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame. Now that we’ve created and stored this <code class="docutils literal notranslate"><span class="pre">improvement</span></code> variable, we can draw a histogram showing the distribution of these improvement scores, shown in <a class="reference internal" href="#fig-pairedta"><span class="std std-numref">Fig. 2.23</span></a> panel C.</p>
 <p>When we look at histogram, it’s very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <code class="docutils literal notranslate"><span class="pre">ciMean()</span></code> to compute a confidence interval for the population mean of this new variable,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span>
+
+<span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.9508686092602991, 1.8591313907397005)
+</pre></div>
+</div>
+</div>
+</div>
 <p>we see that it is 95% certain that the true (population-wide) average improvement would lie between 0.95% and 1.86%. So you can see, qualitatively, what’s going on: there is a real “within student” improvement (everyone improves by about 1%), but it is very small when set against the quite large “between student” differences (student grades vary by about 20% or so).</p>
 </div>
 <div class="section" id="what-is-the-paired-samples-t-test">
 <h3><span class="section-number">2.5.2. </span>What is the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test?<a class="headerlink" href="#what-is-the-paired-samples-t-test" title="Permalink to this headline">¶</a></h3>
 <p>In light of the previous exploration, let’s think about how to construct an appropriate <span class="math notranslate nohighlight">\(t\)</span> test. One possibility would be to try to run an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test using <code class="docutils literal notranslate"><span class="pre">grade_test1</span></code> and <code class="docutils literal notranslate"><span class="pre">grade_test2</span></code> as the variables of interest. However, this is clearly the wrong thing to do: the independent samples <span class="math notranslate nohighlight">\(t\)</span>-test assumes that there is no particular relationship between the two samples. Yet clearly that’s not true in this case, because of the repeated measures structure to the data. To use the language that I introduced in the last section, if we were to try to do an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test, we would be conflating the <strong><em>within subject</em></strong> differences (which is what we’re interested in testing) with the <strong><em>between subject</em></strong> variability (which we are not).</p>
-<p>The solution to the problem is obvious, I hope, since we already did all the hard work in the previous section. Instead of running an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test on <code class="docutils literal notranslate"><span class="pre">grade_test1</span></code> and <code class="docutils literal notranslate"><span class="pre">grade_test2</span></code>, we run a <em>one-sample</em> <span class="math notranslate nohighlight">\(t\)</span>-test on the within-subject difference variable, <code class="docutils literal notranslate"><span class="pre">improvement</span></code>. To formalise this slightly, if <span class="math notranslate nohighlight">\(X_{i1}\)</span> is the score that the <span class="math notranslate nohighlight">\(i\)</span>-th participant obtained on the first variable, and <span class="math notranslate nohighlight">\(X_{i2}\)</span> is the score that the same person obtained on the second one, then the difference score is:
-$<span class="math notranslate nohighlight">\(
+<p>The solution to the problem is obvious, I hope, since we already did all the hard work in the previous section. Instead of running an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test on <code class="docutils literal notranslate"><span class="pre">grade_test1</span></code> and <code class="docutils literal notranslate"><span class="pre">grade_test2</span></code>, we run a <em>one-sample</em> <span class="math notranslate nohighlight">\(t\)</span>-test on the within-subject difference variable, <code class="docutils literal notranslate"><span class="pre">improvement</span></code>. To formalise this slightly, if <span class="math notranslate nohighlight">\(X_{i1}\)</span> is the score that the <span class="math notranslate nohighlight">\(i\)</span>-th participant obtained on the first variable, and <span class="math notranslate nohighlight">\(X_{i2}\)</span> is the score that the same person obtained on the second one, then the difference score is:</p>
+<div class="math notranslate nohighlight">
+\[
 D_{i} = X_{i1} - X_{i2} 
-\)</span><span class="math notranslate nohighlight">\(
-Notice that the difference scores is *variable 1 minus variable 2* and not the other way around, so if we want improvement to correspond to a positive valued difference, we actually want &quot;test 2&quot; to be our &quot;variable 1&quot;. Equally, we would say that \)</span>\mu_D = \mu_1 - \mu_2<span class="math notranslate nohighlight">\( is the population mean for this difference variable. So, to convert this to a hypothesis test, our null hypothesis is that this mean difference is zero; the alternative hypothesis is that it is not:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>Notice that the difference scores is <em>variable 1 minus variable 2</em> and not the other way around, so if we want improvement to correspond to a positive valued difference, we actually want “test 2” to be our “variable 1”. Equally, we would say that <span class="math notranslate nohighlight">\(\mu_D = \mu_1 - \mu_2\)</span> is the population mean for this difference variable. So, to convert this to a hypothesis test, our null hypothesis is that this mean difference is zero; the alternative hypothesis is that it is not:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{ll}
 H_0: &amp; \mu_D = 0  \\
 H_1: &amp; \mu_D \neq 0
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-(this is assuming we're talking about a two-sided test here). This is more or less identical to the way we described the hypotheses for the one-sample \)</span>t<span class="math notranslate nohighlight">\(-test: the only difference is that the specific value that the null hypothesis predicts is 0. And so our \)</span>t<span class="math notranslate nohighlight">\(-statistic is defined in more or less the same way too. If we let \)</span>\bar{D}<span class="math notranslate nohighlight">\( denote the mean of the difference scores, then 
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>(this is assuming we’re talking about a two-sided test here). This is more or less identical to the way we described the hypotheses for the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test: the only difference is that the specific value that the null hypothesis predicts is 0. And so our <span class="math notranslate nohighlight">\(t\)</span>-statistic is defined in more or less the same way too. If we let <span class="math notranslate nohighlight">\(\bar{D}\)</span> denote the mean of the difference scores, then</p>
+<div class="math notranslate nohighlight">
+\[
 t = \frac{\bar{D}}{\mbox{SE}({\bar{D}})}
-\)</span><span class="math notranslate nohighlight">\(
-which is 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>which is</p>
+<div class="math notranslate nohighlight">
+\[
 t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\hat\sigma_D<span class="math notranslate nohighlight">\( is the standard deviation of the difference scores. Since this is just an ordinary, one-sample \)</span>t<span class="math notranslate nohighlight">\(-test, with nothing special about it, the degrees of freedom are still \)</span>N-1<span class="math notranslate nohighlight">\(. And that's it: the paired samples \)</span>t<span class="math notranslate nohighlight">\(-test really isn't a new test at all: it's a one-sample \)</span>t<span class="math notranslate nohighlight">\(-test, but applied to the difference between two variables. It's actually very simple; the only reason it merits a discussion as long as the one we've just gone through is that you need to be able to recognise *when* a paired samples test is appropriate, and to understand *why* it's better than an independent samples \)</span>t$ test.</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat\sigma_D\)</span> is the standard deviation of the difference scores. Since this is just an ordinary, one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, with nothing special about it, the degrees of freedom are still <span class="math notranslate nohighlight">\(N-1\)</span>. And that’s it: the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test really isn’t a new test at all: it’s a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, but applied to the difference between two variables. It’s actually very simple; the only reason it merits a discussion as long as the one we’ve just gone through is that you need to be able to recognise <em>when</em> a paired samples test is appropriate, and to understand <em>why</em> it’s better than an independent samples <span class="math notranslate nohighlight">\(t\)</span> test.</p>
 </div>
-<div class="section" id="doing-the-test-in-r-part-1">
-<h3><span class="section-number">2.5.3. </span>Doing the test in R, part 1<a class="headerlink" href="#doing-the-test-in-r-part-1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="doing-the-test-in-python-part-1">
+<h3><span class="section-number">2.5.3. </span>Doing the test in Python, part 1<a class="headerlink" href="#doing-the-test-in-python-part-1" title="Permalink to this headline">¶</a></h3>
 <p>How do you do a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test in R. One possibility is to follow the process I outlined above: create a “difference” variable and then run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on that. Since we’ve already created a variable called <code class="docutils literal notranslate"><span class="pre">chico$improvement</span></code>, let’s do that:</p>
 <p>The output here is (obviously) formatted exactly the same was as it was the last time we used the <code class="docutils literal notranslate"><span class="pre">oneSampleTTest()</span></code> function (Section &#64;ref(onesamplettest)), and it confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<span class="math notranslate nohighlight">\(t(19)=6.48, p&lt;.001\)</span>).</p>
 <p>However, suppose you’re lazy and you don’t want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. If so, you can use the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function, also in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package. Let’s assume that your data organised like they are in the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, where there are two separate variables, one for each measurement. The way to run the test is to input a <em>one-sided</em> formula, just like you did when running a test of association using the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in Chapter &#64;ref(chisquare). For the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame, the formula that you need would be <code class="docutils literal notranslate"><span class="pre">~</span> <span class="pre">grade_time2</span> <span class="pre">+</span> <span class="pre">grade_time1</span></code>. As usual, you’ll also need to input the name of the data frame too. So the command just looks like this:</p>
