@@ -1487,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13881c940&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x135505be0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1702,7 +1702,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1388e1220&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1355b60a0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -2414,15 +2414,16 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 <div class="section" id="shapiro-wilk-tests">
 <h3><span class="section-number">2.8.2. </span>Shapiro-Wilk tests<a class="headerlink" href="#shapiro-wilk-tests" title="Permalink to this headline">¶</a></h3>
-<p>Although QQ plots provide a nice way to informally check the normality of your data, sometimes you’ll want to do something a bit more formal. And when that moment comes, the <strong><em>Shapiro-Wilk test</em></strong> [&#64;Shapiro1965] is probably what you’re looking for.^[Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I’ve read seem to suggest Shapiro-Wilk is the better test of normality; although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests; in R it’s implemented via the <code class="docutils literal notranslate"><span class="pre">ks.test()</span></code> function.] As you’d expect, the null hypothesis being tested is that a set of <span class="math notranslate nohighlight">\(N\)</span> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <span class="math notranslate nohighlight">\(W\)</span>, and it’s calculated as follows. First, we sort the observations in order of increasing size, and let <span class="math notranslate nohighlight">\(X_1\)</span> be the smallest value in the sample, <span class="math notranslate nohighlight">\(X_2\)</span> be the second smallest and so on. Then the value of <span class="math notranslate nohighlight">\(W\)</span> is given by
-$<span class="math notranslate nohighlight">\(
+<p>Although QQ plots provide a nice way to informally check the normality of your data, sometimes you’ll want to do something a bit more formal. And when that moment comes, the <strong><em>Shapiro-Wilk test</em></strong> [&#64;Shapiro1965] is probably what you’re looking for.<a class="footnote-reference brackets" href="#note14" id="id19">14</a> As you’d expect, the null hypothesis being tested is that a set of <span class="math notranslate nohighlight">\(N\)</span> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <span class="math notranslate nohighlight">\(W\)</span>, and it’s calculated as follows. First, we sort the observations in order of increasing size, and let <span class="math notranslate nohighlight">\(X_1\)</span> be the smallest value in the sample, <span class="math notranslate nohighlight">\(X_2\)</span> be the second smallest and so on. Then the value of <span class="math notranslate nohighlight">\(W\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
 W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar{X})^2}
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\bar{X}<span class="math notranslate nohighlight">\( is the mean of the observations, and the \)</span>a_i$ values are … mumble, mumble … something complicated that is a bit beyond the scope of an introductory text.</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{X}\)</span> is the mean of the observations, and the <span class="math notranslate nohighlight">\(a_i\)</span> values are … mumble, mumble … something complicated that is a bit beyond the scope of an introductory text.</p>
 <p>Because it’s a little hard to explain the maths behind the <span class="math notranslate nohighlight">\(W\)</span> statistic, a better idea is to give a broad brush description of how it behaves. Unlike most of the test statistics that we’ll encounter in this book, it’s actually <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> that indicated departure from normality. The <span class="math notranslate nohighlight">\(W\)</span> statistic has a maximum value of 1, which arises when the data look “perfectly normal”. The smaller the value of <span class="math notranslate nohighlight">\(W\)</span>, the less normal the data are. However, the sampling distribution for <span class="math notranslate nohighlight">\(W\)</span>  – which is not one of the standard ones that I discussed in Chapter &#64;ref(probability) and is in fact a complete pain in the arse to work with – does depend on the sample size <span class="math notranslate nohighlight">\(N\)</span>. To give you a feel for what these sampling distributions look like, I’ve plotted three of them in Figure &#64;ref(fig:swdist). Notice that, as the sample size starts to get large, the sampling distribution becomes very tightly clumped up near <span class="math notranslate nohighlight">\(W=1\)</span>, and as a consequence, for larger samples <span class="math notranslate nohighlight">\(W\)</span> doesn’t have to be very much smaller than 1 in order for the test to be significant.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/ttest2/shapirowilkdist.png&quot;))
-
-</pre></div>
+<div class="figure align-center" id="fig-shapirowilk">
+<a class="reference internal image-reference" href="_images/shapirowilkdist.png"><img alt="_images/shapirowilkdist.png" src="_images/shapirowilkdist.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2.27 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">¶</a></p>
 </div>
 <p>To run the test in R, we use the <code class="docutils literal notranslate"><span class="pre">shapiro.test()</span></code> function. It has only a single argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <code class="docutils literal notranslate"><span class="pre">normal.data</span></code>, we get the following:</p>
 <p>So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic <span class="math notranslate nohighlight">\(W\)</span> and the <span class="math notranslate nohighlight">\(p\)</span> value, though given that the sampling distribution depends so heavily on <span class="math notranslate nohighlight">\(N\)</span> it would probably be a politeness to include <span class="math notranslate nohighlight">\(N\)</span> as well.</p>
@@ -2509,6 +2510,9 @@ Similarly, the <code class="docutils literal notranslate"><span class="pre">wilc
 </dd>
 <dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id18">13</a></span></dt>
 <dd><p>This is a massive oversimplification.</p>
+</dd>
+<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
+<dd><p>Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I’ve read seem to suggest Shapiro-Wilk is the better test of normality, although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests.</p>
 </dd>
 </dl>
 </div>
