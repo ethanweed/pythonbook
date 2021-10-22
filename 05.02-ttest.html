@@ -570,8 +570,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#checking-the-normality-of-a-sample-shapiro">
-   2.8. Checking the normality of a sample{#shapiro}
+  <a class="reference internal nav-link" href="#checking-the-normality-of-a-sample">
+   2.8. Checking the normality of a sample
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1487,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134b8f340&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134b4bac0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1702,7 +1702,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134c4cb20&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134bf6f40&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -2244,11 +2244,7 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {
 <p>as our estimate of the effect size.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find number of student grades for each tutor</span>
-<span class="n">n1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor1</span><span class="p">)</span>
-<span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor2</span><span class="p">)</span>
-
-<span class="c1"># find mean student grade for each tutor</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find mean student grade for each tutor</span>
 <span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 
@@ -2275,17 +2271,65 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {
 </div>
 <div class="section" id="cohen-s-d-from-a-paired-samples-test">
 <h3><span class="section-number">2.7.4. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a paired-samples test<a class="headerlink" href="#cohen-s-d-from-a-paired-samples-test" title="Permalink to this headline">¶</a></h3>
-<p>Finally, what should we do for a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test? In this case, the answer depends on what it is you’re trying to do. <em>If</em> you want to measure your effect sizes relative to the distribution of difference scores, the measure of <span class="math notranslate nohighlight">\(d\)</span> that you calculate is just (<code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">=</span> <span class="pre">&quot;paired&quot;</span></code>)
-$<span class="math notranslate nohighlight">\(
+<p>Finally, what should we do for a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test? In this case, the answer depends on what it is you’re trying to do. <em>If</em> you want to measure your effect sizes relative to the distribution of difference scores, the measure of <span class="math notranslate nohighlight">\(d\)</span> that you calculate is just</p>
+<div class="math notranslate nohighlight">
+\[
 d = \frac{\bar{D}}{\hat{\sigma}_D}
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\hat{\sigma}_D$ is the estimate of the standard deviation of the differences. The calculation here is pretty straightforward</p>
-<p>This is the version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that gets reported by the <code class="docutils literal notranslate"><span class="pre">pairedSamplesTTest()</span></code> function. The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1% improvement in Dr Chico’s class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico’s class,</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\sigma}_D\)</span> is the estimate of the standard deviation of the differences. The calculation here is pretty straightforward</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv&quot;</span><span class="p">)</span>
+
+<span class="n">difference</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span>
+<span class="n">mean_diff</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
+<span class="n">sd_diff</span> <span class="o">=</span> <span class="n">std</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">mean_diff</span><span class="o">/</span><span class="n">sd_diff</span>
+<span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.4855669223382983
+</pre></div>
+</div>
+</div>
+</div>
+<p>The only wrinkle is figuring out whether this is the measure you want or not. To the extent that you care about the practical consequences of your research, you often want to measure the effect size relative to the <em>original</em> variables, not the <em>difference</em> scores (e.g., the 1% improvement in Dr Chico’s class is pretty small when measured against the amount of between-student variation in grades), in which case you use the same versions of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that you would use for a Student or Welch test. For instance, when we do that for Dr Chico’s class,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find mean student grade for each tutor</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">])</span>
+
+<span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">])</span>
+
+
+<span class="c1"># find the mean variance of the two samples</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># calculate Cohen&#39;s d</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u2</span> <span class="o">-</span> <span class="n">u1</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
+<span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2213698410715347
+</pre></div>
+</div>
+</div>
+</div>
 <p>what we see is that the overall effect size is quite small, when assessed on the scale of the original variables.</p>
 </div>
 </div>
-<div class="section" id="checking-the-normality-of-a-sample-shapiro">
-<h2><span class="section-number">2.8. </span>Checking the normality of a sample{#shapiro}<a class="headerlink" href="#checking-the-normality-of-a-sample-shapiro" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="checking-the-normality-of-a-sample">
+<span id="shapiro"></span><h2><span class="section-number">2.8. </span>Checking the normality of a sample<a class="headerlink" href="#checking-the-normality-of-a-sample" title="Permalink to this headline">¶</a></h2>
 <p>All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section &#64;ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is <em>actually</em> an average of lots of different things, there’s a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using <span class="math notranslate nohighlight">\(t\)</span>-tests. However, life doesn’t come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there’s a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.^[This is a massive oversimplification.] This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.</p>
 <div class="section" id="qq-plots">
 <h3><span class="section-number">2.8.1. </span>QQ plots<a class="headerlink" href="#qq-plots" title="Permalink to this headline">¶</a></h3>
