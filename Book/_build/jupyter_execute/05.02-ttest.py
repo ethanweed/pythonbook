@@ -1281,94 +1281,79 @@ Sampling distribution of the Shapiro-Wilk $W$ statistic, under the null hypothes
 
 ```
 
+To run the test in Python, we use the `scipy.stats.shapiro` method. It has only a single argument `x`, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our `normal_data`, we get the following:
 
+from scipy.stats import shapiro
 
-To run the test in R, we use the `shapiro.test()` function. It has only a single argument `x`, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our `normal.data`, we get the following:
-```{r}
-shapiro.test( x = normal.data )
-```
+shapiro(normal_data)
+
 So, not surprisingly, we have no evidence that these data depart from normality. When reporting the results for a Shapiro-Wilk test, you should (as usual) make sure to include the test statistic $W$ and the $p$ value, though given that the sampling distribution depends so heavily on $N$ it would probably be a politeness to include $N$ as well.
 
-## Testing non-normal data with Wilcoxon tests{#wilcox}
+(wilcox)=
+## Testing non-normal data with Wilcoxon tests
 
 Okay, suppose your data turn out to be pretty substantially non-normal, but you still want to run something like a $t$-test? This situation occurs a lot in real life: for the AFL winning margins data, for instance, the Shapiro-Wilk test made it very clear that the normality assumption is violated. This is the situation where you want to use Wilcoxon tests. 
 
 Like the $t$-test, the Wilcoxon test comes in two forms, one-sample and two-sample, and they're used in more or less the exact same situations as the corresponding $t$-tests. Unlike the $t$-test, the Wilcoxon test doesn't assume normality, which is nice. In fact, they don't make any assumptions about what kind of distribution is involved: in statistical jargon, this makes them **_nonparametric tests_**. While avoiding the normality assumption is nice, there's a drawback: the Wilcoxon test is usually less powerful than the $t$-test (i.e., higher Type II error rate). I won't discuss the Wilcoxon tests in as much detail as the $t$-tests, but I'll give you a brief overview.
 
-
 ### Two sample Wilcoxon test
 
 I'll start by describing the **_two sample Wilcoxon test_** (also known as the Mann-Whitney test), since it's actually simpler than the one sample version. Suppose we're looking at the scores of 10 people on some test. Since my imagination has now failed me completely, let's pretend it's a "test of awesomeness", and there are two groups of people, "A" and "B". I'm curious to know which group is more awesome. The data are included in the file `awesome.Rdata`, and like many of the data sets I've been using, it contains only a single data frame, in this case called `awesome`. Here's the data:
-```{r}
-load(file.path(projecthome, "data/awesome.Rdata"))
-print( awesome )
-```
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/awesome2.csv")
+df
+
 As long as there are no ties (i.e., people with the exact same awesomeness score), then the test that we want to do is surprisingly simple. All we have to do is construct a table that compares every observation in group $A$ against every observation in group $B$. Whenever the group $A$ datum is larger, we place a check mark in the table:
 
-```{r echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox1.png"))
 
-```
+|         |      |      | group B |      |      |    |
+|---------|------|------|---------|------|------|----|
+|         |      | 14.5 | 10.4    | 12.4 | 11.7 | 13 |
+|         | 6.4  | .    | .       | .    | .    | .  |
+| group A | 10.7 | .    | ✓       | .    | .    | .  |
+|         | 11.9 | .    | ✓       | .    | ✓    | .  |
+|         | 7.3  | .    | .       | .    | .    | .  |
+|         | 10   | .    | .       | .    | .    | .  |
 
-We then count up the number of checkmarks. This is our test statistic, $W$.^[Actually, there are two different versions of the test statistic; they differ from each other by a constant value. The version that I've described is the one that R calculates.] The actual sampling distribution for $W$ is somewhat complicated, and I'll skip the details. For our purposes, it's sufficient to note that the interpretation of $W$ is qualitatively the same as the interpretation of $t$ or $z$. That is, if we want a two-sided test, then we reject the null hypothesis when $W$ is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other. 
+We then count up the number of checkmarks. This is our test statistic, $W$.[^note15] The actual sampling distribution for $W$ is somewhat complicated, and I'll skip the details. For our purposes, it's sufficient to note that the interpretation of $W$ is qualitatively the same as the interpretation of $t$ or $z$. That is, if we want a two-sided test, then we reject the null hypothesis when $W$ is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other. 
 
-The structure of the `wilcox.test()` function should feel very familiar to you by now. When you have your data organised in terms of an outcome variable and a grouping variable, then you use the `formula` and `data` arguments, so your command looks like this:
-```{r}
-wilcox.test( formula = scores ~ group, data = awesome)
-```
-Just like we saw with the `t.test()` function, there is an `alternative` argument that you can use to switch between two-sided tests and one-sided tests, plus a few other arguments that we don't need to worry too much about at an introductory level. 
-Similarly, the `wilcox.test()` function allows you to use the  `x` and `y` arguments when you have your data stored separately for each group. For instance, suppose we use the data from the `awesome2.Rdata` file:
-```{r}
-load( file.path(projecthome, "data/awesome2.Rdata" ))
-score.A
-score.B
-```
-When your data are organised like this, then you would use a command like this: 
-```{r}
-wilcox.test( x = score.A, y = score.B )
-```
-The output that R produces is pretty much the same as last time.
-
+from scipy.stats import wilcoxon
+ 
+w,p = wilcoxon(df['score_A'], df['score_B'] )
+w,p
 
 ### One sample Wilcoxon test
 
 
 What about the **_one sample Wilcoxon test_** (or equivalently, the paired samples Wilcoxon test)? Suppose I'm interested in finding out whether taking a statistics class has any effect on the happiness of students. Here's my data:
-```{r}
-load( file.path(projecthome, "data/happy.Rdata" ))
-print( happiness )
-```
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/happiness.csv")
+df
+
 What I've measured here is the happiness of each student `before` taking the class and `after` taking the class; the `change` score is the difference between the two. Just like we saw with the $t$-test, there's no fundamental difference between doing a paired-samples test using `before` and `after`, versus doing a one-sample test using the `change` scores. As before, the simplest way to think about the test is to construct a tabulation. The way to do it this time is to take those change scores that are positive valued, and tabulate them against all the complete sample. What you end up with is a table that looks like this:
 
-```{r echo=FALSE}
-knitr::include_graphics(file.path(projecthome, "img/ttest2/wilcox2.png"))
+|                      | all differences  |     |     |     |   |  |     |   |     |     |   |
+|----------------------|---|-----|-----|-----|---|-----------------|-----|---|-----|-----|---|
+|                      |   | -24 | -14 | -10 | 7 | -6              | -38 | 2 | -35 | -30 | 5 |
+| positive differences | 7 | .   | .   | .   | ✓ | ✓               | .   | ✓ | .   |     | ✓ |
+|                      | 2 | .   | .   | .   | . | .               | .   | ✓ | .   | .   |   |
+|                      | 5 | .   | .   | .   | . | .               | .   | ✓ | .   | .   | ✓ |
 
-```
+Counting up the tick marks this time, we get a test statistic of $V = 7$. As before, if our test is two sided, then we reject the null hypothesis when $V$ is very large or very small. As far of running it with Python goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
 
+w,p = wilcoxon(df['change'])
+w,p
 
-Counting up the tick marks this time, we get a test statistic of $V = 7$. As before, if our test is two sided, then we reject the null hypothesis when $V$ is very large or very small. As far of running it in R goes, it's pretty much what you'd expect. For the one-sample version, the command you would use is
-```{r}
-wilcox.test( x = happiness$change,
-              mu = 0
-)
-```
-
-As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness. Switching to a paired samples version of the test won't give us different answers, of course; but here's the command to do it:
-```{r}
-wilcox.test( x = happiness$after,
-              y = happiness$before,
-              paired = TRUE 
-)
-```
+As this shows, we have a significant effect. Evidently, taking a statistics class does have an effect on your happiness.
 
 ## Summary
 
-- A one sample $t$-test is used to compare a single sample mean against a hypothesised value for the population mean. (Section \@ref(onesamplettest))
-- An independent samples $t$-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (Section \@ref(studentttest) assumes that the groups have the same standard deviation, the Welch test (Section \@ref(welchttest)) does not.
-- A paired samples $t$-test is used when you have two scores from each person, and you want to test the null hypothesis that the two scores have the same mean. It is equivalent to taking the difference between the two scores for each person, and then running a one sample $t$-test on the difference scores. (Section \@ref(pairedsamplesttest))
-- Effect size calculations for the difference between means can be calculated via the Cohen's $d$ statistic. (Section \@ref(cohensd)).
-- You can check the normality of a sample using QQ plots and the Shapiro-Wilk test. (Section \@ref(shapiro))
-- If your data are non-normal, you can use Wilcoxon tests instead of $t$-tests. (Section \@ref(wilcox))
+- A one sample $t$-test is used to compare a single sample mean against a hypothesised value for the population mean.
+- An independent samples $t$-test is used to compare the means of two groups, and tests the null hypothesis that they have the same mean. It comes in two forms: the Student test (Section \@ref(studentttest) assumes that the groups have the same standard deviation, the Welch test does not.
+- A paired samples $t$-test is used when you have two scores from each person, and you want to test the null hypothesis that the two scores have the same mean. It is equivalent to taking the difference between the two scores for each person, and then running a one sample $t$-test on the difference scores.
+- Effect size calculations for the difference between means can be calculated via the Cohen's $d$ statistic..
+- You can check the normality of a sample using QQ plots and the Shapiro-Wilk test.
+- If your data are non-normal, you can use Wilcoxon tests instead of $t$-tests.
 
 [^note1]: We won't cover multiple predictors until the chapter on [regression](regression).
 
@@ -1397,3 +1382,5 @@ wilcox.test( x = happiness$after,
 [^note13]: This is a massive oversimplification.
 
 [^note14]: Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I've read seem to suggest Shapiro-Wilk is the better test of normality, although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests.
+
+[^note15]: Actually, there are two different versions of the test statistic; they differ from each other by a constant value. I'll just describe one of them here.
