@@ -1487,7 +1487,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1380f2b20&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134b8f340&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1702,7 +1702,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1381a4520&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x134c4cb20&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -2170,12 +2170,12 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\hat\sigma_p\)</span> is the exact same pooled standard deviation measure that appears in the <span class="math notranslate nohighlight">\(t\)</span>-test. This is the most commonly used version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> when applied to the outcome of a Student <span class="math notranslate nohighlight">\(t\)</span>-test ,and is sometimes referred to as Hedges’ <span class="math notranslate nohighlight">\(g\)</span> statistic [&#64;Hedges1981].</p>
 <p>However, there are other possibilities, which I’ll briefly describe. Firstly, you may have reason to want to use only one of the two groups as the basis for calculating the standard deviation. This approach (often called Glass’ <span class="math notranslate nohighlight">\(\Delta\)</span>) only makes most sense when you have good reason to treat one of the two groups as a purer reflection of “natural variation” than the other. This can happen if, for instance, one of the two groups is a control group. Secondly, recall that in the usual calculation of the pooled standard deviation we divide by <span class="math notranslate nohighlight">\(N-2\)</span> to correct for the bias in the sample variance; in one version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> this correction is omitted. Instead, we divide by <span class="math notranslate nohighlight">\(N\)</span>. This version makes sense primarily when you’re trying to calculate the effect size in the sample; rather than estimating an effect size in the population. Finally, there is a version based on &#64;Hedges1985, who point out there is a small bias in the usual (pooled) estimation for Cohen’s <span class="math notranslate nohighlight">\(d\)</span>. Thus they introduce a small correction, by multiplying the usual value of <span class="math notranslate nohighlight">\(d\)</span> by <span class="math notranslate nohighlight">\((N-3)/(N-2.25)\)</span>.</p>
-<p>In any case, ignoring all those variations that you could make use of if you wanted, let’s have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo’s class. The command that we want to use is very similar to the relevant <code class="docutils literal notranslate"><span class="pre">t.test()</span></code> command, but also specifies a</p>
+<p>In any case, ignoring all those variations that you could make use of if you wanted, let’s have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo’s class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">statistics</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv&quot;</span><span class="p">)</span>
 
@@ -2187,17 +2187,19 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <span class="n">n1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor1</span><span class="p">)</span>
 <span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor2</span><span class="p">)</span>
 
-<span class="c1"># find variance in students&#39; grades for each tutor</span>
-<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-
 <span class="c1"># find mean student grade for each tutor</span>
 <span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 
+<span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+
 <span class="c1"># find pooled standard deviation (square root of weighted variation, </span>
-<span class="c1"># divided by total N, with corrections for degrees of freedom)</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(((</span><span class="n">n1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># divided by total N, with a correction for bias of -2)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(((</span><span class="n">n1</span><span class="p">)</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n2</span><span class="p">)</span> <span class="o">*</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
 
 <span class="c1"># calculate Cohen&#39;s d</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">u2</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
@@ -2206,7 +2208,16 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7640042619421049
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">40</span><span class="o">-</span><span class="mi">8</span><span class="n">d863ff96bb1</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> 
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> 
+
+<span class="ne">NameError</span>: name &#39;var&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -2214,21 +2225,53 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </div>
 <div class="section" id="cohen-s-d-from-a-welch-test">
 <h3><span class="section-number">2.7.3. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Welch test<a class="headerlink" href="#cohen-s-d-from-a-welch-test" title="Permalink to this headline">¶</a></h3>
-<p>Suppose the situation you’re in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I’ll refer to this new measure as <span class="math notranslate nohighlight">\(\delta^\prime\)</span>, so as to keep it distinct from the measure <span class="math notranslate nohighlight">\(\delta\)</span> which we defined previously. What &#64;Cohen1988 suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get:
-$<span class="math notranslate nohighlight">\(
+<p>Suppose the situation you’re in is more like the Welch test: you still have two independent samples, but you no longer believe that the corresponding populations have equal variances. When this happens, we have to redefine what we mean by the population effect size. I’ll refer to this new measure as <span class="math notranslate nohighlight">\(\delta^\prime\)</span>, so as to keep it distinct from the measure <span class="math notranslate nohighlight">\(\delta\)</span> which we defined previously. What &#64;Cohen1988 suggests is that we could define our new population effect size by averaging the two population variances. What this means is that we get:</p>
+<div class="math notranslate nohighlight">
+\[
 \delta^\prime = \frac{\mu_1 - \mu_2}{\sigma^\prime}
-\)</span><span class="math notranslate nohighlight">\(
-where 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
 \sigma^\prime = \sqrt{\displaystyle{\frac{ {\sigma_1}^2 + {\sigma_2}^2}{2}}}
-\)</span><span class="math notranslate nohighlight">\(
-This seems quite reasonable, but notice that none of the measures that we've discussed so far are attempting to estimate this new quantity. It might just be my own ignorance of the topic, but I'm only aware of one version of Cohen's \)</span>d<span class="math notranslate nohighlight">\( that actually estimates the unequal-variance effect size \)</span>\delta^\prime<span class="math notranslate nohighlight">\( rather than the equal-variance effect size \)</span>\delta<span class="math notranslate nohighlight">\(.
-All we do to calculate \)</span>d<span class="math notranslate nohighlight">\( for this version (`method = &quot;unequal&quot;`) is substitute the sample means \)</span>\bar{X}_1<span class="math notranslate nohighlight">\( and \)</span>\bar{X}_2<span class="math notranslate nohighlight">\( and the corrected sample standard deviations \)</span>\hat{\sigma}_1<span class="math notranslate nohighlight">\( and \)</span>\hat{\sigma}_2<span class="math notranslate nohighlight">\( into the equation for \)</span>\delta^\prime<span class="math notranslate nohighlight">\(. This gives us the following equation for \)</span>d<span class="math notranslate nohighlight">\(, 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>This seems quite reasonable, but notice that none of the measures that we’ve discussed so far are attempting to estimate this new quantity. It might just be my own ignorance of the topic, but I’m only aware of one version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that actually estimates the unequal-variance effect size <span class="math notranslate nohighlight">\(\delta^\prime\)</span> rather than the equal-variance effect size <span class="math notranslate nohighlight">\(\delta\)</span>.
+All we do to calculate <span class="math notranslate nohighlight">\(d\)</span> for this version is substitute the sample means <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span> and the corrected sample standard deviations <span class="math notranslate nohighlight">\(\hat{\sigma}_1\)</span> and <span class="math notranslate nohighlight">\(\hat{\sigma}_2\)</span> into the equation for <span class="math notranslate nohighlight">\(\delta^\prime\)</span>. This gives us the following equation for <span class="math notranslate nohighlight">\(d\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
 d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {\hat\sigma_2}^2}{2}}}}
-\)</span>$
-as our estimate of the effect size. There’s nothing particularly difficult about calculating this version in R, since all we have to do is change the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument:</p>
-<p>This is the version of Cohen’s <span class="math notranslate nohighlight">\(d\)</span> that gets reported by the <code class="docutils literal notranslate"><span class="pre">independentSamplesTTest()</span></code> function whenever it runs a Welch <span class="math notranslate nohighlight">\(t\)</span>-test.</p>
+\]</div>
+<p>as our estimate of the effect size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find number of student grades for each tutor</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor1</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tutor2</span><span class="p">)</span>
+
+<span class="c1"># find mean student grade for each tutor</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+<span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+
+
+<span class="c1"># find the mean variance of the two samples</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># calculate Cohen&#39;s d</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">u2</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
+<span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7486295728919304
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="cohen-s-d-from-a-paired-samples-test">
 <h3><span class="section-number">2.7.4. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a paired-samples test<a class="headerlink" href="#cohen-s-d-from-a-paired-samples-test" title="Permalink to this headline">¶</a></h3>

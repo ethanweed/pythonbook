@@ -17,41 +17,48 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-n1 = len(Anastasia)
-n2 = len(Bernadette)
-m1 = statistics.mean(Anastasia['grade'])
-m2 = statistics.mean(Bernadette['grade'])
+import pandas as pd
+import statistics
+from numpy import sqrt, mean, std
 
-v1 = statistics.variance(Anastasia['grade'])
-v2 = statistics.variance(Bernadette['grade'])
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
 
-pooled_se = np.sqrt(v1 / n1 + v2 / n2)
-delta = m1-m2
+# create two new variables for the grades from each tutor's students
+tutor1 = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+tutor2 = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
 
-#tstat = delta /  pooled_se
-#tstat = ttest_ind(Anastasia, Bernadette)[0]
-#df = (v1 / n1 + v2 / n2)**2 / (v1**2 / (n1**2 * (n1 - 1)) + v2**2 / (n2**2 * (n2 - 1)))
+# find number of student grades for each tutor
+n1 = len(tutor1)
+n2 = len(tutor2)
 
-# two side t-test
-#p = 2 * t.cdf(-abs(tstat), df)
+# find mean student grade for each tutor
+u1 = mean(tutor1['grade'])
+u2 = mean(tutor2['grade'])
 
-# upper and lower bounds
-lb = delta - t.ppf(0.975,df)*pooled_se 
-ub = delta + t.ppf(0.975,df)*pooled_se
+# find variance in students' grades for each tutor
+s1 = var(tutor1['grade'])
+s2 = var(tutor2['grade'])
 
-#print(lb)
-#print(ub)
+
+# find pooled standard deviation (square root of weighted variation, 
+# divided by total N, with a correction for bias of -2)
+
+s = sqrt(((n1) * s1 + (n2) * s2) / (n1 + n2 - 2))
+
+# calculate Cohen's d
+d = (u1 - u2) / s
+d
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-26-c39bad49718f>[0m in [0;36m<module>[0;34m[0m
+[0;32m<ipython-input-40-8d863ff96bb1>[0m in [0;36m<module>[0;34m[0m
 [1;32m     18[0m [0;34m[0m[0m
-[1;32m     19[0m [0;31m# upper and lower bounds[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
-[0;32m---> 20[0;31m [0mlb[0m [0;34m=[0m [0mdelta[0m [0;34m-[0m [0mt[0m[0;34m.[0m[0mppf[0m[0;34m([0m[0;36m0.975[0m[0;34m,[0m[0mdf[0m[0;34m)[0m[0;34m*[0m[0mpooled_se[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     21[0m [0mub[0m [0;34m=[0m [0mdelta[0m [0;34m+[0m [0mt[0m[0;34m.[0m[0mppf[0m[0;34m([0m[0;36m0.975[0m[0;34m,[0m[0mdf[0m[0;34m)[0m[0;34m*[0m[0mpooled_se[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     19[0m [0;31m# find variance in students' grades for each tutor[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 20[0;31m [0ms1[0m [0;34m=[0m [0mvar[0m[0;34m([0m[0mtutor1[0m[0;34m[[0m[0;34m'grade'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     21[0m [0ms2[0m [0;34m=[0m [0mvar[0m[0;34m([0m[0mtutor2[0m[0;34m[[0m[0;34m'grade'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [1;32m     22[0m [0;34m[0m[0m
 
-[0;31mNameError[0m: name 't' is not defined
-NameError: name 't' is not defined
+[0;31mNameError[0m: name 'var' is not defined
+NameError: name 'var' is not defined
 
