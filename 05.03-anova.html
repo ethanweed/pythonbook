@@ -390,8 +390,17 @@
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-model-for-the-data-and-the-meaning-of-f-advanced">
+       4.2.4. The model for the data and the meaning of
+       <span class="math notranslate nohighlight">
+        \(F\)
+       </span>
+       (advanced)
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#a-worked-example">
-       4.2.4. A worked example
+       4.2.5. A worked example
       </a>
      </li>
     </ul>
@@ -1056,8 +1065,38 @@ F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }
 </tbody>
 </table>
 </div>
+<div class="section" id="the-model-for-the-data-and-the-meaning-of-f-advanced">
+<span id="anovamodel"></span><h3><span class="section-number">4.2.4. </span>The model for the data and the meaning of <span class="math notranslate nohighlight">\(F\)</span> (advanced)<a class="headerlink" href="#the-model-for-the-data-and-the-meaning-of-f-advanced" title="Permalink to this headline">¶</a></h3>
+<p>At a fundamental level, ANOVA is a competition between two different statistical models, <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. When I described the null and alternative hypotheses at the start of the section, I was a little imprecise about what these models actually are. I’ll remedy that now, though you probably won’t like me for doing so. If you recall, our null hypothesis was that all of the group means are identical to one another. If so, then a natural way to think about the outcome variable <span class="math notranslate nohighlight">\(Y_{ik}\)</span> is to describe individual scores in terms of a single population mean <span class="math notranslate nohighlight">\(\mu\)</span>, plus the deviation from that population mean. This deviation is usually denoted <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> and is traditionally called the <em>error</em> or <strong><em>residual</em></strong> associated with that observation. Be careful though: just like we saw with the word “significant”, the word “error” has a technical meaning in statistics that isn’t quite the same as its everyday English definition. In everyday language, “error” implies a mistake of some kind; in statistics, it doesn’t (or at least, not necessarily). With that in mind, the word “residual” is a better term than the word “error”. In statistics, both words mean “leftover variability”: that is, “stuff” that the model can’t explain. In any case, here’s what the null hypothesis looks like when we write it as a statistical model:</p>
+<div class="math notranslate nohighlight">
+\[
+Y_{ik} = \mu + \epsilon_{ik}
+\]</div>
+<p>where we make the <em>assumption</em> (discussed later) that the residual values <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> are normally distributed, with mean 0 and a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for all groups. To use the notation that we introduced in Chapter &#64;ref(probability) we would write this assumption like this:</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{ik} \sim \mbox{Normal}(0, \sigma^2)
+\]</div>
+<p>What about the alternative hypothesis, <span class="math notranslate nohighlight">\(H_1\)</span>? The only difference between the null hypothesis and the alternative hypothesis is that we allow each group to have a different population mean. So, if we let <span class="math notranslate nohighlight">\(\mu_k\)</span> denote the population mean for the <span class="math notranslate nohighlight">\(k\)</span>-th group in our experiment, then the statistical model corresponding to <span class="math notranslate nohighlight">\(H_1\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+Y_{ik} = \mu_k + \epsilon_{ik}
+\]</div>
+<p>where, once again, we assume that the error terms are normally distributed with mean 0 and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. That is, the alternative hypothesis also assumes that</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon \sim \mbox{Normal}(0, \sigma^2)
+\]</div>
+<p>Okay, now that we’ve described the statistical models underpinning <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span> in more detail, it’s now pretty straightforward to say what the mean square values are measuring, and what this means for the interpretation of <span class="math notranslate nohighlight">\(F\)</span>. I won’t bore you with the proof of this, but it turns out that the within-groups mean square, MS<span class="math notranslate nohighlight">\(_w\)</span>, can be viewed as an estimator (in the technical sense: Chapter &#64;ref(estimation) of the error variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>.  The between-groups mean square MS<span class="math notranslate nohighlight">\(_b\)</span> is also an estimator; but what it estimates is the error variance <em>plus</em> a quantity that depends on the true differences among the group means. If we call this quantity <span class="math notranslate nohighlight">\(Q\)</span>, then we can see that the <span class="math notranslate nohighlight">\(F\)</span>-statistic is basically <a class="footnote-reference brackets" href="#note2" id="id2">2</a></p>
+<div class="math notranslate nohighlight">
+\[
+F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
+\]</div>
+<p>where the true value <span class="math notranslate nohighlight">\(Q=0\)</span> if the null hypothesis is true, and <span class="math notranslate nohighlight">\(Q &gt; 0\)</span> if the alternative hypothesis is true [e.g. ch. 10 &#64;Hays1994]. Therefore, at a bare minimum <em>the <span class="math notranslate nohighlight">\(F\)</span> value must be larger than 1</em> to have any chance of rejecting the null hypothesis. Note that this <em>doesn’t</em> mean that it’s impossible to get an <span class="math notranslate nohighlight">\(F\)</span>-value less than 1. What it means is that, if the null hypothesis is true the sampling distribution of the <span class="math notranslate nohighlight">\(F\)</span> ratio has a mean of 1,<a class="footnote-reference brackets" href="#note3" id="id3">3</a> and so we need to see <span class="math notranslate nohighlight">\(F\)</span>-values larger than 1 in order to safely reject the null.</p>
+<p>To be a bit more precise about the sampling distribution, notice that if the null hypothesis is true, both MS<span class="math notranslate nohighlight">\(_b\)</span> and MS<span class="math notranslate nohighlight">\(_w\)</span> are estimators of the variance of the residuals <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span>. If those residuals are normally distributed, then you might suspect that the estimate of the variance of <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> is chi-square distributed… because (as discussed in Section &#64;ref(otherdists) that’s what a chi-square distribution <em>is</em>: it’s what you get when you square a bunch of normally-distributed things and add them up. And since the <span class="math notranslate nohighlight">\(F\)</span> distribution is (again, by definition) what you get when you take the ratio between two things that are <span class="math notranslate nohighlight">\(\chi^2\)</span> distributed… we have our sampling distribution. Obviously, I’m glossing over a whole lot of stuff when I say this, but in broad terms, this really is where our sampling distribution comes from.</p>
+</div>
 <div class="section" id="a-worked-example">
-<span id="anovacalc"></span><h3><span class="section-number">4.2.4. </span>A worked example<a class="headerlink" href="#a-worked-example" title="Permalink to this headline">¶</a></h3>
+<span id="anovacalc"></span><h3><span class="section-number">4.2.5. </span>A worked example<a class="headerlink" href="#a-worked-example" title="Permalink to this headline">¶</a></h3>
 <p>The previous discussion was fairly abstract, and a little on the technical side, so I think that at this point it might be useful to see a worked example. For that, let’s go back to the clinical trial data that I introduced at the start of the chapter. The descriptive statistics that we calculated at the beginning tell us our group means: an average mood gain of 0.45 for the placebo, 0.72 for Anxifree, and 1.48 for Joyzepam. With that in mind, let’s party like it’s 1899 ^[Or, to be precise, party like “it’s 1899 and we’ve got no friends and nothing better to do with our time than do some calculations that wouldn’t have made any sense in 1899 because ANOVA didn’t exist until about the 1920s”.] and  start doing some pencil and paper calculations. I’ll only do this for the first 5 observations, because it’s not bloody 1899 and I’m very lazy. Let’s start by calculating <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>, the within-group sums of squares. First, let’s draw up a nice table to help us with our calculations…</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
            ~V1,         ~V2,
@@ -1483,6 +1522,12 @@ kruskal.test( x = mood.gain )
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>When all groups have the same number of observations, the experimental design is said to be “balanced”. Balance isn’t such a big deal for one-way ANOVA, which is the topic of this chapter. It becomes more important when you start doing more complicated ANOVAs.</p>
+</dd>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>In a later versions I’m intending to expand on this. But because I’m writing in a rush, and am already over my deadlines, I’ll just briefly note that if you read ahead to Chapter &#64;ref(anova2) and look at how the “treatment effect” at level <span class="math notranslate nohighlight">\(k\)</span> of a factor is defined in terms of the <span class="math notranslate nohighlight">\(\alpha_k\)</span> values (see Section &#64;ref(interactions)), it turns out that <span class="math notranslate nohighlight">\(Q\)</span> refers to a weighted mean of the squared treatment effects, <span class="math notranslate nohighlight">\(Q=(\sum_{k=1}^G N_k\alpha_k^2)/(G-1)\)</span>.</p>
+</dd>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Or, if we want to be sticklers for accuracy, <span class="math notranslate nohighlight">\(1 + \frac{2}{df_2 - 2}\)</span>.</p>
 </dd>
 </dl>
 </div>
