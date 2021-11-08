@@ -822,44 +822,86 @@ Name: mood_gain, dtype: float64
 </div>
 <div class="section" id="how-anova-works">
 <span id="anovaintro"></span><h2><span class="section-number">4.2. </span>How ANOVA works<a class="headerlink" href="#how-anova-works" title="Permalink to this headline">¶</a></h2>
-<p>In order to answer the question posed by our clinical trial data, we’re going to run a one-way ANOVA. As usual, I’m going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in R if you didn’t have access to any of the cool built-in ANOVA functions. And, as always, I hope you’ll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then – once you’ve grasped the concept – never <em>ever</em> do it this way again.</p>
-<p>The experimental design that I described in the previous section strongly suggests that we’re interested in comparing the average mood change for the three different drugs. In that sense, we’re talking about an analysis similar to the <span class="math notranslate nohighlight">\(t\)</span>-test (Chapter &#64;ref(ttest), but involving more than two groups. If we let <span class="math notranslate nohighlight">\(\mu_P\)</span> denote the population mean for the mood change induced by the placebo, and let <span class="math notranslate nohighlight">\(\mu_A\)</span> and <span class="math notranslate nohighlight">\(\mu_J\)</span> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:
-$<span class="math notranslate nohighlight">\(
+<p>In order to answer the question posed by our clinical trial data, we’re going to run a one-way ANOVA. As usual, I’m going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in Python if you didn’t have access to any of the cool built-in ANOVA functions. And, as always, I hope you’ll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then – once you’ve grasped the concept – never <em>ever</em> do it this way again.</p>
+<p>The experimental design that I described in the previous section strongly suggests that we’re interested in comparing the average mood change for the three different drugs. In that sense, we’re talking about an analysis similar to the <span class="math notranslate nohighlight">\(t\)</span>-test <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">Comparing Two Means</span></a>, but involving more than two groups. If we let <span class="math notranslate nohighlight">\(\mu_P\)</span> denote the population mean for the mood change induced by the placebo, and let <span class="math notranslate nohighlight">\(\mu_A\)</span> and <span class="math notranslate nohighlight">\(\mu_J\)</span> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
+<div class="math notranslate nohighlight">
+\[
 \begin{array}{rcl}
 H_0 &amp;:&amp; \mbox{it is true that } \mu_P = \mu_A = \mu_J
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-As a consequence, our alternative hypothesis is that at least one of the three different treatments is different from the others. It's a little trickier to write this mathematically, because (as we'll discuss) there are quite a few different ways in which the null hypothesis can be false. So for now we'll just write the alternative hypothesis like this:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>As a consequence, our alternative hypothesis is that at least one of the three different treatments is different from the others. It’s a little trickier to write this mathematically, because (as we’ll discuss) there are quite a few different ways in which the null hypothesis can be false. So for now we’ll just write the alternative hypothesis like this:</p>
+<div class="math notranslate nohighlight">
+\[
 \begin{array}{rcl}
 H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 \end{array}
-\)</span>$
-This null hypothesis is a lot trickier to test than any of the ones we’ve seen previously. How shall we do it? A sensible guess would be to “do an ANOVA”, since that’s the title of the chapter, but it’s not particularly clear why an “analysis of <em>variances</em>” will help us learn anything useful about the <em>means</em>. In fact, this is one of the biggest conceptual difficulties that people have when first encountering ANOVA. To see how this works, I find it most helpful to start by talking about variances. In fact, what I’m going to do is start by playing some mathematical games with the formula that describes the variance. That is, we’ll start out by playing around with variances, and it will turn out that this gives us a useful tool for investigating means.</p>
+\]</div>
+<p>This null hypothesis is a lot trickier to test than any of the ones we’ve seen previously. How shall we do it? A sensible guess would be to “do an ANOVA”, since that’s the title of the chapter, but it’s not particularly clear why an “analysis of <em>variances</em>” will help us learn anything useful about the <em>means</em>. In fact, this is one of the biggest conceptual difficulties that people have when first encountering ANOVA. To see how this works, I find it most helpful to start by talking about variances. In fact, what I’m going to do is start by playing some mathematical games with the formula that describes the variance. That is, we’ll start out by playing around with variances, and it will turn out that this gives us a useful tool for investigating means.</p>
 <div class="section" id="two-formulas-for-the-variance-of-y">
 <h3><span class="section-number">4.2.1. </span>Two formulas for the variance of <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#two-formulas-for-the-variance-of-y" title="Permalink to this headline">¶</a></h3>
-<p>Firstly, let’s start by introducing some notation. We’ll use <span class="math notranslate nohighlight">\(G\)</span> to refer to the total number of groups. For our data set, there are three drugs, so there are <span class="math notranslate nohighlight">\(G=3\)</span> groups. Next, we’ll use <span class="math notranslate nohighlight">\(N\)</span> to refer to the total sample size: there are a total of <span class="math notranslate nohighlight">\(N=18\)</span> people in our data set. Similarly, let’s use <span class="math notranslate nohighlight">\(N_k\)</span> to denote the number of people in the <span class="math notranslate nohighlight">\(k\)</span>-th group. In our fake clinical trial, the sample size is <span class="math notranslate nohighlight">\(N_k = 6\)</span> for all three groups.^[When all groups have the same number of observations, the experimental design is said to be “balanced”. Balance isn’t such a big deal for one-way ANOVA, which is the topic of this chapter. It becomes more important when you start doing more complicated ANOVAs.] Finally, we’ll use <span class="math notranslate nohighlight">\(Y\)</span> to denote the outcome variable: in our case, <span class="math notranslate nohighlight">\(Y\)</span> refers to mood change. Specifically, we’ll use <span class="math notranslate nohighlight">\(Y_{ik}\)</span> to refer to the mood change experienced by the <span class="math notranslate nohighlight">\(i\)</span>-th member of the <span class="math notranslate nohighlight">\(k\)</span>-th group. Similarly, we’ll use <span class="math notranslate nohighlight">\(\bar{Y}\)</span> to be the average mood change, taken across all 18 people in the experiment, and <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> to refer to the average mood change experienced by the 6 people in group <span class="math notranslate nohighlight">\(k\)</span>.</p>
-<p>Excellent. Now that we’ve got our notation sorted out, we can start writing down formulas. To start with, let’s recall the formula for the variance that we used in Section &#64;ref(var), way back in those kinder days when we were just doing descriptive statistics. The sample variance of <span class="math notranslate nohighlight">\(Y\)</span> is defined as follows:
-$<span class="math notranslate nohighlight">\(
+<p>Firstly, let’s start by introducing some notation. We’ll use <span class="math notranslate nohighlight">\(G\)</span> to refer to the total number of groups. For our data set, there are three drugs, so there are <span class="math notranslate nohighlight">\(G=3\)</span> groups. Next, we’ll use <span class="math notranslate nohighlight">\(N\)</span> to refer to the total sample size: there are a total of <span class="math notranslate nohighlight">\(N=18\)</span> people in our data set. Similarly, let’s use <span class="math notranslate nohighlight">\(N_k\)</span> to denote the number of people in the <span class="math notranslate nohighlight">\(k\)</span>-th group. In our fake clinical trial, the sample size is <span class="math notranslate nohighlight">\(N_k = 6\)</span> for all three groups.<a class="footnote-reference brackets" href="#note1" id="id1">1</a> Finally, we’ll use <span class="math notranslate nohighlight">\(Y\)</span> to denote the outcome variable: in our case, <span class="math notranslate nohighlight">\(Y\)</span> refers to mood change. Specifically, we’ll use <span class="math notranslate nohighlight">\(Y_{ik}\)</span> to refer to the mood change experienced by the <span class="math notranslate nohighlight">\(i\)</span>-th member of the <span class="math notranslate nohighlight">\(k\)</span>-th group. Similarly, we’ll use <span class="math notranslate nohighlight">\(\bar{Y}\)</span> to be the average mood change, taken across all 18 people in the experiment, and <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> to refer to the average mood change experienced by the 6 people in group <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>Excellent. Now that we’ve got our notation sorted out, we can start writing down formulas. To start with, let’s recall the formula for the variance that we used in <a class="reference internal" href="03.01-descriptives.html#var"><span class="std std-ref">Variance</span></a>, way back in those kinder days when we were just doing descriptive statistics. The sample variance of <span class="math notranslate nohighlight">\(Y\)</span> is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{Var}(Y) = \frac{1}{N} \sum_{k=1}^G \sum_{i=1}^{N_k} \left(Y_{ik} - \bar{Y} \right)^2
-\)</span><span class="math notranslate nohighlight">\(
-This formula looks pretty much identical to the formula for the variance in Section \&#64;ref(var). The only difference is that this time around I've got two summations here: I'm summing over groups (i.e., values for \)</span>k<span class="math notranslate nohighlight">\() and over the people within the groups (i.e., values for \)</span>i<span class="math notranslate nohighlight">\(). This is purely a cosmetic detail: if I'd instead used the notation \)</span>Y_p<span class="math notranslate nohighlight">\( to refer to the value of the outcome variable for person \)</span>p$ in the sample, then I’d only have a single summation. The only reason that we have a double summation here is that I’ve classified people into groups, and then assigned numbers to people within groups.</p>
+\]</div>
+<p>This formula looks pretty much identical to the formula for the variance in <a class="reference internal" href="03.01-descriptives.html#var"><span class="std std-ref">Variance</span></a>. The only difference is that this time around I’ve got two summations here: I’m summing over groups (i.e., values for <span class="math notranslate nohighlight">\(k\)</span>) and over the people within the groups (i.e., values for <span class="math notranslate nohighlight">\(i\)</span>). This is purely a cosmetic detail: if I’d instead used the notation <span class="math notranslate nohighlight">\(Y_p\)</span> to refer to the value of the outcome variable for person <span class="math notranslate nohighlight">\(p\)</span> in the sample, then I’d only have a single summation. The only reason that we have a double summation here is that I’ve classified people into groups, and then assigned numbers to people within groups.</p>
 <p>A concrete example might be useful here. Let’s consider this table, in which we have a total of <span class="math notranslate nohighlight">\(N=5\)</span> people sorted into <span class="math notranslate nohighlight">\(G=2\)</span> groups. Arbitrarily, let’s say that the “cool” people are group 1, and the “uncool” people are group 2, and it turns out that we have three cool people (<span class="math notranslate nohighlight">\(N_1 = 3\)</span>) and two uncool people (<span class="math notranslate nohighlight">\(N_2 = 2\)</span>).</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-     ~V1,      ~V2,      ~V3,          ~V4,              ~V5,                 ~V6,
-   &quot;Ann&quot;,      &quot;1&quot;,   &quot;cool&quot;,          &quot;1&quot;,              &quot;1&quot;,                &quot;20&quot;,
-   &quot;Ben&quot;,      &quot;2&quot;,   &quot;cool&quot;,          &quot;1&quot;,              &quot;2&quot;,                &quot;55&quot;,
-   &quot;Cat&quot;,      &quot;3&quot;,   &quot;cool&quot;,          &quot;1&quot;,              &quot;3&quot;,                &quot;21&quot;,
-   &quot;Dan&quot;,      &quot;4&quot;, &quot;uncool&quot;,          &quot;2&quot;,              &quot;1&quot;,                &quot;91&quot;,
-   &quot;Egg&quot;,      &quot;5&quot;, &quot;uncool&quot;,          &quot;2&quot;,              &quot;2&quot;,                &quot;22&quot;
-  ), col.names = c(&quot;name&quot;, &quot;person ($p$)&quot;,  &quot;group&quot;, &quot;group num ($k$)&quot;, &quot;index in group ($i$)&quot;,        &quot;grumpiness ($Y_{ik}$ or $Y_p$)&quot;))
-</pre></div>
-</div>
-<p>Notice that I’ve constructed two different labelling schemes here. We have a “person” variable <span class="math notranslate nohighlight">\(p\)</span>, so it would be perfectly sensible to refer to <span class="math notranslate nohighlight">\(Y_p\)</span> as the grumpiness of the <span class="math notranslate nohighlight">\(p\)</span>-th person in the sample. For instance, the table shows that Dan is the four so we’d say <span class="math notranslate nohighlight">\(p = 4\)</span>. So, when talking about the grumpiness <span class="math notranslate nohighlight">\(Y\)</span> of this “Dan” person, whoever he might be, we could refer to his grumpiness by saying that <span class="math notranslate nohighlight">\(Y_p = 91\)</span>, for person <span class="math notranslate nohighlight">\(p = 4\)</span> that is.  However, that’s not the only way we could refer to Dan. As an alternative we could note that Dan belongs to the “uncool” group (<span class="math notranslate nohighlight">\(k = 2\)</span>), and is in fact the first person listed in the uncool group (<span class="math notranslate nohighlight">\(i = 1\)</span>). So it’s equally valid to refer to Dan’s grumpiness by saying that <span class="math notranslate nohighlight">\(Y_{ik} = 91\)</span>, where <span class="math notranslate nohighlight">\(k = 2\)</span> and <span class="math notranslate nohighlight">\(i = 1\)</span>. In other words, each person <span class="math notranslate nohighlight">\(p\)</span> corresponds to a unique <span class="math notranslate nohighlight">\(ik\)</span> combination, and so the formula that I gave above is actually identical to our original formula for the variance, which would be
-$<span class="math notranslate nohighlight">\(
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>name</p></th>
+<th class="text-align:left head"><p>person (<span class="math notranslate nohighlight">\(p\)</span>)</p></th>
+<th class="text-align:left head"><p>group</p></th>
+<th class="text-align:left head"><p>group num (<span class="math notranslate nohighlight">\(k\)</span>)</p></th>
+<th class="text-align:left head"><p>index in group (<span class="math notranslate nohighlight">\(i\)</span>)</p></th>
+<th class="text-align:left head"><p>grumpiness (<span class="math notranslate nohighlight">\(Y_{ik}\)</span> or <span class="math notranslate nohighlight">\(Y_p\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Ann</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>cool</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>20</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Ben</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>cool</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>55</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Cat</p></td>
+<td class="text-align:left"><p>3</p></td>
+<td class="text-align:left"><p>cool</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>3</p></td>
+<td class="text-align:left"><p>21</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Dan</p></td>
+<td class="text-align:left"><p>4</p></td>
+<td class="text-align:left"><p>uncool</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>91</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Egg</p></td>
+<td class="text-align:left"><p>5</p></td>
+<td class="text-align:left"><p>uncool</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>22</p></td>
+</tr>
+</tbody>
+</table>
+<p>Notice that I’ve constructed two different labelling schemes here. We have a “person” variable <span class="math notranslate nohighlight">\(p\)</span>, so it would be perfectly sensible to refer to <span class="math notranslate nohighlight">\(Y_p\)</span> as the grumpiness of the <span class="math notranslate nohighlight">\(p\)</span>-th person in the sample. For instance, the table shows that Dan is the four so we’d say <span class="math notranslate nohighlight">\(p = 4\)</span>. So, when talking about the grumpiness <span class="math notranslate nohighlight">\(Y\)</span> of this “Dan” person, whoever he might be, we could refer to his grumpiness by saying that <span class="math notranslate nohighlight">\(Y_p = 91\)</span>, for person <span class="math notranslate nohighlight">\(p = 4\)</span> that is.  However, that’s not the only way we could refer to Dan. As an alternative we could note that Dan belongs to the “uncool” group (<span class="math notranslate nohighlight">\(k = 2\)</span>), and is in fact the first person listed in the uncool group (<span class="math notranslate nohighlight">\(i = 1\)</span>). So it’s equally valid to refer to Dan’s grumpiness by saying that <span class="math notranslate nohighlight">\(Y_{ik} = 91\)</span>, where <span class="math notranslate nohighlight">\(k = 2\)</span> and <span class="math notranslate nohighlight">\(i = 1\)</span>. In other words, each person <span class="math notranslate nohighlight">\(p\)</span> corresponds to a unique <span class="math notranslate nohighlight">\(ik\)</span> combination, and so the formula that I gave above is actually identical to our original formula for the variance, which would be</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{Var}(Y) = \frac{1}{N} \sum_{p=1}^N  \left(Y_{p} - \bar{Y} \right)^2
-\)</span><span class="math notranslate nohighlight">\(
-In both formulas, all we're doing is summing over all of the observations in the sample. Most of the time we would just use the simpler \)</span>Y_p<span class="math notranslate nohighlight">\( notation: the equation using \)</span>Y_p<span class="math notranslate nohighlight">\( is clearly the simpler of the two. However, when doing an ANOVA it's important to keep track of which participants belong in which groups, and we need to use the \)</span>Y_{ik}$ notation to do this.</p>
+\]</div>
+<p>In both formulas, all we’re doing is summing over all of the observations in the sample. Most of the time we would just use the simpler <span class="math notranslate nohighlight">\(Y_p\)</span> notation: the equation using <span class="math notranslate nohighlight">\(Y_p\)</span> is clearly the simpler of the two. However, when doing an ANOVA it’s important to keep track of which participants belong in which groups, and we need to use the <span class="math notranslate nohighlight">\(Y_{ik}\)</span> notation to do this.</p>
 </div>
 <div class="section" id="from-variances-to-sums-of-squares">
 <h3><span class="section-number">4.2.2. </span>From variances to sums of squares<a class="headerlink" href="#from-variances-to-sums-of-squares" title="Permalink to this headline">¶</a></h3>
@@ -1477,6 +1519,12 @@ kruskal.test( x = mood.gain )
 <li><p>How to check the normality assumption (Section &#64;ref(anovanormality) and what to do if it is violated (Section &#64;ref(kruskalwallis)).</p></li>
 </ul>
 <p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is &#64;Sahai2000. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>When all groups have the same number of observations, the experimental design is said to be “balanced”. Balance isn’t such a big deal for one-way ANOVA, which is the topic of this chapter. It becomes more important when you start doing more complicated ANOVAs.</p>
+</dd>
+</dl>
 </div>
 </div>
 
