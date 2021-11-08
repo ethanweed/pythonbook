@@ -415,22 +415,6 @@
        4.3.1. Getting Python to calculate ANOVA for you
       </a>
      </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#understanding-what-the-aov-function-produces-aovobjects">
-       4.3.2. Understanding what the
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         aov()
-        </span>
-       </code>
-       function produces{#aovobjects}
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#running-the-hypothesis-tests-for-the-anova">
-       4.3.3. Running the hypothesis tests for the ANOVA
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -1661,7 +1645,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 </div>
 <p>Therefore, our <span class="math notranslate nohighlight">\(p\)</span>-value comes to 0.0000867, or <span class="math notranslate nohighlight">\(8.67 \times 10^{-5}\)</span> in scientific notation. So, unless we’re being <em>extremely</em> conservative about our Type I error rate, we’re pretty much guaranteed to reject the null hypothesis.</p>
-<p>At this point, we’re basically done. Having completed our calculations, it’s traditional to organise all these numbers into an ANOVA table like the one in Table&#64;reftab:anovatable. For our clinical trial data, the ANOVA table would look like this:</p>
+<p>At this point, we’re basically done. Having completed our calculations, it’s traditional to organise all these numbers into an ANOVA table like the one below:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p></p></th>
@@ -1702,7 +1686,8 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 <div class="section" id="getting-python-to-calculate-anova-for-you">
 <h3><span class="section-number">4.3.1. </span>Getting Python to calculate ANOVA for you<a class="headerlink" href="#getting-python-to-calculate-anova-for-you" title="Permalink to this headline">¶</a></h3>
 <p>Now, as you can imagine, there are several Python modules available that provided tools for taking the pain out calculating ANOVA’s. <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, for example, has <code class="docutils literal notranslate"><span class="pre">stats.f_oneway</span></code> which, in the typical, laconic fashion of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, spits out an <span class="math notranslate nohighlight">\(F\)</span>-value, a <span class="math notranslate nohighlight">\(p\)</span>-value, and not much more. We have already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> above to find our <span class="math notranslate nohighlight">\(p\)</span>-value by hand. I am going to reccomend an entirely different package, though: <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. These things go in and out of fashion, but for my money, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is quickly becoming the go-to Python package for anthing beyond a humble <span class="math notranslate nohighlight">\(t\)</span>-test. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> builds on a more modern approach to statistics which goes beyond what we can deal with here, but suffice to say, that among other things, it is an easy way to get your ANOVA work done.</p>
-<p>The key to working with <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is the <code class="docutils literal notranslate"><span class="pre">formula</span></code>, so let’s take a look at that. A <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula (which will instantly feel familiar to anyone who has worked with the programming language R before) begins with the <em>dependent variable</em> or <em>outcome measure</em>: basically the thing we are trying to undersand. The <em>outcome measure</em> goes on the left side of the <code class="docutils literal notranslate"><span class="pre">~</span></code>character, which I read in my head as “predicted by”. To the right of the <code class="docutils literal notranslate"><span class="pre">~</span></code> comes, unsurprisingly, the <em>predictor variables</em>, or <em>independent variables</em> if you prefer. So, in our case, we are investigating whether or not there are significant differences between the three drug types: placebo, anxifree, and joyzepam. In other words, we want to know if variation in the variable <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> that can be accounted for by these three groups is greater than the variation within the groups. Or, in still other words, whether <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> can be <em>predicted by</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code>.</p>
+<p>The key to working with <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is the <code class="docutils literal notranslate"><span class="pre">formula</span></code>, so let’s take a look at that. A <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula (which will instantly feel familiar to anyone who has worked with the programming language R before) begins with the <em>dependent variable</em> or <em>outcome measure</em>: basically the thing we are trying to undersand. The <em>outcome measure</em> goes on the left side of the <code class="docutils literal notranslate"><span class="pre">~</span></code>character, which I read in my head as “predicted by”. To the right of the <code class="docutils literal notranslate"><span class="pre">~</span></code> comes, unsurprisingly, the <em>predictor variables</em>, or <em>independent variables</em> if you prefer. So, in our case, we are investigating whether or not there are significant differences between the three drug types: placebo, anxifree, and joyzepam. In other words, we want to know if variation in the variable <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> that can be accounted for by these three groups is greater than the variation within the groups. Or, in still other words, whether <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> can be <em>predicted by</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code>. So, our formula is <code class="docutils literal notranslate"><span class="pre">'mood_gain</span> <span class="pre">~</span> <span class="pre">drug'</span></code>.</p>
+<p>Before we run the ANOVA, let’s just remember what the data look like:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -1768,6 +1753,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </table>
 </div></div></div>
 </div>
+<p>Now, let’s let <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> do its magic. To do the same ANOVA that I laboriously calculated in the previous section, I’d use a few simple commands like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
@@ -1826,55 +1812,43 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </table>
 </div></div></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>aov( formula = mood.gain ~ drug, data = clin.trial ) 
-</pre></div>
-</div>
-<p>Actually, that’s not <em>quite</em> the whole story, as you’ll see as soon as you look at the output from this command, which I’ve hidden for the moment in order to avoid confusing you. Before we go into specifics, I should point out that either of these commands will do the same thing:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>aov( clin.trial$mood.gain ~ clin.trial$drug ) 
-aov( mood.gain ~ drug, clin.trial ) 
-</pre></div>
-</div>
-<p>In the first command, I didn’t specify a <code class="docutils literal notranslate"><span class="pre">data</span></code> set, and instead relied on the <code class="docutils literal notranslate"><span class="pre">$</span></code> operator to tell R how to find the variables. In the second command, I dropped the argument names, which is okay in this case because <code class="docutils literal notranslate"><span class="pre">formula</span></code> is the first argument to the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function, and <code class="docutils literal notranslate"><span class="pre">data</span></code> is the second one. Regardless of how I specify the ANOVA, I can assign the output of the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function to a variable, like this for example:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>my.anova &lt;- aov( mood.gain ~ drug, clin.trial ) 
-</pre></div>
-</div>
-<p>This is almost always a good thing to do, because there’s <em>lots</em> of useful things that we can do with the <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> variable. So let’s assume that it’s this last command that I used to specify the ANOVA that I’m trying to run, and as a consequence I have this <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> variable sitting in my workspace, waiting for me to do something with it…</p>
-</div>
-<div class="section" id="understanding-what-the-aov-function-produces-aovobjects">
-<h3><span class="section-number">4.3.2. </span>Understanding what the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function produces{#aovobjects}<a class="headerlink" href="#understanding-what-the-aov-function-produces-aovobjects" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>my.anova &lt;- aov( mood.gain ~ drug, clin.trial ) 
-</pre></div>
-</div>
-<p>Now that we’ve seen how to use the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function to create <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> we’d better have a look at what this variable actually is. The first thing to do is to check to see what class of variable we’ve created, since it’s  kind of interesting in this case. When we do that…</p>
-<p>… we discover that <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> actually has <em>two</em> classes! The first class tells us that it’s an <code class="docutils literal notranslate"><span class="pre">aov</span></code> (analysis of variance) object, but the second tells us that it’s <em>also</em> an <code class="docutils literal notranslate"><span class="pre">lm</span></code> (linear model) object. Later on, we’ll see that this reflects a pretty deep statistical relationship between ANOVA and regression (Chapter &#64;ref(regression) and it means that any function that exists in R for dealing with regressions can also be applied to <code class="docutils literal notranslate"><span class="pre">aov</span></code> objects, which is neat; but I’m getting ahead of myself. For now, I want to note that what we’ve created is an <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, and to also make the point that <code class="docutils literal notranslate"><span class="pre">aov</span></code> objects are actually rather complicated beasts. I <em>won’t</em> be trying to explain everything about them, since it’s way beyond the scope of an introductory statistics subject, but to give you a tiny hint of some of the stuff that R stores inside an <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, let’s ask it to print out the <code class="docutils literal notranslate"><span class="pre">names()</span></code> of all the stored quantities…</p>
-<p>As we go through the rest of the book, I hope that a few of these will become a little more obvious to you, but right now that’s going to look pretty damned opaque. That’s okay. You don’t need to know any of the details about it right now, and most of it you don’t need at all… what you <em>do</em> need to understand is that the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function does a lot of calculations for you, not just the basic ones that I outlined in the previous sections. What this means is that it’s generally a good idea to create a variable like <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> that stores the output of the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function… because later on, you can use <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> as an input to lots of other functions:  those other functions can pull out bits and pieces from the <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, and calculate various other things that you might need.</p>
-<p>Right then. The simplest thing you can do with an <code class="docutils literal notranslate"><span class="pre">aov</span></code> object is to <code class="docutils literal notranslate"><span class="pre">print()</span></code> it out. When we do that, it shows us a few of the key quantities of interest:</p>
-<p>Specificially, it prints out a reminder of the command that you used when you called <code class="docutils literal notranslate"><span class="pre">aov()</span></code> in the first place, shows you the sums of squares values, the degrees of freedom, and a couple of other quantities that we’re not really interested in right now. Notice, however, that R doesn’t use the names “between-group” and “within-group”. Instead, it tries to assign more meaningful names: in our particular example, the <em>between groups</em> variance corresponds to the effect that the <code class="docutils literal notranslate"><span class="pre">drug</span></code> has on the outcome variable; and the <em>within groups</em> variance is corresponds to the “leftover” variability, so it calls that the <em>residuals</em>. If we compare these numbers to the numbers that I calculated by hand in Section &#64;ref(anovacalc), you can see that they’re identical… the between groups sums of squares is <span class="math notranslate nohighlight">\(\mbox{SS}_b = 3.45\)</span>, the within groups sums of squares is <span class="math notranslate nohighlight">\(\mbox{SS}_w = 1.39\)</span>, and the degrees of freedom are 2 and 15 repectively.</p>
-</div>
-<div class="section" id="running-the-hypothesis-tests-for-the-anova">
-<h3><span class="section-number">4.3.3. </span>Running the hypothesis tests for the ANOVA<a class="headerlink" href="#running-the-hypothesis-tests-for-the-anova" title="Permalink to this headline">¶</a></h3>
-<p>Okay, so we’ve verified that <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> seems to be storing a bunch of the numbers that we’re looking for, but the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function didn’t quite give us the output that we really wanted. Where’s the <span class="math notranslate nohighlight">\(F\)</span>-value? The <span class="math notranslate nohighlight">\(p\)</span>-value? These are the most important numbers in our hypothesis test, but the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function doesn’t provide them. To get those numbers, we need to use a different function. Instead of asking R to <code class="docutils literal notranslate"><span class="pre">print()</span></code> out the <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, we should have asked for a <code class="docutils literal notranslate"><span class="pre">summary()</span></code> of it.^[It’s worth noting that you can get the same result by using the command <code class="docutils literal notranslate"><span class="pre">anova(</span> <span class="pre">my.anova</span> <span class="pre">)</span></code>.] When we do that…</p>
-<p>… we get all of the key numbers that we calculated earlier. We get the sums of squares, the degrees of freedom, the mean squares, the <span class="math notranslate nohighlight">\(F\)</span>-statistic, and the <span class="math notranslate nohighlight">\(p\)</span>-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it’s even organised into the same kind of ANOVA table that I showed in Table &#64;ref(tab:anovatable), and then filled out by hand in Section &#64;ref(anovacalc). The only things that are even slightly different is that some of the row and column names are a bit different.</p>
+<p>Now, isn’t that better? We got to the same place, but with a lot less pain and suffering!</p>
+<p>Once we get done celebrating, we might take a little closer look at this wonder function. The function is called <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code>. The ANOVA part makes sense, sure, but what is this <code class="docutils literal notranslate"><span class="pre">lm</span></code> thing all about? <code class="docutils literal notranslate"><span class="pre">lm</span></code> stands for “linear model”, and later on, we’ll see that this reflects a pretty deep statistical relationship between ANOVA and regression <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">Linear regression</span></a> and this has some important implications for what can be done with both ANOVA’s and linear regressions… but I’m getting ahead of myself. For now, let’s just bask in the glory of the anova table that <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us. We get the sums of squares, the degrees of freedom, the <span class="math notranslate nohighlight">\(F\)</span>-statistic, and the <span class="math notranslate nohighlight">\(p\)</span>-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it’s even organised into a nice table, like the one that I filled out by hand in <a class="reference internal" href="#anovacalc"><span class="std std-ref">A worked example</span></a>.</p>
 </div>
 </div>
 <div class="section" id="effect-size">
 <span id="etasquared"></span><h2><span class="section-number">4.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h2>
-<p>There’s a few different ways you could measure the effect size in an ANOVA, but the most commonly used measures are <span class="math notranslate nohighlight">\(\eta^2\)</span> (<strong><em>eta squared</em></strong>) and partial <span class="math notranslate nohighlight">\(\eta^2\)</span>. For a one way analysis of variance they’re identical to each other, so for the moment I’ll just explain <span class="math notranslate nohighlight">\(\eta^2\)</span>. The definition of <span class="math notranslate nohighlight">\(\eta^2\)</span> is actually really simple:
-$<span class="math notranslate nohighlight">\(
+<p>There’s a few different ways you could measure the effect size in an ANOVA, but the most commonly used measures are <span class="math notranslate nohighlight">\(\eta^2\)</span> (<strong><em>eta squared</em></strong>) and partial <span class="math notranslate nohighlight">\(\eta^2\)</span>. For a one way analysis of variance they’re identical to each other, so for the moment I’ll just explain <span class="math notranslate nohighlight">\(\eta^2\)</span>. The definition of <span class="math notranslate nohighlight">\(\eta^2\)</span> is actually really simple:</p>
+<div class="math notranslate nohighlight">
+\[
 \eta^2 = \frac{\mbox{SS}_b}{\mbox{SS}_{tot}}
-\)</span><span class="math notranslate nohighlight">\(
-That's all it is. So when I look at the ANOVA table above, I see that \)</span>\mbox{SS}<em>b = 3.45<span class="math notranslate nohighlight">\(  and \)</span>\mbox{SS}</em>{tot} = 3.45 + 1.39 = 4.84<span class="math notranslate nohighlight">\(. Thus we get an \)</span>\eta^2<span class="math notranslate nohighlight">\( value of 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>That’s all it is. So when I look at the ANOVA table above, I see that <span class="math notranslate nohighlight">\(\mbox{SS}_b = 3.45\)</span>  and <span class="math notranslate nohighlight">\(\mbox{SS}_{tot} = 3.45 + 1.39 = 4.84\)</span>. Thus we get an <span class="math notranslate nohighlight">\(\eta^2\)</span> value of</p>
+<div class="math notranslate nohighlight">
+\[
 \eta^2 = \frac{3.45}{4.84} = 0.71
-\)</span><span class="math notranslate nohighlight">\(
-The interpretation of \)</span>\eta^2<span class="math notranslate nohighlight">\( is equally straightforward: it refers to the proportion of the variability in the outcome variable (`mood.gain`) that can be explained in terms of the predictor (`drug`). A value of \)</span>\eta^2 = 0<span class="math notranslate nohighlight">\( means that there is no relationship at all between the two, whereas a value of \)</span>\eta^2 = 1<span class="math notranslate nohighlight">\( means that the relationship is perfect. Better yet, the \)</span>\eta^2<span class="math notranslate nohighlight">\( value is very closely related to a squared correlation (i.e., \)</span>r^2<span class="math notranslate nohighlight">\(). So, if you're trying to figure out whether a particular value of \)</span>\eta^2<span class="math notranslate nohighlight">\( is big or small, it's sometimes useful to remember that 
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>The interpretation of <span class="math notranslate nohighlight">\(\eta^2\)</span> is equally straightforward: it refers to the proportion of the variability in the outcome variable (<code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>) that can be explained in terms of the predictor (<code class="docutils literal notranslate"><span class="pre">drug</span></code>). A value of <span class="math notranslate nohighlight">\(\eta^2 = 0\)</span> means that there is no relationship at all between the two, whereas a value of <span class="math notranslate nohighlight">\(\eta^2 = 1\)</span> means that the relationship is perfect. Better yet, the <span class="math notranslate nohighlight">\(\eta^2\)</span> value is very closely related to a squared correlation (i.e., <span class="math notranslate nohighlight">\(r^2\)</span>). So, if you’re trying to figure out whether a particular value of <span class="math notranslate nohighlight">\(\eta^2\)</span> is big or small, it’s sometimes useful to remember that</p>
+<div class="math notranslate nohighlight">
+\[
 \eta= \sqrt{\frac{\mbox{SS}_b}{\mbox{SS}_{tot}}}
-\)</span><span class="math notranslate nohighlight">\(
-can be interpreted as if it referred to the *magnitude* of a Pearson correlation. So in our drugs example, the \)</span>\eta^2<span class="math notranslate nohighlight">\( value of .71 corresponds to an \)</span>\eta<span class="math notranslate nohighlight">\( value of \)</span>\sqrt{.71} = .84$. If we think about this as being equivalent to a correlation of about .84, we’d conclude that the relationship between <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> is strong.</p>
-<p>The core packages in R don’t include any functions for calculating <span class="math notranslate nohighlight">\(\eta^2\)</span>. However, it’s pretty straightforward to calculate it directly from the numbers in the ANOVA table. In fact, since I’ve already got the <code class="docutils literal notranslate"><span class="pre">SSw</span></code> and <code class="docutils literal notranslate"><span class="pre">SSb</span></code> variables lying around from my earlier calculations, I can do this:</p>
-<p>However, since it can be tedious to do this the long way (especially when we start running more complicated ANOVAs, such as those in Chapter &#64;ref(anova2) I’ve included an <code class="docutils literal notranslate"><span class="pre">etaSquared()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package which will do it for you. For now, the only argument you need to care about is <code class="docutils literal notranslate"><span class="pre">x</span></code>, which should be the <code class="docutils literal notranslate"><span class="pre">aov</span></code> object corresponding to your ANOVA. When we do this, what we get as output is this:</p>
-<p>The output here shows two different numbers. The first one corresponds to the <span class="math notranslate nohighlight">\(\eta^2\)</span> statistic, precisely as described above. The second one refers to “partial <span class="math notranslate nohighlight">\(\eta^2\)</span>”, which is a somewhat different measure of effect size that I’ll describe later. For the simple ANOVA that we’ve just run, they’re the same number. But this won’t always be true once we start running more complicated ANOVAs.^[A potentially important footnote – I wrote the <code class="docutils literal notranslate"><span class="pre">etaSquared()</span></code> function for the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package as a teaching exercise, but like all the other functions in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package it hasn’t been exhaustively tested. As of this writing – <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package version 0.5 – there is at least one known bug in the code. In some cases at least, it doesn’t work (and can give very silly answers) when you set the <code class="docutils literal notranslate"><span class="pre">weights</span></code> on the observations to something other than uniform. That doesn’t matter at all for this book, since those kinds of analyses are well beyond the scope, but I haven’t had a chance to revisit the package in a long time; it would probably be wise to be very cautious with the use of this function in any context other than very simple introductory analyses. Thanks to Emil Kirkegaard for finding the bug! (Oh, and while I’m here, there’s an interesting blog post by Daniel Lakens suggesting that eta-squared itself is perhaps not the best measure of effect size in real world data analysis: http://daniellakens.blogspot.com.au/2015/06/why-you-should-use-omega-squared.html]</p>
+\]</div>
+<p>can be interpreted as if it referred to the <em>magnitude</em> of a Pearson correlation. So in our drugs example, the <span class="math notranslate nohighlight">\(\eta^2\)</span> value of .71 corresponds to an <span class="math notranslate nohighlight">\(\eta\)</span> value of <span class="math notranslate nohighlight">\(\sqrt{.71} = .84\)</span>. If we think about this as being equivalent to a correlation of about .84, we’d conclude that the relationship between <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> is strong.</p>
+<p>It’s pretty straightforward to calculate it directly from the numbers in the ANOVA table. In fact, since I’ve already got the <code class="docutils literal notranslate"><span class="pre">SSw</span></code> and <code class="docutils literal notranslate"><span class="pre">SSb</span></code> variables lying around from my earlier calculations, I can do this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SStot</span> <span class="o">=</span> <span class="n">SSb</span> <span class="o">+</span> <span class="n">SSw</span>          <span class="c1"># total sums of squares</span>
+<span class="n">eta_squared</span> <span class="o">=</span> <span class="n">SSb</span> <span class="o">/</span> <span class="n">SStot</span>  <span class="c1"># eta-squared value</span>
+<span class="n">eta_squared</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7127545404512933
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="multiple-comparisons-and-post-hoc-tests">
 <span id="posthoc"></span><h2><span class="section-number">4.5. </span>Multiple comparisons and post hoc tests<a class="headerlink" href="#multiple-comparisons-and-post-hoc-tests" title="Permalink to this headline">¶</a></h2>
@@ -1886,21 +1860,67 @@ can be interpreted as if it referred to the *magnitude* of a Pearson correlation
 </ul>
 <p>If any one of those three claims is false, then the null hypothesis is also false. So, now that we’ve rejected our null hypothesis, we’re thinking that <em>at least</em> one of those things isn’t true. But which ones? All three of these propositions are of interest: you certainly want to know if your new drug Joyzepam is better than a placebo, and it would be nice to know how well it stacks up against an existing commercial alternative (i.e., Anxifree). It would even be useful to check the performance of Anxifree against the placebo: even if Anxifree has already been extensively tested against placebos by other researchers, it can still be very useful to check that your study is producing similar results to earlier work.</p>
 <p>When we characterise the null hypothesis in terms of these three distinct propositions, it becomes clear that there are eight possible “states of the world” that we need to distinguish between:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-             ~V1,                     ~V2,                     ~V3,                     ~V4,                 ~V5,
-
-             &quot;1&quot;,           &quot;$\\checkmark$&quot;,           &quot;$\\checkmark$&quot;,           &quot;$\\checkmark$&quot;,              &quot;null&quot;,
-             &quot;2&quot;,           &quot;$\\checkmark$&quot;,           &quot;$\\checkmark$&quot;,                      &quot;&quot;,       &quot;alternative&quot;,
-             &quot;3&quot;,           &quot;$\\checkmark$&quot;,                      &quot;&quot;,           &quot;$\\checkmark$&quot;,       &quot;alternative&quot;,
-             &quot;4&quot;,           &quot;$\\checkmark$&quot;,                      &quot;&quot;,                      &quot;&quot;,       &quot;alternative&quot;,
-             &quot;5&quot;,                      &quot;&quot;,           &quot;$\\checkmark$&quot;,           &quot;$\\checkmark$&quot;,       &quot;alternative&quot;,
-             &quot;6&quot;,                      &quot;&quot;,           &quot;$\\checkmark$&quot;,                      &quot;&quot;,       &quot;alternative&quot;,
-             &quot;7&quot;,                      &quot;&quot;,                      &quot;&quot;,           &quot;$\\checkmark$&quot;,       &quot;alternative&quot;,
-             &quot;8&quot;,                      &quot;&quot;,                      &quot;&quot;,                      &quot;&quot;,       &quot;alternative&quot;
-  ), col.names = c(&quot;possibility:&quot;, &quot;is $\\mu_P = \\mu_A$?&quot;, &quot;is $\\mu_P = \\mu_J$?&quot;, &quot;is $\\mu_A = \\mu_J$?&quot;, &quot;which hypothesis?&quot;))
-</pre></div>
-</div>
-<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in Figure &#64;ref(fig:moodgain), it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>possibility:</p></th>
+<th class="text-align:left head"><p>is <span class="math notranslate nohighlight">\(\mu_P = \mu_A\)</span>?</p></th>
+<th class="text-align:left head"><p>is <span class="math notranslate nohighlight">\(\mu_P = \mu_J\)</span>?</p></th>
+<th class="text-align:left head"><p>is <span class="math notranslate nohighlight">\(\mu_A = \mu_J\)</span>?</p></th>
+<th class="text-align:left head"><p>which hypothesis?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p>null</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>3</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>4</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>5</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>6</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>7</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\checkmark\)</span></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>8</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>alternative</p></td>
+</tr>
+</tbody>
+</table>
+<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 4.7</span></a>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
 <div class="section" id="running-pairwise-t-tests">
 <h3><span class="section-number">4.5.1. </span>Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#running-pairwise-t-tests" title="Permalink to this headline">¶</a></h3>
 <p>How might we go about solving our problem? Given that we’ve got three separate pairs of means (placebo versus Anxifree, placebo versus Joyzepam, and Anxifree versus Joyzepam) to compare, what we could do is run three separate <span class="math notranslate nohighlight">\(t\)</span>-tests and see what happens. There’s a couple of ways that we could do this. One method would be to construct new variables corresponding the groups you want to compare (e.g., <code class="docutils literal notranslate"><span class="pre">anxifree</span></code>, <code class="docutils literal notranslate"><span class="pre">placebo</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>), and then run a <span class="math notranslate nohighlight">\(t\)</span>-test on these new variables:</p>
