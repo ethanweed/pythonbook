@@ -432,8 +432,8 @@ As you might expect, the mechanics of the $t$-test are almost identical to the m
 The situation with $t$-tests is very similar to the one we encountered with chi-squared tests in Chapter \@ref(chisquare). `scipy.stats` includes a variety of methods for running different kinds of  $t$-tests. To run a one-sample $t$-test, use the `ttest_1samp` method. It's pretty straightforward to use: all you need to do is specify `a`, the variable containing the data, and `popmean`, the true population mean according to the null hypothesis. All you need to type is this:
 
 from scipy.stats import ttest_1samp
-ttest_1samp(a = grades, popmean = 67.5)
-
+t, p = ttest_1samp(a = grades, popmean = 67.5)
+t, p
 
 So that seems straightforward enough. Our calculation resulted in a $t$-statistic of 2.54, and a $p$-value of 0.36. Now what do we *do* with this output? Well, since we're pretending that we actually care about my toy example, we're overjoyed to discover that the result is statistically significant (i.e. $p$ value below .05), and we will probably want to report our result. We could report the result by saying something like this:
 
@@ -700,7 +700,8 @@ Bernadette = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
 
 # run an independent samples t-test
 from scipy import stats
-stats.ttest_ind(Anastasia, Bernadette, equal_var = True)
+t, p = stats.ttest_ind(Anastasia, Bernadette, equal_var = True)
+t, p
 
 This is fairly straightforward, and just as it was for the one-sample $t$-test, `scipy` does very little to format its results or give you any information over the bare minimum. You get a $t$-statistic and a $p$-value and that's that. Luckily, as was the case with the one-sampel $t$-test, getting the other elements we need to report our results isn't too bad. We will need the $t$-statistic, the $p$-value, the mean of each group, and the degrees of freedom. The first two we already have, and the last two are easy to get. As we discussed [above](indsamplesttest_formula), the degrees of freedom for an independent samples $t$-test is $N-2$, so...
 
@@ -831,7 +832,8 @@ Graphical illustration of the null and alternative hypotheses assumed by the Wel
 To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's $t$-test and set `equal_var` to `False` . So the command for a Welch test becomes:
 
 from scipy import stats
-stats.ttest_ind(Anastasia, Bernadette, equal_var = False)
+t, p = stats.ttest_ind(Anastasia, Bernadette, equal_var = False)
+t, p
 
 Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too: a test statistic $t$, and a $p$-value. So that's all pretty easy. 
 
@@ -916,7 +918,8 @@ from scipy import stats
 
 data = df['improvement']
 
-stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
+t, p = stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
+t, p
 
 we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so). 
 
