@@ -905,28 +905,32 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 <div class="section" id="from-variances-to-sums-of-squares">
 <h3><span class="section-number">4.2.2. </span>From variances to sums of squares<a class="headerlink" href="#from-variances-to-sums-of-squares" title="Permalink to this headline">¶</a></h3>
-<p>Okay, now that we’ve got a good grasp on how the variance is calculated, let’s define something called the <strong><em>total sum of squares</em></strong>, which is denoted SS<span class="math notranslate nohighlight">\(_{tot}\)</span>. This is very simple: instead of averaging the squared deviations, which is what we do when calculating the variance, we just add them up. So the formula for the total sum of squares is almost identical to the formula for the variance:
-$<span class="math notranslate nohighlight">\(
+<p>Okay, now that we’ve got a good grasp on how the variance is calculated, let’s define something called the <strong><em>total sum of squares</em></strong>, which is denoted SS<span class="math notranslate nohighlight">\(_{tot}\)</span>. This is very simple: instead of averaging the squared deviations, which is what we do when calculating the variance, we just add them up. So the formula for the total sum of squares is almost identical to the formula for the variance:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{SS}_{tot} = \sum_{k=1}^G \sum_{i=1}^{N_k} \left(Y_{ik} - \bar{Y} \right)^2
-\)</span><span class="math notranslate nohighlight">\( 
-When we talk about analysing variances in the context of ANOVA, what we're really doing is working with the total sums of squares rather than the actual variance. One very nice thing about the total sum of squares is that we can break it up into two different kinds of variation. Firstly, we can talk about the **_within-group sum of squares_**, in which we look to see how different each individual person is from their own group mean:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>When we talk about analysing variances in the context of ANOVA, what we’re really doing is working with the total sums of squares rather than the actual variance. One very nice thing about the total sum of squares is that we can break it up into two different kinds of variation. Firstly, we can talk about the <strong><em>within-group sum of squares</em></strong>, in which we look to see how different each individual person is from their own group mean:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{SS}_w = \sum_{k=1}^G \sum_{i=1}^{N_k} \left( Y_{ik} - \bar{Y}_k \right)^2
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\bar{Y}_k<span class="math notranslate nohighlight">\( is a group mean. In our example, \)</span>\bar{Y}_k<span class="math notranslate nohighlight">\( would be the average mood change experienced by those people given  the \)</span>k<span class="math notranslate nohighlight">\(-th drug. So, instead of comparing individuals to the average of *all* people in the experiment, we're only comparing them to those people in the the same group. As a consequence, you'd expect the value of \)</span>\mbox{SS}_w$ to be smaller than the total sum of squares, because it’s completely ignoring any group differences – that is, the fact that the drugs (if they work) will have different effects on people’s moods.</p>
-<p>Next, we can define a third notion of variation which captures <em>only</em> the differences between groups. We do this by looking at the differences between the group means <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> and grand mean <span class="math notranslate nohighlight">\(\bar{Y}\)</span>. In order to quantify the extent of this variation, what we do is calculate the <strong><em>between-group sum of squares</em></strong>:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> is a group mean. In our example, <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> would be the average mood change experienced by those people given  the <span class="math notranslate nohighlight">\(k\)</span>-th drug. So, instead of comparing individuals to the average of <em>all</em> people in the experiment, we’re only comparing them to those people in the the same group. As a consequence, you’d expect the value of <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span> to be smaller than the total sum of squares, because it’s completely ignoring any group differences – that is, the fact that the drugs (if they work) will have different effects on people’s moods.</p>
+<p>Next, we can define a third notion of variation which captures <em>only</em> the differences between groups. We do this by looking at the differences between the group means <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> and grand mean <span class="math notranslate nohighlight">\(\bar{Y}\)</span>. In order to quantify the extent of this variation, what we do is calculate the <strong><em>between-group sum of squares</em></strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{rcl}
 \mbox{SS}_{b} &amp;=&amp; \sum_{k=1}^G \sum_{i=1}^{N_k} \left( \bar{Y}_k - \bar{Y} \right)^2
  \\
 &amp;=&amp; \sum_{k=1}^G N_k \left( \bar{Y}_k - \bar{Y} \right)^2
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-It's not too difficult to show that the total variation among people in the experiment \)</span>\mbox{SS}_{tot}<span class="math notranslate nohighlight">\( is actually the sum of the differences between the groups \)</span>\mbox{SS}_b<span class="math notranslate nohighlight">\( and the variation inside the groups \)</span>\mbox{SS}_w<span class="math notranslate nohighlight">\(. That is:
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>It’s not too difficult to show that the total variation among people in the experiment <span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span> is actually the sum of the differences between the groups <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span> and the variation inside the groups <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span>. That is:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{SS}_w  + \mbox{SS}_{b} = \mbox{SS}_{tot}
-\)</span>$
-Yay.</p>
+\]</div>
+<p>Yay.</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	width &lt;- 7
 	height &lt;- 4
 	# params
