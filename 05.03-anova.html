@@ -411,14 +411,8 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#using-the-aov-function-to-specify-your-anova">
-       4.3.1. Using the
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         aov()
-        </span>
-       </code>
-       function to specify your ANOVA
+      <a class="reference internal nav-link" href="#getting-python-to-calculate-anova-for-you">
+       4.3.1. Getting Python to calculate ANOVA for you
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
@@ -1205,71 +1199,497 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 \end{array}
 \end{split}\]</div>
 <p>Of course, if we actually wanted to get the <em>right</em> answer, we’d need to do this for all 18 observations in the data set, not just the first five. We could continue with the pencil and paper calculations if we wanted to, but it’s pretty tedious. Alternatively, it’s not too hard to get Python to do it. Here’s how:</p>
-<p>It might not be obvious from inspection what these commands are doing: as a general rule, the human brain seems to just shut down when faced with a big block of programming. However, I strongly suggest that – if you’re like me and tend to find that the mere sight of this code makes you want to look away and see if there’s any beer left in the fridge or a game of footy on the telly – you take a moment and look closely at these commands one at a time. Every single one of these commands is something you’ve seen before somewhere else in the book. There’s nothing novel about them (though I’ll have to admit that the <code class="docutils literal notranslate"><span class="pre">tapply()</span></code> function takes a while to get a handle on), so if you’re not quite sure how these commands work, this might be a good time to try playing around with them yourself, to try to get a sense of what’s happening. On the other hand, if this does seem to make sense, then you won’t be all that surprised at what happens when I wrap these variables in a data frame, and print it out…</p>
-<p>If you compare this output to the contents of the table I’ve been constructing by hand, you can see that R has done exactly the same calculations that I was doing, and much faster too. So, if we want to finish the calculations of the within-group sum of squares in R, we just ask for the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> of the <code class="docutils literal notranslate"><span class="pre">squared.devs</span></code> variable:</p>
-<p>Obviously, this isn’t the same as what I calculated, because R used all 18 observations. But if I’d typed <code class="docutils literal notranslate"><span class="pre">sum(</span> <span class="pre">squared.devs[1:5]</span> <span class="pre">)</span></code> instead, it would have given the same answer that I got earlier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">])</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">])</span>
+
+<span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;drug&#39;</span><span class="p">)</span>
+<span class="n">gp_means</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">gp_means</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">grouped_means</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gp_means</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">drug</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">drug</span><span class="p">:</span>
+            <span class="n">grouped_means</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">gp_means</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">][</span><span class="n">s</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+     <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="n">outcome</span><span class="p">,</span>
+     <span class="s1">&#39;group_means&#39;</span><span class="p">:</span> <span class="n">grouped_means</span>
+    <span class="p">})</span> 
+
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_group_means&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;outcome&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_means&#39;</span><span class="p">]</span>
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_group_means&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It might not be obvious from inspection what these commands are doing: as a general rule, the human brain seems to just shut down when faced with a big block of programming. However, I strongly suggest that – if you’re like me and tend to find that the mere sight of this code makes you want to look away and see if there’s any beer left in the fridge or a game of footy on the telly – you take a moment and look closely at these commands one at a time. Every single one of these commands is something you’ve seen before somewhere else in the book. There’s nothing novel about them (though I admit that <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> has appeared only once, and there aren’t many nested <code class="docutils literal notranslate"><span class="pre">for</span></code> statements in this book), so if you’re not quite sure how these commands work, this might be a good time to try playing around with them yourself, to try to get a sense of what’s happening. On the other hand, if this does seem to make sense, then you won’t be all that surprised at what happens when we look at the output of all this code, <code class="docutils literal notranslate"><span class="pre">Y</span></code>, we see…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group</th>
+      <th>outcome</th>
+      <th>group_means</th>
+      <th>dev_from_group_means</th>
+      <th>squared_devs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>placebo</td>
+      <td>0.5</td>
+      <td>0.45</td>
+      <td>0.05</td>
+      <td>0.0025</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>placebo</td>
+      <td>0.3</td>
+      <td>0.45</td>
+      <td>-0.15</td>
+      <td>0.0225</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>placebo</td>
+      <td>0.1</td>
+      <td>0.45</td>
+      <td>-0.35</td>
+      <td>0.1225</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>anxifree</td>
+      <td>0.6</td>
+      <td>0.72</td>
+      <td>-0.12</td>
+      <td>0.0144</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>anxifree</td>
+      <td>0.4</td>
+      <td>0.72</td>
+      <td>-0.32</td>
+      <td>0.1024</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>anxifree</td>
+      <td>0.2</td>
+      <td>0.72</td>
+      <td>-0.52</td>
+      <td>0.2704</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>joyzepam</td>
+      <td>1.4</td>
+      <td>1.48</td>
+      <td>-0.08</td>
+      <td>0.0064</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>joyzepam</td>
+      <td>1.7</td>
+      <td>1.48</td>
+      <td>0.22</td>
+      <td>0.0484</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>joyzepam</td>
+      <td>1.3</td>
+      <td>1.48</td>
+      <td>-0.18</td>
+      <td>0.0324</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>placebo</td>
+      <td>0.6</td>
+      <td>0.45</td>
+      <td>0.15</td>
+      <td>0.0225</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>placebo</td>
+      <td>0.9</td>
+      <td>0.45</td>
+      <td>0.45</td>
+      <td>0.2025</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>placebo</td>
+      <td>0.3</td>
+      <td>0.45</td>
+      <td>-0.15</td>
+      <td>0.0225</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>anxifree</td>
+      <td>1.1</td>
+      <td>0.72</td>
+      <td>0.38</td>
+      <td>0.1444</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>anxifree</td>
+      <td>0.8</td>
+      <td>0.72</td>
+      <td>0.08</td>
+      <td>0.0064</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>anxifree</td>
+      <td>1.2</td>
+      <td>0.72</td>
+      <td>0.48</td>
+      <td>0.2304</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>joyzepam</td>
+      <td>1.8</td>
+      <td>1.48</td>
+      <td>0.32</td>
+      <td>0.1024</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>joyzepam</td>
+      <td>1.3</td>
+      <td>1.48</td>
+      <td>-0.18</td>
+      <td>0.0324</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>joyzepam</td>
+      <td>1.4</td>
+      <td>1.48</td>
+      <td>-0.08</td>
+      <td>0.0064</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you compare this output to the contents of the table I’ve been constructing by hand, you can see that Python has done exactly the same calculations that I was doing (albeit with a few miniscule differences due to rounding), and much faster too. So, if we want to finish the calculations of the within-group sum of squares in Python, we just ask for the <code class="docutils literal notranslate"><span class="pre">sum()</span></code> of the <code class="docutils literal notranslate"><span class="pre">squared_devs</span></code> variable:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SSw</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">SSw</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.3918000000000001
+</pre></div>
+</div>
+</div>
+</div>
 <p>Okay. Now that we’ve calculated the within groups variation, <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span>, it’s time to turn our attention to the between-group sum of squares, <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span>. The calculations for this case are very similar. The main difference is that, instead of calculating the differences between an observation <span class="math notranslate nohighlight">\(Y_{ik}\)</span> and a group mean <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> for all of the observations, we calculate the differences between the group means <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> and the grand mean <span class="math notranslate nohighlight">\(\bar{Y}\)</span> (in this case 0.88) for all of the groups…</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-         ~V1,            ~V2,          ~V3,                         ~V4,                             ~V5,
-   &quot;placebo&quot;,         &quot;0.45&quot;,       &quot;0.88&quot;,                     &quot;-0.43&quot;,                          &quot;0.18&quot;,
-  &quot;anxifree&quot;,         &quot;0.72&quot;,       &quot;0.88&quot;,                     &quot;-0.16&quot;,                          &quot;0.03&quot;,
-  &quot;joyzepam&quot;,         &quot;1.48&quot;,       &quot;0.88&quot;,                      &quot;0.60&quot;,                          &quot;0.36&quot;
-  ), col.names = c(&quot;group ($k$)&quot;,   &quot;group mean ($\\bar{Y}_k$)&quot;, &quot;grand mean ($\\bar{Y}$)&quot;,                 &quot;deviation ($\\bar{Y}_{k} - \\bar{Y}$)&quot;,            &quot;squared deviations ($(\\bar{Y}_{k} - \\bar{Y})^2$)&quot;))
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>group (<span class="math notranslate nohighlight">\(k\)</span>)</p></th>
+<th class="text-align:left head"><p>group mean (<span class="math notranslate nohighlight">\(\bar{Y}_k\)</span>)</p></th>
+<th class="text-align:left head"><p>grand mean (<span class="math notranslate nohighlight">\(\bar{Y}\)</span>)</p></th>
+<th class="text-align:left head"><p>deviation (<span class="math notranslate nohighlight">\(\bar{Y}_{k} - \bar{Y}\)</span>)</p></th>
+<th class="text-align:left head"><p>squared deviations (<span class="math notranslate nohighlight">\((\bar{Y}_{k} - \bar{Y})^2\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
+<td class="text-align:left"><p>0.45</p></td>
+<td class="text-align:left"><p>0.88</p></td>
+<td class="text-align:left"><p>-0.43</p></td>
+<td class="text-align:left"><p>0.18</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
+<td class="text-align:left"><p>0.72</p></td>
+<td class="text-align:left"><p>0.88</p></td>
+<td class="text-align:left"><p>-0.16</p></td>
+<td class="text-align:left"><p>0.03</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
+<td class="text-align:left"><p>1.48</p></td>
+<td class="text-align:left"><p>0.88</p></td>
+<td class="text-align:left"><p>0.60</p></td>
+<td class="text-align:left"><p>0.36</p></td>
+</tr>
+</tbody>
+</table>
 <p>However, for the between group calculations we need to multiply each of these squared deviations by <span class="math notranslate nohighlight">\(N_k\)</span>, the number of observations in the group. We do this because every <em>observation</em> in the group (all <span class="math notranslate nohighlight">\(N_k\)</span> of them) is associated with a between group difference. So if there are six people in the placebo group, and the placebo group mean differs from the grand mean by 0.19, then the <em>total</em> between group variation associated with these six people is <span class="math notranslate nohighlight">\(6 \times 0.16 = 1.14\)</span>. So we have to extend our little table of calculations…</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-         ~V1,                             ~V2,           ~V3,                                 ~V4,
-   &quot;placebo&quot;,                          &quot;0.18&quot;,           &quot;6&quot;,                              &quot;1.11&quot;,
-  &quot;anxifree&quot;,                          &quot;0.03&quot;,           &quot;6&quot;,                              &quot;0.16&quot;,
-  &quot;joyzepam&quot;,                          &quot;0.36&quot;,           &quot;6&quot;,                              &quot;2.18&quot;
-  ), col.names = c(     &quot;group ($k$)&quot;,            &quot;squared deviations ($(\\bar{Y}_{k} - \\bar{Y})^2$)&quot;, &quot;sample size ($N_k$)&quot;,              &quot;weighted squared dev ($N_k (\\bar{Y}_{k} - \\bar{Y})^2$)&quot;))
-</pre></div>
-</div>
-<p>And so now our between group sum of squares is obtained by summing these “weighted squared deviations” over all three groups in the study:
-$<span class="math notranslate nohighlight">\(
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>group (<span class="math notranslate nohighlight">\(k\)</span>)</p></th>
+<th class="text-align:left head"><p>squared deviations (<span class="math notranslate nohighlight">\((\bar{Y}_{k} - \bar{Y})^2\)</span>)</p></th>
+<th class="text-align:left head"><p>sample size (<span class="math notranslate nohighlight">\(N_k\)</span>)</p></th>
+<th class="text-align:left head"><p>weighted squared dev (<span class="math notranslate nohighlight">\(N_k (\bar{Y}_{k} - \bar{Y})^2\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
+<td class="text-align:left"><p>0.18</p></td>
+<td class="text-align:left"><p>6</p></td>
+<td class="text-align:left"><p>1.11</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
+<td class="text-align:left"><p>0.03</p></td>
+<td class="text-align:left"><p>6</p></td>
+<td class="text-align:left"><p>0.16</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
+<td class="text-align:left"><p>0.36</p></td>
+<td class="text-align:left"><p>6</p></td>
+<td class="text-align:left"><p>2.18</p></td>
+</tr>
+</tbody>
+</table>
+<p>And so now our between group sum of squares is obtained by summing these “weighted squared deviations” over all three groups in the study:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{rcl}
 \mbox{SS}_{b} &amp;=&amp; 1.11 + 0.16 + 2.18 \\
 &amp;=&amp; 3.45
 \end{array}
-\)</span>$
-As you can see, the between group calculations are a lot shorter, so you probably wouldn’t usually want to bother using R as your calculator. However, if you <em>did</em> decide to do so, here’s one way you could do it:</p>
+\end{split}\]</div>
+<p>As you can see, the between group calculations are a lot shorter, so you probably wouldn’t usually want to bother using Python as your calculator. However, if you <em>did</em> decide to do so, here’s one way you could do it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;drug&#39;</span><span class="p">)</span>
+<span class="n">gp_means</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">gp_means</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">group</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">gp_means</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">])</span>
+<span class="n">gp_means</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">gp_means</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">])</span>
+
+<span class="n">grand_mean</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">grand_mean</span> <span class="o">=</span> <span class="p">[</span><span class="n">grand_mean</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span>
+
+
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+     <span class="s1">&#39;gp_means&#39;</span><span class="p">:</span> <span class="n">gp_mean</span><span class="p">,</span>
+     <span class="s1">&#39;grand_mean&#39;</span><span class="p">:</span> <span class="n">grand_mean</span> 
+    <span class="p">})</span> 
+
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_grandmean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;gp_means&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;grand_mean&#39;</span><span class="p">]</span>
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_grandmean&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">xtab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;drug&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="n">xtab</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_sizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xtab</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+<span class="n">Y</span><span class="p">[</span><span class="s1">&#39;weighted_squared_devs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_sizes&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">a262bd2b3bb1</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="p">{</span><span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+<span class="ne">---&gt; </span><span class="mi">14</span>      <span class="s1">&#39;gp_means&#39;</span><span class="p">:</span> <span class="n">gp_mean</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>      <span class="s1">&#39;grand_mean&#39;</span><span class="p">:</span> <span class="n">grand_mean</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="p">})</span> 
+
+<span class="ne">NameError</span>: name &#39;gp_mean&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
 <p>Again, I won’t actually try to explain this code line by line, but – just like last time – there’s nothing in there that we haven’t seen in several places elsewhere in the book, so I’ll leave it as an exercise for you to make sure you understand it. Once again, we can dump all our variables into a data frame so that we can print it out as a nice table:</p>
-<p>Clearly, these are basically the same numbers that we got before. There are a few tiny differences, but that’s only because the hand-calculated versions have some small errors caused by the fact that I rounded all my numbers to 2 decimal places at each step in the calculations, whereas R only does it at the end (obviously, R s version is more accurate). Anyway, here’s the R command showing the final step:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group</th>
+      <th>gp_means</th>
+      <th>grand_mean</th>
+      <th>dev_from_grandmean</th>
+      <th>squared_devs</th>
+      <th>group_sizes</th>
+      <th>weighted_squared_devs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>anxifree</td>
+      <td>0.716667</td>
+      <td>0.88</td>
+      <td>-0.163333</td>
+      <td>0.026678</td>
+      <td>6</td>
+      <td>0.160067</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>joyzepam</td>
+      <td>1.483333</td>
+      <td>0.88</td>
+      <td>0.603333</td>
+      <td>0.364011</td>
+      <td>6</td>
+      <td>2.184067</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>placebo</td>
+      <td>0.450000</td>
+      <td>0.88</td>
+      <td>-0.430000</td>
+      <td>0.184900</td>
+      <td>6</td>
+      <td>1.109400</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Clearly, these are basically the same numbers that we got before. There are a few tiny differences, but that’s only because the hand-calculated versions have some small errors caused by the fact that I rounded all my numbers to 2 decimal places at each step in the calculations, whereas Python only does it at the end (obviously, Python’s version is more accurate). Anyway, here’s the Python command showing the final step:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SSb</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="s1">&#39;weighted_squared_devs&#39;</span><span class="p">])</span>
+<span class="n">SSb</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.453533333333334
+</pre></div>
+</div>
+</div>
+</div>
 <p>which is (ignoring the slight differences due to rounding error) the same answer that I got when doing things by hand.</p>
-<p>Now that we’ve calculated our sums of squares values, <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span> and <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span>, the rest of the ANOVA is pretty painless. The next step is to calculate the degrees of freedom. Since we have <span class="math notranslate nohighlight">\(G = 3\)</span> groups and <span class="math notranslate nohighlight">\(N = 18\)</span> observations in total, our degrees of freedom can be calculated by simple subtraction:
-$<span class="math notranslate nohighlight">\(
+<p>Now that we’ve calculated our sums of squares values, <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span> and <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span>, the rest of the ANOVA is pretty painless. The next step is to calculate the degrees of freedom. Since we have <span class="math notranslate nohighlight">\(G = 3\)</span> groups and <span class="math notranslate nohighlight">\(N = 18\)</span> observations in total, our degrees of freedom can be calculated by simple subtraction:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{lclcl}
 \mbox{df}_b &amp;=&amp; G - 1 &amp;=&amp; 2 \\
 \mbox{df}_w &amp;=&amp; N - G &amp;=&amp; 15 
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-Next, since we've now calculated the values for the sums of squares and the degrees of freedom, for both the within-groups variability and the between-groups variability, we can obtain the mean square values by dividing one by the other:
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>Next, since we’ve now calculated the values for the sums of squares and the degrees of freedom, for both the within-groups variability and the between-groups variability, we can obtain the mean square values by dividing one by the other:</p>
+<div class="math notranslate nohighlight">
+\[
 \begin{array}{lclclcl}
 \mbox{MS}_b &amp;=&amp; \displaystyle\frac{\mbox{SS}_b }{  \mbox{df}_b } &amp;=&amp; \displaystyle\frac{3.45}{ 2}  &amp;=&amp; 1.73
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<div class="math notranslate nohighlight">
+\[
 \begin{array}{lclclcl}
 \mbox{MS}_w &amp;=&amp; \displaystyle\frac{\mbox{SS}_w }{  \mbox{df}_w } &amp;=&amp; \displaystyle\frac{1.39}{15} &amp;=&amp; 0.09
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-We're almost done. The mean square values can be used to calculate the \)</span>F<span class="math notranslate nohighlight">\(-value, which is the test statistic that we're interested in. We do this by dividing the between-groups MS value by the and within-groups MS value.
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>We’re almost done. The mean square values can be used to calculate the <span class="math notranslate nohighlight">\(F\)</span>-value, which is the test statistic that we’re interested in. We do this by dividing the between-groups MS value by the and within-groups MS value.</p>
+<div class="math notranslate nohighlight">
+\[
 F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
-\)</span><span class="math notranslate nohighlight">\(
-Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in Chapter \&#64;ref(hypothesistesting, what we really *ought* to do is choose an \)</span>\alpha<span class="math notranslate nohighlight">\( level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the \)</span>p<span class="math notranslate nohighlight">\(-value. Back in the &quot;old days&quot;, what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd &quot;compute&quot; our \)</span>p<span class="math notranslate nohighlight">\(-value, because it's too much effort to do it any other way. However, since we have access to R, I'll use the `pf()` function to do it instead. Now, remember that I explained earlier that the \)</span>F<span class="math notranslate nohighlight">\(-test is always one sided? And that we only reject the null hypothesis for very large \)</span>F<span class="math notranslate nohighlight">\(-values? That means we're only interested in the *upper tail* of the \)</span>F$-distribution. The command that you’d use here would be this…</p>
-<p>Therefore, our <span class="math notranslate nohighlight">\(p\)</span>-value comes to 0.0000867, or <span class="math notranslate nohighlight">\(8.67 \times 10^{-5}\)</span> in scientific notation. So, unless we’re being <em>extremely</em> conservative about our Type I error rate, we’re pretty much guaranteed to reject the null hypothesis.</p>
-<p>At this point, we’re basically done. Having completed our calculations, it’s traditional to organise all these numbers into an ANOVA table like the one in Table&#64;reftab:anovatable. For our clinical trial data, the ANOVA table would look like this:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-               ~V1,  ~V2,              ~V3,            ~V4,             ~V5,                      ~V6,
-  &quot;between groups&quot;,  &quot;2&quot;,           &quot;3.45&quot;,         &quot;1.73&quot;,          &quot;18.6&quot;, &quot;$8.67 \\times 10^{-5}$&quot;,
-   &quot;within groups&quot;, &quot;15&quot;,           &quot;1.39&quot;,         &quot;0.09&quot;,             &quot;-&quot;,                      &quot;-&quot;
-  ), col.names = c(&quot;&quot;, &quot;df&quot;, &quot;sum of squares&quot;, &quot;mean squares&quot;, &quot;$F$-statistic&quot;, &quot;$p$-value&quot;))
+\]</div>
+<p>Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in [](hypothesistesting, what we really <em>ought</em> to do is choose an <span class="math notranslate nohighlight">\(\alpha\)</span> level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it’s just easier to directly calculate the <span class="math notranslate nohighlight">\(p\)</span>-value. Back in the “old days”, what we’d do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table… that’s how we’d “compute” our <span class="math notranslate nohighlight">\(p\)</span>-value, because it’s too much effort to do it any other way. However, since we have access to Python, I’ll use the <code class="docutils literal notranslate"><span class="pre">stats.f.cdf()</span></code> method from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to do it instead.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mf">18.6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">p</span>
 </pre></div>
 </div>
-<p>These days, you’ll probably never have much reason to want to construct one of these tables yourself, but you <em>will</em> find that almost all statistical software (R included) tends to organise the output of an ANOVA into a table like this, so it’s a good idea to get used to reading them. However, although the software will output a full ANOVA table, there’s almost never a good reason to include the whole table in your write up. A pretty standard way of reporting this result would be to write something like this:</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.672726890401883e-05
+</pre></div>
+</div>
+</div>
+</div>
+<p>Therefore, our <span class="math notranslate nohighlight">\(p\)</span>-value comes to 0.0000867, or <span class="math notranslate nohighlight">\(8.67 \times 10^{-5}\)</span> in scientific notation. So, unless we’re being <em>extremely</em> conservative about our Type I error rate, we’re pretty much guaranteed to reject the null hypothesis.</p>
+<p>At this point, we’re basically done. Having completed our calculations, it’s traditional to organise all these numbers into an ANOVA table like the one in Table&#64;reftab:anovatable. For our clinical trial data, the ANOVA table would look like this:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p>df</p></th>
+<th class="text-align:left head"><p>sum of squares</p></th>
+<th class="text-align:left head"><p>mean squares</p></th>
+<th class="text-align:left head"><p><span class="math notranslate nohighlight">\(F\)</span>-statistic</p></th>
+<th class="text-align:left head"><p><span class="math notranslate nohighlight">\(p\)</span>-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>between groups</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>3.45</p></td>
+<td class="text-align:left"><p>1.73</p></td>
+<td class="text-align:left"><p>18.6</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(8.67 \times 10^{-5}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>within groups</p></td>
+<td class="text-align:left"><p>15</p></td>
+<td class="text-align:left"><p>1.39</p></td>
+<td class="text-align:left"><p>0.09</p></td>
+<td class="text-align:left"><p>-</p></td>
+<td class="text-align:left"><p>-</p></td>
+</tr>
+</tbody>
+</table>
+<p>These days, you’ll probably never have much reason to want to construct one of these tables yourself, but you <em>will</em> find that almost all statistical software tends to organise the output of an ANOVA into a table like this, so it’s a good idea to get used to reading them. However, although the software will output a full ANOVA table, there’s almost never a good reason to include the whole table in your write up. A pretty standard way of reporting this result would be to write something like this:</p>
 <blockquote>
 <div><p>One-way ANOVA showed a significant effect of drug on mood gain (<span class="math notranslate nohighlight">\(F(2,15) = 18.6, p&lt;.001\)</span>).</p>
 </div></blockquote>
@@ -1278,10 +1698,134 @@ Woohooo! This is terribly exciting, yes? Now that we have our test statistic, th
 </div>
 <div class="section" id="running-an-anova-in-python">
 <span id="introduceaov"></span><h2><span class="section-number">4.3. </span>Running an ANOVA in Python<a class="headerlink" href="#running-an-anova-in-python" title="Permalink to this headline">¶</a></h2>
-<p>I’m pretty sure I know what you’re thinking after reading the last section, <em>especially</em> if you followed my advice and tried typing all the commands in yourself…. doing the ANOVA calculations yourself <em>sucks</em>. There’s quite a lot of calculations that we needed to do along the way, and it would be tedious to have to do this over and over again every time you wanted to do an ANOVA. One possible solution to the problem would be to take all these calculations and turn them into some R functions yourself. You’d still have to do a lot of typing, but at least you’d only have to do it the one time: once you’ve created the functions, you can reuse them over and over again. However, writing your own functions is a lot of work, so this is kind of a last resort. Besides, it’s much better if someone else does all the work for you…</p>
-<div class="section" id="using-the-aov-function-to-specify-your-anova">
-<h3><span class="section-number">4.3.1. </span>Using the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function to specify your ANOVA<a class="headerlink" href="#using-the-aov-function-to-specify-your-anova" title="Permalink to this headline">¶</a></h3>
-<p>To make life easier for you, R provides a function called <code class="docutils literal notranslate"><span class="pre">aov()</span></code>, which – obviously – is an acronym of “Analysis Of Variance”.^[Actually, it <em>also</em> provides a function called <code class="docutils literal notranslate"><span class="pre">anova()</span></code>, but that works a bit differently, so let’s just ignore it for now.] If you type <code class="docutils literal notranslate"><span class="pre">?aov</span></code> and have a look at the help documentation, you’ll see that there are several arguments to the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function, but the only two that we’re interested in are <code class="docutils literal notranslate"><span class="pre">formula</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code>. As we’ve seen in a few places previously, the <code class="docutils literal notranslate"><span class="pre">formula</span></code> argument is what you use to specify the outcome variable and the grouping variable, and the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument is what you use to specify the data frame that stores these variables. In other words, to do the same ANOVA that I laboriously calculated in the previous section, I’d use a command like this:</p>
+<p>I’m pretty sure I know what you’re thinking after reading the last section, <em>especially</em> if you followed my advice and tried typing all the commands in yourself…. doing the ANOVA calculations yourself <em>sucks</em>. There’s quite a lot of calculations that we needed to do along the way, and it would be tedious to have to do this over and over again every time you wanted to do an ANOVA. One possible solution to the problem would be to take all these calculations and turn them into some Python functions yourself. You’d still have to do a lot of typing, but at least you’d only have to do it the one time: once you’ve created the functions, you can reuse them over and over again. However, writing your own functions is a lot of work, so this is kind of a last resort. Besides, it’s much better if someone else does all the work for you…</p>
+<div class="section" id="getting-python-to-calculate-anova-for-you">
+<h3><span class="section-number">4.3.1. </span>Getting Python to calculate ANOVA for you<a class="headerlink" href="#getting-python-to-calculate-anova-for-you" title="Permalink to this headline">¶</a></h3>
+<p>Now, as you can imagine, there are several Python modules available that provided tools for taking the pain out calculating ANOVA’s. <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, for example, has <code class="docutils literal notranslate"><span class="pre">stats.f_oneway</span></code> which, in the typical, laconic fashion of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, spits out an <span class="math notranslate nohighlight">\(F\)</span>-value, a <span class="math notranslate nohighlight">\(p\)</span>-value, and not much more. We have already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> above to find our <span class="math notranslate nohighlight">\(p\)</span>-value by hand. I am going to reccomend an entirely different package, though: <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. These things go in and out of fashion, but for my money, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is quickly becoming the go-to Python package for anthing beyond a humble <span class="math notranslate nohighlight">\(t\)</span>-test. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> builds on a more modern approach to statistics which goes beyond what we can deal with here, but suffice to say, that among other things, it is an easy way to get your ANOVA work done.</p>
+<p>The key to working with <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is the <code class="docutils literal notranslate"><span class="pre">formula</span></code>, so let’s take a look at that. A <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula (which will instantly feel familiar to anyone who has worked with the programming language R before) begins with the <em>dependent variable</em> or <em>outcome measure</em>: basically the thing we are trying to undersand. The <em>outcome measure</em> goes on the left side of the <code class="docutils literal notranslate"><span class="pre">~</span></code>character, which I read in my head as “predicted by”. To the right of the <code class="docutils literal notranslate"><span class="pre">~</span></code> comes, unsurprisingly, the <em>predictor variables</em>, or <em>independent variables</em> if you prefer. So, in our case, we are investigating whether or not there are significant differences between the three drug types: placebo, anxifree, and joyzepam. In other words, we want to know if variation in the variable <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> that can be accounted for by these three groups is greater than the variation within the groups. Or, in still other words, whether <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> can be <em>predicted by</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>drug</th>
+      <th>therapy</th>
+      <th>mood_gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>anxifree</td>
+      <td>no.therapy</td>
+      <td>0.6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>anxifree</td>
+      <td>no.therapy</td>
+      <td>0.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">aov_table</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">aov_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sum_sq</th>
+      <th>df</th>
+      <th>F</th>
+      <th>PR(&gt;F)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>drug</th>
+      <td>3.453333</td>
+      <td>2.0</td>
+      <td>18.610778</td>
+      <td>0.000086</td>
+    </tr>
+    <tr>
+      <th>Residual</th>
+      <td>1.391667</td>
+      <td>15.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>aov( formula = mood.gain ~ drug, data = clin.trial ) 
 </pre></div>
 </div>
