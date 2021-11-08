@@ -931,103 +931,77 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 \mbox{SS}_w  + \mbox{SS}_{b} = \mbox{SS}_{tot}
 \]</div>
 <p>Yay.</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	width &lt;- 7
-	height &lt;- 4
-	# params
-	mu &lt;- c(-4, -.25, 3.5)
-	sig &lt;- 2
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-	# data
-	x &lt;- seq(-3,3,.1)
-	x1 &lt;- x*sig + mu[1]
-	x2 &lt;- x*sig + mu[2]
-	x3 &lt;- x*sig + mu[3]
-	y1 &lt;- dnorm( x1, mu[1], sig )
-	y2 &lt;- dnorm( x2, mu[2], sig )
-	y3 &lt;- dnorm( x3, mu[3], sig )
+<span class="n">mu1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">mu2</span> <span class="o">=</span> <span class="o">-.</span><span class="mi">25</span>
+<span class="n">mu3</span> <span class="o">=</span> <span class="mf">3.5</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">2</span>
 
-	# set up window
-	plot.new() # create graphics device
-	plot.window(xlim = c(-10,10), ylim = c(0,.25)) # define plot area
-	axis(side = 1, # axis located below
-	     col = &quot;gray20&quot;,  # coloured gray
-	     at = c(-10,mu,10), # tick marks located at
-	     labels = c(&quot;&quot;,&quot;group 1&quot;,&quot;group 2&quot;,&quot;group 3&quot;,&quot;&quot;)
-	)  
 
-	# plot densities
-	lines(x1,y1, type = &quot;l&quot;, col = &quot;gray20&quot;)
-	lines(x2,y2, type = &quot;l&quot;, col = &quot;gray20&quot;)
-	lines(x3,y3, type = &quot;l&quot;, col = &quot;gray20&quot;)
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu1</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu1</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu3</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y3</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">mu3</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 
-	# arrows
-	arrows(
-	  mu[1],.15, # from
-	  mu[2],.15, # to
-	  code = 3,  # arrows on both ends
-	  lwd = 2,   # thick line
-	)
 
-	arrows(
-	  mu[2],.125, # from
-	  mu[3],.125, # to
-	  code = 3,  # arrows on both ends
-	  lwd = 2,   # thick line
-	)
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
-	arrows(
-	  mu[1],.1, # from
-	  mu[3],.1, # to
-	  code = 3,  # arrows on both ends
-	  lwd = 2,   # thick line
-	)
 
-	# title 
-	title(main = &quot;Between-group variation\n(i.e., differences among group means)&quot;,
-	      font.main = 1)
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x3</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x3</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;Between−group variation&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="s1">&#39;(i.e., differences among group means))&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;Within−group variation&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="s1">&#39;(i.e., deviations from group means)&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu2</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu2</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu3</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu3</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu1</span><span class="o">-</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu1</span><span class="o">+</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu2</span><span class="o">-</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu2</span><span class="o">+</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu3</span><span class="o">-</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">xytext</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu3</span><span class="o">+</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">18</span><span class="p">),</span> <span class="n">arrowprops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;-&gt;&#39;</span><span class="p">))</span>
+
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>width &lt;- 7
-	height &lt;- 4
-
-		# params
-	mu &lt;- c(-4, -.25, 3.5)
-	sig &lt;- 2
-
-	# data
-	x &lt;- seq(-3,3,.1)
-	x1 &lt;- x*sig + mu[1]
-	x2 &lt;- x*sig + mu[2]
-	x3 &lt;- x*sig + mu[3]
-	y1 &lt;- dnorm( x1, mu[1], sig )
-	y2 &lt;- dnorm( x2, mu[2], sig )
-	y3 &lt;- dnorm( x3, mu[3], sig )
-
-	# set up window
-	plot.new() # create graphics device
-	plot.window(xlim = c(-10,10), ylim = c(0,.25)) # define plot area
-	axis(side = 1, # axis located below
-	     col = &quot;gray20&quot;,  # coloured gray
-	     at = c(-10,mu,10), # tick marks located at
-	     labels = c(&quot;&quot;,&quot;group 1&quot;,&quot;group 2&quot;,&quot;group 3&quot;,&quot;&quot;)
-	)  
-
-	# plot densities
-	lines(x1,y1, type = &quot;l&quot;, col = &quot;gray20&quot;)
-	lines(x2,y2, type = &quot;l&quot;, col = &quot;gray20&quot;)
-	lines(x3,y3, type = &quot;l&quot;, col = &quot;gray20&quot;)
-
-	# arrows
-	x &lt;- 1.5
-	y &lt;- .135
-	for (i in 1:3) {
-	  arrows(
-	    mu[i]-x,y, # from
-	    mu[i]+x,y, # to
-	    code = 3,  # arrows on both ends
-	    lwd = 2,   # thick line
-	  )  }
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13b853550&gt;
 </pre></div>
+</div>
+<img alt="_images/05.03-anova_19_1.png" src="_images/05.03-anova_19_1.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-anovavar" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">¶</a></p>
 </div>
 <p>Okay, so what have we found out? We’ve discovered that the total variability associated with the outcome variable (<span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span>) can be mathematically carved up into the sum of “the variation due to the differences in the sample means for the different groups” (<span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span>) plus “all the rest of the variation” (<span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second… now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you’d expect all the sample means to be pretty similar to each other, right? And that would imply that you’d expect <span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span> to be really small, or at least you’d expect it to be a lot smaller than the “the variation associated with everything else”, <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>. Hm. I detect a hypothesis test coming on…</p>
 </div>
