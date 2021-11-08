@@ -933,7 +933,8 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 <p>Yay.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
@@ -996,20 +997,15 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">83</span><span class="n">a1a7e0b4f9</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span> 
-<span class="ne">---&gt; </span><span class="mi">59</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;anovavar_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;glue&#39; is not defined
-</pre></div>
-</div>
 <img alt="_images/05.03-anova_19_1.png" src="_images/05.03-anova_19_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anovavar" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">¶</a></p>
 </div>
 <p>Okay, so what have we found out? We’ve discovered that the total variability associated with the outcome variable (<span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span>) can be mathematically carved up into the sum of “the variation due to the differences in the sample means for the different groups” (<span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span>) plus “all the rest of the variation” (<span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second… now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you’d expect all the sample means to be pretty similar to each other, right? And that would imply that you’d expect <span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span> to be really small, or at least you’d expect it to be a lot smaller than the “the variation associated with everything else”, <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>. Hm. I detect a hypothesis test coming on…</p>
