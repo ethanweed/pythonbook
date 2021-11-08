@@ -1934,31 +1934,56 @@ p^\prime = m \times p
 <blockquote>
 <div><p>The method given here is so simple and so general that I am sure it must have been used before this. I do not find it, however, so can only conclude that perhaps its very simplicity has kept statisticians from realizing that it is a very good method in some situations (pp 52-53 <span id="id10">[<a class="reference internal" href="bibliography.html#id75"><span>Dun61</span></a>]</span>)</p>
 </div></blockquote>
-<p>To use the Bonferroni correction in R, you can use the <code class="docutils literal notranslate"><span class="pre">pairwise.t.test()</span></code> function,^[There’s also a function called <code class="docutils literal notranslate"><span class="pre">p.adjust()</span></code> in which you can input a vector of raw <span class="math notranslate nohighlight">\(p\)</span>-values, and it will output a vector of adjusted <span class="math notranslate nohighlight">\(p\)</span>-values. This can be handy sometimes. I should also note that more advanced users may wish to consider using some of the tools provided by the <code class="docutils literal notranslate"><span class="pre">multcomp</span></code> package.] making sure that you set <code class="docutils literal notranslate"><span class="pre">p.adjust.method</span> <span class="pre">=</span> <span class="pre">&quot;bonferroni&quot;</span></code>. Alternatively, since the whole reason why we’re doing these pairwise tests in the first place is because we have an ANOVA that we’re trying to understand, it’s probably more convenient to use the <code class="docutils literal notranslate"><span class="pre">posthocPairwiseT()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, since we can use <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> as the input:</p>
-<p>If we compare these three <span class="math notranslate nohighlight">\(p\)</span>-values to those that we saw in the previous section when we made no adjustment at all, it is clear that the only thing that R has done is multiply them by 3.</p>
 </div>
 <div class="section" id="holm-corrections">
 <h3><span class="section-number">4.5.3. </span>Holm corrections<a class="headerlink" href="#holm-corrections" title="Permalink to this headline">¶</a></h3>
-<p>Although the Bonferroni correction is the simplest adjustment out there, it’s not usually the best one to use. One method that is often used instead is the <strong><em>Holm correction</em></strong> [&#64;Holm1979]. The idea behind the Holm correction is to pretend that you’re doing the tests sequentially; starting with the smallest (raw) <span class="math notranslate nohighlight">\(p\)</span>-value and moving onto the largest one. For the <span class="math notranslate nohighlight">\(j\)</span>-th largest of the <span class="math notranslate nohighlight">\(p\)</span>-values, the adjustment is <em>either</em>
-$<span class="math notranslate nohighlight">\(
+<p>Although the Bonferroni correction is the simplest adjustment out there, it’s not usually the best one to use. One method that is often used instead is the <strong><em>Holm correction</em></strong> [&#64;Holm1979]. The idea behind the Holm correction is to pretend that you’re doing the tests sequentially; starting with the smallest (raw) <span class="math notranslate nohighlight">\(p\)</span>-value and moving onto the largest one. For the <span class="math notranslate nohighlight">\(j\)</span>-th largest of the <span class="math notranslate nohighlight">\(p\)</span>-values, the adjustment is <em>either</em></p>
+<div class="math notranslate nohighlight">
+\[
 p^\prime_j = j \times p_j 
-\)</span><span class="math notranslate nohighlight">\(
-(i.e., the biggest \)</span>p<span class="math notranslate nohighlight">\(-value remains unchanged, the second biggest \)</span>p<span class="math notranslate nohighlight">\(-value is doubled, the third biggest \)</span>p<span class="math notranslate nohighlight">\(-value is tripled, and so on), *or*
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>(i.e., the biggest <span class="math notranslate nohighlight">\(p\)</span>-value remains unchanged, the second biggest <span class="math notranslate nohighlight">\(p\)</span>-value is doubled, the third biggest <span class="math notranslate nohighlight">\(p\)</span>-value is tripled, and so on), <em>or</em></p>
+<div class="math notranslate nohighlight">
+\[
 p^\prime_j = p^\prime_{j+1}
-\)</span><span class="math notranslate nohighlight">\(
-whichever one is *larger*. This might sound a little confusing, so let's go through it a little more slowly. Here's what the Holm correction does. First, you sort all of your \)</span>p<span class="math notranslate nohighlight">\(-values in order, from smallest to largest. For the smallest \)</span>p<span class="math notranslate nohighlight">\(-value all you do is multiply it by \)</span>m<span class="math notranslate nohighlight">\(, and you're done. However, for all the other ones it's a two-stage process. For instance, when you move to the second smallest \)</span>p<span class="math notranslate nohighlight">\( value, you first multiply it by \)</span>m-1<span class="math notranslate nohighlight">\(. If this produces a number that is bigger than the adjusted \)</span>p<span class="math notranslate nohighlight">\(-value that you got last time, then you keep it. But if it's smaller than the last one, then you copy the last \)</span>p<span class="math notranslate nohighlight">\(-value. To illustrate how this works, consider the table below, which shows the calculations of a Holm correction for a collection of five \)</span>p$-values:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-        ~V1,        ~V2,             ~V3,        ~V4,
-
-     &quot;.001&quot;,        &quot;5&quot;,          &quot;.005&quot;,     &quot;.005&quot;,
-     &quot;.005&quot;,        &quot;4&quot;,          &quot;.020&quot;,     &quot;.020&quot;,
-     &quot;.019&quot;,        &quot;3&quot;,          &quot;.057&quot;,     &quot;.057&quot;,
-     &quot;.022&quot;,        &quot;2&quot;,          &quot;.044&quot;,     &quot;.057&quot;,
-     &quot;.103&quot;,        &quot;1&quot;,          &quot;.103&quot;,     &quot;.103&quot;
-  ), col.names = c(&quot;raw $p$&quot;, &quot;rank $j$&quot;, &quot;$p \\times j$&quot;, &quot;Holm $p$&quot;))
-</pre></div>
-</div>
+\]</div>
+<p>whichever one is <em>larger</em>. This might sound a little confusing, so let’s go through it a little more slowly. Here’s what the Holm correction does. First, you sort all of your <span class="math notranslate nohighlight">\(p\)</span>-values in order, from smallest to largest. For the smallest <span class="math notranslate nohighlight">\(p\)</span>-value all you do is multiply it by <span class="math notranslate nohighlight">\(m\)</span>, and you’re done. However, for all the other ones it’s a two-stage process. For instance, when you move to the second smallest <span class="math notranslate nohighlight">\(p\)</span> value, you first multiply it by <span class="math notranslate nohighlight">\(m-1\)</span>. If this produces a number that is bigger than the adjusted <span class="math notranslate nohighlight">\(p\)</span>-value that you got last time, then you keep it. But if it’s smaller than the last one, then you copy the last <span class="math notranslate nohighlight">\(p\)</span>-value. To illustrate how this works, consider the table below, which shows the calculations of a Holm correction for a collection of five <span class="math notranslate nohighlight">\(p\)</span>-values:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>raw <span class="math notranslate nohighlight">\(p\)</span></p></th>
+<th class="text-align:left head"><p>rank <span class="math notranslate nohighlight">\(j\)</span></p></th>
+<th class="text-align:left head"><p><span class="math notranslate nohighlight">\(p \times j\)</span></p></th>
+<th class="text-align:left head"><p>Holm <span class="math notranslate nohighlight">\(p\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>.001</p></td>
+<td class="text-align:left"><p>5</p></td>
+<td class="text-align:left"><p>.005</p></td>
+<td class="text-align:left"><p>.005</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>.005</p></td>
+<td class="text-align:left"><p>4</p></td>
+<td class="text-align:left"><p>.020</p></td>
+<td class="text-align:left"><p>.020</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>.019</p></td>
+<td class="text-align:left"><p>3</p></td>
+<td class="text-align:left"><p>.057</p></td>
+<td class="text-align:left"><p>.057</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>.022</p></td>
+<td class="text-align:left"><p>2</p></td>
+<td class="text-align:left"><p>.044</p></td>
+<td class="text-align:left"><p>.057</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>.103</p></td>
+<td class="text-align:left"><p>1</p></td>
+<td class="text-align:left"><p>.103</p></td>
+<td class="text-align:left"><p>.103</p></td>
+</tr>
+</tbody>
+</table>
 <p>Hopefully that makes things clear.</p>
 <p>Although it’s a little harder to calculate, the Holm correction has some very nice properties: it’s more powerful than Bonferroni (i.e., it has a lower Type II error rate), but – counterintuitive as it might seem – it has the <em>same</em> Type I error rate. As a consequence, in practice there’s never any reason to use the simpler Bonferroni correction, since it is always outperformed by the slightly more elaborate Holm correction. Because of this, the Holm correction is the default one used by <code class="docutils literal notranslate"><span class="pre">pairwise.t.test()</span></code> and <code class="docutils literal notranslate"><span class="pre">posthocPairwiseT()</span></code>. To run the Holm correction in R, you could specify <code class="docutils literal notranslate"><span class="pre">p.adjust.method</span> <span class="pre">=</span> <span class="pre">&quot;Holm&quot;</span></code> if you wanted to, but since it’s the default you can just to do this:</p>
 <p>As you can see, the biggest <span class="math notranslate nohighlight">\(p\)</span>-value (corresponding to the comparison between Anxifree and the placebo) is unaltered: at a value of <span class="math notranslate nohighlight">\(.15\)</span>, it is exactly the same as the value we got originally when we applied no correction at all. In contrast, the smallest <span class="math notranslate nohighlight">\(p\)</span>-value (Joyzepam versus placebo) has been multiplied by three.</p>
