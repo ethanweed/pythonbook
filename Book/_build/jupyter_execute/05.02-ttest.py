@@ -82,6 +82,11 @@ though to be honest this notation doesn't add much to our understanding of the p
 
 For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the *assumption* that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
 
+import numpy as np
+import seaborn as sns
+from scipy import stats
+from matplotlib import pyplot as plt
+
 mu = 0
 sigma = 1
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
@@ -583,9 +588,9 @@ y2 = 100* stats.norm.pdf(x2, mu2, sigma)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
 
-sns.lineplot(x=x,y=y, color='black', ax = ax1)
+sns.lineplot(x=x1,y=y, color='black', ax = ax1)
 
-sns.lineplot(x=x,y=y, color='black', ax = ax2)
+sns.lineplot(x=x1,y=y, color='black', ax = ax2)
 sns.lineplot(x=x2,y=y2, color='black', ax = ax2)
 
 ax1.text(0, 43, 'null hypothesis', size=20, ha="center")
@@ -829,7 +834,7 @@ Graphical illustration of the null and alternative hypotheses assumed by the Wel
 
 ### Doing the test in Python
 
-To run a Welch test in R is pretty easy. All you have to do is not bother telling R to assume equal variances. That is, you take the command we used to run a Student's $t$-test and set `equal_var` to `False` . So the command for a Welch test becomes:
+To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, you take the command we used to run a Student's $t$-test and set `equal_var` to `False` . So the command for a Welch test becomes:
 
 from scipy import stats
 t, p = stats.ttest_ind(Anastasia, Bernadette, equal_var = False)
