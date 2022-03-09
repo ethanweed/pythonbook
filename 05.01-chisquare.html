@@ -499,17 +499,199 @@
 <p>The term “categorical data” is just another name for “nominal scale data”. It’s nothing that we haven’t already discussed, it’s just that in the context of data analysis people tend to use the term “categorical data” rather than “nominal scale data”. I don’t know why. In any case, <strong><em>categorical data analysis</em></strong> refers to a collection of tools that you can use when your data are nominal scale. However, there are a lot of different tools that can be used for categorical data analysis, and this chapter only covers a few of the more common ones.</p>
 <div class="section" id="the-chi-2-goodness-of-fit-test">
 <span id="goftest"></span><h2><span class="section-number">1.1. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test<a class="headerlink" href="#the-chi-2-goodness-of-fit-test" title="Permalink to this headline">¶</a></h2>
-<p>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test is one of the oldest hypothesis tests around: it was invented by Karl Pearson around the turn of the century [&#64;Pearson1900], with some corrections made later by  Sir Ronald Fisher [&#64;Fisher1922]. To introduce the statistical problem that it addresses, let’s start with some psychology…</p>
+<p>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test is one of the oldest hypothesis tests around: it was invented by Karl Pearson around the turn of the century <span id="id1">[<a class="reference internal" href="bibliography.html#id59"><span>Pea00</span></a>]</span>, with some corrections made later by  Sir Ronald Fisher <span id="id2">[<a class="reference internal" href="bibliography.html#id62"><span>Fis22a</span></a>]</span>. To introduce the statistical problem that it addresses, let’s start with some psychology…</p>
 <div class="section" id="the-cards-data">
 <h3><span class="section-number">1.1.1. </span>The cards data<a class="headerlink" href="#the-cards-data" title="Permalink to this headline">¶</a></h3>
-<p>Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to “act” random, we <em>think</em> in terms of patterns and structure, and so when asked to “do something at random”, what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let’s consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck “at random”. After they’ve chosen one card, I ask them to mentally select a second one. For both choices, what we’re going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, <span class="math notranslate nohighlight">\(N=200\)</span> people to do this, I’d like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the <code class="docutils literal notranslate"><span class="pre">randomness.Rdata</span></code> file, which contains a single data frame called <code class="docutils literal notranslate"><span class="pre">cards</span></code>. Let’s take a look:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>library( lsr )
-load( file.path(projecthome, &quot;data/randomness.Rdata&quot; ))
-str(cards)
+<p>Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to “act” random, we <em>think</em> in terms of patterns and structure, and so when asked to “do something at random”, what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let’s consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck “at random”. After they’ve chosen one card, I ask them to mentally select a second one. For both choices, what we’re going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, <span class="math notranslate nohighlight">\(N=200\)</span> people to do this, I’d like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the file called <code class="docutils literal notranslate"><span class="pre">cards.csv</span></code>. Let’s take a look:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>choice_1</th>
+      <th>choice_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>subj1</td>
+      <td>spades</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>subj2</td>
+      <td>diamonds</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>subj3</td>
+      <td>hearts</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>subj4</td>
+      <td>spades</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>subj5</td>
+      <td>hearts</td>
+      <td>spades</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>subj196</td>
+      <td>spades</td>
+      <td>hearts</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>subj197</td>
+      <td>hearts</td>
+      <td>spades</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>subj198</td>
+      <td>clubs</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>subj199</td>
+      <td>spades</td>
+      <td>hearts</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>subj200</td>
+      <td>hearts</td>
+      <td>hearts</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 3 columns</p>
+</div></div></div>
+</div>
 <p>As you can see, the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data frame contains three variables, an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that assigns a unique identifier to each participant, and the two variables <code class="docutils literal notranslate"><span class="pre">choice_1</span></code> and <code class="docutils literal notranslate"><span class="pre">choice_2</span></code> that indicate the card suits that people chose. Here’s the first few entries in the data frame:</p>
-<p>For the moment, let’s just focus on the first choice that people made. We’ll use the <code class="docutils literal notranslate"><span class="pre">table()</span></code> function to count the number of times that we observed people choosing each suit. I’ll save the table to a variable called <code class="docutils literal notranslate"><span class="pre">observed</span></code>, for reasons that will become clear very soon:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>choice_1</th>
+      <th>choice_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>subj1</td>
+      <td>spades</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>subj2</td>
+      <td>diamonds</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>subj3</td>
+      <td>hearts</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>subj4</td>
+      <td>spades</td>
+      <td>clubs</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>subj5</td>
+      <td>hearts</td>
+      <td>spades</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>For the moment, let’s just focus on the first choice that people made. We’ll use the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> function to count the number of times that we observed people choosing each suit. I’ll save the table to a variable called <code class="docutils literal notranslate"><span class="pre">observed</span></code>, for reasons that will become clear very soon:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observed</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;choice_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">observed</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hearts      64
+diamonds    51
+spades      50
+clubs       35
+Name: choice_1, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
 <p>That little frequency table is quite helpful. Looking at it, there’s a bit of a hint that people <em>might</em> be more likely to select hearts than clubs, but it’s not completely obvious just from looking at it whether that’s really true, or if this is just due to chance. So we’ll probably have to do some kind of statistical analysis to find out, which is what I’m going to talk about in the next section.</p>
 <p>Excellent. From this point on, we’ll treat this table as the data that we’re looking to analyse. However, since I’m going to have to talk about this data in mathematical terms (sorry!) it might be a good idea to be clear about what the notation is. In R, if I wanted to pull out the number of people that selected diamonds, I could do it by name by typing <code class="docutils literal notranslate"><span class="pre">observed[&quot;diamonds&quot;]</span></code> but, since <code class="docutils literal notranslate"><span class="pre">&quot;diamonds&quot;</span></code> is second element of the <code class="docutils literal notranslate"><span class="pre">observed</span></code> vector, it’s equally effective to refer to it as <code class="docutils literal notranslate"><span class="pre">observed[2]</span></code>. The mathematical notation for this is pretty similar, except that we shorten the human-readable word “observed” to the letter <span class="math notranslate nohighlight">\(O\)</span>, and we use subscripts rather than brackets: so the second observation in our table is written as <code class="docutils literal notranslate"><span class="pre">observed[2]</span></code> in R, and is written as <span class="math notranslate nohighlight">\(O_2\)</span> in maths. The relationship between the English descriptions, the R commands, and the mathematical symbols are illustrated below:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
