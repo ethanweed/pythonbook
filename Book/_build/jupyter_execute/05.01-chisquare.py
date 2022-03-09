@@ -9,72 +9,54 @@ The term "categorical data" is just another name for "nominal scale data". It's 
 
 ## The $\chi^2$ goodness-of-fit test
 
-The $\chi^2$ goodness-of-fit test is one of the oldest hypothesis tests around: it was invented by Karl Pearson around the turn of the century [@Pearson1900], with some corrections made later by  Sir Ronald Fisher [@Fisher1922]. To introduce the statistical problem that it addresses, let's start with some psychology... 
+The $\chi^2$ goodness-of-fit test is one of the oldest hypothesis tests around: it was invented by Karl Pearson around the turn of the century {cite}`Pearson1900`, with some corrections made later by  Sir Ronald Fisher {cite}`Fisher1922`. To introduce the statistical problem that it addresses, let's start with some psychology... 
 
 ### The cards data
 
-Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to "act" random, we *think* in terms of patterns and structure, and so when asked to "do something at random", what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let's consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck "at random". After they've chosen one card, I ask them to mentally select a second one. For both choices, what we're going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, $N=200$ people to do this, I'd like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the `randomness.Rdata` file, which contains a single data frame called `cards`. Let's take a look:
-```{r warning = FALSE, message= FALSE}
-library( lsr )
-load( file.path(projecthome, "data/randomness.Rdata" ))
-str(cards)
-```
+Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to "act" random, we *think* in terms of patterns and structure, and so when asked to "do something at random", what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let's consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck "at random". After they've chosen one card, I ask them to mentally select a second one. For both choices, what we're going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, $N=200$ people to do this, I'd like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the file called `cards.csv`. Let's take a look:
+
+import pandas as pd
+
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv')
+df
+
+
 As you can see, the `cards` data frame contains three variables, an `id` variable that assigns a unique identifier to each participant, and the two variables `choice_1` and `choice_2` that indicate the card suits that people chose. Here's the first few entries in the data frame:
-```{r}       
-head( cards )
-```
-For the moment, let's just focus on the first choice that people made. We'll use the `table()` function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called `observed`, for reasons that will become clear very soon:
 
+df.head()
 
-```{r}
-observed <- table( cards$choice_1 )
+For the moment, let's just focus on the first choice that people made. We'll use the `value_counts()` function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called `observed`, for reasons that will become clear very soon:
+
+observed = df['choice_1'].value_counts()
 observed
-```
+
 That little frequency table is quite helpful. Looking at it, there's a bit of a hint that people *might* be more likely to select hearts than clubs, but it's not completely obvious just from looking at it whether that's really true, or if this is just due to chance. So we'll probably have to do some kind of statistical analysis to find out, which is what I'm going to talk about in the next section. 
  
 
-Excellent. From this point on, we'll treat this table as the data that we're looking to analyse. However, since I'm going to have to talk about this data in mathematical terms (sorry!) it might be a good idea to be clear about what the notation is. In R, if I wanted to pull out the number of people that selected diamonds, I could do it by name by typing `observed["diamonds"]` but, since `"diamonds"` is second element of the `observed` vector, it's equally effective to refer to it as `observed[2]`. The mathematical notation for this is pretty similar, except that we shorten the human-readable word "observed" to the letter $O$, and we use subscripts rather than brackets: so the second observation in our table is written as `observed[2]` in R, and is written as $O_2$ in maths. The relationship between the English descriptions, the R commands, and the mathematical symbols are illustrated below: 
+Excellent. From this point on, we'll treat this table as the data that we're looking to analyse. However, since I'm going to have to talk about this data in mathematical terms (sorry!) it might be a good idea to be clear about what the notation is. In Python, if I wanted to pull out the number of people that selected diamonds, I can type `observed[1]` (diamonds is the second element in the list, but remember Python is zero-indexed, so clubs is 0, diamonds is 1, etc.). The mathematical notation for this is pretty similar, except that we shorten the human-readable word "observed" to the letter $O$, and we use subscripts rather than brackets. Also, since we are trying to make this more or less human-readable, let's start our subscripts at 1 rather than zero. So the second observation in our table is written as `observed[1]` in Python, and is written as $O_2$ in maths. The relationship between the English descriptions, the Python commands, and the mathematical symbols are illustrated below: 
 
-```{r echo = FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-                                label = c("clubs $\\clubsuit$ \t", 
-                                          "diamonds $\\diamondsuit$", 
-                                          "hearts $\\heartsuit$\t", 
-                                          "spades $\\spadesuit$"), 
-                                index = c(1:4),
-                                math.symbol = c("$O_1$", 
-                                                "$O_2$", 
-                                                "$O_3$", 
-                                                "$O_4$"),
-                                command = c("`observed[1]`", 
-                                            "`observed[2]`", 
-                                            "`observed[3]`", 
-                                            "`observed[4]`"),
-                                value = c(35, 51, 64, 50)), 
-             col.names = c("label", 
-                           "index $i$", 
-                           "math. symbol", 
-                           "R command", 
-                           "the value"), align = 'lcccc')
-```
+|label                   | index $i$ | math. symbol |   Python command   | the value |
+|:-----------------------|:---------:|:------------:|:-------------:|:---------:|
+|hearts $\heartsuit$     |     0     |    $O_1$     | `observed[0]` |    64     |
+|diamonds $\diamondsuit$ |     1     |    $O_2$     | `observed[1]` |    51     |
+|spades $\spadesuit$     |     2     |    $O_3$     | `observed[2]` |    50     |
+|clubs $\clubsuit$       |     3     |    $O_4$     | `observed[3]` |    35     |
 
 Hopefully that's pretty clear. It's also worth nothing that mathematicians prefer to talk about things in general rather than specific things, so you'll also see the notation $O_i$, which refers to the number of observations that fall within the $i$-th category (where $i$ could be 1, 2, 3 or 4). Finally, if we want to refer to the set of all observed frequencies, statisticians group all of observed values into a vector, which I'll refer to as $O$. 
+
 $$
 O = (O_1, O_2, O_3, O_4)
 $$
-Again, there's nothing new or interesting here: it's just notation. If I say that $O~=~(35, 51, 64, 50)$ all I'm doing is describing the table of observed frequencies (i.e., `observed`), but I'm referring to it using mathematical notation, rather than by referring to an R variable. 
 
+Again, there's nothing new or interesting here: it's just notation. If I say that $O~=~(64, 51, 50, 35)$ all I'm doing is describing the table of observed frequencies (i.e., `observed`), but I'm referring to it using mathematical notation, rather than by referring to an Python variable. 
 
 ### The null hypothesis and the alternative hypothesis
 
 As the last section indicated, our research hypothesis is that "people don't choose cards randomly". What we're going to want to do now is translate this into some statistical hypotheses, and construct a statistical test of those hypotheses. The test that I'm going to describe to you is **_Pearson's $\chi^2$ goodness of fit test_**, and as is so often the case, we have to begin by carefully constructing our null hypothesis. In this case, it's pretty easy. First, let's state the null hypothesis in words:
 
-```{r echo=FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-       H_0 = c("All four suits are chosen with equal probability")),
-       col.names = c("$H_0$"), align = ('c'))
 
-```
+$H_0$: All four suits are chosen with equal probability
+
 
 Now, because this is statistics, we have to be able to say the same thing in a mathematical way. To do this, let's use the notation $P_j$ to refer to the true probability that the $j$-th suit is chosen. If the null hypothesis is true, then each of the four suits has a 25\% chance of being selected: in other words, our null hypothesis claims that $P_1 = .25$, $P_2 = .25$, $P_3 = .25$ and finally that $P_4 = .25$. However, in the same way that we can group our observed frequencies into a vector $O$ that summarises the entire data set, we can use $P$ to refer to the probabilities that correspond to our null hypothesis. So if I let the vector $P = (P_1, P_2, P_3, P_4)$ refer to the collection of probabilities that describe our null hypothesis, then we have
 
@@ -86,28 +68,21 @@ In this particular instance, our null hypothesis corresponds to a vector of prob
 
 What about our alternative hypothesis, $H_1$? All we're really interested in is demonstrating that the probabilities involved aren't all identical (that is, people's choices weren't completely random). As a consequence, the "human friendly" versions of our hypotheses look like this:
 
-```{r echo=FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-       H_0 = c("All four suits are chosen with equal probability"),
-       H_1 = c("At least one of the suit-choice probabilities *isn't* .25")),
-       col.names = c("$H_0$", "$H_1$"), align = ('cc'))
-
-```
-
+$$
+H_0: All four suits are chosen with equal probability
+H_1: At least one of the suit-choice probabilities *isn't* .25
+$$
 
 
 and the "mathematician friendly" version is
 
+$H_0$: $P = (.25, .25, .25, .25)$
 
-```{r echo=FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-       H_0 = c("$P = (.25, .25, .25, .25)$"),
-       H_1 = c("$P \\neq (.25,.25,.25,.25)$")),
-       col.names = c("$H_0$", "$H_1$"), align = ('cc'))
+$H_1$: P \neq (.25,.25,.25,.25)$ 
 
-```
 
 Conveniently, the mathematical version of the hypotheses looks quite similar to an R command defining a vector. So maybe what I should do is store the $P$ vector in R as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this R vector `probabilities`,
+
 ```{r}
 probabilities <- c(clubs = .25, diamonds = .25, hearts = .25, spades = .25) 
 probabilities
