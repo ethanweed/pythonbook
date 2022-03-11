@@ -275,6 +275,7 @@ sns.lineplot(x=x,y=y, ax=ax2, color='black')
 
 fig.cap="The sampling distribution of the *maximum* for the \"five IQ scores experiment\". If you sample 5 people at random and select the one with the highest IQ score, you'll probably see someone with an IQ between 100 and 140."
 
+(clt)=
 ### The central limit theorem
 
 An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line).
