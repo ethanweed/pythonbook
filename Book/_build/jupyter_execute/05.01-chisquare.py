@@ -200,7 +200,7 @@ import seaborn as sns
 fmri = sns.load_dataset("fmri")
 fmri
 
-%matplotlib agg
+
 from myst_nb import glue
 import seaborn as sns
 import pandas as pd
