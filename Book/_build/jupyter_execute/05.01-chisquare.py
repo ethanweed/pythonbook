@@ -194,8 +194,50 @@ colour <- TRUE
 		lwd=3, col=ifelse(colour,emphCol,"black"), bty="n" )
 ```
 
-
 When I introduced the chi-square distribution in Section \@ref(otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking Figure \@ref(fig:manychi) you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
+
+import seaborn as sns
+fmri = sns.load_dataset("fmri")
+fmri
+
+%matplotlib agg
+from myst_nb import glue
+import seaborn as sns
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2
+
+
+
+
+x = np.linspace(0, 10, 100)
+
+y3 = chi2.pdf(x, df=3)
+y4 = chi2.pdf(x, df=4)
+y5 = chi2.pdf(x, df=5)
+labels = ['df = 3']*len(x) + ['df = 4']*len(x) + ['df = 5']*len(x)
+y = list(y3)+list(y4)+list(y5)
+x = list(x)*3
+
+df = pd.DataFrame(
+    {'y': y,
+     'x': x,
+     'df': labels
+    }) 
+
+fig = sns.lineplot(x= "x", y= "y",
+             style="df",
+             data=df)
+
+sns.despine()
+glue("manychi_fig", fig, display=False)
+
+ ```{glue:figure} manychi_fig
+:figwidth: 600px
+:name: fig-manychi
+
+Chi-square distributions with different values for the \"degrees of freedom\".
+```
 
 The basic idea behind degrees of freedom is quite simple: you calculate it by counting up the number of distinct "quantities" that are used to describe your data; and then subtracting off all of the "constraints" that those data must satisfy.^[I feel obliged to point out that this is an over-simplification. It works nicely for quite a few situations; but every now and then we'll come across degrees of freedom values that aren't whole numbers. Don't let this worry you too much -- when you come across this, just remind yourself that "degrees of freedom" is actually a bit of a messy concept, and that the nice simple story that I'm telling you here isn't the whole story. For an introductory class, it's usually best to stick to the simple story: but I figure it's best to warn you to expect this simple story to fall apart. If I didn't give you this warning, you might start getting confused when you see $df = 3.4$ or something; and (incorrectly) thinking that you had misunderstood something that I've taught you, rather than (correctly) realising that there's something that I haven't told you.] This is a bit vague, so let's use our cards data as a concrete example. We describe out data using four numbers, $O_1$, $O_2$, $O_3$ and $O_4$ corresponding to the observed frequencies of the four different categories (hearts, clubs, diamonds, spades). These four numbers are the *random outcomes* of our experiment. But, my experiment actually has a fixed constraint built into it: the sample size $N$.^[In practice, the sample size isn't always fixed... e.g., we might run the experiment over a fixed period of time, and the number of people participating depends on how many people show up. That doesn't matter for the current purposes.] That is, if we know how many people chose hearts, how many chose diamonds and how many chose clubs; then we'd be able to figure out exactly how many chose spades. In other words, although our data are described using four numbers, they only actually correspond to $4-1 = 3$ degrees of freedom. A slightly different way of thinking about it is to notice that there are four *probabilities* that we're interested in (again, corresponding to the four different categories), but these probabilities must sum to one, which imposes a constraint. Therefore, the degrees of freedom is $4-1 = 3$. Regardless of whether you want to think about it in terms of the observed frequencies or in terms of the probabilities, the answer is the same. In general, when running the chi-square goodness of fit test for an experiment involving $k$ groups, then the degrees of freedom will be $k-1$.
 
