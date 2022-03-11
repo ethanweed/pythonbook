@@ -952,137 +952,10 @@ colour &lt;- TRUE
 </pre></div>
 </div>
 <p>When I introduced the chi-square distribution in Section &#64;ref(otherdists), I was a bit vague about what “<strong><em>degrees of freedom</em></strong>” actually <em>means</em>. Obviously, it matters: looking Figure &#64;ref(fig:manychi) you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer… it’s the number of “normally distributed variables” that I’m squaring and adding together. But, for most people, that’s kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">fmri</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;fmri&quot;</span><span class="p">)</span>
-<span class="n">fmri</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>subject</th>
-      <th>timepoint</th>
-      <th>event</th>
-      <th>region</th>
-      <th>signal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>s13</td>
-      <td>18</td>
-      <td>stim</td>
-      <td>parietal</td>
-      <td>-0.017552</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>s5</td>
-      <td>14</td>
-      <td>stim</td>
-      <td>parietal</td>
-      <td>-0.080883</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>s12</td>
-      <td>18</td>
-      <td>stim</td>
-      <td>parietal</td>
-      <td>-0.081033</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>s11</td>
-      <td>18</td>
-      <td>stim</td>
-      <td>parietal</td>
-      <td>-0.046134</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>s10</td>
-      <td>18</td>
-      <td>stim</td>
-      <td>parietal</td>
-      <td>-0.037970</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>1059</th>
-      <td>s0</td>
-      <td>8</td>
-      <td>cue</td>
-      <td>frontal</td>
-      <td>0.018165</td>
-    </tr>
-    <tr>
-      <th>1060</th>
-      <td>s13</td>
-      <td>7</td>
-      <td>cue</td>
-      <td>frontal</td>
-      <td>-0.029130</td>
-    </tr>
-    <tr>
-      <th>1061</th>
-      <td>s12</td>
-      <td>7</td>
-      <td>cue</td>
-      <td>frontal</td>
-      <td>-0.004939</td>
-    </tr>
-    <tr>
-      <th>1062</th>
-      <td>s11</td>
-      <td>7</td>
-      <td>cue</td>
-      <td>frontal</td>
-      <td>-0.025367</td>
-    </tr>
-    <tr>
-      <th>1063</th>
-      <td>s0</td>
-      <td>0</td>
-      <td>cue</td>
-      <td>parietal</td>
-      <td>-0.006899</td>
-    </tr>
-  </tbody>
-</table>
-<p>1064 rows × 5 columns</p>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> agg
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1116,7 +989,6 @@ colour &lt;- TRUE
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.01-chisquare_33_1.png" src="_images/05.01-chisquare_33_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-manychi" style="width: 600px">
