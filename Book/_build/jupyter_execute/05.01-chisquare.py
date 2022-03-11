@@ -81,16 +81,17 @@ $H_0$: $P = (.25, .25, .25, .25)$
 $H_1$: $P \neq (.25,.25,.25,.25)$
 
 
-Conveniently, the mathematical version of the hypotheses looks quite similar to a python command defining a list. So maybe what I should do is store the $P$ list in Python as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this Python list `probabilities`:
+Maybe what I should do is store the $P$ list in Python as well, since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this panads series `probabilities`:
 
-
+# make dictionary of values
 dict = {'hearts' : .25,
-        'diamonds' : 25,
+        'diamonds' : .25,
         'spades' : .25,
         'clubs': .25}
    
 # create series from dictionary
-ser = pd.Series(dict)
+probabilities = pd.Series(dict)
+probabilities
 
 ### The "goodness of fit" test statistic
 
@@ -103,37 +104,19 @@ $$
 
 This is pretty easy to calculate in Python:
 
-
-dict = {'Geeks' : 10,
-        'for' : 20,
-        'geeks' : 30}
-   
-
-ser = pd.Series(dict)
-
-
-```{r}
-N <- 200  # sample size
-expected <- N * probabilities # expected frequencies
+N = 200 #sample size
+expected = N * probabilities
 expected
-```
 
 None of which is very surprising: if there are 200 observation that can fall into four categories, and we think that all four categories are equally likely, then on average we'd expect to see 50 observations in each category, right?
 
 Now, how do we translate this into a test statistic? Clearly, what we want to do is compare the *expected* number of observations in each category ($E_i$) with the *observed* number of observations in that category ($O_i$). And on the basis of this comparison, we ought to be able to come up with a good test statistic. To start with, let's calculate the difference between what the null hypothesis expected us to find and what we actually did find. That is, we calculate the "observed minus expected" difference score, $O_i - E_i$. This is illustrated in the following table. 
 
-```{r echo=FALSE}
-knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c("expected frequency", "observed frequency", "difference score"),
-NANA = c("$E_i$", "$O_i$", "$O_i - E_i$"),
-club = c(50, 35, -15),
-diamondsuit = c(50, 51, 1),
-heartsuit = c(50, 64, 14),
-spadesuit = c(50, 50, 0)
-), col.names = c("", "", "$\\clubsuit$", "$\\diamondsuit$", "$\\heartsuit$", "$\\spadesuit$"))
-
-```
-
+|                   |            | $\clubsuit$| $\diamondsuit$| $\heartsuit$| $\spadesuit$|
+|:------------------|:-----------|-----------:|--------------:|------------:|------------:|
+|expected frequency |$E_i$       |          50|             50|           50|           50|
+|observed frequency |$O_i$       |          35|             51|           64|           50|
+|difference score   |$O_i - E_i$ |         -15|              1|           14|            0|
 
 The same calculations can be done in R, using our `expected` and `observed` variables:
 ```{r}
