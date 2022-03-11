@@ -196,7 +196,7 @@ colour <- TRUE
 
 When I introduced the chi-square distribution in Section \@ref(otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking Figure \@ref(fig:manychi) you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
-%matplotlib agg
+
 from myst_nb import glue
 import seaborn as sns
 import pandas as pd
