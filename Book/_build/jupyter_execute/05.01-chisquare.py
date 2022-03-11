@@ -60,47 +60,64 @@ $H_0$: All four suits are chosen with equal probability
 
 Now, because this is statistics, we have to be able to say the same thing in a mathematical way. To do this, let's use the notation $P_j$ to refer to the true probability that the $j$-th suit is chosen. If the null hypothesis is true, then each of the four suits has a 25\% chance of being selected: in other words, our null hypothesis claims that $P_1 = .25$, $P_2 = .25$, $P_3 = .25$ and finally that $P_4 = .25$. However, in the same way that we can group our observed frequencies into a vector $O$ that summarises the entire data set, we can use $P$ to refer to the probabilities that correspond to our null hypothesis. So if I let the vector $P = (P_1, P_2, P_3, P_4)$ refer to the collection of probabilities that describe our null hypothesis, then we have
 
-$$
-H_0: {P} = (.25, .25, .25, .25)
-$$
+
+$H_0: {P} = (.25, .25, .25, .25)$
 
 In this particular instance, our null hypothesis corresponds to a vector of probabilities $P$ in which all of the probabilities are equal to one another. But this doesn't have to be the case. For instance, if the experimental task was for people to imagine they were drawing from a deck that had twice as many clubs as any other suit, then the null hypothesis would correspond to something like $P = (.4, .2, .2, .2)$. As long as the probabilities are all positive numbers, and they all sum to 1, them it's a perfectly legitimate choice for the null hypothesis. However, the most common use of the goodness of fit test is to test a null hypothesis that all of the categories are equally likely, so we'll stick to that for our example. 
 
 What about our alternative hypothesis, $H_1$? All we're really interested in is demonstrating that the probabilities involved aren't all identical (that is, people's choices weren't completely random). As a consequence, the "human friendly" versions of our hypotheses look like this:
 
-$$
-H_0: All four suits are chosen with equal probability
-H_1: At least one of the suit-choice probabilities *isn't* .25
-$$
+
+$H_0$: All four suits are chosen with equal probability
+
+$H_1$: At least one of the suit-choice probabilities *isn't* .25
+
 
 
 and the "mathematician friendly" version is
 
 $H_0$: $P = (.25, .25, .25, .25)$
 
-$H_1$: P \neq (.25,.25,.25,.25)$ 
+$H_1$: $P \neq (.25,.25,.25,.25)$
 
 
-Conveniently, the mathematical version of the hypotheses looks quite similar to an R command defining a vector. So maybe what I should do is store the $P$ vector in R as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this R vector `probabilities`,
+Conveniently, the mathematical version of the hypotheses looks quite similar to a python command defining a list. So maybe what I should do is store the $P$ list in Python as well,  since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this Python list `probabilities`:
 
-```{r}
-probabilities <- c(clubs = .25, diamonds = .25, hearts = .25, spades = .25) 
-probabilities
-```
+
+dict = {'hearts' : .25,
+        'diamonds' : 25,
+        'spades' : .25,
+        'clubs': .25}
+   
+# create series from dictionary
+ser = pd.Series(dict)
 
 ### The "goodness of fit" test statistic
 
 
 At this point, we have our observed frequencies $O$ and a collection of probabilities $P$ corresponding the null hypothesis that we want to test. We've stored these in R as the corresponding variables `observed` and `probabilities`. What we now want to do is construct a test of the null hypothesis. As always, if we want to test $H_0$ against $H_1$, we're going to need a test statistic. The basic trick that a goodness of fit test uses is to construct a test statistic that measures how "close" the data are to the null hypothesis. If the data don't resemble what you'd "expect" to see if the null hypothesis were true, then it probably isn't true. Okay, if the null hypothesis were true, what would we expect to see? Or, to use the correct terminology, what are the **_expected frequencies_**. There are $N=200$ observations, and (if the null is true) the probability of any one of them choosing a heart is $P_3 = .25$, so I guess we're expecting $200 \times .25 = 50$ hearts, right? Or, more specifically, if we let $E_i$ refer  to "the number of category $i$ responses that we're expecting if the null is true", then
+
 $$
 E_i = N \times P_i
 $$
-This is pretty easy to calculate in R:
+
+This is pretty easy to calculate in Python:
+
+
+dict = {'Geeks' : 10,
+        'for' : 20,
+        'geeks' : 30}
+   
+
+ser = pd.Series(dict)
+
+
 ```{r}
 N <- 200  # sample size
 expected <- N * probabilities # expected frequencies
 expected
 ```
+
 None of which is very surprising: if there are 200 observation that can fall into four categories, and we think that all four categories are equally likely, then on average we'd expect to see 50 observations in each category, right?
 
 Now, how do we translate this into a test statistic? Clearly, what we want to do is compare the *expected* number of observations in each category ($E_i$) with the *observed* number of observations in that category ($O_i$). And on the basis of this comparison, we ought to be able to come up with a good test statistic. To start with, let's calculate the difference between what the null hypothesis expected us to find and what we actually did find. That is, we calculate the "observed minus expected" difference score, $O_i - E_i$. This is illustrated in the following table. 
