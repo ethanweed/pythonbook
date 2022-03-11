@@ -9,4 +9,4 @@ ghp-import -n -p -f Book/_build/html
 
 git add -A
 git commit -m "auto-updated with build.sh"
-git push origin master
+git push origin main
