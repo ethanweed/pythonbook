@@ -162,39 +162,7 @@ There's one last detail to talk about, namely the degrees of freedom. If you rem
 
 
 
-### Degrees of freedom
-
-```{r manychi, fig.cap="Chi-square distributions with different values for the \"degrees of freedom\".", echo=FALSE}
-chiSqImg <- list()
-emphCol <- rgb(0,0,1)
-emphColLight <- rgb(.5,.5,1)
-emphGrey <- grey(.5)
-
-eps <- TRUE
-colour <- TRUE
-
-	width <- 8
-	height <- 6
-
-	plot.new()
-	plot.window( xlim=c(0,10), ylim=c(0,.25))
-	axis(1)
-	title(xlab="Value")
-	
-	x <- seq(0,10,.1)
-	
-	lines(x, dchisq(x,df=3),col=ifelse(colour,emphCol,"black"), 
-		lwd=3, lty=1 )
-	lines(x, dchisq(x,df=4),col=ifelse(colour,emphCol,"black"), 
-		lwd=3, lty=2 )
-	lines(x, dchisq(x,df=5),col=ifelse(colour,emphCol,"black"), 
-		lwd=3, lty=3 )
-		
-	legend(7,.22,legend=c("df = 3","df = 4","df = 5"), lty=1:3, 
-		lwd=3, col=ifelse(colour,emphCol,"black"), bty="n" )
-```
-
-When I introduced the chi-square distribution in Section \@ref(otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking Figure \@ref(fig:manychi) you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
+When I introduced the chi-square distribution in Section \@ref(otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking {numref} fig-manychi you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
 
 from myst_nb import glue

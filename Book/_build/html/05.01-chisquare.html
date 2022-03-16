@@ -377,33 +377,28 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#degrees-of-freedom">
-     1.1.5. Degrees of freedom
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#testing-the-null-hypothesis">
-     1.1.6. Testing the null hypothesis
+     1.1.5. Testing the null hypothesis
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#doing-the-test-in-r-goftestinr">
-     1.1.7. Doing the test in R{#gofTestInR}
+     1.1.6. Doing the test in R{#gofTestInR}
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#specifying-a-different-null-hypothesis">
-     1.1.8. Specifying a different null hypothesis
+     1.1.7. Specifying a different null hypothesis
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#how-to-report-the-results-of-the-test-chisqreport">
-     1.1.9. How to report the results of the test{#chisqreport}
+     1.1.8. How to report the results of the test{#chisqreport}
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#a-comment-on-statistical-notation-advanced">
-     1.1.10. A comment on statistical notation (advanced)
+     1.1.9. A comment on statistical notation (advanced)
     </a>
    </li>
   </ul>
@@ -919,39 +914,7 @@ O_i \sim \mbox{Binomial}(P_i, N)
 \]</div>
 <p>Now, if you remember from our discussion of the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">central limit theorem</span></a>, the binomial distribution starts to look pretty much identical to the normal distribution, especially when <span class="math notranslate nohighlight">\(N\)</span> is large and when <span class="math notranslate nohighlight">\(P_i\)</span> isn’t <em>too</em> close to 0 or 1. In other words as long as <span class="math notranslate nohighlight">\(N \times P_i\)</span> is large enough – or, to put it another way, when the expected frequency <span class="math notranslate nohighlight">\(E_i\)</span> is large enough – the theoretical distribution of <span class="math notranslate nohighlight">\(O_i\)</span> is approximately normal. Better yet, if <span class="math notranslate nohighlight">\(O_i\)</span> is normally distributed, then so is <span class="math notranslate nohighlight">\((O_i - E_i)/\sqrt{E_i}\)</span> … since <span class="math notranslate nohighlight">\(E_i\)</span> is a fixed value, subtracting off <span class="math notranslate nohighlight">\(E_i\)</span> and dividing by <span class="math notranslate nohighlight">\(\sqrt{E_i}\)</span> changes the mean and standard deviation of the normal distribution; but that’s all it does. Okay, so now let’s have a look at what our goodness of fit statistic actually <em>is</em>. What we’re doing is taking a bunch of things that are normally-distributed, squaring them, and adding them up. Wait. We’ve seen that before too! As we discussed in the section on the <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">central limit theorem</span></a>, when you take a bunch of things that have a standard normal distribution (i.e., mean 0 and standard deviation 1), square them, then add them up, then the resulting quantity has a chi-square distribution. So now we know that the null hypothesis predicts that the sampling distribution of the goodness of fit statistic is a chi-square distribution. Cool.</p>
 <p>There’s one last detail to talk about, namely the degrees of freedom. If you remember back to the section on <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">Other useful distributions</span></a>, I said that if the number of things you’re adding up is <span class="math notranslate nohighlight">\(k\)</span>, then the degrees of freedom for the resulting chi-square distribution is <span class="math notranslate nohighlight">\(k\)</span>. Yet, what I said at the start of this section is that the actual degrees of freedom for the chi-square goodness of fit test is <span class="math notranslate nohighlight">\(k-1\)</span>. What’s up with that? The answer here is that what we’re supposed to be looking at is the number of genuinely <em>independent</em> things that are getting added together. And, as I’ll go on to talk about in the next section, even though there’s <span class="math notranslate nohighlight">\(k\)</span> things that we’re adding, only <span class="math notranslate nohighlight">\(k-1\)</span> of them are truly independent; and so the degrees of freedom is actually only <span class="math notranslate nohighlight">\(k-1\)</span>. That’s the topic of the next section.<a class="footnote-reference brackets" href="#note1" id="id3">1</a></p>
-</div>
-<div class="section" id="degrees-of-freedom">
-<h3><span class="section-number">1.1.5. </span>Degrees of freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>chiSqImg &lt;- list()
-emphCol &lt;- rgb(0,0,1)
-emphColLight &lt;- rgb(.5,.5,1)
-emphGrey &lt;- grey(.5)
-
-eps &lt;- TRUE
-colour &lt;- TRUE
-
-	width &lt;- 8
-	height &lt;- 6
-
-	plot.new()
-	plot.window( xlim=c(0,10), ylim=c(0,.25))
-	axis(1)
-	title(xlab=&quot;Value&quot;)
-	
-	x &lt;- seq(0,10,.1)
-	
-	lines(x, dchisq(x,df=3),col=ifelse(colour,emphCol,&quot;black&quot;), 
-		lwd=3, lty=1 )
-	lines(x, dchisq(x,df=4),col=ifelse(colour,emphCol,&quot;black&quot;), 
-		lwd=3, lty=2 )
-	lines(x, dchisq(x,df=5),col=ifelse(colour,emphCol,&quot;black&quot;), 
-		lwd=3, lty=3 )
-		
-	legend(7,.22,legend=c(&quot;df = 3&quot;,&quot;df = 4&quot;,&quot;df = 5&quot;), lty=1:3, 
-		lwd=3, col=ifelse(colour,emphCol,&quot;black&quot;), bty=&quot;n&quot; )
-</pre></div>
-</div>
-<p>When I introduced the chi-square distribution in Section &#64;ref(otherdists), I was a bit vague about what “<strong><em>degrees of freedom</em></strong>” actually <em>means</em>. Obviously, it matters: looking Figure &#64;ref(fig:manychi) you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer… it’s the number of “normally distributed variables” that I’m squaring and adding together. But, for most people, that’s kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.</p>
+<p>When I introduced the chi-square distribution in Section &#64;ref(otherdists), I was a bit vague about what “<strong><em>degrees of freedom</em></strong>” actually <em>means</em>. Obviously, it matters: looking {numref} fig-manychi you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer… it’s the number of “normally distributed variables” that I’m squaring and adding together. But, for most people, that’s kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
@@ -988,7 +951,7 @@ colour &lt;- TRUE
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.01-chisquare_32_1.png" src="_images/05.01-chisquare_32_1.png" />
+<img alt="_images/05.01-chisquare_31_1.png" src="_images/05.01-chisquare_31_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-manychi" style="width: 600px">
@@ -1002,7 +965,7 @@ colour &lt;- TRUE
 <p>The basic idea behind degrees of freedom is quite simple: you calculate it by counting up the number of distinct “quantities” that are used to describe your data; and then subtracting off all of the “constraints” that those data must satisfy.<a class="footnote-reference brackets" href="#note2" id="id4">2</a> This is a bit vague, so let’s use our cards data as a concrete example. We describe out data using four numbers, <span class="math notranslate nohighlight">\(O_1\)</span>, <span class="math notranslate nohighlight">\(O_2\)</span>, <span class="math notranslate nohighlight">\(O_3\)</span> and <span class="math notranslate nohighlight">\(O_4\)</span> corresponding to the observed frequencies of the four different categories (hearts, clubs, diamonds, spades). These four numbers are the <em>random outcomes</em> of our experiment. But, my experiment actually has a fixed constraint built into it: the sample size <span class="math notranslate nohighlight">\(N\)</span>.<a class="footnote-reference brackets" href="#note3" id="id5">3</a> That is, if we know how many people chose hearts, how many chose diamonds and how many chose clubs; then we’d be able to figure out exactly how many chose spades. In other words, although our data are described using four numbers, they only actually correspond to <span class="math notranslate nohighlight">\(4-1 = 3\)</span> degrees of freedom. A slightly different way of thinking about it is to notice that there are four <em>probabilities</em> that we’re interested in (again, corresponding to the four different categories), but these probabilities must sum to one, which imposes a constraint. Therefore, the degrees of freedom is <span class="math notranslate nohighlight">\(4-1 = 3\)</span>. Regardless of whether you want to think about it in terms of the observed frequencies or in terms of the probabilities, the answer is the same. In general, when running the chi-square goodness of fit test for an experiment involving <span class="math notranslate nohighlight">\(k\)</span> groups, then the degrees of freedom will be <span class="math notranslate nohighlight">\(k-1\)</span>.</p>
 </div>
 <div class="section" id="testing-the-null-hypothesis">
-<h3><span class="section-number">1.1.6. </span>Testing the null hypothesis<a class="headerlink" href="#testing-the-null-hypothesis" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.1.5. </span>Testing the null hypothesis<a class="headerlink" href="#testing-the-null-hypothesis" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	width &lt;- 9
 	height &lt;- 6
 	fileName &lt;- &quot;chiSqTest.eps&quot;
@@ -1045,7 +1008,7 @@ colour &lt;- TRUE
 <p>So, in this case we would reject the null hypothesis, since <span class="math notranslate nohighlight">\(p &lt; .05\)</span>.  And that’s it, basically. You now know “Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> test for the goodness of fit”. Lucky you.</p>
 </div>
 <div class="section" id="doing-the-test-in-r-goftestinr">
-<h3><span class="section-number">1.1.7. </span>Doing the test in R{#gofTestInR}<a class="headerlink" href="#doing-the-test-in-r-goftestinr" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.1.6. </span>Doing the test in R{#gofTestInR}<a class="headerlink" href="#doing-the-test-in-r-goftestinr" title="Permalink to this headline">¶</a></h3>
 <p>Gosh darn it. Although we did manage to do everything in R as we were going through that little example, it does rather feel as if we’re typing too many things into the magic computing box. And I <em>hate</em> typing. Not surprisingly, R provides a function that will do all of these calculations for you. In fact, there are several different ways of doing it. The one that most people use is the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function, which comes with every installation of R. I’ll show you how to use the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function later on (in Section &#64;ref(chisq.test), but to start out with I’m going to show you the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, because it produces output that I think is easier for beginners to understand. It’s pretty straightforward: our raw data are stored in the variable <code class="docutils literal notranslate"><span class="pre">cards$choice_1</span></code>, right? If you want to test the null hypothesis that all four suits are equally likely, then (assuming you have the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package loaded) all you have to do is type this:</p>
 <p>R then runs the test, and prints several lines of text. I’ll go through the output line by line, so that you can make sure that you understand what you’re looking at. The first two lines are just telling you things you already know:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     Chi-square test against specified probabilities
@@ -1080,13 +1043,13 @@ Data variable:   cards$choice_1
 <p>Notice that these are the same numbers that we came up with when doing the calculations the long way.</p>
 </div>
 <div class="section" id="specifying-a-different-null-hypothesis">
-<h3><span class="section-number">1.1.8. </span>Specifying a different null hypothesis<a class="headerlink" href="#specifying-a-different-null-hypothesis" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.1.7. </span>Specifying a different null hypothesis<a class="headerlink" href="#specifying-a-different-null-hypothesis" title="Permalink to this headline">¶</a></h3>
 <p>At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let’s suppose that someone had made the theoretical prediction that people should choose red cards 60% of the time, and black cards 40% of the time (I’ve no idea why you’d predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30% of the choices to be hearts, 30% to be diamonds, 20% to be spades and 20% to be clubs. This seems like a silly theory to me, and it’s pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:</p>
 <p>Now that we have an explicitly specified null hypothesis, we include it in our command. This time round I’ll use the argument names properly. The data variable corresponds to the argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, and the probabilities according to the null hypothesis correspond to the argument <code class="docutils literal notranslate"><span class="pre">p</span></code>. So our command is:</p>
 <p>As you can see the null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <span class="math notranslate nohighlight">\(X^2\)</span> test statistic is different, and our <span class="math notranslate nohighlight">\(p\)</span>-value is different too. Annoyingly, the <span class="math notranslate nohighlight">\(p\)</span>-value is .192, so we can’t reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don’t provide enough evidence against it.</p>
 </div>
 <div class="section" id="how-to-report-the-results-of-the-test-chisqreport">
-<h3><span class="section-number">1.1.9. </span>How to report the results of the test{#chisqreport}<a class="headerlink" href="#how-to-report-the-results-of-the-test-chisqreport" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.1.8. </span>How to report the results of the test{#chisqreport}<a class="headerlink" href="#how-to-report-the-results-of-the-test-chisqreport" title="Permalink to this headline">¶</a></h3>
 <p>So now you know how the test works, and you know how to do the test using a wonderful magic computing box. The next thing you need to know is how to write up the results. After all, there’s no point in designing and running an experiment and then analysing the data if you don’t tell anyone about it! So let’s now talk about what you need to do when reporting your analysis. Let’s stick with our card-suits example. If I wanted to write this result up for a paper or something, the conventional way to report this would be to write something like this:</p>
 <blockquote>
 <div><p>Of the 200 participants in the experiment, 64 selected hearts for their first choice, 51 selected diamonds, 50 selected spades, and 35 selected clubs. A chi-square goodness of fit test was conducted to test whether the choice probabilities were identical for all four suits. The results were significant (<span class="math notranslate nohighlight">\(\chi^2(3) = 8.44, p&lt;.05\)</span>), suggesting that people did not select suits purely at random.</p>
@@ -1101,7 +1064,7 @@ Data variable:   cards$choice_1
 <p>As with everything else, your overriding concern should be that you <em>explain</em> things to your reader. Always remember that the point of reporting your results is to communicate to another human being. I cannot tell you just how many times I’ve seen the results section of a report or a thesis or even a scientific article that is just gibberish, because the writer has focused solely on making sure they’ve included all the numbers, and forgotten to actually communicate with the human reader.</p>
 </div>
 <div class="section" id="a-comment-on-statistical-notation-advanced">
-<h3><span class="section-number">1.1.10. </span>A comment on statistical notation (advanced)<a class="headerlink" href="#a-comment-on-statistical-notation-advanced" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.1.9. </span>A comment on statistical notation (advanced)<a class="headerlink" href="#a-comment-on-statistical-notation-advanced" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p><em>Satan delights equally in statistics and in quoting scripture</em></p>
 <p>– H.G. Wells</p>
