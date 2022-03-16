@@ -966,41 +966,6 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </div>
 <div class="section" id="testing-the-null-hypothesis">
 <h3><span class="section-number">1.1.5. </span>Testing the null hypothesis<a class="headerlink" href="#testing-the-null-hypothesis" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>	width &lt;- 9
-	height &lt;- 6
-	fileName &lt;- &quot;chiSqTest.eps&quot;
-	
-	max.val &lt;- 14
-	plot.new()
-	plot.window( xlim=c(0,max.val), ylim=c(0,.25))
-	axis(1)
-	title(xlab=&quot;Value of the GOF Statistic&quot;)
-	
-	df &lt;- 3
-	
-	crit.val &lt;- qchisq(.95,df)
-	
-	x &lt;- seq(crit.val,max.val,.1)
-	x &lt;- c(x,max.val)
-	y &lt;- dchisq(x,df)
-	polygon( c(x[1], x, x[length(x)]), c(0,y,0), 
-		col=ifelse(colour,emphCol,&quot;black&quot;),
-		density=10, lwd=2 )
-
-	x &lt;- seq(0,max.val,.1)
-
-	lines(x, dchisq(x,df=df),col=&quot;black&quot;, 
-		lwd=3, lty=1 )
-	
-	lines( 8.44, 0, pch=19, col=&quot;black&quot;, type=&quot;p&quot; )
-	
-	arrows( x1=crit.val,x0=6,y0=.145,y1=.026)
-	arrows( x1=8.44,x0=10,y0=.115,y1=.021)
-	
-	text(6,.16,&quot;The critical value is 7.81&quot;)
-	text(10.5,.13,&quot;The observed GOF value is 8.44&quot;)
-</pre></div>
-</div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
