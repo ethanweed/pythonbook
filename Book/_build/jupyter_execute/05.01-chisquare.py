@@ -211,42 +211,6 @@ The basic idea behind degrees of freedom is quite simple: you calculate it by co
 
 ### Testing the null hypothesis 
 
-```{r goftest, fig.cap="Illustration of how the hypothesis testing works for the chi-square goodness of fit test.", echo=FALSE}
-	width <- 9
-	height <- 6
-	fileName <- "chiSqTest.eps"
-	
-	max.val <- 14
-	plot.new()
-	plot.window( xlim=c(0,max.val), ylim=c(0,.25))
-	axis(1)
-	title(xlab="Value of the GOF Statistic")
-	
-	df <- 3
-	
-	crit.val <- qchisq(.95,df)
-	
-	x <- seq(crit.val,max.val,.1)
-	x <- c(x,max.val)
-	y <- dchisq(x,df)
-	polygon( c(x[1], x, x[length(x)]), c(0,y,0), 
-		col=ifelse(colour,emphCol,"black"),
-		density=10, lwd=2 )
-
-	x <- seq(0,max.val,.1)
-
-	lines(x, dchisq(x,df=df),col="black", 
-		lwd=3, lty=1 )
-	
-	lines( 8.44, 0, pch=19, col="black", type="p" )
-	
-	arrows( x1=crit.val,x0=6,y0=.145,y1=.026)
-	arrows( x1=8.44,x0=10,y0=.115,y1=.021)
-	
-	text(6,.16,"The critical value is 7.81")
-	text(10.5,.13,"The observed GOF value is 8.44")
-```
-
 
 
 import seaborn as sns
