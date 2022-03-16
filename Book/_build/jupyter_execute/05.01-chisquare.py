@@ -251,7 +251,7 @@ Illustration of how the hypothesis testing works for the chi-square goodness of 
 
 ```
 
-Ah, but -- I hear you ask -- how do I calculate the 95th percentile of a chi-squared distribution with $k-1$ degrees of freedom? If only Python had some function, called... oh, I don't know, chi2 percent, or chi2 percent point ... that would let you calculate this percentile. What about the "chi2 percent point function", hmm? `chi2.ppf()` Doesn't that sound like it might do the trick? Like this...
+Ah, but -- I hear you ask -- how do I calculate the 95th percentile of a chi-squared distribution with $k-1$ degrees of freedom? If only Python had some function, called... oh, I don't know, chi2 percent, or chi2 percent point ... that would let you calculate this percentile. What about the "chi2 percent point function", `chi2.ppf()`, hmm?  Doesn't that sound like it might do the trick? Like this...
 
 from scipy.stats import chi2
 round(chi2.ppf(0.95, 3),2)
