@@ -1025,7 +1025,21 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </div>
 </div>
 </div>
-<p>So if our <span class="math notranslate nohighlight">\(X^2\)</span> statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span>) we can reject the null. If we want an exact <span class="math notranslate nohighlight">\(p\)</span>-value, we can calculate it using the <code class="docutils literal notranslate"><span class="pre">pchisq()</span></code> function:</p>
+<p>So if our <span class="math notranslate nohighlight">\(X^2\)</span> statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span>), we know that we can reject the null. If we want an exact <span class="math notranslate nohighlight">\(p\)</span>-value, we can calculate it using the <code class="docutils literal notranslate"><span class="pre">chisquare()</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chisquare</span>
+
+<span class="n">chisquare</span><span class="p">(</span><span class="n">f_obs</span> <span class="o">=</span> <span class="n">observed</span><span class="p">,</span> <span class="n">f_exp</span> <span class="o">=</span> <span class="n">expected</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Power_divergenceResult(statistic=8.44, pvalue=0.0377418520240214)
+</pre></div>
+</div>
+</div>
+</div>
 <p>This is hopefully pretty straightforward, as long as you recall that the “<code class="docutils literal notranslate"><span class="pre">p</span></code>” form of the probability distribution functions in R always calculates the probability of getting a value of <em>less</em> than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or <em>more</em>. That’s why I told R to use the upper tail, not the lower tail. That said, it’s usually easier to calculate the <span class="math notranslate nohighlight">\(p\)</span>-value this way:</p>
 <p>So, in this case we would reject the null hypothesis, since <span class="math notranslate nohighlight">\(p &lt; .05\)</span>.  And that’s it, basically. You now know “Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> test for the goodness of fit”. Lucky you.</p>
 </div>
