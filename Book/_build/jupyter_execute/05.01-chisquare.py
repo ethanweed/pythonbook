@@ -256,10 +256,12 @@ Ah, but -- I hear you ask -- how do I calculate the 95th percentile of a chi-squ
 from scipy.stats import chi2
 round(chi2.ppf(0.95, 3),2)
 
-So if our $X^2$ statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., $X^2 = 8.44$) we can reject the null. If we want an exact $p$-value, we can calculate it using the `pchisq()` function:
-```{r}
-pchisq( q = 8.44, df = 3, lower.tail = FALSE )
-```
+So if our $X^2$ statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., $X^2 = 8.44$), we know that we can reject the null. If we want an exact $p$-value, we can calculate it using the `chisquare()` function from `scipy.stats`:
+
+from scipy.stats import chisquare
+
+chisquare(f_obs = observed, f_exp = expected)
+
 This is hopefully pretty straightforward, as long as you recall that the "`p`" form of the probability distribution functions in R always calculates the probability of getting a value of *less* than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or *more*. That's why I told R to use the upper tail, not the lower tail. That said, it's usually easier to calculate the $p$-value this way:
 ```{r}
 1-pchisq( q = 8.44, df = 3 )
