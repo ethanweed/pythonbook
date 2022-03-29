@@ -262,68 +262,61 @@ from scipy.stats import chisquare
 
 chisquare(f_obs = observed, f_exp = expected)
 
-This is hopefully pretty straightforward, as long as you recall that the "`p`" form of the probability distribution functions in R always calculates the probability of getting a value of *less* than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or *more*. That's why I told R to use the upper tail, not the lower tail. That said, it's usually easier to calculate the $p$-value this way:
-```{r}
-1-pchisq( q = 8.44, df = 3 )
-```
 So, in this case we would reject the null hypothesis, since $p < .05$.  And that's it, basically. You now know "Pearson's $\chi^2$ test for the goodness of fit". Lucky you.
 
+(gofTestInPython)=
+### Doing the test in Python
 
-### Doing the test in R{#gofTestInR}
+Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. To my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with `chisquare` from `scipy.stats`. If we don't supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the `chisquare` function, like so:
 
-Gosh darn it. Although we did manage to do everything in R as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. Not surprisingly, R provides a function that will do all of these calculations for you. In fact, there are several different ways of doing it. The one that most people use is the `chisq.test()` function, which comes with every installation of R. I'll show you how to use the `chisq.test()` function later on (in Section \@ref(chisq.test), but to start out with I'm going to show you the `goodnessOfFitTest()` function in the `lsr` package, because it produces output that I think is easier for beginners to understand. It's pretty straightforward: our raw data are stored in the variable `cards$choice_1`, right? If you want to test the null hypothesis that all four suits are equally likely, then (assuming you have the `lsr` package loaded) all you have to do is type this:
-```{r}
-goodnessOfFitTest( cards$choice_1 )
-```
-R then runs the test, and prints several lines of text. I'll go through the output line by line, so that you can make sure that you understand what you're looking at. The first two lines are just telling you things you already know:
-```
-     Chi-square test against specified probabilities
+import pandas as pd
+from scipy.stats import chisquare
 
-Data variable:   cards$choice_1 
-```
-The first line tells us what kind of hypothesis test we ran, and the second line tells us the name of the variable that we ran it on. After that comes a statement of what the null and alternative hypotheses are:
-```
-Hypotheses: 
-   null:        true probabilities are as specified
-   alternative: true probabilities differ from those specified
-```
-For a beginner, it's kind of handy to have this as part of the output: it's a nice reminder of what your null and alternative hypotheses are. Don't get used to seeing this though. The vast majority of hypothesis tests in R aren't so kind to novices. Most R functions are written on the assumption that you already understand the statistical tool that you're using, so they don't bother to include an explicit statement of the null and alternative hypothesis. The only reason that `goodnessOfFitTest()` actually does give you this is that I wrote it with novices in mind.
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv')
 
-The next part of the output shows you the comparison between the observed frequencies and the expected frequencies:
-```
-Descriptives: 
-         observed freq. expected freq. specified prob.
-clubs                35             50            0.25
-diamonds             51             50            0.25
-hearts               64             50            0.25
-spades               50             50            0.25
-```
-The first column shows what the observed frequencies were, the second column shows the expected frequencies according to the null hypothesis, and the third column shows you what the probabilities actually were according to the null. For novice users, I think this is helpful: you can look at this part of the output and check that it makes sense: if it doesn't you might have typed something incorrecrtly.
+ans = chisquare(f_obs = df['choice_1'].value_counts())
 
-The last part of the output is the "important" stuff: it's the result of the hypothesis test itself. There are three key numbers that need to be reported: the value of the $X^2$ statistic, the degrees of freedom, and the $p$-value:
-```
-Test results: 
-   X-squared statistic:  8.44 
-   degrees of freedom:  3 
-   p-value:  0.038 
-```
-Notice that these are the same numbers that we came up with when doing the calculations the long way.
+print("x2 = ", ans[0])
+print("p = ", round(ans[1],3))
 
 ### Specifying a different null hypothesis
 
 At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is *not* that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
-```{r}
-nullProbs <- c(clubs = .2, diamonds = .3, hearts = .3, spades = .2)
+
+
+
+# make dictionary of values
+dict = {'hearts' : .3,
+        'diamonds' : .3,
+        'spades' : .2,
+        'clubs': .2}
+   
+# create series from dictionary
+nullProbs = pd.Series(dict)
 nullProbs
-```
-Now that we have an explicitly specified null hypothesis, we include it in our command. This time round I'll use the argument names properly. The data variable corresponds to the argument `x`, and the probabilities according to the null hypothesis correspond to the argument `p`. So our command is:
-```{r}
-goodnessOfFitTest( x = cards$choice_1, p = nullProbs )
-```
-
-As you can see the null hypothesis and the expected frequencies are different to what they were last time. As a consequence our $X^2$ test statistic is different, and our $p$-value is different too. Annoyingly, the $p$-value is .192, so we can't reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don't provide enough evidence against it.
 
 
+Now we have explicitly specified our null hypothesis in terms of probabilities. There is one more step, though, because `chisquare` expects the counts in the observed and "expected" data to add up to the same thing; otherwise there is no way for it to compare them. So, to convert our null hypothesis probabilities to count values, we need to multiply them by the total number of items counted in our observed data (which in the case of the `cards` data was 200, remember?) Once that is taken care of, we can go ahead and run the test:
+
+import pandas as pd
+from scipy.stats import chisquare
+
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv')
+
+# make a frequency table for the observed data
+observed = df['choice_1'].value_counts()
+
+# make a frequency table for our expected data, using the probabilities we specified above
+expected = nullProbs * sum(observed)
+
+# run the test
+ans = chisquare(f_obs = observed, f_exp = expected)
+
+# make the output easier to read
+print("x2 = ", ans[0])
+print("p = ", round(ans[1],3))
+
+The null hypothesis and the expected frequencies are different to what they were last time. As a consequence our $X^2$ test statistic is different, and our $p$-value is different too. Annoyingly, the $p$-value is .192, so we can't reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don't provide enough evidence against it.
 
 ### How to report the results of the test{#chisqreport}
 
@@ -335,10 +328,14 @@ This is pretty straightforward, and hopefully it seems pretty unremarkable. That
 
 - *The statistical test is preceded by the descriptive statistics*. That is, I told the reader something about what the data look like before going on to do the test. In general, this is good practice: always remember that your reader doesn't know your data anywhere near as well as you do. So unless you describe it to them properly, the statistical tests won't make any sense to them, and they'll get frustrated and cry.
 - *The description tells you what the null hypothesis being tested is*. To be honest, writers don't always do this, but it's often a good idea in those situations where some ambiguity exists; or when you can't rely on your readership being intimately familiar with the statistical tools that you're using. Quite often the reader might not know (or remember) all the details of the test that your using, so it's a kind of politeness to "remind" them! As far as the goodness of fit test goes, you can usually rely on a scientific audience knowing how it works (since it's covered in most intro stats classes). However, it's still a good idea to be explicit about stating the null hypothesis (briefly!) because the null hypothesis can be different depending on what you're using the test for. For instance, in the cards example my null hypothesis was that all the four suit probabilities were identical (i.e., $P_1 = P_2 = P_3 = P_4 = 0.25$), but there's nothing special about that hypothesis. I could just as easily have tested the null hypothesis that $P_1 = 0.7$ and $P_2 = P_3 = P_4 = 0.1$ using a goodness of fit test. So it's helpful to the reader if you explain to them what your null hypothesis was. Also, notice that I described the null hypothesis in words, not in maths. That's perfectly acceptable. You can describe it in maths if you like, but since most readers find words easier to read than symbols, most writers tend to describe the null using words if they can.
-- *A "stat block" is included*. When reporting the results of the test itself, I didn't just say that the result was significant, I included a "stat block" (i.e., the dense mathematical-looking part in the parentheses), which reports all the "raw" statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test ($\chi^2$ with 3 degrees of freedom, which is usually shortened to $\chi^2(3)$), and then the information about whether the result was significant (in this case $p<.05$). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I'll show you what the stat block should look like.^[Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I've tended to stick with how things are done in psychology, since that's what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.] However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to. 
-- *The results are interpreted*. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn't choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what's going on in your data. If you don't include something like this, it's really hard for your reader to understand what's going on.^[To some people, this advice might sound odd, or at least in conflict with the "usual" advice on how to write a technical report. Very typically, students are told that the "results" section of a report is for describing the data and reporting statistical analysis; and the "discussion" section is for providing interpretation. That's true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don't let the "interpretation goes in the discussion" advice turn your results section into incomprehensible garbage. Being understood by your reader is *much* more important.]
+- *A "stat block" is included*. When reporting the results of the test itself, I didn't just say that the result was significant, I included a "stat block" (i.e., the dense mathematical-looking part in the parentheses), which reports all the "raw" statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test ($\chi^2$ with 3 degrees of freedom, which is usually shortened to $\chi^2(3)$), and then the information about whether the result was significant (in this case $p<.05$). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I'll show you what the stat block should look like.[^note4] However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to. 
+- *The results are interpreted*. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn't choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what's going on in your data. If you don't include something like this, it's really hard for your reader to understand what's going on.[^note5]
 
 As with everything else, your overriding concern should be that you *explain* things to your reader. Always remember that the point of reporting your results is to communicate to another human being. I cannot tell you just how many times I've seen the results section of a report or a thesis or even a scientific article that is just gibberish, because the writer has focused solely on making sure they've included all the numbers, and forgotten to actually communicate with the human reader. 
+
+[^note4]: Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I've tended to stick with how things are done in psychology, since that's what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.
+
+[^note5]: To some people, this advice might sound odd, or at least in conflict with the "usual" advice on how to write a technical report. Very typically, students are told that the "results" section of a report is for describing the data and reporting statistical analysis; and the "discussion" section is for providing interpretation. That's true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don't let the "interpretation goes in the discussion" advice turn your results section into incomprehensible garbage. Being understood by your reader is *much* more important.
 
 ### A comment on statistical notation (advanced)
 
@@ -771,3 +768,4 @@ The key ideas discussed in this chapter are:
 
 
 If you're interested in learning more about categorical data analysis, a good first choice would be @Agresti1996 which, as the title suggests, provides an *Introduction to Categorical Data Analysis*. If the introductory book isn't enough for you (or can't solve the problem you're working on) you could consider @Agresti2002, *Categorical Data Analysis*. The latter is a more advanced text, so it's probably not wise to jump straight from this book to that one. 
+
