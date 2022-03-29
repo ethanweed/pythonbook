@@ -382,8 +382,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r-goftestinr">
-     1.1.6. Doing the test in R{#gofTestInR}
+    <a class="reference internal nav-link" href="#doing-the-test-in-python">
+     1.1.6. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1040,49 +1040,91 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </div>
 </div>
 </div>
-<p>This is hopefully pretty straightforward, as long as you recall that the “<code class="docutils literal notranslate"><span class="pre">p</span></code>” form of the probability distribution functions in R always calculates the probability of getting a value of <em>less</em> than the value you entered (in this case 8.44). We want the opposite: the probability of getting a value of 8.44 or <em>more</em>. That’s why I told R to use the upper tail, not the lower tail. That said, it’s usually easier to calculate the <span class="math notranslate nohighlight">\(p\)</span>-value this way:</p>
 <p>So, in this case we would reject the null hypothesis, since <span class="math notranslate nohighlight">\(p &lt; .05\)</span>.  And that’s it, basically. You now know “Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> test for the goodness of fit”. Lucky you.</p>
 </div>
-<div class="section" id="doing-the-test-in-r-goftestinr">
-<h3><span class="section-number">1.1.6. </span>Doing the test in R{#gofTestInR}<a class="headerlink" href="#doing-the-test-in-r-goftestinr" title="Permalink to this headline">¶</a></h3>
-<p>Gosh darn it. Although we did manage to do everything in R as we were going through that little example, it does rather feel as if we’re typing too many things into the magic computing box. And I <em>hate</em> typing. Not surprisingly, R provides a function that will do all of these calculations for you. In fact, there are several different ways of doing it. The one that most people use is the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function, which comes with every installation of R. I’ll show you how to use the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function later on (in Section &#64;ref(chisq.test), but to start out with I’m going to show you the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, because it produces output that I think is easier for beginners to understand. It’s pretty straightforward: our raw data are stored in the variable <code class="docutils literal notranslate"><span class="pre">cards$choice_1</span></code>, right? If you want to test the null hypothesis that all four suits are equally likely, then (assuming you have the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package loaded) all you have to do is type this:</p>
-<p>R then runs the test, and prints several lines of text. I’ll go through the output line by line, so that you can make sure that you understand what you’re looking at. The first two lines are just telling you things you already know:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     Chi-square test against specified probabilities
+<div class="section" id="doing-the-test-in-python">
+<span id="goftestinpython"></span><h3><span class="section-number">1.1.6. </span>Doing the test in Python<a class="headerlink" href="#doing-the-test-in-python" title="Permalink to this headline">¶</a></h3>
+<p>Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we’re typing too many things into the magic computing box. And I <em>hate</em> typing. To my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with <code class="docutils literal notranslate"><span class="pre">chisquare</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>. If we don’t supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the <code class="docutils literal notranslate"><span class="pre">chisquare</span></code> function, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chisquare</span>
 
-Data variable:   cards$choice_1 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv&#39;</span><span class="p">)</span>
+
+<span class="n">ans</span> <span class="o">=</span> <span class="n">chisquare</span><span class="p">(</span><span class="n">f_obs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;choice_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x2 = &quot;</span><span class="p">,</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>The first line tells us what kind of hypothesis test we ran, and the second line tells us the name of the variable that we ran it on. After that comes a statement of what the null and alternative hypotheses are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Hypotheses</span><span class="p">:</span> 
-   <span class="n">null</span><span class="p">:</span>        <span class="n">true</span> <span class="n">probabilities</span> <span class="n">are</span> <span class="k">as</span> <span class="n">specified</span>
-   <span class="n">alternative</span><span class="p">:</span> <span class="n">true</span> <span class="n">probabilities</span> <span class="n">differ</span> <span class="kn">from</span> <span class="nn">those</span> <span class="n">specified</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x2 =  8.44
+p =  0.038
 </pre></div>
 </div>
-<p>For a beginner, it’s kind of handy to have this as part of the output: it’s a nice reminder of what your null and alternative hypotheses are. Don’t get used to seeing this though. The vast majority of hypothesis tests in R aren’t so kind to novices. Most R functions are written on the assumption that you already understand the statistical tool that you’re using, so they don’t bother to include an explicit statement of the null and alternative hypothesis. The only reason that <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> actually does give you this is that I wrote it with novices in mind.</p>
-<p>The next part of the output shows you the comparison between the observed frequencies and the expected frequencies:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Descriptives</span><span class="p">:</span> 
-         <span class="n">observed</span> <span class="n">freq</span><span class="o">.</span> <span class="n">expected</span> <span class="n">freq</span><span class="o">.</span> <span class="n">specified</span> <span class="n">prob</span><span class="o">.</span>
-<span class="n">clubs</span>                <span class="mi">35</span>             <span class="mi">50</span>            <span class="mf">0.25</span>
-<span class="n">diamonds</span>             <span class="mi">51</span>             <span class="mi">50</span>            <span class="mf">0.25</span>
-<span class="n">hearts</span>               <span class="mi">64</span>             <span class="mi">50</span>            <span class="mf">0.25</span>
-<span class="n">spades</span>               <span class="mi">50</span>             <span class="mi">50</span>            <span class="mf">0.25</span>
-</pre></div>
 </div>
-<p>The first column shows what the observed frequencies were, the second column shows the expected frequencies according to the null hypothesis, and the third column shows you what the probabilities actually were according to the null. For novice users, I think this is helpful: you can look at this part of the output and check that it makes sense: if it doesn’t you might have typed something incorrecrtly.</p>
-<p>The last part of the output is the “important” stuff: it’s the result of the hypothesis test itself. There are three key numbers that need to be reported: the value of the <span class="math notranslate nohighlight">\(X^2\)</span> statistic, the degrees of freedom, and the <span class="math notranslate nohighlight">\(p\)</span>-value:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">results</span><span class="p">:</span> 
-   <span class="n">X</span><span class="o">-</span><span class="n">squared</span> <span class="n">statistic</span><span class="p">:</span>  <span class="mf">8.44</span> 
-   <span class="n">degrees</span> <span class="n">of</span> <span class="n">freedom</span><span class="p">:</span>  <span class="mi">3</span> 
-   <span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="p">:</span>  <span class="mf">0.038</span> 
-</pre></div>
 </div>
-<p>Notice that these are the same numbers that we came up with when doing the calculations the long way.</p>
 </div>
 <div class="section" id="specifying-a-different-null-hypothesis">
 <h3><span class="section-number">1.1.7. </span>Specifying a different null hypothesis<a class="headerlink" href="#specifying-a-different-null-hypothesis" title="Permalink to this headline">¶</a></h3>
 <p>At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let’s suppose that someone had made the theoretical prediction that people should choose red cards 60% of the time, and black cards 40% of the time (I’ve no idea why you’d predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30% of the choices to be hearts, 30% to be diamonds, 20% to be spades and 20% to be clubs. This seems like a silly theory to me, and it’s pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:</p>
-<p>Now that we have an explicitly specified null hypothesis, we include it in our command. This time round I’ll use the argument names properly. The data variable corresponds to the argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, and the probabilities according to the null hypothesis correspond to the argument <code class="docutils literal notranslate"><span class="pre">p</span></code>. So our command is:</p>
-<p>As you can see the null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <span class="math notranslate nohighlight">\(X^2\)</span> test statistic is different, and our <span class="math notranslate nohighlight">\(p\)</span>-value is different too. Annoyingly, the <span class="math notranslate nohighlight">\(p\)</span>-value is .192, so we can’t reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don’t provide enough evidence against it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make dictionary of values</span>
+<span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;hearts&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;diamonds&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;spades&#39;</span> <span class="p">:</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;clubs&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">2</span><span class="p">}</span>
+   
+<span class="c1"># create series from dictionary</span>
+<span class="n">nullProbs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+<span class="n">nullProbs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hearts      0.3
+diamonds    0.3
+spades      0.2
+clubs       0.2
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have explicitly specified our null hypothesis in terms of probabilities. There is one more step, though, because <code class="docutils literal notranslate"><span class="pre">chisquare</span></code> expects the counts in the observed and “expected” data to add up to the same thing; otherwise there is no way for it to compare them. So, to convert our null hypothesis probabilities to count values, we need to multiply them by the total number of items counted in our observed data (which in the case of the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data was 200, remember?) Once that is taken care of, we can go ahead and run the test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chisquare</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cards.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># make a frequency table for the observed data</span>
+<span class="n">observed</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;choice_1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="c1"># make a frequency table for our expected data, using the probabilities we specified above</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="n">nullProbs</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span>
+
+<span class="c1"># run the test</span>
+<span class="n">ans</span> <span class="o">=</span> <span class="n">chisquare</span><span class="p">(</span><span class="n">f_obs</span> <span class="o">=</span> <span class="n">observed</span><span class="p">,</span> <span class="n">f_exp</span> <span class="o">=</span> <span class="n">expected</span><span class="p">)</span>
+
+<span class="c1"># make the output easier to read</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x2 = &quot;</span><span class="p">,</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x2 =  4.741666666666667
+p =  0.192
+</pre></div>
+</div>
+</div>
+</div>
+<p>The null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <span class="math notranslate nohighlight">\(X^2\)</span> test statistic is different, and our <span class="math notranslate nohighlight">\(p\)</span>-value is different too. Annoyingly, the <span class="math notranslate nohighlight">\(p\)</span>-value is .192, so we can’t reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don’t provide enough evidence against it.</p>
 </div>
 <div class="section" id="how-to-report-the-results-of-the-test-chisqreport">
 <h3><span class="section-number">1.1.8. </span>How to report the results of the test{#chisqreport}<a class="headerlink" href="#how-to-report-the-results-of-the-test-chisqreport" title="Permalink to this headline">¶</a></h3>
@@ -1094,8 +1136,8 @@ Data variable:   cards$choice_1
 <ul class="simple">
 <li><p><em>The statistical test is preceded by the descriptive statistics</em>. That is, I told the reader something about what the data look like before going on to do the test. In general, this is good practice: always remember that your reader doesn’t know your data anywhere near as well as you do. So unless you describe it to them properly, the statistical tests won’t make any sense to them, and they’ll get frustrated and cry.</p></li>
 <li><p><em>The description tells you what the null hypothesis being tested is</em>. To be honest, writers don’t always do this, but it’s often a good idea in those situations where some ambiguity exists; or when you can’t rely on your readership being intimately familiar with the statistical tools that you’re using. Quite often the reader might not know (or remember) all the details of the test that your using, so it’s a kind of politeness to “remind” them! As far as the goodness of fit test goes, you can usually rely on a scientific audience knowing how it works (since it’s covered in most intro stats classes). However, it’s still a good idea to be explicit about stating the null hypothesis (briefly!) because the null hypothesis can be different depending on what you’re using the test for. For instance, in the cards example my null hypothesis was that all the four suit probabilities were identical (i.e., <span class="math notranslate nohighlight">\(P_1 = P_2 = P_3 = P_4 = 0.25\)</span>), but there’s nothing special about that hypothesis. I could just as easily have tested the null hypothesis that <span class="math notranslate nohighlight">\(P_1 = 0.7\)</span> and <span class="math notranslate nohighlight">\(P_2 = P_3 = P_4 = 0.1\)</span> using a goodness of fit test. So it’s helpful to the reader if you explain to them what your null hypothesis was. Also, notice that I described the null hypothesis in words, not in maths. That’s perfectly acceptable. You can describe it in maths if you like, but since most readers find words easier to read than symbols, most writers tend to describe the null using words if they can.</p></li>
-<li><p><em>A “stat block” is included</em>. When reporting the results of the test itself, I didn’t just say that the result was significant, I included a “stat block” (i.e., the dense mathematical-looking part in the parentheses), which reports all the “raw” statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test (<span class="math notranslate nohighlight">\(\chi^2\)</span> with 3 degrees of freedom, which is usually shortened to <span class="math notranslate nohighlight">\(\chi^2(3)\)</span>), and then the information about whether the result was significant (in this case <span class="math notranslate nohighlight">\(p&lt;.05\)</span>). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I’ll show you what the stat block should look like.^[Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I’ve tended to stick with how things are done in psychology, since that’s what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.] However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to.</p></li>
-<li><p><em>The results are interpreted</em>. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn’t choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what’s going on in your data. If you don’t include something like this, it’s really hard for your reader to understand what’s going on.^[To some people, this advice might sound odd, or at least in conflict with the “usual” advice on how to write a technical report. Very typically, students are told that the “results” section of a report is for describing the data and reporting statistical analysis; and the “discussion” section is for providing interpretation. That’s true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don’t let the “interpretation goes in the discussion” advice turn your results section into incomprehensible garbage. Being understood by your reader is <em>much</em> more important.]</p></li>
+<li><p><em>A “stat block” is included</em>. When reporting the results of the test itself, I didn’t just say that the result was significant, I included a “stat block” (i.e., the dense mathematical-looking part in the parentheses), which reports all the “raw” statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test (<span class="math notranslate nohighlight">\(\chi^2\)</span> with 3 degrees of freedom, which is usually shortened to <span class="math notranslate nohighlight">\(\chi^2(3)\)</span>), and then the information about whether the result was significant (in this case <span class="math notranslate nohighlight">\(p&lt;.05\)</span>). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I’ll show you what the stat block should look like.<a class="footnote-reference brackets" href="#note4" id="id6">4</a> However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to.</p></li>
+<li><p><em>The results are interpreted</em>. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn’t choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what’s going on in your data. If you don’t include something like this, it’s really hard for your reader to understand what’s going on.<a class="footnote-reference brackets" href="#note5" id="id7">5</a></p></li>
 </ul>
 <p>As with everything else, your overriding concern should be that you <em>explain</em> things to your reader. Always remember that the point of reporting your results is to communicate to another human being. I cannot tell you just how many times I’ve seen the results section of a report or a thesis or even a scientific article that is just gibberish, because the writer has focused solely on making sure they’ve included all the numbers, and forgotten to actually communicate with the human reader.</p>
 </div>
@@ -1406,6 +1448,12 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 </dd>
 <dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
 <dd><p>[In practice, the sample size isn’t always fixed… e.g., we might run the experiment over a fixed period of time, and the number of people participating depends on how many people show up. That doesn’t matter for the current purposes.]</p>
+</dd>
+<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id6">4</a></span></dt>
+<dd><p>Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I’ve tended to stick with how things are done in psychology, since that’s what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.</p>
+</dd>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id7">5</a></span></dt>
+<dd><p>To some people, this advice might sound odd, or at least in conflict with the “usual” advice on how to write a technical report. Very typically, students are told that the “results” section of a report is for describing the data and reporting statistical analysis; and the “discussion” section is for providing interpretation. That’s true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don’t let the “interpretation goes in the discussion” advice turn your results section into incomprehensible garbage. Being understood by your reader is <em>much</em> more important.</p>
 </dd>
 </dl>
 </div>
