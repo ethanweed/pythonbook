@@ -267,7 +267,7 @@ So, in this case we would reject the null hypothesis, since $p < .05$.  And that
 (gofTestInPython)=
 ### Doing the test in Python
 
-Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. To my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with `chisquare` from `scipy.stats`. If we don't supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the `chisquare` function, like so:
+Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. Unfortunately, to my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with `chisquare` from `scipy.stats`. If we don't supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the `chisquare` function, like so:
 
 import pandas as pd
 from scipy.stats import chisquare
