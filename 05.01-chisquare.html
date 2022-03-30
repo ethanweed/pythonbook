@@ -1292,20 +1292,155 @@ p =  0.192
 </div>
 <div class="section" id="the-chi-2-test-of-independence-or-association">
 <span id="chisqindependence"></span><h2><span class="section-number">14.2. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association)<a class="headerlink" href="#the-chi-2-test-of-independence-or-association" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-     Speaker = c(&quot;GUARDBOT1:&quot;, &quot;GUARDBOT2:&quot;, &quot;LEELA:&quot;, &quot;FRY:&quot;, &quot;GUARDBOT1:&quot;,
-                 &quot;GUARDBOT2:&quot;, &quot;GUARDBOT1:&quot;),
-      Dialog = c(&quot;Halt!&quot;, &quot;Be you robot or human?&quot;, &quot;Robot...we be.&quot;, &quot;Uh, yup! Just two robots out roboting it up!  Eh?&quot;,
-                 &quot;Administer the test.&quot;,
-                 &quot;Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file?&quot;, &quot;Choose!&quot;)
-), col.names = c(&quot;&quot;,&quot;&quot;))
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
+<td class="text-align:left"><p>Halt!</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>GUARDBOT2:</p></td>
+<td class="text-align:left"><p>Be you robot or human?</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>LEELA:</p></td>
+<td class="text-align:left"><p>Robot…we be.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>FRY:</p></td>
+<td class="text-align:left"><p>Uh, yup! Just two robots out roboting it up!  Eh?</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
+<td class="text-align:left"><p>Administer the test.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>GUARDBOT2:</p></td>
+<td class="text-align:left"><p>Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file?</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
+<td class="text-align:left"><p>Choose!</p></td>
+</tr>
+</tbody>
+</table>
+<p>– Futurama, “Fear of a Bot Planet</p>
+<p>The other day I was watching an animated documentary examining the quaint customs of the natives of the planet <em>Chapek 9</em>. Apparently, in order to gain access to their capital city, a visitor must prove that they’re a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. “Pretty clever,” I thought to myself “but what if humans and robots have the same preferences? That probably wouldn’t be a very good test then, would it?” As it happens, I got my hands on the testing data that the civil authorities of <em>Chapek 9</em> used to check this. It turns out that what they did was very simple… they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called <code class="docutils literal notranslate"><span class="pre">chapek9.csv</span></code>, which I can now load and have a quick look at:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chapek9.csv&#39;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>– Futurama, “Fear of a Bot Planet</p>
-<p>The other day I was watching an animated documentary examining the quaint customs of the natives of the planet <em>Chapek 9</em>. Apparently, in order to gain access to their capital city, a visitor must prove that they’re a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. “Pretty clever,” I thought to myself “but what if humans and robots have the same preferences? That probably wouldn’t be a very good test then, would it?” As it happens, I got my hands on the testing data that the civil authorities of <em>Chapek 9</em> used to check this. It turns out that what they did was very simple… they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called <code class="docutils literal notranslate"><span class="pre">chapek9.Rdata</span></code>, which I can now load and have a quick look at:</p>
-<p>Okay, so we have a single data frame called <code class="docutils literal notranslate"><span class="pre">chapek9</span></code>, which contains two factors, <code class="docutils literal notranslate"><span class="pre">species</span></code> and <code class="docutils literal notranslate"><span class="pre">choice</span></code>. As always, it’s nice to have a quick look at the data,</p>
-<p>and then take a <code class="docutils literal notranslate"><span class="pre">summary()</span></code>,</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>choice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>robot</td>
+      <td>flower</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>robot</td>
+      <td>data</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>choice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>180</td>
+      <td>180</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>93</td>
+      <td>109</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>In total there are 180 entries in the data frame, one for each person (counting both robots and humans as “people”) who was asked to make a choice. Specifically, there’s 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don’t address the question we’re interested in. To do that, we need a more detailed description of the data. What we want to do is look at the <code class="docutils literal notranslate"><span class="pre">choices</span></code> broken down <em>by</em> <code class="docutils literal notranslate"><span class="pre">species</span></code>. That is, we need to cross-tabulate the data (see Section &#64;ref(freqtables)). There’s quite a few ways to do this, as we’ve seen, but since our data are stored in a data frame, it’s convenient to use the <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code> function.</p>
 <p>That’s more or less what we’re after. So, if we add the row and column totals (which is convenient for the purposes of explaining the statistical tests), we would have a table like this,</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
