@@ -424,33 +424,36 @@ print("p = ", round(ans[1],3))
 # ## The $\chi^2$ test of independence (or association)
 # 
 # 
-# ```{r echo=FALSE}
-# knitr::kable(data.frame(stringsAsFactors=FALSE,
-#      Speaker = c("GUARDBOT1:", "GUARDBOT2:", "LEELA:", "FRY:", "GUARDBOT1:",
-#                  "GUARDBOT2:", "GUARDBOT1:"),
-#       Dialog = c("Halt!", "Be you robot or human?", "Robot...we be.", "Uh, yup! Just two robots out roboting it up!  Eh?",
-#                  "Administer the test.",
-#                  "Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file?", "Choose!")
-# ), col.names = c("",""))
+# |           |                                                                                                                                             |
+# |:----------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+# |GUARDBOT1: |Halt!                                                                                                                                        |
+# |GUARDBOT2: |Be you robot or human?                                                                                                                       |
+# |LEELA:     |Robot...we be.                                                                                                                               |
+# |FRY:       |Uh, yup! Just two robots out roboting it up!  Eh?                                                                                            |
+# |GUARDBOT1: |Administer the test.                                                                                                                         |
+# |GUARDBOT2: |Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file? |
+# |GUARDBOT1: |Choose!                                                                                                                                      |
 # 
-# ```
 # -- Futurama, "Fear of a Bot Planet
-# 
-# The other day I was watching an animated documentary examining the quaint customs of the natives of the planet *Chapek 9*. Apparently, in order to gain access to their capital city, a visitor must prove that they're a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. "Pretty clever," I thought to myself "but what if humans and robots have the same preferences? That probably wouldn't be a very good test then, would it?" As it happens, I got my hands on the testing data that the civil authorities of *Chapek 9* used to check this. It turns out that what they did was very simple... they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called `chapek9.Rdata`, which I can now load and have a quick look at:
-# 
-# ```{r}
-# load( file.path(projecthome, "data/chapek9.Rdata" ))
-# str(chapek9)
-# ```
-# Okay, so we have a single data frame called `chapek9`, which contains two factors, `species` and `choice`. As always, it's nice to have a quick look at the data,
-# 
-# ```{r}    
-# head(chapek9)
-# ```
-# and then take a `summary()`,
-# ```{r}
-# summary(chapek9)
-# ```
+
+# The other day I was watching an animated documentary examining the quaint customs of the natives of the planet *Chapek 9*. Apparently, in order to gain access to their capital city, a visitor must prove that they're a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. "Pretty clever," I thought to myself "but what if humans and robots have the same preferences? That probably wouldn't be a very good test then, would it?" As it happens, I got my hands on the testing data that the civil authorities of *Chapek 9* used to check this. It turns out that what they did was very simple... they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called `chapek9.csv`, which I can now load and have a quick look at:
+
+# In[17]:
+
+
+import pandas as pd
+
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chapek9.csv')
+
+df.head()
+
+
+# In[18]:
+
+
+df.describe()
+
+
 # 
 # In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the `choices` broken down *by* `species`. That is, we need to cross-tabulate the data (see Section \@ref(freqtables)). There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the `xtabs()` function. 
 # ```{r}
