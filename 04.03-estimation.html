@@ -5,9 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Estimating unknown quantities from a sample &#8212; Learning Statistics with Python</title>
+    <title>12. Estimating unknown quantities from a sample &#8212; Learning Statistics with Python</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -34,38 +31,40 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Hypothesis Testing" href="04.04-hypothesis-testing.html" />
-    <link rel="prev" title="2. Introduction to Probability" href="04.02-probability.html" />
-
+    <link rel="next" title="13. Hypothesis Testing" href="04.04-hypothesis-testing.html" />
+    <link rel="prev" title="11. Introduction to Probability" href="04.02-probability.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
 
-
-
+    <!-- Google Analytics -->
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -74,30 +73,31 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  
-  <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="landingpage.html">
    Learning Statistics with Python
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part I. Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01.01-intro.html">
    1. Why do we learn statistics?
@@ -109,142 +109,133 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part II. An Introduction to Python
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02.01-getting_started_with_python.html">
-   1. Getting Started with Python
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02.01-getting_started_with_python.html#typing-commands-at-the-python-console">
-   2. Typing commands at the Python console
+   3. Getting Started with Python
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02.02-more_python_concepts.html">
-   3. More Python Concepts
+   5. More Python Concepts
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part III. Working With Data
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03.01-descriptives.html">
-   1. Descriptive statistics
+   6. Descriptive statistics
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.02-drawing_graphs.html">
-   2. Drawing Graphs
+   7. Drawing Graphs
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.03-pragmatic_matters.html">
-   3. Data Wrangling
+   8. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.04-basic_programming.html">
-   4. Basic Programming
+   9. Basic Programming
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part IV. Statistical Theory
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04.01-intro-to-probability.html">
-   1. Statistical theory
+   10. Statistical theory
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04.02-probability.html">
-   2. Introduction to Probability
+   11. Introduction to Probability
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   3. Estimating unknown quantities from a sample
+   12. Estimating unknown quantities from a sample
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04.04-hypothesis-testing.html">
-   4. Hypothesis Testing
+   13. Hypothesis Testing
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part V. Statistical Tools
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05.01-chisquare.html">
-   1. Categorical data analysis
+   14. Categorical data analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.02-ttest.html">
-   2. Comparing Two Means
+   15. Comparing Two Means
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.03-anova.html">
-   3. Comparing several means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.03-anova.html#comparing-several-means-one-way-anova">
-   4. Comparing several means (one-way ANOVA)
+   16. Comparing several means
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.04-regression.html">
-   5. Linear regression
+   18. Linear regression
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.05-anova2.html">
-   6. Factorial ANOVA
+   19. Factorial ANOVA
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part VI. Endings, Alternatives and Prospects
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06.01-bayes.html">
-   1. Bayesian Statistics
+   20. Bayesian Statistics
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="06.02-epilogue.html">
-   2. Epilogue
+   21. Epilogue
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="bibliography.html">
-   3. References
+   22. References
   </a>
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -288,7 +279,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -310,12 +301,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -339,143 +330,267 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#samples-populations-and-sampling">
-   3.1. Samples, populations and sampling
+   12.1. Samples, populations and sampling
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#defining-a-population">
-     3.1.1. Defining a population
+     12.1.1. Defining a population
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#simple-random-samples">
-     3.1.2. Simple random samples
+     12.1.2. Simple random samples
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#most-samples-are-not-simple-random-samples">
-     3.1.3. Most samples are not simple random samples
+     12.1.3. Most samples are not simple random samples
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#how-much-does-it-matter-if-you-don-t-have-a-simple-random-sample">
-     3.1.4. How much does it matter if you don’t have a simple random sample?
+     12.1.4. How much does it matter if you don’t have a simple random sample?
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#population-parameters-and-sample-statistics">
-     3.1.5. Population parameters and sample statistics
+     12.1.5. Population parameters and sample statistics
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#the-law-of-large-numbers">
-   3.2. The law of large numbers
+   12.2. The law of large numbers
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sampling-distributions-and-the-central-limit-theorem">
-   3.3. Sampling distributions and the central limit theorem
+   12.3. Sampling distributions and the central limit theorem
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#sampling-distribution-of-the-mean">
-     3.3.1. Sampling distribution of the mean
+     12.3.1. Sampling distribution of the mean
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#sampling-distributions-exist-for-any-sample-statistic">
-     3.3.2. Sampling distributions exist for any sample statistic!
+     12.3.2. Sampling distributions exist for any sample statistic!
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#the-central-limit-theorem">
-     3.3.3. The central limit theorem
+     12.3.3. The central limit theorem
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#estimating-population-parameters">
-   3.4. Estimating population parameters
+   12.4. Estimating population parameters
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#estimating-the-population-mean">
-     3.4.1. Estimating the population mean
+     12.4.1. Estimating the population mean
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#estimating-the-population-standard-deviation">
-     3.4.2. Estimating the population standard deviation
+     12.4.2. Estimating the population standard deviation
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#estimating-a-confidence-interval">
-   3.5. Estimating a confidence interval
+   12.5. Estimating a confidence interval
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#a-slight-mistake-in-the-formula">
-     3.5.1. A slight mistake in the formula
+     12.5.1. A slight mistake in the formula
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#interpreting-a-confidence-interval">
-     3.5.2. Interpreting a confidence interval
+     12.5.2. Interpreting a confidence interval
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#calculating-confidence-intervals-in-python">
-     3.5.3. Calculating confidence intervals in Python
+     12.5.3. Calculating confidence intervals in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#plotting-confidence-intervals-in-python">
-     3.5.4. Plotting confidence intervals in Python
+     12.5.4. Plotting confidence intervals in Python
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   3.6. Summary
+   12.6. Summary
   </a>
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Estimating unknown quantities from a sample</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#samples-populations-and-sampling">
+   12.1. Samples, populations and sampling
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-a-population">
+     12.1.1. Defining a population
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simple-random-samples">
+     12.1.2. Simple random samples
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#most-samples-are-not-simple-random-samples">
+     12.1.3. Most samples are not simple random samples
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-much-does-it-matter-if-you-don-t-have-a-simple-random-sample">
+     12.1.4. How much does it matter if you don’t have a simple random sample?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#population-parameters-and-sample-statistics">
+     12.1.5. Population parameters and sample statistics
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-law-of-large-numbers">
+   12.2. The law of large numbers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sampling-distributions-and-the-central-limit-theorem">
+   12.3. Sampling distributions and the central limit theorem
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-distribution-of-the-mean">
+     12.3.1. Sampling distribution of the mean
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-distributions-exist-for-any-sample-statistic">
+     12.3.2. Sampling distributions exist for any sample statistic!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-central-limit-theorem">
+     12.3.3. The central limit theorem
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-population-parameters">
+   12.4. Estimating population parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#estimating-the-population-mean">
+     12.4.1. Estimating the population mean
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#estimating-the-population-standard-deviation">
+     12.4.2. Estimating the population standard deviation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-a-confidence-interval">
+   12.5. Estimating a confidence interval
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-slight-mistake-in-the-formula">
+     12.5.1. A slight mistake in the formula
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interpreting-a-confidence-interval">
+     12.5.2. Interpreting a confidence interval
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calculating-confidence-intervals-in-python">
+     12.5.3. Calculating confidence intervals in Python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plotting-confidence-intervals-in-python">
+     12.5.4. Plotting confidence intervals in Python
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   12.6. Summary
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
-  <div class="section" id="estimating-unknown-quantities-from-a-sample">
-<span id="estimation"></span><h1><span class="section-number">3. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="estimating-unknown-quantities-from-a-sample">
+<span id="estimation"></span><h1><span class="section-number">12. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
 <p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">Descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections &#64;ref(srs) through &#64;ref(samplesandclt) are focused on sampling theory, and Sections &#64;ref(pointestimates) and &#64;ref(ci) make use of sampling theory to discuss how statisticians think about estimation.</p>
 <div class="section" id="samples-populations-and-sampling">
-<h2><span class="section-number">3.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">12.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p>In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
 <p>In almost every situation of interest, what we have available to us as researchers is a <strong><em>sample</em></strong> of data. We might have run an experiment with some number of participants; a polling company might have phoned some number of people to ask questions about voting intentions; etc. Regardless: the data set available to us is finite, and incomplete. We can’t possibly get every person in the  world to do our experiment; a polling company doesn’t have the time or the money to ring up every voter in the country etc. In our earlier discussion of <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, this sample was the only thing we were interested in. Our only goal was to find ways of describing, summarising and graphing that sample. This is about to change.</p>
 <div class="section" id="defining-a-population">
-<h3><span class="section-number">3.1.1. </span>Defining a population<a class="headerlink" href="#defining-a-population" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.1.1. </span>Defining a population<a class="headerlink" href="#defining-a-population" title="Permalink to this headline">¶</a></h3>
 <p>A sample is a concrete thing. You can open up a data file, and there’s the data from your sample. A <strong><em>population</em></strong>, on the other hand, is a more abstract idea. It refers to the set of all possible people, or all possible observations, that you want to draw conclusions about, and is generally <em>much</em> bigger than the sample. In an ideal world, the researcher would begin the study with a clear idea of what the population of interest is, since the process of designing a study and testing hypotheses about the data that it produces does depend on the population about which you want to make statements. However, that doesn’t always happen in practice: usually the researcher has a fairly vague idea of what the population is and designs the study as best he/she can on that basis.</p>
 <p>Sometimes it’s easy to state the population of interest. For instance, in the “polling company” example that opened the chapter, the population consisted of all  voters enrolled at the a time of the study – millions of people. The sample was a set of 1000 people who all belong to that population. In most situations the situation is much less simple. In a typical a psychological experiment, determining the population of interest is a bit more complicated. Suppose I run an experiment using 100 undergraduate students as my participants. My goal, as a cognitive scientist, is to try to learn something about how the mind works. So, which of the following would count as “the population”:</p>
 <ul class="simple">
@@ -498,13 +613,13 @@
 <p>Again, it’s not obvious what the population is.</p>
 </div>
 <div class="section" id="simple-random-samples">
-<h3><span class="section-number">3.1.2. </span>Simple random samples<a class="headerlink" href="#simple-random-samples" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.1.2. </span>Simple random samples<a class="headerlink" href="#simple-random-samples" title="Permalink to this headline">¶</a></h3>
 <div class="figure align-center" id="srs1-fig">
 <a class="reference internal image-reference" href="_images/srs1.png"><img alt="_images/srs1.png" src="_images/srs1.png" style="width: 600px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Simple random sampling without replacement from a finite population</span><a class="headerlink" href="#srs1-fig" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 12.1 </span><span class="caption-text">Simple random sampling without replacement from a finite population</span><a class="headerlink" href="#srs1-fig" title="Permalink to this image">¶</a></p>
 </div>
 <p>Irrespective of how I define the population, the critical point is that the sample is a subset of the population, and our goal is to use our knowledge of the sample to draw inferences about the properties of the population. The relationship between the two depends on the <em>procedure</em> by which the sample was selected. This procedure is referred to as a <strong><em>sampling method</em></strong>, and it is important to understand why it matters.</p>
-<p>To keep things simple, let’s imagine that we have a bag containing 10 chips. Each chip has a unique letter printed on it, so we can distinguish between the 10 chips. The chips come in two colours, black and white. This set of chips is the population of interest, and it is depicted graphically on the left of <a class="reference internal" href="#srs1-fig"><span class="std std-numref">Fig. 3.1</span></a>. As you can see from looking at the picture, there are 4 black chips and 6 white chips, but of course in real life we wouldn’t know that unless we looked in the bag. Now imagine you run the following “experiment”: you shake up the bag, close your eyes, and pull out 4 chips without putting any of them back into the bag. First out comes the <span class="math notranslate nohighlight">\(a\)</span> chip (black), then the <span class="math notranslate nohighlight">\(c\)</span> chip (white), then <span class="math notranslate nohighlight">\(j\)</span> (white) and then finally <span class="math notranslate nohighlight">\(b\)</span> (black). If you wanted, you could then put all the chips back in the bag and repeat the experiment, as depicted on the right hand side of <a class="reference internal" href="#srs1-fig"><span class="std std-numref">Fig. 3.1</span></a>. Each time you get different results, but the procedure is identical in each case. The fact that the same procedure can lead to different results each time, we refer to it as a <em>random</em> process. <a class="footnote-reference brackets" href="#note1" id="id1">1</a> However, because we shook the bag before pulling any chips out, it seems reasonable to think that every chip has the same chance of being selected. A procedure in which every member of the population has the same chance of being selected is called a <strong><em>simple random sample</em></strong>. The fact that we did <em>not</em> put the chips back in the bag after pulling them out means that you can’t observe the same thing twice, and in such cases the observations are said to have been sampled <strong><em>without replacement</em></strong>.</p>
+<p>To keep things simple, let’s imagine that we have a bag containing 10 chips. Each chip has a unique letter printed on it, so we can distinguish between the 10 chips. The chips come in two colours, black and white. This set of chips is the population of interest, and it is depicted graphically on the left of <a class="reference internal" href="#srs1-fig"><span class="std std-numref">Fig. 12.1</span></a>. As you can see from looking at the picture, there are 4 black chips and 6 white chips, but of course in real life we wouldn’t know that unless we looked in the bag. Now imagine you run the following “experiment”: you shake up the bag, close your eyes, and pull out 4 chips without putting any of them back into the bag. First out comes the <span class="math notranslate nohighlight">\(a\)</span> chip (black), then the <span class="math notranslate nohighlight">\(c\)</span> chip (white), then <span class="math notranslate nohighlight">\(j\)</span> (white) and then finally <span class="math notranslate nohighlight">\(b\)</span> (black). If you wanted, you could then put all the chips back in the bag and repeat the experiment, as depicted on the right hand side of <a class="reference internal" href="#srs1-fig"><span class="std std-numref">Fig. 12.1</span></a>. Each time you get different results, but the procedure is identical in each case. The fact that the same procedure can lead to different results each time, we refer to it as a <em>random</em> process. <a class="footnote-reference brackets" href="#note1" id="id1">1</a> However, because we shook the bag before pulling any chips out, it seems reasonable to think that every chip has the same chance of being selected. A procedure in which every member of the population has the same chance of being selected is called a <strong><em>simple random sample</em></strong>. The fact that we did <em>not</em> put the chips back in the bag after pulling them out means that you can’t observe the same thing twice, and in such cases the observations are said to have been sampled <strong><em>without replacement</em></strong>.</p>
 <p>To help make sure you understand the importance of the sampling procedure, consider an alternative way in which the experiment could have been run. Suppose that my 5-year old son had opened the bag, and decided to pull out four black chips without putting any of them back in the bag. This <em>biased</em> sampling scheme is depicted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">brs-fig</span></code>. Now consider the evidentiary value of seeing 4 black chips and 0 white chips. Clearly, it depends on the sampling scheme, does it not? If you know that the sampling scheme is biased to select only black chips, then a sample that consists of only black chips doesn’t tell you very much about the population! For this reason, statisticians really like it when a data set can be considered a simple random sample, because it makes the data analysis <em>much</em> easier.</p>
 <a class="reference internal image-reference" href="_images/brs.png"><img alt="biased-random-sample" class="align-center" src="_images/brs.png" style="width: 600px;" /></a>
 <p>A third procedure is worth mentioning. This time around we close our eyes, shake the bag, and pull out a chip. This time, however, we record the observation and then put the chip back in the bag. Again we close our eyes, shake the bag, and pull out a chip. We then repeat this procedure until we have 4 chips. Data sets generated in this way are still simple random samples, but because we put the chips back in the bag immediately after drawing them it is referred to as a sample <strong><em>with replacement</em></strong>. The difference between this situation and the first one is that it is possible to observe the same population member multiple times, as illustrated below.</p>
@@ -512,7 +627,7 @@
 <p>In my experience, most psychology experiments tend to be sampling without replacement, because the same person is not allowed to participate in the experiment twice. However, most statistical theory is based on the assumption that the data arise from a simple random sample <em>with</em> replacement. In real life, this very rarely matters. If the population of interest is large (e.g., has more than 10 entities!) the difference between sampling with- and without- replacement is too small to be concerned with. The difference between simple random samples and biased samples, on the other hand, is not such an easy thing to dismiss.</p>
 </div>
 <div class="section" id="most-samples-are-not-simple-random-samples">
-<h3><span class="section-number">3.1.3. </span>Most samples are not simple random samples<a class="headerlink" href="#most-samples-are-not-simple-random-samples" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.1.3. </span>Most samples are not simple random samples<a class="headerlink" href="#most-samples-are-not-simple-random-samples" title="Permalink to this headline">¶</a></h3>
 <p>As you can see from looking at the list of possible populations that I showed above, it is almost impossible to obtain a simple random sample from most populations of interest. When I run experiments, I’d consider it a minor miracle if my participants turned out to be a random sampling of the undergraduate psychology students at Adelaide university, even though this is by far the narrowest population that I might want to generalise to. A thorough discussion of other types of sampling schemes is beyond the scope of this book, but to give you a sense of what’s out there I’ll list a few of the more important ones:</p>
 <ul class="simple">
 <li><p><em>Stratified sampling</em>. Suppose your population is (or can be) divided into several different subpopulations, or <em>strata</em>. Perhaps you’re running a study at several different sites, for example. Instead of trying to sample randomly from the population as a whole, you instead try to collect a separate random sample from each of the strata. Stratified sampling is sometimes easier to do than simple random sampling, especially when the population is already divided into the distinct strata. It can also be more efficient that simple random sampling, especially when some of the subpopulations are rare. For instance, when studying schizophrenia it would be much better to divide the population into two^[Nothing in life is that simple: there’s not an obvious division of people into binary categories like “schizophrenic” and “not schizophrenic”. But this isn’t a clinical psychology text, so please forgive me a few simplifications here and there.]  strata (schizophrenic and not-schizophrenic), and then sample an equal number of people from each group. If you selected people randomly, you would get so few schizophrenic people in the sample that your study would be useless. This specific kind of of stratified sampling is referred to as <em>oversampling</em> because it makes a deliberate attempt to over-represent rare groups.</p></li>
@@ -521,14 +636,14 @@
 </ul>
 </div>
 <div class="section" id="how-much-does-it-matter-if-you-don-t-have-a-simple-random-sample">
-<h3><span class="section-number">3.1.4. </span>How much does it matter if you don’t have a simple random sample?<a class="headerlink" href="#how-much-does-it-matter-if-you-don-t-have-a-simple-random-sample" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.1.4. </span>How much does it matter if you don’t have a simple random sample?<a class="headerlink" href="#how-much-does-it-matter-if-you-don-t-have-a-simple-random-sample" title="Permalink to this headline">¶</a></h3>
 <p>Okay, so real world data collection tends not to involve nice simple random samples. Does that matter? A little thought should make it clear to you that it <em>can</em> matter if your data are not a simple random sample: just think about the difference between Figures &#64;ref(fig:srs1) and &#64;ref(fig:brs). However, it’s not quite as bad as it sounds. Some types of biased samples are entirely unproblematic. For instance, when using a stratified sampling technique you actually <em>know</em> what the bias is because you created it deliberately, often to <em>increase</em> the effectiveness of your study, and there are statistical techniques that you can use to adjust for the biases you’ve introduced (not covered in this book!). So in those situations it’s not a problem.</p>
 <p>More generally though, it’s important to remember that random sampling is a means to an end, not the end in itself. Let’s assume you’ve relied on a convenience sample, and as such you can assume it’s biased. A bias in your sampling method is only a problem if it causes you to draw the wrong conclusions. When viewed from that perspective, I’d argue that we don’t need the sample to be randomly generated in <em>every</em> respect: we only need it to be random with respect to the psychologically-relevant phenomenon of interest. Suppose I’m doing a study looking at working memory capacity. In study 1, I actually have the ability to sample randomly from all human beings currently alive, with one exception: I can only sample people born on a Monday. In study 2, I am able to sample randomly from the Australian population. I want to generalise my results to the population of all living humans. Which study is better? The answer, obviously, is study 1. Why? Because we have no reason to think that being “born on a Monday” has any interesting relationship to working memory capacity. In contrast, I can think of several reasons why “being Australian” might matter. Australia is a wealthy, industrialised country with a very well-developed education system. People growing up in that system will have had life experiences much more similar to the experiences of the people who designed the tests for working memory capacity. This shared experience might easily translate into similar beliefs about how to “take a test”, a shared assumption about how psychological experimentation works, and so on. These things might actually matter. For instance, “test taking” style might have taught the Australian participants how to direct their attention exclusively on fairly abstract test materials relative to people that haven’t grown up in a similar environment; leading to a misleading picture of what working memory capacity is.</p>
 <p>There are two points hidden in this discussion. Firstly, when designing your own studies, it’s important to think about what population you care about, and try hard to sample in a way that is appropriate to that population. In practice, you’re usually forced to put up with a “sample of convenience” (e.g., psychology lecturers sample psychology students because that’s the least expensive way to collect data, and our coffers aren’t exactly overflowing with gold), but if so you should at least spend some time thinking about what the dangers of this practice might be.</p>
 <p>Secondly, if you’re going to criticise someone else’s study because they’ve used a sample of convenience rather than laboriously sampling randomly from the entire human population, at least have the courtesy to offer a specific theory as to <em>how</em> this might have distorted the results. Remember, everyone in science is aware of this issue, and does what they can to alleviate it. Merely pointing out that “the study only included people from group BLAH” is entirely unhelpful, and borders on being insulting to the researchers, who are <em>of course</em> aware of the issue. They just don’t happen to be in possession of the infinite supply of time and money required to construct the perfect sample. In short, if you want to offer a responsible critique of the sampling process, then be <em>helpful</em>. Rehashing the blindingly obvious truisms that I’ve been rambling on about in this section isn’t helpful.</p>
 </div>
 <div class="section" id="population-parameters-and-sample-statistics">
-<h3><span class="section-number">3.1.5. </span>Population parameters and sample statistics<a class="headerlink" href="#population-parameters-and-sample-statistics" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.1.5. </span>Population parameters and sample statistics<a class="headerlink" href="#population-parameters-and-sample-statistics" title="Permalink to this headline">¶</a></h3>
 <p>Okay. Setting aside the thorny methodological issues associated with obtaining a random sample and my rather unfortunate tendency to rant about lazy methodological criticism, let’s consider a slightly different issue. Up to this point we have been talking about populations the way a scientist might. To a psychologist, a population might be a group of people. To an ecologist, a population might be a group of bears. In most cases the populations that scientists care about are concrete things that actually exist in the real world. Statisticians, however, are a funny lot. On the one hand, they <em>are</em> interested in real world data and real science in the same way that scientists are. On the other hand, they also operate in the realm of pure abstraction in the way that mathematicians do. As a consequence, statistical theory tends to be a bit abstract in how a population is defined. In much the same way that psychological researchers operationalise our abstract theoretical ideas in terms of concrete measurements (Section &#64;ref(measurement), statisticians operationalise the concept of a “population” in terms of mathematical objects that they know how to work with. You’ve already come across these objects in Chapter &#64;ref(probability): they’re called probability distributions.</p>
 <p>The idea is quite simple. Let’s say we’re talking about IQ scores. To a psychologist, the population of interest is a group of actual humans who have IQ scores. A statistician “simplifies” this by operationally defining the population as the probability distribution depicted in Figure &#64;ref(fig:IQdista). IQ tests are designed so that the average IQ is 100, the standard deviation of IQ scores is 15, and the distribution of IQ scores is normal. These values are referred to as the <strong><em>population parameters</em></strong> because they are characteristics of the entire population. That is, we say that the population mean <span class="math notranslate nohighlight">\(\mu\)</span> is 100, and the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> is 15.</p>
 <div class="cell docutils container">
@@ -549,10 +664,16 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
 </pre></div>
 </div>
-<img alt="_images/04.03-estimation_7_1.png" src="_images/04.03-estimation_7_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -591,7 +712,7 @@
 </div>
 </div>
 <div class="section" id="the-law-of-large-numbers">
-<h2><span class="section-number">3.2. </span>The law of large numbers<a class="headerlink" href="#the-law-of-large-numbers" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">12.2. </span>The law of large numbers<a class="headerlink" href="#the-law-of-large-numbers" title="Permalink to this headline">¶</a></h2>
 <p>In the previous section I showed you the results of one fictitious IQ experiment with a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
 <p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data above, I used the numpy package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size.</p>
 <p>I can compute the mean IQ using the <code class="docutils literal notranslate"><span class="pre">mean()</span></code>function and the standard deviation using the <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> function, both from the <code class="docutils literal notranslate"><span class="pre">statistics</span></code>package, and I can draw a histgram using <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. The histogram of this much larger sample is shown in Figure &#64;ref(fig:IQdist)c. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
@@ -611,9 +732,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  102.71921691952295  Standard deviation:  13.414270146397559
-100 samples. Mean:  99.61330014400414  Standard deviation:  15.96663929918781
-10000 samples. Mean:  99.95024148358172  Standard deviation:  14.801970264429977
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  91.83513165879515  Standard deviation:  12.080467135962696
+100 samples. Mean:  99.11176856251919  Standard deviation:  14.192870313207116
+10000 samples. Mean:  100.08335406247072  Standard deviation:  14.849937076834848
 </pre></div>
 </div>
 </div>
@@ -626,14 +747,14 @@
 <p>I don’t intend to subject you to a proof that the law of large numbers is true, but it’s one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it <strong><em>will be wrong</em></strong>, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.</p>
 </div>
 <div class="section" id="sampling-distributions-and-the-central-limit-theorem">
-<span id="samplingdists"></span><h2><span class="section-number">3.3. </span>Sampling distributions and the central limit theorem<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem" title="Permalink to this headline">¶</a></h2>
+<span id="samplingdists"></span><h2><span class="section-number">12.3. </span>Sampling distributions and the central limit theorem<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem" title="Permalink to this headline">¶</a></h2>
 <p>The law of large numbers is a very powerful tool, but it’s not going to be good enough to answer all our questions. Among other things, all it gives us is a “long run guarantee”. In the long run, if we were somehow able to collect an infinite amount of data, then the law of large numbers guarantees that our sample statistics will be correct. But as John Maynard Keynes famously argued in economics, a long run guarantee is of little use in real life:</p>
 <blockquote>
 <div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> &#64;Keynes1923</p>
 </div></blockquote>
 <p>As in economics, so too in psychology and statistics. It is not enough to know that we will <em>eventually</em> arrive at the right answer when calculating the sample mean. Knowing that an infinitely large data set will tell me the exact value of the population mean is cold comfort when my <em>actual</em> data set has a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. In real life, then, we must know something about the behaviour of the sample mean when it is calculated from a more modest data set!</p>
 <div class="section" id="sampling-distribution-of-the-mean">
-<h3><span class="section-number">3.3.1. </span>Sampling distribution of the mean<a class="headerlink" href="#sampling-distribution-of-the-mean" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.3.1. </span>Sampling distribution of the mean<a class="headerlink" href="#sampling-distribution-of-the-mean" title="Permalink to this headline">¶</a></h3>
 <p>With this in mind, let’s abandon the idea that our studies will have sample sizes of 10000, and consider a very modest experiment indeed. This time around we’ll sample <span class="math notranslate nohighlight">\(N=5\)</span> people and measure their IQ scores. As before, I can simulate this experiment in Python using numpy’s <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> function. We can convert these to integers with <code class="docutils literal notranslate"><span class="pre">astype(int</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -644,8 +765,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [123 111 108  80 101]
-Mean of simulated data:  104
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [116  91 110  92 127]
+Mean of simulated data:  107
 </pre></div>
 </div>
 </div>
@@ -660,8 +781,8 @@ Mean of simulated data:  104
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 97  93  83 111 119]
-Mean of simulated data:  100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [128  94  95  92  87]
+Mean of simulated data:  99
 </pre></div>
 </div>
 </div>
@@ -712,7 +833,7 @@ Mean of simulated data:  100
   <tbody>
     <tr>
       <th>count</th>
-      <td>5.00000</td>
+      <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
@@ -720,59 +841,59 @@ Mean of simulated data:  100
     </tr>
     <tr>
       <th>mean</th>
-      <td>100.60000</td>
-      <td>98.000000</td>
-      <td>97.600000</td>
-      <td>96.000000</td>
-      <td>102.600000</td>
+      <td>98.800000</td>
+      <td>97.000000</td>
+      <td>95.200000</td>
+      <td>113.600000</td>
+      <td>94.600000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>11.21606</td>
-      <td>13.711309</td>
-      <td>17.854971</td>
-      <td>11.640447</td>
-      <td>12.280065</td>
+      <td>7.918333</td>
+      <td>8.124038</td>
+      <td>9.011104</td>
+      <td>8.961027</td>
+      <td>28.023205</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>90.00000</td>
-      <td>80.000000</td>
-      <td>73.000000</td>
-      <td>79.000000</td>
-      <td>83.000000</td>
+      <td>87.000000</td>
+      <td>91.000000</td>
+      <td>85.000000</td>
+      <td>99.000000</td>
+      <td>66.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>92.00000</td>
+      <td>96.000000</td>
       <td>92.000000</td>
-      <td>90.000000</td>
-      <td>94.000000</td>
-      <td>102.000000</td>
+      <td>91.000000</td>
+      <td>114.000000</td>
+      <td>69.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>96.00000</td>
-      <td>96.000000</td>
+      <td>100.000000</td>
+      <td>92.000000</td>
+      <td>93.000000</td>
+      <td>114.000000</td>
       <td>95.000000</td>
-      <td>94.000000</td>
-      <td>102.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>110.00000</td>
-      <td>106.000000</td>
-      <td>115.000000</td>
       <td>103.000000</td>
-      <td>112.000000</td>
+      <td>100.000000</td>
+      <td>98.000000</td>
+      <td>118.000000</td>
+      <td>111.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>115.00000</td>
-      <td>116.000000</td>
-      <td>115.000000</td>
+      <td>108.000000</td>
       <td>110.000000</td>
-      <td>114.000000</td>
+      <td>109.000000</td>
+      <td>123.000000</td>
+      <td>132.000000</td>
     </tr>
   </tbody>
 </table>
@@ -808,7 +929,7 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;54c4550d-4671-4446-99ed-8fa8097b314b&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;861c7758-3f25-4448-bb54-15fb393a3e57&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_20_1.png" src="_images/04.03-estimation_20_1.png" />
@@ -819,7 +940,7 @@ Mean of simulated data:  100
 <p>fig.cap=”The sampling distribution of the <em>maximum</em> for the “five IQ scores experiment”. If you sample 5 people at random and select the one with the highest IQ score, you’ll probably see someone with an IQ between 100 and 140.”</p>
 </div>
 <div class="section" id="sampling-distributions-exist-for-any-sample-statistic">
-<h3><span class="section-number">3.3.2. </span>Sampling distributions exist for any sample statistic!<a class="headerlink" href="#sampling-distributions-exist-for-any-sample-statistic" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.3.2. </span>Sampling distributions exist for any sample statistic!<a class="headerlink" href="#sampling-distributions-exist-for-any-sample-statistic" title="Permalink to this headline">¶</a></h3>
 <p>One thing to keep in mind when thinking about sampling distributions is that <em>any</em> sample statistic you might care to calculate has a sampling distribution. For example, suppose that each time I replicated the “five IQ scores” experiment I wrote down the largest IQ score in the experiment. This might give me a data set that started out like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="mi">110</span> <span class="mi">117</span> <span class="mi">122</span> <span class="mi">119</span> <span class="mi">113</span> <span class="o">...</span> 
 </pre></div>
@@ -854,7 +975,7 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;2ae513bb-1229-4566-968e-66207c800ac9&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;d5069796-fb94-4238-a513-594905ddd0b9&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_23_1.png" src="_images/04.03-estimation_23_1.png" />
@@ -863,7 +984,7 @@ Mean of simulated data:  100
 <p>fig.cap=”The sampling distribution of the <em>maximum</em> for the “five IQ scores experiment”. If you sample 5 people at random and select the one with the highest IQ score, you’ll probably see someone with an IQ between 100 and 140.”</p>
 </div>
 <div class="section" id="the-central-limit-theorem">
-<span id="clt"></span><h3><span class="section-number">3.3.3. </span>The central limit theorem<a class="headerlink" href="#the-central-limit-theorem" title="Permalink to this headline">¶</a></h3>
+<span id="clt"></span><h3><span class="section-number">12.3.3. </span>The central limit theorem<a class="headerlink" href="#the-central-limit-theorem" title="Permalink to this headline">¶</a></h3>
 <p>An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -897,7 +1018,7 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;50baf977-4dbf-4ded-884e-8bf0a1ec6c19&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;c5628670-9fdd-4f3b-a7df-2e81493f8bbb&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_26_1.png" src="_images/04.03-estimation_26_1.png" />
@@ -922,7 +1043,7 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;e62c396f-2041-4d89-864f-d2eb61c90cd1&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;82a67a9c-5c14-47f0-96c6-1c728d0db0e4&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_28_1.png" src="_images/04.03-estimation_28_1.png" />
@@ -947,7 +1068,7 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;5546b6a6-5cdc-4804-9695-ce5ef2252c78&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:label=&#39;bdb46eb7-aebd-4633-ad3c-31c01a32356f&#39;&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_30_1.png" src="_images/04.03-estimation_30_1.png" />
@@ -1064,11 +1185,11 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="section" id="estimating-population-parameters">
-<h2><span class="section-number">3.4. </span>Estimating population parameters<a class="headerlink" href="#estimating-population-parameters" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">12.4. </span>Estimating population parameters<a class="headerlink" href="#estimating-population-parameters" title="Permalink to this headline">¶</a></h2>
 <p>In all the IQ examples in the previous sections, we actually knew the population parameters ahead of time. As every undergraduate gets taught in their very first lecture on the measurement of intelligence, IQ scores are <em>defined</em> to have mean 100 and standard deviation 15. However, this is a bit of a lie. How do we know that IQ scores have a true population mean of 100? Well, we know this because the people who designed the tests have administered them to very large samples, and have then “rigged” the scoring rules so that their sample has mean 100. That’s not a bad thing of course: it’s an important part of designing a psychological measurement. However, it’s important to keep in mind that this theoretical mean of 100 only attaches to the population that the test designers used to design the tests. Good test designers will actually go to some lengths to provide “test norms” that can apply to lots of different populations (e.g., different age groups, nationalities etc).</p>
 <p>This is very handy, but of course almost every research project of interest involves looking at a different population of people to those used in the test norms. For instance, suppose you wanted to measure the effect of low level lead poisoning on cognitive functioning in Port Pirie, a South Australian industrial town with a lead smelter. Perhaps you decide that you want to compare IQ scores among people in Port Pirie to a comparable sample in Whyalla, a South Australian industrial town with a steel refinery.^[Please note that if you were <em>actually</em> interested in this question, you would need to be a <em>lot</em> more careful than I’m being here. You <em>can’t</em> just compare IQ scores in Whyalla to Port Pirie and assume that any differences are due to lead poisoning. Even if it were true that the only differences between the two towns corresponded to the different refineries (and it isn’t, not by a long shot), you need to account for the fact that people already <em>believe</em> that lead pollution causes cognitive deficits: if you recall back to Chapter &#64;ref(studydesign), this means that there are different demand effects for the Port Pirie sample than for the Whyalla sample. In other words, you might end up with an illusory group difference in your data, caused by the fact that people <em>think</em> that there is a real difference. I find it pretty implausible to think that the locals wouldn’t be well aware of what you were trying to do if a bunch of researchers turned up in Port Pirie with lab coats and IQ tests, and even less plausible to think that a lot of people would be pretty resentful of you for doing it. Those people won’t be as co-operative in the tests. Other people in Port Pirie might be <em>more</em> motivated to do well because they don’t want their home town to look bad. The motivational effects that would apply in Whyalla are likely to be weaker, because people don’t have any concept of “iron ore poisoning” in the same way that they have a concept for “lead poisoning”. Psychology is <em>hard</em>.] Regardless of which town you’re thinking about, it doesn’t make a lot of sense simply to <em>assume</em> that the true population mean IQ is 100. No-one has, to my knowledge, produced sensible norming data that can automatically be applied to South Australian industrial towns. We’re going to have to <strong><em>estimate</em></strong> the population parameters from a sample of data. So how do we do this?</p>
 <div class="section" id="estimating-the-population-mean">
-<h3><span class="section-number">3.4.1. </span>Estimating the population mean<a class="headerlink" href="#estimating-the-population-mean" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.4.1. </span>Estimating the population mean<a class="headerlink" href="#estimating-the-population-mean" title="Permalink to this headline">¶</a></h3>
 <p>Suppose we go to Port Pirie and 100 of the locals are kind enough to sit through an IQ test. The average IQ score among these people turns out to be <span class="math notranslate nohighlight">\(\bar{X}=98.5\)</span>. So what is the true mean IQ for the entire population of Port Pirie? Obviously, we don’t know the answer to that question. It could be <span class="math notranslate nohighlight">\(97.2\)</span>, but if could also be <span class="math notranslate nohighlight">\(103.5\)</span>. Our sampling isn’t exhaustive so we cannot give a definitive answer. Nevertheless if I was forced at gunpoint to give a “best guess” I’d have to say <span class="math notranslate nohighlight">\(98.5\)</span>. That’s the essence of statistical estimation: giving a best guess.</p>
 <p>In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my <strong><em>estimate of the population mean</em></strong>. It’s pretty simple, and in the next section I’ll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often use different notation to refer to them. For instance, if true population mean is denoted <span class="math notranslate nohighlight">\(\mu\)</span>, then we would use <span class="math notranslate nohighlight">\(\hat\mu\)</span> to refer to our estimate of the population mean. In contrast, the sample mean is denoted <span class="math notranslate nohighlight">\(\bar{X}\)</span> or sometimes <span class="math notranslate nohighlight">\(m\)</span>. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of <span class="math notranslate nohighlight">\(\bar{X} = 98.5\)</span>, then my estimate of the population mean is also <span class="math notranslate nohighlight">\(\hat\mu = 98.5\)</span>. To help keep the notation clear, here’s a handy table:</p>
 <table class="colwidths-auto table">
@@ -1095,7 +1216,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </table>
 </div>
 <div class="section" id="estimating-the-population-standard-deviation">
-<h3><span class="section-number">3.4.2. </span>Estimating the population standard deviation<a class="headerlink" href="#estimating-the-population-standard-deviation" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.4.2. </span>Estimating the population standard deviation<a class="headerlink" href="#estimating-the-population-standard-deviation" title="Permalink to this headline">¶</a></h3>
 <p>So far, estimation seems pretty simple, and you might be wondering why I forced you to read through all that stuff about sampling theory. In the case of the mean, our estimate of the population parameter (i.e. <span class="math notranslate nohighlight">\(\hat\mu\)</span>) turned out to identical to the corresponding sample statistic (i.e. <span class="math notranslate nohighlight">\(\bar{X}\)</span>). However, that’s not always true. To see this, let’s have a think about how to construct an <strong><em>estimate of the population standard deviation</em></strong>, which we’ll denote  <span class="math notranslate nohighlight">\(\hat\sigma\)</span>. What shall we use as our estimate in this case? Your first thought might be that we could do the same thing we did when estimating the mean, and just use the sample statistic as our estimate. That’s almost the right thing to do, but not quite.</p>
 <p>Here’s why. Suppose I have a sample that contains a single observation. For this example, it helps to consider a sample where you have no intutions at all about what the true population values might be, so let’s use something completely fictitious. Suppose the observation in question measures the <em>cromulence</em> of my shoes. It turns out that my shoes have a cromulence of 20. So here’s my sample:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">20</span>
@@ -1131,7 +1252,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13f467070&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1403ff340&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_43_1.png" src="_images/04.03-estimation_43_1.png" />
@@ -1261,7 +1382,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 </div>
 </div>
 <div class="section" id="estimating-a-confidence-interval">
-<span id="ci"></span><h2><span class="section-number">3.5. </span>Estimating a confidence interval<a class="headerlink" href="#estimating-a-confidence-interval" title="Permalink to this headline">¶</a></h2>
+<span id="ci"></span><h2><span class="section-number">12.5. </span>Estimating a confidence interval<a class="headerlink" href="#estimating-a-confidence-interval" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p><em>Statistics means never having to say you’re certain</em> – Unknown origin^[This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I’ve never found the original source.</p>
 </div></blockquote>
@@ -1270,7 +1391,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
-<span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="o">.</span><span class="mi">025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span>
+<span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="mf">.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1298,7 +1419,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 <p>Of course, there’s nothing special about the number 1.96: it just happens to be the multiplier you need to use if you want a 95% confidence interval. If I’d wanted a 70% confidence interval, I could have used the <code class="docutils literal notranslate"><span class="pre">norm.ppf</span></code> function to calculate the 15th and 85th quantiles:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="o">.</span><span class="mi">85</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="mf">.15</span><span class="p">,</span> <span class="mf">.85</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1310,13 +1431,13 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 </div>
 <p>and so the formula for <span class="math notranslate nohighlight">\(\mbox{CI}_{70}\)</span> would be the same as the formula for <span class="math notranslate nohighlight">\(\mbox{CI}_{95}\)</span> except that we’d use 1.04 as our magic number rather than 1.96.</p>
 <div class="section" id="a-slight-mistake-in-the-formula">
-<h3><span class="section-number">3.5.1. </span>A slight mistake in the formula<a class="headerlink" href="#a-slight-mistake-in-the-formula" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.5.1. </span>A slight mistake in the formula<a class="headerlink" href="#a-slight-mistake-in-the-formula" title="Permalink to this headline">¶</a></h3>
 <p>As usual, I lied. The formula that I’ve given above for the 95% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. Yet, in Section &#64;ref(pointestimates I stressed the fact that we don’t actually <em>know</em> the true population parameters. Because we don’t know the true value of <span class="math notranslate nohighlight">\(\sigma\)</span>, we have to use an estimate of the population standard deviation <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the <span class="math notranslate nohighlight">\(t\)</span>-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When <span class="math notranslate nohighlight">\(N\)</span> is very large, we get pretty much the same value using <code class="docutils literal notranslate"><span class="pre">t.ppf()</span></code> that we would if we used <code class="docutils literal notranslate"><span class="pre">norm.ppf()</span></code>…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>   <span class="c1"># suppose our sample size is 10,000</span>
-<span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="o">.</span><span class="mi">025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">],</span> <span class="n">df</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="mf">.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">],</span> <span class="n">df</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1331,7 +1452,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># suppose our sample size is 10</span>
-<span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="o">.</span><span class="mi">025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">],</span> <span class="n">df</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">([</span><span class="mf">.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">],</span> <span class="n">df</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1344,7 +1465,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 <p>There’s nothing too mysterious about what’s happening here. Bigger values mean that the confidence interval is wider, indicating that we’re more uncertain about what the true value of <span class="math notranslate nohighlight">\(\mu\)</span> actually is. When we use the <span class="math notranslate nohighlight">\(t\)</span> distribution instead of the normal distribution, we get bigger numbers, indicating that we have more uncertainty. And why do we have that extra uncertainty? Well, because our estimate of the population standard deviation <span class="math notranslate nohighlight">\(\hat\sigma\)</span> might be wrong! If it’s wrong, it implies that we’re a bit less sure about what our sampling distribution of the mean actually looks like… and this uncertainty ends up getting reflected in a wider confidence interval.</p>
 </div>
 <div class="section" id="interpreting-a-confidence-interval">
-<h3><span class="section-number">3.5.2. </span>Interpreting a confidence interval<a class="headerlink" href="#interpreting-a-confidence-interval" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.5.2. </span>Interpreting a confidence interval<a class="headerlink" href="#interpreting-a-confidence-interval" title="Permalink to this headline">¶</a></h3>
 <p>The hardest thing about confidence intervals is understanding what they <em>mean</em>. Whenever people first encounter confidence intervals, the first instinct is almost always to say that “there is a 95% probabaility that the true mean lies inside the confidence interval”. It’s simple, and it seems to capture the common sense idea of what it means to say that I am “95% confident”. Unfortunately, it’s not quite right. The intuitive definition relies very heavily on your own personal <em>beliefs</em> about the value of the population mean. I say that I am 95% confident because those are my beliefs. In everyday life that’s perfectly okay, but if you remember back to Section &#64;ref(probmeaning), you’ll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase “95% probability” is allowed to refer to a personal belief. However, confidence intervals are <em>not</em> Bayesian tools. Like everything else in this chapter, confidence intervals are <em>frequentist</em> tools, and if you are going to use frequentist methods then it’s not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!</p>
 <p>Okay, so if that’s not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make “probability statements” is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95% confidence interval for each replication, then 95% of those <em>intervals</em> would contain the true mean. More generally, 95% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in Figure &#64;ref(fig:cirep), which shows 50 confidence intervals constructed for a “measure 10 IQ scores” experiment (top panel) and another 50 confidence intervals for a “measure 25 IQ scores” experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::include_graphics(file.path(projecthome, &quot;img/estimation/confIntReplicated.png&quot;))
@@ -1440,9 +1561,9 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[22]
-[91.59808375933116]
-[102.72191624066883]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[49, 1, 18]
+[79.77520514258639, 96.42422560091191, 79.8469811400032]
+[96.82479485741361, 111.3757743990881, 111.3530188599968]
 </pre></div>
 </div>
 </div>
@@ -1451,7 +1572,7 @@ and when we use R's built in standard deviation function `sd()`, what it's doing
 <p>I know that this seems a little pedantic, but it does matter. It matters because the difference in interpretation leads to a difference in the mathematics. There is a Bayesian alternative to confidence intervals, known as <em>credible intervals</em>. In most situations credible intervals are quite similar to confidence intervals, but in other cases they are drastically different. As promised, though, I’ll talk more about the Bayesian perspective in Chapter &#64;ref(bayes).</p>
 </div>
 <div class="section" id="calculating-confidence-intervals-in-python">
-<h3><span class="section-number">3.5.3. </span>Calculating confidence intervals in Python<a class="headerlink" href="#calculating-confidence-intervals-in-python" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.5.3. </span>Calculating confidence intervals in Python<a class="headerlink" href="#calculating-confidence-intervals-in-python" title="Permalink to this headline">¶</a></h3>
 <p>To produce the confidence intervals for the plots of simulated IQ data above, I used the <code class="docutils literal notranslate"><span class="pre">t</span></code>, <code class="docutils literal notranslate"><span class="pre">sem</span></code>, and <code class="docutils literal notranslate"><span class="pre">mean</span></code>functions available in the <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>package. Another option is to use the <code class="docutils literal notranslate"><span class="pre">tconfint_mean</span> </code> function from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package. As you can see, both methods give nearly identical results. Method 1 is good insofar is at requires you to explicitly specify the desired confidence interval, the degrees of freedom, and the standard error of the mean. Method takes care of all of this for us, which makes it easier, but a bit more of a black box.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1486,7 +1607,7 @@ Method 2:  (2.894915862570057, 7.105084137429943)
 </div>
 </div>
 <div class="section" id="plotting-confidence-intervals-in-python">
-<h3><span class="section-number">3.5.4. </span>Plotting confidence intervals in Python<a class="headerlink" href="#plotting-confidence-intervals-in-python" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">12.5.4. </span>Plotting confidence intervals in Python<a class="headerlink" href="#plotting-confidence-intervals-in-python" title="Permalink to this headline">¶</a></h3>
 <p>There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn’s built-in “tips” dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1648,7 +1769,7 @@ Method 2:  (2.894915862570057, 7.105084137429943)
 </div>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">3.6. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">12.6. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>In this chapter I’ve covered two main topics. The first half of the chapter talks about sampling theory, and the second half talks about how we can use sampling theory to construct estimates of the population parameters. The section breakdown looks like this:</p>
 <ul class="simple">
 <li><p>Basic ideas about samples, sampling and populations (Section &#64;ref(srs))</p></li>
@@ -1688,36 +1809,42 @@ Method 2:  (2.894915862570057, 7.105084137429943)
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="04.02-probability.html" title="previous page"><span class="section-number">2. </span>Introduction to Probability</a>
-    <a class='right-next' id="next-link" href="04.04-hypothesis-testing.html" title="next page"><span class="section-number">4. </span>Hypothesis Testing</a>
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="04.02-probability.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">11. </span>Introduction to Probability</p>
         </div>
-        
+    </a>
+    <a class='right-next' id="next-link" href="04.04-hypothesis-testing.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">13. </span>Hypothesis Testing</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Danielle Navarro and Ethan Weed<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+    <footer class="footer">
+  <p>
+    
+      By Danielle Navarro and Ethan Weed<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-    
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
   </body>
 </html>
