@@ -54,7 +54,7 @@ df
 
 # With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the `crosstab` method from `pandas` provides an easy way to do this:
 
-# In[16]:
+# In[2]:
 
 
 pd.crosstab(index = df["speaker"], columns = "count")
@@ -62,7 +62,7 @@ pd.crosstab(index = df["speaker"], columns = "count")
 
 # The output here tells us on the first line that what we’re looking at is a tabulation of the speaker variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it’s a frequency table. Notice that we set the argument `columns` to "count". If instead we want to cross-tabulate the speakers with the utterances, we can set `columns` to the "utterances" column in the dataframe:
 
-# In[18]:
+# In[3]:
 
 
 pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -72,7 +72,7 @@ pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
 # 
 # The tabulation commands discussed so far all construct a table of raw frequencies: that is, a count of the total number of cases that satisfy certain conditions. However, often you want your data to be organised in terms of proportions rather than counts. This could be as a proportion of the row totals or the column totals. Currently, these are both just called "All", so let's first save the output of our crosstab to a variable, and rename the row and column totals to "rowtotals" and "coltotals".
 
-# In[49]:
+# In[4]:
 
 
 tabs = pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -85,7 +85,7 @@ tabs
 
 # Now we can divide the entire frequency table by the totals in each column:
 
-# In[62]:
+# In[5]:
 
 
 tabs/tabs.loc['coltotals']
@@ -95,7 +95,7 @@ tabs/tabs.loc['coltotals']
 # 
 # The procedure to obtain the row-wise proportion, the procedure is slightly different:
 
-# In[66]:
+# In[6]:
 
 
 tabs.div(tabs["rowtotals"], axis=0)
@@ -119,7 +119,7 @@ tabs.div(tabs["rowtotals"], axis=0)
 # 
 # The data look like this:
 
-# In[71]:
+# In[7]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -127,7 +127,7 @@ data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
 
 # However, if you think about it, this isn't the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there's a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be $+3$ (strong agree) and $-3$ (strong disagree). By recoding the data in this way, it's a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores. Since these data are in a list, we can use a "list comprehension" to step through each element in the list, and subtract 4 from it:
 
-# In[73]:
+# In[8]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -137,7 +137,7 @@ data
 
 # If your data is in a `numpy array` rather than a `list`, it is even easier: just subtract 4 from array, and Python takes care of the rest:
 
-# In[78]:
+# In[9]:
 
 
 import numpy as np
@@ -148,7 +148,7 @@ data
 
 # One reason why it might be useful to center the data is that there are a lot of situations where you might prefer to analyse the *strength* of the opinion separately from the *direction* of the opinion. We can do two different transformations on this variable in order to distinguish between these two different concepts. Firstly, to compute an `opinion_strength` variable, we want to take the absolute value of the centred data (using the `abs()` function that we've seen previously), like so:
 
-# In[79]:
+# In[10]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -158,7 +158,7 @@ data
 
 # Secondly, to compute a variable that contains only the direction of the opinion and ignores the strength, we can use the `numpy.sign()` method to do this. This method is really simple: all negative numbers are converted to $-1$, all positive numbers are converted to $1$ and zero stays as $0$. So, when we apply `numpy.sign()` to our data we obtain the following:
 
-# In[80]:
+# In[11]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -169,7 +169,7 @@ data
 
 # And we're done. We now have three shiny new variables, all of which are useful transformations of the original likert data. Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. So, we can put our data in a dataframe, in a column called "scores"...
 
-# In[127]:
+# In[12]:
 
 
 import pandas as pd
@@ -182,7 +182,7 @@ df
 
 # ... and then do some calculations:
 
-# In[129]:
+# In[13]:
 
 
 df['centered'] = df['scores']-4
@@ -197,7 +197,7 @@ df
 # 
 # One pragmatic task that arises more often than you'd think is the problem of cutting a numeric variable up into discrete categories. For instance, suppose I'm interested in looking at the age distribution of people at a social gathering:
 
-# In[115]:
+# In[14]:
 
 
 #age = [60,58,24,26,34,42,31,30,33,2,9]
@@ -213,7 +213,7 @@ df
 # 
 # As it happens, `pandas` has a convenient method called `cut` for grouping data in this way:
 
-# In[118]:
+# In[15]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = [0,20,40,60], labels = ['young', 'adult', 'older'])
@@ -228,7 +228,7 @@ df
 
 # In the example above, I made all the decisions myself, but if you want to you can delegate a lot of the choices to Python. For instance, if you want you can specify the *number* of categories you want, rather than giving explicit ranges for them, and you can allow Python to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
 
-# In[119]:
+# In[16]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = 3)
@@ -237,7 +237,7 @@ df
 
 # With this command, I've asked for three categories, but let Python make the choices for where the boundaries should be. All of the important information can be extracted by looking at the tabulated data:
 
-# In[120]:
+# In[17]:
 
 
 pd.crosstab(index = df["categories"], columns = "count")
@@ -247,7 +247,7 @@ pd.crosstab(index = df["categories"], columns = "count")
 # 
 # Before moving on, I should take a moment to talk a little about the mechanics of the `cut()` function. Notice that Python has tried to divide the `age` variable into three roughly equal sized bins. Unless you specify the particular breaks you want, that's what it will do. But suppose you want to divide the `age` variable into three categories of different size, but with approximately identical numbers of people. How would you do that? Well, if that's the case, then what you want to do is have the breaks correspond to the 0th, 33rd, 66th and 100th percentiles of the data. One way to do this would be to calculate those values using the `np.quantile()` function and then use those quantiles as input to the `cut()` function. That's pretty easy to do, but it does take a couple of lines to type. So instead, the `pandas` library has a function called `qCut()` that does exactly this:
 
-# In[125]:
+# In[18]:
 
 
 df['categories'] = pd.qcut(x = df['age'], q = [0, .33, .66, 1] )
