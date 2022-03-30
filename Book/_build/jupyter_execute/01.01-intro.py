@@ -64,7 +64,7 @@
 # 
 # If the psychological data looked like this (or even a good approximation to this), we might feel safe in just trusting our gut instincts. That is, it'd be perfectly okay just to let scientists evaluate data based on their common sense, and not bother with all this murky statistics stuff. However, you guys have taken psych classes, and by now you probably know where this is going...
 # 
-# In a classic study, {cite}`Evans1983` ran an experiment looking at exactly this. What they found is that when pre-existing biases (i.e., beliefs) were in agreement with the structure of the data, everything went the way you'd hope: 
+# In a classic study, {cite:p}`Evans1983` ran an experiment looking at exactly this. What they found is that when pre-existing biases (i.e., beliefs) were in agreement with the structure of the data, everything went the way you'd hope: 
 # 
 # 
 # |                   | conclusion feels true| conclusion feels false |
