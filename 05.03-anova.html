@@ -751,17 +751,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p>So we have a single data frame called <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code>, containing three variables; <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Next, let’s look at the data frame to get a sense of what the data actually look like.</p>
 <div class="cell docutils container">
@@ -1171,13 +1160,15 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7ff054c55b50&gt;
-</pre></div>
-</div>
 <img alt="_images/05.03-anova_19_1.png" src="_images/05.03-anova_19_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anovavar" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 17.2 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">¶</a></p>
 </div>
 <p>Okay, so what have we found out? We’ve discovered that the total variability associated with the outcome variable (<span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span>) can be mathematically carved up into the sum of “the variation due to the differences in the sample means for the different groups” (<span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span>) plus “all the rest of the variation” (<span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second… now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you’d expect all the sample means to be pretty similar to each other, right? And that would imply that you’d expect <span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span> to be really small, or at least you’d expect it to be a lot smaller than the “the variation associated with everything else”, <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>. Hm. I detect a hypothesis test coming on…</p>
@@ -1682,7 +1673,7 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 
 <span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
-     <span class="s1">&#39;gp_means&#39;</span><span class="p">:</span> <span class="n">gp_mean</span><span class="p">,</span>
+     <span class="s1">&#39;gp_means&#39;</span><span class="p">:</span> <span class="n">gp_means</span><span class="p">,</span>
      <span class="s1">&#39;grand_mean&#39;</span><span class="p">:</span> <span class="n">grand_mean</span> 
     <span class="p">})</span> 
 
