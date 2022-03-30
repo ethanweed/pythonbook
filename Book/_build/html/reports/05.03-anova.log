@@ -1,61 +1,33 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
-    self._check_raise_for_error(cell, exec_reply)
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-grouped = df.groupby('drug')
-gp_means = grouped.mean()
-gp_means.reset_index(inplace=True)
-group = list(gp_means['drug'])
-gp_means = list(gp_means['mood_gain'])
+import pandas as pd
 
-grand_mean = round(df['mood_gain'].mean(),2)
-grand_mean = [grand_mean]*3
-
-
-
-Y = pd.DataFrame(
-    {'group': group,
-     'gp_means': gp_mean,
-     'grand_mean': grand_mean 
-    }) 
-
-Y['dev_from_grandmean'] = Y['gp_means'] - Y['grand_mean']
-Y['squared_devs'] = Y['dev_from_grandmean']**2
-
-xtab = pd.crosstab(index = df["drug"], columns = "count")
-xtab.reset_index(inplace=True)
-
-Y['group_sizes'] = xtab['count']
-Y['weighted_squared_devs'] = Y['group_sizes'] * Y['squared_devs']
-
-
-
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv")
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-10-a262bd2b3bb1>[0m in [0;36m<module>[0;34m[0m
-[1;32m     12[0m Y = pd.DataFrame(
-[1;32m     13[0m     {'group': group,
-[0;32m---> 14[0;31m      [0;34m'gp_means'[0m[0;34m:[0m [0mgp_mean[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     15[0m      [0;34m'grand_mean'[0m[0;34m:[0m [0mgrand_mean[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     16[0m     }) 
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Input [0;32mIn [1][0m, in [0;36m<cell line: 1>[0;34m()[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      3[0m df [38;5;241m=[39m pd[38;5;241m.[39mread_csv([38;5;124m"[39m[38;5;124mhttps://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv[39m[38;5;124m"[39m)
 
-[0;31mNameError[0m: name 'gp_mean' is not defined
-NameError: name 'gp_mean' is not defined
+[0;31mModuleNotFoundError[0m: No module named 'pandas'
+ModuleNotFoundError: No module named 'pandas'
 

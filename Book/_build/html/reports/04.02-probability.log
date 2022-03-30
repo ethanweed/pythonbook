@@ -1,60 +1,43 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
-    self._check_raise_for_error(cell, exec_reply)
-  File "/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-%matplotlib inline
-from myst_nb import glue
-import numpy as np
-import scipy.stats as stats
-import seaborn as sns
+import pandas as pd
+number_of_flips = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10, 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20]
+number_of_heads = [0 , 1 , 2 , 3 , 4 , 4 , 4 , 5 , 6 , 7,  8  ,  8 ,  9 , 10 , 10 , 10 , 10 , 10 , 10 , 11] 
+proportion = [.00 , .50 , .67 , .75 , .80 , .67 , .57 , .63 , .67 , .70, .73 , .67 , .69 , .71 , .67 ,  .63 , .59 , .56 , .53 , .55]
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+df = pd.DataFrame(
+    {'Number_of_flips': number_of_flips,
+     'Number_of_heads': number_of_heads,
+     'Proportion': proportion
+    })
 
-mu = 0
-variance = 1
-sigma = np.sqrt(variance)
-x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[0])
-sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma), ax=axes[1])
-plt.xlabel('Observed Value')
-plt.ylabel('Probability Density')
-
-x_fill1 = np.arange(-4, -1, 0.001)
-x_fill2 = np.arange(-1, 0, 0.001)
-
-y_fill1 = stats.norm.pdf(x_fill1,0,1)
-y_fill2 = stats.norm.pdf(x_fill2,0,1)
-
-axes[0].fill_between(x_fill1,y_fill1,0, alpha=0.2, color='blue')
-axes[1].fill_between(x_fill2,y_fill2,0, alpha=0.2, color='blue')
-
-axes[0].set_title("Shaded Area = 15.9%")
-axes[1].set_title("Shaded Area = 34.1%")
-
-sns.despine()
-
-glue(sdnorm_fig2", fig, display=False)
+df
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-10-d36a6fc3adb7>"[0;36m, line [0;32m32[0m
-[0;31m    glue(sdnorm_fig2", fig, display=False)[0m
-[0m                                          ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m EOL while scanning string literal
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Input [0;32mIn [1][0m, in [0;36m<cell line: 1>[0;34m()[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      2[0m number_of_flips [38;5;241m=[39m [[38;5;241m1[39m , [38;5;241m2[39m , [38;5;241m3[39m , [38;5;241m4[39m , [38;5;241m5[39m , [38;5;241m6[39m , [38;5;241m7[39m , [38;5;241m8[39m , [38;5;241m9[39m , [38;5;241m10[39m, [38;5;241m11[39m , [38;5;241m12[39m , [38;5;241m13[39m , [38;5;241m14[39m , [38;5;241m15[39m , [38;5;241m16[39m , [38;5;241m17[39m , [38;5;241m18[39m , [38;5;241m19[39m , [38;5;241m20[39m]
+[1;32m      3[0m number_of_heads [38;5;241m=[39m [[38;5;241m0[39m , [38;5;241m1[39m , [38;5;241m2[39m , [38;5;241m3[39m , [38;5;241m4[39m , [38;5;241m4[39m , [38;5;241m4[39m , [38;5;241m5[39m , [38;5;241m6[39m , [38;5;241m7[39m,  [38;5;241m8[39m  ,  [38;5;241m8[39m ,  [38;5;241m9[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m11[39m] 
 
-SyntaxError: EOL while scanning string literal (<ipython-input-10-d36a6fc3adb7>, line 32)
+[0;31mModuleNotFoundError[0m: No module named 'pandas'
+ModuleNotFoundError: No module named 'pandas'
 

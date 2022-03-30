@@ -5,9 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Comparing several means &#8212; Learning Statistics with Python</title>
+    <title>16. Comparing several means &#8212; Learning Statistics with Python</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -34,38 +31,40 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Linear regression" href="05.04-regression.html" />
-    <link rel="prev" title="2. Comparing Two Means" href="05.02-ttest.html" />
-
+    <link rel="next" title="18. Linear regression" href="05.04-regression.html" />
+    <link rel="prev" title="15. Comparing Two Means" href="05.02-ttest.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
 
-
-
+    <!-- Google Analytics -->
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -74,30 +73,31 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  
-  <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="landingpage.html">
    Learning Statistics with Python
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part I. Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01.01-intro.html">
    1. Why do we learn statistics?
@@ -109,142 +109,133 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part II. An Introduction to Python
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02.01-getting_started_with_python.html">
-   1. Getting Started with Python
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02.01-getting_started_with_python.html#typing-commands-at-the-python-console">
-   2. Typing commands at the Python console
+   3. Getting Started with Python
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="02.02-more_python_concepts.html">
-   3. More Python Concepts
+   5. More Python Concepts
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part III. Working With Data
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03.01-descriptives.html">
-   1. Descriptive statistics
+   6. Descriptive statistics
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.02-drawing_graphs.html">
-   2. Drawing Graphs
+   7. Drawing Graphs
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.03-pragmatic_matters.html">
-   3. Data Wrangling
+   8. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03.04-basic_programming.html">
-   4. Basic Programming
+   9. Basic Programming
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part IV. Statistical Theory
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04.01-intro-to-probability.html">
-   1. Statistical theory
+   10. Statistical theory
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04.02-probability.html">
-   2. Introduction to Probability
+   11. Introduction to Probability
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04.03-estimation.html">
-   3. Estimating unknown quantities from a sample
+   12. Estimating unknown quantities from a sample
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04.04-hypothesis-testing.html">
-   4. Hypothesis Testing
+   13. Hypothesis Testing
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part V. Statistical Tools
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05.01-chisquare.html">
-   1. Categorical data analysis
+   14. Categorical data analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.02-ttest.html">
-   2. Comparing Two Means
+   15. Comparing Two Means
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   3. Comparing several means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#comparing-several-means-one-way-anova">
-   4. Comparing several means (one-way ANOVA)
+   16. Comparing several means
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.04-regression.html">
-   5. Linear regression
+   18. Linear regression
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05.05-anova2.html">
-   6. Factorial ANOVA
+   19. Factorial ANOVA
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Part VI. Endings, Alternatives and Prospects
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06.01-bayes.html">
-   1. Bayesian Statistics
+   20. Bayesian Statistics
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="06.02-epilogue.html">
-   2. Epilogue
+   21. Epilogue
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="bibliography.html">
-   3. References
+   22. References
   </a>
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -288,7 +279,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -310,12 +301,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -339,37 +330,36 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   3. Comparing several means
+   16. Comparing several means
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#comparing-several-means-one-way-anova">
-   4. Comparing several means (one-way ANOVA)
+   17. Comparing several means (one-way ANOVA)
   </a>
-  <ul class="nav section-nav flex-column">
+  <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#an-illustrative-data-set">
-     4.1. An illustrative data set
+     17.1. An illustrative data set
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#how-anova-works">
-     4.2. How ANOVA works
+     17.2. How ANOVA works
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#two-formulas-for-the-variance-of-y">
-       4.2.1. Two formulas for the variance of
+       17.2.1. Two formulas for the variance of
        <span class="math notranslate nohighlight">
         \(Y\)
        </span>
@@ -377,12 +367,12 @@
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#from-variances-to-sums-of-squares">
-       4.2.2. From variances to sums of squares
+       17.2.2. From variances to sums of squares
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#from-sums-of-squares-to-the-f-test">
-       4.2.3. From sums of squares to the
+       17.2.3. From sums of squares to the
        <span class="math notranslate nohighlight">
         \(F\)
        </span>
@@ -391,7 +381,7 @@
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#the-model-for-the-data-and-the-meaning-of-f-advanced">
-       4.2.4. The model for the data and the meaning of
+       17.2.4. The model for the data and the meaning of
        <span class="math notranslate nohighlight">
         \(F\)
        </span>
@@ -400,36 +390,36 @@
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#a-worked-example">
-       4.2.5. A worked example
+       17.2.5. A worked example
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#running-an-anova-in-python">
-     4.3. Running an ANOVA in Python
+     17.3. Running an ANOVA in Python
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#getting-python-to-calculate-anova-for-you">
-       4.3.1. Getting Python to calculate ANOVA for you
+       17.3.1. Getting Python to calculate ANOVA for you
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#effect-size">
-     4.4. Effect size
+     17.4. Effect size
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#multiple-comparisons-and-post-hoc-tests">
-     4.5. Multiple comparisons and post hoc tests
+     17.5. Multiple comparisons and post hoc tests
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#running-pairwise-t-tests">
-       4.5.1. Running “pairwise”
+       17.5.1. Running “pairwise”
        <span class="math notranslate nohighlight">
         \(t\)
        </span>
@@ -438,85 +428,85 @@
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#bonferroni-corrections">
-       4.5.2. Bonferroni corrections
+       17.5.2. Bonferroni corrections
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#holm-corrections">
-       4.5.3. Holm corrections
+       17.5.3. Holm corrections
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">
-       4.5.4. Writing up the post hoc test
+       17.5.4. Writing up the post hoc test
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#assumptions-of-one-way-anova">
-     4.6. Assumptions of one-way ANOVA
+     17.6. Assumptions of one-way ANOVA
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#how-robust-is-anova">
-       4.6.1. How robust is ANOVA?
+       17.6.1. How robust is ANOVA?
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#checking-the-homogeneity-of-variance-assumption">
-     4.7. Checking the homogeneity of variance assumption
+     17.7. Checking the homogeneity of variance assumption
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#running-the-levene-s-test-in-r">
-       4.7.1. Running the Levene’s test in R
+       17.7.1. Running the Levene’s test in R
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#additional-comments">
-       4.7.2. Additional comments
+       17.7.2. Additional comments
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#removing-the-homogeneity-of-variance-assumption">
-     4.8. Removing the homogeneity of variance assumption
+     17.8. Removing the homogeneity of variance assumption
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#checking-the-normality-assumption">
-     4.9. Checking the normality assumption
+     17.9. Checking the normality assumption
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#removing-the-normality-assumption">
-     4.10. Removing the normality assumption
+     17.10. Removing the normality assumption
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#the-logic-behind-the-kruskal-wallis-test">
-       4.10.1. The logic behind the Kruskal-Wallis test
+       17.10.1. The logic behind the Kruskal-Wallis test
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#additional-details">
-       4.10.2. Additional details
+       17.10.2. Additional details
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
       <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-r">
-       4.10.3. How to run the Kruskal-Wallis test in R
+       17.10.3. How to run the Kruskal-Wallis test in R
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
-     4.11. On the relationship between ANOVA and the Student
+     17.11. On the relationship between ANOVA and the Student
      <span class="math notranslate nohighlight">
       \(t\)
      </span>
@@ -525,32 +515,232 @@
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#summary">
-     4.12. Summary
+     17.12. Summary
     </a>
    </li>
   </ul>
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Comparing several means</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   16. Comparing several means
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-several-means-one-way-anova">
+   17. Comparing several means (one-way ANOVA)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-illustrative-data-set">
+     17.1. An illustrative data set
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-anova-works">
+     17.2. How ANOVA works
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#two-formulas-for-the-variance-of-y">
+       17.2.1. Two formulas for the variance of
+       <span class="math notranslate nohighlight">
+        \(Y\)
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#from-variances-to-sums-of-squares">
+       17.2.2. From variances to sums of squares
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#from-sums-of-squares-to-the-f-test">
+       17.2.3. From sums of squares to the
+       <span class="math notranslate nohighlight">
+        \(F\)
+       </span>
+       -test
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-model-for-the-data-and-the-meaning-of-f-advanced">
+       17.2.4. The model for the data and the meaning of
+       <span class="math notranslate nohighlight">
+        \(F\)
+       </span>
+       (advanced)
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#a-worked-example">
+       17.2.5. A worked example
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#running-an-anova-in-python">
+     17.3. Running an ANOVA in Python
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#getting-python-to-calculate-anova-for-you">
+       17.3.1. Getting Python to calculate ANOVA for you
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#effect-size">
+     17.4. Effect size
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multiple-comparisons-and-post-hoc-tests">
+     17.5. Multiple comparisons and post hoc tests
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#running-pairwise-t-tests">
+       17.5.1. Running “pairwise”
+       <span class="math notranslate nohighlight">
+        \(t\)
+       </span>
+       -tests
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#bonferroni-corrections">
+       17.5.2. Bonferroni corrections
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#holm-corrections">
+       17.5.3. Holm corrections
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">
+       17.5.4. Writing up the post hoc test
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#assumptions-of-one-way-anova">
+     17.6. Assumptions of one-way ANOVA
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#how-robust-is-anova">
+       17.6.1. How robust is ANOVA?
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-homogeneity-of-variance-assumption">
+     17.7. Checking the homogeneity of variance assumption
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#running-the-levene-s-test-in-r">
+       17.7.1. Running the Levene’s test in R
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#additional-comments">
+       17.7.2. Additional comments
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#removing-the-homogeneity-of-variance-assumption">
+     17.8. Removing the homogeneity of variance assumption
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-normality-assumption">
+     17.9. Checking the normality assumption
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#removing-the-normality-assumption">
+     17.10. Removing the normality assumption
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-logic-behind-the-kruskal-wallis-test">
+       17.10.1. The logic behind the Kruskal-Wallis test
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#additional-details">
+       17.10.2. Additional details
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-r">
+       17.10.3. How to run the Kruskal-Wallis test in R
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
+     17.11. On the relationship between ANOVA and the Student
+     <span class="math notranslate nohighlight">
+      \(t\)
+     </span>
+     test{#anovaandt}
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary">
+     17.12. Summary
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
-  <div class="section" id="comparing-several-means">
-<span id="anova"></span><h1><span class="section-number">3. </span>Comparing several means<a class="headerlink" href="#comparing-several-means" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="comparing-several-means">
+<span id="anova"></span><h1><span class="section-number">16. </span>Comparing several means<a class="headerlink" href="#comparing-several-means" title="Permalink to this headline">¶</a></h1>
 </div>
-<div class="section" id="comparing-several-means-one-way-anova">
-<h1><span class="section-number">4. </span>Comparing several means (one-way ANOVA)<a class="headerlink" href="#comparing-several-means-one-way-anova" title="Permalink to this headline">¶</a></h1>
+<div class="tex2jax_ignore mathjax_ignore section" id="comparing-several-means-one-way-anova">
+<h1><span class="section-number">17. </span>Comparing several means (one-way ANOVA)<a class="headerlink" href="#comparing-several-means-one-way-anova" title="Permalink to this headline">¶</a></h1>
 <p>This chapter introduces one of the most widely used tools in statistics, known as “the analysis of variance”, which is usually referred to as ANOVA. The basic technique was developed by Sir Ronald Fisher in the early 20th century, and it is to him that we owe the rather unfortunate terminology. The term ANOVA is a little misleading, in two respects. Firstly, although the name of the technique refers to variances, ANOVA is concerned with investigating differences in means. Secondly, there are several different things out there that are all referred to as ANOVAs, some of which have only a very tenuous connection to one another. Later on in the book we’ll encounter a range of different ANOVA methods that apply in quite different situations, but for the purposes of this chapter we’ll only consider the simplest form of ANOVA, in which we have several different groups of observations, and we’re interested in finding out whether those groups differ in terms of some outcome variable of interest. This is the question that is addressed by a <strong><em>one-way ANOVA</em></strong>.</p>
 <p>The structure of this chapter is as follows: In <a class="reference internal" href="#anxifree"><span class="std std-ref">An illustrative data set</span></a> I’ll introduce a fictitious data set that we’ll use as a running example throughout the chapter. After introducing the data, I’ll describe the mechanics of how a one-way ANOVA actually works (<a class="reference internal" href="#anovaintro"><span class="std std-ref">How ANOVA works</span></a>) and then focus on how you can run one in Python (<a class="reference internal" href="#introduceaov"><span class="std std-ref">Running an ANOVA in Python</span></a>). These two sections are the core of the chapter. The remainder of the chapter discusses a range of important topics that inevitably arise when running an ANOVA, namely how to calculate effect sizes (<a class="reference internal" href="#etasquared"><span class="std std-ref">Effect size</span></a>), post hoc tests and corrections for multiple comparisons (<a class="reference internal" href="#posthoc"><span class="std std-ref">Multiple comparisons and post hoc tests</span></a>) and the assumptions that ANOVA relies upon (<a class="reference internal" href="#anovaassumptions"><span class="std std-ref">Assumptions of one-way ANOVA</span></a>). We’ll also talk about how to check those assumptions and some of the things you can do if the assumptions are violated (<a class="reference internal" href="#levene"><span class="std std-ref">Checking the homogeneity of variance assumption</span></a> to <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">Removing the normality assumption</span></a>). At the end of the chapter we’ll talk a little about the relationship between ANOVA and other statistical tools (<span class="xref myst"></span>).</p>
 <div class="section" id="an-illustrative-data-set">
-<span id="anxifree"></span><h2><span class="section-number">4.1. </span>An illustrative data set<a class="headerlink" href="#an-illustrative-data-set" title="Permalink to this headline">¶</a></h2>
+<span id="anxifree"></span><h2><span class="section-number">17.1. </span>An illustrative data set<a class="headerlink" href="#an-illustrative-data-set" title="Permalink to this headline">¶</a></h2>
 <p>Suppose you’ve become involved in a clinical trial in which you are testing a new antidepressant drug called <em>Joyzepam</em>. In order to construct a fair test of the drug’s effectiveness, the study involves three separate drugs to be administered. One is a placebo, and the other is an existing antidepressant / anti-anxiety drug called <em>Anxifree</em>. A collection of 18 participants with moderate to severe depression are recruited for your initial testing. Because the drugs are sometimes administered in conjunction with psychological therapy, your study includes 9 people undergoing cognitive behavioural therapy (CBT) and 9 who are not. Participants are randomly assigned (doubly blinded, of course) a treatment, such that there are 3 CBT people and 3 no-therapy people assigned to each of the 3 drugs. A psychologist assesses the mood of each person after a 3 month run with each drug: and the overall <em>improvement</em> in each person’s mood is assessed on a scale ranging from <span class="math notranslate nohighlight">\(-5\)</span> to <span class="math notranslate nohighlight">\(+5\)</span>.</p>
 <p>With that as the study design, let’s now look at what we’ve got in the data file:</p>
 <div class="cell docutils container">
@@ -558,6 +748,17 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
 </pre></div>
 </div>
 </div>
@@ -788,13 +989,13 @@ Name: mood_gain, dtype: float64
 </div>
 </div>
 <div class="figure align-default" id="fig-moodgain" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 4.7 </span><span class="caption-text">Average mood gain as a function of drug administered. Error bars depict 95% confidence intervals associated with each of the group means.</span><a class="headerlink" href="#fig-moodgain" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 17.1 </span><span class="caption-text">Average mood gain as a function of drug administered. Error bars depict 95% confidence intervals associated with each of the group means.</span><a class="headerlink" href="#fig-moodgain" title="Permalink to this image">¶</a></p>
 </div>
-<p>The results are shown in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 4.7</span></a>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
+<p>The results are shown in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 17.1</span></a>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
 <p>The question that we want to answer is: are these difference “real”, or are they just due to chance?</p>
 </div>
 <div class="section" id="how-anova-works">
-<span id="anovaintro"></span><h2><span class="section-number">4.2. </span>How ANOVA works<a class="headerlink" href="#how-anova-works" title="Permalink to this headline">¶</a></h2>
+<span id="anovaintro"></span><h2><span class="section-number">17.2. </span>How ANOVA works<a class="headerlink" href="#how-anova-works" title="Permalink to this headline">¶</a></h2>
 <p>In order to answer the question posed by our clinical trial data, we’re going to run a one-way ANOVA. As usual, I’m going to start by showing you how to do it the hard way, building the statistical tool from the ground up and showing you how you could do it in Python if you didn’t have access to any of the cool built-in ANOVA functions. And, as always, I hope you’ll read it carefully, try to do it the long way once or twice to make sure you really understand how ANOVA works, and then – once you’ve grasped the concept – never <em>ever</em> do it this way again.</p>
 <p>The experimental design that I described in the previous section strongly suggests that we’re interested in comparing the average mood change for the three different drugs. In that sense, we’re talking about an analysis similar to the <span class="math notranslate nohighlight">\(t\)</span>-test <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">Comparing Two Means</span></a>, but involving more than two groups. If we let <span class="math notranslate nohighlight">\(\mu_P\)</span> denote the population mean for the mood change induced by the placebo, and let <span class="math notranslate nohighlight">\(\mu_A\)</span> and <span class="math notranslate nohighlight">\(\mu_J\)</span> denote the corresponding means for our two drugs, Anxifree and Joyzepam, then the (somewhat pessimistic) null hypothesis that we want to test is that all three population means are identical: that is, <em>neither</em> of the two drugs is any more effective than a placebo. Mathematically, we write this null hypothesis like this:</p>
 <div class="math notranslate nohighlight">
@@ -812,7 +1013,7 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 \]</div>
 <p>This null hypothesis is a lot trickier to test than any of the ones we’ve seen previously. How shall we do it? A sensible guess would be to “do an ANOVA”, since that’s the title of the chapter, but it’s not particularly clear why an “analysis of <em>variances</em>” will help us learn anything useful about the <em>means</em>. In fact, this is one of the biggest conceptual difficulties that people have when first encountering ANOVA. To see how this works, I find it most helpful to start by talking about variances. In fact, what I’m going to do is start by playing some mathematical games with the formula that describes the variance. That is, we’ll start out by playing around with variances, and it will turn out that this gives us a useful tool for investigating means.</p>
 <div class="section" id="two-formulas-for-the-variance-of-y">
-<h3><span class="section-number">4.2.1. </span>Two formulas for the variance of <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#two-formulas-for-the-variance-of-y" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.2.1. </span>Two formulas for the variance of <span class="math notranslate nohighlight">\(Y\)</span><a class="headerlink" href="#two-formulas-for-the-variance-of-y" title="Permalink to this headline">¶</a></h3>
 <p>Firstly, let’s start by introducing some notation. We’ll use <span class="math notranslate nohighlight">\(G\)</span> to refer to the total number of groups. For our data set, there are three drugs, so there are <span class="math notranslate nohighlight">\(G=3\)</span> groups. Next, we’ll use <span class="math notranslate nohighlight">\(N\)</span> to refer to the total sample size: there are a total of <span class="math notranslate nohighlight">\(N=18\)</span> people in our data set. Similarly, let’s use <span class="math notranslate nohighlight">\(N_k\)</span> to denote the number of people in the <span class="math notranslate nohighlight">\(k\)</span>-th group. In our fake clinical trial, the sample size is <span class="math notranslate nohighlight">\(N_k = 6\)</span> for all three groups.<a class="footnote-reference brackets" href="#note1" id="id1">1</a> Finally, we’ll use <span class="math notranslate nohighlight">\(Y\)</span> to denote the outcome variable: in our case, <span class="math notranslate nohighlight">\(Y\)</span> refers to mood change. Specifically, we’ll use <span class="math notranslate nohighlight">\(Y_{ik}\)</span> to refer to the mood change experienced by the <span class="math notranslate nohighlight">\(i\)</span>-th member of the <span class="math notranslate nohighlight">\(k\)</span>-th group. Similarly, we’ll use <span class="math notranslate nohighlight">\(\bar{Y}\)</span> to be the average mood change, taken across all 18 people in the experiment, and <span class="math notranslate nohighlight">\(\bar{Y}_k\)</span> to refer to the average mood change experienced by the 6 people in group <span class="math notranslate nohighlight">\(k\)</span>.</p>
 <p>Excellent. Now that we’ve got our notation sorted out, we can start writing down formulas. To start with, let’s recall the formula for the variance that we used in <a class="reference internal" href="03.01-descriptives.html#var"><span class="std std-ref">Variance</span></a>, way back in those kinder days when we were just doing descriptive statistics. The sample variance of <span class="math notranslate nohighlight">\(Y\)</span> is defined as follows:</p>
 <div class="math notranslate nohighlight">
@@ -877,7 +1078,7 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 <p>In both formulas, all we’re doing is summing over all of the observations in the sample. Most of the time we would just use the simpler <span class="math notranslate nohighlight">\(Y_p\)</span> notation: the equation using <span class="math notranslate nohighlight">\(Y_p\)</span> is clearly the simpler of the two. However, when doing an ANOVA it’s important to keep track of which participants belong in which groups, and we need to use the <span class="math notranslate nohighlight">\(Y_{ik}\)</span> notation to do this.</p>
 </div>
 <div class="section" id="from-variances-to-sums-of-squares">
-<h3><span class="section-number">4.2.2. </span>From variances to sums of squares<a class="headerlink" href="#from-variances-to-sums-of-squares" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.2.2. </span>From variances to sums of squares<a class="headerlink" href="#from-variances-to-sums-of-squares" title="Permalink to this headline">¶</a></h3>
 <p>Okay, now that we’ve got a good grasp on how the variance is calculated, let’s define something called the <strong><em>total sum of squares</em></strong>, which is denoted SS<span class="math notranslate nohighlight">\(_{tot}\)</span>. This is very simple: instead of averaging the squared deviations, which is what we do when calculating the variance, we just add them up. So the formula for the total sum of squares is almost identical to the formula for the variance:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -912,7 +1113,7 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="n">mu1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
-<span class="n">mu2</span> <span class="o">=</span> <span class="o">-.</span><span class="mi">25</span>
+<span class="n">mu2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">.25</span>
 <span class="n">mu3</span> <span class="o">=</span> <span class="mf">3.5</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mi">2</span>
 
@@ -970,21 +1171,19 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7ff054c55b50&gt;
+</pre></div>
+</div>
 <img alt="_images/05.03-anova_19_1.png" src="_images/05.03-anova_19_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anovavar" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
-</pre></div>
-</div>
-</div>
-<p class="caption"><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 17.2 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">¶</a></p>
 </div>
 <p>Okay, so what have we found out? We’ve discovered that the total variability associated with the outcome variable (<span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span>) can be mathematically carved up into the sum of “the variation due to the differences in the sample means for the different groups” (<span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span>) plus “all the rest of the variation” (<span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second… now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you’d expect all the sample means to be pretty similar to each other, right? And that would imply that you’d expect <span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span> to be really small, or at least you’d expect it to be a lot smaller than the “the variation associated with everything else”, <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>. Hm. I detect a hypothesis test coming on…</p>
 </div>
 <div class="section" id="from-sums-of-squares-to-the-f-test">
-<h3><span class="section-number">4.2.3. </span>From sums of squares to the <span class="math notranslate nohighlight">\(F\)</span>-test<a class="headerlink" href="#from-sums-of-squares-to-the-f-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.2.3. </span>From sums of squares to the <span class="math notranslate nohighlight">\(F\)</span>-test<a class="headerlink" href="#from-sums-of-squares-to-the-f-test" title="Permalink to this headline">¶</a></h3>
 <p>As we saw in the last section, the <em>qualitative</em> idea behind ANOVA is to compare the two sums of squares values <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span> and <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span> to each other: if the between-group variation is <span class="math notranslate nohighlight">\(\mbox{SS}_b\)</span> is large relative to the within-group variation <span class="math notranslate nohighlight">\(\mbox{SS}_w\)</span> then we have reason to suspect that the population means for the different groups aren’t identical to each other. In order to convert this into a workable hypothesis test, there’s a little bit of “fiddling around” needed. What I’ll do is first show you <em>what</em> we do to calculate our test statistic – which is called an <strong><em><span class="math notranslate nohighlight">\(F\)</span> ratio</em></strong> – and then try to give you a feel for <em>why</em> we do it this way.</p>
 <p>In order to convert our SS values into an <span class="math notranslate nohighlight">\(F\)</span>-ratio, the first thing we need to calculate is the <strong><em>degrees of freedom</em></strong> associated with the SS<span class="math notranslate nohighlight">\(_b\)</span> and SS<span class="math notranslate nohighlight">\(_w\)</span> values. As usual, the degrees of freedom corresponds to the number of unique “data points” that contribute to a particular calculation, minus the number of “constraints” that they need to satisfy. For the within-groups variability, what we’re calculating is the variation of the individual observations (<span class="math notranslate nohighlight">\(N\)</span> data points) around the group means (<span class="math notranslate nohighlight">\(G\)</span> constraints). In contrast, for the between groups variability, we’re interested in the variation of the group means (<span class="math notranslate nohighlight">\(G\)</span> data points) around the grand mean (1 constraint). Therefore, the degrees of freedom here are:</p>
 <div class="math notranslate nohighlight">
@@ -1039,7 +1238,7 @@ F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }
 </table>
 </div>
 <div class="section" id="the-model-for-the-data-and-the-meaning-of-f-advanced">
-<span id="anovamodel"></span><h3><span class="section-number">4.2.4. </span>The model for the data and the meaning of <span class="math notranslate nohighlight">\(F\)</span> (advanced)<a class="headerlink" href="#the-model-for-the-data-and-the-meaning-of-f-advanced" title="Permalink to this headline">¶</a></h3>
+<span id="anovamodel"></span><h3><span class="section-number">17.2.4. </span>The model for the data and the meaning of <span class="math notranslate nohighlight">\(F\)</span> (advanced)<a class="headerlink" href="#the-model-for-the-data-and-the-meaning-of-f-advanced" title="Permalink to this headline">¶</a></h3>
 <p>At a fundamental level, ANOVA is a competition between two different statistical models, <span class="math notranslate nohighlight">\(H_0\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. When I described the null and alternative hypotheses at the start of the section, I was a little imprecise about what these models actually are. I’ll remedy that now, though you probably won’t like me for doing so. If you recall, our null hypothesis was that all of the group means are identical to one another. If so, then a natural way to think about the outcome variable <span class="math notranslate nohighlight">\(Y_{ik}\)</span> is to describe individual scores in terms of a single population mean <span class="math notranslate nohighlight">\(\mu\)</span>, plus the deviation from that population mean. This deviation is usually denoted <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> and is traditionally called the <em>error</em> or <strong><em>residual</em></strong> associated with that observation. Be careful though: just like we saw with the word “significant”, the word “error” has a technical meaning in statistics that isn’t quite the same as its everyday English definition. In everyday language, “error” implies a mistake of some kind; in statistics, it doesn’t (or at least, not necessarily). With that in mind, the word “residual” is a better term than the word “error”. In statistics, both words mean “leftover variability”: that is, “stuff” that the model can’t explain. In any case, here’s what the null hypothesis looks like when we write it as a statistical model:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1065,11 +1264,11 @@ Y_{ik} = \mu_k + \epsilon_{ik}
 \[
 F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 \]</div>
-<p>where the true value <span class="math notranslate nohighlight">\(Q=0\)</span> if the null hypothesis is true, and <span class="math notranslate nohighlight">\(Q &gt; 0\)</span> if the alternative hypothesis is true (e.g. ch. 10 <span id="id3">[<a class="reference internal" href="bibliography.html#id73"><span>Hay94</span></a>]</span>). Therefore, at a bare minimum <em>the <span class="math notranslate nohighlight">\(F\)</span> value must be larger than 1</em> to have any chance of rejecting the null hypothesis. Note that this <em>doesn’t</em> mean that it’s impossible to get an <span class="math notranslate nohighlight">\(F\)</span>-value less than 1. What it means is that, if the null hypothesis is true the sampling distribution of the <span class="math notranslate nohighlight">\(F\)</span> ratio has a mean of 1,<a class="footnote-reference brackets" href="#note3" id="id4">3</a> and so we need to see <span class="math notranslate nohighlight">\(F\)</span>-values larger than 1 in order to safely reject the null.</p>
+<p>where the true value <span class="math notranslate nohighlight">\(Q=0\)</span> if the null hypothesis is true, and <span class="math notranslate nohighlight">\(Q &gt; 0\)</span> if the alternative hypothesis is true (e.g. ch. 10 <span id="id3">[<a class="reference internal" href="bibliography.html#id73" title="W. L. Hays. Statistics. Harcourt Brace, Fort Worth, TX, 5th edition, 1994.">Hay94</a>]</span>). Therefore, at a bare minimum <em>the <span class="math notranslate nohighlight">\(F\)</span> value must be larger than 1</em> to have any chance of rejecting the null hypothesis. Note that this <em>doesn’t</em> mean that it’s impossible to get an <span class="math notranslate nohighlight">\(F\)</span>-value less than 1. What it means is that, if the null hypothesis is true the sampling distribution of the <span class="math notranslate nohighlight">\(F\)</span> ratio has a mean of 1,<a class="footnote-reference brackets" href="#note3" id="id4">3</a> and so we need to see <span class="math notranslate nohighlight">\(F\)</span>-values larger than 1 in order to safely reject the null.</p>
 <p>To be a bit more precise about the sampling distribution, notice that if the null hypothesis is true, both MS<span class="math notranslate nohighlight">\(_b\)</span> and MS<span class="math notranslate nohighlight">\(_w\)</span> are estimators of the variance of the residuals <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span>. If those residuals are normally distributed, then you might suspect that the estimate of the variance of <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> is chi-square distributed… because (as discussed in <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">Other useful distributions</span></a> that’s what a chi-square distribution <em>is</em>: it’s what you get when you square a bunch of normally-distributed things and add them up. And since the <span class="math notranslate nohighlight">\(F\)</span> distribution is (again, by definition) what you get when you take the ratio between two things that are <span class="math notranslate nohighlight">\(\chi^2\)</span> distributed… we have our sampling distribution. Obviously, I’m glossing over a whole lot of stuff when I say this, but in broad terms, this really is where our sampling distribution comes from.</p>
 </div>
 <div class="section" id="a-worked-example">
-<span id="anovacalc"></span><h3><span class="section-number">4.2.5. </span>A worked example<a class="headerlink" href="#a-worked-example" title="Permalink to this headline">¶</a></h3>
+<span id="anovacalc"></span><h3><span class="section-number">17.2.5. </span>A worked example<a class="headerlink" href="#a-worked-example" title="Permalink to this headline">¶</a></h3>
 <p>The previous discussion was fairly abstract, and a little on the technical side, so I think that at this point it might be useful to see a worked example. For that, let’s go back to the clinical trial data that I introduced at the start of the chapter. The descriptive statistics that we calculated at the beginning tell us our group means: an average mood gain of 0.45 for the placebo, 0.72 for Anxifree, and 1.48 for Joyzepam. With that in mind, let’s party like it’s 1899 <a class="footnote-reference brackets" href="#note4" id="id5">4</a> and  start doing some pencil and paper calculations. I’ll only do this for the first 5 observations, because it’s not bloody 1899 and I’m very lazy. Let’s start by calculating <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>, the within-group sums of squares. First, let’s draw up a nice table to help us with our calculations…</p>
 <table class="colwidths-auto table">
 <thead>
@@ -1498,20 +1697,6 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">a262bd2b3bb1</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="p">{</span><span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
-<span class="ne">---&gt; </span><span class="mi">14</span>      <span class="s1">&#39;gp_means&#39;</span><span class="p">:</span> <span class="n">gp_mean</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>      <span class="s1">&#39;grand_mean&#39;</span><span class="p">:</span> <span class="n">grand_mean</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="p">})</span> 
-
-<span class="ne">NameError</span>: name &#39;gp_mean&#39; is not defined
-</pre></div>
-</div>
-</div>
 </div>
 <p>Again, I won’t actually try to explain this code line by line, but – just like last time – there’s nothing in there that we haven’t seen in several places elsewhere in the book, so I’ll leave it as an exercise for you to make sure you understand it. Once again, we can dump all our variables into a data frame so that we can print it out as a nice table:</p>
 <div class="cell docutils container">
@@ -1676,10 +1861,10 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 </div>
 <div class="section" id="running-an-anova-in-python">
-<span id="introduceaov"></span><h2><span class="section-number">4.3. </span>Running an ANOVA in Python<a class="headerlink" href="#running-an-anova-in-python" title="Permalink to this headline">¶</a></h2>
+<span id="introduceaov"></span><h2><span class="section-number">17.3. </span>Running an ANOVA in Python<a class="headerlink" href="#running-an-anova-in-python" title="Permalink to this headline">¶</a></h2>
 <p>I’m pretty sure I know what you’re thinking after reading the last section, <em>especially</em> if you followed my advice and tried typing all the commands in yourself…. doing the ANOVA calculations yourself <em>sucks</em>. There’s quite a lot of calculations that we needed to do along the way, and it would be tedious to have to do this over and over again every time you wanted to do an ANOVA. One possible solution to the problem would be to take all these calculations and turn them into some Python functions yourself. You’d still have to do a lot of typing, but at least you’d only have to do it the one time: once you’ve created the functions, you can reuse them over and over again. However, writing your own functions is a lot of work, so this is kind of a last resort. Besides, it’s much better if someone else does all the work for you…</p>
 <div class="section" id="getting-python-to-calculate-anova-for-you">
-<h3><span class="section-number">4.3.1. </span>Getting Python to calculate ANOVA for you<a class="headerlink" href="#getting-python-to-calculate-anova-for-you" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.3.1. </span>Getting Python to calculate ANOVA for you<a class="headerlink" href="#getting-python-to-calculate-anova-for-you" title="Permalink to this headline">¶</a></h3>
 <p>Now, as you can imagine, there are several Python modules available that provided tools for taking the pain out calculating ANOVA’s. <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, for example, has <code class="docutils literal notranslate"><span class="pre">stats.f_oneway</span></code> which, in the typical, laconic fashion of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, spits out an <span class="math notranslate nohighlight">\(F\)</span>-value, a <span class="math notranslate nohighlight">\(p\)</span>-value, and not much more. We have already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> above to find our <span class="math notranslate nohighlight">\(p\)</span>-value by hand. I am going to reccomend an entirely different package, though: <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. These things go in and out of fashion, but for my money, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is quickly becoming the go-to Python package for anthing beyond a humble <span class="math notranslate nohighlight">\(t\)</span>-test. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> builds on a more modern approach to statistics which goes beyond what we can deal with here, but suffice to say, that among other things, it is an easy way to get your ANOVA work done.</p>
 <p>The key to working with <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is the <code class="docutils literal notranslate"><span class="pre">formula</span></code>, so let’s take a look at that. A <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula (which will instantly feel familiar to anyone who has worked with the programming language R before) begins with the <em>dependent variable</em> or <em>outcome measure</em>: basically the thing we are trying to undersand. The <em>outcome measure</em> goes on the left side of the <code class="docutils literal notranslate"><span class="pre">~</span></code>character, which I read in my head as “predicted by”. To the right of the <code class="docutils literal notranslate"><span class="pre">~</span></code> comes, unsurprisingly, the <em>predictor variables</em>, or <em>independent variables</em> if you prefer. So, in our case, we are investigating whether or not there are significant differences between the three drug types: placebo, anxifree, and joyzepam. In other words, we want to know if variation in the variable <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> that can be accounted for by these three groups is greater than the variation within the groups. Or, in still other words, whether <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> can be <em>predicted by</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code>. So, our formula is <code class="docutils literal notranslate"><span class="pre">'mood_gain</span> <span class="pre">~</span> <span class="pre">drug'</span></code>.</p>
 <p>Before we run the ANOVA, let’s just remember what the data look like:</p>
@@ -1812,7 +1997,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 </div>
 <div class="section" id="effect-size">
-<span id="etasquared"></span><h2><span class="section-number">4.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h2>
+<span id="etasquared"></span><h2><span class="section-number">17.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h2>
 <p>There’s a few different ways you could measure the effect size in an ANOVA, but the most commonly used measures are <span class="math notranslate nohighlight">\(\eta^2\)</span> (<strong><em>eta squared</em></strong>) and partial <span class="math notranslate nohighlight">\(\eta^2\)</span>. For a one way analysis of variance they’re identical to each other, so for the moment I’ll just explain <span class="math notranslate nohighlight">\(\eta^2\)</span>. The definition of <span class="math notranslate nohighlight">\(\eta^2\)</span> is actually really simple:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1846,7 +2031,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 </div>
 <div class="section" id="multiple-comparisons-and-post-hoc-tests">
-<span id="posthoc"></span><h2><span class="section-number">4.5. </span>Multiple comparisons and post hoc tests<a class="headerlink" href="#multiple-comparisons-and-post-hoc-tests" title="Permalink to this headline">¶</a></h2>
+<span id="posthoc"></span><h2><span class="section-number">17.5. </span>Multiple comparisons and post hoc tests<a class="headerlink" href="#multiple-comparisons-and-post-hoc-tests" title="Permalink to this headline">¶</a></h2>
 <p>Any time you run an ANOVA with more than two groups, and you end up with a significant effect, the first thing you’ll probably want to ask is which groups are actually different from one another. In our drugs example, our null hypothesis was that all three drugs (placebo, Anxifree and Joyzepam) have the exact same effect on mood. But if you think about it, the null hypothesis is actually claiming <em>three</em> different things all at once here. Specifically, it claims that:</p>
 <ul class="simple">
 <li><p>Your competitor’s drug (Anxifree) is no better than a placebo (i.e., <span class="math notranslate nohighlight">\(\mu_A = \mu_P\)</span>)</p></li>
@@ -1915,28 +2100,28 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </tr>
 </tbody>
 </table>
-<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 4.7</span></a>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 17.1</span></a>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
 <div class="section" id="running-pairwise-t-tests">
-<h3><span class="section-number">4.5.1. </span>Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#running-pairwise-t-tests" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.5.1. </span>Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#running-pairwise-t-tests" title="Permalink to this headline">¶</a></h3>
 <p>How might we go about solving our problem? Given that we’ve got three separate pairs of means (placebo versus Anxifree, placebo versus Joyzepam, and Anxifree versus Joyzepam) to compare, what we could do is run three separate <span class="math notranslate nohighlight">\(t\)</span>-tests and see what happens. There’s a couple of ways that we could do this. One method would be to construct new variables corresponding the groups you want to compare (e.g., <code class="docutils literal notranslate"><span class="pre">anxifree</span></code>, <code class="docutils literal notranslate"><span class="pre">placebo</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>), and then run a <span class="math notranslate nohighlight">\(t\)</span>-test on these new variables.</p>
 <p>This “lots of <span class="math notranslate nohighlight">\(t\)</span>-tests idea” isn’t a bad strategy, but there is a problem with just running lots and lots of <span class="math notranslate nohighlight">\(t\)</span>-tests. The concern is that when running these analyses, what we’re doing is going on a “fishing expedition”: we’re running lots and lots of tests without much theoretical guidance, in the hope that some of them come up significant. This kind of theory-free search for group differences is referred to as <strong><em>post hoc analysis</em></strong> (“post hoc” being Latin for “after this”).<a class="footnote-reference brackets" href="#note6" id="id6">5</a></p>
 <p>It’s okay to run post hoc analyses, but a lot of care is required. For instance, the analysis that I ran in the previous section is actually pretty dangerous: each <em>individual</em> <span class="math notranslate nohighlight">\(t\)</span>-test is designed to have a 5% Type I error rate (i.e., <span class="math notranslate nohighlight">\(\alpha = .05\)</span>), and I ran three of these tests. Imagine what would have happened if my ANOVA involved 10 different groups, and I had decided to run 45 “post hoc” <span class="math notranslate nohighlight">\(t\)</span>-tests to try to find out which ones were significantly different from each other, you’d expect 2 or 3 of them to come up significant <em>by chance alone</em>. As we saw in <span class="xref myst"></span>, the central organising principle behind null hypothesis testing is that we seek to control our Type I error rate, but now that I’m running lots of <span class="math notranslate nohighlight">\(t\)</span>-tests at once, in order to determine the source of my ANOVA results, my actual Type I error rate across this whole <em>family</em> of tests has gotten completely out of control.</p>
-<p>The usual solution to this problem is to introduce an adjustment to the <span class="math notranslate nohighlight">\(p\)</span>-value, which aims to control the total error rate across the family of tests (see <span id="id7">[<a class="reference internal" href="bibliography.html#id76"><span>Sha95</span></a>]</span>). An adjustment of this form, which is usually (but not always) applied because one is doing post hoc analysis, is often referred to as a <strong><em>correction for multiple comparisons</em></strong>, though it is sometimes referred to as “simultaneous inference”. In any case, there are quite a few different ways of doing this adjustment. I’ll discuss a few of them in this section and in <span class="xref myst"></span>, but you should be aware that there are many other methods out there (see, e.g., <span id="id8">[<a class="reference internal" href="bibliography.html#id25"><span>Hsu96</span></a>]</span>).</p>
+<p>The usual solution to this problem is to introduce an adjustment to the <span class="math notranslate nohighlight">\(p\)</span>-value, which aims to control the total error rate across the family of tests (see <span id="id7">[<a class="reference internal" href="bibliography.html#id76" title="J. P. Shaffer. Multiple hypothesis testing. Annual Review of Psychology, 46:561–584, 1995.">Sha95</a>]</span>). An adjustment of this form, which is usually (but not always) applied because one is doing post hoc analysis, is often referred to as a <strong><em>correction for multiple comparisons</em></strong>, though it is sometimes referred to as “simultaneous inference”. In any case, there are quite a few different ways of doing this adjustment. I’ll discuss a few of them in this section and in <span class="xref myst"></span>, but you should be aware that there are many other methods out there (see, e.g., <span id="id8">[<a class="reference internal" href="bibliography.html#id25" title="J. C. Hsu. Multiple Comparisons: Theory and Methods. Chapman and Hall, London, UK, 1996.">Hsu96</a>]</span>).</p>
 </div>
 <div class="section" id="bonferroni-corrections">
-<h3><span class="section-number">4.5.2. </span>Bonferroni corrections<a class="headerlink" href="#bonferroni-corrections" title="Permalink to this headline">¶</a></h3>
-<p>The simplest of these adjustments is called the <strong><em>Bonferroni correction</em></strong> <span id="id9">[<a class="reference internal" href="bibliography.html#id75"><span>Dun61</span></a>]</span>, and it’s very very simple indeed. Suppose that my post hoc analysis consists of <span class="math notranslate nohighlight">\(m\)</span> separate tests, and I want to ensure that the total probability of making <em>any</em> Type I errors at all is at most <span class="math notranslate nohighlight">\(\alpha\)</span>.[^note7] If so, then the Bonferroni correction just says “multiply all your raw <span class="math notranslate nohighlight">\(p\)</span>-values by <span class="math notranslate nohighlight">\(m\)</span>”. If we let <span class="math notranslate nohighlight">\(p\)</span> denote the original <span class="math notranslate nohighlight">\(p\)</span>-value, and let <span class="math notranslate nohighlight">\(p^\prime_j\)</span> be the corrected value, then the Bonferroni correction tells that:</p>
+<h3><span class="section-number">17.5.2. </span>Bonferroni corrections<a class="headerlink" href="#bonferroni-corrections" title="Permalink to this headline">¶</a></h3>
+<p>The simplest of these adjustments is called the <strong><em>Bonferroni correction</em></strong> <span id="id9">[<a class="reference internal" href="bibliography.html#id75" title="O.J. Dunn. Multiple comparisons among means. Journal of the American Statistical Association, 56:52–64, 1961.">Dun61</a>]</span>, and it’s very very simple indeed. Suppose that my post hoc analysis consists of <span class="math notranslate nohighlight">\(m\)</span> separate tests, and I want to ensure that the total probability of making <em>any</em> Type I errors at all is at most <span class="math notranslate nohighlight">\(\alpha\)</span>.[^note7] If so, then the Bonferroni correction just says “multiply all your raw <span class="math notranslate nohighlight">\(p\)</span>-values by <span class="math notranslate nohighlight">\(m\)</span>”. If we let <span class="math notranslate nohighlight">\(p\)</span> denote the original <span class="math notranslate nohighlight">\(p\)</span>-value, and let <span class="math notranslate nohighlight">\(p^\prime_j\)</span> be the corrected value, then the Bonferroni correction tells that:</p>
 <div class="math notranslate nohighlight">
 \[
 p^\prime = m \times p
 \]</div>
 <p>And therefore, if you’re using the Bonferroni correction, you would reject the null hypothesis if <span class="math notranslate nohighlight">\(p^\prime &lt; \alpha\)</span>. The logic behind this correction is very straightforward. We’re doing <span class="math notranslate nohighlight">\(m\)</span> different tests; so if we arrange it so that each test has a Type I error rate of at most <span class="math notranslate nohighlight">\(\alpha / m\)</span>, then the <em>total</em> Type I error rate across these tests cannot be larger than <span class="math notranslate nohighlight">\(\alpha\)</span>. That’s pretty simple, so much so that in the original paper, the author writes:</p>
 <blockquote>
-<div><p>The method given here is so simple and so general that I am sure it must have been used before this. I do not find it, however, so can only conclude that perhaps its very simplicity has kept statisticians from realizing that it is a very good method in some situations (pp 52-53 <span id="id10">[<a class="reference internal" href="bibliography.html#id75"><span>Dun61</span></a>]</span>)</p>
+<div><p>The method given here is so simple and so general that I am sure it must have been used before this. I do not find it, however, so can only conclude that perhaps its very simplicity has kept statisticians from realizing that it is a very good method in some situations (pp 52-53 <span id="id10">[<a class="reference internal" href="bibliography.html#id75" title="O.J. Dunn. Multiple comparisons among means. Journal of the American Statistical Association, 56:52–64, 1961.">Dun61</a>]</span>)</p>
 </div></blockquote>
 </div>
 <div class="section" id="holm-corrections">
-<h3><span class="section-number">4.5.3. </span>Holm corrections<a class="headerlink" href="#holm-corrections" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.5.3. </span>Holm corrections<a class="headerlink" href="#holm-corrections" title="Permalink to this headline">¶</a></h3>
 <p>Although the Bonferroni correction is the simplest adjustment out there, it’s not usually the best one to use. One method that is often used instead is the <strong><em>Holm correction</em></strong> [&#64;Holm1979]. The idea behind the Holm correction is to pretend that you’re doing the tests sequentially; starting with the smallest (raw) <span class="math notranslate nohighlight">\(p\)</span>-value and moving onto the largest one. For the <span class="math notranslate nohighlight">\(j\)</span>-th largest of the <span class="math notranslate nohighlight">\(p\)</span>-values, the adjustment is <em>either</em></p>
 <div class="math notranslate nohighlight">
 \[
@@ -1989,7 +2174,7 @@ p^\prime_j = p^\prime_{j+1}
 <p>As you can see, the biggest <span class="math notranslate nohighlight">\(p\)</span>-value (corresponding to the comparison between Anxifree and the placebo) is unaltered: at a value of <span class="math notranslate nohighlight">\(.15\)</span>, it is exactly the same as the value we got originally when we applied no correction at all. In contrast, the smallest <span class="math notranslate nohighlight">\(p\)</span>-value (Joyzepam versus placebo) has been multiplied by three.</p>
 </div>
 <div class="section" id="writing-up-the-post-hoc-test">
-<h3><span class="section-number">4.5.4. </span>Writing up the post hoc test<a class="headerlink" href="#writing-up-the-post-hoc-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.5.4. </span>Writing up the post hoc test<a class="headerlink" href="#writing-up-the-post-hoc-test" title="Permalink to this headline">¶</a></h3>
 <p>Finally, having run the post hoc analysis to determine which groups are significantly different to one another, you might write up the result like this:</p>
 <blockquote>
 <div><p>Post hoc tests (using the Holm correction to adjust <span class="math notranslate nohighlight">\(p\)</span>) indicated that Joyzepam produced a significantly larger mood change than both Anxifree (<span class="math notranslate nohighlight">\(p = .001\)</span>) and the placebo (<span class="math notranslate nohighlight">\(p = 9.1 \times 10^{-5}\)</span>). We found no evidence that Anxifree performed better than the placebo (<span class="math notranslate nohighlight">\(p = .15\)</span>).</p>
@@ -1998,7 +2183,7 @@ p^\prime_j = p^\prime_{j+1}
 </div>
 </div>
 <div class="section" id="assumptions-of-one-way-anova">
-<span id="anovaassumptions"></span><h2><span class="section-number">4.6. </span>Assumptions of one-way ANOVA<a class="headerlink" href="#assumptions-of-one-way-anova" title="Permalink to this headline">¶</a></h2>
+<span id="anovaassumptions"></span><h2><span class="section-number">17.6. </span>Assumptions of one-way ANOVA<a class="headerlink" href="#assumptions-of-one-way-anova" title="Permalink to this headline">¶</a></h2>
 <p>Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: <em>normality</em>, <em>homogeneity of variance</em> and <em>independence</em>. If you remember back to Section &#64;ref(anovamodel) – which I hope you at least skimmed even if you didn’t read the whole thing – I described the statistical models underpinning ANOVA, which I wrote down like this:
 $<span class="math notranslate nohighlight">\(
 \begin{array}{lrcl}
@@ -2018,12 +2203,12 @@ None of the maths works properly without this bit. Or, to be precise, you can st
 <li><p><strong><em>Independence</em></strong>. The independence assumption is a little trickier. What it basically means is that, knowing one residual tells you nothing about any other residual. All of the <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> values are assumed to have been generated without any “regard for” or “relationship to” any of the other ones. There’s not an obvious or simple way to test for this, but there are some situations that are clear violations of this: for instance, if you have a repeated-measures design, where each participant in your study appears in more than one condition, then independence doesn’t hold; there’s a special relationship between some observations… namely those that correspond to the same person! When that happens, you need to use something like repeated measures ANOVA. I don’t currently talk about repeated measures ANOVA in this book, but it will be included in later versions.</p></li>
 </ul>
 <div class="section" id="how-robust-is-anova">
-<h3><span class="section-number">4.6.1. </span>How robust is ANOVA?<a class="headerlink" href="#how-robust-is-anova" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.6.1. </span>How robust is ANOVA?<a class="headerlink" href="#how-robust-is-anova" title="Permalink to this headline">¶</a></h3>
 <p>One question that people often want to know the answer to is the extent to which you can trust the results of an ANOVA if the assumptions are violated. Or, to use the technical language, how <strong><em>robust</em></strong> is ANOVA to violations of the assumptions. Due to deadline constraints I don’t have the time to discuss this topic. This is a topic I’ll cover in some detail in a later version of the book.</p>
 </div>
 </div>
 <div class="section" id="checking-the-homogeneity-of-variance-assumption">
-<span id="levene"></span><h2><span class="section-number">4.7. </span>Checking the homogeneity of variance assumption<a class="headerlink" href="#checking-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
+<span id="levene"></span><h2><span class="section-number">17.7. </span>Checking the homogeneity of variance assumption<a class="headerlink" href="#checking-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
 <p>There’s more than one way to skin a cat, as the saying goes, and more than one way to test the homogeneity of variance assumption, too (though for some reason no-one made a saying out of that). The most commonly used test for this that I’ve seen in the literature is the <strong><em>Levene test</em></strong> [&#64;Levene1960], and the closely related <strong><em>Brown-Forsythe test</em></strong> [&#64;BrownForsythe1974], both of which I’ll describe here. Alternatively, you could use the Bartlett test, which is implemented in R via the <code class="docutils literal notranslate"><span class="pre">bartlett.test()</span></code> function, but I’ll leave it as an exercise for the reader to go check that one out if you’re interested.</p>
 <p>Levene’s test is shockingly simple. Suppose we have our outcome variable <span class="math notranslate nohighlight">\(Y_{ik}\)</span>. All we do is define a new variable, which I’ll call <span class="math notranslate nohighlight">\(Z_{ik}\)</span>, corresponding to the absolute deviation from the group mean:
 $<span class="math notranslate nohighlight">\(
@@ -2036,14 +2221,14 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>\mbox{median}<em>k(Y)<span class="math notranslate nohighlight">\( is the median for group \)</span>k<span class="math notranslate nohighlight">\(. Regardless of whether you're doing the standard Levene test or the Brown-Forsythe test, the test statistic -- which is sometimes denoted \)</span>F<span class="math notranslate nohighlight">\(, but sometimes written as \)</span>W<span class="math notranslate nohighlight">\( -- is  calculated in exactly the same way that the \)</span>F<span class="math notranslate nohighlight">\(-statistic for the regular ANOVA is calculated, just using a \)</span>Z</em>{ik}<span class="math notranslate nohighlight">\( rather than \)</span>Y_{ik}$. With that in mind, let’s just move on and look at how to run the test in R.</p>
 <div class="section" id="running-the-levene-s-test-in-r">
-<h3><span class="section-number">4.7.1. </span>Running the Levene’s test in R<a class="headerlink" href="#running-the-levene-s-test-in-r" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.7.1. </span>Running the Levene’s test in R<a class="headerlink" href="#running-the-levene-s-test-in-r" title="Permalink to this headline">¶</a></h3>
 <p>Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable <span class="math notranslate nohighlight">\(Z_{ik}\)</span> and then use the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function to run an ANOVA on that. However, that’s the tedious way to do it. A better way to do run your Levene’s test is to use the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function, which is in the <code class="docutils literal notranslate"><span class="pre">car</span></code> package.  As usual, we first load the package</p>
 <p>and now that we have, we can run our Levene test. The main argument that you need to specify is <code class="docutils literal notranslate"><span class="pre">y</span></code>, but you can do this in lots of different ways. Probably the simplest way to do it is actually input the original <code class="docutils literal notranslate"><span class="pre">aov</span></code> object. Since I’ve got the <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> variable stored from my original ANOVA, I can just do this:</p>
 <p>If we look at the output, we see that the test is non-significant <span class="math notranslate nohighlight">\((F_{2,15} = 1.47, p = .26)\)</span>, so it looks like the homogeneity of variance assumption is fine. Remember, although R reports the test statistic as an <span class="math notranslate nohighlight">\(F\)</span>-value, it could equally be called <span class="math notranslate nohighlight">\(W\)</span>, in which case you’d just write <span class="math notranslate nohighlight">\(W_{2,15} = 1.47\)</span>. Also, note the part of the output that says <code class="docutils literal notranslate"><span class="pre">center</span> <span class="pre">=</span> <span class="pre">median</span></code>. That’s telling you that, by default, the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the <code class="docutils literal notranslate"><span class="pre">center</span></code> argument, like this:</p>
 <p>That being said, in most cases it’s probably best to stick to the default value, since the Brown-Forsythe test is a bit more robust than the original Levene test.</p>
 </div>
 <div class="section" id="additional-comments">
-<h3><span class="section-number">4.7.2. </span>Additional comments<a class="headerlink" href="#additional-comments" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.7.2. </span>Additional comments<a class="headerlink" href="#additional-comments" title="Permalink to this headline">¶</a></h3>
 <p>Two more quick comments before I move onto a different topic. Firstly, as mentioned above, there are other ways of calling the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function. Although the vast majority of situations that call for a Levene test involve checking the assumptions of an ANOVA (in which case you probably have a variable like <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> lying around), sometimes you might find yourself wanting to specify the variables directly. Two different ways that you can do this are shown below:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>leveneTest(y = mood.gain ~ drug, data = clin.trial)   # y is a formula in this case
 leveneTest(y = clin.trial$mood.gain, group = clin.trial$drug)   # y is the outcome  
@@ -2054,7 +2239,7 @@ leveneTest(y = clin.trial$mood.gain, group = clin.trial$drug)   # y is the outco
 </div>
 </div>
 <div class="section" id="removing-the-homogeneity-of-variance-assumption">
-<span id="welchoneway"></span><h2><span class="section-number">4.8. </span>Removing the homogeneity of variance assumption<a class="headerlink" href="#removing-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
+<span id="welchoneway"></span><h2><span class="section-number">17.8. </span>Removing the homogeneity of variance assumption<a class="headerlink" href="#removing-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
 <p>In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don’t need to worry. However, in real life we aren’t always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of <span class="math notranslate nohighlight">\(t\)</span>-tests, we’ve seen this problem before. The Student <span class="math notranslate nohighlight">\(t\)</span>-test assumes equal variances, so the solution was to use the Welch <span class="math notranslate nohighlight">\(t\)</span>-test, which does not. In fact, &#64;Welch1951 also showed how we can solve this problem for ANOVA too (the <strong><em>Welch one-way test</em></strong>). It’s implemented in R using the <code class="docutils literal notranslate"><span class="pre">oneway.test()</span></code> function. The arguments that we’ll need for our example are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">formula</span></code>. This is the model formula, which (as usual) needs to specify the outcome variable on the left hand side and the grouping variable on the right hand side: i.e., something like <code class="docutils literal notranslate"><span class="pre">outcome</span> <span class="pre">~</span> <span class="pre">group</span></code>.</p></li>
@@ -2066,16 +2251,16 @@ leveneTest(y = clin.trial$mood.gain, group = clin.trial$drug)   # y is the outco
 <p>Okay, so originally our ANOVA gave us the result <span class="math notranslate nohighlight">\(F(2,15) = 18.6\)</span>, whereas the Welch one-way test gave us <span class="math notranslate nohighlight">\(F(2,9.49) = 26.32\)</span>. In other words, the Welch test has reduced the within-groups degrees of freedom from 15 to 9.49, and the <span class="math notranslate nohighlight">\(F\)</span>-value has increased from 18.6 to 26.32.</p>
 </div>
 <div class="section" id="checking-the-normality-assumption">
-<span id="anovanormality"></span><h2><span class="section-number">4.9. </span>Checking the normality assumption<a class="headerlink" href="#checking-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
+<span id="anovanormality"></span><h2><span class="section-number">17.9. </span>Checking the normality assumption<a class="headerlink" href="#checking-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
 <p>Testing the normality assumption is relatively straightforward. We covered most of what you need to know in Section &#64;ref(shapiro). The only thing we really need to know how to do is pull out the residuals (i.e., the <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> values) so that we can draw our QQ plot and run our Shapiro-Wilk test. First, let’s extract the residuals. R provides a function called <code class="docutils literal notranslate"><span class="pre">residuals()</span></code> that will do this for us. If we pass our <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> to this function, it will return the residuals.  So let’s do that:</p>
 <p>We can print them out too, though it’s not exactly an edifying experience.  In fact, given that I’m on the verge of putting <em>myself</em> to sleep just typing this, it might be a good idea to skip that step. Instead, let’s draw some pictures and run ourselves a hypothesis test:</p>
 <p>The histogram and QQ plot are both look pretty normal to me.^[Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it’s always a good idea to use the tools from Chapter &#64;ref(graphics) to help you draw cleaner looking images.] This is supported by the results of our Shapiro-Wilk test (<span class="math notranslate nohighlight">\(W = .96\)</span>, <span class="math notranslate nohighlight">\(p = .61\)</span>) which finds no indication that normality is violated.</p>
 </div>
 <div class="section" id="removing-the-normality-assumption">
-<span id="kruskalwallis"></span><h2><span class="section-number">4.10. </span>Removing the normality assumption<a class="headerlink" href="#removing-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
+<span id="kruskalwallis"></span><h2><span class="section-number">17.10. </span>Removing the normality assumption<a class="headerlink" href="#removing-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
 <p>Now that we’ve seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn’t rely on any particular assumption about the kind of distribution involved). We’ve seen non-parametric tests before, in Chapter &#64;ref(ttest): when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you’ve got three or more groups, you can use the <strong><em>Kruskal-Wallis rank sum test</em></strong> [&#64;KruskalWallis1952]. So that’s the test we’ll talk about next.</p>
 <div class="section" id="the-logic-behind-the-kruskal-wallis-test">
-<h3><span class="section-number">4.10.1. </span>The logic behind the Kruskal-Wallis test<a class="headerlink" href="#the-logic-behind-the-kruskal-wallis-test" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.10.1. </span>The logic behind the Kruskal-Wallis test<a class="headerlink" href="#the-logic-behind-the-kruskal-wallis-test" title="Permalink to this headline">¶</a></h3>
 <p>The Kruskal-Wallis test is surprisingly similar to ANOVA, in some ways. In ANOVA, we started with <span class="math notranslate nohighlight">\(Y_{ik}\)</span>, the value of the outcome variable for the <span class="math notranslate nohighlight">\(i\)</span>th person in the <span class="math notranslate nohighlight">\(k\)</span>th group. For the Kruskal-Wallis test, what we’ll do is rank order all of these <span class="math notranslate nohighlight">\(Y_{ik}\)</span> values, and conduct our analysis on the ranked data. So let’s let <span class="math notranslate nohighlight">\(R_{ik}\)</span> refer to the ranking given to the <span class="math notranslate nohighlight">\(i\)</span>th member of the <span class="math notranslate nohighlight">\(k\)</span>th group. Now, let’s calculate <span class="math notranslate nohighlight">\(\bar{R}_k\)</span>, the average rank given to observations in the <span class="math notranslate nohighlight">\(k\)</span>th group:
 $<span class="math notranslate nohighlight">\(
 \bar{R}_k = \frac{1}{N_K} \sum_{i} R_{ik}
@@ -2102,7 +2287,7 @@ K = (N - 1) \times \frac{\mbox{RSS}_b}{\mbox{RSS}_{tot}}
 and, if the null hypothesis is true, then the sampling distribution of \)</span>K<span class="math notranslate nohighlight">\( is *approximately* chi-square with \)</span>G-1<span class="math notranslate nohighlight">\( degrees of freedom (where \)</span>G<span class="math notranslate nohighlight">\( is the number of groups). The larger the value of \)</span>K<span class="math notranslate nohighlight">\(, the less consistent the data are with null hypothesis, so this is a one-sided test: we reject \)</span>H_0<span class="math notranslate nohighlight">\( when \)</span>K$ is sufficiently large.</p>
 </div>
 <div class="section" id="additional-details">
-<h3><span class="section-number">4.10.2. </span>Additional details<a class="headerlink" href="#additional-details" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.10.2. </span>Additional details<a class="headerlink" href="#additional-details" title="Permalink to this headline">¶</a></h3>
 <p>The description in the previous section illustrates the logic behind the Kruskal-Wallis test. At a conceptual level, this is the right way to think about how the test works. However, from a purely mathematical perspective it’s needlessly complicated. I won’t show you the derivation, but you can use a bit of algebraic jiggery-pokery^[A technical term.] to show that the equation for <span class="math notranslate nohighlight">\(K\)</span> can be rewritten as
 $<span class="math notranslate nohighlight">\(
 K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
@@ -2116,7 +2301,7 @@ $<span class="math notranslate nohighlight">\(
 The tie-corrected value of the Kruskal-Wallis statistic obtained by dividing the value of \)</span>K$ by this quantity: it is this tie-corrected version that R calculates. And at long last, we’re actually finished with the theory of the Kruskal-Wallis test. I’m sure you’re all terribly relieved that I’ve cured you of the existential anxiety that naturally arises when you realise that you <em>don’t</em> know how to calculate the tie-correction factor for the Kruskal-Wallis test. Right?</p>
 </div>
 <div class="section" id="how-to-run-the-kruskal-wallis-test-in-r">
-<h3><span class="section-number">4.10.3. </span>How to run the Kruskal-Wallis test in R<a class="headerlink" href="#how-to-run-the-kruskal-wallis-test-in-r" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">17.10.3. </span>How to run the Kruskal-Wallis test in R<a class="headerlink" href="#how-to-run-the-kruskal-wallis-test-in-r" title="Permalink to this headline">¶</a></h3>
 <p>Despite the horror that we’ve gone through in trying to understand what the Kruskal-Wallis test actually does, it turns out that running the test is pretty painless, since R has a function called <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code>. The function is pretty flexible, and allows you to input your data in a few different ways. Most of the time you’ll have data like the <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code> data set, in which you have your outcome variable <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>, and a grouping variable <code class="docutils literal notranslate"><span class="pre">drug</span></code>. If so, you can call the <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code> function by specifying a formula, and a data frame:</p>
 <p>A second way of using the <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code> function, which you probably won’t have much reason to use, is to directly specify the outcome variable and the grouping variable as separate input arguments, <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">g</span></code>:</p>
 <p>This isn’t very interesting, since it’s just plain easier to specify a formula. However, sometimes it can be useful to specify <code class="docutils literal notranslate"><span class="pre">x</span></code> as a list. What I mean is this. Suppose you actually had data as three separate variables, <code class="docutils literal notranslate"><span class="pre">placebo</span></code>, <code class="docutils literal notranslate"><span class="pre">anxifree</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>. If that’s the format that your data are in, then it’s convenient to know that you can bundle all three together as a list:</p>
@@ -2128,14 +2313,14 @@ kruskal.test( x = mood.gain )
 </div>
 </div>
 <div class="section" id="on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
-<h2><span class="section-number">4.11. </span>On the relationship between ANOVA and the Student <span class="math notranslate nohighlight">\(t\)</span> test{#anovaandt}<a class="headerlink" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">17.11. </span>On the relationship between ANOVA and the Student <span class="math notranslate nohighlight">\(t\)</span> test{#anovaandt}<a class="headerlink" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt" title="Permalink to this headline">¶</a></h2>
 <p>There’s one last thing I want to point out before finishing. It’s something that a lot of people find kind of surprising, but it’s worth knowing about: an ANOVA with two groups is identical to the Student <span class="math notranslate nohighlight">\(t\)</span>-test. No, really. It’s not just that they are similar, but they are actually equivalent in every meaningful way. I won’t try to prove that this is always true, but I will show you a single concrete demonstration. Suppose that, instead of running an ANOVA on our <code class="docutils literal notranslate"><span class="pre">mood.gain</span> <span class="pre">~</span> <span class="pre">drug</span></code> model, let’s instead do it using <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as the predictor. If we run this ANOVA, here’s what we get:</p>
 <p>Overall, it looks like there’s no significant effect here at all but, as we’ll see in Chapter &#64;ref(anova2 this is actually a misleading  answer! In any case, it’s irrelevant to our current goals: our interest here is in the <span class="math notranslate nohighlight">\(F\)</span>-statistic, which is <span class="math notranslate nohighlight">\(F(1,16) = 1.71\)</span>, and the <span class="math notranslate nohighlight">\(p\)</span>-value, which is .21. Since we only have two groups, I didn’t actually need to resort to an ANOVA, I could have just decided to run a Student <span class="math notranslate nohighlight">\(t\)</span>-test. So let’s see what happens when I do that:</p>
 <p>Curiously, the <span class="math notranslate nohighlight">\(p\)</span>-values are identical: once again we obtain a value of <span class="math notranslate nohighlight">\(p = .21\)</span>. But what about the test statistic? Having run a <span class="math notranslate nohighlight">\(t\)</span>-test instead of an ANOVA, we get a somewhat different answer, namely <span class="math notranslate nohighlight">\(t(16) = -1.3068\)</span>. However, there is a fairly straightforward relationship here. If we square the <span class="math notranslate nohighlight">\(t\)</span>-statistic</p>
 <p>we get the <span class="math notranslate nohighlight">\(F\)</span>-statistic from before.</p>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">4.12. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">17.12. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>There’s a fair bit covered in this chapter, but there’s still a lot missing. Most obviously, I haven’t yet discussed any analog of the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test for more than two groups. There is a way of doing this, known as <em>repeated measures ANOVA</em>, which will appear in a later version of this book. I also haven’t discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in Chapter &#64;ref(anova2). In terms of what we have discussed, the key topics were:</p>
 <ul class="simple">
 <li><p>The basic logic behind how ANOVA works (Section &#64;ref(anovaintro)) and how to run one in R (Section &#64;ref(introduceaov)).</p></li>
@@ -2189,36 +2374,42 @@ kruskal.test( x = mood.gain )
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="05.02-ttest.html" title="previous page"><span class="section-number">2. </span>Comparing Two Means</a>
-    <a class='right-next' id="next-link" href="05.04-regression.html" title="next page"><span class="section-number">5. </span>Linear regression</a>
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="05.02-ttest.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">15. </span>Comparing Two Means</p>
         </div>
-        
+    </a>
+    <a class='right-next' id="next-link" href="05.04-regression.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">18. </span>Linear regression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Danielle Navarro and Ethan Weed<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+    <footer class="footer">
+  <p>
+    
+      By Danielle Navarro and Ethan Weed<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-    
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
   </body>
 </html>
