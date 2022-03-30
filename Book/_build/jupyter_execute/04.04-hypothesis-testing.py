@@ -155,7 +155,7 @@ glue("estimation-fig", esp, display=False)
 # 
 # It's important to make sure you understand this last point: the critical region corresponds to those values of $X$ for which we would reject the null hypothesis, and the sampling distribution in question describes the probability that we would obtain a particular value of $X$ if the null hypothesis were actually true. Now, let's suppose that we chose a critical region that covers 20\% of the sampling distribution, and suppose that the null hypothesis is actually true. What would be the probability of incorrectly rejecting the null? The answer is of course 20\%. And therefore, we would have built a test that had an $\alpha$ level of $0.2$. If we want $\alpha = .05$, the critical region is only *allowed* to cover 5\% of the sampling distribution of our test statistic.
 
-# In[62]:
+# In[2]:
 
 
 from myst_nb import glue
@@ -237,7 +237,7 @@ glue("espcritical-fig", ax, display=False)
 # 
 # 
 
-# In[10]:
+# In[3]:
 
 
 from myst_nb import glue
@@ -350,7 +350,7 @@ glue("espcritical-onesided-fig", ax, display=False)
 # 
 # [^note9]: Note that the `p` here has nothing to do with a $p$ value. The `p` argument in the `binom_test()` function corresponds to the probability of making a correct response, according to the null hypothesis. In other words, it's the $\theta$ value.
 
-# In[9]:
+# In[4]:
 
 
 from scipy.stats import binom_test
@@ -364,9 +364,7 @@ binom_test(x = 62, n = 100, p = 0.5, alternative = 'two-sided')
 # 
 # In previous sections I've emphasised the fact that the major design principle behind statistical hypothesis testing is that we try to control our Type I error rate. When we fix $\alpha = .05$ we are attempting to ensure that only 5\% of true null hypotheses are incorrectly rejected. However, this doesn't mean that we don't care about Type II errors. In fact, from the researcher's perspective, the error of failing to reject the null when it is actually false is an extremely annoying one. With that in mind, a secondary goal of hypothesis testing is to try to minimise $\beta$, the Type II error rate, although we don't usually *talk* in terms of minimising Type II errors. Instead, we talk about maximising the *power* of the test. Since power is defined as $1-\beta$, this is the same thing. 
 
-# 
-
-# In[14]:
+# In[5]:
 
 
 from myst_nb import glue
@@ -407,7 +405,7 @@ glue("esp-alternative-fig", ax, display=False)
 # 
 # Let's take a moment to think about what a Type II error actually is. A Type II error occurs when the alternative hypothesis is true, but we are nevertheless unable to reject the null hypothesis. Ideally, we'd be able to calculate a single number $\beta$ that tells us the Type II error rate, in the same way that we can set $\alpha = .05$ for the Type I error rate. Unfortunately, this is a lot trickier to do. To see this, notice that in my ESP study the alternative hypothesis actually corresponds to lots of possible values of $\theta$. In fact, the alternative hypothesis corresponds to every value of $\theta$ *except* 0.5. Let's suppose that the true probability of someone choosing the correct response is 55\% (i.e., $\theta = .55$). If so, then the *true* sampling distribution for $X$ is not the same one that the null hypothesis predicts: the most likely value for $X$ is now 55 out of 100. Not only that, the whole sampling distribution has now shifted, as shown in {numref}`fig-esp-alternative`. The critical regions, of course, do not change: by definition, the critical regions are based on what the null hypothesis predicts. What we're seeing in this figure is the fact that when the null hypothesis is wrong, a much larger proportion of the sampling distribution distribution falls in the critical region. And of course that's what should happen: the probability of rejecting the null hypothesis is larger when the null hypothesis is actually false!  However $\theta = .55$ is not the only possibility consistent with the alternative hypothesis. Let's instead suppose that the true value of $\theta$ is actually 0.7. What happens to the sampling distribution when this occurs? The answer, shown in {numref}`fig-esp-alternative2`, is that almost the entirety of the sampling distribution has now moved into the critical region. Therefore, if $\theta = 0.7$ the probability of us correctly rejecting the null hypothesis (i.e., the power of the test) is much larger than if $\theta = 0.55$. In short, while $\theta = .55$ and $\theta = .70$ are both part of the alternative hypothesis, the Type II error rate is different.
 
-# In[79]:
+# In[6]:
 
 
 from myst_nb import glue
@@ -447,7 +445,7 @@ glue("esp-alternative-fig2", ax, display=False)
 
 # What all this means is that the power of a test (i.e., $1-\beta$) depends on the true value of $\theta$. To illustrate this, I've calculated the expected probability of rejecting the null hypothesis for all values of $\theta$, and plotted it in {numref}`fig-powerfunction`. This plot describes what is usually called the **_power function_** of the test. It's a nice summary of how good the test is, because it actually tells you the power ($1-\beta$) for all possible values of $\theta$. As you can see, when the true value of $\theta$ is very close to 0.5, the power of the test drops very sharply, but when it is further away, the power is large. 
 
-# In[100]:
+# In[7]:
 
 
 from myst_nb import glue
@@ -507,7 +505,7 @@ glue("powerfunction-fig", ax, display=False)
 # 
 # [^note11]: Notice that the true population parameter $\theta$ doesn't necessarily correspond to an immutable fact of nature. In this context $\theta$ is just the true probability that people would correctly guess the colour of the card in the other room. As such the population parameter can be influenced by all sorts of things. Of course, this is all on the assumption that ESP actually exists!
 
-# In[109]:
+# In[8]:
 
 
 import seaborn as sns
