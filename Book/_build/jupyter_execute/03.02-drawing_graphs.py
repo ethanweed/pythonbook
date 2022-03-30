@@ -63,7 +63,7 @@ sns.scatterplot(x = x, y = fibonacci)
 # 
 # Already, we can see `seaborn`'s opinion expressing itself in a variety of subtle ways. For example, it has chosen a size and color for the points in the scatterplot. These seem a little small to me, and while blue is a great color, I am partial to orange. So..
 
-# In[61]:
+# In[2]:
 
 
 sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
@@ -79,7 +79,7 @@ sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
 # 
 # [^note5]: Actually, you can also apply `set` directly to the initial command creating the figure, like this: `sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange').set(title = 'My first plot', xlabel = 'My x-axis', ylabel='My y-axis')` but most of the time when preparing a figure it is useful to store it as a variable, so you might as well get in the habit now.
 
-# In[72]:
+# In[3]:
 
 
 ax = sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
@@ -92,7 +92,7 @@ ax.set(title = 'My first plot', xlabel = 'My x-axis', ylabel='My y-axis')
 # 
 # An important side-note on context: if you are working in jupyter notebook like the one I am writing this book in, once you set the `seaborn` context, it will continue to use that context within the notebook, unless you change it. This could be good or bad, depending on what you want, but it is worth keeping in mind, if you plots don't look like you expect.
 
-# In[89]:
+# In[4]:
 
 
 sns.set_context("notebook", font_scale=1.5)
@@ -108,7 +108,7 @@ ax.set(title = 'My first plot',
 # 
 # `seaborn` has quite more customization options that you will probably want to know about, but many of them are more applicable to more complex figures, so I'll wait to mention them until later. For now, though, I just want to show you one more option: removing the top and right lines of the box that `seaborn` draws around the data. To me, these make the data feel cramped, and I'd rather give them room to breathe and flourish. So I like to use the `despine` command to remove these, and give the data a little elbow room. `seaborn` has its opinions, and I have mine!
 
-# In[119]:
+# In[5]:
 
 
 sns.set_context("notebook", font_scale=1.5)
@@ -125,7 +125,7 @@ sns.despine(top = True, right = True)
 # 
 # You can read more about importing data from a .csv file [here](loadingcsv). The key line in the code below is `afl_margins = pd.read_csv('afl_margins.csv')`. The rest is just a convenience for me in writing this book. If you put the full path to your data between the quotation marks, you should be alright without the rest.
 
-# In[166]:
+# In[6]:
 
 
 import os
@@ -140,7 +140,7 @@ afl_margins = pd.read_csv('afl_margins.csv')
 
 # Just to remind ourselves what the data look like, we can use `head` to take a peek:
 
-# In[167]:
+# In[7]:
 
 
 afl_margins.head()
@@ -153,7 +153,7 @@ afl_margins.head()
 # 
 # By the way, I am going to change the `seaborn` context back to the default settings here, so that my figures will look as consistent as possible with yours, if you are following along at home.
 
-# In[126]:
+# In[8]:
 
 
 import seaborn as sns
@@ -166,7 +166,7 @@ sns.histplot(data = afl_margins, x="afl.margins")
 
 # The main subtlety that you need to be aware of when drawing histograms is determining where the "breaks" that separate bins should be located, and (relatedly) how many bins there should be. In the figure above, you can see that `seaborn` has made pretty sensible choices all by itself: the breaks are located at 0, 10, 20, ... 120, which is exactly what I would have done had I been forced to make a choice myself. On the other hand, consider the following two histograms, which have divided the data into fewer and more bins, respectively:
 
-# In[129]:
+# In[9]:
 
 
 import seaborn as sns
@@ -188,7 +188,7 @@ axes[1].set_title("Too many bins!")
 # 
 # A great alternative to histograms is the **_boxplot_**, sometimes called a "box and whiskers" plot. Like histograms, they're most suited to interval or ratio scale data. The idea behind a boxplot is to provide a simple visual depiction of the median, the interquartile range, and the range of the data. And because they do so in a fairly compact way, boxplots have become a very popular statistical graphic, especially during the exploratory stage of data analysis when you're trying to understand the data yourself. Let's have a look at how they work, again using the `afl_margins` data as our example. Firstly, let's actually calculate these numbers ourselves using the `describe()` function:
 
-# In[159]:
+# In[10]:
 
 
 afl_margins.describe()
@@ -196,7 +196,7 @@ afl_margins.describe()
 
 # So how does a boxplot capture these numbers? The easiest way to describe what a boxplot looks like is just to draw one. The function for doing this in `seaborn` is (surprise, surprise) `boxplot()`. As always there's a lot of optional arguments that you can specify if you want, but for the most part you can just let R choose the defaults for you. That said, I'm going to override one of the defaults to start with by specifying the `range` option, but for the most part you won't want to do this (I'll explain why in a minute). With that as preamble, let's try the following command:
 
-# In[132]:
+# In[11]:
 
 
 sns.boxplot(data = afl_margins, y = 'afl.margins')
@@ -208,7 +208,7 @@ sns.boxplot(data = afl_margins, y = 'afl.margins')
 
 # In the example above, we made a vertical boxplot, which in this case resulted in a fairly squat-looking boxplot. As an alternative, we could display the data on the x-axis instead, which will result in a horizontal boxplot.
 
-# In[133]:
+# In[12]:
 
 
 sns.boxplot(data = afl_margins, x = 'afl.margins')
@@ -216,14 +216,14 @@ sns.boxplot(data = afl_margins, x = 'afl.margins')
 
 # Because the boxplot automatically (unless you change the range argument) separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.
 
-# In[170]:
+# In[13]:
 
 
 afl_margins.loc[177] = 327
 sns.boxplot(data = afl_margins, x = 'afl.margins')
 
 
-# In[171]:
+# In[14]:
 
 
 afl_margins[afl_margins['afl.margins'] > 300]
@@ -244,7 +244,7 @@ afl_margins[afl_margins['afl.margins'] > 300]
 # 
 # One last thing. What if you want to draw multiple boxplots at once? Suppose, for instance, I wanted separate boxplots showing the AFL margins not just for 2010, but for every year between 1987 and 2010. To do that, the first thing we'll have to do is find the data. These are stored in the `aflsmall2.csv` file. So let's load it and take a quick peek at what's inside:
 
-# In[236]:
+# In[15]:
 
 
 cwd = os.getcwd()
@@ -256,7 +256,7 @@ df.head()
 
 # With `df.head` we can peek at the first few rows of the dataframe, and see that indeed it has one column with game margins, and another column with the year the game was played. The first five are indeed from 1987. `pandas` also lets us peek at the _last_ few rows, with `tail`:
 
-# In[179]:
+# In[16]:
 
 
 df.tail()
@@ -266,7 +266,7 @@ df.tail()
 # 
 # To plot these data, we just need to call up `boxplot()` once again, give `seaborn` the name of our dataframe, set the x-axis to "year" and the y-axis to "margin".
 
-# In[237]:
+# In[17]:
 
 
 ax = sns.boxplot(x = 'year', y = 'margin', data = df)
@@ -283,7 +283,7 @@ ax = sns.boxplot(x = 'year', y = 'margin', data = df)
 # 
 # 
 
-# In[267]:
+# In[18]:
 
 
 cwd = os.getcwd()
@@ -293,7 +293,7 @@ df = pd.read_csv('afl2small.csv')
 df = df[df['year'] > 2004]
 
 
-# In[268]:
+# In[19]:
 
 
 
@@ -313,7 +313,7 @@ for ax in axes:
 
 # One final alternative to the plain boxplot that I will show you here is to _overlay_ a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the left is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!
 
-# In[280]:
+# In[20]:
 
 
 properties = {
@@ -354,7 +354,7 @@ for ax in axes:
 # 
 # **_Scatterplots_** are a simple but effective tool for visualising data. We've [already seen scatterplots](introplotting) in this chapter, when drawing the `Fibonacci` variable as a collection of dots. However, for the purposes of this section I have a slightly different notion in mind. Instead of just plotting one variable, what I want to do with my scatterplot is display the relationship between *two* variables, like we saw with the figures in the [section on correlation](correlation) It's this latter application that we usually have in mind when we use the term "scatterplot". In this kind of plot, each observation corresponds to one dot: the horizontal location of the dot plots the value of the observation on one variable, and the vertical location displays its value on the other variable. In many situations you don't really have a clear opinions about what the *causal* relationship is (e.g., does A cause B, or does B cause A, or does some other variable C control both A and B). If that's the case, it doesn't really matter which variable you plot on the x-axis and which one you plot on the y-axis. However, in many situations you do have a pretty strong idea which variable you think is most likely to be causal, or at least you have some suspicions in that direction. If so, then it's conventional to plot the cause variable on the x-axis, and the effect variable on the y-axis. With that in mind, let's look at how to draw scatterplots in R, using the same `parenthood` data set (i.e. `parenthood.csv`) that I used when introducing the idea of correlations.
 
-# In[189]:
+# In[21]:
 
 
 from os import chdir as cd
@@ -371,7 +371,7 @@ df.head()
 
 # Suppose my goal is to draw a scatterplot displaying the relationship between the amount of sleep that I get (`dan.sleep`) and how grumpy I am the next day (`dan.grump`). As you might expect given our earlier use of `scatterplot()` to display the `Fibonacci` data, the function that we use is the `scatterplot()` function. Simple!
 
-# In[191]:
+# In[22]:
 
 
 ax = sns.scatterplot(x = 'dan.sleep', y = 'dan.grump', data = df)
@@ -379,7 +379,7 @@ ax = sns.scatterplot(x = 'dan.sleep', y = 'dan.grump', data = df)
 
 # This does show a nice clear relationship between hours of sleep and grumpiness, but it would be nice to make that relationship even clearer with a line through the middle of the points. This can be easily done by replacing `scatterplot` with `regplot`. Everything else stays the same:
 
-# In[192]:
+# In[23]:
 
 
 ax = sns.regplot(x = 'dan.sleep', y = 'dan.grump', data = df)
@@ -393,7 +393,7 @@ ax = sns.regplot(x = 'dan.sleep', y = 'dan.grump', data = df)
 # 
 # Another form of graph that you often want to plot is the **_bar graph_**. To illustrate the use of the function, I'll use the `finalists` variable that I introduced in the section on . What I want to do is draw a bar graph that displays the number of finals that each team has played in over the time spanned by the `afl` data set.
 
-# In[193]:
+# In[24]:
 
 
 import os
@@ -406,7 +406,7 @@ os.chdir(str(Path(cwd).parents[0]) + '/Data')
 df = pd.read_csv('afl_finalists.csv')
 
 
-# In[213]:
+# In[25]:
 
 
 import pandas as pd
@@ -429,7 +429,7 @@ df2
 
 # By now, if you have been following along, you can probably guess the syntax yourself. Specify the x data, specify the y data, and specify the data source:
 
-# In[217]:
+# In[26]:
 
 
 ax = sns.barplot(x = 'Team', y = 'Finals', data = df2)
@@ -437,7 +437,7 @@ ax = sns.barplot(x = 'Team', y = 'Finals', data = df2)
 
 # Lovely, right? Pretty colors! Unfortunately, the team's names are entirely illegible. Sometimes people try to deal with this sort of problem by rotating the x-axis tick labels 45 degrees so that they don't run all over each other. That is an option, but an easy fix to this problem that you should always keep in mind is to simply switch the x an y axes:
 
-# In[218]:
+# In[27]:
 
 
 ax = sns.barplot(x = 'Finals', y = 'Team', data = df2)
@@ -445,7 +445,7 @@ ax = sns.barplot(x = 'Finals', y = 'Team', data = df2)
 
 # There, now isn't that better? I haven't been touching up these plots much in this chapter, because I want to focus on how easy is can be to generate nice simple plots, but in this case that y-axis label is just staring me in the face, now that I have turned the bars onto their sides. Normally I would insist that a figure should always have clear axis labels, but presumably, if we are putting this in a paper or presentation, the audience already knows that we are talking about AFL teams, and we could also put this info in the title instead. So let's do a little makeover:
 
-# In[224]:
+# In[28]:
 
 
 ax = sns.barplot(x = 'Finals', y = 'Team', data = df2)
@@ -462,7 +462,7 @@ sns.set_context("notebook", font_scale=1.5)
 # 
 # Hold on, you might be thinking. What's the good of being able to draw pretty pictures in Python if I can't save them and send them to friends to brag about how awesome my data is? How do I save the picture? A (fairly) easy solution is to use the `savefig` command from the `pyplot` library in `matplotlib`. I say fairly, because without a few tweaks, it may give you less than desirable results. In particular, I would like to draw your attention to the arguements `facecolor` and `bbox_inches` in the last line of the code below. Without setting `facecolor` to "white" and `bbox_inches` to "tight", the image is saved with a dark background outside of the main area of the figure, and most of the team names get cut off on the margins. Why these settings aren't the default I can't imagine, but there is probably some good reason. In any case, using 'savefig' you can export your figure in a variety of formats. Here I have used the .png format.
 
-# In[281]:
+# In[29]:
 
 
 import seaborn as sns
@@ -480,6 +480,12 @@ plt.savefig('/Users/ethan/Desktop/AFL.png', facecolor='white', bbox_inches='tigh
 # ## Enough for now
 # 
 # I could go on and on. I really enjoy data visualization because it helps me understand my data, and I have been known to spend waaaay too much time trying to craft the perfect graph when I probably should be getting on with writing the paper. What I have given here is only a quick introducton to some of the most common graph types, and a few options for how to configure them. Much, much, much more is possible, either directly through `seaborn`, or combined with the power of `matplotlib` and other graphics libraries. But alas, the rest of this book isn't going to get written if I stay here all day, so I'll leave it there for now. "Perfection", as a co-author recently informed me, kindly, yet firmly, "is the enemy of the Good". Or in this case, the Good-Enough.
+
+# In[ ]:
+
+
+
+
 
 # In[ ]:
 

@@ -89,7 +89,7 @@
 
 # or this
 
-# In[6]:
+# In[5]:
 
 
 10+20
@@ -120,7 +120,7 @@
 
 # As you can see, Python uses fairly standard symbols to denote each of the different operations you might want to perform: addition is done using the `+` operator, subtraction is performed by the `-` operator, and so on. So if I wanted to find out what 57 times 61 is (and who wouldn't?), I can use Python instead of a calculator, like so:
 
-# In[11]:
+# In[6]:
 
 
 57 * 61
@@ -141,7 +141,7 @@
 
 # One way that we could calculate $5^4$ in Python would be to type in the complete multiplication as it is shown in the equation above. That is, we could do this
 
-# In[12]:
+# In[7]:
 
 
 5 * 5 * 5 * 5
@@ -149,7 +149,7 @@
 
 # but it does seem a bit tedious. It would be very annoying indeed if you wanted to calculate $5^{15}$, since the command would end up being quite long. Therefore, to make our lives easier, we use the power operator instead. When we do that, our command to calculate $5^4$ goes like this:
 
-# In[13]:
+# In[8]:
 
 
 5 ** 4
@@ -169,7 +169,7 @@
 # 
 # [^note4]: If you're reading this with Python open, a good learning trick is to try typing in a few different variations on what I've done here. If you experiment with your commands, you'll quickly learn what works and what doesn't.
 
-# In[17]:
+# In[9]:
 
 
 1 + 2 * 4
@@ -179,7 +179,7 @@
 # 
 # To answer this, you need to know the **_order of operations_** that Python uses. If you remember back to your high school maths classes, it's actually the same order that you got taught when you were at school: the "**_BEDMAS_**" order. That is, first calculate things inside **B**rackets `()`, then calculate **E**xponents `**`, then **D**ivision `/` and **M**ultiplication `*`, then **A**ddition `+` and **S**ubtraction `-`. So, to continue the example above, if we want to force Python to calculate the `1+2` part before the multiplication, all we would have to do is enclose it in brackets:
 
-# In[18]:
+# In[10]:
 
 
 (1 + 2) * 4 
@@ -187,7 +187,7 @@
 
 # This is a fairly useful thing to be able to do. The only other thing I should point out about order of operations is what to expect when you have two operations that have the same priority: that is, how does Python resolve ties? For instance, multiplication and division are actually the same priority, but what should we expect when we give Python a problem like `4 / 2 * 3` to solve? If it evaluates the multiplication first and then the division, it would calculate a value of two-thirds. But if it evaluates the division first it calculates a value of 6. The answer, in this case, is that Python goes from *left to right*, so in this case the division step would come first:
 
-# In[1]:
+# In[11]:
 
 
 4 / 2 * 3
@@ -203,7 +203,7 @@
 
 # Since we've been working with numbers so far, let's start by creating variables to store our numbers. And since most people like concrete examples, let's invent one. Suppose I'm trying to calculate how much money I'm going to make from this book. There's several different numbers I might want to store. Firstly, I need to figure out how many copies I'll sell. This isn't exactly *Harry Potter*, so let's assume I'm only going to sell one copy per student in my class. That's 350 sales, so let's create a variable called `sales`. What I want to do is assign a **_value_** to my variable `sales`, and that value should be `350`. We do this by using the **_assignment operator_**, which is `=`. Here's how we do it:
 
-# In[24]:
+# In[12]:
 
 
 sales = 350
@@ -212,7 +212,7 @@ sales = 350
 # 
 # When you hit enter, Python doesn't print out any output. But behind the scenes, Python has created a new variable, with a range of properties. One of these is that it contains the value `350`. The simplest way to see what is currently stored in a variable is to just write the name of the variable, and hit enter:
 
-# In[25]:
+# In[13]:
 
 
 sales
@@ -224,7 +224,7 @@ sales
 # 
 # Okay, let's get back to my original story. In my quest to become rich, I've written this textbook. To figure out how good a strategy is, I've started creating some variables in Python. In addition to defining a `sales` variable that counts the number of copies I'm going to sell, I can also create a variable called `royalty`, indicating how much money I get per copy. Let's say that my royalties are about \$7 per book:
 
-# In[28]:
+# In[14]:
 
 
 sales = 350
@@ -233,7 +233,7 @@ royalty = 7
 
 # The nice thing about variables (in fact, the whole point of having variables) is that we can do anything with a variable that we ought to be able to do with the information that it stores. That is, since Python allows me to multiply `350` by `7`
 
-# In[29]:
+# In[15]:
 
 
 350 * 7
@@ -241,7 +241,7 @@ royalty = 7
 
 # it also allows me to multiply `sales` by `royalty`
 
-# In[30]:
+# In[16]:
 
 
 sales * royalty
@@ -249,7 +249,7 @@ sales * royalty
 
 # As far as Python is concerned, the `sales * royalty` command is the same as the `350 * 7` command. Not surprisingly, I can assign the output of this calculation to a new variable, which I'll call `revenue`. And when we do this, the new variable `revenue` gets the value `2450`. So let's do that, and then get Python to print out the value of `revenue` so that we can verify that it's done what we asked:
 
-# In[32]:
+# In[17]:
 
 
 revenue = sales * royalty
@@ -258,7 +258,7 @@ revenue
 
 # That's fairly straightforward. A slightly more subtle thing we can do is reassign the value of my variable, based on its current value. For instance, suppose that one of my students (no doubt under the influence of psychotropic drugs) loves the book so much that he or she donates me an extra \$550. The simplest way to capture this is by a command like this:
 
-# In[33]:
+# In[18]:
 
 
 revenue = revenue + 550

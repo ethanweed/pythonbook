@@ -291,7 +291,7 @@ df = pd.read_csv(file)
 # 
 # As we've seen, Python allows you to store different kinds of data. We have seen variables that store text (_strings_), numbers(_integers_ or _floats_), and even whole datasets (_dataframes_). These are just three of the many different types of variable that Python can store. Other common variable types in Python include _dictionaries_, _lists_, and _tuples_. It's important that we remember what kind of information each variable stores (and even more important that Python remembers) since different kinds of variables allow you to do different things to them. For instance, if your variables have numerical information in them, then it's okay to multiply them together:
 
-# In[56]:
+# In[16]:
 
 
 x = 1    # a is a number
@@ -302,7 +302,7 @@ print(z)
 
 # But if they contain character data, Python will still let you add the variables, but the outcome might be unexpected:
 
-# In[58]:
+# In[17]:
 
 
 x = "1"   # x is character, as indicated by the quotation marks
@@ -316,7 +316,7 @@ x + y
 # 
 # Okay, let's suppose that I've forgotten what kind of data I stored in the variable `x` (which happens depressingly often). Python provides a function that will let us find out: `type()`
 
-# In[62]:
+# In[18]:
 
 
 x = "hello world"     # x is text (aka a "string")
@@ -324,7 +324,7 @@ x = "hello world"     # x is text (aka a "string")
 type(x)
 
 
-# In[64]:
+# In[19]:
 
 
 import pandas as pd
@@ -336,14 +336,14 @@ x = pd.read_csv(file)
 type(x)
 
 
-# In[65]:
+# In[20]:
 
 
 x = 100     # x is an integer
 type(x)
 
 
-# In[66]:
+# In[21]:
 
 
 x = 3.14
@@ -358,7 +358,7 @@ type(x)
 # 
 # A kind of variable that shows up all the time in data analysis with Python is the list. A list is just what it sounds like, it is a single variable that contains a list of items. Just about any variable type you can think of can be listed in a Python list:
 
-# In[74]:
+# In[22]:
 
 
 shopping = ["apples", "pears", "bananas"] # a list strings
@@ -367,7 +367,7 @@ mixed = ["cats", 7, 309.42]               # a list of mixed strings, integers, a
 all = [shopping, scores, mixed]           # a list of lists!
 
 
-# In[75]:
+# In[23]:
 
 
 print(shopping)
@@ -380,7 +380,7 @@ print(all)
 
 # Let's take a look. To access an item in a list, we need to know its `index`, that is, its location in the list. We indicate an index with square brackets. So to find the item with the index 2 in my shopping list, I can write `shopping[2]`, like so:
 
-# In[80]:
+# In[24]:
 
 
 shopping = ["apples", "pears", "bananas"]
@@ -397,7 +397,7 @@ shopping[2]
 # 
 # One last thing on lists for now: it can often be useful to check how many items are in your list. With the toy examples we are using here, of course, it is easy to see how long the list is, because we just typed in the items ourselves. But in actual data analysis, we often deal with very long lists that contain an unknown number of items. In these cases we can use `len()` to check how long the list is:
 
-# In[81]:
+# In[25]:
 
 
 len(shopping)
@@ -413,7 +413,7 @@ len(shopping)
 # 
 # the data look like this:
 
-# In[83]:
+# In[26]:
 
 
 age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
@@ -430,7 +430,7 @@ group = ["test", "test", "test", "test", "test", "control", "control", "control"
 # 
 # [^note6]: Although it really doesn't matter at this point, you may have noticed a new symbol here: the "curly brackets" or "curly braces". Python uses these to indicate yet another variable type: the dictionary. Here we are using the dictionary variable type in passing to feed our lists into a `pandas` dataframe.
 
-# In[84]:
+# In[27]:
 
 
 df = pd.DataFrame(
@@ -441,7 +441,7 @@ df = pd.DataFrame(
     })
 
 
-# In[85]:
+# In[28]:
 
 
 df
@@ -461,7 +461,7 @@ df
 # 
 # 
 
-# In[189]:
+# In[29]:
 
 
 #  +---+---+---+---+---+---+
@@ -478,7 +478,7 @@ df
 # 
 # The first thing we might want to do is pull out one of our stored variables, let's say `score`. As usual, there are several ways to achieve this, but here we will use the simplest method I know. To access the data in the `score` column by the column name, we can write:
 
-# In[166]:
+# In[30]:
 
 
 score_data = df['score']
@@ -487,7 +487,7 @@ score_data
 
 # Pretty easy, right? We could also choose to ask for only data from e.g. the first 4 particpants. To do this, we write:
 
-# In[167]:
+# In[31]:
 
 
 score_data = df['score'][0:4]
@@ -498,7 +498,7 @@ score_data
 
 # What if we want to get data from a row instead? In this case, we will use the `loc` attribute of a `pandas` dataframe, and use a number instead of name (i.e., no quotation marks), like this:
 
-# In[172]:
+# In[32]:
 
 
 score_data = df.loc[2]
@@ -510,7 +510,7 @@ score_data
 # 
 # [^note7]: Actually, there are lots more things I should mention, but now is not the time. Working with dataframes takes practice, and there are some catches, but it's worth the effort!
 
-# In[173]:
+# In[33]:
 
 
 type(score_data)
@@ -518,7 +518,7 @@ type(score_data)
 
 # Luckily, it's not too hard to get the raw data out of a `pandas` series. The simplest way is to just turn it into a list variable, using the command `list()`:
 
-# In[174]:
+# In[34]:
 
 
 my_row = list(score_data)
@@ -527,7 +527,7 @@ my_row
 
 # If you want to get fancy, you can combine these steps, and do it all in one go:
 
-# In[180]:
+# In[35]:
 
 
 my_row = list(df.loc[2])
@@ -540,7 +540,7 @@ print(my_column)
 # 
 # One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:
 
-# In[186]:
+# In[36]:
 
 
 df.columns.values.tolist()
@@ -548,7 +548,7 @@ df.columns.values.tolist()
 
 # Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute `head` is useful for this. By default it shows the first 5 lines of the dataframe:
 
-# In[187]:
+# In[37]:
 
 
 df.head()
@@ -556,7 +556,7 @@ df.head()
 
 # Finally, if you just want to get all of your data out of the dataframe and into a list, then `.values.tolist()` will do the job, giving you a list of lists, with each item in the list containing the data for a single row:
 
-# In[188]:
+# In[38]:
 
 
 df.values.tolist()
