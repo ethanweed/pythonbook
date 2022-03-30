@@ -29,7 +29,7 @@ df
 
 # As you can see, the `cards` data frame contains three variables, an `id` variable that assigns a unique identifier to each participant, and the two variables `choice_1` and `choice_2` that indicate the card suits that people chose. Here's the first few entries in the data frame:
 
-# In[23]:
+# In[2]:
 
 
 df.head()
@@ -37,7 +37,7 @@ df.head()
 
 # For the moment, let's just focus on the first choice that people made. We'll use the `value_counts()` function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called `observed`, for reasons that will become clear very soon:
 
-# In[24]:
+# In[3]:
 
 
 observed = df['choice_1'].value_counts()
@@ -97,7 +97,7 @@ observed
 
 # Maybe what I should do is store the $P$ list in Python as well, since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this panads series `probabilities`:
 
-# In[25]:
+# In[4]:
 
 
 # make dictionary of values
@@ -122,7 +122,7 @@ probabilities
 # 
 # This is pretty easy to calculate in Python:
 
-# In[26]:
+# In[5]:
 
 
 N = 200 #sample size
@@ -142,7 +142,7 @@ expected
 
 # The same calculations can be done in Python, using our `expected` and `observed` variables:
 
-# In[27]:
+# In[6]:
 
 
 observed-expected
@@ -150,7 +150,7 @@ observed-expected
 
 # Regardless of whether we do the calculations by hand or whether we do them in Python, it's clear that people chose more hearts and fewer clubs than the null hypothesis predicted. However, a moment's thought suggests that these raw differences aren't quite what we're looking for. Intuitively, it feels like it's just as bad when the null hypothesis predicts too few observations (which is what happened with hearts) as it is when it predicts too many (which is what happened with clubs). So it's a bit weird that we have a negative number for clubs and a positive number for hearts. One easy way to fix this is to square everything, so that we now calculate the squared differences, $(E_i - O_i)^2$. As before, we could do this by hand, but it's easier to do it in Python...
 
-# In[28]:
+# In[7]:
 
 
 (observed - expected)**2
@@ -158,7 +158,7 @@ observed-expected
 
 # Now we're making progress. What we've got now is a collection of numbers that are big whenever the null hypothesis makes a bad prediction (clubs and hearts), but are small whenever it makes a good one (diamonds and spades). Next, for some technical reasons that I'll explain in a moment, let's also divide all these numbers by the expected frequency $E_i$, so we're actually calculating $\frac{(E_i-O_i)^2}{E_i}$. Since $E_i = 50$ for all categories in our example, it's not a very interesting calculation, but let's do it anyway. The Python command becomes:
 
-# In[29]:
+# In[8]:
 
 
 
@@ -167,7 +167,7 @@ observed-expected
 
 # In effect, what we've got here are four different "error" scores, each one telling us how big a "mistake" the null hypothesis made when we tried to use it to predict our observed frequencies. So, in order to convert this into a useful test statistic, one thing we could do is just add these numbers up. The result is called the **_goodness of fit_** statistic, conventionally referred to either as $X^2$ or GOF. We can calculate it using this command in Python:
 
-# In[30]:
+# In[9]:
 
 
 sum((observed - expected)**2/expected)
@@ -201,7 +201,7 @@ sum((observed - expected)**2/expected)
 
 # When I introduced the chi-square distribution in [other useful distributions](otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking {numref}`fig-manychi` you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
-# In[31]:
+# In[10]:
 
 
 
@@ -254,7 +254,7 @@ glue("manychi_fig", fig, display=False)
 # 
 # The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of $X^2$ would lead is to reject the null hypothesis. As we saw earlier, large values of $X^2$ imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of $X^2$ imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if $X^2$ is bigger than the critical value we reject the null; but if $X^2$ is smaller than this value we retain the null. In other words, to use the language we introduced in the chapter on [hypothesis testing](hypothesis-testing), the chi-squared goodness of fit test is always a **_one-sided test_**. Right, so all we have to do is figure out what this critical value is. And it's pretty straightforward. If we want our test to have significance level of $\alpha = .05$ (that is, we are willing to tolerate a Type I error rate of 5\%), then we have to choose our critical value so that there is only a 5\% chance that $X^2$ could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in {numref}`fig-goftest`.
 
-# In[32]:
+# In[11]:
 
 
 
@@ -298,7 +298,7 @@ glue("goftest-fig", fig, display=False)
 
 # Ah, but -- I hear you ask -- how do I calculate the 95th percentile of a chi-squared distribution with $k-1$ degrees of freedom? If only Python had some function, called... oh, I don't know, chi2 percent, or chi2 percent point ... that would let you calculate this percentile. What about the "chi2 percent point function", `chi2.ppf()`, hmm?  Doesn't that sound like it might do the trick? Like this...
 
-# In[33]:
+# In[12]:
 
 
 from scipy.stats import chi2
@@ -307,7 +307,7 @@ round(chi2.ppf(0.95, 3),2)
 
 # So if our $X^2$ statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., $X^2 = 8.44$), we know that we can reject the null. If we want an exact $p$-value, we can calculate it using the `chisquare()` function from `scipy.stats`:
 
-# In[34]:
+# In[13]:
 
 
 from scipy.stats import chisquare
@@ -322,7 +322,7 @@ chisquare(f_obs = observed, f_exp = expected)
 # 
 # Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. Unfortunately, to my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with `chisquare` from `scipy.stats`. If we don't supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the `chisquare` function, like so:
 
-# In[59]:
+# In[14]:
 
 
 import pandas as pd
@@ -340,7 +340,7 @@ print("p = ", round(ans[1],3))
 # 
 # At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is *not* that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
 
-# In[60]:
+# In[15]:
 
 
 
@@ -358,7 +358,7 @@ nullProbs
 
 # Now we have explicitly specified our null hypothesis in terms of probabilities. There is one more step, though, because `chisquare` expects the counts in the observed and "expected" data to add up to the same thing; otherwise there is no way for it to compare them. So, to convert our null hypothesis probabilities to count values, we need to multiply them by the total number of items counted in our observed data (which in the case of the `cards` data was 200, remember?) Once that is taken care of, we can go ahead and run the test:
 
-# In[61]:
+# In[16]:
 
 
 import pandas as pd
