@@ -454,76 +454,91 @@ df.head()
 df.describe()
 
 
-# In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the `choices` broken down *by* `species`. That is, we need to [cross-tabulate]freqtables) the data. There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the `xtabs()` function. 
+# In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the `choices` broken down *by* `species`. That is, we need to [cross-tabulate]freqtables) the data. There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the `crosstab()` method from `pandas`.
 
-# ```{r}
-# chapekFrequencies <- xtabs( ~ choice + species, data = chapek9)
-# chapekFrequencies
-# ```
+# In[19]:
 
-# That's more or less what we're after. So, if we add the row and column totals (which is convenient for the purposes of explaining the statistical tests), we would have a table like this,
-# ```{r echo=FALSE}
-# knitr::kable(data.frame(stringsAsFactors=FALSE,
-# NANA = c("Puppy", "Flower", "Data file", "Total"),
-# Robot = c(13, 30, 44, 87),
-# Human = c(15, 13, 65, 93),
-# Total = c(28, 43, 109, 180)
-# ), col.names = c("", "Robot", "Human", "Total"), align = 'lccc')
-# ```
-# which actually would be a nice way to report the descriptive statistics for this data set. In any case, it's quite clear that the vast majority of the humans chose the data file, whereas the robots tended to be a lot  more even in their preferences. Leaving aside the question of *why* the humans might be more likely to choose the data file for the moment (which does seem quite odd, admittedly), our first order of business is to determine if the discrepancy between human choices and robot choices in the data set is statistically significant.
-# 
+
+pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
+
+
+# That's more or less what we're after. If set `margins=` to `True`, then we can get the row and column totals as well (which is convenient for the purposes of explaining the statistical tests):
+
+# In[20]:
+
+
+pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
+
+
+# With maybe a teeny bit of tidying up, like so:
+
+# |          | Robot | Human | Total |
+# |:---------|:-----:|:-----:|:-----:|
+# |Puppy     |  13   |  15   |  28   |
+# |Flower    |  30   |  13   |  43   |
+# |Data file |  44   |  65   |  109  |
+# |Total     |  87   |  93   |  180  |
+
+# we would actually have a nice way to report the descriptive statistics for this data set. In any case, it's quite clear that the vast majority of the humans chose the data file, whereas the robots tended to be a lot  more even in their preferences. Leaving aside the question of *why* the humans might be more likely to choose the data file for the moment (which does seem quite odd, admittedly), our first order of business is to determine if the discrepancy between human choices and robot choices in the data set is statistically significant.
+
 # ### Constructing our hypothesis test
 # 
 # How do we analyse this data? Specifically, since my *research* hypothesis is that "humans and robots answer the question in different ways", how can I construct a test of the *null* hypothesis that "humans and robots answer the question the same way"? As before, we begin by establishing some notation to describe the data:
 # 
-# ```{r echo=FALSE}
-# knitr::kable(data.frame(stringsAsFactors=FALSE,
-# NANA = c("Puppy", "Flower", "Data file", "Total"),
-# Robot = c("$O_{11}$", "$O_{21}$", "$O_{31}$", "$C_{1}$"),
-# Human = c("$O_{12}$", "$O_{22}$", "$O_{32}$", "$C_{2}$"),
-# Total = c("$R_{1}$", "$R_{2}$", "$R_{3}$", "$N$")
-# ), col.names = c("", "Robot", "Human", "Total"))
+# |          |Robot    |Human    |Total   |
+# |:---------|:--------|:--------|:-------|
+# |Puppy     |$O_{11}$ |$O_{12}$ |$R_{1}$ |
+# |Flower    |$O_{21}$ |$O_{22}$ |$R_{2}$ |
+# |Data file |$O_{31}$ |$O_{32}$ |$R_{3}$ |
+# |Total     |$C_{1}$  |$C_{2}$  |$N$     |
 # 
-# ```
-# 
-# In this notation we say that $O_{ij}$ is a count (observed frequency) of the number of respondents that are of species $j$ (robots or human) who gave answer $i$ (puppy, flower or data) when asked to make a choice. The total number of observations is written $N$, as usual. Finally, I've used $R_i$ to denote the row totals (e.g., $R_1$ is the total number of people who chose the flower), and $C_j$ to denote the column totals (e.g., $C_1$ is the total number of robots).^[A technical note. The way I've described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook [@Hogg2005] I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that's exactly what I did. However, it turns out that these two tests are identical; and so I've collapsed them together.]
+# In this notation we say that $O_{ij}$ is a count (observed frequency) of the number of respondents that are of species $j$ (robots or human) who gave answer $i$ (puppy, flower or data) when asked to make a choice. The total number of observations is written $N$, as usual. Finally, I've used $R_i$ to denote the row totals (e.g., $R_1$ is the total number of people who chose the flower), and $C_j$ to denote the column totals (e.g., $C_1$ is the total number of robots).[^note7]
 # 
 # So now let's think about what the null hypothesis says. If robots and humans are responding in the same way to the question, it means that the probability that "a robot says puppy" is the same as the probability that "a human says puppy", and so on for the other two possibilities. So, if we use $P_{ij}$ to denote "the probability that a member of species $j$ gives response $i$" then our null hypothesis is that:
 # 
-# ```{r echo=FALSE}
-# knitr::kable(tibble::tribble(
-#                          ~V1,                                                      ~V2,    
-#   "$H_0$:",                       " All of the following are true: ",     
-#                       "    ",  " $P_{11} = P_{12}$ (same probability of saying puppy)",   
-#                         "\t", " $P_{21} = P_{22}$ (same probability of saying flower) and", 
-#                         "\t",  " $P_{31} = P_{32}$ (same probability of saying data)."), col.names = c("", ""))
-# ```
+# |       |                                                          |
+# |:------|:---------------------------------------------------------|
+# |$H_0$: |All of the following are true:                            |
+# |       |$P_{11} = P_{12}$ (same probability of saying puppy)      |
+# |       |$P_{21} = P_{22}$ (same probability of saying flower) and |
+# |       |$P_{31} = P_{32}$ (same probability of saying data).      |
 # 
 # And actually, since the null hypothesis is claiming that the true choice probabilities don't depend on the species of the person making the choice, we can let $P_i$ refer to this probability: e.g., $P_1$ is the true probability of choosing the puppy.
 # 
 # Next, in much the same way that we did with the goodness of fit test, what we need to do is calculate the expected frequencies. That is, for each of the observed counts $O_{ij}$, we need to figure out what the null hypothesis would tell us to expect. Let's denote this expected frequency by $E_{ij}$. This time, it's a little bit trickier. If there are a total of $C_j$ people that belong to species $j$, and the true probability of anyone (regardless of species) choosing option $i$ is $P_i$, then the expected frequency is just: 
+# 
 # $$
 # E_{ij} = C_j \times P_i
 # $$
-# Now, this is all very well and good, but we have a problem. Unlike the situation we had with the goodness of fit test, the null hypothesis doesn't actually specify a particular value for $P_i$. It's something we have to estimate (Chapter \@ref(estimation)) from the data! Fortunately, this is pretty easy to do. If 28 out of 180 people selected the flowers, then a natural estimate for the probability of choosing flowers is $28/180$, which is approximately $.16$. If we phrase this in mathematical terms, what we're saying is that our estimate for the probability of choosing option $i$ is just the row total divided by the total sample size:
+# 
+# Now, this is all very well and good, but we have a problem. Unlike the situation we had with the goodness of fit test, the null hypothesis doesn't actually specify a particular value for $P_i$. It's something we have to [estimate](estimation) from the data! Fortunately, this is pretty easy to do. If 28 out of 180 people selected the flowers, then a natural estimate for the probability of choosing flowers is $28/180$, which is approximately $.16$. If we phrase this in mathematical terms, what we're saying is that our estimate for the probability of choosing option $i$ is just the row total divided by the total sample size:
+# 
 # $$
 # \hat{P}_i = \frac{R_i}{N}
 # $$ 
-# Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:^[Technically, $E_{ij}$ here is an estimate, so I should probably write it $\hat{E}_{ij}$. But since no-one else does, I won't either.]
+# 
+# Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:[^note8]
+# 
 # $$
 # E_{ij} = \frac{R_i \times C_j}{N}
 # $$
+# 
 # Now that we've figured out how to calculate the expected frequencies, it's straightforward to define a test statistic; following the exact same strategy that we used in the goodness of fit test. In fact, it's pretty much the *same* statistic. For a contingency table with $r$ rows and $c$ columns, the equation that defines our $X^2$ statistic is 
+# 
 # $$ 
 # X^2 = \sum_{i=1}^r  \sum_{j=1}^c \frac{({E}_{ij} - O_{ij})^2}{{E}_{ij}}
 # $$
+# 
 # The only difference is that I have to include two summation sign (i.e., $\sum$) to indicate that we're summing over both rows and columns. As before, large values of $X^2$ indicate that the null hypothesis provides a poor description of the data, whereas small values of $X^2$ suggest that it does a good job of accounting for the data. Therefore, just like last time, we want to reject the null hypothesis if $X^2$ is too large.
 # 
 # Not surprisingly, this statistic is $\chi^2$ distributed. All we need to do is figure out how many degrees of freedom are involved, which actually isn't too hard. As I mentioned before, you can (usually) think of the degrees of freedom as being equal to the number of data points that you're analysing, minus the number of constraints. A contingency table with $r$ rows and $c$ columns contains a total of $r \times c$ observed frequencies, so that's the total number of observations. What about the constraints? Here, it's slightly trickier. The answer is always the same
+# 
 # $$
 # df = (r-1)(c-1)
 # $$
+# 
 # but the explanation for *why* the degrees of freedom takes this value is different depending on the experimental design. For the sake of argument, let's suppose that we had honestly intended to survey exactly 87 robots and 93 humans (column totals fixed by the experimenter), but left the row totals free to vary (row totals are random variables). Let's think about the constraints that apply here. Well, since we deliberately fixed the column totals by Act of Experimenter, we have $c$ constraints right there. But, there's actually more to it than that. Remember how our null hypothesis had some free parameters (i.e., we had to estimate the $P_i$ values)? Those matter too. I won't explain why in this book, but every free parameter in the null hypothesis is rather like an additional constraint. So, how many of those are there? Well, since these probabilities have to sum to 1, there's only $r-1$ of these. So our total degrees of freedom is:
+# 
 # $$
 # \begin{array}{rcl}
 # df &=& \mbox{(number of observations)} - \mbox{(number of constraints)} \\
@@ -532,7 +547,9 @@ df.describe()
 # &=& (r - 1)(c - 1)
 # \end{array}
 # $$
-# Alternatively, suppose that the only thing that the experimenter fixed was the total sample size $N$. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has $r-1$ free parameters corresponding to the choice probabilities, but it now *also* has $c-1$ free parameters corresponding to the species probabilities, because we'd also have to estimate the probability that a randomly sampled person turns out to be a robot.^[A problem many of us worry about in real life.] Finally, since we did actually fix the total number of observations $N$, that's one more constraint. So now we have, $rc$ observations, and $(c-1) + (r-1) + 1$ constraints. What does that give?
+# 
+# Alternatively, suppose that the only thing that the experimenter fixed was the total sample size $N$. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has $r-1$ free parameters corresponding to the choice probabilities, but it now *also* has $c-1$ free parameters corresponding to the species probabilities, because we'd also have to estimate the probability that a randomly sampled person turns out to be a robot.[^note9] Finally, since we did actually fix the total number of observations $N$, that's one more constraint. So now we have, $rc$ observations, and $(c-1) + (r-1) + 1$ constraints. What does that give?
+# 
 # $$
 # \begin{array}{rcl}
 # df &=& \mbox{(number of observations)} - \mbox{(number of constraints)} \\
@@ -541,10 +558,16 @@ df.describe()
 # &=& (r - 1)(c - 1)
 # \end{array}
 # $$
+# 
 # Amazing. 
 # 
 # 
+# [^note7]: A technical note. The way I've described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook {cite}`Hogg2005` I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that's exactly what I did. However, it turns out that these two tests are identical; and so I've collapsed them together.
 # 
+# [^note8]:Technically, $E_{ij}$ here is an estimate, so I should probably write it $\hat{E}_{ij}$. But since no-one else does, I won't either.
+# 
+# [^note9]: A problem many of us worry about in real life.
+
 # ### Doing the test in R{#AssocTestInR}
 # 
 # 
