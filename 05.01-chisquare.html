@@ -1441,80 +1441,265 @@ p =  0.192
 </table>
 </div></div></div>
 </div>
-<p>In total there are 180 entries in the data frame, one for each person (counting both robots and humans as “people”) who was asked to make a choice. Specifically, there’s 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don’t address the question we’re interested in. To do that, we need a more detailed description of the data. What we want to do is look at the <code class="docutils literal notranslate"><span class="pre">choices</span></code> broken down <em>by</em> <code class="docutils literal notranslate"><span class="pre">species</span></code>. That is, we need to [cross-tabulate]freqtables) the data. There’s quite a few ways to do this, as we’ve seen, but since our data are stored in a data frame, it’s convenient to use the <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code> function.</p>
-<p>That’s more or less what we’re after. So, if we add the row and column totals (which is convenient for the purposes of explaining the statistical tests), we would have a table like this,</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c(&quot;Puppy&quot;, &quot;Flower&quot;, &quot;Data file&quot;, &quot;Total&quot;),
-Robot = c(13, 30, 44, 87),
-Human = c(15, 13, 65, 93),
-Total = c(28, 43, 109, 180)
-), col.names = c(&quot;&quot;, &quot;Robot&quot;, &quot;Human&quot;, &quot;Total&quot;), align = &#39;lccc&#39;)
+<p>In total there are 180 entries in the data frame, one for each person (counting both robots and humans as “people”) who was asked to make a choice. Specifically, there’s 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don’t address the question we’re interested in. To do that, we need a more detailed description of the data. What we want to do is look at the <code class="docutils literal notranslate"><span class="pre">choices</span></code> broken down <em>by</em> <code class="docutils literal notranslate"><span class="pre">species</span></code>. That is, we need to [cross-tabulate]freqtables) the data. There’s quite a few ways to do this, as we’ve seen, but since our data are stored in a data frame, it’s convenient to use the <code class="docutils literal notranslate"><span class="pre">crosstab()</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>which actually would be a nice way to report the descriptive statistics for this data set. In any case, it’s quite clear that the vast majority of the humans chose the data file, whereas the robots tended to be a lot  more even in their preferences. Leaving aside the question of <em>why</em> the humans might be more likely to choose the data file for the moment (which does seem quite odd, admittedly), our first order of business is to determine if the discrepancy between human choices and robot choices in the data set is statistically significant.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>species</th>
+      <th>human</th>
+      <th>robot</th>
+    </tr>
+    <tr>
+      <th>choice</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>data</th>
+      <td>65</td>
+      <td>44</td>
+    </tr>
+    <tr>
+      <th>flower</th>
+      <td>13</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>puppy</th>
+      <td>15</td>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>That’s more or less what we’re after. If set <code class="docutils literal notranslate"><span class="pre">margins=</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>, then we can get the row and column totals as well (which is convenient for the purposes of explaining the statistical tests):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>species</th>
+      <th>human</th>
+      <th>robot</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>choice</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>data</th>
+      <td>65</td>
+      <td>44</td>
+      <td>109</td>
+    </tr>
+    <tr>
+      <th>flower</th>
+      <td>13</td>
+      <td>30</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <th>puppy</th>
+      <td>15</td>
+      <td>13</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>93</td>
+      <td>87</td>
+      <td>180</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>With maybe a teeny bit of tidying up, like so:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:center head"><p>Robot</p></th>
+<th class="text-align:center head"><p>Human</p></th>
+<th class="text-align:center head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Puppy</p></td>
+<td class="text-align:center"><p>13</p></td>
+<td class="text-align:center"><p>15</p></td>
+<td class="text-align:center"><p>28</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Flower</p></td>
+<td class="text-align:center"><p>30</p></td>
+<td class="text-align:center"><p>13</p></td>
+<td class="text-align:center"><p>43</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Data file</p></td>
+<td class="text-align:center"><p>44</p></td>
+<td class="text-align:center"><p>65</p></td>
+<td class="text-align:center"><p>109</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Total</p></td>
+<td class="text-align:center"><p>87</p></td>
+<td class="text-align:center"><p>93</p></td>
+<td class="text-align:center"><p>180</p></td>
+</tr>
+</tbody>
+</table>
+<p>we would actually have a nice way to report the descriptive statistics for this data set. In any case, it’s quite clear that the vast majority of the humans chose the data file, whereas the robots tended to be a lot  more even in their preferences. Leaving aside the question of <em>why</em> the humans might be more likely to choose the data file for the moment (which does seem quite odd, admittedly), our first order of business is to determine if the discrepancy between human choices and robot choices in the data set is statistically significant.</p>
 <div class="section" id="constructing-our-hypothesis-test">
 <h3><span class="section-number">14.2.1. </span>Constructing our hypothesis test<a class="headerlink" href="#constructing-our-hypothesis-test" title="Permalink to this headline">¶</a></h3>
 <p>How do we analyse this data? Specifically, since my <em>research</em> hypothesis is that “humans and robots answer the question in different ways”, how can I construct a test of the <em>null</em> hypothesis that “humans and robots answer the question the same way”? As before, we begin by establishing some notation to describe the data:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(data.frame(stringsAsFactors=FALSE,
-NANA = c(&quot;Puppy&quot;, &quot;Flower&quot;, &quot;Data file&quot;, &quot;Total&quot;),
-Robot = c(&quot;$O_{11}$&quot;, &quot;$O_{21}$&quot;, &quot;$O_{31}$&quot;, &quot;$C_{1}$&quot;),
-Human = c(&quot;$O_{12}$&quot;, &quot;$O_{22}$&quot;, &quot;$O_{32}$&quot;, &quot;$C_{2}$&quot;),
-Total = c(&quot;$R_{1}$&quot;, &quot;$R_{2}$&quot;, &quot;$R_{3}$&quot;, &quot;$N$&quot;)
-), col.names = c(&quot;&quot;, &quot;Robot&quot;, &quot;Human&quot;, &quot;Total&quot;))
-
-</pre></div>
-</div>
-<p>In this notation we say that <span class="math notranslate nohighlight">\(O_{ij}\)</span> is a count (observed frequency) of the number of respondents that are of species <span class="math notranslate nohighlight">\(j\)</span> (robots or human) who gave answer <span class="math notranslate nohighlight">\(i\)</span> (puppy, flower or data) when asked to make a choice. The total number of observations is written <span class="math notranslate nohighlight">\(N\)</span>, as usual. Finally, I’ve used <span class="math notranslate nohighlight">\(R_i\)</span> to denote the row totals (e.g., <span class="math notranslate nohighlight">\(R_1\)</span> is the total number of people who chose the flower), and <span class="math notranslate nohighlight">\(C_j\)</span> to denote the column totals (e.g., <span class="math notranslate nohighlight">\(C_1\)</span> is the total number of robots).^[A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook [&#64;Hogg2005] I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.]</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p>Robot</p></th>
+<th class="text-align:left head"><p>Human</p></th>
+<th class="text-align:left head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Puppy</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Flower</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Data file</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{31}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{32}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Total</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>In this notation we say that <span class="math notranslate nohighlight">\(O_{ij}\)</span> is a count (observed frequency) of the number of respondents that are of species <span class="math notranslate nohighlight">\(j\)</span> (robots or human) who gave answer <span class="math notranslate nohighlight">\(i\)</span> (puppy, flower or data) when asked to make a choice. The total number of observations is written <span class="math notranslate nohighlight">\(N\)</span>, as usual. Finally, I’ve used <span class="math notranslate nohighlight">\(R_i\)</span> to denote the row totals (e.g., <span class="math notranslate nohighlight">\(R_1\)</span> is the total number of people who chose the flower), and <span class="math notranslate nohighlight">\(C_j\)</span> to denote the column totals (e.g., <span class="math notranslate nohighlight">\(C_1\)</span> is the total number of robots).<a class="footnote-reference brackets" href="#note7" id="id10">7</a></p>
 <p>So now let’s think about what the null hypothesis says. If robots and humans are responding in the same way to the question, it means that the probability that “a robot says puppy” is the same as the probability that “a human says puppy”, and so on for the other two possibilities. So, if we use <span class="math notranslate nohighlight">\(P_{ij}\)</span> to denote “the probability that a member of species <span class="math notranslate nohighlight">\(j\)</span> gives response <span class="math notranslate nohighlight">\(i\)</span>” then our null hypothesis is that:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-                         ~V1,                                                      ~V2,    
-  &quot;$H_0$:&quot;,                       &quot; All of the following are true: &quot;,     
-                      &quot;    &quot;,  &quot; $P_{11} = P_{12}$ (same probability of saying puppy)&quot;,   
-                        &quot;\t&quot;, &quot; $P_{21} = P_{22}$ (same probability of saying flower) and&quot;, 
-                        &quot;\t&quot;,  &quot; $P_{31} = P_{32}$ (same probability of saying data).&quot;), col.names = c(&quot;&quot;, &quot;&quot;))
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p><span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-align:left"><p>All of the following are true:</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{11} = P_{12}\)</span> (same probability of saying puppy)</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{21} = P_{22}\)</span> (same probability of saying flower) and</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{31} = P_{32}\)</span> (same probability of saying data).</p></td>
+</tr>
+</tbody>
+</table>
 <p>And actually, since the null hypothesis is claiming that the true choice probabilities don’t depend on the species of the person making the choice, we can let <span class="math notranslate nohighlight">\(P_i\)</span> refer to this probability: e.g., <span class="math notranslate nohighlight">\(P_1\)</span> is the true probability of choosing the puppy.</p>
-<p>Next, in much the same way that we did with the goodness of fit test, what we need to do is calculate the expected frequencies. That is, for each of the observed counts <span class="math notranslate nohighlight">\(O_{ij}\)</span>, we need to figure out what the null hypothesis would tell us to expect. Let’s denote this expected frequency by <span class="math notranslate nohighlight">\(E_{ij}\)</span>. This time, it’s a little bit trickier. If there are a total of <span class="math notranslate nohighlight">\(C_j\)</span> people that belong to species <span class="math notranslate nohighlight">\(j\)</span>, and the true probability of anyone (regardless of species) choosing option <span class="math notranslate nohighlight">\(i\)</span> is <span class="math notranslate nohighlight">\(P_i\)</span>, then the expected frequency is just:
-$<span class="math notranslate nohighlight">\(
+<p>Next, in much the same way that we did with the goodness of fit test, what we need to do is calculate the expected frequencies. That is, for each of the observed counts <span class="math notranslate nohighlight">\(O_{ij}\)</span>, we need to figure out what the null hypothesis would tell us to expect. Let’s denote this expected frequency by <span class="math notranslate nohighlight">\(E_{ij}\)</span>. This time, it’s a little bit trickier. If there are a total of <span class="math notranslate nohighlight">\(C_j\)</span> people that belong to species <span class="math notranslate nohighlight">\(j\)</span>, and the true probability of anyone (regardless of species) choosing option <span class="math notranslate nohighlight">\(i\)</span> is <span class="math notranslate nohighlight">\(P_i\)</span>, then the expected frequency is just:</p>
+<div class="math notranslate nohighlight">
+\[
 E_{ij} = C_j \times P_i
-\)</span><span class="math notranslate nohighlight">\(
-Now, this is all very well and good, but we have a problem. Unlike the situation we had with the goodness of fit test, the null hypothesis doesn't actually specify a particular value for \)</span>P_i<span class="math notranslate nohighlight">\(. It's something we have to estimate (Chapter \&#64;ref(estimation)) from the data! Fortunately, this is pretty easy to do. If 28 out of 180 people selected the flowers, then a natural estimate for the probability of choosing flowers is \)</span>28/180<span class="math notranslate nohighlight">\(, which is approximately \)</span>.16<span class="math notranslate nohighlight">\(. If we phrase this in mathematical terms, what we're saying is that our estimate for the probability of choosing option \)</span>i<span class="math notranslate nohighlight">\( is just the row total divided by the total sample size:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>Now, this is all very well and good, but we have a problem. Unlike the situation we had with the goodness of fit test, the null hypothesis doesn’t actually specify a particular value for <span class="math notranslate nohighlight">\(P_i\)</span>. It’s something we have to <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimate</span></a> from the data! Fortunately, this is pretty easy to do. If 28 out of 180 people selected the flowers, then a natural estimate for the probability of choosing flowers is <span class="math notranslate nohighlight">\(28/180\)</span>, which is approximately <span class="math notranslate nohighlight">\(.16\)</span>. If we phrase this in mathematical terms, what we’re saying is that our estimate for the probability of choosing option <span class="math notranslate nohighlight">\(i\)</span> is just the row total divided by the total sample size:</p>
+<div class="math notranslate nohighlight">
+\[
 \hat{P}_i = \frac{R_i}{N}
-\)</span><span class="math notranslate nohighlight">\( 
-Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:^[Technically, \)</span>E_{ij}<span class="math notranslate nohighlight">\( here is an estimate, so I should probably write it \)</span>\hat{E}_{ij}<span class="math notranslate nohighlight">\(. But since no-one else does, I won't either.]
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:<a class="footnote-reference brackets" href="#note8" id="id11">8</a></p>
+<div class="math notranslate nohighlight">
+\[
 E_{ij} = \frac{R_i \times C_j}{N}
-\)</span><span class="math notranslate nohighlight">\(
-Now that we've figured out how to calculate the expected frequencies, it's straightforward to define a test statistic; following the exact same strategy that we used in the goodness of fit test. In fact, it's pretty much the *same* statistic. For a contingency table with \)</span>r<span class="math notranslate nohighlight">\( rows and \)</span>c<span class="math notranslate nohighlight">\( columns, the equation that defines our \)</span>X^2<span class="math notranslate nohighlight">\( statistic is 
-\)</span><span class="math notranslate nohighlight">\( 
+\]</div>
+<p>Now that we’ve figured out how to calculate the expected frequencies, it’s straightforward to define a test statistic; following the exact same strategy that we used in the goodness of fit test. In fact, it’s pretty much the <em>same</em> statistic. For a contingency table with <span class="math notranslate nohighlight">\(r\)</span> rows and <span class="math notranslate nohighlight">\(c\)</span> columns, the equation that defines our <span class="math notranslate nohighlight">\(X^2\)</span> statistic is</p>
+<div class="math notranslate nohighlight">
+\[ 
 X^2 = \sum_{i=1}^r  \sum_{j=1}^c \frac{({E}_{ij} - O_{ij})^2}{{E}_{ij}}
-\)</span><span class="math notranslate nohighlight">\(
-The only difference is that I have to include two summation sign (i.e., \)</span>\sum<span class="math notranslate nohighlight">\() to indicate that we're summing over both rows and columns. As before, large values of \)</span>X^2<span class="math notranslate nohighlight">\( indicate that the null hypothesis provides a poor description of the data, whereas small values of \)</span>X^2<span class="math notranslate nohighlight">\( suggest that it does a good job of accounting for the data. Therefore, just like last time, we want to reject the null hypothesis if \)</span>X^2$ is too large.</p>
-<p>Not surprisingly, this statistic is <span class="math notranslate nohighlight">\(\chi^2\)</span> distributed. All we need to do is figure out how many degrees of freedom are involved, which actually isn’t too hard. As I mentioned before, you can (usually) think of the degrees of freedom as being equal to the number of data points that you’re analysing, minus the number of constraints. A contingency table with <span class="math notranslate nohighlight">\(r\)</span> rows and <span class="math notranslate nohighlight">\(c\)</span> columns contains a total of <span class="math notranslate nohighlight">\(r \times c\)</span> observed frequencies, so that’s the total number of observations. What about the constraints? Here, it’s slightly trickier. The answer is always the same
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>The only difference is that I have to include two summation sign (i.e., <span class="math notranslate nohighlight">\(\sum\)</span>) to indicate that we’re summing over both rows and columns. As before, large values of <span class="math notranslate nohighlight">\(X^2\)</span> indicate that the null hypothesis provides a poor description of the data, whereas small values of <span class="math notranslate nohighlight">\(X^2\)</span> suggest that it does a good job of accounting for the data. Therefore, just like last time, we want to reject the null hypothesis if <span class="math notranslate nohighlight">\(X^2\)</span> is too large.</p>
+<p>Not surprisingly, this statistic is <span class="math notranslate nohighlight">\(\chi^2\)</span> distributed. All we need to do is figure out how many degrees of freedom are involved, which actually isn’t too hard. As I mentioned before, you can (usually) think of the degrees of freedom as being equal to the number of data points that you’re analysing, minus the number of constraints. A contingency table with <span class="math notranslate nohighlight">\(r\)</span> rows and <span class="math notranslate nohighlight">\(c\)</span> columns contains a total of <span class="math notranslate nohighlight">\(r \times c\)</span> observed frequencies, so that’s the total number of observations. What about the constraints? Here, it’s slightly trickier. The answer is always the same</p>
+<div class="math notranslate nohighlight">
+\[
 df = (r-1)(c-1)
-\)</span><span class="math notranslate nohighlight">\(
-but the explanation for *why* the degrees of freedom takes this value is different depending on the experimental design. For the sake of argument, let's suppose that we had honestly intended to survey exactly 87 robots and 93 humans (column totals fixed by the experimenter), but left the row totals free to vary (row totals are random variables). Let's think about the constraints that apply here. Well, since we deliberately fixed the column totals by Act of Experimenter, we have \)</span>c<span class="math notranslate nohighlight">\( constraints right there. But, there's actually more to it than that. Remember how our null hypothesis had some free parameters (i.e., we had to estimate the \)</span>P_i<span class="math notranslate nohighlight">\( values)? Those matter too. I won't explain why in this book, but every free parameter in the null hypothesis is rather like an additional constraint. So, how many of those are there? Well, since these probabilities have to sum to 1, there's only \)</span>r-1<span class="math notranslate nohighlight">\( of these. So our total degrees of freedom is:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>but the explanation for <em>why</em> the degrees of freedom takes this value is different depending on the experimental design. For the sake of argument, let’s suppose that we had honestly intended to survey exactly 87 robots and 93 humans (column totals fixed by the experimenter), but left the row totals free to vary (row totals are random variables). Let’s think about the constraints that apply here. Well, since we deliberately fixed the column totals by Act of Experimenter, we have <span class="math notranslate nohighlight">\(c\)</span> constraints right there. But, there’s actually more to it than that. Remember how our null hypothesis had some free parameters (i.e., we had to estimate the <span class="math notranslate nohighlight">\(P_i\)</span> values)? Those matter too. I won’t explain why in this book, but every free parameter in the null hypothesis is rather like an additional constraint. So, how many of those are there? Well, since these probabilities have to sum to 1, there’s only <span class="math notranslate nohighlight">\(r-1\)</span> of these. So our total degrees of freedom is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{rcl}
 df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} \\
 &amp;=&amp; (rc) - (c + (r-1)) \\
 &amp;=&amp; rc - c - r + 1 \\
 &amp;=&amp; (r - 1)(c - 1)
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-Alternatively, suppose that the only thing that the experimenter fixed was the total sample size \)</span>N<span class="math notranslate nohighlight">\(. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has \)</span>r-1<span class="math notranslate nohighlight">\( free parameters corresponding to the choice probabilities, but it now *also* has \)</span>c-1<span class="math notranslate nohighlight">\( free parameters corresponding to the species probabilities, because we'd also have to estimate the probability that a randomly sampled person turns out to be a robot.^[A problem many of us worry about in real life.] Finally, since we did actually fix the total number of observations \)</span>N<span class="math notranslate nohighlight">\(, that's one more constraint. So now we have, \)</span>rc<span class="math notranslate nohighlight">\( observations, and \)</span>(c-1) + (r-1) + 1<span class="math notranslate nohighlight">\( constraints. What does that give?
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>Alternatively, suppose that the only thing that the experimenter fixed was the total sample size <span class="math notranslate nohighlight">\(N\)</span>. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has <span class="math notranslate nohighlight">\(r-1\)</span> free parameters corresponding to the choice probabilities, but it now <em>also</em> has <span class="math notranslate nohighlight">\(c-1\)</span> free parameters corresponding to the species probabilities, because we’d also have to estimate the probability that a randomly sampled person turns out to be a robot.<a class="footnote-reference brackets" href="#note9" id="id12">9</a> Finally, since we did actually fix the total number of observations <span class="math notranslate nohighlight">\(N\)</span>, that’s one more constraint. So now we have, <span class="math notranslate nohighlight">\(rc\)</span> observations, and <span class="math notranslate nohighlight">\((c-1) + (r-1) + 1\)</span> constraints. What does that give?</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{rcl}
 df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} \\
 &amp;=&amp; rc - ( (c-1) + (r-1) + 1) \\
 &amp;=&amp; rc - c - r + 1 \\
 &amp;=&amp; (r - 1)(c - 1)
 \end{array}
-\)</span>$
-Amazing.</p>
+\end{split}\]</div>
+<p>Amazing.</p>
 </div>
 <div class="section" id="doing-the-test-in-r-assoctestinr">
 <h3><span class="section-number">14.2.2. </span>Doing the test in R{#AssocTestInR}<a class="headerlink" href="#doing-the-test-in-r-assoctestinr" title="Permalink to this headline">¶</a></h3>
@@ -1729,6 +1914,15 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 </dd>
 <dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id8">6</a></span></dt>
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
+</dd>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id13">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+</dd>
+<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
+<dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
+</dd>
+<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id12">9</a></span></dt>
+<dd><p>A problem many of us worry about in real life.</p>
 </dd>
 </dl>
 </div>
