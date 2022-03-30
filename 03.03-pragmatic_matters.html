@@ -476,19 +476,82 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speaker&#39;</span><span class="p">:[</span><span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;upsy-daisy&quot;</span><span class="p">,</span>  <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;tombliboo&quot;</span><span class="p">,</span>   <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>   <span class="s2">&quot;makka-pakka&quot;</span><span class="p">,</span> <span class="s2">&quot;makka-pakka&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>        <span class="s1">&#39;utterance&#39;</span><span class="p">:[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;ee&quot;</span><span class="p">,</span>  <span class="s2">&quot;oo&quot;</span><span class="p">,</span>  <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">,</span> <span class="s2">&quot;onk&quot;</span><span class="p">]}</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">,</span><span class="s1">&#39;utterance&#39;</span><span class="p">])</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>speaker</th>
+      <th>utterance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>upsy-daisy</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>upsy-daisy</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>tombliboo</td>
+      <td>ee</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>tombliboo</td>
+      <td>oo</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>makka-pakka</td>
+      <td>pip</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>makka-pakka</td>
+      <td>onk</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the <code class="docutils literal notranslate"><span class="pre">crosstab</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code> provides an easy way to do this:</p>
 <div class="cell docutils container">
@@ -898,7 +961,7 @@ laid out for its convenience. Maybe a few more tractors would do the trick.</em>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3, 3, 1, 0, 0, 0, 2, 2, 1, 1])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
 </pre></div>
 </div>
 </div>
