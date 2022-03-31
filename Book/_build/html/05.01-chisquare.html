@@ -411,6 +411,28 @@ const thebe_selector_output = ".output, .cell_output"
     <a class="reference internal nav-link" href="#assoctestinpython">
      14.2.2. Doing the test in Python
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">
+       14.2.2.1. Doing the test with
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         scipy.stats
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#doing-the-test-with-pingouin">
+       14.2.2.2. Doing the test with
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         pingouin
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#postscript">
@@ -420,18 +442,18 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-continuity-correction-yates">
-   14.3. The continuity correction{#yates}
+  <a class="reference internal nav-link" href="#the-continuity-correction">
+   14.3. The continuity correction
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#effect-size-chisqeffectsize">
-   14.4. Effect size{#chisqeffectsize}
+  <a class="reference internal nav-link" href="#effect-size">
+   14.4. Effect size
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-the-test-s-chisqassumptions">
-   14.5. Assumptions of the test(s){#chisqassumptions}
+  <a class="reference internal nav-link" href="#assumptions-of-the-test-s">
+   14.5. Assumptions of the test(s)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -560,6 +582,28 @@ const thebe_selector_output = ".output, .cell_output"
     <a class="reference internal nav-link" href="#assoctestinpython">
      14.2.2. Doing the test in Python
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">
+       14.2.2.1. Doing the test with
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         scipy.stats
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#doing-the-test-with-pingouin">
+       14.2.2.2. Doing the test with
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         pingouin
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#postscript">
@@ -569,18 +613,18 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-continuity-correction-yates">
-   14.3. The continuity correction{#yates}
+  <a class="reference internal nav-link" href="#the-continuity-correction">
+   14.3. The continuity correction
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#effect-size-chisqeffectsize">
-   14.4. Effect size{#chisqeffectsize}
+  <a class="reference internal nav-link" href="#effect-size">
+   14.4. Effect size
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-the-test-s-chisqassumptions">
-   14.5. Assumptions of the test(s){#chisqassumptions}
+  <a class="reference internal nav-link" href="#assumptions-of-the-test-s">
+   14.5. Assumptions of the test(s)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1704,82 +1748,15 @@ df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} 
 <div class="section" id="assoctestinpython">
 <span id="id13"></span><h3><span class="section-number">14.2.2. </span>Doing the test in Python<a class="headerlink" href="#assoctestinpython" title="Permalink to this headline">¶</a></h3>
 <p>Okay, now that we know how the test works, let’s have a look at how it’s done in Python. As tempting as it is to lead you through the tedious calculations so that you’re forced to learn it the long way, I figure there’s no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn’t conceptually any different, you won’t learn anything new by doing it the long way. So instead, I’ll go straight to showing you the easy way. As always, Python lets you do it multiple ways. We’ve already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> for calculating the <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test above, so I’ll start with that. Then, I want to introduce you to the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package, which bundles up a bunch of statistical tests and makes calculating and reporting them a good deal easier.</p>
-<p>There’s the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function, which I’ll talk about in Section &#64;ref(chisq.test, but first I want to use the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, which I think is easier on beginners. It works in the exact same way as the <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code> function. Recall that, in order to produce the contingency table, we used this command:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function has exactly the same structure: it needs a <code class="docutils literal notranslate"><span class="pre">formula</span></code> that specifies which variables you’re cross-tabulating, and the name of a <code class="docutils literal notranslate"><span class="pre">data</span></code> frame that contains those variables. So the command is just this:</p>
-<p>Just like we did with the goodness of fit test, I’ll go through it line by line. The first two lines are, once again, just reminding you what kind of test you ran and what variables were used:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="n">Chi</span><span class="o">-</span><span class="n">square</span> <span class="n">test</span> <span class="n">of</span> <span class="n">categorical</span> <span class="n">association</span>
-
-<span class="n">Variables</span><span class="p">:</span>   <span class="n">choice</span><span class="p">,</span> <span class="n">species</span> 
-</pre></div>
-</div>
-<p>Next, it tells you what the null and alternative hypotheses are (and again, I want to remind you not to get used to seeing these hypotheses written out so explicitly):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Hypotheses</span><span class="p">:</span> 
-   <span class="n">null</span><span class="p">:</span>        <span class="n">variables</span> <span class="n">are</span> <span class="n">independent</span> <span class="n">of</span> <span class="n">one</span> <span class="n">another</span>
-   <span class="n">alternative</span><span class="p">:</span> <span class="n">some</span> <span class="n">contingency</span> <span class="n">exists</span> <span class="n">between</span> <span class="n">variables</span>
-</pre></div>
-</div>
-<p>Next, it shows you the observed contingency table that is being tested:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Observed</span> <span class="n">contingency</span> <span class="n">table</span><span class="p">:</span>
-        <span class="n">species</span>
-<span class="n">choice</span>   <span class="n">robot</span> <span class="n">human</span>
-  <span class="n">puppy</span>     <span class="mi">13</span>    <span class="mi">15</span>
-  <span class="n">flower</span>    <span class="mi">30</span>    <span class="mi">13</span>
-  <span class="n">data</span>      <span class="mi">44</span>    <span class="mi">65</span>
-</pre></div>
-</div>
-<p>and it also shows you what the expected frequencies would be if the null hypothesis were true:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Expected</span> <span class="n">contingency</span> <span class="n">table</span> <span class="n">under</span> <span class="n">the</span> <span class="n">null</span> <span class="n">hypothesis</span><span class="p">:</span>
-        <span class="n">species</span>
-<span class="n">choice</span>   <span class="n">robot</span> <span class="n">human</span>
-  <span class="n">puppy</span>   <span class="mf">13.5</span>  <span class="mf">14.5</span>
-  <span class="n">flower</span>  <span class="mf">20.8</span>  <span class="mf">22.2</span>
-  <span class="n">data</span>    <span class="mf">52.7</span>  <span class="mf">56.3</span>
-</pre></div>
-</div>
-<p>The next part describes the results of the hypothesis test itself:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">results</span><span class="p">:</span> 
-   <span class="n">X</span><span class="o">-</span><span class="n">squared</span> <span class="n">statistic</span><span class="p">:</span>  <span class="mf">10.722</span> 
-   <span class="n">degrees</span> <span class="n">of</span> <span class="n">freedom</span><span class="p">:</span>  <span class="mi">2</span> 
-   <span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="p">:</span>  <span class="mf">0.005</span> 
-</pre></div>
-</div>
-<p>And finally, it reports a measure of effect size:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Other</span> <span class="n">information</span><span class="p">:</span> 
-   <span class="n">estimated</span> <span class="n">effect</span> <span class="n">size</span> <span class="p">(</span><span class="n">Cramer</span><span class="s1">&#39;s v):  0.244 </span>
-</pre></div>
-</div>
+<div class="section" id="doing-the-test-with-scipy-stats">
+<h4><span class="section-number">14.2.2.1. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code><a class="headerlink" href="#doing-the-test-with-scipy-stats" title="Permalink to this headline">¶</a></h4>
+<p>Calculating <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> is fairly straightforward, although like most of what you get with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, there aren’t a lot of frills. Just like with the goodness-of-fit test, you start by calculating a frequency table. Before, we used the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> method to find the frequency of the different suits drawn in the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data. Since we have two columns of data (choices by robots and choices by humans), we can use the <code class="docutils literal notranslate"><span class="pre">crosstab</span></code> function from <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to do the work, and we can store the results in a variable called <code class="docutils literal notranslate"><span class="pre">observations</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chi2_contingency</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">observations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">correction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;chi2 = &quot;</span><span class="p">,</span> <span class="n">chi2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;degrees of freedom = &quot;</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;expected = &quot;</span><span class="p">,</span> <span class="n">ex</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chi2 =  10.721571792595633
-p =  0.004697213134214071
-degrees of freedom =  2
-expected =  [[56.31666667 52.68333333]
- [22.21666667 20.78333333]
- [14.46666667 13.53333333]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
-<span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
-<span class="n">expected</span>
+<span class="n">observations</span>
 </pre></div>
 </div>
 </div>
@@ -1801,36 +1778,241 @@ expected =  [[56.31666667 52.68333333]
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>choice</th>
-      <th>data</th>
-      <th>flower</th>
-      <th>puppy</th>
+      <th>species</th>
+      <th>human</th>
+      <th>robot</th>
     </tr>
     <tr>
-      <th>species</th>
-      <th></th>
+      <th>choice</th>
       <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>human</th>
-      <td>56.316667</td>
-      <td>22.216667</td>
-      <td>14.466667</td>
+      <th>data</th>
+      <td>65</td>
+      <td>44</td>
     </tr>
     <tr>
-      <th>robot</th>
-      <td>52.683333</td>
-      <td>20.783333</td>
-      <td>13.533333</td>
+      <th>flower</th>
+      <td>13</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>puppy</th>
+      <td>15</td>
+      <td>13</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>You can ignore this bit for now. I’ll talk about it in just a moment.</p>
+<p>Now that we have a frequency table, we can use the <code class="docutils literal notranslate"><span class="pre">chi2_contingency</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> to crunch the numbers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chi2_contingency</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">observations</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;chi2 = &quot;</span><span class="p">,</span> <span class="n">chi2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;degrees of freedom = &quot;</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;expected = &quot;</span><span class="p">,</span> <span class="n">ex</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chi2 =  10.721571792595633
+p =  0.004697213134214071
+degrees of freedom =  2
+expected =  [[56.31666667 52.68333333]
+ [22.21666667 20.78333333]
+ [14.46666667 13.53333333]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">chi2_contingency</span></code> produces four different variables, <code class="docutils literal notranslate"><span class="pre">chi2</span></code>, <code class="docutils literal notranslate"><span class="pre">p</span></code>, <code class="docutils literal notranslate"><span class="pre">dof</span></code>, and <code class="docutils literal notranslate"><span class="pre">ex</span></code>. <code class="docutils literal notranslate"><span class="pre">chi2</span></code> is the <span class="math notranslate nohighlight">\(\chi^2\)</span> statistic, p is the <span class="math notranslate nohighlight">\(p\)</span>-value, <code class="docutils literal notranslate"><span class="pre">dof</span></code> is the degrees of freedom for the test, and <code class="docutils literal notranslate"><span class="pre">ex</span></code> tells you the “expected” values, that is, the frequency counts you would expect to see under the null hypothesis. The null hypothesis, by the way, is that the variables are independent of one another, that is, that the choice of data, flower, or puppy has nothing to do with whether the chooser is a robot or a human. The alternative, of course, is that they are <em>not</em> independent; that is, that robots and humans will tend to make different choices. Or, put another way, that the frequency of flowers, puppies, and data chosen is <em>contingent</em> on whether or not the choosers were humans or robots. That’s why the function is called <code class="docutils literal notranslate"><span class="pre">chi2_contingency</span></code>, I suppose.</p>
+</div>
+<div class="section" id="doing-the-test-with-pingouin">
+<h4><span class="section-number">14.2.2.2. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#doing-the-test-with-pingouin" title="Permalink to this headline">¶</a></h4>
+<p>Now that we’ve done the test with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, I want to introduce you to another way to do the same thing: the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package. <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> takes existing statistical functions in Python and wraps them up in a way that makes them (in my opinion) easier to deal with, and easiser to report afterwards. Unfortunately, there isn’t a <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> command for every statistical test that you might want to do. For example, as of the time of writing this, there is no <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> version of the <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test. However, there is one for the <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association, or contingency, or whatever else you might like to call it), and this is what I will introduce you to now. In the coming chapters on other statistical tests, I will use the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> version wherever possible.</p>
+<p>To start with, you will need to install the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package in whatever Python environment you are using. This can be done easily with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. Instructions can be found on the <a class="reference external" href="https://pingouin-stats.org/index.html">Pingouin webpage</a>. If you are working in a Jupyter notebook, you should be able to simply type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pingouin</span></code> in a cell, and be good to go.</p>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">scipy.stats.chi2_contingency</span></code>, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> doesn’t require you to build a frequency table first; you can just plug your raw <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe in, and tell it which columns you would like it to work with. Our data is already in a dataframe called <code class="docutils literal notranslate"><span class="pre">df</span></code>, so we can simply write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> calculates the expected frequencies, the observed frequencies, and all the relevant statistics directly from the raw data in the dataframe. We can start by comparing the expected frequencies with the ones we calculated with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, and the observed frequencies we calculated “manually”
+:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scipy&#39;s calculation of expected frequencies:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">observations</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pingouin&#39;s calculation of expected frequencies:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>scipy&#39;s calculation of expected frequencies:
+ 
+[[56.31666667 52.68333333]
+ [22.21666667 20.78333333]
+ [14.46666667 13.53333333]]
+-------
+pingouin&#39;s calculation of expected frequencies:
+ 
+choice        data     flower      puppy
+species                                 
+human    56.316667  22.216667  14.466667
+robot    52.683333  20.783333  13.533333
+</pre></div>
+</div>
+</div>
+</div>
+<p>Yup, the values are the same; <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> just makes them a little easier to read. And if we check the observed values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observed_manual</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">expected</span><span class="p">,</span> <span class="n">observed_pingouin</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">observed_manual</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">observed_pingouin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>species  human  robot
+choice               
+data        65     44
+flower      13     30
+puppy       15     13
+ 
+choice   data  flower  puppy
+species                     
+human      65      13     15
+robot      44      30     13
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again, the numbers are the same. So that’s comforting. Now let’s get to the good bit: the statistics!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+<span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test</th>
+      <th>lambda</th>
+      <th>chi2</th>
+      <th>dof</th>
+      <th>pval</th>
+      <th>cramer</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>pearson</td>
+      <td>1.000000</td>
+      <td>10.721572</td>
+      <td>2.0</td>
+      <td>0.004697</td>
+      <td>0.244058</td>
+      <td>0.842961</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cressie-read</td>
+      <td>0.666667</td>
+      <td>10.757745</td>
+      <td>2.0</td>
+      <td>0.004613</td>
+      <td>0.244469</td>
+      <td>0.844244</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>log-likelihood</td>
+      <td>0.000000</td>
+      <td>10.922195</td>
+      <td>2.0</td>
+      <td>0.004249</td>
+      <td>0.246331</td>
+      <td>0.849966</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>freeman-tukey</td>
+      <td>-0.500000</td>
+      <td>11.131562</td>
+      <td>2.0</td>
+      <td>0.003827</td>
+      <td>0.248681</td>
+      <td>0.856988</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>mod-log-likelihood</td>
+      <td>-1.000000</td>
+      <td>11.421716</td>
+      <td>2.0</td>
+      <td>0.003310</td>
+      <td>0.251901</td>
+      <td>0.866249</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>neyman</td>
+      <td>-2.000000</td>
+      <td>12.280435</td>
+      <td>2.0</td>
+      <td>0.002154</td>
+      <td>0.261198</td>
+      <td>0.890668</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Wow! Look at all that…. stuff!  <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> doesn’t hold back with the information it provides you with, and it puts it all in a nice table, too. In fact, there is so much here that we’re not going to get into all of it (although I will spend a bit of time explaining what “cramer” is, below. For now, the important thing is the first row, which gives us the same values for the chi2 statistic, the degrees of freedom, and the <span class="math notranslate nohighlight">\(p\)</span>-value that we got from <code class="docutils literal notranslate"><span class="pre">scipy.stats.chi2_contingency()</span></code>. So you can take your pick: you’ll get the same answer no matter which one you use. In fact, <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> is actually using <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to do the dirty work of running the calculations: it’s just wrapping them up with a nice little bow for you.</p>
 <p>This output gives us enough information to write up the result:</p>
 <blockquote>
 <div><p>Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> revealed a significant association between species and choice (<span class="math notranslate nohighlight">\(\chi^2(2) = 10.7, p &lt; .01\)</span>): robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.</p>
@@ -1841,41 +2023,48 @@ expected =  [[56.31666667 52.68333333]
 </div></blockquote>
 <p>This could be classified as a rather extreme example of a reactivity effect, I suppose. Obviously, in this case the problem is severe enough that the study is more or less worthless as a tool for understanding the difference preferences among humans and robots. However, I hope this illustrates the difference between getting a statistically significant result (our null hypothesis is rejected in favour of the alternative), and finding something of scientific value (the data tell us nothing of interest about our research hypothesis due to a big methodological flaw).</p>
 </div>
+</div>
 <div class="section" id="postscript">
 <h3><span class="section-number">14.2.3. </span>Postscript<a class="headerlink" href="#postscript" title="Permalink to this headline">¶</a></h3>
 <p>I later found out the data were made up, and I’d been watching cartoons instead of doing work.</p>
 </div>
 </div>
-<div class="section" id="the-continuity-correction-yates">
-<h2><span class="section-number">14.3. </span>The continuity correction{#yates}<a class="headerlink" href="#the-continuity-correction-yates" title="Permalink to this headline">¶</a></h2>
-<p>Okay, time for a little bit of a digression. I’ve been lying to you a little bit so far. There’s a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It’s called the “continuity correction”, or sometimes the <strong><em>Yates correction</em></strong>. Remember what I pointed out earlier: the <span class="math notranslate nohighlight">\(\chi^2\)</span> test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large <span class="math notranslate nohighlight">\(N\)</span>. One problem with this is that it often doesn’t quite work, especially when you’ve only got 1 degree of freedom (e.g., when you’re doing a test of independence on a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table). The main reason for this is that the true sampling distribution for the <span class="math notranslate nohighlight">\(X^2\)</span> statistic is actually discrete (because you’re dealing with categorical data!) but the <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution is continuous. This can introduce systematic problems. Specifically, when <span class="math notranslate nohighlight">\(N\)</span> is small and when <span class="math notranslate nohighlight">\(df=1\)</span>, the goodness of fit statistic tends to be “too big”, meaning that you actually have a bigger <span class="math notranslate nohighlight">\(\alpha\)</span> value than you think (or, equivalently, the <span class="math notranslate nohighlight">\(p\)</span> values are a bit too small). &#64;Yates1934 suggested a simple fix, in which you redefine the goodness of fit statistic as:
-$<span class="math notranslate nohighlight">\(
+<div class="section" id="the-continuity-correction">
+<span id="yates"></span><h2><span class="section-number">14.3. </span>The continuity correction<a class="headerlink" href="#the-continuity-correction" title="Permalink to this headline">¶</a></h2>
+<p>Okay, time for a little bit of a digression. I’ve been lying to you a little bit so far. There’s a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It’s called the “continuity correction”, or sometimes the <strong><em>Yates correction</em></strong>. Remember what I pointed out earlier: the <span class="math notranslate nohighlight">\(\chi^2\)</span> test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large <span class="math notranslate nohighlight">\(N\)</span>. One problem with this is that it often doesn’t quite work, especially when you’ve only got 1 degree of freedom (e.g., when you’re doing a test of independence on a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table). The main reason for this is that the true sampling distribution for the <span class="math notranslate nohighlight">\(X^2\)</span> statistic is actually discrete (because you’re dealing with categorical data!) but the <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution is continuous. This can introduce systematic problems. Specifically, when <span class="math notranslate nohighlight">\(N\)</span> is small and when <span class="math notranslate nohighlight">\(df=1\)</span>, the goodness of fit statistic tends to be “too big”, meaning that you actually have a bigger <span class="math notranslate nohighlight">\(\alpha\)</span> value than you think (or, equivalently, the <span class="math notranslate nohighlight">\(p\)</span> values are a bit too small). Yates <span id="id14">[<a class="reference internal" href="bibliography.html#id64" title="F. Yates. Contingency tables involving small numbers and the $\chi ^2$ test. Supplement to the Journal of the Royal Statistical Society, 1:217–235, 1934.">Yat34</a>]</span> suggested a simple fix, in which you redefine the goodness of fit statistic as:</p>
+<div class="math notranslate nohighlight">
+\[
 X^2 = \sum_{i} \frac{(|E_i - O_i| - 0.5)^2}{E_i}
-\)</span>$
-Basically, he just subtracts off 0.5 everywhere. As far as I can tell from reading Yates’ paper, the correction is basically a hack. It’s not derived from any principled theory: rather, it’s based on an examination of the behaviour of the test, and observing that the corrected version seems to work better. I feel obliged to explain this because you will sometimes see R (or any other software for that matter) introduce this correction, so it’s kind of useful to know what they’re about. You’ll know when it happens, because the R output will explicitly say that it has used a “continuity correction” or “Yates’ correction”.</p>
+\]</div>
+<p>Basically, he just subtracts off 0.5 everywhere. As far as I can tell from reading Yates’ paper, the correction is basically a hack. It’s not derived from any principled theory: rather, it’s based on an examination of the behaviour of the test, and observing that the corrected version seems to work better. I feel obliged to explain this because you will sometimes see this correction, so it’s kind of useful to know what it’s about.</p>
+<p>Both <code class="docutils literal notranslate"><span class="pre">scipy.stats.chi2_contingency</span></code> and <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> let you use Yates’ correction, if you want to. So, for our data, we could have written either</p>
+<p><code class="docutils literal notranslate"><span class="pre">chi2,</span> <span class="pre">p,</span> <span class="pre">dof,</span> <span class="pre">ex</span> <span class="pre">=</span> <span class="pre">chi2_contingency(observations,</span> <span class="pre">correction</span> <span class="pre">=</span> <span class="pre">True)</span></code></p>
+<p>if we were using <code class="docutils literal notranslate"><span class="pre">scipy</span></code> or</p>
+<p><code class="docutils literal notranslate"><span class="pre">expected,</span> <span class="pre">observed_pingouin,</span> <span class="pre">stats</span> <span class="pre">=</span> <span class="pre">pg.chi2_independence(df,</span> <span class="pre">x='species',</span> <span class="pre">y='choice',</span> <span class="pre">correction</span> <span class="pre">=</span> <span class="pre">True)</span></code></p>
+<p>if were using <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>. Then again, in our specific case, it wouldn’t make any difference, because in our test we had two degrees of freedom, and the correction is only run when there is only one degree of freedom.</p>
 </div>
-<div class="section" id="effect-size-chisqeffectsize">
-<h2><span class="section-number">14.4. </span>Effect size{#chisqeffectsize}<a class="headerlink" href="#effect-size-chisqeffectsize" title="Permalink to this headline">¶</a></h2>
-<p>As we discussed earlier (Section &#64;ref(effectsize)), it’s becoming commonplace to ask researchers to report some measure of effect size. So, let’s suppose that you’ve run your chi-square test, which turns out to be significant. So you now know that there is some association between your variables (independence test) or some deviation from the specified probabilities (goodness of fit test). Now you want to report a measure of effect size. That is, given that there is an association/deviation, how strong is it?</p>
-<p>There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won’t discuss all of them,^[Though I do feel that it’s worth mentioning the <code class="docutils literal notranslate"><span class="pre">assocstats()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">vcd</span></code> package. If you install and load the <code class="docutils literal notranslate"><span class="pre">vcd</span></code> package, then a command like <code class="docutils literal notranslate"><span class="pre">assocstats(</span> <span class="pre">chapekFrequencies</span> <span class="pre">)</span></code> will run the <span class="math notranslate nohighlight">\(\chi^2\)</span> test as well as the likelihood ratio test (not discussed here); and then report three different measures of effect size: <span class="math notranslate nohighlight">\(\phi^2\)</span>, Cram’er’s <span class="math notranslate nohighlight">\(V\)</span>, and the contingency coefficient (not discussed here)] but will instead focus on the most commonly reported measures of effect size.</p>
-<p>By default, the two measures that people tend to report most frequently are the <span class="math notranslate nohighlight">\(\phi\)</span> statistic and the somewhat superior version, known as  Cram’er’s <span class="math notranslate nohighlight">\(V\)</span>. Mathematically, they’re very simple. To calculate the <span class="math notranslate nohighlight">\(\phi\)</span> statistic, you just divide your <span class="math notranslate nohighlight">\(X^2\)</span> value by the sample size, and take the square root:
-$<span class="math notranslate nohighlight">\( 
+<div class="section" id="effect-size">
+<span id="chisqeffectsize"></span><h2><span class="section-number">14.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h2>
+<p>As we discussed <a class="reference internal" href="04.04-hypothesis-testing.html#effectsize"><span class="std std-ref">earlier</span></a>, it’s becoming commonplace to ask researchers to report some measure of effect size. So, let’s suppose that you’ve run your chi-square test, which turns out to be significant. So you now know that there is some association between your variables (independence test) or some deviation from the specified probabilities (goodness of fit test). Now you want to report a measure of effect size. That is, given that there is an association/deviation, how strong is it?</p>
+<p>There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won’t discuss all of them; instead I will just mention the one that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> provides you with automatically: Cramer’s <span class="math notranslate nohighlight">\(V\)</span>.</p>
+<p>By default, the two measures that people tend to report most frequently are the <span class="math notranslate nohighlight">\(\phi\)</span> statistic and the somewhat superior version, known as  Cram’er’s <span class="math notranslate nohighlight">\(V\)</span>. Mathematically, they’re very simple. To calculate the <span class="math notranslate nohighlight">\(\phi\)</span> statistic, you just divide your <span class="math notranslate nohighlight">\(X^2\)</span> value by the sample size, and take the square root:</p>
+<div class="math notranslate nohighlight">
+\[ 
 \phi = \sqrt{\frac{X^2}{N}}
-\)</span><span class="math notranslate nohighlight">\(
-The idea here is that the \)</span>\phi<span class="math notranslate nohighlight">\( statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn't always do this when your contingency table is bigger than \)</span>2 \times 2<span class="math notranslate nohighlight">\(, which is a total pain. For bigger tables it's actually possible to obtain \)</span>\phi&gt;1<span class="math notranslate nohighlight">\(, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the \)</span>V<span class="math notranslate nohighlight">\( statistic proposed by &#64;Cramer1946. It's a pretty simple adjustment to \)</span>\phi<span class="math notranslate nohighlight">\(. If you've got a contingency table with \)</span>r<span class="math notranslate nohighlight">\( rows and \)</span>c<span class="math notranslate nohighlight">\( columns, then define \)</span>k = \min(r,c)<span class="math notranslate nohighlight">\( to be the smaller of the two values. If so, then **_Cram\'er's  \)</span>V<span class="math notranslate nohighlight">\(_** statistic is
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>The idea here is that the <span class="math notranslate nohighlight">\(\phi\)</span> statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn’t always do this when your contingency table is bigger than <span class="math notranslate nohighlight">\(2 \times 2\)</span>, which is a total pain. For bigger tables it’s actually possible to obtain <span class="math notranslate nohighlight">\(\phi&gt;1\)</span>, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the <span class="math notranslate nohighlight">\(V\)</span> statistic proposed by Cramer <span id="id15">[<a class="reference internal" href="bibliography.html#id70" title="H. Cramér. Mathematical Methods of Statistics. Princeton University Press, Princeton, 1946.">Cramer46</a>]</span>. It’s a pretty simple adjustment to <span class="math notranslate nohighlight">\(\phi\)</span>. If you’ve got a contingency table with <span class="math notranslate nohighlight">\(r\)</span> rows and <span class="math notranslate nohighlight">\(c\)</span> columns, then define <span class="math notranslate nohighlight">\(k = \min(r,c)\)</span> to be the smaller of the two values. If so, then <strong><em>Cram’er’s  <span class="math notranslate nohighlight">\(V\)</span></em></strong> statistic is</p>
+<div class="math notranslate nohighlight">
+\[
 V = \sqrt{\frac{X^2}{N(k-1)}}
-\)</span><span class="math notranslate nohighlight">\(
-And you're done. This seems to be a fairly popular measure, presumably because it's easy to calculate, and it gives answers that aren't completely silly: you know that \)</span>V$ really does range from 0 (no at all association) to 1 (perfect association).</p>
-<p>Calculating <span class="math notranslate nohighlight">\(V\)</span> or <span class="math notranslate nohighlight">\(\phi\)</span> is obviously pretty straightforward. So much so that the core packages in R don’t seem to have functions to do it, though other packages do. To save you the time and effort of finding one, I’ve included one in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, called <code class="docutils literal notranslate"><span class="pre">cramersV()</span></code>. It takes a contingency table as input, and prints out the measure of effect size:</p>
-<p>However, if you’re using the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function to do your analysis, then you won’t actually need to use this at all, because it reports the Cram’er’s  <span class="math notranslate nohighlight">\(V\)</span> statistic as part of the output.</p>
+\]</div>
+<p>And you’re done. This seems to be a fairly popular measure, presumably because it’s easy to calculate, and it gives answers that aren’t completely silly: you know that <span class="math notranslate nohighlight">\(V\)</span> really does range from 0 (no at all association) to 1 (perfect association).</p>
 </div>
-<div class="section" id="assumptions-of-the-test-s-chisqassumptions">
-<h2><span class="section-number">14.5. </span>Assumptions of the test(s){#chisqassumptions}<a class="headerlink" href="#assumptions-of-the-test-s-chisqassumptions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assumptions-of-the-test-s">
+<span id="chisqassumptions"></span><h2><span class="section-number">14.5. </span>Assumptions of the test(s)<a class="headerlink" href="#assumptions-of-the-test-s" title="Permalink to this headline">¶</a></h2>
 <p>All statistical tests make assumptions, and it’s usually a good idea to check that those assumptions are met. For the chi-square tests discussed so far in this chapter, the assumptions are:</p>
 <ul class="simple">
-<li><p><em>Expected frequencies are sufficiently large</em>. Remember how in the previous section we saw that the <span class="math notranslate nohighlight">\(\chi^2\)</span> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in Chapter &#64;ref(probability) this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80% of the the expected frequencies are above 5 and none of them are below 1. However, from what I’ve been able to discover \cite&lt;e.g.,&gt;{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative [Larntz1978].</p></li>
-<li><p><em>Data are independent of one another</em>. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here’s what I mean. Suppose I’m interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I’d actually walked into the same ward 10 times, and in fact I’d only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent… and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence “stuffs things up”. Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let’s consider what would happen if I’d done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the “representativeness heuristic”; Tversky &amp; Kahneman 1974). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect… falsely retaining the null.</p></li>
+<li><p><em>Expected frequencies are sufficiently large</em>. Remember how in the previous section we saw that the <span class="math notranslate nohighlight">\(\chi^2\)</span> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in Chapter &#64;ref(probability) this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80% of the the expected frequencies are above 5 and none of them are below 1. However, from what I’ve been able to discover \cite&lt;e.g.,&gt;{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative {cite}Larntz1978.</p></li>
+<li><p><em>Data are independent of one another</em>. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here’s what I mean. Suppose I’m interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I’d actually walked into the same ward 10 times, and in fact I’d only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent… and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence “stuffs things up”. Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let’s consider what would happen if I’d done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the “representativeness heuristic”;<span id="id16">[<a class="reference internal" href="bibliography.html#id12" title="D. Kahneman and A. Tversky. On the psychology of prediction. Psychological Review, 80:237-251, 1973.">KT73</a>]</span>). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect… falsely retaining the null.</p></li>
 </ul>
 <p>If you happen to find yourself in a situation where independence is violated, it may be possible to use the McNemar test (which we’ll discuss) or the Cochran test (which we won’t). Similarly, if your expected cell counts are too small, check out the Fisher exact test. It is to these topics that we now turn.</p>
 </div>
@@ -1999,7 +2188,7 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id14">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id17">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
 <dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>

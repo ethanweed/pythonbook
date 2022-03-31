@@ -574,67 +574,27 @@ pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
 # 
 # Okay, now that we know how the test works, let's have a look at how it's done in Python. As tempting as it is to lead you through the tedious calculations so that you're forced to learn it the long way, I figure there's no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn't conceptually any different, you won't learn anything new by doing it the long way. So instead, I'll go straight to showing you the easy way. As always, Python lets you do it multiple ways. We've already used `scipy.stats` for calculating the $\chi^2$ goodness-of-fit test above, so I'll start with that. Then, I want to introduce you to the `pingouin` package, which bundles up a bunch of statistical tests and makes calculating and reporting them a good deal easier.
 
-# There's the `chisq.test()` function, which I'll talk about in Section \@ref(chisq.test, but first I want to use the `associationTest()` function in the `lsr` package, which I think is easier on beginners. It works in the exact same way as the `xtabs()` function. Recall that, in order to produce the contingency table, we used this command:
-# ```{r}
-# xtabs( formula = ~choice+species, data = chapek9 )
-# ```
-# The `associationTest()` function has exactly the same structure: it needs a `formula` that specifies which variables you're cross-tabulating, and the name of a `data` frame that contains those variables. So the command is just this:
-# ```{r}
-# associationTest( formula = ~choice+species, data = chapek9 )
-# ```
-# Just like we did with the goodness of fit test, I'll go through it line by line. The first two lines are, once again, just reminding you what kind of test you ran and what variables were used:
-# ```
-#      Chi-square test of categorical association
+# #### Doing the test with `scipy.stats`
 # 
-# Variables:   choice, species 
-# ```
-# Next, it tells you what the null and alternative hypotheses are (and again, I want to remind you not to get used to seeing these hypotheses written out so explicitly):
-# ```
-# Hypotheses: 
-#    null:        variables are independent of one another
-#    alternative: some contingency exists between variables
-# ```
-# Next, it shows you the observed contingency table that is being tested:
-# ```
-# Observed contingency table:
-#         species
-# choice   robot human
-#   puppy     13    15
-#   flower    30    13
-#   data      44    65
-# ```
-# and it also shows you what the expected frequencies would be if the null hypothesis were true:
-# ```
-# Expected contingency table under the null hypothesis:
-#         species
-# choice   robot human
-#   puppy   13.5  14.5
-#   flower  20.8  22.2
-#   data    52.7  56.3
-# ```  
-# 
-# The next part describes the results of the hypothesis test itself:
-# ```
-# Test results: 
-#    X-squared statistic:  10.722 
-#    degrees of freedom:  2 
-#    p-value:  0.005 
-# ```
-# 
-# And finally, it reports a measure of effect size:
-# ```
-# Other information: 
-#    estimated effect size (Cramer's v):  0.244 
-# ```
+# Calculating $\chi^2$ test of independence with `scipy.stats` is fairly straightforward, although like most of what you get with `scipy`, there aren't a lot of frills. Just like with the goodness-of-fit test, you start by calculating a frequency table. Before, we used the `value_counts()` method to find the frequency of the different suits drawn in the `cards` data. Since we have two columns of data (choices by robots and choices by humans), we can use the `crosstab` function from `pandas` to do the work, and we can store the results in a variable called `observations`:
 
 # In[21]:
 
 
-from scipy.stats import chi2_contingency
+import pandas as pd
 
 observations = pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
+observations
 
-chi2, p, dof, ex = chi2_contingency(observations, correction=False)
+
+# Now that we have a frequency table, we can use the `chi2_contingency` function from `scipy.stats` to crunch the numbers:
+
+# In[22]:
+
+
+from scipy.stats import chi2_contingency
+
+chi2, p, dof, ex = chi2_contingency(observations)
 
 print("chi2 = ", chi2)
 print("p = ", p)
@@ -642,17 +602,67 @@ print("degrees of freedom = ", dof)
 print("expected = ", ex)
 
 
-# In[22]:
+# `chi2_contingency` produces four different variables, `chi2`, `p`, `dof`, and `ex`. `chi2` is the $\chi^2$ statistic, p is the $p$-value, `dof` is the degrees of freedom for the test, and `ex` tells you the "expected" values, that is, the frequency counts you would expect to see under the null hypothesis. The null hypothesis, by the way, is that the variables are independent of one another, that is, that the choice of data, flower, or puppy has nothing to do with whether the chooser is a robot or a human. The alternative, of course, is that they are _not_ independent; that is, that robots and humans will tend to make different choices. Or, put another way, that the frequency of flowers, puppies, and data chosen is _contingent_ on whether or not the choosers were humans or robots. That's why the function is called `chi2_contingency`, I suppose.
+
+# #### Doing the test with `pingouin`
+# 
+# Now that we've done the test with `scipy`, I want to introduce you to another way to do the same thing: the `pingouin` package. `pingouin` takes existing statistical functions in Python and wraps them up in a way that makes them (in my opinion) easier to deal with, and easiser to report afterwards. Unfortunately, there isn't a `pingouin` command for every statistical test that you might want to do. For example, as of the time of writing this, there is no `pingouin` version of the $\chi^2$ goodness-of-fit test. However, there is one for the $\chi^2$ test of independence (or association, or contingency, or whatever else you might like to call it), and this is what I will introduce you to now. In the coming chapters on other statistical tests, I will use the `pingouin` version wherever possible.
+# 
+# To start with, you will need to install the `pingouin` package in whatever Python environment you are using. This can be done easily with either `pip` or `conda`. Instructions can be found on the [Pingouin webpage](https://pingouin-stats.org/index.html). If you are working in a Jupyter notebook, you should be able to simply type `pip install pingouin` in a cell, and be good to go.
+# 
+# Unlike `scipy.stats.chi2_contingency`, `pingouin` doesn't require you to build a frequency table first; you can just plug your raw `pandas` dataframe in, and tell it which columns you would like it to work with. Our data is already in a dataframe called `df`, so we can simply write:
+
+# In[23]:
 
 
 import pingouin as pg
-data = df
+
 expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
-expected
 
 
-# You can ignore this bit for now. I'll talk about it in just a moment.
-# 
+# As you can see, `pingouin` calculates the expected frequencies, the observed frequencies, and all the relevant statistics directly from the raw data in the dataframe. We can start by comparing the expected frequencies with the ones we calculated with `scipy`, and the observed frequencies we calculated "manually"
+# :
+
+# In[24]:
+
+
+print("scipy's calculation of expected frequencies:")
+print(" ")
+chi2, p, dof, ex = chi2_contingency(observations)
+print(ex)
+
+print("-------")
+
+print("pingouin's calculation of expected frequencies:")
+print(" ")
+expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
+print(expected)
+
+
+# Yup, the values are the same; `pingouin` just makes them a little easier to read. And if we check the observed values:
+
+# In[25]:
+
+
+observed_manual = pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
+expected, observed_pingouin, stats = pg.chi2_independence(df, x='species', y='choice')
+
+print(observed_manual)
+print(" ")
+print(observed_pingouin)
+
+
+# Again, the numbers are the same. So that's comforting. Now let's get to the good bit: the statistics!
+
+# In[26]:
+
+
+expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
+stats
+
+
+# Wow! Look at all that.... stuff!  `pingouin` doesn't hold back with the information it provides you with, and it puts it all in a nice table, too. In fact, there is so much here that we're not going to get into all of it (although I will spend a bit of time explaining what "cramer" is, below. For now, the important thing is the first row, which gives us the same values for the chi2 statistic, the degrees of freedom, and the $p$-value that we got from `scipy.stats.chi2_contingency()`. So you can take your pick: you'll get the same answer no matter which one you use. In fact, `pinguoin` is actually using `scipy` to do the dirty work of running the calculations: it's just wrapping them up with a nice little bow for you.
+
 # This output gives us enough information to write up the result:
 # 
 # > Pearson's $\chi^2$ revealed a significant association between species and choice ($\chi^2(2) = 10.7, p < .01$): robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.
@@ -666,53 +676,62 @@ expected
 # ### Postscript
 # 
 # I later found out the data were made up, and I'd been watching cartoons instead of doing work.
+
+# (yates)=
+# ## The continuity correction
 # 
+# Okay, time for a little bit of a digression. I've been lying to you a little bit so far. There's a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It's called the "continuity correction", or sometimes the **_Yates correction_**. Remember what I pointed out earlier: the $\chi^2$ test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large $N$. One problem with this is that it often doesn't quite work, especially when you've only got 1 degree of freedom (e.g., when you're doing a test of independence on a $2 \times 2$ contingency table). The main reason for this is that the true sampling distribution for the $X^2$ statistic is actually discrete (because you're dealing with categorical data!) but the $\chi^2$ distribution is continuous. This can introduce systematic problems. Specifically, when $N$ is small and when $df=1$, the goodness of fit statistic tends to be "too big", meaning that you actually have a bigger $\alpha$ value than you think (or, equivalently, the $p$ values are a bit too small). Yates {cite:ps}`Yates1934` suggested a simple fix, in which you redefine the goodness of fit statistic as:
 # 
-# ## The continuity correction{#yates}
-# 
-# Okay, time for a little bit of a digression. I've been lying to you a little bit so far. There's a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It's called the "continuity correction", or sometimes the **_Yates correction_**. Remember what I pointed out earlier: the $\chi^2$ test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large $N$. One problem with this is that it often doesn't quite work, especially when you've only got 1 degree of freedom (e.g., when you're doing a test of independence on a $2 \times 2$ contingency table). The main reason for this is that the true sampling distribution for the $X^2$ statistic is actually discrete (because you're dealing with categorical data!) but the $\chi^2$ distribution is continuous. This can introduce systematic problems. Specifically, when $N$ is small and when $df=1$, the goodness of fit statistic tends to be "too big", meaning that you actually have a bigger $\alpha$ value than you think (or, equivalently, the $p$ values are a bit too small). @Yates1934 suggested a simple fix, in which you redefine the goodness of fit statistic as:
 # $$
 # X^2 = \sum_{i} \frac{(|E_i - O_i| - 0.5)^2}{E_i}
 # $$
-# Basically, he just subtracts off 0.5 everywhere. As far as I can tell from reading Yates' paper, the correction is basically a hack. It's not derived from any principled theory: rather, it's based on an examination of the behaviour of the test, and observing that the corrected version seems to work better. I feel obliged to explain this because you will sometimes see R (or any other software for that matter) introduce this correction, so it's kind of useful to know what they're about. You'll know when it happens, because the R output will explicitly say that it has used a "continuity correction" or "Yates' correction".
 # 
+# Basically, he just subtracts off 0.5 everywhere. As far as I can tell from reading Yates' paper, the correction is basically a hack. It's not derived from any principled theory: rather, it's based on an examination of the behaviour of the test, and observing that the corrected version seems to work better. I feel obliged to explain this because you will sometimes see this correction, so it's kind of useful to know what it's about.
 # 
-# ## Effect size{#chisqeffectsize}
+# Both `scipy.stats.chi2_contingency` and `pingouin` let you use Yates' correction, if you want to. So, for our data, we could have written either
 # 
-# As we discussed earlier (Section \@ref(effectsize)), it's becoming commonplace to ask researchers to report some measure of effect size. So, let's suppose that you've run your chi-square test, which turns out to be significant. So you now know that there is some association between your variables (independence test) or some deviation from the specified probabilities (goodness of fit test). Now you want to report a measure of effect size. That is, given that there is an association/deviation, how strong is it?
+# `chi2, p, dof, ex = chi2_contingency(observations, correction = True)`
 # 
-# There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won't discuss all of them,^[Though I do feel that it's worth mentioning the `assocstats()` function in the `vcd` package. If you install and load the `vcd` package, then a command like `assocstats( chapekFrequencies )` will run the $\chi^2$ test as well as the likelihood ratio test (not discussed here); and then report three different measures of effect size: $\phi^2$, Cram\'er's $V$, and the contingency coefficient (not discussed here)] but will instead focus on the most commonly reported measures of effect size. 
+# if we were using `scipy` or 
+# 
+# `expected, observed_pingouin, stats = pg.chi2_independence(df, x='species', y='choice', correction = True)`
+# 
+# if were using `pingouin`. Then again, in our specific case, it wouldn't make any difference, because in our test we had two degrees of freedom, and the correction is only run when there is only one degree of freedom.
+
+# (chisqeffectsize)=
+# ## Effect size
+# 
+# As we discussed [earlier](effectsize), it's becoming commonplace to ask researchers to report some measure of effect size. So, let's suppose that you've run your chi-square test, which turns out to be significant. So you now know that there is some association between your variables (independence test) or some deviation from the specified probabilities (goodness of fit test). Now you want to report a measure of effect size. That is, given that there is an association/deviation, how strong is it?
+# 
+# There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won't discuss all of them; instead I will just mention the one that `pingouin` provides you with automatically: Cramer's $V$.
 # 
 # By default, the two measures that people tend to report most frequently are the $\phi$ statistic and the somewhat superior version, known as  Cram\'er's $V$. Mathematically, they're very simple. To calculate the $\phi$ statistic, you just divide your $X^2$ value by the sample size, and take the square root:
+# 
 # $$ 
 # \phi = \sqrt{\frac{X^2}{N}}
 # $$
-# The idea here is that the $\phi$ statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn't always do this when your contingency table is bigger than $2 \times 2$, which is a total pain. For bigger tables it's actually possible to obtain $\phi>1$, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the $V$ statistic proposed by @Cramer1946. It's a pretty simple adjustment to $\phi$. If you've got a contingency table with $r$ rows and $c$ columns, then define $k = \min(r,c)$ to be the smaller of the two values. If so, then **_Cram\'er's  $V$_** statistic is
+# 
+# The idea here is that the $\phi$ statistic is supposed to range between 0 (no at all association) and 1 (perfect association), but it doesn't always do this when your contingency table is bigger than $2 \times 2$, which is a total pain. For bigger tables it's actually possible to obtain $\phi>1$, which is pretty unsatisfactory. So, to correct for this, people usually prefer to report the $V$ statistic proposed by Cramer {cite:ps}`Cramer1946`. It's a pretty simple adjustment to $\phi$. If you've got a contingency table with $r$ rows and $c$ columns, then define $k = \min(r,c)$ to be the smaller of the two values. If so, then **_Cram\'er's  $V$_** statistic is
+# 
 # $$
 # V = \sqrt{\frac{X^2}{N(k-1)}}
 # $$
+# 
 # And you're done. This seems to be a fairly popular measure, presumably because it's easy to calculate, and it gives answers that aren't completely silly: you know that $V$ really does range from 0 (no at all association) to 1 (perfect association). 
-# 
-# Calculating $V$ or $\phi$ is obviously pretty straightforward. So much so that the core packages in R don't seem to have functions to do it, though other packages do. To save you the time and effort of finding one, I've included one in the `lsr` package, called `cramersV()`. It takes a contingency table as input, and prints out the measure of effect size:
-# ```{r}
-# cramersV( chapekFrequencies )
-# ```
-# However, if you're using the `associationTest()` function to do your analysis, then you won't actually need to use this at all, because it reports the Cram\'er's  $V$ statistic as part of the output. 
-# 
-# 
-# 
-# ## Assumptions of the test(s){#chisqassumptions}
+
+# (chisqassumptions)=
+# ## Assumptions of the test(s)
 # 
 # All statistical tests make assumptions, and it's usually a good idea to check that those assumptions are met. For the chi-square tests discussed so far in this chapter, the assumptions are:
 # 
 # 
-# - *Expected frequencies are sufficiently large*. Remember how in the previous section we saw that the $\chi^2$ sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in Chapter \@ref(probability) this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80\% of the the expected frequencies are above 5 and none of them are below 1. However, from what I've been able to discover \cite<e.g.,>{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative [Larntz1978]. 
-# - *Data are independent of one another*. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here's what I mean. Suppose I'm interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I'd actually walked into the same ward 10 times, and in fact I'd only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 *observations* were massively non-independent... and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence "stuffs things up". Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let's consider what would happen if I'd done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that *everyone* selects one heart, one club, one diamond and one spade (in keeping with the "representativeness heuristic"; Tversky \& Kahneman 1974). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect... falsely retaining the null.
+# - *Expected frequencies are sufficiently large*. Remember how in the previous section we saw that the $\chi^2$ sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we discussed in Chapter \@ref(probability) this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80\% of the the expected frequencies are above 5 and none of them are below 1. However, from what I've been able to discover \cite<e.g.,>{Cochran1954}, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative {cite}Larntz1978. 
+# - *Data are independent of one another*. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here's what I mean. Suppose I'm interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I'd actually walked into the same ward 10 times, and in fact I'd only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 *observations* were massively non-independent... and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence "stuffs things up". Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let's consider what would happen if I'd done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that *everyone* selects one heart, one club, one diamond and one spade (in keeping with the "representativeness heuristic";{cite}`Kahneman1973`). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect... falsely retaining the null.
 # 
 # 
 # 
 # If you happen to find yourself in a situation where independence is violated, it may be possible to use the McNemar test (which we'll discuss) or the Cochran test (which we won't). Similarly, if your expected cell counts are too small, check out the Fisher exact test. It is to these topics that we now turn. 
-# 
+
 # ## The most typical way to do chi-square tests in R{#chisq.test}
 # 
 # When discussing how to do a chi-square goodness of fit test (Section \@ref(gofTestInR)) and the chi-square test of independence (Section \@ref(AssocTestInR)), I introduced you to two separate functions in the `lsr` package. We ran our goodness of fit tests using the `goodnessOfFitTest()` function, and our tests of independence (or association) using the `associationTest()` function. And both of those functions produced quite detailed output, showing you the relevant descriptive statistics, printing out explicit reminders of what the hypotheses are, and so on. When you're first starting out, it can be very handy to be given this sort of guidance. However, once you start becoming a bit more proficient in statistics and in R it can start to get very tiresome. A real statistician hardly needs to be told what the null and alternative hypotheses for a chi-square test are, and if an advanced R user wants the descriptive statistics to be printed out, they know how to produce them! 
