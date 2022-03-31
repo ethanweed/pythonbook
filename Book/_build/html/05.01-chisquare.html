@@ -2434,11 +2434,119 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 <p>and this statistic has an (approximately) <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(df=1\)</span>. However, remember that – just like the other <span class="math notranslate nohighlight">\(\chi^2\)</span> tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
 <div class="section" id="doing-the-mcnemar-test-in-r">
 <h3><span class="section-number">14.7.1. </span>Doing the McNemar test in R<a class="headerlink" href="#doing-the-mcnemar-test-in-r" title="Permalink to this headline">¶</a></h3>
-<p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.Rdata</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">agpp</span></code> data frame contains three variables, an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that labels each participant in the data set (we’ll see why that’s useful in a moment), a <code class="docutils literal notranslate"><span class="pre">response_before</span></code> variable that records the person’s answer when they were asked the question the first time, and a <code class="docutils literal notranslate"><span class="pre">response_after</span></code> variable that shows the answer that they gave when asked the same question a second time. As usual, here’s the first 6 entries:</p>
-<p>and here’s a summary:</p>
-<p>Notice that each participant appears only once in this data frame. When we tabulate this data frame using <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code>, we get the appropriate table:</p>
-<p>and from there, we can run the McNemar test by using the <code class="docutils literal notranslate"><span class="pre">mcnemar.test()</span></code> function:</p>
+<p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.csv</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/agpp.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>response_before</th>
+      <th>response_after</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>subj.1</td>
+      <td>no</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>subj.2</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>subj.3</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>subj.4</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>subj.5</td>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">df</span></code> data frame contains three variables, an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that labels each participant in the data set (we’ll see why that’s useful in a moment), a <code class="docutils literal notranslate"><span class="pre">response_before</span></code> variable that records the person’s answer when they were asked the question the first time, and a <code class="docutils literal notranslate"><span class="pre">response_after</span></code> variable that shows the answer that they gave when asked the same question a second time. And, together with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, this is all we need to run the McNemar test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_mcnemar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;response_before&#39;</span><span class="p">,</span> <span class="s1">&#39;response_after&#39;</span><span class="p">)</span>
+<span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chi2</th>
+      <th>dof</th>
+      <th>p-approx</th>
+      <th>p-exact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mcnemar</th>
+      <td>12.033333</td>
+      <td>1</td>
+      <td>0.000523</td>
+      <td>0.000325</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>And we’re done. We’ve just run a McNemar’s test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant (<span class="math notranslate nohighlight">\(\chi^2(1) = 12.04, p&lt;.001\)</span>), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.</p>
 </div>
 </div>

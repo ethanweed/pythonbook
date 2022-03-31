@@ -847,34 +847,33 @@ print("p = ", pvalue)
 
 # ### Doing the McNemar test in R
 # 
-# Now that you know what the McNemar test is all about, lets actually run one. The `agpp.Rdata` file contains the raw data that I discussed previously, so let's have a look at it:
-# ```{r}
-# load(file.path(projecthome, "data/agpp.Rdata"))
-# str(agpp)     
-# ```
-# The `agpp` data frame contains three variables, an `id` variable that labels each participant in the data set (we'll see why that's useful in a moment), a `response_before` variable that records the person's answer when they were asked the question the first time, and a `response_after` variable that shows the answer that they gave when asked the same question a second time. As usual, here's the first 6 entries:
-# ```{r}
-# head(agpp)
-# ```
-# and here's a summary:
-# ```{r}
-# summary(agpp)     
-# ```
-# Notice that each participant appears only once in this data frame. When we tabulate this data frame using `xtabs()`, we get the appropriate table:
-# ```{r}
-# right.table <- xtabs( ~ response_before + response_after, data = agpp)
-# print( right.table )
-# ```
-# and from there, we can run the McNemar test by using the `mcnemar.test()` function:
-# ```{r}
-# mcnemar.test( right.table )
-# ```
+# Now that you know what the McNemar test is all about, lets actually run one. The `agpp.csv` file contains the raw data that I discussed previously, so let's have a look at it:
+
+# In[31]:
+
+
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/agpp.csv')
+df.head()
+
+
+# The `df` data frame contains three variables, an `id` variable that labels each participant in the data set (we'll see why that's useful in a moment), a `response_before` variable that records the person's answer when they were asked the question the first time, and a `response_after` variable that shows the answer that they gave when asked the same question a second time. And, together with `pingouin`, this is all we need to run the McNemar test:
+
+# In[32]:
+
+
+import pingouin as pg
+observed, stats = pg.chi2_mcnemar(df, 'response_before', 'response_after')
+stats
+
+
 # And we're done. We've just run a McNemar's test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant ($\chi^2(1) = 12.04, p<.001$), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.
-# 
-# 
+
 # ## What's the difference between McNemar and independence?
 # 
 # Let's go all the way back to the beginning of the chapter, and look at the `cards` data set again. If you recall, the actual experimental design that I described involved people making *two* choices. Because we have information about the first choice and the second choice that everyone made, we can construct the following contingency table that cross-tabulates the first choice against the second choice.
+# 
+# 
+# 
 # ```{r}
 # cardChoices <- xtabs( ~ choice_1 + choice_2, data = cards )
 # cardChoices
