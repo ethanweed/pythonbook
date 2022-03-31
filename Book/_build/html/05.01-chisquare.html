@@ -457,35 +457,30 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-most-typical-way-to-do-chi-square-tests-in-r-chisq-test">
-   14.6. The most typical way to do chi-square tests in R{#chisq.test}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-fisher-exact-test-fisherexacttest">
-   14.7. The Fisher exact test{#fisherexacttest}
+  <a class="reference internal nav-link" href="#the-fisher-exact-test">
+   14.6. The Fisher exact test
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#the-mcnemar-test-mcnemar">
-   14.8. The McNemar test{#mcnemar}
+   14.7. The McNemar test{#mcnemar}
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-r">
-     14.8.1. Doing the McNemar test in R
+     14.7.1. Doing the McNemar test in R
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-s-the-difference-between-mcnemar-and-independence">
-   14.9. What’s the difference between McNemar and independence?
+   14.8. What’s the difference between McNemar and independence?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   14.10. Summary
+   14.9. Summary
   </a>
  </li>
 </ul>
@@ -628,35 +623,30 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-most-typical-way-to-do-chi-square-tests-in-r-chisq-test">
-   14.6. The most typical way to do chi-square tests in R{#chisq.test}
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-fisher-exact-test-fisherexacttest">
-   14.7. The Fisher exact test{#fisherexacttest}
+  <a class="reference internal nav-link" href="#the-fisher-exact-test">
+   14.6. The Fisher exact test
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#the-mcnemar-test-mcnemar">
-   14.8. The McNemar test{#mcnemar}
+   14.7. The McNemar test{#mcnemar}
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-r">
-     14.8.1. Doing the McNemar test in R
+     14.7.1. Doing the McNemar test in R
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-s-the-difference-between-mcnemar-and-independence">
-   14.9. What’s the difference between McNemar and independence?
+   14.8. What’s the difference between McNemar and independence?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   14.10. Summary
+   14.9. Summary
   </a>
  </li>
 </ul>
@@ -2064,26 +2054,233 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 <p>All statistical tests make assumptions, and it’s usually a good idea to check that those assumptions are met. For the chi-square tests discussed so far in this chapter, the assumptions are:</p>
 <ul class="simple">
 <li><p><em>Expected frequencies are sufficiently large</em>. Remember how in the previous section we saw that the <span class="math notranslate nohighlight">\(\chi^2\)</span> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we <a class="reference internal" href="04.02-probability.html#probability"><span class="std std-ref">discussed earlier</span></a>, this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80% of the the expected frequencies are above 5 and none of them are below 1. However, from what I’ve been able to discover e.g.,<span id="id16">[<a class="reference internal" href="bibliography.html#id65" title="W. G. Cochran. The $\chi ^2$ test of goodness of fit. The Annals of Mathematical Statistics, 23:315–345, 1954.">Coc54</a>]</span>, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative <span id="id17">[<a class="reference internal" href="bibliography.html#id60" title="K. Larntz. Small-sample comparisons of exact levels for chi-squared goodness-of-fit statistics. Journal of the American Statistical Association, 73:253–263, 1978.">Lar78</a>]</span>.</p></li>
-<li><p><em>Data are independent of one another</em>. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here’s what I mean. Suppose I’m interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I’d actually walked into the same ward 10 times, and in fact I’d only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent… and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence “stuffs things up”. Sometimes it causes you to falsely reject the null, as the silly hospital example illustrats, but it can go the other way too. To give a slightly less stupid example, let’s consider what would happen if I’d done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the “representativeness heuristic”;<span id="id18">[<a class="reference internal" href="bibliography.html#id12" title="D. Kahneman and A. Tversky. On the psychology of prediction. Psychological Review, 80:237-251, 1973.">KT73</a>]</span>). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 four all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect… falsely retaining the null.</p></li>
+<li><p><em>Data are independent of one another</em>. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here’s what I mean. Suppose I’m interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I’d actually walked into the same ward 10 times, and in fact I’d only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent… and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence “stuffs things up”. Sometimes it causes you to falsely reject the null, as the silly hospital example illustrates, but it can go the other way too. To give a slightly less stupid example, let’s consider what would happen if I’d done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the “representativeness heuristic”<span id="id18">[<a class="reference internal" href="bibliography.html#id12" title="D. Kahneman and A. Tversky. On the psychology of prediction. Psychological Review, 80:237-251, 1973.">KT73</a>]</span>). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 for all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect… falsely retaining the null.</p></li>
 </ul>
 <p>If you happen to find yourself in a situation where independence is violated, it may be possible to use the McNemar test (which we’ll discuss) or the Cochran test (which we won’t). Similarly, if your expected cell counts are too small, check out the Fisher exact test. It is to these topics that we now turn.</p>
 </div>
-<div class="section" id="the-most-typical-way-to-do-chi-square-tests-in-r-chisq-test">
-<h2><span class="section-number">14.6. </span>The most typical way to do chi-square tests in R{#chisq.test}<a class="headerlink" href="#the-most-typical-way-to-do-chi-square-tests-in-r-chisq-test" title="Permalink to this headline">¶</a></h2>
-<p>When discussing how to do a chi-square goodness of fit test (Section &#64;ref(gofTestInR)) and the chi-square test of independence (Section &#64;ref(AssocTestInR)), I introduced you to two separate functions in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package. We ran our goodness of fit tests using the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function, and our tests of independence (or association) using the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function. And both of those functions produced quite detailed output, showing you the relevant descriptive statistics, printing out explicit reminders of what the hypotheses are, and so on. When you’re first starting out, it can be very handy to be given this sort of guidance. However, once you start becoming a bit more proficient in statistics and in R it can start to get very tiresome. A real statistician hardly needs to be told what the null and alternative hypotheses for a chi-square test are, and if an advanced R user wants the descriptive statistics to be printed out, they know how to produce them!</p>
-<p>For this reason, the basic <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function in R is a lot more terse in its output, and because the mathematics that underpin the goodness of fit test and the test of independence is basically the same in each case, it can run either test depending on what kind of input it is given. First, here’s the goodness of fit test. Suppose you have the frequency table <code class="docutils literal notranslate"><span class="pre">observed</span></code> that we used earlier,</p>
-<p>If you want to run the goodness of fit test against the hypothesis that all four suits are equally likely to appear, then all you need to do is input this frequenct table to the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function:</p>
-<p>Notice that the output is very compressed in comparison to the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function. It doesn’t bother to give you any descriptive statistics, it doesn’t tell you what null hypothesis is being tested, and so on. And as long as you already understand the test, that’s not a problem. Once you start getting familiar with R and with statistics, you’ll probably find that you prefer this simple output rather than the rather lengthy output that  <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> produces. Anyway, if you want to change the null hypothesis, it’s exactly the same as before, just specify the probabilities using the <code class="docutils literal notranslate"><span class="pre">p</span></code> argument. For instance:</p>
-<p>Again, these are the same numbers that the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function reports at the end of the output. It just hasn’t included any of the other details.</p>
-<p>What about a test of independence? As it turns out, the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function is pretty clever.^[Not really.] If you input a <em>cross-tabulation</em> rather than a simple frequency table, it realises that you’re asking for a test of independence and not a goodness of fit test. Recall that we already have this cross-tabulation stored as the <code class="docutils literal notranslate"><span class="pre">chapekFrequencies</span></code> variable:</p>
-<p>To get the test of independence, all we have to do is feed this frequency table into the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function like so:</p>
-<p>Again, the numbers are the same as last time, it’s just that the output is very terse and doesn’t really explain what’s going on in the rather tedious way that <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> does. As before, my intuition is that when you’re just getting started it’s easier to use something like <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> because it shows you more detail about what’s going on, but later on you’ll probably find that <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> is more convenient.</p>
+<div class="section" id="the-fisher-exact-test">
+<span id="fisherexacttest"></span><h2><span class="section-number">14.6. </span>The Fisher exact test<a class="headerlink" href="#the-fisher-exact-test" title="Permalink to this headline">¶</a></h2>
+<p>What should you do if your cell counts are too small, but you’d still like to test the null hypothesis that the two variables are independent? One answer would be “collect more data”, but that’s far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let’s suppose that we’re analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.<a class="footnote-reference brackets" href="#note10" id="id19">10</a> Unfortunately for the scientist (but rather fortunately for the general populace), it’s actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The <code class="docutils literal notranslate"><span class="pre">salem.csv</span></code> file illustrates the point:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/salem.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 </div>
-<div class="section" id="the-fisher-exact-test-fisherexacttest">
-<h2><span class="section-number">14.7. </span>The Fisher exact test{#fisherexacttest}<a class="headerlink" href="#the-fisher-exact-test-fisherexacttest" title="Permalink to this headline">¶</a></h2>
-<p>What should you do if your cell counts are too small, but you’d still like to test the null hypothesis that the two variables are independent? One answer would be “collect more data”, but that’s far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let’s suppose that we’re analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.^[This example is based on a joke article published in the <em>Journal of Irreproducible Results</em>.] Unfortunately for the scientist (but rather fortunately for the general populace), it’s actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The <code class="docutils literal notranslate"><span class="pre">salem.Rdata</span></code> file illustrates the point:</p>
-<p>Looking at this data, you’d be hard pressed not to suspect that people not on fire are more likely to be happy than people on fire. However, the chi-square test makes this very hard to test because of the small sample size. If I try to do so, R gives me a warning message:</p>
-<p>Speaking as someone who doesn’t want to be set on fire, I’d <em>really</em> like to be able to get a better answer than this. This is where <strong><em>Fisher’s exact test</em></strong> \cite{Fisher1922} comes in very handy.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>happy</th>
+      <th>on.fire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;happy&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;on.fire&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>on.fire</th>
+      <th>False</th>
+      <th>True</th>
+    </tr>
+    <tr>
+      <th>happy</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>10</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Looking at this data, you’d be hard pressed not to suspect that people not on fire are more likely to be happy than people on fire. However, the chi-square test makes this very hard to test because of the small sample size. If I try to do so, Python gives me a warning message:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">expected</span><span class="p">,</span> <span class="n">observed_pingouin</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;on.fire&#39;</span><span class="p">)</span>
+<span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/pingouin/contingency.py:151: UserWarning: Low count on observed frequencies.
+  warnings.warn(&#39;Low count on {} frequencies.&#39;.format(name))
+/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/pingouin/contingency.py:151: UserWarning: Low count on expected frequencies.
+  warnings.warn(&#39;Low count on {} frequencies.&#39;.format(name))
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>test</th>
+      <th>lambda</th>
+      <th>chi2</th>
+      <th>dof</th>
+      <th>pval</th>
+      <th>cramer</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>pearson</td>
+      <td>1.000000</td>
+      <td>3.309402</td>
+      <td>1.0</td>
+      <td>0.068885</td>
+      <td>0.454794</td>
+      <td>0.444097</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cressie-read</td>
+      <td>0.666667</td>
+      <td>3.265804</td>
+      <td>1.0</td>
+      <td>0.070738</td>
+      <td>0.451788</td>
+      <td>0.439356</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>log-likelihood</td>
+      <td>0.000000</td>
+      <td>3.321858</td>
+      <td>1.0</td>
+      <td>0.068365</td>
+      <td>0.455649</td>
+      <td>0.445448</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>freeman-tukey</td>
+      <td>-0.500000</td>
+      <td>3.507069</td>
+      <td>1.0</td>
+      <td>0.061107</td>
+      <td>0.468179</td>
+      <td>0.465301</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>mod-log-likelihood</td>
+      <td>-1.000000</td>
+      <td>3.850051</td>
+      <td>1.0</td>
+      <td>0.049744</td>
+      <td>0.490539</td>
+      <td>0.500918</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>neyman</td>
+      <td>-2.000000</td>
+      <td>5.276692</td>
+      <td>1.0</td>
+      <td>0.021613</td>
+      <td>0.574276</td>
+      <td>0.632005</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Speaking as someone who doesn’t want to be set on fire, I’d <em>really</em> like to be able to get a better answer than this. This is where <strong><em>Fisher’s exact test</em></strong> {cite}Fisher1922 comes in very handy.</p>
 <p>The Fisher exact test works somewhat differently to the chi-square test (or in fact any of the other hypothesis tests that I talk about in this book) insofar as it doesn’t have a test statistic; it calculates the <span class="math notranslate nohighlight">\(p\)</span>-value “directly”. I’ll explain the basics of how the test works for a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table, though the test works fine for larger tables. As before, let’s have some notation:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
                  ~NANA,          ~Happy,          ~Sad,         ~Total,
@@ -2102,7 +2299,7 @@ and as you might imagine, it's a slightly tricky exercise to figure out what thi
 <p>This is a bit more output than we got from some of our earlier tests. The main thing we’re interested in here is the <span class="math notranslate nohighlight">\(p\)</span>-value, which in this case is small enough (<span class="math notranslate nohighlight">\(p=.036\)</span>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.</p>
 </div>
 <div class="section" id="the-mcnemar-test-mcnemar">
-<h2><span class="section-number">14.8. </span>The McNemar test{#mcnemar}<a class="headerlink" href="#the-mcnemar-test-mcnemar" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">14.7. </span>The McNemar test{#mcnemar}<a class="headerlink" href="#the-mcnemar-test-mcnemar" title="Permalink to this headline">¶</a></h2>
 <p>Suppose you’ve been hired to work for the <em>Australian Generic Political Party</em> (AGPP), and part of your job is to find out how effective the AGPP political advertisements are. So, what you do, is you put together a sample of <span class="math notranslate nohighlight">\(N=100\)</span> people, and ask them to watch the AGPP ads. Before they see anything, you ask them if they intend to vote for the AGPP; and then after showing the ads, you ask them again, to see if anyone has changed their minds. Obviously, if you’re any good at your job, you’d also do a whole lot of other things too, but let’s consider just this one simple experiment. One way to describe your data is via the following contingency table:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
         ~&quot;NANA&quot;, ~&quot;Before&quot;, ~&quot;After&quot;, ~&quot;Total&quot;,
@@ -2141,7 +2338,7 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 \)</span><span class="math notranslate nohighlight">\(
 and this statistic has an (approximately) \)</span>\chi^2<span class="math notranslate nohighlight">\( distribution with \)</span>df=1<span class="math notranslate nohighlight">\(. However, remember that -- just like the other \)</span>\chi^2$ tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
 <div class="section" id="doing-the-mcnemar-test-in-r">
-<h3><span class="section-number">14.8.1. </span>Doing the McNemar test in R<a class="headerlink" href="#doing-the-mcnemar-test-in-r" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">14.7.1. </span>Doing the McNemar test in R<a class="headerlink" href="#doing-the-mcnemar-test-in-r" title="Permalink to this headline">¶</a></h3>
 <p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.Rdata</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">agpp</span></code> data frame contains three variables, an <code class="docutils literal notranslate"><span class="pre">id</span></code> variable that labels each participant in the data set (we’ll see why that’s useful in a moment), a <code class="docutils literal notranslate"><span class="pre">response_before</span></code> variable that records the person’s answer when they were asked the question the first time, and a <code class="docutils literal notranslate"><span class="pre">response_after</span></code> variable that shows the answer that they gave when asked the same question a second time. As usual, here’s the first 6 entries:</p>
 <p>and here’s a summary:</p>
@@ -2151,14 +2348,14 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 </div>
 </div>
 <div class="section" id="what-s-the-difference-between-mcnemar-and-independence">
-<h2><span class="section-number">14.9. </span>What’s the difference between McNemar and independence?<a class="headerlink" href="#what-s-the-difference-between-mcnemar-and-independence" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">14.8. </span>What’s the difference between McNemar and independence?<a class="headerlink" href="#what-s-the-difference-between-mcnemar-and-independence" title="Permalink to this headline">¶</a></h2>
 <p>Let’s go all the way back to the beginning of the chapter, and look at the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data set again. If you recall, the actual experimental design that I described involved people making <em>two</em> choices. Because we have information about the first choice and the second choice that everyone made, we can construct the following contingency table that cross-tabulates the first choice against the second choice.</p>
 <p>Suppose I wanted to know whether the choice you make the second time is dependent on the choice you made the first time. This is where a test of independence is useful, and what we’re trying to do is see if there’s some relationship between the rows and columns of this table. Here’s the result:</p>
 <p>Alternatively, suppose I wanted to know if <em>on average</em>, the frequencies of suit choices were different the second time than the first time. In that situation, what I’m really trying to see if the row totals in <code class="docutils literal notranslate"><span class="pre">cardChoices</span></code> (i.e., the frequencies for <code class="docutils literal notranslate"><span class="pre">choice_1</span></code>) are different from the column totals (i.e., the frequencies for <code class="docutils literal notranslate"><span class="pre">choice_2</span></code>). That’s when you use the McNemar test:</p>
 <p>Notice that the results are different! These aren’t the same test.</p>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">14.10. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">14.9. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>The key ideas discussed in this chapter are:</p>
 <ul class="simple">
 <li><p>The chi-square goodness of fit test (Section &#64;ref(goftest)) is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of “known” probabilities to compare them to. You can either use the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package to run this test, or the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function.</p></li>
@@ -2188,13 +2385,16 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id19">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id20">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
 <dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
 </dd>
 <dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id12">9</a></span></dt>
 <dd><p>A problem many of us worry about in real life.</p>
+</dd>
+<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id19">10</a></span></dt>
+<dd><p>This example is based on a joke article published in the <em>Journal of Irreproducible Results</em>.</p>
 </dd>
 </dl>
 </div>
