@@ -768,15 +768,12 @@ stats
 # 
 # [^note10]: This example is based on a joke article published in the *Journal of Irreproducible Results*.
 
-# ```{r echo=FALSE}
-# knitr::kable(tibble::tribble(
-#                  ~NANA,          ~Happy,          ~Sad,         ~Total,
-#     "Set on fire   ", " $O_{11}$ ", " $O_{12}$ ", " $R_{1}$ ",
-#   "Not set on fire ", " $O_{21}$ ", " $O_{22}$ ", " $R_{2}$ ",
-#             "Total ",  " $C_{1}$ ",  " $C_{2}$ ",      " $N$"
-#   ), col.names = c("", "Happy", "Sad", "Total"))
-# ```
-# 
+# |                |Happy    |Sad      |Total   |
+# |:---------------|:--------|:--------|:-------|
+# |Set on fire     |$O_{11}$ |$O_{12}$ |$R_{1}$ |
+# |Not set on fire |$O_{21}$ |$O_{22}$ |$R_{2}$ |
+# |Total           |$C_{1}$  |$C_{2}$  |$N$     |
+
 # In order to construct the test Fisher treats both the row and column totals ($R_1$, $R_2$, $C_1$ and $C_2$) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did ($O_{11}$, $O_{12}$, $O_{21}$ and $O_{22}$) given those totals. In the notation that we developed in Chapter \@ref(probability) this is written:
 # $$
 # P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2) 
