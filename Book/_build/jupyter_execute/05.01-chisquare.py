@@ -817,22 +817,19 @@ print("p = ", pvalue)
 # 
 # The solution to the problem was published by McNemar{cite}`McNemar1947`. The trick is to start by tabulating your data in a slightly different way:
 # 
-# ```{r echo=FALSE}
-# knitr::kable(tibble::tribble(
-#                ~"NANA", ~"Before: Yes", ~"Before: No", ~"Total",
-#   "After: Yes",           "5",          "5",    "10",
-#   "After: No",          "25",         "65",    "90",
-#   "Total",          "30",         "70",    "100"
-#   ), col.names = c("", "Before: Yes", "Before: No", "Total"), align = 'lccc')
-# ```
-# 
-# This is exactly the same data, but it's been rewritten so that each of our 100 participants appears in only one cell. Because we've written our data this way, the independence assumption is now satisfied, and this is a contingency table that we *can* use to construct an $X^2$ goodness of fit statistic. However, as we'll see, we need to do it in a slightly nonstandard way. To see what's going on, it helps to label the entries in our table a little differently:
-# 
 # |           | Before: Yes | Before: No | Total |
 # |:----------|:-----------:|:----------:|:-----:|
 # |After: Yes |      5      |     5      |  10   |
 # |After: No  |     25      |     65     |  90   |
 # |Total      |     30      |     70     |  100  |
+# 
+# This is exactly the same data, but it's been rewritten so that each of our 100 participants appears in only one cell. Because we've written our data this way, the independence assumption is now satisfied, and this is a contingency table that we *can* use to construct an $X^2$ goodness of fit statistic. However, as we'll see, we need to do it in a slightly nonstandard way. To see what's going on, it helps to label the entries in our table a little differently:
+# 
+# |           | Before: Yes | Before: No | Total |
+# |:----------|:-----------:|:----------:|:-----:|
+# |After: Yes |     $a$     |    $b$     | $a+b$ |
+# |After: No  |     $c$     |    $d$     | $c+d$ |
+# |Total      |    $a+c$    |   $b+d$    |  $n$  |
 # 
 # Next, let's think about what our null hypothesis is: it's that the "before" test and the "after" test have the same proportion of people saying "Yes, I will vote for AGPP". Because of the way that we have rewritten the data, it means that we're now testing the hypothesis that the *row totals* and *column totals* come from the same distribution. Thus, the null hypothesis in McNemar's test is that we have "marginal homogeneity". That is, the row totals and column totals have the same distribution: $P_a + P_b = P_a + P_c$, and similarly that $P_c + P_d = P_b + P_d$. Notice that this means that the null hypothesis actually simplifies to $P_b = P_c$. In other words, as far as the McNemar test is concerned, it's only the off-diagonal entries in this table (i.e., $b$ and $c$) that matter! After noticing this, the **_McNemar test of marginal homogeneity_** is no different to a usual $\chi^2$ test. After applying the Yates correction, our test statistic becomes:
 # 
