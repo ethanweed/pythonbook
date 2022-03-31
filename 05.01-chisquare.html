@@ -408,8 +408,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r-assoctestinr">
-     14.2.2. Doing the test in R{#AssocTestInR}
+    <a class="reference internal nav-link" href="#assoctestinpython">
+     14.2.2. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -557,8 +557,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-r-assoctestinr">
-     14.2.2. Doing the test in R{#AssocTestInR}
+    <a class="reference internal nav-link" href="#assoctestinpython">
+     14.2.2. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1701,9 +1701,10 @@ df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} 
 \end{split}\]</div>
 <p>Amazing.</p>
 </div>
-<div class="section" id="doing-the-test-in-r-assoctestinr">
-<h3><span class="section-number">14.2.2. </span>Doing the test in R{#AssocTestInR}<a class="headerlink" href="#doing-the-test-in-r-assoctestinr" title="Permalink to this headline">¶</a></h3>
-<p>Okay, now that we know how the test works, let’s have a look at how it’s done in R. As tempting as it is to lead you through the tedious calculations so that you’re forced to learn it the long way, I figure there’s no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn’t conceptually any different, you won’t learn anything new by doing it the long way. So instead, I’ll go straight to showing you the easy way. As always, R lets you do it multiple ways. There’s the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function, which I’ll talk about in Section &#64;ref(chisq.test, but first I want to use the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, which I think is easier on beginners. It works in the exact same way as the <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code> function. Recall that, in order to produce the contingency table, we used this command:</p>
+<div class="section" id="assoctestinpython">
+<span id="id13"></span><h3><span class="section-number">14.2.2. </span>Doing the test in Python<a class="headerlink" href="#assoctestinpython" title="Permalink to this headline">¶</a></h3>
+<p>Okay, now that we know how the test works, let’s have a look at how it’s done in Python. As tempting as it is to lead you through the tedious calculations so that you’re forced to learn it the long way, I figure there’s no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn’t conceptually any different, you won’t learn anything new by doing it the long way. So instead, I’ll go straight to showing you the easy way. As always, Python lets you do it multiple ways. We’ve already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> for calculating the <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test above, so I’ll start with that. Then, I want to introduce you to the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package, which bundles up a bunch of statistical tests and makes calculating and reporting them a good deal easier.</p>
+<p>There’s the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function, which I’ll talk about in Section &#64;ref(chisq.test, but first I want to use the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, which I think is easier on beginners. It works in the exact same way as the <code class="docutils literal notranslate"><span class="pre">xtabs()</span></code> function. Recall that, in order to produce the contingency table, we used this command:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function has exactly the same structure: it needs a <code class="docutils literal notranslate"><span class="pre">formula</span></code> that specifies which variables you’re cross-tabulating, and the name of a <code class="docutils literal notranslate"><span class="pre">data</span></code> frame that contains those variables. So the command is just this:</p>
 <p>Just like we did with the goodness of fit test, I’ll go through it line by line. The first two lines are, once again, just reminding you what kind of test you ran and what variables were used:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="n">Chi</span><span class="o">-</span><span class="n">square</span> <span class="n">test</span> <span class="n">of</span> <span class="n">categorical</span> <span class="n">association</span>
@@ -1746,6 +1747,88 @@ df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} 
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Other</span> <span class="n">information</span><span class="p">:</span> 
    <span class="n">estimated</span> <span class="n">effect</span> <span class="n">size</span> <span class="p">(</span><span class="n">Cramer</span><span class="s1">&#39;s v):  0.244 </span>
 </pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chi2_contingency</span>
+
+<span class="n">observations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">correction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;chi2 = &quot;</span><span class="p">,</span> <span class="n">chi2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;degrees of freedom = &quot;</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;expected = &quot;</span><span class="p">,</span> <span class="n">ex</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chi2 =  10.721571792595633
+p =  0.004697213134214071
+degrees of freedom =  2
+expected =  [[56.31666667 52.68333333]
+ [22.21666667 20.78333333]
+ [14.46666667 13.53333333]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
+<span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+<span class="n">expected</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>choice</th>
+      <th>data</th>
+      <th>flower</th>
+      <th>puppy</th>
+    </tr>
+    <tr>
+      <th>species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>human</th>
+      <td>56.316667</td>
+      <td>22.216667</td>
+      <td>14.466667</td>
+    </tr>
+    <tr>
+      <th>robot</th>
+      <td>52.683333</td>
+      <td>20.783333</td>
+      <td>13.533333</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>You can ignore this bit for now. I’ll talk about it in just a moment.</p>
 <p>This output gives us enough information to write up the result:</p>
@@ -1916,7 +1999,7 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id13">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id14">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
 <dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
