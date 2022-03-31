@@ -863,6 +863,12 @@ df.head()
 
 import pingouin as pg
 observed, stats = pg.chi2_mcnemar(df, 'response_before', 'response_after')
+observed
+
+
+# In[33]:
+
+
 stats
 
 
