@@ -784,7 +784,7 @@ stats
 # 
 # Fisher's exact test can be computed in Python using the `fisher_exact` function from `scipy.stats` function, like this:
 # 
-# [^note10]: Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a $p$-value, not Neyman's!
+# [^note11]: Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a $p$-value, not Neyman's!
 
 # In[30]:
 
