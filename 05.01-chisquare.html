@@ -2282,14 +2282,32 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 </div>
 <p>Speaking as someone who doesn’t want to be set on fire, I’d <em>really</em> like to be able to get a better answer than this. This is where <strong><em>Fisher’s exact test</em></strong> {cite}Fisher1922 comes in very handy.</p>
 <p>The Fisher exact test works somewhat differently to the chi-square test (or in fact any of the other hypothesis tests that I talk about in this book) insofar as it doesn’t have a test statistic; it calculates the <span class="math notranslate nohighlight">\(p\)</span>-value “directly”. I’ll explain the basics of how the test works for a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table, though the test works fine for larger tables. As before, let’s have some notation:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-                 ~NANA,          ~Happy,          ~Sad,         ~Total,
-    &quot;Set on fire   &quot;, &quot; $O_{11}$ &quot;, &quot; $O_{12}$ &quot;, &quot; $R_{1}$ &quot;,
-  &quot;Not set on fire &quot;, &quot; $O_{21}$ &quot;, &quot; $O_{22}$ &quot;, &quot; $R_{2}$ &quot;,
-            &quot;Total &quot;,  &quot; $C_{1}$ &quot;,  &quot; $C_{2}$ &quot;,      &quot; $N$&quot;
-  ), col.names = c(&quot;&quot;, &quot;Happy&quot;, &quot;Sad&quot;, &quot;Total&quot;))
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p>Happy</p></th>
+<th class="text-align:left head"><p>Sad</p></th>
+<th class="text-align:left head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Set on fire</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Not set on fire</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+</tr>
+</tbody>
+</table>
 <p>In order to construct the test Fisher treats both the row and column totals (<span class="math notranslate nohighlight">\(R_1\)</span>, <span class="math notranslate nohighlight">\(R_2\)</span>, <span class="math notranslate nohighlight">\(C_1\)</span> and <span class="math notranslate nohighlight">\(C_2\)</span>) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did (<span class="math notranslate nohighlight">\(O_{11}\)</span>, <span class="math notranslate nohighlight">\(O_{12}\)</span>, <span class="math notranslate nohighlight">\(O_{21}\)</span> and <span class="math notranslate nohighlight">\(O_{22}\)</span>) given those totals. In the notation that we developed in Chapter &#64;ref(probability) this is written:
 $<span class="math notranslate nohighlight">\(
 P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2) 
