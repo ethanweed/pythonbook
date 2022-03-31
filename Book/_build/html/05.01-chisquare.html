@@ -462,8 +462,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-mcnemar-test-mcnemar">
-   14.7. The McNemar test{#mcnemar}
+  <a class="reference internal nav-link" href="#the-mcnemar-test">
+   14.7. The McNemar test
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -628,8 +628,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-mcnemar-test-mcnemar">
-   14.7. The McNemar test{#mcnemar}
+  <a class="reference internal nav-link" href="#the-mcnemar-test">
+   14.7. The McNemar test
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -2308,27 +2308,67 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 </tr>
 </tbody>
 </table>
-<p>In order to construct the test Fisher treats both the row and column totals (<span class="math notranslate nohighlight">\(R_1\)</span>, <span class="math notranslate nohighlight">\(R_2\)</span>, <span class="math notranslate nohighlight">\(C_1\)</span> and <span class="math notranslate nohighlight">\(C_2\)</span>) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did (<span class="math notranslate nohighlight">\(O_{11}\)</span>, <span class="math notranslate nohighlight">\(O_{12}\)</span>, <span class="math notranslate nohighlight">\(O_{21}\)</span> and <span class="math notranslate nohighlight">\(O_{22}\)</span>) given those totals. In the notation that we developed in Chapter &#64;ref(probability) this is written:
-$<span class="math notranslate nohighlight">\(
+<p>In order to construct the test Fisher treats both the row and column totals (<span class="math notranslate nohighlight">\(R_1\)</span>, <span class="math notranslate nohighlight">\(R_2\)</span>, <span class="math notranslate nohighlight">\(C_1\)</span> and <span class="math notranslate nohighlight">\(C_2\)</span>) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did (<span class="math notranslate nohighlight">\(O_{11}\)</span>, <span class="math notranslate nohighlight">\(O_{12}\)</span>, <span class="math notranslate nohighlight">\(O_{21}\)</span> and <span class="math notranslate nohighlight">\(O_{22}\)</span>) given those totals. In the notation that we developed back in the section on <a class="reference internal" href="04.02-probability.html#probability"><span class="std std-ref">probability</span></a> this is written:</p>
+<div class="math notranslate nohighlight">
+\[
 P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2) 
-\)</span><span class="math notranslate nohighlight">\(
-and as you might imagine, it's a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the *hypergeometric distribution* ^[The R functions for this distribution are `dhyper()`, `phyper()`, `qhyper()` and `rhyper()`, though you don't need them for this book, and I haven't given you enough information to use these to perform the Fisher exact test the long way.]. Now that we know this, what we have to do to calculate our \)</span>p<span class="math notranslate nohighlight">\(-value is calculate the probability of observing this particular table *or a table that is &quot;more extreme&quot;*.^[Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a \)</span>p<span class="math notranslate nohighlight">\(-value, not Neyman's!] Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it's pretty easy as long as the tables aren't too big and the sample size isn't too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more &quot;extreme&quot; than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the \)</span>p$-value.</p>
-<p>The implementation of the test in R is via the <code class="docutils literal notranslate"><span class="pre">fisher.test()</span></code> function. Here’s how it is used:</p>
-<p>This is a bit more output than we got from some of our earlier tests. The main thing we’re interested in here is the <span class="math notranslate nohighlight">\(p\)</span>-value, which in this case is small enough (<span class="math notranslate nohighlight">\(p=.036\)</span>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.</p>
-</div>
-<div class="section" id="the-mcnemar-test-mcnemar">
-<h2><span class="section-number">14.7. </span>The McNemar test{#mcnemar}<a class="headerlink" href="#the-mcnemar-test-mcnemar" title="Permalink to this headline">¶</a></h2>
-<p>Suppose you’ve been hired to work for the <em>Australian Generic Political Party</em> (AGPP), and part of your job is to find out how effective the AGPP political advertisements are. So, what you do, is you put together a sample of <span class="math notranslate nohighlight">\(N=100\)</span> people, and ask them to watch the AGPP ads. Before they see anything, you ask them if they intend to vote for the AGPP; and then after showing the ads, you ask them again, to see if anyone has changed their minds. Obviously, if you’re any good at your job, you’d also do a whole lot of other things too, but let’s consider just this one simple experiment. One way to describe your data is via the following contingency table:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-        ~&quot;NANA&quot;, ~&quot;Before&quot;, ~&quot;After&quot;, ~&quot;Total&quot;,
-  &quot;Yes&quot;,     &quot;30&quot;,    &quot;10&quot;,    &quot;40&quot;,
-  &quot;No&quot;,     &quot;70&quot;,    &quot;90&quot;,   &quot;160&quot;,
-  &quot;Total&quot;,    &quot;100 &quot;,   &quot;100&quot;,    &quot;200&quot;
-  ), col.names = c(&quot;&quot;, &quot;Before&quot;, &quot;After&quot;, &quot;Total&quot;), align = &#39;lccc&#39;)
+\]</div>
+<p>and as you might imagine, it’s a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the <em>hypergeometric distribution</em>. Now that we know this, what we have to do to calculate our <span class="math notranslate nohighlight">\(p\)</span>-value is calculate the probability of observing this particular table <em>or a table that is “more extreme”</em>.[^Note11] Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it’s pretty easy as long as the tables aren’t too big and the sample size isn’t too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more “extreme” than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the <span class="math notranslate nohighlight">\(p\)</span>-value.</p>
+<p>Fisher’s exact test can be computed in Python using the <code class="docutils literal notranslate"><span class="pre">fisher_exact</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> function, like this:</p>
+<p>[Note11]: Not surprisingly, the Fisher exact test is motivated by Fisher’s interpretation of a <span class="math notranslate nohighlight">\(p\)</span>-value, not Neyman’s!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">fisher_exact</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/salem.csv&#39;</span><span class="p">)</span>
+<span class="n">freq_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;happy&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;on.fire&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">oddsratio</span><span class="p">,</span> <span class="n">pvalue</span> <span class="o">=</span> <span class="n">fisher_exact</span><span class="p">(</span><span class="n">freq_table</span><span class="p">)</span>  
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>At first pass, you might think that this situation lends itself to the Pearson <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (as per Section &#64;ref(chisqindependence)). However, a little bit of thought reveals that we’ve got a problem: we have 100 participants, but 200 observations. This is because each person has provided us with an answer in <em>both</em> the before column and the after column. What this means is that the 200 observations aren’t independent of each other: if voter A says “yes” the first time and voter B says “no”, then you’d expect that voter A is more likely to say “yes” the second time than voter B! The consequence of this is that the usual <span class="math notranslate nohighlight">\(\chi^2\)</span> test won’t give trustworthy answers due to the violation of the independence assumption. Now, if this were a really uncommon situation, I wouldn’t be bothering to waste your time talking about it. But it’s not uncommon at all: this is a <em>standard</em> repeated measures design, and none of the tests we’ve considered so far can handle it. Eek.</p>
-<p>The solution to the problem was published by &#64;McNemar1947. The trick is to start by tabulating your data in a slightly different way:</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p =  0.03571428571428571
+</pre></div>
+</div>
+</div>
+</div>
+<p>The main thing we’re interested in here is the <span class="math notranslate nohighlight">\(p\)</span>-value, which in this case is small enough (<span class="math notranslate nohighlight">\(p=.036\)</span>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.</p>
+</div>
+<div class="section" id="the-mcnemar-test">
+<span id="mcnemar"></span><h2><span class="section-number">14.7. </span>The McNemar test<a class="headerlink" href="#the-mcnemar-test" title="Permalink to this headline">¶</a></h2>
+<p>Suppose you’ve been hired to work for the <em>Australian Generic Political Party</em> (AGPP), and part of your job is to find out how effective the AGPP political advertisements are. So, what you do, is you put together a sample of <span class="math notranslate nohighlight">\(N=100\)</span> people, and ask them to watch the AGPP ads. Before they see anything, you ask them if they intend to vote for the AGPP; and then after showing the ads, you ask them again, to see if anyone has changed their minds. Obviously, if you’re any good at your job, you’d also do a whole lot of other things too, but let’s consider just this one simple experiment. One way to describe your data is via the following contingency table:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:center head"><p>Before</p></th>
+<th class="text-align:center head"><p>After</p></th>
+<th class="text-align:center head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Yes</p></td>
+<td class="text-align:center"><p>30</p></td>
+<td class="text-align:center"><p>10</p></td>
+<td class="text-align:center"><p>40</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>No</p></td>
+<td class="text-align:center"><p>70</p></td>
+<td class="text-align:center"><p>90</p></td>
+<td class="text-align:center"><p>160</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
+<td class="text-align:center"><p>100</p></td>
+<td class="text-align:center"><p>100</p></td>
+<td class="text-align:center"><p>200</p></td>
+</tr>
+</tbody>
+</table>
+<p>At first pass, you might think that this situation lends itself to the <a class="reference internal" href="#chisqindependence"><span class="std std-ref">Pearson <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence</span></a>. However, a little bit of thought reveals that we’ve got a problem: we have 100 participants, but 200 observations. This is because each person has provided us with an answer in <em>both</em> the before column and the after column. What this means is that the 200 observations aren’t independent of each other: if voter A says “yes” the first time and voter B says “no”, then you’d expect that voter A is more likely to say “yes” the second time than voter B! The consequence of this is that the usual <span class="math notranslate nohighlight">\(\chi^2\)</span> test won’t give trustworthy answers due to the violation of the independence assumption. Now, if this were a really uncommon situation, I wouldn’t be bothering to waste your time talking about it. But it’s not uncommon at all: this is a <em>standard</em> repeated measures design, and none of the tests we’ve considered so far can handle it. Eek.</p>
+<p>The solution to the problem was published by McNemar<span id="id20">[<a class="reference internal" href="bibliography.html#id57" title="Q. McNemar. Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12:153–157, 1947.">McN47</a>]</span>. The trick is to start by tabulating your data in a slightly different way:</p>
 <div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
                ~&quot;NANA&quot;, ~&quot;Before: Yes&quot;, ~&quot;Before: No&quot;, ~&quot;Total&quot;,
   &quot;After: Yes&quot;,           &quot;5&quot;,          &quot;5&quot;,    &quot;10&quot;,
@@ -2338,23 +2378,43 @@ and as you might imagine, it's a slightly tricky exercise to figure out what thi
 </pre></div>
 </div>
 <p>This is exactly the same data, but it’s been rewritten so that each of our 100 participants appears in only one cell. Because we’ve written our data this way, the independence assumption is now satisfied, and this is a contingency table that we <em>can</em> use to construct an <span class="math notranslate nohighlight">\(X^2\)</span> goodness of fit statistic. However, as we’ll see, we need to do it in a slightly nonstandard way. To see what’s going on, it helps to label the entries in our table a little differently:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>knitr::kable(tibble::tribble(
-               ~&quot;NANA&quot;, ~&quot;Before: Yes&quot;, ~&quot;Before: No&quot;, ~&quot;Total&quot;,
-  &quot;After: Yes&quot;,         &quot;$a$&quot;,        &quot;$b$&quot;, &quot;$a+b$&quot;,
-     &quot;After: No&quot;,         &quot;$c$&quot;,        &quot;$d$&quot;, &quot;$c+d$&quot;,
-         &quot;Total&quot;,       &quot;$a+c$&quot;,      &quot;$b+d$&quot;,    &quot;$n$&quot;
-  ), col.names = c(&quot;&quot;, &quot;Before: Yes&quot;, &quot;Before: No&quot;, &quot;Total&quot;), align = &#39;lccc&#39;)
-</pre></div>
-</div>
-<p>Next, let’s think about what our null hypothesis is: it’s that the “before” test and the “after” test have the same proportion of people saying “Yes, I will vote for AGPP”. Because of the way that we have rewritten the data, it means that we’re now testing the hypothesis that the <em>row totals</em> and <em>column totals</em> come from the same distribution. Thus, the null hypothesis in McNemar’s test is that we have “marginal homogeneity”. That is, the row totals and column totals have the same distribution: <span class="math notranslate nohighlight">\(P_a + P_b = P_a + P_c\)</span>, and similarly that <span class="math notranslate nohighlight">\(P_c + P_d = P_b + P_d\)</span>. Notice that this means that the null hypothesis actually simplifies to <span class="math notranslate nohighlight">\(P_b = P_c\)</span>. In other words, as far as the McNemar test is concerned, it’s only the off-diagonal entries in this table (i.e., <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(c\)</span>) that matter! After noticing this, the <strong><em>McNemar test of marginal homogeneity</em></strong> is no different to a usual <span class="math notranslate nohighlight">\(\chi^2\)</span> test. After applying the Yates correction, our test statistic becomes:
-$<span class="math notranslate nohighlight">\(
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:center head"><p>Before: Yes</p></th>
+<th class="text-align:center head"><p>Before: No</p></th>
+<th class="text-align:center head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>After: Yes</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>10</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>After: No</p></td>
+<td class="text-align:center"><p>25</p></td>
+<td class="text-align:center"><p>65</p></td>
+<td class="text-align:center"><p>90</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
+<td class="text-align:center"><p>30</p></td>
+<td class="text-align:center"><p>70</p></td>
+<td class="text-align:center"><p>100</p></td>
+</tr>
+</tbody>
+</table>
+<p>Next, let’s think about what our null hypothesis is: it’s that the “before” test and the “after” test have the same proportion of people saying “Yes, I will vote for AGPP”. Because of the way that we have rewritten the data, it means that we’re now testing the hypothesis that the <em>row totals</em> and <em>column totals</em> come from the same distribution. Thus, the null hypothesis in McNemar’s test is that we have “marginal homogeneity”. That is, the row totals and column totals have the same distribution: <span class="math notranslate nohighlight">\(P_a + P_b = P_a + P_c\)</span>, and similarly that <span class="math notranslate nohighlight">\(P_c + P_d = P_b + P_d\)</span>. Notice that this means that the null hypothesis actually simplifies to <span class="math notranslate nohighlight">\(P_b = P_c\)</span>. In other words, as far as the McNemar test is concerned, it’s only the off-diagonal entries in this table (i.e., <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(c\)</span>) that matter! After noticing this, the <strong><em>McNemar test of marginal homogeneity</em></strong> is no different to a usual <span class="math notranslate nohighlight">\(\chi^2\)</span> test. After applying the Yates correction, our test statistic becomes:</p>
+<div class="math notranslate nohighlight">
+\[
 X^2 = \frac{(|b-c| - 0.5)^2}{b+c}
-\)</span><span class="math notranslate nohighlight">\(
-or, to revert to the notation that we used earlier in this chapter:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>or, to revert to the notation that we used earlier in this chapter:</p>
+<div class="math notranslate nohighlight">
+\[
 X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
-\)</span><span class="math notranslate nohighlight">\(
-and this statistic has an (approximately) \)</span>\chi^2<span class="math notranslate nohighlight">\( distribution with \)</span>df=1<span class="math notranslate nohighlight">\(. However, remember that -- just like the other \)</span>\chi^2$ tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
+\]</div>
+<p>and this statistic has an (approximately) <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(df=1\)</span>. However, remember that – just like the other <span class="math notranslate nohighlight">\(\chi^2\)</span> tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
 <div class="section" id="doing-the-mcnemar-test-in-r">
 <h3><span class="section-number">14.7.1. </span>Doing the McNemar test in R<a class="headerlink" href="#doing-the-mcnemar-test-in-r" title="Permalink to this headline">¶</a></h3>
 <p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.Rdata</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
@@ -2403,7 +2463,7 @@ and this statistic has an (approximately) \)</span>\chi^2<span class="math notra
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id20">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id21">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
 <dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>

@@ -774,35 +774,48 @@ stats
 # |Not set on fire |$O_{21}$ |$O_{22}$ |$R_{2}$ |
 # |Total           |$C_{1}$  |$C_{2}$  |$N$     |
 
-# In order to construct the test Fisher treats both the row and column totals ($R_1$, $R_2$, $C_1$ and $C_2$) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did ($O_{11}$, $O_{12}$, $O_{21}$ and $O_{22}$) given those totals. In the notation that we developed in Chapter \@ref(probability) this is written:
+# In order to construct the test Fisher treats both the row and column totals ($R_1$, $R_2$, $C_1$ and $C_2$) are known, fixed quantities; and then calculates the probability that we would have obtained the observed frequencies that we did ($O_{11}$, $O_{12}$, $O_{21}$ and $O_{22}$) given those totals. In the notation that we developed back in the section on [probability](probability) this is written:
+# 
 # $$
 # P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2) 
 # $$
-# and as you might imagine, it's a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the *hypergeometric distribution* ^[The R functions for this distribution are `dhyper()`, `phyper()`, `qhyper()` and `rhyper()`, though you don't need them for this book, and I haven't given you enough information to use these to perform the Fisher exact test the long way.]. Now that we know this, what we have to do to calculate our $p$-value is calculate the probability of observing this particular table *or a table that is "more extreme"*.^[Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a $p$-value, not Neyman's!] Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it's pretty easy as long as the tables aren't too big and the sample size isn't too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more "extreme" than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the $p$-value. 
 # 
-# The implementation of the test in R is via the `fisher.test()` function. Here's how it is used:
-# ```{r}
-# fisher.test( salem.tabs )
-# ```
-# This is a bit more output than we got from some of our earlier tests. The main thing we're interested in here is the $p$-value, which in this case is small enough ($p=.036$) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire. 
+# and as you might imagine, it's a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the *hypergeometric distribution*. Now that we know this, what we have to do to calculate our $p$-value is calculate the probability of observing this particular table *or a table that is "more extreme"*.[^Note11] Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it's pretty easy as long as the tables aren't too big and the sample size isn't too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more "extreme" than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the $p$-value. 
 # 
+# Fisher's exact test can be computed in Python using the `fisher_exact` function from `scipy.stats` function, like this:
 # 
-# ## The McNemar test{#mcnemar}
+# [Note11]: Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a $p$-value, not Neyman's!
+
+# In[30]:
+
+
+import pandas as pd
+from scipy.stats import fisher_exact
+
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/salem.csv')
+freq_table = pd.crosstab(index=df["happy"], columns=df["on.fire"],margins=False)
+
+oddsratio, pvalue = fisher_exact(freq_table)  
+
+print("p = ", pvalue)
+
+
+# The main thing we're interested in here is the $p$-value, which in this case is small enough ($p=.036$) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire. 
+
+# (mcnemar)=
+# ## The McNemar test
 # 
 # Suppose you've been hired to work for the *Australian Generic Political Party* (AGPP), and part of your job is to find out how effective the AGPP political advertisements are. So, what you do, is you put together a sample of $N=100$ people, and ask them to watch the AGPP ads. Before they see anything, you ask them if they intend to vote for the AGPP; and then after showing the ads, you ask them again, to see if anyone has changed their minds. Obviously, if you're any good at your job, you'd also do a whole lot of other things too, but let's consider just this one simple experiment. One way to describe your data is via the following contingency table:
 # 
-# ```{r echo=FALSE}
-# knitr::kable(tibble::tribble(
-#         ~"NANA", ~"Before", ~"After", ~"Total",
-#   "Yes",     "30",    "10",    "40",
-#   "No",     "70",    "90",   "160",
-#   "Total",    "100 ",   "100",    "200"
-#   ), col.names = c("", "Before", "After", "Total"), align = 'lccc')
-# ```
+# |      | Before | After | Total |
+# |:-----|:------:|:-----:|:-----:|
+# |Yes   |   30   |  10   |  40   |
+# |No    |   70   |  90   |  160  |
+# |Total |  100   |  100  |  200  |
 # 
-# At first pass, you might think that this situation lends itself to the Pearson $\chi^2$ test of independence (as per Section \@ref(chisqindependence)). However, a little bit of thought reveals that we've got a problem: we have 100 participants, but 200 observations. This is because each person has provided us with an answer in *both* the before column and the after column. What this means is that the 200 observations aren't independent of each other: if voter A says "yes" the first time and voter B says "no", then you'd expect that voter A is more likely to say "yes" the second time than voter B! The consequence of this is that the usual $\chi^2$ test won't give trustworthy answers due to the violation of the independence assumption. Now, if this were a really uncommon situation, I wouldn't be bothering to waste your time talking about it. But it's not uncommon at all: this is a *standard* repeated measures design, and none of the tests we've considered so far can handle it. Eek. 
+# At first pass, you might think that this situation lends itself to the [Pearson $\chi^2$ test of independence](chisqindependence). However, a little bit of thought reveals that we've got a problem: we have 100 participants, but 200 observations. This is because each person has provided us with an answer in *both* the before column and the after column. What this means is that the 200 observations aren't independent of each other: if voter A says "yes" the first time and voter B says "no", then you'd expect that voter A is more likely to say "yes" the second time than voter B! The consequence of this is that the usual $\chi^2$ test won't give trustworthy answers due to the violation of the independence assumption. Now, if this were a really uncommon situation, I wouldn't be bothering to waste your time talking about it. But it's not uncommon at all: this is a *standard* repeated measures design, and none of the tests we've considered so far can handle it. Eek. 
 # 
-# The solution to the problem was published by @McNemar1947. The trick is to start by tabulating your data in a slightly different way:
+# The solution to the problem was published by McNemar{cite}`McNemar1947`. The trick is to start by tabulating your data in a slightly different way:
 # 
 # ```{r echo=FALSE}
 # knitr::kable(tibble::tribble(
@@ -815,26 +828,26 @@ stats
 # 
 # This is exactly the same data, but it's been rewritten so that each of our 100 participants appears in only one cell. Because we've written our data this way, the independence assumption is now satisfied, and this is a contingency table that we *can* use to construct an $X^2$ goodness of fit statistic. However, as we'll see, we need to do it in a slightly nonstandard way. To see what's going on, it helps to label the entries in our table a little differently:
 # 
-# ```{r echo=FALSE}
-# knitr::kable(tibble::tribble(
-#                ~"NANA", ~"Before: Yes", ~"Before: No", ~"Total",
-#   "After: Yes",         "$a$",        "$b$", "$a+b$",
-#      "After: No",         "$c$",        "$d$", "$c+d$",
-#          "Total",       "$a+c$",      "$b+d$",    "$n$"
-#   ), col.names = c("", "Before: Yes", "Before: No", "Total"), align = 'lccc')
-# ```
+# |           | Before: Yes | Before: No | Total |
+# |:----------|:-----------:|:----------:|:-----:|
+# |After: Yes |      5      |     5      |  10   |
+# |After: No  |     25      |     65     |  90   |
+# |Total      |     30      |     70     |  100  |
 # 
 # Next, let's think about what our null hypothesis is: it's that the "before" test and the "after" test have the same proportion of people saying "Yes, I will vote for AGPP". Because of the way that we have rewritten the data, it means that we're now testing the hypothesis that the *row totals* and *column totals* come from the same distribution. Thus, the null hypothesis in McNemar's test is that we have "marginal homogeneity". That is, the row totals and column totals have the same distribution: $P_a + P_b = P_a + P_c$, and similarly that $P_c + P_d = P_b + P_d$. Notice that this means that the null hypothesis actually simplifies to $P_b = P_c$. In other words, as far as the McNemar test is concerned, it's only the off-diagonal entries in this table (i.e., $b$ and $c$) that matter! After noticing this, the **_McNemar test of marginal homogeneity_** is no different to a usual $\chi^2$ test. After applying the Yates correction, our test statistic becomes:
+# 
 # $$
 # X^2 = \frac{(|b-c| - 0.5)^2}{b+c}
 # $$
+# 
 # or, to revert to the notation that we used earlier in this chapter:
+# 
 # $$
 # X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 # $$
+# 
 # and this statistic has an (approximately) $\chi^2$ distribution with $df=1$. However, remember that -- just like the other $\chi^2$ tests -- it's only an approximation, so you need to have reasonably large expected cell counts for it to work.
-# 
-# 
+
 # ### Doing the McNemar test in R
 # 
 # Now that you know what the McNemar test is all about, lets actually run one. The `agpp.Rdata` file contains the raw data that I discussed previously, so let's have a look at it:
