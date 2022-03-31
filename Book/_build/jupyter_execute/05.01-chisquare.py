@@ -568,10 +568,13 @@ pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
 # 
 # [^note9]: A problem many of us worry about in real life.
 
-# ### Doing the test in R{#AssocTestInR}
+# (AssocTestInPython)=
+# ### Doing the test in Python
 # 
 # 
-# Okay, now that we know how the test works, let's have a look at how it's done in R. As tempting as it is to lead you through the tedious calculations so that you're forced to learn it the long way, I figure there's no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn't conceptually any different, you won't learn anything new by doing it the long way. So instead, I'll go straight to showing you the easy way. As always, R lets you do it multiple ways. There's the `chisq.test()` function, which I'll talk about in Section \@ref(chisq.test, but first I want to use the `associationTest()` function in the `lsr` package, which I think is easier on beginners. It works in the exact same way as the `xtabs()` function. Recall that, in order to produce the contingency table, we used this command:
+# Okay, now that we know how the test works, let's have a look at how it's done in Python. As tempting as it is to lead you through the tedious calculations so that you're forced to learn it the long way, I figure there's no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn't conceptually any different, you won't learn anything new by doing it the long way. So instead, I'll go straight to showing you the easy way. As always, Python lets you do it multiple ways. We've already used `scipy.stats` for calculating the $\chi^2$ goodness-of-fit test above, so I'll start with that. Then, I want to introduce you to the `pingouin` package, which bundles up a bunch of statistical tests and makes calculating and reporting them a good deal easier.
+
+# There's the `chisq.test()` function, which I'll talk about in Section \@ref(chisq.test, but first I want to use the `associationTest()` function in the `lsr` package, which I think is easier on beginners. It works in the exact same way as the `xtabs()` function. Recall that, in order to produce the contingency table, we used this command:
 # ```{r}
 # xtabs( formula = ~choice+species, data = chapek9 )
 # ```
@@ -623,6 +626,31 @@ pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
 # Other information: 
 #    estimated effect size (Cramer's v):  0.244 
 # ```
+
+# In[21]:
+
+
+from scipy.stats import chi2_contingency
+
+observations = pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
+
+chi2, p, dof, ex = chi2_contingency(observations, correction=False)
+
+print("chi2 = ", chi2)
+print("p = ", p)
+print("degrees of freedom = ", dof)
+print("expected = ", ex)
+
+
+# In[22]:
+
+
+import pingouin as pg
+data = df
+expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
+expected
+
+
 # You can ignore this bit for now. I'll talk about it in just a moment.
 # 
 # This output gives us enough information to write up the result:
