@@ -901,7 +901,7 @@ const thebe_selector_output = ".output, .cell_output"
   <div class="tex2jax_ignore mathjax_ignore section" id="comparing-two-means">
 <span id="ttest"></span><h1><span class="section-number">15. </span>Comparing Two Means<a class="headerlink" href="#comparing-two-means" title="Permalink to this headline">¶</a></h1>
 <p>In the previous chapter we covered the situation when your outcome variable is nominal scale and your predictor variable<a class="footnote-reference brackets" href="#note1" id="id1">1</a> is also nominal scale. Lots of real world situations have that character, and so you’ll find that chi-square tests in particular are quite widely used. However, you’re much more likely to find yourself in a situation where your outcome variable is interval scale or higher, and what you’re interested in is whether the average value of the outcome variable is higher in one group or another. For instance, a psychologist might want to know if anxiety levels are higher among parents than non-parents, or if working memory capacity is reduced by listening to music (relative to not listening to music). In a medical context, we might want to know if a new drug increases or decreases blood pressure. An agricultural scientist might want to know whether adding phosphorus to Australian native plants will kill them.<a class="footnote-reference brackets" href="#note2" id="id2">2</a> In all these situations, our outcome variable is a fairly continuous, interval or ratio scale variable; and our predictor is a binary “grouping” variable. In other words, we want to compare the means of the two groups.</p>
-<p>The standard answer to the problem of comparing means is to use a <span class="math notranslate nohighlight">\(t\)</span>-test, of which there are several varieties depending on exactly what question you want to solve. As a consequence, the majority of this chapter focuses on different types of <span class="math notranslate nohighlight">\(t\)</span>-test: one sample <span class="math notranslate nohighlight">\(t\)</span>-tests are discussed in Section &#64;ref(onesamplettest), independent samples <span class="math notranslate nohighlight">\(t\)</span>-tests are discussed in Sections &#64;ref(studentttest) and &#64;ref(welchttest), and paired samples <span class="math notranslate nohighlight">\(t\)</span>-tests are discussed in Section &#64;ref(pairedsamplesttest). After that, we’ll talk a bit about Cohen’s <span class="math notranslate nohighlight">\(d\)</span>, which is the standard measure of effect size for a <span class="math notranslate nohighlight">\(t\)</span>-test (Section &#64;ref(cohensd)). The later sections of the chapter focus on the assumptions of the <span class="math notranslate nohighlight">\(t\)</span>-tests, and possible remedies if they are violated. However, before discussing any of these useful things, we’ll start with a discussion of the <span class="math notranslate nohighlight">\(z\)</span>-test.</p>
+<p>The standard answer to the problem of comparing means is to use a <span class="math notranslate nohighlight">\(t\)</span>-test, of which there are several varieties depending on exactly what question you want to solve. As a consequence, the majority of this chapter focuses on different types of <span class="math notranslate nohighlight">\(t\)</span>-test: <a class="reference internal" href="#onesamplettest"><span class="std std-ref">one sample <span class="math notranslate nohighlight">\(t\)</span>-tests</span></a>, <a class="reference internal" href="#studentttest"><span class="std std-ref">student’s</span></a> and <a class="reference internal" href="#welchttest"><span class="std std-ref">welch’s</span></a>, and <a class="reference internal" href="#pairedsamplesttest"><span class="std std-ref">paired samples <span class="math notranslate nohighlight">\(t\)</span>-tests</span></a>. After that, we’ll talk a bit about <a class="reference internal" href="#cohensd"><span class="std std-ref">Cohen’s <span class="math notranslate nohighlight">\(d\)</span></span></a>, which is the standard measure of effect size for a <span class="math notranslate nohighlight">\(t\)</span>-test. The later sections of the chapter focus on the assumptions of the <span class="math notranslate nohighlight">\(t\)</span>-tests, and possible remedies if they are violated. However, before discussing any of these useful things, we’ll start with a discussion of the <span class="math notranslate nohighlight">\(z\)</span>-test.</p>
 <div class="section" id="the-one-sample-z-test">
 <h2><span class="section-number">15.1. </span>The one-sample <span class="math notranslate nohighlight">\(z\)</span>-test<a class="headerlink" href="#the-one-sample-z-test" title="Permalink to this headline">¶</a></h2>
 <p>In this section I’ll describe one of the most useless tests in all of statistics: the <strong><em><span class="math notranslate nohighlight">\(z\)</span>-test</em></strong>. Seriously – this test is almost never used in real life. Its only real purpose is that, when teaching statistics, it’s a very convenient stepping stone along the way towards the <span class="math notranslate nohighlight">\(t\)</span>-test, which is probably the most (over)used tool in all statistics.</p>
@@ -917,17 +917,51 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grades</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>64</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>66</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>and calculate the mean:</p>
 <div class="cell docutils container">
@@ -1737,7 +1771,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f8247a06190&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a692ec0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
@@ -1953,7 +1987,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1392dbfd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a77f1c0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
@@ -1974,14 +2008,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="mi">39</span><span class="n">aa644e6a03</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span>
-
-<span class="ne">NameError</span>: name &#39;Anastasia&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([2.03418661]), array([0.05360997]))
 </pre></div>
 </div>
 </div>
@@ -2211,48 +2238,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="nn">/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/pandas/core/indexes/base.py</span> in <span class="ni">get_loc</span><span class="nt">(self, key, method, tolerance)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3079</span>             <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">3080</span>                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3081</span>             <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-
-<span class="nn">pandas/_libs/index.pyx</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
-
-<span class="nn">pandas/_libs/index.pyx</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
-
-<span class="nn">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
-
-<span class="nn">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
-
-<span class="ne">KeyError</span>: &#39;improvement&#39;
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
-
-<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">755</span><span class="o">-</span><span class="mf">688e363</span><span class="n">fdb24</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> 
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-
-<span class="nn">/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/pandas/core/frame.py</span> in <span class="ni">__getitem__</span><span class="nt">(self, key)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3022</span>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3023</span>                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem_multilevel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">3024</span>             <span class="n">indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3025</span>             <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">indexer</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">3026</span>                 <span class="n">indexer</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span><span class="p">]</span>
-
-<span class="nn">/opt/anaconda3/envs/pythonbook/lib/python3.9/site-packages/pandas/core/indexes/base.py</span> in <span class="ni">get_loc</span><span class="nt">(self, key, method, tolerance)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3080</span>                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3081</span>             <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">3082</span>                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
-<span class="g g-Whitespace">   </span><span class="mi">3083</span> 
-<span class="g g-Whitespace">   </span><span class="mi">3084</span>         <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
-<span class="ne">KeyError</span>: &#39;improvement&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.9508686092602991, 1.8591313907397005)
 </pre></div>
 </div>
 </div>
@@ -2509,7 +2495,17 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7395614040382655
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [40],</span> in <span class="ni">&lt;cell line: 20&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># find pooled standard deviation (square root of weighted variation, </span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="c1"># divided by total N, with a correction for bias of -2)</span>
+
+<span class="ne">NameError</span>: name &#39;var&#39; is not defined
 </pre></div>
 </div>
 </div>
