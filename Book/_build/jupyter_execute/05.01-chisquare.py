@@ -845,7 +845,7 @@ print("p = ", pvalue)
 # 
 # and this statistic has an (approximately) $\chi^2$ distribution with $df=1$. However, remember that -- just like the other $\chi^2$ tests -- it's only an approximation, so you need to have reasonably large expected cell counts for it to work.
 
-# ### Doing the McNemar test in R
+# ### Doing the McNemar test in Python
 # 
 # Now that you know what the McNemar test is all about, lets actually run one. The `agpp.csv` file contains the raw data that I discussed previously, so let's have a look at it:
 
@@ -874,27 +874,6 @@ stats
 
 # And we're done. We've just run a McNemar's test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant ($\chi^2(1) = 12.03, p<.001$), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.
 
-# ## What's the difference between McNemar and independence?
-# 
-# Let's go all the way back to the beginning of the chapter, and look at the `cards` data set again. If you recall, the actual experimental design that I described involved people making *two* choices. Because we have information about the first choice and the second choice that everyone made, we can construct the following contingency table that cross-tabulates the first choice against the second choice.
-# 
-# 
-# 
-# ```{r}
-# cardChoices <- xtabs( ~ choice_1 + choice_2, data = cards )
-# cardChoices
-# ```
-# Suppose I wanted to know whether the choice you make the second time is dependent on the choice you made the first time. This is where a test of independence is useful, and what we're trying to do is see if there's some relationship between the rows and columns of this table. Here's the result:
-# ```{r}
-# chisq.test( cardChoices )
-# ```
-# 
-# Alternatively, suppose I wanted to know if *on average*, the frequencies of suit choices were different the second time than the first time. In that situation, what I'm really trying to see if the row totals in `cardChoices` (i.e., the frequencies for `choice_1`) are different from the column totals (i.e., the frequencies for `choice_2`). That's when you use the McNemar test:
-# ```{r}
-# mcnemar.test( cardChoices )
-# ```
-# Notice that the results are different! These aren't the same test. 
-# 
 # 
 # 
 # ## Summary
@@ -902,14 +881,14 @@ stats
 # The key ideas discussed in this chapter are:
 # 
 # 
-# - The chi-square goodness of fit test (Section \@ref(goftest)) is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of "known" probabilities to compare them to. You can either use the `goodnessOfFitTest()` function in the `lsr` package to run this test, or the `chisq.test()` function. 
-# - The chi-square test of independence (Section \@ref(chisqindependence)) is used when you have a contingency table (cross-tabulation) of two categorical variables. The null hypothesis is that there is no relationship/association between the variables. You can either use the `associationTest()` function in the `lsr` package, or you can use   `chisq.test()`. 
-# - Effect size for a contingency table can be measured in several ways (Section \@ref(chisqeffectsize)). In particular we noted the Cramer's $V$ statistic, which can be calculated using `cramersV()`. This is also part of the output produced by  `associationTest()`.
-# - Both versions of the Pearson test rely on two assumptions: that the expected frequencies are sufficiently large, and that the observations are independent (Section \@ref(chisqassumptions)). The Fisher exact test (Section \@ref(fisherexacttest)) can be used when the expected frequencies are small, `fisher.test(x = contingency.table)`. The McNemar test (Section \@ref(mcnemar)) can be used for some kinds of violations of independence, `mcnemar.test(x = contingency.table)`. 
+# - The [chi-square goodness of fit test](goftest) is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of "known" probabilities to compare them to. You can use the `stats.chisquare()` function from the `scipy` package to run this test. 
+# - The [chi-square test of independence](chisqindependence) is used when you have a contingency table (cross-tabulation) of two categorical variables. The null hypothesis is that there is no relationship/association between the variables. You can either use the `chi2_contingency()` function from the `stats.scipy` package, or you can use   `chi2_independence()` function from `pingouin`. 
+# - [Effect size for a contingency table](chisqeffectsize) can be measured in several ways. In particular we noted the Cramer's $V$ statistic, which `pingouin.chi2_independence()`calculates for you.
+# - Both versions of the Pearson test rely on [two assumptions](chisqassumptions): that the expected frequencies are sufficiently large, and that the observations are independent. The [Fisher exact test](fisherexacttest) can be used when the expected frequencies are small. The [McNemar test](mcnemar) can be used for some kinds of violations of independence. 
 # 
 # 
 # 
-# If you're interested in learning more about categorical data analysis, a good first choice would be @Agresti1996 which, as the title suggests, provides an *Introduction to Categorical Data Analysis*. If the introductory book isn't enough for you (or can't solve the problem you're working on) you could consider @Agresti2002, *Categorical Data Analysis*. The latter is a more advanced text, so it's probably not wise to jump straight from this book to that one. 
+# If you're interested in learning more about categorical data analysis, a good first choice would be {cite}`Agresti1996` which, as the title suggests, provides an *Introduction to Categorical Data Analysis*. If the introductory book isn't enough for you (or can't solve the problem you're working on) you could consider {cite}`Agresti2002`, *Categorical Data Analysis*. The latter is a more advanced text, so it's probably not wise to jump straight from this book to that one. 
 
 # In[ ]:
 
