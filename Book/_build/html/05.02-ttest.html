@@ -1826,7 +1826,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x160ec6620&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1687925f0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_64_1.png" src="_images/05.02-ttest_64_1.png" />
@@ -2195,7 +2195,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1610c75e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16887b190&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_80_1.png" src="_images/05.02-ttest_80_1.png" />
@@ -2633,26 +2633,114 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 </div>
 <div class="section" id="one-sided-tests">
 <h2><span class="section-number">15.6. </span>One sided tests<a class="headerlink" href="#one-sided-tests" title="Permalink to this headline">¶</a></h2>
-<p>When introducing the theory of null hypothesis tests, I mentioned that there are some situations <a class="reference internal" href="04.04-hypothesis-testing.html#one-two-sided"><span class="std std-ref">when it’s appropriate to specify a <em>one-sided</em> test</span></a>. So far, all of the <span class="math notranslate nohighlight">\(t\)</span>-tests have been two-sided tests. For instance, when we specified a one sample <span class="math notranslate nohighlight">\(t\)</span>-test for the grades in Dr Zeppo’s class, the null hypothesis was that the true mean was 67.5%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5%. Suppose we were only interested in finding out if the true mean is greater than 67.5%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5%. If so, our null hypothesis would be that the true mean is 67.5% or less, and the alternative hypothesis would be that the true mean is greater than 67.5%. The <code class="docutils literal notranslate"><span class="pre">test_1samp</span></code> method lets you do this, by specifying the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'greater'</span></code>, it means that you’re testing to see if the true mean is larger than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'less'</span></code>, then you’re testing to see if the true mean is smaller than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. To see how it would work for Dr Zeppo’s class, let’s compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to “greater”:</p>
+<p>When introducing the theory of null hypothesis tests, I mentioned that there are some situations <a class="reference internal" href="04.04-hypothesis-testing.html#one-two-sided"><span class="std std-ref">when it’s appropriate to specify a <em>one-sided</em> test</span></a>. So far, all of the <span class="math notranslate nohighlight">\(t\)</span>-tests have been two-sided tests. For instance, when we specified a one sample <span class="math notranslate nohighlight">\(t\)</span>-test for the grades in Dr Zeppo’s class, the null hypothesis was that the true mean was 67.5%. The alternative hypothesis was that the true mean was greater than <em>or</em> less than 67.5%. Suppose we were only interested in finding out if the true mean is greater than 67.5%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5%. If so, our null hypothesis would be that the true mean is 67.5% or less, and the alternative hypothesis would be that the true mean is greater than 67.5%. The <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function lets you do this, by specifying the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'greater'</span></code>, it means that you’re testing to see if the true mean is larger than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. If you set <code class="docutils literal notranslate"><span class="pre">alternative</span> <span class="pre">=</span> <span class="pre">'less'</span></code>, then you’re testing to see if the true mean is smaller than <code class="docutils literal notranslate"><span class="pre">mu</span></code>. To see how it would work for Dr Zeppo’s class, let’s compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to “greater”:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Two-sided:&#39;</span><span class="p">,</span> <span class="n">ttest_1samp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span><span class="p">))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;One-sided:&#39;</span><span class="p">,</span> <span class="n">ttest_1samp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;greater&#39;</span><span class="p">))</span>
+<span class="c1"># two-sided test</span>
+<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Two-sided: Ttest_1sampResult(statistic=2.25471286700693, pvalue=0.03614521878144544)
-One-sided: Ttest_1sampResult(statistic=2.25471286700693, pvalue=0.01807260939072272)
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.254713</td>
+      <td>19</td>
+      <td>two-sided</td>
+      <td>0.036145</td>
+      <td>[67.84, 76.76]</td>
+      <td>0.504169</td>
+      <td>1.795</td>
+      <td>0.571446</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># one-sided test</span>
+<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="mf">67.5</span><span class="p">,</span> <span class="n">alternative</span> <span class="o">=</span> <span class="s1">&#39;greater&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.254713</td>
+      <td>19</td>
+      <td>greater</td>
+      <td>0.018073</td>
+      <td>[68.62, inf]</td>
+      <td>0.504169</td>
+      <td>3.59</td>
+      <td>0.701407</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>The <span class="math notranslate nohighlight">\(t\)</span>-statistics are exactly the same, which makes sense, if you think about it, because the calculation of the <span class="math notranslate nohighlight">\(t\)</span> is based on the mean and standard deviation, and these do not change. The <span class="math notranslate nohighlight">\(p\)</span>-value, on the other hand, is lower for the one-sided test. The only thing that changes between the two tests is the <em>expectation</em> that we bring to data. The way that the <span class="math notranslate nohighlight">\(p\)</span>-value is calculated depends on those expectations, and they are the reason for choosing one test over the other. It should go without saying, but maybe is worth saying anyway, that our reasons for choosing one test over the other should be theoretical, and not based on which test is more likely to give us the <span class="math notranslate nohighlight">\(p\)</span>-value we want!</p>
 <p>So that’s how to do a one-sided one sample <span class="math notranslate nohighlight">\(t\)</span>-test. However, all versions of the <span class="math notranslate nohighlight">\(t\)</span>-test can be one-sided. For an independent samples <span class="math notranslate nohighlight">\(t\)</span> test, you could have a one-sided test if you’re only interestd in testing to see if group A has <em>higher</em> scores than group B, but have no interest in finding out if group B has higher scores than group A. Let’s suppose that, for Dr Harpo’s class, you wanted to see if Anastasia’s students had higher grades than Bernadette’s. The <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> function lets you do this, again by specifying the <code class="docutils literal notranslate"><span class="pre">alternative</span></code> argument. However, this time around the order that we enter the variables in the test makes a difference. If we expect that Anastasia’s students have higher grades, and we want to conduct a one-sided test, we need to the data for Anastasia’s students <em>first</em>. Otherwise, we end up testing the hypothesis that <em>Bernadette’s</em> students had the higher grade, which is the opposite of what we intended:</p>
@@ -2821,7 +2909,7 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [42],</span> in <span class="ni">&lt;cell line: 20&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [43],</span> in <span class="ni">&lt;cell line: 20&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 <span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
 <span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
@@ -2965,7 +3053,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_130_1.png" src="_images/05.02-ttest_130_1.png" />
+<img alt="_images/05.02-ttest_131_1.png" src="_images/05.02-ttest_131_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qq" style="width: 600px">
@@ -2992,7 +3080,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_133_0.png" src="_images/05.02-ttest_133_0.png" />
+<img alt="_images/05.02-ttest_134_0.png" src="_images/05.02-ttest_134_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qqskew" style="width: 600px">
@@ -3012,7 +3100,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_135_1.png" src="_images/05.02-ttest_135_1.png" />
+<img alt="_images/05.02-ttest_136_1.png" src="_images/05.02-ttest_136_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qqheavy" style="width: 600px">

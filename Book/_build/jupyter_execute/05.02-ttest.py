@@ -1133,19 +1133,24 @@ ttest(df['grade_test2'], df['grade_test1'], paired=True)
 
 # ## One sided tests
 # 
-# When introducing the theory of null hypothesis tests, I mentioned that there are some situations [when it's appropriate to specify a *one-sided* test](one-two-sided). So far, all of the $t$-tests have been two-sided tests. For instance, when we specified a one sample $t$-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than *or* less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The `test_1samp` method lets you do this, by specifying the `alternative` argument. If you set `alternative = 'greater'`, it means that you're testing to see if the true mean is larger than `mu`. If you set `alternative = 'less'`, then you're testing to see if the true mean is smaller than `mu`. To see how it would work for Dr Zeppo's class, let's compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to "greater":
+# When introducing the theory of null hypothesis tests, I mentioned that there are some situations [when it's appropriate to specify a *one-sided* test](one-two-sided). So far, all of the $t$-tests have been two-sided tests. For instance, when we specified a one sample $t$-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than *or* less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The `ttest()` function lets you do this, by specifying the `alternative` argument. If you set `alternative = 'greater'`, it means that you're testing to see if the true mean is larger than `mu`. If you set `alternative = 'less'`, then you're testing to see if the true mean is smaller than `mu`. To see how it would work for Dr Zeppo's class, let's compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to "greater":
 
 # In[38]:
 
 
-import pandas as pd
-from scipy.stats import ttest_1samp
+from pingouin import ttest
 
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv")
 
-print('Two-sided:', ttest_1samp(df['grades'], popmean = 67.5, alternative = 'two-sided'))
+# two-sided test
+ttest(df['grades'], 67.5, alternative = 'two-sided')
 
-print('One-sided:', ttest_1samp(df['grades'], popmean = 67.5, alternative = 'greater'))
+
+# In[39]:
+
+
+# one-sided test
+ttest(df['grades'], 67.5, alternative = 'greater')
 
 
 # The $t$-statistics are exactly the same, which makes sense, if you think about it, because the calculation of the $t$ is based on the mean and standard deviation, and these do not change. The $p$-value, on the other hand, is lower for the one-sided test. The only thing that changes between the two tests is the _expectation_ that we bring to data. The way that the $p$-value is calculated depends on those expectations, and they are the reason for choosing one test over the other. It should go without saying, but maybe is worth saying anyway, that our reasons for choosing one test over the other should be theoretical, and not based on which test is more likely to give us the $p$-value we want!
@@ -1153,7 +1158,7 @@ print('One-sided:', ttest_1samp(df['grades'], popmean = 67.5, alternative = 'gre
 # 
 # So that's how to do a one-sided one sample $t$-test. However, all versions of the $t$-test can be one-sided. For an independent samples $t$ test, you could have a one-sided test if you're only interestd in testing to see if group A has *higher* scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The `ttest_ind` function lets you do this, again by specifying the `alternative` argument. However, this time around the order that we enter the variables in the test makes a difference. If we expect that Anastasia's students have higher grades, and we want to conduct a one-sided test, we need to the data for Anastasia's students _first_. Otherwise, we end up testing the hypothesis that _Bernadette's_ students had the higher grade, which is the opposite of what we intended:
 
-# In[39]:
+# In[40]:
 
 
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
@@ -1174,7 +1179,7 @@ print('One-sided, Bernadette first:', stats.ttest_ind(Bernadette, Anastasia, equ
 
 # What about the paired samples $t$-test? Suppose we wanted to test the hypothesis that grades go *up* from test 1 to test 2 in Dr. Chico's class, and are not prepared to consider the idea that the grades go down. Again, we can use the `alternative` argument to specify the one-sided test, and it works the same way it does for the independent samples $t$-test. Since we are comparing test 1 to test 2 by substracting one from the other, it makes a difference whether we subract test 1 from test 2, or test 2 from test 1. So, to test the hypothesis that grades for test 2 are higher than test 2, we will need to enter the grades from test 2 first; otherwise we are testing the opposite hypothesis: 
 
-# In[40]:
+# In[41]:
 
 
 import pandas as pd
@@ -1218,7 +1223,7 @@ print('test 1 - test 2:', ttest_rel(df['grade_test1'], df['grade_test2'], altern
 # d = \frac{\bar{X} - \mu_0}{\hat{\sigma}}
 # $$
 
-# In[41]:
+# In[42]:
 
 
 import pandas as pd
@@ -1256,7 +1261,7 @@ print('Cohen\'s d:', d)
 # 
 # In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class.
 
-# In[42]:
+# In[43]:
 
 
 import pandas as pd
