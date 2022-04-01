@@ -1826,7 +1826,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x160c6a830&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x160ec6620&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_64_1.png" src="_images/05.02-ttest_64_1.png" />
@@ -2154,7 +2154,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 \[
 \mbox{df} = \frac{ ({\hat{\sigma}_1}^2 / N_1 + {\hat{\sigma}_2}^2 / N_2)^2 }{  ({\hat{\sigma}_1}^2 / N_1)^2 / (N_1 -1 )  + ({\hat{\sigma}_2}^2 / N_2)^2 / (N_2 -1 ) } 
 \]</div>
-<p>… which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn’t really matter for out purposes. What matters is that you’ll see that the “df” value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn’t have to be a whole number.</p>
+<p>… which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn’t really matter for our purposes. What matters is that you’ll see that the “df” value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn’t have to be a whole number.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu1</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2195,7 +2195,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x160d5b8e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1610c75e0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_80_1.png" src="_images/05.02-ttest_80_1.png" />
@@ -2471,7 +2471,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <p>Notice that I assigned the output to a variable called <code class="docutils literal notranslate"><span class="pre">df['improvement]</span></code>. That has the effect of creating a new column called <code class="docutils literal notranslate"><span class="pre">improvement</span></code> inside the <code class="docutils literal notranslate"><span class="pre">chico</span></code> data frame. Now that we’ve created and stored this <code class="docutils literal notranslate"><span class="pre">improvement</span></code> variable, we can draw a histogram showing the distribution of these improvement scores, shown in <a class="reference internal" href="#fig-pairedta"><span class="std std-numref">Fig. 15.10</span></a> panel C.</p>
-<p>When we look at histogram, it’s very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <code class="docutils literal notranslate"><span class="pre">ciMean()</span></code> to compute a confidence interval for the population mean of this new variable,</p>
+<p>When we look at histogram, it’s very clear that there <em>is</em> a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use <code class="docutils literal notranslate"><span class="pre">scipy.stats.t.interval()</span></code> to compute a confidence interval for the population mean of this new variable,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2479,8 +2479,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span>
 
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2525,33 +2524,111 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 <p>How do you do a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test in Python? One possibility is to follow the process I outlined above: create a “difference” variable and then run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on that, setting the population mean argument <code class="docutils literal notranslate"><span class="pre">popmean</span></code> to zero. Since we’ve already created a variable called <code class="docutils literal notranslate"><span class="pre">improvement</span></code>, let’s do that:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
-<span class="n">ttest_1samp</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">],</span> <span class="n">popmean</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
+<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ttest_1sampResult(statistic=6.475436088339379, pvalue=3.320670056126948e-06)
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>6.475436</td>
+      <td>19</td>
+      <td>two-sided</td>
+      <td>0.000003</td>
+      <td>[0.95, 1.86]</td>
+      <td>1.447952</td>
+      <td>5991.577</td>
+      <td>0.999984</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-</div>
-</div>
-<p>However, suppose you’re lazy and you don’t want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, <code class="docutils literal notranslate"><span class="pre">scipy</span></code> also has a built-in method for conducting paired <span class="math notranslate nohighlight">\(t\)</span>-tests called <code class="docutils literal notranslate"><span class="pre">ttest_rel</span></code> (the <code class="docutils literal notranslate"><span class="pre">_rel</span></code> part is for “related”). Using this method, we get:</p>
+<p>However, suppose you’re lazy and you don’t want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, you can do:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_rel</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
 
-<span class="n">ttest_rel</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
+<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">],</span> <span class="n">paired</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ttest_relResult(statistic=6.475436088339379, pvalue=3.320670056126948e-06)
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>6.475436</td>
+      <td>19</td>
+      <td>two-sided</td>
+      <td>0.000003</td>
+      <td>[0.95, 1.86]</td>
+      <td>0.215765</td>
+      <td>5991.577</td>
+      <td>0.150446</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-</div>
-</div>
-<p>Either way, the result is exactly the same, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<span class="math notranslate nohighlight">\(t\)</span>(19) = 6.48, <span class="math notranslate nohighlight">\(p\)</span> &lt; .001). In fact, <span class="math notranslate nohighlight">\(p\)</span> is quite a bit less than one, since the <span class="math notranslate nohighlight">\(p\)</span>-value has been given in scientific notation. The exact <span class="math notranslate nohighlight">\(p\)</span>-value is <span class="math notranslate nohighlight">\(3.32^{-06}\)</span>, that is, <span class="math notranslate nohighlight">\(p\)</span> = 0.0000032.</p>
+<p>Either way, you’ll get the same <span class="math notranslate nohighlight">\(t\)</span>-value, and the same <span class="math notranslate nohighlight">\(p\)</span>-value, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 (<span class="math notranslate nohighlight">\(t\)</span>(19) = 6.48, <span class="math notranslate nohighlight">\(p\)</span> &lt; .001). In fact, <span class="math notranslate nohighlight">\(p\)</span> is quite a bit less than one, since the <span class="math notranslate nohighlight">\(p\)</span>-value has been given in scientific notation. The exact <span class="math notranslate nohighlight">\(p\)</span>-value is <span class="math notranslate nohighlight">\(3.32^{-06}\)</span>, that is, <span class="math notranslate nohighlight">\(p\)</span> = 0.0000032.</p>
 </div>
 </div>
 <div class="section" id="one-sided-tests">

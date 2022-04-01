@@ -902,7 +902,7 @@ Harpo_wide.describe()
 # \mbox{df} = \frac{ ({\hat{\sigma}_1}^2 / N_1 + {\hat{\sigma}_2}^2 / N_2)^2 }{  ({\hat{\sigma}_1}^2 / N_1)^2 / (N_1 -1 )  + ({\hat{\sigma}_2}^2 / N_2)^2 / (N_2 -1 ) } 
 # $$
 # 
-# ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for out purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number. 
+# ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for our purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number. 
 
 # In[28]:
 
@@ -1060,7 +1060,7 @@ df['improvement'] = df['grade_test2']-df['grade_test1']
 # Notice that I assigned the output to a variable called `df['improvement]`. That has the effect of creating a new column called `improvement` inside the `chico` data frame. Now that we've created and stored this `improvement` variable, we can draw a histogram showing the distribution of these improvement scores, shown in {numref}`fig-pairedta` panel C. 
 # 
 # 
-# When we look at histogram, it's very clear that there *is* a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use `ciMean()` to compute a confidence interval for the population mean of this new variable, 
+# When we look at histogram, it's very clear that there *is* a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use `scipy.stats.t.interval()` to compute a confidence interval for the population mean of this new variable, 
 
 # In[35]:
 
@@ -1070,8 +1070,7 @@ from scipy import stats
 
 data = df['improvement']
 
-t, p = stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
-t, p
+stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
 
 
 # we see that it is 95\% certain that the true (population-wide) average improvement would lie between 0.95\% and 1.86\%. So you can see, qualitatively, what's going on: there is a real "within student" improvement (everyone improves by about 1\%), but it is very small when set against the quite large "between student" differences (student grades vary by about 20\% or so). 
@@ -1116,21 +1115,21 @@ t, p
 # In[36]:
 
 
-from scipy.stats import ttest_1samp
-ttest_1samp(a = df['improvement'], popmean = 0)
+from pingouin import ttest
+ttest(df['improvement'], 0)
 
 
-# However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, `scipy` also has a built-in method for conducting paired $t$-tests called `ttest_rel` (the `_rel` part is for "related"). Using this method, we get:
+# However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, you can do:
 
 # In[37]:
 
 
-from scipy.stats import ttest_rel
+from pingouin import ttest
 
-ttest_rel(df['grade_test2'], df['grade_test1'])
+ttest(df['grade_test2'], df['grade_test1'], paired=True)
 
 
-# Either way, the result is exactly the same, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 ($t$(19) = 6.48, $p$ < .001). In fact, $p$ is quite a bit less than one, since the $p$-value has been given in scientific notation. The exact $p$-value is $3.32^{-06}$, that is, $p$ = 0.0000032.
+# Either way, you'll get the same $t$-value, and the same $p$-value, which is strangely comforting, actually.  Not only that, but the result confirms our intuition. There’s an average improvement of 1.4% from test 1 to test 2, and this is significantly different from 0 ($t$(19) = 6.48, $p$ < .001). In fact, $p$ is quite a bit less than one, since the $p$-value has been given in scientific notation. The exact $p$-value is $3.32^{-06}$, that is, $p$ = 0.0000032.
 
 # ## One sided tests
 # 
