@@ -954,14 +954,14 @@ ax2.axhline(y=0, color='black')
 
 # ### Doing the test in Python
 # 
-# To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, you take the command we used to run a Student's $t$-test and set `equal_var` to `False` . So the command for a Welch test becomes:
+# To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, the command is exactly the same as for the Student test, but where `correction = True`. In fact, in this case, you could just leave the `correction` argument off entirely, because Anasatasia and Bernadette had different numbers of students, and in cases where the $t$-test is comparing two unequal-sized samples, `pingouin` assumes unequal variance and does a Welch test by default, which is why we had to force it to do a Student test above by setting `correction` to `False`.
 
 # In[29]:
 
 
-from scipy import stats
-t, p = stats.ttest_ind(Anastasia, Bernadette, equal_var = False)
-t, p
+from pingouin import ttest
+
+ttest(Harpo_wide['Anastasia'], Harpo_wide['Bernadette'], correction = True)
 
 
 # Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too: a test statistic $t$, and a $p$-value. So that's all pretty easy. 
@@ -971,7 +971,7 @@ t, p
 # 
 # ### Assumptions of the test
 # 
-# The assumptions of the Welch test are very similar to those made by the Student $t$-test (see Section \@ref(studentassumptions)), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test. 
+# The assumptions of the Welch test are very similar to those made by the [Student $t$-test](studentassumptions), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test. 
 
 # (pairedsamplesttest)=
 # ## The paired-samples $t$-test

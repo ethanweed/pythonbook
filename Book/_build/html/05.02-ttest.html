@@ -1826,7 +1826,7 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15d77e860&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a846620&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_64_1.png" src="_images/05.02-ttest_64_1.png" />
@@ -2195,7 +2195,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15d86f6a0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a9334c0&gt;
 </pre></div>
 </div>
 <img alt="_images/05.02-ttest_80_1.png" src="_images/05.02-ttest_80_1.png" />
@@ -2206,27 +2206,66 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 <div class="section" id="id12">
 <h3><span class="section-number">15.4.1. </span>Doing the test in Python<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, you take the command we used to run a Student’s <span class="math notranslate nohighlight">\(t\)</span>-test and set <code class="docutils literal notranslate"><span class="pre">equal_var</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> . So the command for a Welch test becomes:</p>
+<p>To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, the command is exactly the same as for the Student test, but where <code class="docutils literal notranslate"><span class="pre">correction</span> <span class="pre">=</span> <span class="pre">True</span></code>. In fact, in this case, you could just leave the <code class="docutils literal notranslate"><span class="pre">correction</span></code> argument off entirely, because Anasatasia and Bernadette had different numbers of students, and in cases where the <span class="math notranslate nohighlight">\(t\)</span>-test is comparing two unequal-sized samples, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> assumes unequal variance and does a Welch test by default, which is why we had to force it to do a Student test above by setting <code class="docutils literal notranslate"><span class="pre">correction</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
+
+<span class="n">ttest</span><span class="p">(</span><span class="n">Harpo_wide</span><span class="p">[</span><span class="s1">&#39;Anastasia&#39;</span><span class="p">],</span> <span class="n">Harpo_wide</span><span class="p">[</span><span class="s1">&#39;Bernadette&#39;</span><span class="p">],</span> <span class="n">correction</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([2.03418661]), array([0.05360997]))
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.034187</td>
+      <td>23.024806</td>
+      <td>two-sided</td>
+      <td>0.05361</td>
+      <td>[-0.09, 11.05]</td>
+      <td>0.739561</td>
+      <td>1.556</td>
+      <td>0.53577</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too: a test statistic <span class="math notranslate nohighlight">\(t\)</span>, and a <span class="math notranslate nohighlight">\(p\)</span>-value. So that’s all pretty easy.</p>
 <p>Except, except… our result isn’t significant anymore. When we ran the Student test, we did get a significant effect; but the Welch test on the same data set is not (<span class="math notranslate nohighlight">\(t(23.03) = 2.03\)</span>, <span class="math notranslate nohighlight">\(p = .054\)</span>). What does this mean? Should we panic? Is the sky burning? Probably not. The fact that one test is significant and the other isn’t doesn’t itself mean very much, especially since I kind of rigged the data so that this would happen. As a general rule, it’s not a good idea to go out of your way to try to interpret or explain the difference between a <span class="math notranslate nohighlight">\(p\)</span>-value of .049 and a <span class="math notranslate nohighlight">\(p\)</span>-value of .051. If this sort of thing happens in real life, the <em>difference</em> in these <span class="math notranslate nohighlight">\(p\)</span>-values is almost certainly due to chance. What does matter is that you take a little bit of care in thinking about what test you use. The Student test and the Welch test have different strengths and weaknesses. If the two populations really do have equal variances, then the Student test is slightly more powerful (lower Type II error rate) than the Welch test. However, if they <em>don’t</em> have the same variances, then the assumptions of the Student test are violated and you may not be able to trust it: you might end up with a higher Type I error rate. So it’s a trade off. However, in real life, I tend to prefer the Welch test; because almost no-one <em>actually</em> believes that the population variances are identical.</p>
 </div>
 <div class="section" id="id13">
 <h3><span class="section-number">15.4.2. </span>Assumptions of the test<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<p>The assumptions of the Welch test are very similar to those made by the Student <span class="math notranslate nohighlight">\(t\)</span>-test (see Section &#64;ref(studentassumptions)), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test.</p>
+<p>The assumptions of the Welch test are very similar to those made by the <a class="reference internal" href="#studentassumptions"><span class="std std-ref">Student <span class="math notranslate nohighlight">\(t\)</span>-test</span></a>, except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test.</p>
 </div>
 </div>
 <div class="section" id="the-paired-samples-t-test">
