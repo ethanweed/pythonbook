@@ -441,7 +441,7 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
+    <a class="reference internal nav-link" href="#id10">
      15.3.6. Doing the test in Python
     </a>
    </li>
@@ -471,12 +471,12 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
+    <a class="reference internal nav-link" href="#id12">
      15.4.1. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
+    <a class="reference internal nav-link" href="#id13">
      15.4.2. Assumptions of the test
     </a>
    </li>
@@ -492,7 +492,7 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
+    <a class="reference internal nav-link" href="#id15">
      15.5.1. The data
     </a>
    </li>
@@ -506,7 +506,7 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
+    <a class="reference internal nav-link" href="#id18">
      15.5.3. Doing the test in Python
     </a>
    </li>
@@ -727,7 +727,7 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
+    <a class="reference internal nav-link" href="#id10">
      15.3.6. Doing the test in Python
     </a>
    </li>
@@ -757,12 +757,12 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
+    <a class="reference internal nav-link" href="#id12">
      15.4.1. Doing the test in Python
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
+    <a class="reference internal nav-link" href="#id13">
      15.4.2. Assumptions of the test
     </a>
    </li>
@@ -778,7 +778,7 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
+    <a class="reference internal nav-link" href="#id15">
      15.5.1. The data
     </a>
    </li>
@@ -792,7 +792,7 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
+    <a class="reference internal nav-link" href="#id18">
      15.5.3. Doing the test in Python
     </a>
    </li>
@@ -1467,7 +1467,8 @@ t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 <div class="section" id="doing-the-test-in-python">
 <h3><span class="section-number">15.2.2. </span>Doing the test in Python<a class="headerlink" href="#doing-the-test-in-python" title="Permalink to this headline">¶</a></h3>
 <p>As you might expect, the mechanics of the <span class="math notranslate nohighlight">\(t\)</span>-test are almost identical to the mechanics of the <span class="math notranslate nohighlight">\(z\)</span>-test. So there’s not much point in going through the tedious exercise of showing you how to do the calculations using low level commands: it’s pretty much identical to the calculations that we did earlier, except that we use the estimated standard deviation (i.e., something like <code class="docutils literal notranslate"><span class="pre">se_est</span> <span class="pre">=</span> <span class="pre">statistics.stdev(grades)</span></code>), and then we test our hypothesis using the <span class="math notranslate nohighlight">\(t\)</span> distribution rather than the normal distribution. And so instead of going through the calculations in tedious detail for a second time, I’ll jump straight to showing you how <span class="math notranslate nohighlight">\(t\)</span>-tests are actually done in practice.</p>
-<p>The situation with <span class="math notranslate nohighlight">\(t\)</span>-tests is very similar to the one we encountered with chi-squared tests in Chapter &#64;ref(chisquare). <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> includes a variety of methods for running different kinds of  <span class="math notranslate nohighlight">\(t\)</span>-tests. To run a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, use the <code class="docutils literal notranslate"><span class="pre">ttest_1samp</span></code> method. It’s pretty straightforward to use: all you need to do is specify <code class="docutils literal notranslate"><span class="pre">a</span></code>, the variable containing the data, and <code class="docutils literal notranslate"><span class="pre">popmean</span></code>, the true population mean according to the null hypothesis. All you need to type is this:</p>
+<p>The situation with <span class="math notranslate nohighlight">\(t\)</span>-tests is very similar to the one we encountered with <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">chi-squared tests</span></a>. <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> includes a variety of methods for running different kinds of  <span class="math notranslate nohighlight">\(t\)</span>-tests, but the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package makes wraps these up and makes them easier (to my mind) to deal with. We’ll start with the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> version for the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, so you can get a flavor for how <code class="docutils literal notranslate"><span class="pre">scipy</span></code> deals with <span class="math notranslate nohighlight">\(t\)</span>-tests, and then use the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> alternatives for the rest.</p>
+<p>To run a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, use the <code class="docutils literal notranslate"><span class="pre">ttest_1samp</span></code> method. It’s pretty straightforward to use: all you need to do is specify <code class="docutils literal notranslate"><span class="pre">a</span></code>, the variable containing the data, and <code class="docutils literal notranslate"><span class="pre">popmean</span></code>, the true population mean according to the null hypothesis. All you need to type is this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_1samp</span>
@@ -1540,20 +1541,74 @@ Degrees of freedom: 19
 <div><p><span class="math notranslate nohighlight">\(t(19) = 2.25\)</span>, <span class="math notranslate nohighlight">\(p&lt;.05\)</span>, CI<span class="math notranslate nohighlight">\(_{95} = [67.8, 76.8]\)</span></p>
 </div></blockquote>
 <p>With that much jargon crammed into half a line, you know it must be really smart. <a class="footnote-reference brackets" href="#note5" id="id5">5</a></p>
+<p>Having gone through all that, let’s take a look at the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> command to achieve the same thing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
+<span class="n">ttest</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.254713</td>
+      <td>19</td>
+      <td>two-sided</td>
+      <td>0.036145</td>
+      <td>[67.84, 76.76]</td>
+      <td>0.504169</td>
+      <td>1.795</td>
+      <td>0.571446</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Well. That was easy! All we need to do is feed the <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> with the data and the population mean under the null hypothesis, and <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> does the rest. We get a nice table with the <span class="math notranslate nohighlight">\(t\)</span>-value, the degrees of freedom, the <span class="math notranslate nohighlight">\(p\)</span>-value, 95% confidence interval, effect size (Cohen’s <span class="math notranslate nohighlight">\(d\)</span>), and a power estimate. BF10 refers to the “bayes factor”, which we will meet (briefly) in the section on <a class="reference internal" href="06.01-bayes.html#bayes"><span class="std std-ref">Bayesian statistics</span></a>.</p>
 </div>
 <div class="section" id="assumptions-of-the-one-sample-t-test">
 <span id="ttestoneassumptions"></span><h3><span class="section-number">15.2.3. </span>Assumptions of the one sample <span class="math notranslate nohighlight">\(t\)</span>-test<a class="headerlink" href="#assumptions-of-the-one-sample-t-test" title="Permalink to this headline">¶</a></h3>
 <p>Okay, so what assumptions does the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test make? Well, since the <span class="math notranslate nohighlight">\(t\)</span>-test is basically a <span class="math notranslate nohighlight">\(z\)</span>-test with the assumption of known standard deviation removed, you shouldn’t be surprised to see that it makes the same assumptions as the <span class="math notranslate nohighlight">\(z\)</span>-test, minus the one about the known standard deviation. That is</p>
 <ul class="simple">
-<li><p><em>Normality</em>. We’re still assuming that the the population distribution is normal^[A technical comment… in the same way that we can weaken the assumptions of the <span class="math notranslate nohighlight">\(z\)</span>-test so that we’re only talking about the sampling distribution, we <em>can</em> weaken the <span class="math notranslate nohighlight">\(t\)</span> test assumptions so that we don’t have to assume normality of the population. However, for the <span class="math notranslate nohighlight">\(t\)</span>-test, it’s trickier to do this. As before, we can replace the assumption of population normality with an assumption that the sampling distribution of <span class="math notranslate nohighlight">\(\bar{X}\)</span> is normal. However, remember that we’re also relying on a sample estimate of the standard deviation; and so we also require the sampling distribution of <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> to be chi-square. That makes things nastier, and this version is rarely used in practice: fortunately, if the population is normal, then both of these two assumptions are met., and as noted earlier, there are standard tools that you can use to check to see if this assumption is met (Section &#64;ref(shapiro)), and other tests you can do in it’s place if this assumption is violated (Section &#64;ref(wilcox)).</p></li>
-<li><p><em>Independence</em>. Once again, we have to assume that the observations in our sample are generated independently of one another. See the earlier discussion about the <span class="math notranslate nohighlight">\(z\)</span>-test for specifics (Section &#64;ref(zassumptions)).</p></li>
+<li><p><em>Normality</em>. We’re still assuming that the the population distribution is normal<a class="footnote-reference brackets" href="#note-normality" id="id6">6</a>.</p></li>
+<li><p><em>Independence</em>. Once again, we have to assume that the observations in our sample are generated independently of one another. See the <a class="reference internal" href="#zassumptions"><span class="std std-ref">earlier discussion</span></a> about the <span class="math notranslate nohighlight">\(z\)</span>-test for specifics.</p></li>
 </ul>
 <p>Overall, these two assumptions aren’t terribly unreasonable, and as a consequence the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test is pretty widely used in practice as a way of comparing a sample mean against a hypothesised population mean.</p>
 </div>
 </div>
 <div class="section" id="the-independent-samples-t-test-student-test">
 <span id="studentttest"></span><h2><span class="section-number">15.3. </span>The independent samples <span class="math notranslate nohighlight">\(t\)</span>-test (Student test)<a class="headerlink" href="#the-independent-samples-t-test-student-test" title="Permalink to this headline">¶</a></h2>
-<p>Although the one sample <span class="math notranslate nohighlight">\(t\)</span>-test has its uses, it’s not the most typical example of a <span class="math notranslate nohighlight">\(t\)</span>-test<a class="footnote-reference brackets" href="#note6" id="id6">6</a>. A much more common situation arises when you’ve got two different groups of observations. In psychology, this tends to correspond to two different groups of participants, where each group corresponds to a different condition in your study. For each person in the study, you measure some outcome variable of interest, and the research question that you’re asking is whether or not the two groups have the same population mean. This is the situation that the independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is designed for.</p>
+<p>Although the one sample <span class="math notranslate nohighlight">\(t\)</span>-test has its uses, it’s not the most typical example of a <span class="math notranslate nohighlight">\(t\)</span>-test<a class="footnote-reference brackets" href="#note6" id="id7">7</a>. A much more common situation arises when you’ve got two different groups of observations. In psychology, this tends to correspond to two different groups of participants, where each group corresponds to a different condition in your study. For each person in the study, you measure some outcome variable of interest, and the research question that you’re asking is whether or not the two groups have the same population mean. This is the situation that the independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is designed for.</p>
 <div class="section" id="the-data">
 <h3><span class="section-number">15.3.1. </span>The data<a class="headerlink" href="#the-data" title="Permalink to this headline">¶</a></h3>
 <p>Suppose we have 33 students taking Dr Harpo’s statistics lectures, and Dr Harpo doesn’t grade to a curve. Actually, Dr Harpo’s grading is a bit of a mystery, so we don’t really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are <span class="math notranslate nohighlight">\(N_1 = 15\)</span> students in Anastasia’s tutorials, and <span class="math notranslate nohighlight">\(N_2 = 18\)</span> in Bernadette’s tutorials. The research question I’m interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn’t make much of a difference. Dr Harpo emails me the course grades, in the <code class="docutils literal notranslate"><span class="pre">harpo.csv</span></code> file. As usual, I’ll load the file and have a look at what variables it contains:</p>
@@ -1703,7 +1758,7 @@ Degrees of freedom: 19
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_55_0.png" src="_images/05.02-ttest_55_0.png" />
+<img alt="_images/05.02-ttest_58_0.png" src="_images/05.02-ttest_58_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-harpohist" style="width: 600px">
@@ -1718,7 +1773,7 @@ Degrees of freedom: 19
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_58_0.png" src="_images/05.02-ttest_58_0.png" />
+<img alt="_images/05.02-ttest_61_0.png" src="_images/05.02-ttest_61_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-ttestci" style="width: 600px">
@@ -1728,7 +1783,7 @@ Degrees of freedom: 19
 <div class="section" id="introducing-the-test">
 <h3><span class="section-number">15.3.2. </span>Introducing the test<a class="headerlink" href="#introducing-the-test" title="Permalink to this headline">¶</a></h3>
 <p>The <strong><em>independent samples <span class="math notranslate nohighlight">\(t\)</span>-test</em></strong> comes in two different forms, Student’s and Welch’s. The original Student <span class="math notranslate nohighlight">\(t\)</span>-test – which is the one I’ll describe in this section – is the simpler of the two, but relies on much more restrictive assumptions than the Welch <span class="math notranslate nohighlight">\(t\)</span>-test. Assuming for the moment that you want to run a two-sided test, the goal is to determine whether two “independent samples” of data are drawn from populations with the same mean (the null hypothesis) or different means (the alternative hypothesis). When we say “independent” samples, what we really mean here is that there’s no special relationship between observations in the two samples. This probably doesn’t make a lot of sense right now, but it will be clearer when we come to talk about the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test later on. For now, let’s just point out that if we have an experimental design where participants are randomly allocated to one of two groups, and we want to compare the two groups’ mean performance on some outcome measure, then an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test (rather than a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test) is what we’re after.</p>
-<p>Okay, so let’s let <span class="math notranslate nohighlight">\(\mu_1\)</span> denote the true population mean for group 1 (e.g., Anastasia’s students), and <span class="math notranslate nohighlight">\(\mu_2\)</span> will be the true population mean for group 2 (e.g., Bernadette’s students),<a class="footnote-reference brackets" href="#note7" id="id7">7</a> and as usual we’ll let <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span> denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical (<span class="math notranslate nohighlight">\(\mu_1 = \mu_2\)</span>) and the alternative to this is that they are not (<span class="math notranslate nohighlight">\(\mu_1 \neq \mu_2\)</span>). Written in mathematical-ese, this is…</p>
+<p>Okay, so let’s let <span class="math notranslate nohighlight">\(\mu_1\)</span> denote the true population mean for group 1 (e.g., Anastasia’s students), and <span class="math notranslate nohighlight">\(\mu_2\)</span> will be the true population mean for group 2 (e.g., Bernadette’s students),<a class="footnote-reference brackets" href="#note7" id="id8">8</a> and as usual we’ll let <span class="math notranslate nohighlight">\(\bar{X}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{X}_2\)</span> denote the observed sample means for both of these groups. Our null hypothesis states that the two population means are identical (<span class="math notranslate nohighlight">\(\mu_1 = \mu_2\)</span>) and the alternative to this is that they are not (<span class="math notranslate nohighlight">\(\mu_1 \neq \mu_2\)</span>). Written in mathematical-ese, this is…</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{array}{ll}
@@ -1771,10 +1826,10 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a692ec0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15d77e860&gt;
 </pre></div>
 </div>
-<img alt="_images/05.02-ttest_61_1.png" src="_images/05.02-ttest_61_1.png" />
+<img alt="_images/05.02-ttest_64_1.png" src="_images/05.02-ttest_64_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-ttesthyp" style="width: 600px">
@@ -1814,7 +1869,7 @@ w_2 &amp;=&amp; N_2 - 1
 \[
 \hat\sigma_p = \sqrt{\frac{w_1 {\hat\sigma_1}^2 + w_2 {\hat\sigma_2}^2}{w_1 + w_2}}
 \]</div>
-<p>And if you mentally substitute <span class="math notranslate nohighlight">\(w_1 = N_1 -1\)</span> and <span class="math notranslate nohighlight">\(w_2 = N_2 -1\)</span> into this equation you get a very ugly looking formula; a very ugly formula that actually seems to be the “standard” way of describing the pooled standard deviation estimate. It’s not my favourite way of thinking about pooled standard deviations, however.<a class="footnote-reference brackets" href="#note8" id="id8">8</a></p>
+<p>And if you mentally substitute <span class="math notranslate nohighlight">\(w_1 = N_1 -1\)</span> and <span class="math notranslate nohighlight">\(w_2 = N_2 -1\)</span> into this equation you get a very ugly looking formula; a very ugly formula that actually seems to be the “standard” way of describing the pooled standard deviation estimate. It’s not my favourite way of thinking about pooled standard deviations, however.<a class="footnote-reference brackets" href="#note8" id="id9">9</a></p>
 </div>
 <div class="section" id="the-same-pooled-estimate-described-differently">
 <h3><span class="section-number">15.3.4. </span>The same pooled estimate, described differently<a class="headerlink" href="#the-same-pooled-estimate-described-differently" title="Permalink to this headline">¶</a></h3>
@@ -1828,7 +1883,7 @@ X_{ik} - \bar{X}_k
 \[
 \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N}
 \]</div>
-<p>where the notation “<span class="math notranslate nohighlight">\(\sum_{ik}\)</span>” is a lazy way of saying “calculate a sum by looking at all students in all tutorials”, since each “<span class="math notranslate nohighlight">\(ik\)</span>” corresponds to one student.^[A more correct notation will be introduced in Chapter &#64;ref(anova).] But, as we saw in Chapter &#64;ref(estimation), calculating the variance by dividing by <span class="math notranslate nohighlight">\(N\)</span> produces a biased estimate of the population variance. And previously, we needed to divide by <span class="math notranslate nohighlight">\(N-1\)</span> to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn’t equal to the population mean, it can systematically bias our estimate of the variance. But this time we’re relying on <em>two</em> sample means! Does this mean that we’ve got more bias? Yes, yes it does. And does this mean we now need to divide by <span class="math notranslate nohighlight">\(N-2\)</span> instead of <span class="math notranslate nohighlight">\(N-1\)</span>, in order to calculate our pooled variance estimate? Why, yes…</p>
+<p>where the notation “<span class="math notranslate nohighlight">\(\sum_{ik}\)</span>” is a lazy way of saying “calculate a sum by looking at all students in all tutorials”, since each “<span class="math notranslate nohighlight">\(ik\)</span>” corresponds to one student.^[A more correct notation will be introduced in chapter on ANOVA(anova).] But, as we saw in the chapter on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>, calculating the variance by dividing by <span class="math notranslate nohighlight">\(N\)</span> produces a biased estimate of the population variance. And previously, we needed to divide by <span class="math notranslate nohighlight">\(N-1\)</span> to fix this. However, as I mentioned at the time, the reason why this bias exists is because the variance estimate relies on the sample mean; and to the extent that the sample mean isn’t equal to the population mean, it can systematically bias our estimate of the variance. But this time we’re relying on <em>two</em> sample means! Does this mean that we’ve got more bias? Yes, yes it does. And does this mean we now need to divide by <span class="math notranslate nohighlight">\(N-2\)</span> instead of <span class="math notranslate nohighlight">\(N-1\)</span>, in order to calculate our pooled variance estimate? Why, yes…</p>
 <div class="math notranslate nohighlight">
 \[
 \hat\sigma^2_p = \frac{\sum_{ik} \left( X_{ik} - \bar{X}_k \right)^2}{N -2}
@@ -1849,50 +1904,203 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 \]</div>
 <p>Just as we saw with our one-sample test, the sampling distribution of this <span class="math notranslate nohighlight">\(t\)</span>-statistic is a <span class="math notranslate nohighlight">\(t\)</span>-distribution (shocking, isn’t it?) as long as the null hypothesis is true, and all of the assumptions of the test are met. The degrees of freedom, however, is slightly different. As usual, we can think of the degrees of freedom to be equal to the number of data points minus the number of constraints. In this case, we have <span class="math notranslate nohighlight">\(N\)</span> observations (<span class="math notranslate nohighlight">\(N_1\)</span> in sample 1, and <span class="math notranslate nohighlight">\(N_2\)</span> in sample 2), and 2 constraints (the sample means). So the total degrees of freedom for this test are <span class="math notranslate nohighlight">\(N-2\)</span>.</p>
 </div>
-<div class="section" id="id9">
-<h3><span class="section-number">15.3.6. </span>Doing the test in Python<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>Not surprisingly, you can run an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test with a method from <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, and since the method for a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test was <code class="docutils literal notranslate"><span class="pre">ttest_1samp</span></code>, it may come as no big surprise to you that the method for an independent-samples <span class="math notranslate nohighlight">\(t\)</span>-test is called <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code>.</p>
-<p>Let’s give it a try. An important point here, and one that can cause a lot of frustration if you don’t realize what is going on, is that <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> wants the data from the two groups served up as two separate variables. Since Dr Harpo sent the data to us in <em>long format</em>, that is, with all the grades in one column, and a second column telling us who the tutor was for each student, we will need to do something to break the grade data into two. There are different approaches that could be taken here, but I think the most straightforward is (as it so often is) the best. So, we will start by creating two new variables, <code class="docutils literal notranslate"><span class="pre">Anastasia</span></code>, and <code class="docutils literal notranslate"><span class="pre">Bernadette</span></code>, and then feed those into the test.</p>
+<div class="section" id="id10">
+<h3><span class="section-number">15.3.6. </span>Doing the test in Python<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>Now, you can run an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test with a method from <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, and since the method for a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test was <code class="docutils literal notranslate"><span class="pre">ttest_1samp</span></code>, it may come as no big surprise to you that the method for an independent-samples <span class="math notranslate nohighlight">\(t\)</span>-test is called <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code>. But from here on out, I think it will be easier for everyone (certainly easier for me!) if we use <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to ease the process of running these tests. How will it make it easier, you ask? Well, for one thing, remember how we just used the <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to run a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test? Well we can use <em>the exact same function</em> to run <em>all</em> of the <span class="math notranslate nohighlight">\(t\)</span>-tests in this chapter. How’s that for making things easier? Also, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> unifies the output format, so we get the same familiar table for each one of the tests.</p>
+<p>So let’s give it a try. An important point here, and one that can cause a lot of frustration if you don’t realize what is going on, is that <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> wants the data from the two groups served up as two separate variables (this is true of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> version as well, by the way). Since Dr Harpo sent the data to us in <em>long format</em>, that is, with all the grades in one column, and a second column telling us who the tutor was for each student, we will need to do something to break the grade data into two. So step one will be creating a new dataframe, with one column per tutor (“wide” format):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create two new variables for the grades from each tutor&#39;s students</span>
-<span class="n">Anastasia</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Anastasia&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="n">Bernadette</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bernadette&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Harpo_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;Anastasia&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Anastasia&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span>
+                 <span class="s1">&#39;Bernadette&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tutor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bernadette&#39;</span><span class="p">][</span><span class="s1">&#39;grade&#39;</span><span class="p">]})</span>
 
-<span class="c1"># run an independent samples t-test</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">,</span> <span class="n">Bernadette</span><span class="p">,</span> <span class="n">equal_var</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">p</span>
+<span class="n">Harpo_wide</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([2.11543239]), array([0.04252949]))
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Anastasia</th>
+      <th>Bernadette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>65.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>72.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>66.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>74.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>73.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-</div>
-</div>
-<p>This is fairly straightforward, and just as it was for the one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, <code class="docutils literal notranslate"><span class="pre">scipy</span></code> does very little to format its results or give you any information over the bare minimum. You get a <span class="math notranslate nohighlight">\(t\)</span>-statistic and a <span class="math notranslate nohighlight">\(p\)</span>-value and that’s that. Luckily, as was the case with the one-sampel <span class="math notranslate nohighlight">\(t\)</span>-test, getting the other elements we need to report our results isn’t too bad. We will need the <span class="math notranslate nohighlight">\(t\)</span>-statistic, the <span class="math notranslate nohighlight">\(p\)</span>-value, the mean of each group, and the degrees of freedom. The first two we already have, and the last two are easy to get. As we discussed <a class="reference internal" href="#indsamplesttest-formula"><span class="std std-ref">above</span></a>, the degrees of freedom for an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is <span class="math notranslate nohighlight">\(N-2\)</span>, so…</p>
+<p>Now, you will have noticed right away that this new dataframe has a bunch of things that aren’t numbers in it. In fact, “NaN” stands for “Not a Number”. But after a moment’s reflection, this makes perfect sense: the students were divided up between Anastasia and Bernadette, and so of course now that we have a row for each student, if a student has Anastasia as a tutor, they can’t <em>also</em> have Bernadette as a tutor. Luckily, <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> is smart enough to see what is going on, and deal with it appropriately. So, now that we have all of our ducks in order, let’s do the test:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N:&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;df:&#39;</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean grade for A</span><span class="se">\&#39;</span><span class="s1">s students:&#39;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Anastasia</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean grade for B</span><span class="se">\&#39;</span><span class="s1">s students:&#39;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Bernadette</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
+
+<span class="n">ttest</span><span class="p">(</span><span class="n">Harpo_wide</span><span class="p">[</span><span class="s1">&#39;Anastasia&#39;</span><span class="p">],</span> <span class="n">Harpo_wide</span><span class="p">[</span><span class="s1">&#39;Bernadette&#39;</span><span class="p">],</span> <span class="n">correction</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N: 33
-df: 18
-mean grade for A&#39;s students: 74.53333333333333
-mean grade for B&#39;s students: 69.05555555555556
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.115432</td>
+      <td>31</td>
+      <td>two-sided</td>
+      <td>0.042529</td>
+      <td>[0.2, 10.76]</td>
+      <td>0.739561</td>
+      <td>1.755</td>
+      <td>0.53577</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You probably noticed that in addition to telling <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> which means I wanted to compare, I also added the argument <code class="docutils literal notranslate"><span class="pre">correction</span> <span class="pre">=</span> <span class="pre">False</span></code> to the command. This wasn’t strictly necessary in this case, because by default this argument is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. By saying <code class="docutils literal notranslate"><span class="pre">correction</span> <span class="pre">=</span> <span class="pre">False</span></code>, what we’re really doing is telling Python to use the <em>Student</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test, and not the <em>Welch</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. More on this later, when we get to <a class="reference internal" href="#welchttest"><span class="std std-ref">Welch</span></a>. For now, let’s just get the descriptive statistics for Anastasia and Bernadette’s students so we can report our results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Harpo_wide</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Anastasia</th>
+      <th>Bernadette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>15.000000</td>
+      <td>18.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>74.533333</td>
+      <td>69.055556</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>8.998942</td>
+      <td>5.774918</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>55.000000</td>
+      <td>56.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>69.000000</td>
+      <td>66.250000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>76.000000</td>
+      <td>69.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>79.000000</td>
+      <td>73.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>90.000000</td>
+      <td>79.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-<p>You probably noticed that in addition to telling <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code> which means I wanted to compare, I also added the argument <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code> to the command. This wasn’t strictly necessary in this case, because by default this argument is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. But I made it explicit anyway, because we will be using this argument again later. By saying <code class="docutils literal notranslate"><span class="pre">equal_var</span> <span class="pre">=</span> <span class="pre">True</span></code>, what we’re really doing is telling Python to use the <em>Student</em> independent samples <span class="math notranslate nohighlight">\(t\)</span>-test. More on this later.</p>
-<p>In any case, the difference between the two groups is significant (just barely), so we might write up the result using text like this:</p>
+<p>The difference between the two groups is significant (just barely), so we might write up the result using text like this:</p>
 <blockquote>
 <div><p>The mean grade in Anastasia’s class was 74.5% (std dev = 9.0), whereas the mean in Bernadette’s class was 69.1% (std dev = 5.8). A Student’s independent samples <span class="math notranslate nohighlight">\(t\)</span>-test showed that this 5.4% difference was significant (<span class="math notranslate nohighlight">\(t(31) = 2.1\)</span>, <span class="math notranslate nohighlight">\(p&lt;.05\)</span>), suggesting that a genuine difference in learning outcomes has occurred.</p>
 </div></blockquote>
@@ -1935,7 +2143,7 @@ t = \frac{\mbox{(mean 1)} -\mbox{(mean 2)}}{ \mbox{(SE)}}
 \[
 t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 \]</div>
-<p>The main difference is that the standard error calculations are different. If the two populations have different standard deviations, then it’s a complete nonsense to try to calculate a pooled standard deviation estimate, because you’re averaging apples and oranges.<a class="footnote-reference brackets" href="#note9" id="id10">9</a> But you can still estimate the standard error of the difference between sample means; it just ends up looking different:</p>
+<p>The main difference is that the standard error calculations are different. If the two populations have different standard deviations, then it’s a complete nonsense to try to calculate a pooled standard deviation estimate, because you’re averaging apples and oranges.<a class="footnote-reference brackets" href="#note9" id="id11">10</a> But you can still estimate the standard error of the difference between sample means; it just ends up looking different:</p>
 <div class="math notranslate nohighlight">
 \[
 \mbox{SE}({\bar{X}_1 - \bar{X}_2}) = \sqrt{ \frac{{\hat{\sigma}_1}^2}{N_1} + \frac{{\hat{\sigma}_2}^2}{N_2} }
@@ -1987,17 +2195,17 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16a77f1c0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15d86f6a0&gt;
 </pre></div>
 </div>
-<img alt="_images/05.02-ttest_76_1.png" src="_images/05.02-ttest_76_1.png" />
+<img alt="_images/05.02-ttest_80_1.png" src="_images/05.02-ttest_80_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-ttesthyp2" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 15.9 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the Welch <span class="math notranslate nohighlight">\(t\)</span>-test. Like the Student test we assume that both samples are drawn from a normal population; but the alternative hypothesis no longer requires the two populations to have equal variance.</span><a class="headerlink" href="#fig-ttesthyp2" title="Permalink to this image">¶</a></p>
 </div>
-<div class="section" id="id11">
-<h3><span class="section-number">15.4.1. </span>Doing the test in Python<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3><span class="section-number">15.4.1. </span>Doing the test in Python<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, you take the command we used to run a Student’s <span class="math notranslate nohighlight">\(t\)</span>-test and set <code class="docutils literal notranslate"><span class="pre">equal_var</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> . So the command for a Welch test becomes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2016,17 +2224,17 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 <p>Not too difficult, right? Not surprisingly, the output has exactly the same format as it did last time too: a test statistic <span class="math notranslate nohighlight">\(t\)</span>, and a <span class="math notranslate nohighlight">\(p\)</span>-value. So that’s all pretty easy.</p>
 <p>Except, except… our result isn’t significant anymore. When we ran the Student test, we did get a significant effect; but the Welch test on the same data set is not (<span class="math notranslate nohighlight">\(t(23.03) = 2.03\)</span>, <span class="math notranslate nohighlight">\(p = .054\)</span>). What does this mean? Should we panic? Is the sky burning? Probably not. The fact that one test is significant and the other isn’t doesn’t itself mean very much, especially since I kind of rigged the data so that this would happen. As a general rule, it’s not a good idea to go out of your way to try to interpret or explain the difference between a <span class="math notranslate nohighlight">\(p\)</span>-value of .049 and a <span class="math notranslate nohighlight">\(p\)</span>-value of .051. If this sort of thing happens in real life, the <em>difference</em> in these <span class="math notranslate nohighlight">\(p\)</span>-values is almost certainly due to chance. What does matter is that you take a little bit of care in thinking about what test you use. The Student test and the Welch test have different strengths and weaknesses. If the two populations really do have equal variances, then the Student test is slightly more powerful (lower Type II error rate) than the Welch test. However, if they <em>don’t</em> have the same variances, then the assumptions of the Student test are violated and you may not be able to trust it: you might end up with a higher Type I error rate. So it’s a trade off. However, in real life, I tend to prefer the Welch test; because almost no-one <em>actually</em> believes that the population variances are identical.</p>
 </div>
-<div class="section" id="id12">
-<h3><span class="section-number">15.4.2. </span>Assumptions of the test<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3><span class="section-number">15.4.2. </span>Assumptions of the test<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>The assumptions of the Welch test are very similar to those made by the Student <span class="math notranslate nohighlight">\(t\)</span>-test (see Section &#64;ref(studentassumptions)), except that the Welch test does not assume homogeneity of variance. This leaves only the assumption of normality, and the assumption of independence. The specifics of these assumptions are the same for the Welch test as for the Student test.</p>
 </div>
 </div>
 <div class="section" id="the-paired-samples-t-test">
 <span id="pairedsamplesttest"></span><h2><span class="section-number">15.5. </span>The paired-samples <span class="math notranslate nohighlight">\(t\)</span>-test<a class="headerlink" href="#the-paired-samples-t-test" title="Permalink to this headline">¶</a></h2>
-<p>Regardless of whether we’re talking about the Student test or the Welch test, an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design – in which each participant is measured (with respect to the same outcome variable) in both experimental conditions – is not suited for analysis using independent samples <span class="math notranslate nohighlight">\(t\)</span>-tests. For example, we might be interested in whether listening to music reduces people’s working memory capacity. To that end, we could measure each person’s working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,<a class="footnote-reference brackets" href="#note10" id="id13">10</a> each participant appears in <em>both</em> groups. This requires us to approach the problem in a different way; by using the <strong><em>paired samples <span class="math notranslate nohighlight">\(t\)</span>-test</em></strong>.</p>
-<div class="section" id="id14">
-<h3><span class="section-number">15.5.1. </span>The data<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<p>The data set that we’ll use this time comes from Dr Chico’s class.<a class="footnote-reference brackets" href="#note11" id="id15">11</a> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a “wake up call” for students: when they realise how hard her class really is, they’ll work harder for the second test and get a better mark. Is she right? To test this, let’s have a look at the <code class="docutils literal notranslate"><span class="pre">chico.csv</span></code> file:</p>
+<p>Regardless of whether we’re talking about the Student test or the Welch test, an independent samples <span class="math notranslate nohighlight">\(t\)</span>-test is intended to be used in a situation where you have two samples that are, well, independent of one another. This situation arises naturally when participants are assigned randomly to one of two experimental conditions, but it provides a very poor approximation to other sorts of research designs. In particular, a repeated measures design – in which each participant is measured (with respect to the same outcome variable) in both experimental conditions – is not suited for analysis using independent samples <span class="math notranslate nohighlight">\(t\)</span>-tests. For example, we might be interested in whether listening to music reduces people’s working memory capacity. To that end, we could measure each person’s working memory capacity in two conditions: with music, and without music. In an experimental design such as this one,<a class="footnote-reference brackets" href="#note10" id="id14">11</a> each participant appears in <em>both</em> groups. This requires us to approach the problem in a different way; by using the <strong><em>paired samples <span class="math notranslate nohighlight">\(t\)</span>-test</em></strong>.</p>
+<div class="section" id="id15">
+<h3><span class="section-number">15.5.1. </span>The data<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>The data set that we’ll use this time comes from Dr Chico’s class.<a class="footnote-reference brackets" href="#note11" id="id16">12</a> In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a “wake up call” for students: when they realise how hard her class really is, they’ll work harder for the second test and get a better mark. Is she right? To test this, let’s have a look at the <code class="docutils literal notranslate"><span class="pre">chico.csv</span></code> file:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -2176,7 +2384,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </table>
 </div></div></div>
 </div>
-<p>we see that this impression seems to be supported. Across all 20 students<a class="footnote-reference brackets" href="#note12" id="id16">12</a> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">pairedta</span></code> panel A. If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
+<p>we see that this impression seems to be supported. Across all 20 students<a class="footnote-reference brackets" href="#note12" id="id17">13</a> the mean grade for the first test is 57%, but this rises to 58% for the second test. Although, given that the standard deviations are 6.6% and 6.4% respectively, it’s starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">pairedta</span></code> panel A. If we were to rely on this plot alone, we’d come to the same conclusion that we got from looking at the descriptive statistics that the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> method produced. Looking at how wide those confidence intervals are, we’d be tempted to think that the apparent improvement in student performance is pure chance.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -2208,7 +2416,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_89_0.png" src="_images/05.02-ttest_89_0.png" />
+<img alt="_images/05.02-ttest_93_0.png" src="_images/05.02-ttest_93_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-pairedta" style="width: 600px">
@@ -2273,8 +2481,8 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\hat\sigma_D\)</span> is the standard deviation of the difference scores. Since this is just an ordinary, one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, with nothing special about it, the degrees of freedom are still <span class="math notranslate nohighlight">\(N-1\)</span>. And that’s it: the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test really isn’t a new test at all: it’s a one-sample <span class="math notranslate nohighlight">\(t\)</span>-test, but applied to the difference between two variables. It’s actually very simple; the only reason it merits a discussion as long as the one we’ve just gone through is that you need to be able to recognise <em>when</em> a paired samples test is appropriate, and to understand <em>why</em> it’s better than an independent samples <span class="math notranslate nohighlight">\(t\)</span> test.</p>
 </div>
-<div class="section" id="id17">
-<h3><span class="section-number">15.5.3. </span>Doing the test in Python<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3><span class="section-number">15.5.3. </span>Doing the test in Python<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>How do you do a paired samples <span class="math notranslate nohighlight">\(t\)</span>-test in Python? One possibility is to follow the process I outlined above: create a “difference” variable and then run a one sample <span class="math notranslate nohighlight">\(t\)</span>-test on that, setting the population mean argument <code class="docutils literal notranslate"><span class="pre">popmean</span></code> to zero. Since we’ve already created a variable called <code class="docutils literal notranslate"><span class="pre">improvement</span></code>, let’s do that:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2497,7 +2705,7 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [40],</span> in <span class="ni">&lt;cell line: 20&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [42],</span> in <span class="ni">&lt;cell line: 20&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 <span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
 <span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
@@ -2618,7 +2826,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 <div class="section" id="checking-the-normality-of-a-sample">
 <span id="shapiro"></span><h2><span class="section-number">15.8. </span>Checking the normality of a sample<a class="headerlink" href="#checking-the-normality-of-a-sample" title="Permalink to this headline">¶</a></h2>
-<p>All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section &#64;ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is <em>actually</em> an average of lots of different things, there’s a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using <span class="math notranslate nohighlight">\(t\)</span>-tests. However, life doesn’t come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there’s a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.<a class="footnote-reference brackets" href="#note13" id="id18">13</a> This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.</p>
+<p>All of the tests that we have discussed so far in this chapter have assumed that the data are normally distributed. This assumption is often quite reasonable, because the central limit theorem (Section &#64;ref(clt)) does tend to ensure that many real world quantities are normally distributed: any time that you suspect that your variable is <em>actually</em> an average of lots of different things, there’s a pretty good chance that it will be normally distributed; or at least close enough to normal that you can get away with using <span class="math notranslate nohighlight">\(t\)</span>-tests. However, life doesn’t come with guarantees; and besides, there are lots of ways in which you can end up with variables that are highly non-normal. For example, any time you think that your variable is actually the minimum of lots of different things, there’s a very good chance it will end up quite skewed. In psychology, response time (RT) data is a good example of this. If you suppose that there are lots of things that could trigger a response from a human participant, then the actual response will occur the first time one of these trigger events occurs.<a class="footnote-reference brackets" href="#note13" id="id19">14</a> This means that RT data are systematically non-normal.  Okay, so if normality is assumed by all the tests, and is mostly but not always satisfied (at least approximately) by real world data, how can we check the normality of a sample? In this section I discuss two methods: QQ plots, and the Shapiro-Wilk test.</p>
 <div class="section" id="qq-plots">
 <h3><span class="section-number">15.8.1. </span>QQ plots<a class="headerlink" href="#qq-plots" title="Permalink to this headline">¶</a></h3>
 <p>One way to check whether a sample violates the normality assumption is to draw a <strong><em>“quantile-quantile” plot</em></strong> (QQ plot). This allows you to visually check whether you’re seeing any systematic violations. In a QQ plot, each observation is plotted as a single dot. The x co-ordinate is the theoretical quantile that the observation should fall in, if the data were normally distributed (with mean and variance estimated from the sample) and on the y co-ordinate is the actual quantile of the data within the sample. If the data are normal, the dots should form a straight line. For instance, lets see what happens if we generate data by sampling from a normal distribution, and then drawing a QQ plot, using <code class="docutils literal notranslate"><span class="pre">probplot</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy</span></code>. We can compare this with a histogram of the data as well:</p>
@@ -2641,7 +2849,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_126_1.png" src="_images/05.02-ttest_126_1.png" />
+<img alt="_images/05.02-ttest_130_1.png" src="_images/05.02-ttest_130_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qq" style="width: 600px">
@@ -2668,7 +2876,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_129_0.png" src="_images/05.02-ttest_129_0.png" />
+<img alt="_images/05.02-ttest_133_0.png" src="_images/05.02-ttest_133_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qqskew" style="width: 600px">
@@ -2688,7 +2896,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.02-ttest_131_1.png" src="_images/05.02-ttest_131_1.png" />
+<img alt="_images/05.02-ttest_135_1.png" src="_images/05.02-ttest_135_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-qqheavy" style="width: 600px">
@@ -2702,7 +2910,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 <div class="section" id="shapiro-wilk-tests">
 <h3><span class="section-number">15.8.2. </span>Shapiro-Wilk tests<a class="headerlink" href="#shapiro-wilk-tests" title="Permalink to this headline">¶</a></h3>
-<p>Although QQ plots provide a nice way to informally check the normality of your data, sometimes you’ll want to do something a bit more formal. And when that moment comes, the <strong><em>Shapiro-Wilk test</em></strong> [&#64;Shapiro1965] is probably what you’re looking for.<a class="footnote-reference brackets" href="#note14" id="id19">14</a> As you’d expect, the null hypothesis being tested is that a set of <span class="math notranslate nohighlight">\(N\)</span> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <span class="math notranslate nohighlight">\(W\)</span>, and it’s calculated as follows. First, we sort the observations in order of increasing size, and let <span class="math notranslate nohighlight">\(X_1\)</span> be the smallest value in the sample, <span class="math notranslate nohighlight">\(X_2\)</span> be the second smallest and so on. Then the value of <span class="math notranslate nohighlight">\(W\)</span> is given by</p>
+<p>Although QQ plots provide a nice way to informally check the normality of your data, sometimes you’ll want to do something a bit more formal. And when that moment comes, the <strong><em>Shapiro-Wilk test</em></strong> [&#64;Shapiro1965] is probably what you’re looking for.<a class="footnote-reference brackets" href="#note14" id="id20">15</a> As you’d expect, the null hypothesis being tested is that a set of <span class="math notranslate nohighlight">\(N\)</span> observations is normally distributed. The test statistic that it calculates is conventionally denoted as <span class="math notranslate nohighlight">\(W\)</span>, and it’s calculated as follows. First, we sort the observations in order of increasing size, and let <span class="math notranslate nohighlight">\(X_1\)</span> be the smallest value in the sample, <span class="math notranslate nohighlight">\(X_2\)</span> be the second smallest and so on. Then the value of <span class="math notranslate nohighlight">\(W\)</span> is given by</p>
 <div class="math notranslate nohighlight">
 \[
 W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar{X})^2}
@@ -2861,7 +3069,7 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 </tr>
 </tbody>
 </table>
-<p>We then count up the number of checkmarks. This is our test statistic, <span class="math notranslate nohighlight">\(W\)</span>.<a class="footnote-reference brackets" href="#note15" id="id20">15</a> The actual sampling distribution for <span class="math notranslate nohighlight">\(W\)</span> is somewhat complicated, and I’ll skip the details. For our purposes, it’s sufficient to note that the interpretation of <span class="math notranslate nohighlight">\(W\)</span> is qualitatively the same as the interpretation of <span class="math notranslate nohighlight">\(t\)</span> or <span class="math notranslate nohighlight">\(z\)</span>. That is, if we want a two-sided test, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(W\)</span> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.</p>
+<p>We then count up the number of checkmarks. This is our test statistic, <span class="math notranslate nohighlight">\(W\)</span>.<a class="footnote-reference brackets" href="#note15" id="id21">16</a> The actual sampling distribution for <span class="math notranslate nohighlight">\(W\)</span> is somewhat complicated, and I’ll skip the details. For our purposes, it’s sufficient to note that the interpretation of <span class="math notranslate nohighlight">\(W\)</span> is qualitatively the same as the interpretation of <span class="math notranslate nohighlight">\(t\)</span> or <span class="math notranslate nohighlight">\(z\)</span>. That is, if we want a two-sided test, then we reject the null hypothesis when <span class="math notranslate nohighlight">\(W\)</span> is very large or very small; but if we have a directional (i.e., one-sided) hypothesis, then we only use one or the other.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">wilcoxon</span>
@@ -3093,34 +3301,37 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 <dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
 <dd><p>More seriously, I tend to think the reverse is true: I get very suspicious of technical reports that fill their results sections with nothing except the numbers. It might just be that I’m an arrogant jerk, but I often feel like an author that makes no attempt to explain and interpret their analysis to the reader either doesn’t understand it themselves, or is being a bit lazy. Your readers are smart, but not infinitely patient. Don’t annoy them if you can help it.</p>
 </dd>
-<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dt class="label" id="note-normality"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dd><p>A technical comment… in the same way that we can weaken the assumptions of the <span class="math notranslate nohighlight">\(z\)</span>-test so that we’re only talking about the sampling distribution, we <em>can</em> weaken the <span class="math notranslate nohighlight">\(t\)</span> test assumptions so that we don’t have to assume normality of the population. However, for the <span class="math notranslate nohighlight">\(t\)</span>-test, it’s trickier to do this. As before, we can replace the assumption of population normality with an assumption that the sampling distribution of <span class="math notranslate nohighlight">\(\bar{X}\)</span> is normal. However, remember that we’re also relying on a sample estimate of the standard deviation; and so we also require the sampling distribution of <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> to be chi-square. That makes things nastier, and this version is rarely used in practice: fortunately, if the population is normal, then both of these two assumptions are met., and as noted earlier, there are <a class="reference internal" href="#shapiro"><span class="std std-ref">standard tools</span></a> that you can use to check to see if this assumption is met, and <a class="reference internal" href="#wilcox"><span class="std std-ref">other tests</span></a> you can do in it’s place if this assumption is violated.</p>
+</dd>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
 <dd><p>Although it is the simplest, which is why I started with it.</p>
 </dd>
-<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
+<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
 <dd><p>A funny question almost always pops up at this point: what the heck <em>is</em> the population being referred to in this case? Is it the set of students actually taking Dr Harpo’s class (all 33 of them)? The set of people who might take the class (an unknown number) of them? Or something else? Does it matter which of these we pick? It’s traditional in an introductory behavioural stats class to mumble a lot at this point, but since I get asked this question every year by my students, I’ll give a brief answer. Technically yes, it does matter: if you change your definition of what the “real world” population actually is, then the sampling distribution of your observed mean <span class="math notranslate nohighlight">\(\bar{X}\)</span> changes too. The <span class="math notranslate nohighlight">\(t\)</span>-test relies on an assumption that the observations are sampled at random from an infinitely large population; and to the extent that real life isn’t like that, then the <span class="math notranslate nohighlight">\(t\)</span>-test can be wrong. In practice, however, this isn’t usually a big deal: even though the assumption is almost always wrong, it doesn’t lead to a lot of pathological behaviour from the test, so we tend to just ignore it.</p>
 </dd>
-<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
+<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id9">9</a></span></dt>
 <dd><p>Yes, I  have a “favourite” way of thinking about pooled standard deviation estimates. So what?</p>
 </dd>
-<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id10">9</a></span></dt>
+<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id11">10</a></span></dt>
 <dd><p>Well, I guess you can average apples and oranges, and what you end up with is a delicious fruit smoothie. But no one really thinks that a fruit smoothie is a very good way to describe the original fruits, do they?</p>
 </dd>
-<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id13">10</a></span></dt>
+<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id14">11</a></span></dt>
 <dd><p>This design is very similar to the one in <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">Categorical data analysis</span></a> that motivated the McNemar test. This should be no surprise. Both are standard repeated measures designs involving two measurements. The only difference is that this time our outcome variable is interval scale (working memory capacity) rather than a binary, nominal scale variable (a yes-or-no question).</p>
 </dd>
-<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id15">11</a></span></dt>
+<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
 <dd><p>At this point we have Drs Harpo, Chico and Zeppo. No prizes for guessing who Dr Groucho is.</p>
 </dd>
-<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
+<dt class="label" id="note12"><span class="brackets"><a class="fn-backref" href="#id17">13</a></span></dt>
 <dd><p>This is obviously a class being taught at a very small or very expensive university, or else is a postgraduate class. <em>I’ve</em> never taught an intro stats class with less than 350 students.</p>
 </dd>
-<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id18">13</a></span></dt>
+<dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
 <dd><p>This is a massive oversimplification.</p>
 </dd>
-<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id19">14</a></span></dt>
+<dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id20">15</a></span></dt>
 <dd><p>Either that, or the Kolmogorov-Smirnov test, which is probably more traditional than the Shapiro-Wilk, though most things I’ve read seem to suggest Shapiro-Wilk is the better test of normality, although Kolomogorov-Smirnov is a general purpose test of distributional equivalence, so it can be adapted to handle other kinds of distribution tests.</p>
 </dd>
-<dt class="label" id="note15"><span class="brackets"><a class="fn-backref" href="#id20">15</a></span></dt>
+<dt class="label" id="note15"><span class="brackets"><a class="fn-backref" href="#id21">16</a></span></dt>
 <dd><p>Actually, there are two different versions of the test statistic; they differ from each other by a constant value. I’ll just describe one of them here.</p>
 </dd>
 </dl>
