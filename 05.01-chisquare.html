@@ -467,20 +467,15 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-r">
-     14.7.1. Doing the McNemar test in R
+    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">
+     14.7.1. Doing the McNemar test in Python
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-the-difference-between-mcnemar-and-independence">
-   14.8. What’s the difference between McNemar and independence?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   14.9. Summary
+   14.8. Summary
   </a>
  </li>
 </ul>
@@ -633,20 +628,15 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-r">
-     14.7.1. Doing the McNemar test in R
+    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">
+     14.7.1. Doing the McNemar test in Python
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-the-difference-between-mcnemar-and-independence">
-   14.8. What’s the difference between McNemar and independence?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   14.9. Summary
+   14.8. Summary
   </a>
  </li>
 </ul>
@@ -2432,8 +2422,8 @@ X^2 = \frac{(|b-c| - 0.5)^2}{b+c}
 X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 \]</div>
 <p>and this statistic has an (approximately) <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(df=1\)</span>. However, remember that – just like the other <span class="math notranslate nohighlight">\(\chi^2\)</span> tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
-<div class="section" id="doing-the-mcnemar-test-in-r">
-<h3><span class="section-number">14.7.1. </span>Doing the McNemar test in R<a class="headerlink" href="#doing-the-mcnemar-test-in-r" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="doing-the-mcnemar-test-in-python">
+<h3><span class="section-number">14.7.1. </span>Doing the McNemar test in Python<a class="headerlink" href="#doing-the-mcnemar-test-in-python" title="Permalink to this headline">¶</a></h3>
 <p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.csv</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2599,23 +2589,16 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 <p>And we’re done. We’ve just run a McNemar’s test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant (<span class="math notranslate nohighlight">\(\chi^2(1) = 12.03, p&lt;.001\)</span>), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.</p>
 </div>
 </div>
-<div class="section" id="what-s-the-difference-between-mcnemar-and-independence">
-<h2><span class="section-number">14.8. </span>What’s the difference between McNemar and independence?<a class="headerlink" href="#what-s-the-difference-between-mcnemar-and-independence" title="Permalink to this headline">¶</a></h2>
-<p>Let’s go all the way back to the beginning of the chapter, and look at the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data set again. If you recall, the actual experimental design that I described involved people making <em>two</em> choices. Because we have information about the first choice and the second choice that everyone made, we can construct the following contingency table that cross-tabulates the first choice against the second choice.</p>
-<p>Suppose I wanted to know whether the choice you make the second time is dependent on the choice you made the first time. This is where a test of independence is useful, and what we’re trying to do is see if there’s some relationship between the rows and columns of this table. Here’s the result:</p>
-<p>Alternatively, suppose I wanted to know if <em>on average</em>, the frequencies of suit choices were different the second time than the first time. In that situation, what I’m really trying to see if the row totals in <code class="docutils literal notranslate"><span class="pre">cardChoices</span></code> (i.e., the frequencies for <code class="docutils literal notranslate"><span class="pre">choice_1</span></code>) are different from the column totals (i.e., the frequencies for <code class="docutils literal notranslate"><span class="pre">choice_2</span></code>). That’s when you use the McNemar test:</p>
-<p>Notice that the results are different! These aren’t the same test.</p>
-</div>
 <div class="section" id="summary">
-<h2><span class="section-number">14.9. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">14.8. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>The key ideas discussed in this chapter are:</p>
 <ul class="simple">
-<li><p>The chi-square goodness of fit test (Section &#64;ref(goftest)) is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of “known” probabilities to compare them to. You can either use the <code class="docutils literal notranslate"><span class="pre">goodnessOfFitTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package to run this test, or the <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code> function.</p></li>
-<li><p>The chi-square test of independence (Section &#64;ref(chisqindependence)) is used when you have a contingency table (cross-tabulation) of two categorical variables. The null hypothesis is that there is no relationship/association between the variables. You can either use the <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code> function in the <code class="docutils literal notranslate"><span class="pre">lsr</span></code> package, or you can use   <code class="docutils literal notranslate"><span class="pre">chisq.test()</span></code>.</p></li>
-<li><p>Effect size for a contingency table can be measured in several ways (Section &#64;ref(chisqeffectsize)). In particular we noted the Cramer’s <span class="math notranslate nohighlight">\(V\)</span> statistic, which can be calculated using <code class="docutils literal notranslate"><span class="pre">cramersV()</span></code>. This is also part of the output produced by  <code class="docutils literal notranslate"><span class="pre">associationTest()</span></code>.</p></li>
-<li><p>Both versions of the Pearson test rely on two assumptions: that the expected frequencies are sufficiently large, and that the observations are independent (Section &#64;ref(chisqassumptions)). The Fisher exact test (Section &#64;ref(fisherexacttest)) can be used when the expected frequencies are small, <code class="docutils literal notranslate"><span class="pre">fisher.test(x</span> <span class="pre">=</span> <span class="pre">contingency.table)</span></code>. The McNemar test (Section &#64;ref(mcnemar)) can be used for some kinds of violations of independence, <code class="docutils literal notranslate"><span class="pre">mcnemar.test(x</span> <span class="pre">=</span> <span class="pre">contingency.table)</span></code>.</p></li>
+<li><p>The <a class="reference internal" href="#goftest"><span class="std std-ref">chi-square goodness of fit test</span></a> is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of “known” probabilities to compare them to. You can use the <code class="docutils literal notranslate"><span class="pre">stats.chisquare()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package to run this test.</p></li>
+<li><p>The <a class="reference internal" href="#chisqindependence"><span class="std std-ref">chi-square test of independence</span></a> is used when you have a contingency table (cross-tabulation) of two categorical variables. The null hypothesis is that there is no relationship/association between the variables. You can either use the <code class="docutils literal notranslate"><span class="pre">chi2_contingency()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">stats.scipy</span></code> package, or you can use   <code class="docutils literal notranslate"><span class="pre">chi2_independence()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>.</p></li>
+<li><p><a class="reference internal" href="#chisqeffectsize"><span class="std std-ref">Effect size for a contingency table</span></a> can be measured in several ways. In particular we noted the Cramer’s <span class="math notranslate nohighlight">\(V\)</span> statistic, which <code class="docutils literal notranslate"><span class="pre">pingouin.chi2_independence()</span></code>calculates for you.</p></li>
+<li><p>Both versions of the Pearson test rely on <a class="reference internal" href="#chisqassumptions"><span class="std std-ref">two assumptions</span></a>: that the expected frequencies are sufficiently large, and that the observations are independent. The <a class="reference internal" href="#fisherexacttest"><span class="std std-ref">Fisher exact test</span></a> can be used when the expected frequencies are small. The <a class="reference internal" href="#mcnemar"><span class="std std-ref">McNemar test</span></a> can be used for some kinds of violations of independence.</p></li>
 </ul>
-<p>If you’re interested in learning more about categorical data analysis, a good first choice would be &#64;Agresti1996 which, as the title suggests, provides an <em>Introduction to Categorical Data Analysis</em>. If the introductory book isn’t enough for you (or can’t solve the problem you’re working on) you could consider &#64;Agresti2002, <em>Categorical Data Analysis</em>. The latter is a more advanced text, so it’s probably not wise to jump straight from this book to that one.</p>
+<p>If you’re interested in learning more about categorical data analysis, a good first choice would be <span id="id22">[<a class="reference internal" href="bibliography.html#id66" title="A. Agresti. An Introduction to Categorical Data Analysis. Wiley, Hoboken, NJ, 1996.">Agr96</a>]</span> which, as the title suggests, provides an <em>Introduction to Categorical Data Analysis</em>. If the introductory book isn’t enough for you (or can’t solve the problem you’re working on) you could consider <span id="id23">[<a class="reference internal" href="bibliography.html#id67" title="A. Agresti. Categorical Data Analysis. Wiley, Hoboken, NJ, 2nd edition, 2002.">Agr02</a>]</span>, <em>Categorical Data Analysis</em>. The latter is a more advanced text, so it’s probably not wise to jump straight from this book to that one.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
@@ -2637,7 +2620,7 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 <dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
 </dd>
 <dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id22">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id24">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">HMC05</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
 </dd>
 <dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
 <dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
