@@ -689,7 +689,7 @@ eta_squared
 
 # ### Holm corrections
 # 
-# Although the Bonferroni correction is the simplest adjustment out there, it's not usually the best one to use. One method that is often used instead is the **_Holm correction_** {cite}Holm1979. The idea behind the Holm correction is to pretend that you're doing the tests sequentially; starting with the smallest (raw) $p$-value and moving onto the largest one. For the $j$-th largest of the $p$-values, the adjustment is *either*
+# Although the Bonferroni correction is the simplest adjustment out there, it's not usually the best one to use. One method that is often used instead is the **_Holm correction_** {cite}`Holm1979`. The idea behind the Holm correction is to pretend that you're doing the tests sequentially; starting with the smallest (raw) $p$-value and moving onto the largest one. For the $j$-th largest of the $p$-values, the adjustment is *either*
 # 
 # $$
 # p^\prime_j = j \times p_j 
