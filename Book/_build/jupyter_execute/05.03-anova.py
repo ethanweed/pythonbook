@@ -848,18 +848,60 @@ pg.anova(dv='mood_gain',
 # (anovanormality)=
 # ## Checking the normality assumption
 # 
-# Testing the normality assumption is relatively straightforward. We covered most of what you need to know in Section \@ref(shapiro). The only thing we really need to know how to do is pull out the residuals (i.e., the $\epsilon_{ik}$ values) so that we can draw our QQ plot and run our Shapiro-Wilk test. First, let's extract the residuals. R provides a function called `residuals()` that will do this for us. If we pass our `my.anova` to this function, it will return the residuals.  So let's do that: 
-# ```{r}
-# my.anova.residuals <- residuals( object = my.anova )   # extract the residuals
-# ```
+# Testing the normality assumption is relatively straightforward. We have already covered [most of what you need to know](shapiro). The only thing we really need to know how to do is pull out the residuals (i.e., the $\epsilon_{ik}$ values) so that we can draw our QQ plot and run our Shapiro-Wilk test. Now, I really hate to say this, but as of the time of writing (Monday, the 11th of April, 2022), `pingouin` does not currently have a way to give you the residuals from the ANOVA calculation. They expect to add this soon, but in the meantime, we can use `statsmodels` to give us what we need:
+
+# In[23]:
+
+
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+formula = 'mood_gain ~ drug'
+
+model = ols(formula, data=df).fit()
+res = model.resid
+
+
 # We can print them out too, though it's not exactly an edifying experience.  In fact, given that I'm on the verge of putting *myself* to sleep just typing this, it might be a good idea to skip that step. Instead, let's draw some pictures and run ourselves a hypothesis test: 
-# ```{r}
-# hist( x = my.anova.residuals )           # plot a histogram (similar to Figure @ref{fig:normalityanova}a)
-# qqnorm( y = my.anova.residuals )         # draw a QQ plot (similar to Figure @ref{fig:normalityanova}b)
-# shapiro.test( x = my.anova.residuals )   # run Shapiro-Wilk test
+
+# In[24]:
+
+
+# QQ plot
+ax = pg.qqplot(res, dist='norm')
+
+
+# In[25]:
+
+
+# histogram of residuals
+
+import seaborn as sns
+
+
+ax = sns.histplot(res)
+
+
+# In[26]:
+
+
+#Shapiro-Wilk test with Pingouin
+
+pg.normality(res)
+
+
+# In[27]:
+
+
+#Shapiro-Wilk test with scipy
+
+from scipy.stats import shapiro
+
+shapiro(res)
+
+
 # 
-# ```
-# The histogram and QQ plot are both look pretty normal to me.^[Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it's always a good idea to use the tools from Chapter \@ref(graphics) to help you draw cleaner looking images.] This is supported by the results of our Shapiro-Wilk test ($W = .96$, $p = .61$) which finds no indication that normality is violated.
+# The histogram and QQ plot are both look pretty normal to me. Not perfect, of course. The histogram in particuar you might need to squint at a bit, to see a normal distringution.  supported by the results of our Shapiro-Wilk test ($W = .96$, $p = .61$) which finds no indication that normality is violated.
 
 # (kruskalwallis)=
 # ## Removing the normality assumption
