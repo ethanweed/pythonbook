@@ -1025,8 +1025,8 @@ clinical_wide = pd.DataFrame(
 
 import pingouin as pg
 
-pg.ttest(clinical_wide['CBT'], 
-         clinical_wide['no_therapy']).round(3)
+pg.ttest(clinical_wide['no_therapy'], 
+         clinical_wide['CBT']).round(3)
 
 
 # Curiously, the $p$-values are identical: once again we obtain a value of $p = .21$. But what about the test statistic? Having run a $t$-test instead of an ANOVA, we get a somewhat different answer, namely $t(16) = -1.3068$. However, there is a fairly straightforward relationship here. If we square the $t$-statistic
@@ -1034,7 +1034,7 @@ pg.ttest(clinical_wide['CBT'],
 # In[33]:
 
 
-round(1.307**2,3)
+round((-1.307)**2,3)
 
 
 # 
