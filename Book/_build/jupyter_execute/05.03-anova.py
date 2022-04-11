@@ -722,6 +722,8 @@ eta_squared
 # In[18]:
 
 
+import pingouin as pg
+
 # pairwise t-tests with Holm correction
 pg.pairwise_ttests(dv='mood_gain', 
                    between='drug', 
@@ -758,87 +760,89 @@ pg.pairwise_ttests(dv='mood_gain',
 # 
 # So, how do we check whether this assumption about the residuals is accurate? Well, as I indicated above, there are three distinct claims buried in this one statement, and we'll consider them separately.
 # 
-# - **_Normality_**. The residuals are assumed to be normally distributed. As we saw in Section \@ref(shapiro), we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I'll talk about this in an ANOVA context in Section \@ref(anovanormality). 
-# - **_Homogeneity of variance_**. Notice that we've only got the one value for the population standard deviation (i.e., $\sigma$), rather than allowing each group to have it's own value (i.e., $\sigma_k$). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We'll talk about this extensively in Section \@ref(levene). 
+# - **_Normality_**. The residuals are assumed to be normally distributed. [As we saw](shapiro), we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I'll talk about this in an ANOVA context [below](anovanormality). 
+# - **_Homogeneity of variance_**. Notice that we've only got the one value for the population standard deviation (i.e., $\sigma$), rather than allowing each group to have it's own value (i.e., $\sigma_k$). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We'll talk about this [extensively](levene). 
 # - **_Independence_**. The independence assumption is a little trickier. What it basically means is that, knowing one residual tells you nothing about any other residual. All of the $\epsilon_{ik}$ values are assumed to have been generated without any "regard for" or "relationship to" any of the other ones. There's not an obvious or simple way to test for this, but there are some situations that are clear violations of this: for instance, if you have a repeated-measures design, where each participant in your study appears in more than one condition, then independence doesn't hold; there's a special relationship between some observations... namely those that correspond to the same person! When that happens, you need to use something like repeated measures ANOVA. I don't currently talk about repeated measures ANOVA in this book, but it will be included in later versions. 
 # 
 # 
 # ### How robust is ANOVA?
 # 
-# One question that people often want to know the answer to is the extent to which you can trust the results of an ANOVA if the assumptions are violated. Or, to use the technical language, how **_robust_** is ANOVA to violations of the assumptions. Due to deadline constraints I don't have the time to discuss this topic. This is a topic I'll cover in some detail in a later version of the book. 
+# One question that people often want to know the answer to is the extent to which you can trust the results of an ANOVA if the assumptions are violated. Or, to use the technical language, how **_robust_** is ANOVA to violations of the assumptions. Due to deadline constraints I don't have the time to discuss this topic. This is a topic I'll cover in some detail in a later version of the book.
 
 # (levene)=
 # ## Checking the homogeneity of variance assumption
 # 
-# There's more than one way to skin a cat, as the saying goes, and more than one way to test the homogeneity of variance assumption, too (though for some reason no-one made a saying out of that). The most commonly used test for this that I've seen in the literature is the **_Levene test_** [@Levene1960], and the closely related **_Brown-Forsythe test_** [@BrownForsythe1974], both of which I'll describe here. Alternatively, you could use the Bartlett test, which is implemented in R via the `bartlett.test()` function, but I'll leave it as an exercise for the reader to go check that one out if you're interested.
+# There's more than one way to skin a cat, as the saying goes, and more than one way to test the homogeneity of variance assumption, too (though for some reason no-one made a saying out of that). The most commonly used test for this that I've seen in the literature is the **_Levene test_** {cite}`Levene1960`, and the closely related **_Brown-Forsythe test_** {cite}`BrownForsythe1974`, both of which I'll describe here. 
 # 
 # Levene's test is shockingly simple. Suppose we have our outcome variable $Y_{ik}$. All we do is define a new variable, which I'll call $Z_{ik}$, corresponding to the absolute deviation from the group mean:
+# 
 # $$
 # Z_{ik} = \left| Y_{ik} - \bar{Y}_k \right|
 # $$
+# 
 # Okay, what good does this do us? Well, let's take a moment to think about what $Z_{ik}$ actually is, and what we're trying to test. The value of $Z_{ik}$ is a measure of how the $i$-th observation in the $k$-th group deviates from its group mean. And our null hypothesis is that all groups have the same variance; that is, the same overall deviations from the group means! So, the null hypothesis in a Levene's test is that the population means of $Z$ are identical for all groups. Hm. So what we need now is a statistical test of the null hypothesis that all group means are identical. Where have we seen that before? Oh right, that's what ANOVA is... and so all that the Levene's test does is run an ANOVA on the new variable $Z_{ik}$. 
 # 
 # What about the Brown-Forsythe test? Does that do anything particularly different? Nope. The only change from the Levene's test is that it constructs the transformed variable $Z$ in a slightly different way, using deviations from the group *medians* rather than deviations from the group *means*. That is, for the Brown-Forsythe test, 
+# 
 # $$
 # Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 # $$
-# where $\mbox{median}_k(Y)$ is the median for group $k$. Regardless of whether you're doing the standard Levene test or the Brown-Forsythe test, the test statistic -- which is sometimes denoted $F$, but sometimes written as $W$ -- is  calculated in exactly the same way that the $F$-statistic for the regular ANOVA is calculated, just using a $Z_{ik}$ rather than $Y_{ik}$. With that in mind, let's just move on and look at how to run the test in R.
 # 
+# where $\mbox{median}_k(Y)$ is the median for group $k$. Regardless of whether you're doing the standard Levene test or the Brown-Forsythe test, the test statistic -- which is sometimes denoted $F$, but sometimes written as $W$ -- is  calculated in exactly the same way that the $F$-statistic for the regular ANOVA is calculated, just using a $Z_{ik}$ rather than $Y_{ik}$. With that in mind, let's just move on and look at how to run the test in Python.
+
+# ### Running the Levene's test with Python
 # 
-# ### Running the Levene's test in R
-# 
-# Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable $Z_{ik}$ and then use the `aov()` function to run an ANOVA on that. However, that's the tedious way to do it. A better way to do run your Levene's test is to use the `leveneTest()` function, which is in the `car` package.  As usual, we first load the package
-# ```{r}
-# library( car )  
-# ```
-# and now that we have, we can run our Levene test. The main argument that you need to specify is `y`, but you can do this in lots of different ways. Probably the simplest way to do it is actually input the original `aov` object. Since I've got the `my.anova` variable stored from my original ANOVA, I can just do this:
-# ```{r}
-# leveneTest( my.anova )
-# ```
-# If we look at the output, we see that the test is non-significant $(F_{2,15} = 1.47, p = .26)$, so it looks like the homogeneity of variance assumption is fine. Remember, although R reports the test statistic as an $F$-value, it could equally be called $W$, in which case you'd just write $W_{2,15} = 1.47$. Also, note the part of the output that says `center = median`. That's telling you that, by default, the `leveneTest()` function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the `center` argument, like this:
-# ```{r}
-# leveneTest( y = my.anova, center = mean )
-# ```
+# Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable $Z_{ik}$ and then run an ANOVA on that. However, that's the tedious way to do it. Much simpler would be to just get `pingouin` to do it for us. Maybe I should take a drink every time I mention `pingouin` in this book. Then again, maybe I shouldn't!
+
+# In[19]:
+
+
+import pingouin as pg
+
+pg.homoscedasticity(data=df, 
+                    dv="mood_gain", 
+                    group="drug").round(2)
+
+
+# If we look at the output, we see that the test is non-significant $(F_{2,15} = 1.47, p = .26)$, so it looks like the homogeneity of variance assumption is fine. By default, the `pingouin`'s `homoscedasticity` function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the `center` argument, like this:
+
+# In[20]:
+
+
+# Original Levene test
+pg.homoscedasticity(data=df, 
+                    dv="mood_gain", 
+                    group="drug",
+                    center = "mean").round(2)
+
+
 # That being said, in most cases it's probably best to stick to the default value, since the Brown-Forsythe test is a bit more robust than the original Levene test.
-# 
-# ### Additional comments
-# 
-# Two more quick comments before I move onto a different topic. Firstly, as mentioned above, there are other ways of calling the `leveneTest()` function. Although the vast majority of situations that call for a Levene test involve checking the assumptions of an ANOVA (in which case you probably have a variable like `my.anova` lying around), sometimes you might find yourself wanting to specify the variables directly. Two different ways that you can do this are shown below:
-# ```{r eval=FALSE}
-# leveneTest(y = mood.gain ~ drug, data = clin.trial)   # y is a formula in this case
-# leveneTest(y = clin.trial$mood.gain, group = clin.trial$drug)   # y is the outcome  
-# ```
-# Secondly, I did mention that it's possible to run a Levene test just using the `aov()` function. I don't want to waste a lot of space on this, but just in case some readers are interested in seeing how this is done, here's the code that creates the new variables and runs an ANOVA. If you are interested, feel free to run this to verify that it produces the same answers as the Levene test (i.e., with `center = mean`):
-# ```{r}
-# Y <- clin.trial $ mood.gain    # the original outcome variable, Y
-# G <- clin.trial $ drug         # the grouping variable, G
-# gp.mean <- tapply(Y, G, mean)  # calculate group means
-# Ybar <- gp.mean[G]             # group mean associated with each obs
-# Z <- abs(Y - Ybar)             # the transformed variable, Z
-# summary( aov(Z ~ G) )          # run the ANOVA 
-# ``` 
-# That said, I don't imagine that many people will care about this. Nevertheless, it's nice to know that you could do it this way if you wanted to. And for those of you who do try it, I think it helps to demystify the test a little bit when you can see -- with your own eyes -- the way in which Levene's test relates to ANOVA. 
 
 # (welchoneway)=
 # ## Removing the homogeneity of variance assumption
 # 
-# In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don't need to worry. However, in real life we aren't always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of $t$-tests, we've seen this problem before. The Student $t$-test assumes equal variances, so the solution was to use the Welch $t$-test, which does not. In fact, @Welch1951 also showed how we can solve this problem for ANOVA too (the **_Welch one-way test_**). It's implemented in R using the `oneway.test()` function. The arguments that we'll need for our example are:
-# 
-# - `formula`. This is the model formula, which (as usual) needs to specify the outcome variable on the left hand side and the grouping variable on the right hand side: i.e., something like `outcome ~ group`.
-# - `data`. Specifies the data frame containing the variables. 
-# - `var.equal`. If this is `FALSE` (the default) a Welch one-way test is run. If it is `TRUE` then it just runs a regular ANOVA. 
-# 
-# The function also has a `subset` argument that lets you analyse only some of the observations and a `na.action` argument that tells it how to handle missing data, but these aren't necessary for our purposes. So, to run the Welch one-way ANOVA for our example, we would do this:
-# 
-# ```{r}
-# oneway.test(mood.gain ~ drug, data = clin.trial)
-# ```
-# 
-# 
-# To understand what's happening here, let's compare these numbers to what we got earlier in Section \@ref(introduceaov) when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again, this time calculated by setting `var.equal = TRUE` for the `oneway.test()` function:
-# ```{r}
-# oneway.test(mood.gain ~ drug, data = clin.trial, var.equal = TRUE)
-# ```
+# In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don't need to worry. However, in real life we aren't always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of $t$-tests, we've seen this problem before. The Student $t$-test assumes equal variances, so the solution was to use the Welch $t$-test, which does not. In fact, Welch {cite}`Welch1951` also showed how we can solve this problem for ANOVA too (the **_Welch one-way test_**). It's implemented in `pingouin` using the `welch_anova` function:
+
+# In[21]:
+
+
+import pingouin as pg
+
+pg.welch_anova(dv='mood_gain', 
+               between='drug', 
+               data=df).round(2)
+
+
+# To understand what's happening here, let's compare these numbers to what we got [earlier](introduceaov) when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again:
+
+# In[22]:
+
+
+pg.anova(dv='mood_gain', 
+         between='drug', 
+         data=df).round(2)
+
+
 # Okay, so originally our ANOVA gave us the result $F(2,15) = 18.6$, whereas the Welch one-way test gave us $F(2,9.49) = 26.32$. In other words, the Welch test has reduced the within-groups degrees of freedom from 15 to 9.49, and the $F$-value has increased from 18.6 to 26.32. 
 
 # (anovanormality)=
