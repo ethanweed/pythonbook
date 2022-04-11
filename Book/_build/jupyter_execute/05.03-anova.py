@@ -517,7 +517,7 @@ SSb
 # F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 # $$
 
-# Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in [](hypothesistesting, what we really *ought* to do is choose an $\alpha$ level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the $p$-value. Back in the "old days", what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd "compute" our $p$-value, because it's too much effort to do it any other way. However, since we have access to Python, I'll use the `stats.f.cdf()` method from `scipy` to do it instead.
+# Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in [](hypothesistesting), what we really *ought* to do is choose an $\alpha$ level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the $p$-value. Back in the "old days", what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd "compute" our $p$-value, because it's too much effort to do it any other way. However, since we have access to Python, I'll use the `stats.f.cdf()` method from `scipy` to do it instead.
 
 # In[13]:
 
@@ -582,6 +582,23 @@ aov_table
 # Now, isn't that better? We got to the same place, but with a lot less pain and suffering!
 # 
 # Once we get done celebrating, we might take a little closer look at this wonder function. The function is called `anova_lm`. The ANOVA part makes sense, sure, but what is this `lm` thing all about? `lm` stands for "linear model", and later on, we'll see that this reflects a pretty deep statistical relationship between ANOVA and regression [](regression) and this has some important implications for what can be done with both ANOVA's and linear regressions... but I'm getting ahead of myself. For now, let's just bask in the glory of the anova table that `statsmodels` gives us. We get the sums of squares, the degrees of freedom, the $F$-statistic, and the $p$-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it's even organised into a nice table, like the one that I filled out by hand in [](anovacalc).
+# 
+# So, `statsmodels` provides a pretty easy way to get ANOVA's done, but back when we were doing t-tests, I was all excited about `pingouin` and said it made things so much easier. So couldn't we use `pingouin` to do ANOVA's? Sure, of course we can!
+
+# In[16]:
+
+
+import pingouin as pg
+
+res = pg.anova(dv='mood_gain', between='drug', data=df,
+
+               detailed=True)
+
+res
+
+
+# If you check, you'll see we get the same answer either way. So that's _two_ easy ways to to ANOVA in Python! Time for beer and football!
+# 
 
 # (etasquared)=
 # ## Effect size
@@ -609,7 +626,7 @@ aov_table
 # 
 # It's pretty straightforward to calculate it directly from the numbers in the ANOVA table. In fact, since I've already got the `SSw` and `SSb` variables lying around from my earlier calculations, I can do this:
 
-# In[16]:
+# In[17]:
 
 
 SStot = SSb + SSw          # total sums of squares
