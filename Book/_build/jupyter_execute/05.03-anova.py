@@ -590,11 +590,10 @@ aov_table
 
 import pingouin as pg
 
-aov_table = pg.anova(dv='mood_gain', between='drug', data=df,
-
-               detailed=True)
-
-aov_table
+pg.anova(dv='mood_gain', 
+         between='drug', 
+         data=df,
+         detailed=True)
 
 
 # If you check, you'll see we get the same answer either way. So that's _two_ easy ways to to ANOVA in Python! Time for beer and football!
