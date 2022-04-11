@@ -1042,7 +1042,7 @@ round((-1.307)**2,3)
 
 # ## Summary
 # 
-# There's a fair bit covered in this chapter, but there's still a lot missing. Most obviously, I haven't yet discussed any analog of the paired samples $t$-test for more than two groups. There is a way of doing this, known as *repeated measures ANOVA*, which will appear in a later version of this book. I also haven't discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in Chapter \@ref(anova2). In terms of what we have discussed, the key topics were:
+# There's a fair bit covered in this chapter, but there's still a lot missing. Most obviously, I haven't yet discussed any analog of the paired samples $t$-test for more than two groups. There is a way of doing this, known as *repeated measures ANOVA*, which will appear in a later version of this book. I also haven't discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in a [later chapter](anova2). In terms of what we have discussed, the key topics were:
 # 
 # 
 # - The basic logic behind [how ANOVA works](anovaintro) and [how to run one in Python](introduceaov).
