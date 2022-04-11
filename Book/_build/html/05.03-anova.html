@@ -493,19 +493,19 @@ const thebe_selector_output = ".output, .cell_output"
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-r">
-       17.10.3. How to run the Kruskal-Wallis test in R
+      <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-python">
+       17.10.3. How to run the Kruskal-Wallis test in Python
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
+    <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test">
      17.11. On the relationship between ANOVA and the Student
      <span class="math notranslate nohighlight">
       \(t\)
      </span>
-     test{#anovaandt}
+     test
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -691,19 +691,19 @@ const thebe_selector_output = ".output, .cell_output"
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-r">
-       17.10.3. How to run the Kruskal-Wallis test in R
+      <a class="reference internal nav-link" href="#how-to-run-the-kruskal-wallis-test-in-python">
+       17.10.3. How to run the Kruskal-Wallis test in Python
       </a>
      </li>
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
+    <a class="reference internal nav-link" href="#on-the-relationship-between-anova-and-the-student-t-test">
      17.11. On the relationship between ANOVA and the Student
      <span class="math notranslate nohighlight">
       \(t\)
      </span>
-     test{#anovaandt}
+     test
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -728,7 +728,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="tex2jax_ignore mathjax_ignore section" id="comparing-several-means-one-way-anova">
 <h1><span class="section-number">17. </span>Comparing several means (one-way ANOVA)<a class="headerlink" href="#comparing-several-means-one-way-anova" title="Permalink to this headline">¶</a></h1>
 <p>This chapter introduces one of the most widely used tools in statistics, known as “the analysis of variance”, which is usually referred to as ANOVA. The basic technique was developed by Sir Ronald Fisher in the early 20th century, and it is to him that we owe the rather unfortunate terminology. The term ANOVA is a little misleading, in two respects. Firstly, although the name of the technique refers to variances, ANOVA is concerned with investigating differences in means. Secondly, there are several different things out there that are all referred to as ANOVAs, some of which have only a very tenuous connection to one another. Later on in the book we’ll encounter a range of different ANOVA methods that apply in quite different situations, but for the purposes of this chapter we’ll only consider the simplest form of ANOVA, in which we have several different groups of observations, and we’re interested in finding out whether those groups differ in terms of some outcome variable of interest. This is the question that is addressed by a <strong><em>one-way ANOVA</em></strong>.</p>
-<p>The structure of this chapter is as follows: In <a class="reference internal" href="#anxifree"><span class="std std-ref">An illustrative data set</span></a> I’ll introduce a fictitious data set that we’ll use as a running example throughout the chapter. After introducing the data, I’ll describe the mechanics of how a one-way ANOVA actually works (<a class="reference internal" href="#anovaintro"><span class="std std-ref">How ANOVA works</span></a>) and then focus on how you can run one in Python (<a class="reference internal" href="#introduceaov"><span class="std std-ref">Running an ANOVA in Python</span></a>). These two sections are the core of the chapter. The remainder of the chapter discusses a range of important topics that inevitably arise when running an ANOVA, namely how to calculate effect sizes (<a class="reference internal" href="#etasquared"><span class="std std-ref">Effect size</span></a>), post hoc tests and corrections for multiple comparisons (<a class="reference internal" href="#posthoc"><span class="std std-ref">Multiple comparisons and post hoc tests</span></a>) and the assumptions that ANOVA relies upon (<a class="reference internal" href="#anovaassumptions"><span class="std std-ref">Assumptions of one-way ANOVA</span></a>). We’ll also talk about how to check those assumptions and some of the things you can do if the assumptions are violated (<a class="reference internal" href="#levene"><span class="std std-ref">Checking the homogeneity of variance assumption</span></a> to <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">Removing the normality assumption</span></a>). At the end of the chapter we’ll talk a little about the relationship between ANOVA and other statistical tools (<span class="xref myst"></span>).</p>
+<p>The structure of this chapter is as follows: In <a class="reference internal" href="#anxifree"><span class="std std-ref">An illustrative data set</span></a> I’ll introduce a fictitious data set that we’ll use as a running example throughout the chapter. After introducing the data, I’ll describe the mechanics of how a one-way ANOVA actually works (<a class="reference internal" href="#anovaintro"><span class="std std-ref">How ANOVA works</span></a>) and then focus on how you can run one in Python (<a class="reference internal" href="#introduceaov"><span class="std std-ref">Running an ANOVA in Python</span></a>). These two sections are the core of the chapter. The remainder of the chapter discusses a range of important topics that inevitably arise when running an ANOVA, namely how to calculate effect sizes (<a class="reference internal" href="#etasquared"><span class="std std-ref">Effect size</span></a>), post hoc tests and corrections for multiple comparisons (<a class="reference internal" href="#posthoc"><span class="std std-ref">Multiple comparisons and post hoc tests</span></a>) and the assumptions that ANOVA relies upon (<a class="reference internal" href="#anovaassumptions"><span class="std std-ref">Assumptions of one-way ANOVA</span></a>). We’ll also talk about how to check those assumptions and some of the things you can do if the assumptions are violated (<a class="reference internal" href="#levene"><span class="std std-ref">Checking the homogeneity of variance assumption</span></a> to <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">Removing the normality assumption</span></a>). At the end of the chapter we’ll talk a little about the relationship between ANOVA and other statistical tools (<a class="reference internal" href="#anovaandt"><span class="std std-ref">On the relationship between ANOVA and the Student t test</span></a>).</p>
 <div class="section" id="an-illustrative-data-set">
 <span id="anxifree"></span><h2><span class="section-number">17.1. </span>An illustrative data set<a class="headerlink" href="#an-illustrative-data-set" title="Permalink to this headline">¶</a></h2>
 <p>Suppose you’ve become involved in a clinical trial in which you are testing a new antidepressant drug called <em>Joyzepam</em>. In order to construct a fair test of the drug’s effectiveness, the study involves three separate drugs to be administered. One is a placebo, and the other is an existing antidepressant / anti-anxiety drug called <em>Anxifree</em>. A collection of 18 participants with moderate to severe depression are recruited for your initial testing. Because the drugs are sometimes administered in conjunction with psychological therapy, your study includes 9 people undergoing cognitive behavioural therapy (CBT) and 9 who are not. Participants are randomly assigned (doubly blinded, of course) a treatment, such that there are 3 CBT people and 3 no-therapy people assigned to each of the 3 drugs. A psychologist assesses the mood of each person after a 3 month run with each drug: and the overall <em>improvement</em> in each person’s mood is assessed on a scale ranging from <span class="math notranslate nohighlight">\(-5\)</span> to <span class="math notranslate nohighlight">\(+5\)</span>.</p>
@@ -2675,69 +2675,347 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 </div>
 </div>
 </div>
-<p>The histogram and QQ plot are both look pretty normal to me. Not perfect, of course. The histogram in particuar you might need to squint at a bit, to see a normal distringution.  supported by the results of our Shapiro-Wilk test (<span class="math notranslate nohighlight">\(W = .96\)</span>, <span class="math notranslate nohighlight">\(p = .61\)</span>) which finds no indication that normality is violated.</p>
+<p>The histogram and QQ plot are both look pretty normal to me. Not perfect, of course. The histogram in particuar you might need to squint at a bit, to see a normal distringution. But the results of our Shapiro-Wilk test (<span class="math notranslate nohighlight">\(W = .96\)</span>, <span class="math notranslate nohighlight">\(p = .61\)</span>) finds no indication that normality is violated, so even if these residuals are not <em>perfectly</em> normally distributed, they seem to be well within the range of the acceptable.</p>
 </div>
 <div class="section" id="removing-the-normality-assumption">
 <span id="kruskalwallis"></span><h2><span class="section-number">17.10. </span>Removing the normality assumption<a class="headerlink" href="#removing-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
-<p>Now that we’ve seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn’t rely on any particular assumption about the kind of distribution involved). We’ve seen non-parametric tests before, in Chapter &#64;ref(ttest): when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you’ve got three or more groups, you can use the <strong><em>Kruskal-Wallis rank sum test</em></strong> [&#64;KruskalWallis1952]. So that’s the test we’ll talk about next.</p>
+<p>Now that we’ve seen how to check for normality, we are led naturally to ask what we can do to address violations of normality. In the context of a one-way ANOVA, the easiest solution is probably to switch to a non-parametric test (i.e., one that doesn’t rely on any particular assumption about the kind of distribution involved). We’ve seen non-parametric tests <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">before</span></a>: when you only have two groups, the Wilcoxon test provides the non-parametric alternative that you need. When you’ve got three or more groups, you can use the <strong><em>Kruskal-Wallis rank sum test</em></strong> <span id="id16">[<a class="reference internal" href="bibliography.html#id79" title="W. H. Kruskal and W. A. Wallis. Use of ranks in one-criterion variance analysis. Journal of the American Statistical Association, 47:583–621, 1952.">KW52</a>]</span>. So that’s the test we’ll talk about next.</p>
 <div class="section" id="the-logic-behind-the-kruskal-wallis-test">
 <h3><span class="section-number">17.10.1. </span>The logic behind the Kruskal-Wallis test<a class="headerlink" href="#the-logic-behind-the-kruskal-wallis-test" title="Permalink to this headline">¶</a></h3>
-<p>The Kruskal-Wallis test is surprisingly similar to ANOVA, in some ways. In ANOVA, we started with <span class="math notranslate nohighlight">\(Y_{ik}\)</span>, the value of the outcome variable for the <span class="math notranslate nohighlight">\(i\)</span>th person in the <span class="math notranslate nohighlight">\(k\)</span>th group. For the Kruskal-Wallis test, what we’ll do is rank order all of these <span class="math notranslate nohighlight">\(Y_{ik}\)</span> values, and conduct our analysis on the ranked data. So let’s let <span class="math notranslate nohighlight">\(R_{ik}\)</span> refer to the ranking given to the <span class="math notranslate nohighlight">\(i\)</span>th member of the <span class="math notranslate nohighlight">\(k\)</span>th group. Now, let’s calculate <span class="math notranslate nohighlight">\(\bar{R}_k\)</span>, the average rank given to observations in the <span class="math notranslate nohighlight">\(k\)</span>th group:
-$<span class="math notranslate nohighlight">\(
+<p>The Kruskal-Wallis test is surprisingly similar to ANOVA, in some ways. In ANOVA, we started with <span class="math notranslate nohighlight">\(Y_{ik}\)</span>, the value of the outcome variable for the <span class="math notranslate nohighlight">\(i\)</span>th person in the <span class="math notranslate nohighlight">\(k\)</span>th group. For the Kruskal-Wallis test, what we’ll do is rank order all of these <span class="math notranslate nohighlight">\(Y_{ik}\)</span> values, and conduct our analysis on the ranked data. So let’s let <span class="math notranslate nohighlight">\(R_{ik}\)</span> refer to the ranking given to the <span class="math notranslate nohighlight">\(i\)</span>th member of the <span class="math notranslate nohighlight">\(k\)</span>th group. Now, let’s calculate <span class="math notranslate nohighlight">\(\bar{R}_k\)</span>, the average rank given to observations in the <span class="math notranslate nohighlight">\(k\)</span>th group:</p>
+<div class="math notranslate nohighlight">
+\[
 \bar{R}_k = \frac{1}{N_K} \sum_{i} R_{ik}
-\)</span><span class="math notranslate nohighlight">\(
-and let's also calculate \)</span>\bar{R}<span class="math notranslate nohighlight">\(, the grand mean rank:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>and let’s also calculate <span class="math notranslate nohighlight">\(\bar{R}\)</span>, the grand mean rank:
+$<span class="math notranslate nohighlight">\(
 \bar{R} = \frac{1}{N} \sum_{i} \sum_{k} R_{ik}
-\)</span><span class="math notranslate nohighlight">\(
-Now that we've done this, we can calculate the squared deviations from the grand mean rank \)</span>\bar{R}<span class="math notranslate nohighlight">\(. When we do this for the individual scores -- i.e., if we calculate \)</span>(R_{ik} - \bar{R})^2<span class="math notranslate nohighlight">\( -- what we have is a &quot;nonparametric&quot; measure of how far the \)</span>ik<span class="math notranslate nohighlight">\(-th observation deviates from the grand mean rank. When we calculate the squared deviation of the group means from the grand means -- i.e., if we calculate \)</span>(\bar{R}<em>k  - \bar{R} )^2<span class="math notranslate nohighlight">\( -- then what we have is a nonparametric measure of how much the *group* deviates from the grand mean rank. With this in mind, let's follow the same logic that we did with ANOVA, and define our *ranked* sums of squares measures in much the same way that we did earlier. First, we have our &quot;total ranked sums of squares&quot;:
-\)</span><span class="math notranslate nohighlight">\(
+\)</span>$</p>
+<p>Now that we’ve done this, we can calculate the squared deviations from the grand mean rank <span class="math notranslate nohighlight">\(\bar{R}\)</span>. When we do this for the individual scores – i.e., if we calculate <span class="math notranslate nohighlight">\((R_{ik} - \bar{R})^2\)</span> – what we have is a “nonparametric” measure of how far the <span class="math notranslate nohighlight">\(ik\)</span>-th observation deviates from the grand mean rank. When we calculate the squared deviation of the group means from the grand means – i.e., if we calculate <span class="math notranslate nohighlight">\((\bar{R}_k  - \bar{R} )^2\)</span> – then what we have is a nonparametric measure of how much the <em>group</em> deviates from the grand mean rank. With this in mind, let’s follow the same logic that we did with ANOVA, and define our <em>ranked</em> sums of squares measures in much the same way that we did earlier. First, we have our “total ranked sums of squares”:</p>
+<div class="math notranslate nohighlight">
+\[
 \mbox{RSS}_{tot} = \sum_k \sum_i ( R_{ik} - \bar{R} )^2
-\)</span><span class="math notranslate nohighlight">\(
-and we can define the &quot;between groups ranked sums of squares&quot; like this:
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>and we can define the “between groups ranked sums of squares” like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{rcl}
 \mbox{RSS}_{b} &amp;=&amp; \sum_k \sum_i ( \bar{R}_k  - \bar{R} )^2 \\
 &amp;=&amp; \sum_k N_k ( \bar{R}_k  - \bar{R} )^2 
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-So, if the null hypothesis is true and there are no true group differences at all, you'd expect the between group rank sums \)</span>\mbox{RSS}</em>{b}<span class="math notranslate nohighlight">\( to be very small, much smaller than the total rank sums \)</span>\mbox{RSS}_{tot}<span class="math notranslate nohighlight">\(. Qualitatively this is very much the same as what we found when we went about constructing the ANOVA \)</span>F<span class="math notranslate nohighlight">\(-statistic; but for technical reasons the Kruskal-Wallis test statistic, usually denoted \)</span>K<span class="math notranslate nohighlight">\(, is constructed in a slightly different way: 
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>So, if the null hypothesis is true and there are no true group differences at all, you’d expect the between group rank sums <span class="math notranslate nohighlight">\(\mbox{RSS}_{b}\)</span> to be very small, much smaller than the total rank sums <span class="math notranslate nohighlight">\(\mbox{RSS}_{tot}\)</span>. Qualitatively this is very much the same as what we found when we went about constructing the ANOVA <span class="math notranslate nohighlight">\(F\)</span>-statistic; but for technical reasons the Kruskal-Wallis test statistic, usually denoted <span class="math notranslate nohighlight">\(K\)</span>, is constructed in a slightly different way:</p>
+<div class="math notranslate nohighlight">
+\[
 K = (N - 1) \times \frac{\mbox{RSS}_b}{\mbox{RSS}_{tot}}
-\)</span><span class="math notranslate nohighlight">\(
-and, if the null hypothesis is true, then the sampling distribution of \)</span>K<span class="math notranslate nohighlight">\( is *approximately* chi-square with \)</span>G-1<span class="math notranslate nohighlight">\( degrees of freedom (where \)</span>G<span class="math notranslate nohighlight">\( is the number of groups). The larger the value of \)</span>K<span class="math notranslate nohighlight">\(, the less consistent the data are with null hypothesis, so this is a one-sided test: we reject \)</span>H_0<span class="math notranslate nohighlight">\( when \)</span>K$ is sufficiently large.</p>
+\]</div>
+<p>and, if the null hypothesis is true, then the sampling distribution of <span class="math notranslate nohighlight">\(K\)</span> is <em>approximately</em> chi-square with <span class="math notranslate nohighlight">\(G-1\)</span> degrees of freedom (where <span class="math notranslate nohighlight">\(G\)</span> is the number of groups). The larger the value of <span class="math notranslate nohighlight">\(K\)</span>, the less consistent the data are with null hypothesis, so this is a one-sided test: we reject <span class="math notranslate nohighlight">\(H_0\)</span> when <span class="math notranslate nohighlight">\(K\)</span> is sufficiently large.</p>
 </div>
 <div class="section" id="additional-details">
 <h3><span class="section-number">17.10.2. </span>Additional details<a class="headerlink" href="#additional-details" title="Permalink to this headline">¶</a></h3>
-<p>The description in the previous section illustrates the logic behind the Kruskal-Wallis test. At a conceptual level, this is the right way to think about how the test works. However, from a purely mathematical perspective it’s needlessly complicated. I won’t show you the derivation, but you can use a bit of algebraic jiggery-pokery^[A technical term.] to show that the equation for <span class="math notranslate nohighlight">\(K\)</span> can be rewritten as
-$<span class="math notranslate nohighlight">\(
+<p>The description in the previous section illustrates the logic behind the Kruskal-Wallis test. At a conceptual level, this is the right way to think about how the test works. However, from a purely mathematical perspective it’s needlessly complicated. I won’t show you the derivation, but you can use a bit of algebraic jiggery-pokery[^notejig] to show that the equation for <span class="math notranslate nohighlight">\(K\)</span> can be rewritten as</p>
+<div class="math notranslate nohighlight">
+\[
 K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
-\)</span><span class="math notranslate nohighlight">\(
-It's this last equation that you sometimes see given for \)</span>K<span class="math notranslate nohighlight">\(. This is way easier to calculate than the version I described in the previous section, it's just that it's totally meaningless to actual humans. It's probably best to think of \)</span>K$ the way I described it earlier… as an analogue of ANOVA based on ranks. But keep in mind that the test statistic that gets calculated ends up with a rather different look to it than the one we used for our original ANOVA.</p>
-<p>But wait, there’s more! Dear lord, why is there always <em>more</em>? The story I’ve told so far is only actually true when there are no ties in the raw data. That is, if there are no two observations that have exactly the same value. If there <em>are</em> ties, then we have to introduce a correction factor to these calculations. At this point I’m assuming that even the most diligent reader has stopped caring (or at least formed the opinion that the tie-correction factor is something that doesn’t require their immediate attention). So I’ll very quickly tell you how it’s calculated, and omit the tedious details about <em>why</em> it’s done this way. Suppose we construct a frequency table for the raw data, and let <span class="math notranslate nohighlight">\(f_j\)</span> be the number of observations that have the <span class="math notranslate nohighlight">\(j\)</span>-th unique value. This might sound a bit abstract, so here’s the R code showing a concrete example:</p>
-<p>Looking at this table, notice that the third entry in the frequency table has a value of <span class="math notranslate nohighlight">\(2\)</span>. Since this corresponds to a <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> of 0.3, this table is telling us that two people’s mood increased by 0.3. More to the point, note that we can say that <code class="docutils literal notranslate"><span class="pre">f[3]</span></code> has a value of <code class="docutils literal notranslate"><span class="pre">2</span></code>. Or, in the mathematical notation I introduced above, this is telling us that <span class="math notranslate nohighlight">\(f_3 = 2\)</span>. Yay. So, now that we know this, the tie correction factor (TCF) is:
-$<span class="math notranslate nohighlight">\(
-\mbox{TCF} = 1 - \frac{\sum_j {f_j}^3 - f_j}{N^3 - N} 
-\)</span><span class="math notranslate nohighlight">\(
-The tie-corrected value of the Kruskal-Wallis statistic obtained by dividing the value of \)</span>K$ by this quantity: it is this tie-corrected version that R calculates. And at long last, we’re actually finished with the theory of the Kruskal-Wallis test. I’m sure you’re all terribly relieved that I’ve cured you of the existential anxiety that naturally arises when you realise that you <em>don’t</em> know how to calculate the tie-correction factor for the Kruskal-Wallis test. Right?</p>
-</div>
-<div class="section" id="how-to-run-the-kruskal-wallis-test-in-r">
-<h3><span class="section-number">17.10.3. </span>How to run the Kruskal-Wallis test in R<a class="headerlink" href="#how-to-run-the-kruskal-wallis-test-in-r" title="Permalink to this headline">¶</a></h3>
-<p>Despite the horror that we’ve gone through in trying to understand what the Kruskal-Wallis test actually does, it turns out that running the test is pretty painless, since R has a function called <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code>. The function is pretty flexible, and allows you to input your data in a few different ways. Most of the time you’ll have data like the <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code> data set, in which you have your outcome variable <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>, and a grouping variable <code class="docutils literal notranslate"><span class="pre">drug</span></code>. If so, you can call the <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code> function by specifying a formula, and a data frame:</p>
-<p>A second way of using the <code class="docutils literal notranslate"><span class="pre">kruskal.test()</span></code> function, which you probably won’t have much reason to use, is to directly specify the outcome variable and the grouping variable as separate input arguments, <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">g</span></code>:</p>
-<p>This isn’t very interesting, since it’s just plain easier to specify a formula. However, sometimes it can be useful to specify <code class="docutils literal notranslate"><span class="pre">x</span></code> as a list. What I mean is this. Suppose you actually had data as three separate variables, <code class="docutils literal notranslate"><span class="pre">placebo</span></code>, <code class="docutils literal notranslate"><span class="pre">anxifree</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>. If that’s the format that your data are in, then it’s convenient to know that you can bundle all three together as a list:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>mood.gain &lt;- list( placebo, joyzepam, anxifree )
-kruskal.test( x = mood.gain )
+\]</div>
+<p>It’s this last equation that you sometimes see given for <span class="math notranslate nohighlight">\(K\)</span>. This is way easier to calculate than the version I described in the previous section, it’s just that it’s totally meaningless to actual humans. It’s probably best to think of <span class="math notranslate nohighlight">\(K\)</span> the way I described it earlier… as an analogue of ANOVA based on ranks. But keep in mind that the test statistic that gets calculated ends up with a rather different look to it than the one we used for our original ANOVA.</p>
+<p>But wait, there’s more! Dear lord, why is there always <em>more</em>? The story I’ve told so far is only actually true when there are no ties in the raw data. That is, if there are no two observations that have exactly the same value. If there <em>are</em> ties, then we have to introduce a correction factor to these calculations. At this point I’m assuming that even the most diligent reader has stopped caring (or at least formed the opinion that the tie-correction factor is something that doesn’t require their immediate attention). So I’ll very quickly tell you how it’s calculated, and omit the tedious details about <em>why</em> it’s done this way. Suppose we construct a frequency table for the raw data, and let <span class="math notranslate nohighlight">\(f_j\)</span> be the number of observations that have the <span class="math notranslate nohighlight">\(j\)</span>-th unique value. This might sound a bit abstract, so here’s the Python code showing a concrete example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s1">&#39;unique_values&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;unique_values&#39;</span><span class="p">)</span>
+<span class="n">f</span>
 </pre></div>
 </div>
-<p>And again, this would give you exactly the same results as the command we tried originally.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unique_values</th>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>0.1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.6</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.9</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1.1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1.2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.7</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1.8</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Looking at these frequencies, notice that the third entry in the frequency table has a value of <span class="math notranslate nohighlight">\(2\)</span>. Since this corresponds to a <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> of 0.3, this table is telling us that two people’s mood increased by 0.3. More to the point, note that we can say that <code class="docutils literal notranslate"><span class="pre">f['counts'][2]</span></code> has a value of <code class="docutils literal notranslate"><span class="pre">2</span></code>. Or, in the mathematical notation I introduced above, this is telling us that <span class="math notranslate nohighlight">\(f_3 = 2\)</span>. Yay. So, now that we know this, the tie correction factor (TCF) is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{TCF} = 1 - \frac{\sum_j {f_j}^3 - f_j}{N^3 - N} 
+\]</div>
+<p>The tie-corrected value of the Kruskal-Wallis statistic obtained by dividing the value of <span class="math notranslate nohighlight">\(K\)</span> by this quantity: it is this tie-corrected version that Python calculates. And at long last, we’re actually finished with the theory of the Kruskal-Wallis test. I’m sure you’re all terribly relieved that I’ve cured you of the existential anxiety that naturally arises when you realise that you <em>don’t</em> know how to calculate the tie-correction factor for the Kruskal-Wallis test. Right?</p>
+<p>[^notejig]<code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">technical</span> <span class="pre">term.</span></code></p>
+</div>
+<div class="section" id="how-to-run-the-kruskal-wallis-test-in-python">
+<h3><span class="section-number">17.10.3. </span>How to run the Kruskal-Wallis test in Python<a class="headerlink" href="#how-to-run-the-kruskal-wallis-test-in-python" title="Permalink to this headline">¶</a></h3>
+<p>Despite the horror that we’ve gone through in trying to understand what the Kruskal-Wallis test actually does, it turns out that running the test is pretty painless, since <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has a function called <code class="docutils literal notranslate"><span class="pre">kruskal()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+        <span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+        <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="on-the-relationship-between-anova-and-the-student-t-test-anovaandt">
-<h2><span class="section-number">17.11. </span>On the relationship between ANOVA and the Student <span class="math notranslate nohighlight">\(t\)</span> test{#anovaandt}<a class="headerlink" href="#on-the-relationship-between-anova-and-the-student-t-test-anovaandt" title="Permalink to this headline">¶</a></h2>
-<p>There’s one last thing I want to point out before finishing. It’s something that a lot of people find kind of surprising, but it’s worth knowing about: an ANOVA with two groups is identical to the Student <span class="math notranslate nohighlight">\(t\)</span>-test. No, really. It’s not just that they are similar, but they are actually equivalent in every meaningful way. I won’t try to prove that this is always true, but I will show you a single concrete demonstration. Suppose that, instead of running an ANOVA on our <code class="docutils literal notranslate"><span class="pre">mood.gain</span> <span class="pre">~</span> <span class="pre">drug</span></code> model, let’s instead do it using <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as the predictor. If we run this ANOVA, here’s what we get:</p>
-<p>Overall, it looks like there’s no significant effect here at all but, as we’ll see in Chapter &#64;ref(anova2 this is actually a misleading  answer! In any case, it’s irrelevant to our current goals: our interest here is in the <span class="math notranslate nohighlight">\(F\)</span>-statistic, which is <span class="math notranslate nohighlight">\(F(1,16) = 1.71\)</span>, and the <span class="math notranslate nohighlight">\(p\)</span>-value, which is .21. Since we only have two groups, I didn’t actually need to resort to an ANOVA, I could have just decided to run a Student <span class="math notranslate nohighlight">\(t\)</span>-test. So let’s see what happens when I do that:</p>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>ddof1</th>
+      <th>H</th>
+      <th>p-unc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Kruskal</th>
+      <td>drug</td>
+      <td>2</td>
+      <td>12.076</td>
+      <td>0.002</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="on-the-relationship-between-anova-and-the-student-t-test">
+<span id="anovaandt"></span><h2><span class="section-number">17.11. </span>On the relationship between ANOVA and the Student <span class="math notranslate nohighlight">\(t\)</span> test<a class="headerlink" href="#on-the-relationship-between-anova-and-the-student-t-test" title="Permalink to this headline">¶</a></h2>
+<p>There’s one last thing I want to point out before finishing. It’s something that a lot of people find kind of surprising, but it’s worth knowing about: an ANOVA with two groups is identical to the Student <span class="math notranslate nohighlight">\(t\)</span>-test. No, really. It’s not just that they are similar, but they are actually equivalent in every meaningful way. I won’t try to prove that this is always true, but I will show you a single concrete demonstration. Suppose that, instead of running an ANOVA on our <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> predicted by <code class="docutils literal notranslate"><span class="pre">drug</span></code> model, let’s instead do it using <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as the predictor. If we run this ANOVA, here’s what we get`</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+         <span class="n">between</span><span class="o">=</span><span class="s1">&#39;therapy&#39;</span><span class="p">,</span> 
+         <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>ddof1</th>
+      <th>ddof2</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>therapy</td>
+      <td>1</td>
+      <td>16</td>
+      <td>1.708</td>
+      <td>0.21</td>
+      <td>0.096</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Overall, it looks like there’s no significant effect here at all but, as we’ll <span class="xref myst">soon see</span> this is actually a misleading  answer! In any case, it’s irrelevant to our current goals: our interest here is in the <span class="math notranslate nohighlight">\(F\)</span>-statistic, which is <span class="math notranslate nohighlight">\(F(1,16) = 1.71\)</span>, and the <span class="math notranslate nohighlight">\(p\)</span>-value, which is .21. Since we only have two groups, I didn’t actually need to resort to an ANOVA, I could have just decided to run a Student <span class="math notranslate nohighlight">\(t\)</span>-test. So let’s see what happens when I do that. First, I’ll just re-arrange the data in to wide format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clinical_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;no_therapy&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;therapy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;no.therapy&#39;</span><span class="p">][</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">],</span>
+                 <span class="s1">&#39;CBT&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;therapy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CBT&#39;</span><span class="p">][</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we can run the test</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">ttest</span><span class="p">(</span><span class="n">clinical_wide</span><span class="p">[</span><span class="s1">&#39;CBT&#39;</span><span class="p">],</span> 
+         <span class="n">clinical_wide</span><span class="p">[</span><span class="s1">&#39;no_therapy&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>1.307</td>
+      <td>16</td>
+      <td>two-sided</td>
+      <td>0.21</td>
+      <td>[-0.2, 0.84]</td>
+      <td>0.616</td>
+      <td>0.732</td>
+      <td>0.233</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>Curiously, the <span class="math notranslate nohighlight">\(p\)</span>-values are identical: once again we obtain a value of <span class="math notranslate nohighlight">\(p = .21\)</span>. But what about the test statistic? Having run a <span class="math notranslate nohighlight">\(t\)</span>-test instead of an ANOVA, we get a somewhat different answer, namely <span class="math notranslate nohighlight">\(t(16) = -1.3068\)</span>. However, there is a fairly straightforward relationship here. If we square the <span class="math notranslate nohighlight">\(t\)</span>-statistic</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="mf">1.307</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.708
+</pre></div>
+</div>
+</div>
+</div>
 <p>we get the <span class="math notranslate nohighlight">\(F\)</span>-statistic from before.</p>
 </div>
 <div class="section" id="summary">
@@ -2751,7 +3029,7 @@ kruskal.test( x = mood.gain )
 <li><p><a class="reference internal" href="#levene"><span class="std std-ref">How to check the homogeneity of variance assumption</span></a> and <a class="reference internal" href="#welchoneway"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 <li><p><a class="reference internal" href="#anovanormality"><span class="std std-ref">How to check the normality assumption</span></a> and <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 </ul>
-<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id16">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
+<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id17">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
