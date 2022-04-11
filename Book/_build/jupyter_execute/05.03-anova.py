@@ -976,7 +976,7 @@ f
 # The tie-corrected value of the Kruskal-Wallis statistic obtained by dividing the value of $K$ by this quantity: it is this tie-corrected version that Python calculates. And at long last, we're actually finished with the theory of the Kruskal-Wallis test. I'm sure you're all terribly relieved that I've cured you of the existential anxiety that naturally arises when you realise that you *don't* know how to calculate the tie-correction factor for the Kruskal-Wallis test. Right?
 # 
 # 
-# [^notejig]`A technical term.`
+# [^notejig]: A technical term.
 
 # ### How to run the Kruskal-Wallis test in Python
 # 
