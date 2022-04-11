@@ -461,13 +461,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#running-the-levene-s-test-in-r">
-       17.7.1. Running the Levene’s test in R
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#additional-comments">
-       17.7.2. Additional comments
+      <a class="reference internal nav-link" href="#running-the-levene-s-test-with-python">
+       17.7.1. Running the Levene’s test with Python
       </a>
      </li>
     </ul>
@@ -664,13 +659,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#running-the-levene-s-test-in-r">
-       17.7.1. Running the Levene’s test in R
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#additional-comments">
-       17.7.2. Additional comments
+      <a class="reference internal nav-link" href="#running-the-levene-s-test-with-python">
+       17.7.1. Running the Levene’s test with Python
       </a>
      </li>
     </ul>
@@ -2232,7 +2222,9 @@ p^\prime_j = p^\prime_{j+1}
 <p>Although it’s a little harder to calculate, the Holm correction has some very nice properties: it’s more powerful than Bonferroni (i.e., it has a lower Type II error rate), but – counterintuitive as it might seem – it has the <em>same</em> Type I error rate. As a consequence, in practice there’s never any reason to use the simpler Bonferroni correction, since it is always outperformed by the slightly more elaborate Holm correction. Running pairwise t-tests with different correction methods is pretty easy with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>: we just use the <code class="docutils literal notranslate"><span class="pre">padjust</span></code> argument to say what kind of correction we want to use<a class="footnote-reference brackets" href="#notebonf" id="id12">6</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pairwise t-tests with Holm correction</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="c1"># pairwise t-tests with Holm correction</span>
 <span class="n">pg</span><span class="o">.</span><span class="n">pairwise_ttests</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
                    <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> 
                    <span class="n">padjust</span><span class="o">=</span><span class="s1">&#39;holm&#39;</span><span class="p">,</span> 
@@ -2354,8 +2346,8 @@ In these equations \)</span>\mu<span class="math notranslate nohighlight">\( ref
 None of the maths works properly without this bit. Or, to be precise, you can still do all the calculations, and you'll end up with an \)</span>F<span class="math notranslate nohighlight">\(-statistic, but you have no guarantee that this \)</span>F<span class="math notranslate nohighlight">\(-statistic actually measures what you think it's measuring, and so any conclusions that you might draw on the basis of the \)</span>F$ test might be wrong.</p>
 <p>So, how do we check whether this assumption about the residuals is accurate? Well, as I indicated above, there are three distinct claims buried in this one statement, and we’ll consider them separately.</p>
 <ul class="simple">
-<li><p><strong><em>Normality</em></strong>. The residuals are assumed to be normally distributed. As we saw in Section &#64;ref(shapiro), we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I’ll talk about this in an ANOVA context in Section &#64;ref(anovanormality).</p></li>
-<li><p><strong><em>Homogeneity of variance</em></strong>. Notice that we’ve only got the one value for the population standard deviation (i.e., <span class="math notranslate nohighlight">\(\sigma\)</span>), rather than allowing each group to have it’s own value (i.e., <span class="math notranslate nohighlight">\(\sigma_k\)</span>). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We’ll talk about this extensively in Section &#64;ref(levene).</p></li>
+<li><p><strong><em>Normality</em></strong>. The residuals are assumed to be normally distributed. <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">As we saw</span></a>, we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I’ll talk about this in an ANOVA context <a class="reference internal" href="#anovanormality"><span class="std std-ref">below</span></a>.</p></li>
+<li><p><strong><em>Homogeneity of variance</em></strong>. Notice that we’ve only got the one value for the population standard deviation (i.e., <span class="math notranslate nohighlight">\(\sigma\)</span>), rather than allowing each group to have it’s own value (i.e., <span class="math notranslate nohighlight">\(\sigma_k\)</span>). This is referred to as the homogeneity of variance (sometimes called homoscedasticity) assumption. ANOVA assumes that the population standard deviation is the same for all groups. We’ll talk about this <a class="reference internal" href="#levene"><span class="std std-ref">extensively</span></a>.</p></li>
 <li><p><strong><em>Independence</em></strong>. The independence assumption is a little trickier. What it basically means is that, knowing one residual tells you nothing about any other residual. All of the <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> values are assumed to have been generated without any “regard for” or “relationship to” any of the other ones. There’s not an obvious or simple way to test for this, but there are some situations that are clear violations of this: for instance, if you have a repeated-measures design, where each participant in your study appears in more than one condition, then independence doesn’t hold; there’s a special relationship between some observations… namely those that correspond to the same person! When that happens, you need to use something like repeated measures ANOVA. I don’t currently talk about repeated measures ANOVA in this book, but it will be included in later versions.</p></li>
 </ul>
 <div class="section" id="how-robust-is-anova">
@@ -2365,45 +2357,220 @@ None of the maths works properly without this bit. Or, to be precise, you can st
 </div>
 <div class="section" id="checking-the-homogeneity-of-variance-assumption">
 <span id="levene"></span><h2><span class="section-number">17.7. </span>Checking the homogeneity of variance assumption<a class="headerlink" href="#checking-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
-<p>There’s more than one way to skin a cat, as the saying goes, and more than one way to test the homogeneity of variance assumption, too (though for some reason no-one made a saying out of that). The most commonly used test for this that I’ve seen in the literature is the <strong><em>Levene test</em></strong> [&#64;Levene1960], and the closely related <strong><em>Brown-Forsythe test</em></strong> [&#64;BrownForsythe1974], both of which I’ll describe here. Alternatively, you could use the Bartlett test, which is implemented in R via the <code class="docutils literal notranslate"><span class="pre">bartlett.test()</span></code> function, but I’ll leave it as an exercise for the reader to go check that one out if you’re interested.</p>
-<p>Levene’s test is shockingly simple. Suppose we have our outcome variable <span class="math notranslate nohighlight">\(Y_{ik}\)</span>. All we do is define a new variable, which I’ll call <span class="math notranslate nohighlight">\(Z_{ik}\)</span>, corresponding to the absolute deviation from the group mean:
-$<span class="math notranslate nohighlight">\(
+<p>There’s more than one way to skin a cat, as the saying goes, and more than one way to test the homogeneity of variance assumption, too (though for some reason no-one made a saying out of that). The most commonly used test for this that I’ve seen in the literature is the <strong><em>Levene test</em></strong> <span id="id13">[<a class="reference internal" href="bibliography.html#id77" title="H Levene. Robust tests for equality of variances. In I. Olkin et al, editor, Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling, pages 278–292. Stanford University Press, Palo Alto, CA, 1960.">Lev60</a>]</span>, and the closely related <strong><em>Brown-Forsythe test</em></strong> <span id="id14">[<a class="reference internal" href="bibliography.html#id78" title="M. B. Brown and A. B. Forsythe. Robust tests for equality of variances. Journal of the American Statistical Association, 69:364–367, 1974.">BF74</a>]</span>, both of which I’ll describe here.</p>
+<p>Levene’s test is shockingly simple. Suppose we have our outcome variable <span class="math notranslate nohighlight">\(Y_{ik}\)</span>. All we do is define a new variable, which I’ll call <span class="math notranslate nohighlight">\(Z_{ik}\)</span>, corresponding to the absolute deviation from the group mean:</p>
+<div class="math notranslate nohighlight">
+\[
 Z_{ik} = \left| Y_{ik} - \bar{Y}_k \right|
-\)</span><span class="math notranslate nohighlight">\(
-Okay, what good does this do us? Well, let's take a moment to think about what \)</span>Z_{ik}<span class="math notranslate nohighlight">\( actually is, and what we're trying to test. The value of \)</span>Z_{ik}<span class="math notranslate nohighlight">\( is a measure of how the \)</span>i<span class="math notranslate nohighlight">\(-th observation in the \)</span>k<span class="math notranslate nohighlight">\(-th group deviates from its group mean. And our null hypothesis is that all groups have the same variance; that is, the same overall deviations from the group means! So, the null hypothesis in a Levene's test is that the population means of \)</span>Z<span class="math notranslate nohighlight">\( are identical for all groups. Hm. So what we need now is a statistical test of the null hypothesis that all group means are identical. Where have we seen that before? Oh right, that's what ANOVA is... and so all that the Levene's test does is run an ANOVA on the new variable \)</span>Z_{ik}$.</p>
-<p>What about the Brown-Forsythe test? Does that do anything particularly different? Nope. The only change from the Levene’s test is that it constructs the transformed variable <span class="math notranslate nohighlight">\(Z\)</span> in a slightly different way, using deviations from the group <em>medians</em> rather than deviations from the group <em>means</em>. That is, for the Brown-Forsythe test,
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>Okay, what good does this do us? Well, let’s take a moment to think about what <span class="math notranslate nohighlight">\(Z_{ik}\)</span> actually is, and what we’re trying to test. The value of <span class="math notranslate nohighlight">\(Z_{ik}\)</span> is a measure of how the <span class="math notranslate nohighlight">\(i\)</span>-th observation in the <span class="math notranslate nohighlight">\(k\)</span>-th group deviates from its group mean. And our null hypothesis is that all groups have the same variance; that is, the same overall deviations from the group means! So, the null hypothesis in a Levene’s test is that the population means of <span class="math notranslate nohighlight">\(Z\)</span> are identical for all groups. Hm. So what we need now is a statistical test of the null hypothesis that all group means are identical. Where have we seen that before? Oh right, that’s what ANOVA is… and so all that the Levene’s test does is run an ANOVA on the new variable <span class="math notranslate nohighlight">\(Z_{ik}\)</span>.</p>
+<p>What about the Brown-Forsythe test? Does that do anything particularly different? Nope. The only change from the Levene’s test is that it constructs the transformed variable <span class="math notranslate nohighlight">\(Z\)</span> in a slightly different way, using deviations from the group <em>medians</em> rather than deviations from the group <em>means</em>. That is, for the Brown-Forsythe test,</p>
+<div class="math notranslate nohighlight">
+\[
 Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\mbox{median}<em>k(Y)<span class="math notranslate nohighlight">\( is the median for group \)</span>k<span class="math notranslate nohighlight">\(. Regardless of whether you're doing the standard Levene test or the Brown-Forsythe test, the test statistic -- which is sometimes denoted \)</span>F<span class="math notranslate nohighlight">\(, but sometimes written as \)</span>W<span class="math notranslate nohighlight">\( -- is  calculated in exactly the same way that the \)</span>F<span class="math notranslate nohighlight">\(-statistic for the regular ANOVA is calculated, just using a \)</span>Z</em>{ik}<span class="math notranslate nohighlight">\( rather than \)</span>Y_{ik}$. With that in mind, let’s just move on and look at how to run the test in R.</p>
-<div class="section" id="running-the-levene-s-test-in-r">
-<h3><span class="section-number">17.7.1. </span>Running the Levene’s test in R<a class="headerlink" href="#running-the-levene-s-test-in-r" title="Permalink to this headline">¶</a></h3>
-<p>Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable <span class="math notranslate nohighlight">\(Z_{ik}\)</span> and then use the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function to run an ANOVA on that. However, that’s the tedious way to do it. A better way to do run your Levene’s test is to use the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function, which is in the <code class="docutils literal notranslate"><span class="pre">car</span></code> package.  As usual, we first load the package</p>
-<p>and now that we have, we can run our Levene test. The main argument that you need to specify is <code class="docutils literal notranslate"><span class="pre">y</span></code>, but you can do this in lots of different ways. Probably the simplest way to do it is actually input the original <code class="docutils literal notranslate"><span class="pre">aov</span></code> object. Since I’ve got the <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> variable stored from my original ANOVA, I can just do this:</p>
-<p>If we look at the output, we see that the test is non-significant <span class="math notranslate nohighlight">\((F_{2,15} = 1.47, p = .26)\)</span>, so it looks like the homogeneity of variance assumption is fine. Remember, although R reports the test statistic as an <span class="math notranslate nohighlight">\(F\)</span>-value, it could equally be called <span class="math notranslate nohighlight">\(W\)</span>, in which case you’d just write <span class="math notranslate nohighlight">\(W_{2,15} = 1.47\)</span>. Also, note the part of the output that says <code class="docutils literal notranslate"><span class="pre">center</span> <span class="pre">=</span> <span class="pre">median</span></code>. That’s telling you that, by default, the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the <code class="docutils literal notranslate"><span class="pre">center</span></code> argument, like this:</p>
-<p>That being said, in most cases it’s probably best to stick to the default value, since the Brown-Forsythe test is a bit more robust than the original Levene test.</p>
-</div>
-<div class="section" id="additional-comments">
-<h3><span class="section-number">17.7.2. </span>Additional comments<a class="headerlink" href="#additional-comments" title="Permalink to this headline">¶</a></h3>
-<p>Two more quick comments before I move onto a different topic. Firstly, as mentioned above, there are other ways of calling the <code class="docutils literal notranslate"><span class="pre">leveneTest()</span></code> function. Although the vast majority of situations that call for a Levene test involve checking the assumptions of an ANOVA (in which case you probably have a variable like <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> lying around), sometimes you might find yourself wanting to specify the variables directly. Two different ways that you can do this are shown below:</p>
-<div class="highlight-{r notranslate"><div class="highlight"><pre><span></span>leveneTest(y = mood.gain ~ drug, data = clin.trial)   # y is a formula in this case
-leveneTest(y = clin.trial$mood.gain, group = clin.trial$drug)   # y is the outcome  
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mbox{median}_k(Y)\)</span> is the median for group <span class="math notranslate nohighlight">\(k\)</span>. Regardless of whether you’re doing the standard Levene test or the Brown-Forsythe test, the test statistic – which is sometimes denoted <span class="math notranslate nohighlight">\(F\)</span>, but sometimes written as <span class="math notranslate nohighlight">\(W\)</span> – is  calculated in exactly the same way that the <span class="math notranslate nohighlight">\(F\)</span>-statistic for the regular ANOVA is calculated, just using a <span class="math notranslate nohighlight">\(Z_{ik}\)</span> rather than <span class="math notranslate nohighlight">\(Y_{ik}\)</span>. With that in mind, let’s just move on and look at how to run the test in Python.</p>
+<div class="section" id="running-the-levene-s-test-with-python">
+<h3><span class="section-number">17.7.1. </span>Running the Levene’s test with Python<a class="headerlink" href="#running-the-levene-s-test-with-python" title="Permalink to this headline">¶</a></h3>
+<p>Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable <span class="math notranslate nohighlight">\(Z_{ik}\)</span> and then run an ANOVA on that. However, that’s the tedious way to do it. Much simpler would be to just get <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to do it for us. Maybe I should take a drink every time I mention <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> in this book. Then again, maybe I shouldn’t!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">homoscedasticity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">dv</span><span class="o">=</span><span class="s2">&quot;mood_gain&quot;</span><span class="p">,</span> 
+                    <span class="n">group</span><span class="o">=</span><span class="s2">&quot;drug&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Secondly, I did mention that it’s possible to run a Levene test just using the <code class="docutils literal notranslate"><span class="pre">aov()</span></code> function. I don’t want to waste a lot of space on this, but just in case some readers are interested in seeing how this is done, here’s the code that creates the new variables and runs an ANOVA. If you are interested, feel free to run this to verify that it produces the same answers as the Levene test (i.e., with <code class="docutils literal notranslate"><span class="pre">center</span> <span class="pre">=</span> <span class="pre">mean</span></code>):</p>
-<p>That said, I don’t imagine that many people will care about this. Nevertheless, it’s nice to know that you could do it this way if you wanted to. And for those of you who do try it, I think it helps to demystify the test a little bit when you can see – with your own eyes – the way in which Levene’s test relates to ANOVA.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>pval</th>
+      <th>equal_var</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>levene</th>
+      <td>1.47</td>
+      <td>0.26</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If we look at the output, we see that the test is non-significant <span class="math notranslate nohighlight">\((F_{2,15} = 1.47, p = .26)\)</span>, so it looks like the homogeneity of variance assumption is fine. By default, the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>’s <code class="docutils literal notranslate"><span class="pre">homoscedasticity</span></code> function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the <code class="docutils literal notranslate"><span class="pre">center</span></code> argument, like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Original Levene test</span>
+<span class="n">pg</span><span class="o">.</span><span class="n">homoscedasticity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">dv</span><span class="o">=</span><span class="s2">&quot;mood_gain&quot;</span><span class="p">,</span> 
+                    <span class="n">group</span><span class="o">=</span><span class="s2">&quot;drug&quot;</span><span class="p">,</span>
+                    <span class="n">center</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>pval</th>
+      <th>equal_var</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>levene</th>
+      <td>1.45</td>
+      <td>0.27</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>That being said, in most cases it’s probably best to stick to the default value, since the Brown-Forsythe test is a bit more robust than the original Levene test.</p>
 </div>
 </div>
 <div class="section" id="removing-the-homogeneity-of-variance-assumption">
 <span id="welchoneway"></span><h2><span class="section-number">17.8. </span>Removing the homogeneity of variance assumption<a class="headerlink" href="#removing-the-homogeneity-of-variance-assumption" title="Permalink to this headline">¶</a></h2>
-<p>In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don’t need to worry. However, in real life we aren’t always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of <span class="math notranslate nohighlight">\(t\)</span>-tests, we’ve seen this problem before. The Student <span class="math notranslate nohighlight">\(t\)</span>-test assumes equal variances, so the solution was to use the Welch <span class="math notranslate nohighlight">\(t\)</span>-test, which does not. In fact, &#64;Welch1951 also showed how we can solve this problem for ANOVA too (the <strong><em>Welch one-way test</em></strong>). It’s implemented in R using the <code class="docutils literal notranslate"><span class="pre">oneway.test()</span></code> function. The arguments that we’ll need for our example are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">formula</span></code>. This is the model formula, which (as usual) needs to specify the outcome variable on the left hand side and the grouping variable on the right hand side: i.e., something like <code class="docutils literal notranslate"><span class="pre">outcome</span> <span class="pre">~</span> <span class="pre">group</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>. Specifies the data frame containing the variables.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">var.equal</span></code>. If this is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> (the default) a Welch one-way test is run. If it is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> then it just runs a regular ANOVA.</p></li>
-</ul>
-<p>The function also has a <code class="docutils literal notranslate"><span class="pre">subset</span></code> argument that lets you analyse only some of the observations and a <code class="docutils literal notranslate"><span class="pre">na.action</span></code> argument that tells it how to handle missing data, but these aren’t necessary for our purposes. So, to run the Welch one-way ANOVA for our example, we would do this:</p>
-<p>To understand what’s happening here, let’s compare these numbers to what we got earlier in Section &#64;ref(introduceaov) when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again, this time calculated by setting <code class="docutils literal notranslate"><span class="pre">var.equal</span> <span class="pre">=</span> <span class="pre">TRUE</span></code> for the <code class="docutils literal notranslate"><span class="pre">oneway.test()</span></code> function:</p>
+<p>In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don’t need to worry. However, in real life we aren’t always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of <span class="math notranslate nohighlight">\(t\)</span>-tests, we’ve seen this problem before. The Student <span class="math notranslate nohighlight">\(t\)</span>-test assumes equal variances, so the solution was to use the Welch <span class="math notranslate nohighlight">\(t\)</span>-test, which does not. In fact, Welch <span id="id15">[<a class="reference internal" href="bibliography.html#id80" title="B. L. Welch. On the comparison of several mean values: an alternative approach. Biometrika, 38:330–336, 1951.">Wel51</a>]</span> also showed how we can solve this problem for ANOVA too (the <strong><em>Welch one-way test</em></strong>). It’s implemented in <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> using the <code class="docutils literal notranslate"><span class="pre">welch_anova</span></code> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">welch_anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+               <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> 
+               <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>ddof1</th>
+      <th>ddof2</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>2</td>
+      <td>9.49</td>
+      <td>26.32</td>
+      <td>0.0</td>
+      <td>0.71</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>To understand what’s happening here, let’s compare these numbers to what we got <a class="reference internal" href="#introduceaov"><span class="std std-ref">earlier</span></a> when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+         <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> 
+         <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>ddof1</th>
+      <th>ddof2</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>2</td>
+      <td>15</td>
+      <td>18.61</td>
+      <td>0.0</td>
+      <td>0.71</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>Okay, so originally our ANOVA gave us the result <span class="math notranslate nohighlight">\(F(2,15) = 18.6\)</span>, whereas the Welch one-way test gave us <span class="math notranslate nohighlight">\(F(2,9.49) = 26.32\)</span>. In other words, the Welch test has reduced the within-groups degrees of freedom from 15 to 9.49, and the <span class="math notranslate nohighlight">\(F\)</span>-value has increased from 18.6 to 26.32.</p>
 </div>
 <div class="section" id="checking-the-normality-assumption">
@@ -2486,7 +2653,7 @@ kruskal.test( x = mood.gain )
 <li><p><a class="reference internal" href="#levene"><span class="std std-ref">How to check the homogeneity of variance assumption</span></a> and <a class="reference internal" href="#welchoneway"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 <li><p><a class="reference internal" href="#anovanormality"><span class="std std-ref">How to check the normality assumption</span></a> and <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 </ul>
-<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id13">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
+<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id16">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
