@@ -2575,9 +2575,107 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 </div>
 <div class="section" id="checking-the-normality-assumption">
 <span id="anovanormality"></span><h2><span class="section-number">17.9. </span>Checking the normality assumption<a class="headerlink" href="#checking-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
-<p>Testing the normality assumption is relatively straightforward. We covered most of what you need to know in Section &#64;ref(shapiro). The only thing we really need to know how to do is pull out the residuals (i.e., the <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> values) so that we can draw our QQ plot and run our Shapiro-Wilk test. First, let’s extract the residuals. R provides a function called <code class="docutils literal notranslate"><span class="pre">residuals()</span></code> that will do this for us. If we pass our <code class="docutils literal notranslate"><span class="pre">my.anova</span></code> to this function, it will return the residuals.  So let’s do that:</p>
+<p>Testing the normality assumption is relatively straightforward. We have already covered <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">most of what you need to know</span></a>. The only thing we really need to know how to do is pull out the residuals (i.e., the <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span> values) so that we can draw our QQ plot and run our Shapiro-Wilk test. Now, I really hate to say this, but as of the time of writing (Monday, the 11th of April, 2022), <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does not currently have a way to give you the residuals from the ANOVA calculation. They expect to add this soon, but in the meantime, we can use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> to give us what we need:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">resid</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>We can print them out too, though it’s not exactly an edifying experience.  In fact, given that I’m on the verge of putting <em>myself</em> to sleep just typing this, it might be a good idea to skip that step. Instead, let’s draw some pictures and run ourselves a hypothesis test:</p>
-<p>The histogram and QQ plot are both look pretty normal to me.^[Note that neither of these figures has been tidied up at all: if you want to create nicer looking graphs it’s always a good idea to use the tools from Chapter &#64;ref(graphics) to help you draw cleaner looking images.] This is supported by the results of our Shapiro-Wilk test (<span class="math notranslate nohighlight">\(W = .96\)</span>, <span class="math notranslate nohighlight">\(p = .61\)</span>) which finds no indication that normality is violated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># QQ plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;norm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.03-anova_87_0.png" src="_images/05.03-anova_87_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># histogram of residuals</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.03-anova_88_0.png" src="_images/05.03-anova_88_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Shapiro-Wilk test with Pingouin</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">normality</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>pval</th>
+      <th>normal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.96019</td>
+      <td>0.605305</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Shapiro-Wilk test with scipy</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
+
+<span class="n">shapiro</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9601900577545166, pvalue=0.605305016040802)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The histogram and QQ plot are both look pretty normal to me. Not perfect, of course. The histogram in particuar you might need to squint at a bit, to see a normal distringution.  supported by the results of our Shapiro-Wilk test (<span class="math notranslate nohighlight">\(W = .96\)</span>, <span class="math notranslate nohighlight">\(p = .61\)</span>) which finds no indication that normality is violated.</p>
 </div>
 <div class="section" id="removing-the-normality-assumption">
 <span id="kruskalwallis"></span><h2><span class="section-number">17.10. </span>Removing the normality assumption<a class="headerlink" href="#removing-the-normality-assumption" title="Permalink to this headline">¶</a></h2>
