@@ -2714,7 +2714,7 @@ K = (N - 1) \times \frac{\mbox{RSS}_b}{\mbox{RSS}_{tot}}
 </div>
 <div class="section" id="additional-details">
 <h3><span class="section-number">17.10.2. </span>Additional details<a class="headerlink" href="#additional-details" title="Permalink to this headline">¶</a></h3>
-<p>The description in the previous section illustrates the logic behind the Kruskal-Wallis test. At a conceptual level, this is the right way to think about how the test works. However, from a purely mathematical perspective it’s needlessly complicated. I won’t show you the derivation, but you can use a bit of algebraic jiggery-pokery[^notejig] to show that the equation for <span class="math notranslate nohighlight">\(K\)</span> can be rewritten as</p>
+<p>The description in the previous section illustrates the logic behind the Kruskal-Wallis test. At a conceptual level, this is the right way to think about how the test works. However, from a purely mathematical perspective it’s needlessly complicated. I won’t show you the derivation, but you can use a bit of algebraic jiggery-pokery<a class="footnote-reference brackets" href="#notejig" id="id17">7</a> to show that the equation for <span class="math notranslate nohighlight">\(K\)</span> can be rewritten as</p>
 <div class="math notranslate nohighlight">
 \[
 K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
@@ -2832,7 +2832,6 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 \mbox{TCF} = 1 - \frac{\sum_j {f_j}^3 - f_j}{N^3 - N} 
 \]</div>
 <p>The tie-corrected value of the Kruskal-Wallis statistic obtained by dividing the value of <span class="math notranslate nohighlight">\(K\)</span> by this quantity: it is this tie-corrected version that Python calculates. And at long last, we’re actually finished with the theory of the Kruskal-Wallis test. I’m sure you’re all terribly relieved that I’ve cured you of the existential anxiety that naturally arises when you realise that you <em>don’t</em> know how to calculate the tie-correction factor for the Kruskal-Wallis test. Right?</p>
-<p>[^notejig]<code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">technical</span> <span class="pre">term.</span></code></p>
 </div>
 <div class="section" id="how-to-run-the-kruskal-wallis-test-in-python">
 <h3><span class="section-number">17.10.3. </span>How to run the Kruskal-Wallis test in Python<a class="headerlink" href="#how-to-run-the-kruskal-wallis-test-in-python" title="Permalink to this headline">¶</a></h3>
@@ -3030,7 +3029,7 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 <li><p><a class="reference internal" href="#levene"><span class="std std-ref">How to check the homogeneity of variance assumption</span></a> and <a class="reference internal" href="#welchoneway"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 <li><p><a class="reference internal" href="#anovanormality"><span class="std std-ref">How to check the normality assumption</span></a> and <a class="reference internal" href="#kruskalwallis"><span class="std std-ref">what to do</span></a> if it is violated.</p></li>
 </ul>
-<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id17">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
+<p>As with all of the chapters in this book, there are quite a few different sources that I’ve relied upon, but the one stand-out text that I’ve been most heavily influenced by is <span id="id18">[<a class="reference internal" href="bibliography.html#id26" title="H. Sahai and M. I. Ageel. The Analysis of Variance: Fixed, Random and Mixed Models. Birkhauser, Boston, 2000.">SA00</a>]</span>. It’s not a good book for beginners, but it’s an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -3050,6 +3049,9 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 </dd>
 <dt class="label" id="notebonf"><span class="brackets"><a class="fn-backref" href="#id12">6</a></span></dt>
 <dd><p>If you really want to use a Bonferrroni correction anyway, you can write <code class="docutils literal notranslate"><span class="pre">bonf</span></code> instead of <code class="docutils literal notranslate"><span class="pre">holm</span></code> for <code class="docutils literal notranslate"><span class="pre">padjust</span></code>.</p>
+</dd>
+<dt class="label" id="notejig"><span class="brackets"><a class="fn-backref" href="#id17">7</a></span></dt>
+<dd><p>A technical term.</p>
 </dd>
 </dl>
 </div>
