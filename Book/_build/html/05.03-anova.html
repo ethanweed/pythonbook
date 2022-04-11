@@ -2331,18 +2331,20 @@ p^\prime_j = p^\prime_{j+1}
 </div>
 <div class="section" id="assumptions-of-one-way-anova">
 <span id="anovaassumptions"></span><h2><span class="section-number">17.6. </span>Assumptions of one-way ANOVA<a class="headerlink" href="#assumptions-of-one-way-anova" title="Permalink to this headline">¶</a></h2>
-<p>Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: <em>normality</em>, <em>homogeneity of variance</em> and <em>independence</em>. If you remember back to Section &#64;ref(anovamodel) – which I hope you at least skimmed even if you didn’t read the whole thing – I described the statistical models underpinning ANOVA, which I wrote down like this:
-$<span class="math notranslate nohighlight">\(
+<p>Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: <em>normality</em>, <em>homogeneity of variance</em> and <em>independence</em>. If you remember back to <a class="reference internal" href="#anovamodel"><span class="std std-ref">this section</span></a> – which I hope you at least skimmed even if you didn’t read the whole thing – I described the statistical models underpinning ANOVA, which I wrote down like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{array}{lrcl}
 H_0: &amp; Y_{ik} &amp;=&amp; \mu + \epsilon_{ik} \\
 H_1: &amp; Y_{ik} &amp;=&amp; \mu_k + \epsilon_{ik} 
 \end{array}
-\)</span><span class="math notranslate nohighlight">\(
-In these equations \)</span>\mu<span class="math notranslate nohighlight">\( refers to a single, grand population mean which is the same for all groups, and \)</span>\mu_k<span class="math notranslate nohighlight">\( is the population mean for the \)</span>k<span class="math notranslate nohighlight">\(-th group. Up to this point we've been mostly interested in whether our data are best described in terms of a single grand mean (the null hypothesis) or in terms of different group-specific means (the alternative hypothesis). This makes sense, of course: that's actually the important research question! However, all of our testing procedures have -- implicitly -- relied on a specific assumption about the residuals, \)</span>\epsilon_{ik}<span class="math notranslate nohighlight">\(, namely that
-\)</span><span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+<p>In these equations <span class="math notranslate nohighlight">\(\mu\)</span> refers to a single, grand population mean which is the same for all groups, and <span class="math notranslate nohighlight">\(\mu_k\)</span> is the population mean for the <span class="math notranslate nohighlight">\(k\)</span>-th group. Up to this point we’ve been mostly interested in whether our data are best described in terms of a single grand mean (the null hypothesis) or in terms of different group-specific means (the alternative hypothesis). This makes sense, of course: that’s actually the important research question! However, all of our testing procedures have – implicitly – relied on a specific assumption about the residuals, <span class="math notranslate nohighlight">\(\epsilon_{ik}\)</span>, namely that</p>
+<div class="math notranslate nohighlight">
+\[
 \epsilon_{ik} \sim \mbox{Normal}(0, \sigma^2)
-\)</span><span class="math notranslate nohighlight">\(
-None of the maths works properly without this bit. Or, to be precise, you can still do all the calculations, and you'll end up with an \)</span>F<span class="math notranslate nohighlight">\(-statistic, but you have no guarantee that this \)</span>F<span class="math notranslate nohighlight">\(-statistic actually measures what you think it's measuring, and so any conclusions that you might draw on the basis of the \)</span>F$ test might be wrong.</p>
+\]</div>
+<p>None of the maths works properly without this bit. Or, to be precise, you can still do all the calculations, and you’ll end up with an <span class="math notranslate nohighlight">\(F\)</span>-statistic, but you have no guarantee that this <span class="math notranslate nohighlight">\(F\)</span>-statistic actually measures what you think it’s measuring, and so any conclusions that you might draw on the basis of the <span class="math notranslate nohighlight">\(F\)</span> test might be wrong.</p>
 <p>So, how do we check whether this assumption about the residuals is accurate? Well, as I indicated above, there are three distinct claims buried in this one statement, and we’ll consider them separately.</p>
 <ul class="simple">
 <li><p><strong><em>Normality</em></strong>. The residuals are assumed to be normally distributed. <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">As we saw</span></a>, we can assess this by looking at QQ plots or running a Shapiro-Wilk test. I’ll talk about this in an ANOVA context <a class="reference internal" href="#anovanormality"><span class="std std-ref">below</span></a>.</p></li>

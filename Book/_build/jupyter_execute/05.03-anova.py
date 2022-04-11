@@ -744,17 +744,21 @@ pg.pairwise_ttests(dv='mood_gain',
 # (anovaassumptions)=
 # ## Assumptions of one-way ANOVA
 # 
-# Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: *normality*, *homogeneity of variance* and *independence*. If you remember back to Section \@ref(anovamodel) -- which I hope you at least skimmed even if you didn't read the whole thing -- I described the statistical models underpinning ANOVA, which I wrote down like this:
+# Like any statistical test, analysis of variance relies on some assumptions about the data. There are three key assumptions that you need to be aware of: *normality*, *homogeneity of variance* and *independence*. If you remember back to [this section](anovamodel) -- which I hope you at least skimmed even if you didn't read the whole thing -- I described the statistical models underpinning ANOVA, which I wrote down like this:
+# 
 # $$
 # \begin{array}{lrcl}
 # H_0: & Y_{ik} &=& \mu + \epsilon_{ik} \\
 # H_1: & Y_{ik} &=& \mu_k + \epsilon_{ik} 
 # \end{array}
 # $$
+# 
 # In these equations $\mu$ refers to a single, grand population mean which is the same for all groups, and $\mu_k$ is the population mean for the $k$-th group. Up to this point we've been mostly interested in whether our data are best described in terms of a single grand mean (the null hypothesis) or in terms of different group-specific means (the alternative hypothesis). This makes sense, of course: that's actually the important research question! However, all of our testing procedures have -- implicitly -- relied on a specific assumption about the residuals, $\epsilon_{ik}$, namely that
+# 
 # $$
 # \epsilon_{ik} \sim \mbox{Normal}(0, \sigma^2)
 # $$
+# 
 # None of the maths works properly without this bit. Or, to be precise, you can still do all the calculations, and you'll end up with an $F$-statistic, but you have no guarantee that this $F$-statistic actually measures what you think it's measuring, and so any conclusions that you might draw on the basis of the $F$ test might be wrong. 
 # 
 # So, how do we check whether this assumption about the residuals is accurate? Well, as I indicated above, there are three distinct claims buried in this one statement, and we'll consider them separately.
