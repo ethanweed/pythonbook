@@ -914,21 +914,21 @@ eta_squared
 # 1.3068 ^ 2
 # ```
 # we get the $F$-statistic from before.
-# 
+
 # ## Summary
 # 
 # There's a fair bit covered in this chapter, but there's still a lot missing. Most obviously, I haven't yet discussed any analog of the paired samples $t$-test for more than two groups. There is a way of doing this, known as *repeated measures ANOVA*, which will appear in a later version of this book. I also haven't discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in Chapter \@ref(anova2). In terms of what we have discussed, the key topics were:
 # 
 # 
-# - The basic logic behind how ANOVA works (Section \@ref(anovaintro)) and how to run one in R (Section \@ref(introduceaov)).
-# - How to compute an effect size for an ANOVA (Section \@ref(etasquared))
-# - Post hoc analysis and corrections for multiple testing (Section \@ref(posthoc)).
-# - The assumptions made by ANOVA (Section \@ref(anovaassumptions)).
-# - How to check the homogeneity of variance assumption (Section \@ref(levene)) and what to do if it is violated (Section \@ref(welchoneway)).
-# - How to check the normality assumption (Section \@ref(anovanormality) and what to do if it is violated (Section \@ref(kruskalwallis)).
+# - The basic logic behind [how ANOVA works](anovaintro) and [how to run one in Python](introduceaov).
+# - How to compute an [effect size for an ANOVA](etasquared).
+# - [Post hoc analysis and corrections for multiple testing](posthoc).
+# - The [assumptions](anovaassumptions) made by ANOVA.
+# - [How to check the homogeneity of variance assumption](levene) and [what to do](welchoneway) if it is violated.
+# - [How to check the normality assumption](anovanormality) and [what to do](kruskalwallis) if it is violated.
 # 
 # 
-# As with all of the chapters in this book, there are quite a few different sources that I've relied upon, but the one stand-out text that I've been most heavily influenced by is @Sahai2000. It's not a good book for beginners, but it's an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.
+# As with all of the chapters in this book, there are quite a few different sources that I've relied upon, but the one stand-out text that I've been most heavily influenced by is {cite}`Sahai2000`. It's not a good book for beginners, but it's an excellent book for more advanced readers who are interested in understanding the mathematics behind ANOVA.
 
 # [^note1]: When all groups have the same number of observations, the experimental design is said to be "balanced". Balance isn't such a big deal for one-way ANOVA, which is the topic of this chapter. It becomes more important when you start doing more complicated ANOVAs.
 # 
