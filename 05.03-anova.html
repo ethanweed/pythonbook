@@ -1800,7 +1800,7 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 \[
 F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 \]</div>
-<p>Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in [](hypothesistesting, what we really <em>ought</em> to do is choose an <span class="math notranslate nohighlight">\(\alpha\)</span> level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it’s just easier to directly calculate the <span class="math notranslate nohighlight">\(p\)</span>-value. Back in the “old days”, what we’d do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table… that’s how we’d “compute” our <span class="math notranslate nohighlight">\(p\)</span>-value, because it’s too much effort to do it any other way. However, since we have access to Python, I’ll use the <code class="docutils literal notranslate"><span class="pre">stats.f.cdf()</span></code> method from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to do it instead.</p>
+<p>Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in <span class="xref myst"></span>, what we really <em>ought</em> to do is choose an <span class="math notranslate nohighlight">\(\alpha\)</span> level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it’s just easier to directly calculate the <span class="math notranslate nohighlight">\(p\)</span>-value. Back in the “old days”, what we’d do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table… that’s how we’d “compute” our <span class="math notranslate nohighlight">\(p\)</span>-value, because it’s too much effort to do it any other way. However, since we have access to Python, I’ll use the <code class="docutils literal notranslate"><span class="pre">stats.f.cdf()</span></code> method from <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to do it instead.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -1985,6 +1985,73 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 <p>Now, isn’t that better? We got to the same place, but with a lot less pain and suffering!</p>
 <p>Once we get done celebrating, we might take a little closer look at this wonder function. The function is called <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code>. The ANOVA part makes sense, sure, but what is this <code class="docutils literal notranslate"><span class="pre">lm</span></code> thing all about? <code class="docutils literal notranslate"><span class="pre">lm</span></code> stands for “linear model”, and later on, we’ll see that this reflects a pretty deep statistical relationship between ANOVA and regression <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">Linear regression</span></a> and this has some important implications for what can be done with both ANOVA’s and linear regressions… but I’m getting ahead of myself. For now, let’s just bask in the glory of the anova table that <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us. We get the sums of squares, the degrees of freedom, the <span class="math notranslate nohighlight">\(F\)</span>-statistic, and the <span class="math notranslate nohighlight">\(p\)</span>-value itself. These are all identical to the numbers that we calculated ourselves when doing it the long and tedious way, and it’s even organised into a nice table, like the one that I filled out by hand in <a class="reference internal" href="#anovacalc"><span class="std std-ref">A worked example</span></a>.</p>
+<p>So, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> provides a pretty easy way to get ANOVA’s done, but back when we were doing t-tests, I was all excited about <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and said it made things so much easier. So couldn’t we use <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to do ANOVA’s? Sure, of course we can!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+
+               <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.453333</td>
+      <td>2</td>
+      <td>1.726667</td>
+      <td>18.610778</td>
+      <td>0.000086</td>
+      <td>0.712762</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Within</td>
+      <td>1.391667</td>
+      <td>15</td>
+      <td>0.092778</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you check, you’ll see we get the same answer either way. So that’s <em>two</em> easy ways to to ANOVA in Python! Time for beer and football!</p>
 </div>
 </div>
 <div class="section" id="effect-size">
