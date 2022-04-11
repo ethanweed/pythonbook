@@ -590,11 +590,11 @@ aov_table
 
 import pingouin as pg
 
-res = pg.anova(dv='mood_gain', between='drug', data=df,
+aov_table = pg.anova(dv='mood_gain', between='drug', data=df,
 
                detailed=True)
 
-res
+aov_table
 
 
 # If you check, you'll see we get the same answer either way. So that's _two_ easy ways to to ANOVA in Python! Time for beer and football!
@@ -633,6 +633,8 @@ SStot = SSb + SSw          # total sums of squares
 eta_squared = SSb / SStot  # eta-squared value
 eta_squared
 
+
+# And, in fact, if you look at the last column in the `pingouin` output above, you'll see that `pingouin` has already calculated $eta^2$ for us.
 
 # (posthoc)=
 # ## Multiple comparisons and post hoc tests
@@ -713,10 +715,21 @@ eta_squared
 # 
 # Hopefully that makes things clear. 
 
-# Although it's a little harder to calculate, the Holm correction has some very nice properties: it's more powerful than Bonferroni (i.e., it has a lower Type II error rate), but -- counterintuitive as it might seem -- it has the *same* Type I error rate. As a consequence, in practice there's never any reason to use the simpler Bonferroni correction, since it is always outperformed by the slightly more elaborate Holm correction. Because of this, the Holm correction is the default one used by `pairwise.t.test()` and `posthocPairwiseT()`. To run the Holm correction in R, you could specify `p.adjust.method = "Holm"` if you wanted to, but since it's the default you can just to do this:
-# ```{r}
-# posthocPairwiseT( my.anova )
-# ```
+# Although it's a little harder to calculate, the Holm correction has some very nice properties: it's more powerful than Bonferroni (i.e., it has a lower Type II error rate), but -- counterintuitive as it might seem -- it has the *same* Type I error rate. As a consequence, in practice there's never any reason to use the simpler Bonferroni correction, since it is always outperformed by the slightly more elaborate Holm correction. Running pairwise t-tests with different correction methods is pretty easy with `pingouin`: we just use the `padjust` argument to say what kind of correction we want to use[^notebonf]:
+# 
+# [^notebonf]: If you really want to use a Bonferrroni correction anyway, you can write `bonf` instead of `holm` for `padjust`.
+
+# In[18]:
+
+
+# pairwise t-tests with Holm correction
+pg.pairwise_ttests(dv='mood_gain', 
+                   between='drug', 
+                   padjust='holm', 
+                   data=df)
+
+
+# 
 # As you can see, the biggest $p$-value (corresponding to the comparison between Anxifree and the placebo) is unaltered: at a value of $.15$, it is exactly the same as the value we got originally when we applied no correction at all. In contrast, the smallest $p$-value (Joyzepam versus placebo) has been multiplied by three. 
 # 
 # ### Writing up the post hoc test
