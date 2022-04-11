@@ -961,7 +961,7 @@ shapiro(res)
 # In[28]:
 
 
-
+# Make a frequency table of the counts of unique values (mood gain)
 
 f = df['mood_gain'].value_counts().rename_axis('unique_values').reset_index(name='counts').sort_values('unique_values')
 f
