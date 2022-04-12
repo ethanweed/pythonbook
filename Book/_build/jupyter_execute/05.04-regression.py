@@ -167,6 +167,7 @@ modelPredictions = func(xData, *fittedParameters)
 
 data = pd.DataFrame({'x': xData,
                      'y': xData})
+
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 sns.scatterplot(data = data, x = x, y = y, ax = axes[0])
 fig.axes[0].set_title("The best-fitting regression line!")
@@ -208,4 +209,10 @@ for i in range(len(xData)):
   
     
 sns.despine()
+
+
+# In[ ]:
+
+
+
 
