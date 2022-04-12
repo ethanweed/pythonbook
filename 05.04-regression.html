@@ -332,6 +332,19 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-a-linear-regression-model">
+   18.1. Estimating a linear regression model
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -344,6 +357,19 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimating-a-linear-regression-model">
+   18.1. Estimating a linear regression model
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -518,12 +544,109 @@ y = mx + c
 \[
 Y_i = b_1 X_i + b_0 + \epsilon_i
 \]</div>
+<div class="section" id="estimating-a-linear-regression-model">
+<span id="regressionestimation"></span><h2><span class="section-number">18.1. </span>Estimating a linear regression model<a class="headerlink" href="#estimating-a-linear-regression-model" title="Permalink to this headline">¶</a></h2>
+<p>Okay, now let’s redraw our pictures, but this time I’ll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in Figure &#64;ref(fig:regression3a), but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at Figure &#64;ref(fig:regression3b). Hm. Maybe what we “want” in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I’ll go so far as to say that the “best fitting” regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that …</p>
+<blockquote>
+<div><p>The estimated regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> are those that minimise the sum of the squared residuals, which we could either write as <span class="math notranslate nohighlight">\(\sum_i (Y_i - \hat{Y}_i)^2\)</span> or as <span class="math notranslate nohighlight">\(\sum_i {\epsilon_i}^2\)</span>.</p>
+</div></blockquote>
+<p>Yes, yes that sounds even better. And since I’ve indented it like that, it probably means that this is the right answer. And since this is the right answer, it’s probably worth making a note of the fact that our regression coefficients are <em>estimates</em> (we’re trying to guess the parameters that describe a population!), which is why I’ve added the little hats, so that we get <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> rather than <span class="math notranslate nohighlight">\(b_0\)</span> and <span class="math notranslate nohighlight">\(b_1\)</span>. Finally, I should also note that – since there’s actually more than one way to estimate a regression model – the more technical name for this estimation process is <strong><em>ordinary least squares (OLS) regression</em></strong>.</p>
+<p>At this point, we now have a concrete definition for what counts as our “best” choice of regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>. The natural question to ask next is,  if our optimal regression coefficients are those that minimise the sum squared residuals, how do we <em>find</em> these wonderful numbers? The actual answer to this question is complicated, and it doesn’t help you understand the logic of regression.^[Or at least, I’m assuming that it doesn’t help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it <em>will</em> help <em>you</em> to know that the solution to the estimation problem turns out to be <span class="math notranslate nohighlight">\(\hat{b} = (X^TX)^{-1} X^T y\)</span>, where <span class="math notranslate nohighlight">\(\hat{b}\)</span> is a vector containing the estimated regression coefficients,  <span class="math notranslate nohighlight">\(X\)</span> is the “design matrix” that contains the predictor variables (plus an additional column containing all ones; strictly <span class="math notranslate nohighlight">\(X\)</span> is a matrix of the regressors, but I haven’t discussed the distinction yet), and <span class="math notranslate nohighlight">\(y\)</span> is a vector containing the outcome variable. For everyone else, this isn’t exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you’ll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.]  As a result, this time I’m going to let you off the hook. Instead of showing you how to do it the long and tedious way first, and then “revealing” the wonderful shortcut that R provides you with, let’s cut straight to the chase… and use the <code class="docutils literal notranslate"><span class="pre">lm()</span></code> function (short for “linear model”) to do all the heavy lifting.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">scipy</span><span class="o">,</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="n">xData</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">]</span>
+<span class="n">yData</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+
+<span class="c1"># linear model</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="n">initialParameters</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="c1"># curve fit the test data</span>
+<span class="n">fittedParameters</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">,</span> <span class="n">initialParameters</span><span class="p">)</span>
+
+
+
+<span class="n">modelPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xData</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span> 
+
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">xData</span><span class="p">,</span>
+                     <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">xData</span><span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;The best-fitting regression line!&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;My sleep (hours)&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;My grumpiness (0-10)&quot;</span><span class="p">)</span>
+
+<span class="c1"># create data for the fitted equation plot</span>
+<span class="n">xModel</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">xData</span><span class="p">))</span>
+<span class="n">yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span>
+
+<span class="c1"># now the model as a line plot</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
+
+<span class="c1"># now add individual line for each point</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xData</span><span class="p">)):</span>
+    <span class="n">lineXdata</span> <span class="o">=</span> <span class="p">(</span><span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c1"># same X</span>
+    <span class="n">lineYdata</span> <span class="o">=</span> <span class="p">(</span><span class="n">yData</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">modelPredictions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c1"># different Y</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lineXdata</span><span class="p">,</span> <span class="n">lineYdata</span><span class="p">)</span>
+
+    
+<span class="c1">#####</span>
+
+<span class="n">badParameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">80</span><span class="p">])</span>
+<span class="n">badPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xData</span><span class="p">,</span> <span class="o">*</span><span class="n">badParameters</span><span class="p">)</span> 
+
+<span class="n">bad_xModel</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">xData</span><span class="p">))</span>
+<span class="n">bad_yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">bad_xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">badParameters</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Not the best-fitting regression line!&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;My sleep (hours)&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;My grumpiness (0-10)&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bad_xModel</span><span class="p">,</span> <span class="n">bad_yModel</span><span class="p">)</span>  
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xData</span><span class="p">)):</span>
+    <span class="n">lineXdata</span> <span class="o">=</span> <span class="p">(</span><span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> 
+    <span class="n">lineYdata</span> <span class="o">=</span> <span class="p">(</span><span class="n">yData</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">badPredictions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> 
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lineXdata</span><span class="p">,</span> <span class="n">lineYdata</span><span class="p">)</span>
+  
+    
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 27&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">xData</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>                      <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">xData</span><span class="p">})</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;The best-fitting regression line!&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;My sleep (hours)&quot;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;y&#39; is not defined
+</pre></div>
+</div>
+<img alt="_images/05.04-regression_12_1.png" src="_images/05.04-regression_12_1.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>The <span class="math notranslate nohighlight">\(\epsilon\)</span> symbol is the Greek letter epsilon. It’s traditional to use <span class="math notranslate nohighlight">\(\epsilon_i\)</span> or <span class="math notranslate nohighlight">\(e_i\)</span> to denote a residual.</p>
 </dd>
 </dl>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
