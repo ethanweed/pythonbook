@@ -17,19 +17,84 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import seaborn as sns
-fibonacci = [1,1,2,3,5,8,13]
-x = [1,2,3,4,5,6,7]
-sns.scatterplot(x = x, y = fibonacci)
+ax = sns.scatterplot(x = 'dan.sleep', y = 'dan.grump', data = df)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Input [0;32mIn [1][0m, in [0;36m<cell line: 1>[0;34m()[0m
-[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
-[1;32m      2[0m fibonacci [38;5;241m=[39m [[38;5;241m1[39m,[38;5;241m1[39m,[38;5;241m2[39m,[38;5;241m3[39m,[38;5;241m5[39m,[38;5;241m8[39m,[38;5;241m13[39m]
-[1;32m      3[0m x [38;5;241m=[39m [[38;5;241m1[39m,[38;5;241m2[39m,[38;5;241m3[39m,[38;5;241m4[39m,[38;5;241m5[39m,[38;5;241m6[39m,[38;5;241m7[39m]
+[0;31mValueError[0m                                Traceback (most recent call last)
+Input [0;32mIn [22][0m, in [0;36m<cell line: 1>[0;34m()[0m
+[0;32m----> 1[0m ax [38;5;241m=[39m [43msns[49m[38;5;241;43m.[39;49m[43mscatterplot[49m[43m([49m[43mx[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mdan.sleep[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43my[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mdan.grump[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mdata[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[43mdf[49m[43m)[49m
 
-[0;31mModuleNotFoundError[0m: No module named 'seaborn'
-ModuleNotFoundError: No module named 'seaborn'
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/_decorators.py:46[0m, in [0;36m_deprecate_positional_args.<locals>.inner_f[0;34m(*args, **kwargs)[0m
+[1;32m     36[0m     warnings[38;5;241m.[39mwarn(
+[1;32m     37[0m         [38;5;124m"[39m[38;5;124mPass the following variable[39m[38;5;132;01m{}[39;00m[38;5;124m as [39m[38;5;132;01m{}[39;00m[38;5;124mkeyword arg[39m[38;5;132;01m{}[39;00m[38;5;124m: [39m[38;5;132;01m{}[39;00m[38;5;124m. [39m[38;5;124m"[39m
+[1;32m     38[0m         [38;5;124m"[39m[38;5;124mFrom version 0.12, the only valid positional argument [39m[38;5;124m"[39m
+[0;32m   (...)[0m
+[1;32m     43[0m         [38;5;167;01mFutureWarning[39;00m
+[1;32m     44[0m     )
+[1;32m     45[0m kwargs[38;5;241m.[39mupdate({k: arg [38;5;28;01mfor[39;00m k, arg [38;5;129;01min[39;00m [38;5;28mzip[39m(sig[38;5;241m.[39mparameters, args)})
+[0;32m---> 46[0m [38;5;28;01mreturn[39;00m [43mf[49m[43m([49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/relational.py:794[0m, in [0;36mscatterplot[0;34m(x, y, hue, style, size, data, palette, hue_order, hue_norm, sizes, size_order, size_norm, markers, style_order, x_bins, y_bins, units, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend, ax, **kwargs)[0m
+[1;32m    779[0m [38;5;129m@_deprecate_positional_args[39m
+[1;32m    780[0m [38;5;28;01mdef[39;00m [38;5;21mscatterplot[39m(
+[1;32m    781[0m     [38;5;241m*[39m,
+[0;32m   (...)[0m
+[1;32m    790[0m     legend[38;5;241m=[39m[38;5;124m"[39m[38;5;124mauto[39m[38;5;124m"[39m, ax[38;5;241m=[39m[38;5;28;01mNone[39;00m, [38;5;241m*[39m[38;5;241m*[39mkwargs
+[1;32m    791[0m ):
+[1;32m    793[0m     variables [38;5;241m=[39m _ScatterPlotter[38;5;241m.[39mget_semantics([38;5;28mlocals[39m())
+[0;32m--> 794[0m     p [38;5;241m=[39m [43m_ScatterPlotter[49m[43m([49m
+[1;32m    795[0m [43m        [49m[43mdata[49m[38;5;241;43m=[39;49m[43mdata[49m[43m,[49m[43m [49m[43mvariables[49m[38;5;241;43m=[39;49m[43mvariables[49m[43m,[49m
+[1;32m    796[0m [43m        [49m[43mx_bins[49m[38;5;241;43m=[39;49m[43mx_bins[49m[43m,[49m[43m [49m[43my_bins[49m[38;5;241;43m=[39;49m[43my_bins[49m[43m,[49m
+[1;32m    797[0m [43m        [49m[43mestimator[49m[38;5;241;43m=[39;49m[43mestimator[49m[43m,[49m[43m [49m[43mci[49m[38;5;241;43m=[39;49m[43mci[49m[43m,[49m[43m [49m[43mn_boot[49m[38;5;241;43m=[39;49m[43mn_boot[49m[43m,[49m
+[1;32m    798[0m [43m        [49m[43malpha[49m[38;5;241;43m=[39;49m[43malpha[49m[43m,[49m[43m [49m[43mx_jitter[49m[38;5;241;43m=[39;49m[43mx_jitter[49m[43m,[49m[43m [49m[43my_jitter[49m[38;5;241;43m=[39;49m[43my_jitter[49m[43m,[49m[43m [49m[43mlegend[49m[38;5;241;43m=[39;49m[43mlegend[49m[43m,[49m
+[1;32m    799[0m [43m    [49m[43m)[49m
+[1;32m    801[0m     p[38;5;241m.[39mmap_hue(palette[38;5;241m=[39mpalette, order[38;5;241m=[39mhue_order, norm[38;5;241m=[39mhue_norm)
+[1;32m    802[0m     p[38;5;241m.[39mmap_size(sizes[38;5;241m=[39msizes, order[38;5;241m=[39msize_order, norm[38;5;241m=[39msize_norm)
+
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/relational.py:580[0m, in [0;36m_ScatterPlotter.__init__[0;34m(self, data, variables, x_bins, y_bins, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend)[0m
+[1;32m    564[0m [38;5;28;01mdef[39;00m [38;5;21m__init__[39m(
+[1;32m    565[0m     [38;5;28mself[39m, [38;5;241m*[39m,
+[1;32m    566[0m     data[38;5;241m=[39m[38;5;28;01mNone[39;00m, variables[38;5;241m=[39m{},
+[0;32m   (...)[0m
+[1;32m    574[0m     [38;5;66;03m# the kind of plot to draw, but for the time being we need to set[39;00m
+[1;32m    575[0m     [38;5;66;03m# this information so the SizeMapping can use it[39;00m
+[1;32m    576[0m     [38;5;28mself[39m[38;5;241m.[39m_default_size_range [38;5;241m=[39m (
+[1;32m    577[0m         np[38;5;241m.[39mr_[[38;5;241m.5[39m, [38;5;241m2[39m] [38;5;241m*[39m np[38;5;241m.[39msquare(mpl[38;5;241m.[39mrcParams[[38;5;124m"[39m[38;5;124mlines.markersize[39m[38;5;124m"[39m])
+[1;32m    578[0m     )
+[0;32m--> 580[0m     [38;5;28;43msuper[39;49m[43m([49m[43m)[49m[38;5;241;43m.[39;49m[38;5;21;43m__init__[39;49m[43m([49m[43mdata[49m[38;5;241;43m=[39;49m[43mdata[49m[43m,[49m[43m [49m[43mvariables[49m[38;5;241;43m=[39;49m[43mvariables[49m[43m)[49m
+[1;32m    582[0m     [38;5;28mself[39m[38;5;241m.[39malpha [38;5;241m=[39m alpha
+[1;32m    583[0m     [38;5;28mself[39m[38;5;241m.[39mlegend [38;5;241m=[39m legend
+
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/_core.py:604[0m, in [0;36mVectorPlotter.__init__[0;34m(self, data, variables)[0m
+[1;32m    602[0m [38;5;28;01mdef[39;00m [38;5;21m__init__[39m([38;5;28mself[39m, data[38;5;241m=[39m[38;5;28;01mNone[39;00m, variables[38;5;241m=[39m{}):
+[0;32m--> 604[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43massign_variables[49m[43m([49m[43mdata[49m[43m,[49m[43m [49m[43mvariables[49m[43m)[49m
+[1;32m    606[0m     [38;5;28;01mfor[39;00m var, [38;5;28mcls[39m [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39m_semantic_mappings[38;5;241m.[39mitems():
+[1;32m    607[0m 
+[1;32m    608[0m         [38;5;66;03m# Create the mapping function[39;00m
+[1;32m    609[0m         map_func [38;5;241m=[39m partial([38;5;28mcls[39m[38;5;241m.[39mmap, plotter[38;5;241m=[39m[38;5;28mself[39m)
+
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/_core.py:667[0m, in [0;36mVectorPlotter.assign_variables[0;34m(self, data, variables)[0m
+[1;32m    665[0m [38;5;28;01melse[39;00m:
+[1;32m    666[0m     [38;5;28mself[39m[38;5;241m.[39minput_format [38;5;241m=[39m [38;5;124m"[39m[38;5;124mlong[39m[38;5;124m"[39m
+[0;32m--> 667[0m     plot_data, variables [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_assign_variables_longform[49m[43m([49m
+[1;32m    668[0m [43m        [49m[43mdata[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mvariables[49m[43m,[49m
+[1;32m    669[0m [43m    [49m[43m)[49m
+[1;32m    671[0m [38;5;28mself[39m[38;5;241m.[39mplot_data [38;5;241m=[39m plot_data
+[1;32m    672[0m [38;5;28mself[39m[38;5;241m.[39mvariables [38;5;241m=[39m variables
+
+File [0;32m/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/seaborn/_core.py:887[0m, in [0;36mVectorPlotter._assign_variables_longform[0;34m(self, data, **kwargs)[0m
+[1;32m    884[0m     [38;5;28;01melse[39;00m:
+[1;32m    885[0m         [38;5;66;03m# We don't know what this name means[39;00m
+[1;32m    886[0m         err [38;5;241m=[39m [38;5;124mf[39m[38;5;124m"[39m[38;5;124mCould not interpret value `[39m[38;5;132;01m{[39;00mval[38;5;132;01m}[39;00m[38;5;124m` for parameter `[39m[38;5;132;01m{[39;00mkey[38;5;132;01m}[39;00m[38;5;124m`[39m[38;5;124m"[39m
+[0;32m--> 887[0m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(err)
+[1;32m    889[0m [38;5;28;01melse[39;00m:
+[1;32m    890[0m 
+[1;32m    891[0m     [38;5;66;03m# Otherwise, assume the value is itself a vector of data[39;00m
+[1;32m    892[0m 
+[1;32m    893[0m     [38;5;66;03m# Raise when data is present and a vector can't be combined with it[39;00m
+[1;32m    894[0m     [38;5;28;01mif[39;00m [38;5;28misinstance[39m(data, pd[38;5;241m.[39mDataFrame) [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m [38;5;28misinstance[39m(val, pd[38;5;241m.[39mSeries):
+
+[0;31mValueError[0m: Could not interpret value `dan.sleep` for parameter `x`
+ValueError: Could not interpret value `dan.sleep` for parameter `x`
 
