@@ -47,18 +47,9 @@ glue("sleepycorrelation_fig", ax, display=False)
 # ```
 # 
 
-# The actual scatterplot that we draw is the one shown in {numref}`sleepycorrelation-fig`, and as we saw previously this corresponds to a correlation of $r=-.90$, but what we find ourselves secretly imagining is something that looks closer to Figure \@ref(fig:regression1a). That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a **_regression line_**. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure \@ref(fig:regression1b). 
+# The actual scatterplot that we draw is the one shown in {numref}`sleepycorrelation-fig`, and as we saw previously this corresponds to a correlation of $r=-.90$, but what we find ourselves secretly imagining is something that looks closer to the left panel in {numref}`fig-sleep_regressions_1`. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a **_regression line_**. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in the right panel in {numref}`fig-sleep_regressions_1`. 
 
 # In[3]:
-
-
-import statsmodels.formula.api as smf
-model = smf.ols(formula="dan_grump ~ dan_sleep", data=df).fit()
-intercept = model.params.Intercept
-slope = model.params.dan_sleep
-
-
-# In[4]:
 
 
 import numpy as np 
@@ -89,8 +80,17 @@ fig.axes[1].plot(x,-3*x+80)
 
 sns.despine()
 
-glue("sleep_scatter-fig1", fig, display=False)
+glue("sleep_regressions_1-fig", fig, display=False)
 
+
+#  ```{glue:figure} sleep_regressions_1-fig
+# :figwidth: 600px
+# :name: fig-sleep_regressions_1
+# 
+# The panel to the left shows the sleep-grumpiness scatterplot from {numref}`fig-sleepycorrelation` with the best fitting regression line drawn over the top. Not surprisingly, the line goes through the middle of the data. In contrast, the panel to the right shows the same data, but with a very poor choice of regression line drawn over the top.
+# 
+# ```
+# 
 
 # This is not highly surprising: the line that I've drawn in Figure \@ref(fig:regression1b) doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this:
 # 
