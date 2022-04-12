@@ -149,39 +149,36 @@ from scipy.optimize import curve_fit
 xData = df['dan_sleep']
 yData = numpy.array(df['dan_grump'])
 
-# linear model
+# (the solution to this figure stolen shamelessly from this stack-overflow answer by James Phillips:
+# https://stackoverflow.com/questions/53779773/python-linear-regression-best-fit-line-with-residuals)
+
+# fit linear regression model and save parameters
 def func(x, a, b):
     return a * x + b
 
-
 initialParameters = numpy.array([1.0, 1.0])
 
-# curve fit the test data
 fittedParameters, pcov = curve_fit(func, xData, yData, initialParameters)
 
-
-
 modelPredictions = func(xData, *fittedParameters) 
-
-
 
 data = pd.DataFrame({'x': xData,
                      'y': yData})
 
+# plot data points
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 sns.scatterplot(data = data, x = 'x', y = 'y', ax = axes[0])
 fig.axes[0].set_title("The best-fitting regression line!")
 fig.axes[0].set_xlabel("My sleep (hours)")
 fig.axes[0].set_ylabel("My grumpiness (0-10)")
 
-# create data for the fitted equation plot
+# add regression line
 xModel = numpy.linspace(min(xData), max(xData))
 yModel = func(xModel, *fittedParameters)
 
-# now the model as a line plot
 axes[0].plot(xModel, yModel)
 
-# now add individual line for each point
+# add drop lines
 for i in range(len(xData)):
     lineXdata = (xData[i], xData[i]) # same X
     lineYdata = (yData[i], modelPredictions[i]) # different Y
@@ -190,18 +187,21 @@ for i in range(len(xData)):
     
 #####
 
+# create poor-fitting model
 badParameters = np.array([-3, 80])
 badPredictions = func(xData, *badParameters) 
 
 bad_xModel = numpy.linspace(min(xData), max(xData))
 bad_yModel = func(bad_xModel, *badParameters)
 
+# plot data with poor-fitting model
 sns.scatterplot(data = data, x = 'x', y = 'y', ax = axes[1])
 fig.axes[1].set_title("Not the best-fitting regression line!")
 fig.axes[1].set_xlabel("My sleep (hours)")
 fig.axes[1].set_ylabel("My grumpiness (0-10)")
 fig.axes[1].plot(bad_xModel, bad_yModel)  
 
+# add drop lines
 for i in range(len(xData)):
     lineXdata = (xData[i], xData[i]) 
     lineYdata = (yData[i], badPredictions[i]) 
