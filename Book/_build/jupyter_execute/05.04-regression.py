@@ -4,13 +4,19 @@
 # (regression)=
 # # Linear regression
 
+# In[1]:
+
+
+from myst_nb import glue
+
+
 # 
 # 
 # The goal in this chapter is to introduce **_linear regression_**, the standard tool that statisticians rely on when analysing the relationship between interval scale predictors and interval scale outcomes. Stripped to its bare essentials, linear regression models are basically a slightly fancier version of the [Pearson correlation](correl) though as we'll see, regression models are much more powerful tools.
 
 # Since the basic ideas in regression are closely tied to correlation, we'll return to the `parenthood.csv` file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I'm not getting enough sleep. 
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
@@ -21,9 +27,9 @@ df = pd.read_csv(file)
 df.head()
 
 
-# We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in Figure \@ref(fig:regression0), and as we saw previously this corresponds to a correlation of $r=-.90$, but what we find ourselves secretly imagining is something that looks closer to Figure \@ref(fig:regression1a). That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a **_regression line_**. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure \@ref(fig:regression1b). 
+# We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in {numref}`sleepycorrelation-fig`, and as we saw previously this corresponds to a correlation of $r=-.90$, but what we find ourselves secretly imagining is something that looks closer to Figure \@ref(fig:regression1a). That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a **_regression line_**. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in Figure \@ref(fig:regression1b). 
 
-# In[2]:
+# In[3]:
 
 
 import seaborn as sns
@@ -34,6 +40,17 @@ ax = sns.scatterplot(data = df,
 ax.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep (hours)')
 sns.despine()
 
+glue("sleepycorrelation_fig", ax, display=False)
+
+
+#  ```{glue:figure} sleepycorrelation-fig
+# :figwidth: 600px
+# :name: fig-sleepycorrelation
+# 
+# Scatterplot showing grumpiness as a function of hours slept.
+# 
+# ```
+# 
 
 # This is not highly surprising: the line that I've drawn in Figure \@ref(fig:regression1b) doesn't "fit" the data very well, so it doesn't make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let's start with a refresher of some high school maths. The formula for a straight line is usually written like this:
 # 
