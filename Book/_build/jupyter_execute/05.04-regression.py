@@ -69,7 +69,7 @@ x = np.linspace(4,10)
 
 sns.scatterplot(data = df, x = 'dan_sleep', y = 'dan_grump', ax = axes[0])
 fig.axes[0].set_title("The best-fitting regression line")
-fig.axes[0].set_xlabel("My sleep (hourse)")
+fig.axes[0].set_xlabel("My sleep (hours)")
 fig.axes[0].set_ylabel("My grumpiness (0-10)")
 fig.axes[0].plot(x,slope*x+intercept)
 
