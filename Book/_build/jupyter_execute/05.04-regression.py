@@ -31,7 +31,7 @@ sns.set_context("notebook", font_scale=1.5)
 ax = sns.scatterplot(data = df,
                 x = 'dan_sleep', 
                 y = 'dan_grump')
-ax.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep \(hours\)')
+ax.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep (hours)')
 sns.despine()
 
 
