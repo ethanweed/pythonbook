@@ -56,6 +56,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
 
+# find the regression coefficients to allow manually plotting the line
 model = smf.ols(formula="dan_grump ~ dan_sleep", data=df).fit()
 intercept = model.params.Intercept
 slope = model.params.dan_sleep
