@@ -166,10 +166,10 @@ modelPredictions = func(xData, *fittedParameters)
 
 
 data = pd.DataFrame({'x': xData,
-                     'y': xData})
+                     'y': yData})
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
-sns.scatterplot(data = data, x = x, y = y, ax = axes[0])
+sns.scatterplot(data = data, x = 'x', y = 'y', ax = axes[0])
 fig.axes[0].set_title("The best-fitting regression line!")
 fig.axes[0].set_xlabel("My sleep (hours)")
 fig.axes[0].set_ylabel("My grumpiness (0-10)")
@@ -196,7 +196,7 @@ badPredictions = func(xData, *badParameters)
 bad_xModel = numpy.linspace(min(xData), max(xData))
 bad_yModel = func(bad_xModel, *badParameters)
 
-sns.scatterplot(data = data, x = x, y = y, ax = axes[1])
+sns.scatterplot(data = data, x = 'x', y = 'y', ax = axes[1])
 fig.axes[1].set_title("Not the best-fitting regression line!")
 fig.axes[1].set_xlabel("My sleep (hours)")
 fig.axes[1].set_ylabel("My grumpiness (0-10)")
