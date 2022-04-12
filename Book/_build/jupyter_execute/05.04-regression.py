@@ -127,8 +127,85 @@ sns.despine()
 # 
 # [^noteepsilon]: The $\epsilon$ symbol is the Greek letter epsilon. It's traditional to use $\epsilon_i$ or $e_i$ to denote a residual.
 
-# In[ ]:
+# (regressionestimation)=
+# ## Estimating a linear regression model
+# 
+# 
+# Okay, now let's redraw our pictures, but this time I'll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in Figure \@ref(fig:regression3a), but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at Figure \@ref(fig:regression3b). Hm. Maybe what we "want" in a regression model is *small* residuals. Yes, that does seem to make sense. In fact, I think I'll go so far as to say that the "best fitting" regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that ...
+# 
+# > The estimated regression coefficients, $\hat{b}_0$ and $\hat{b}_1$ are those that minimise the sum of the squared residuals, which we could either write as $\sum_i (Y_i - \hat{Y}_i)^2$ or as $\sum_i {\epsilon_i}^2$.
+# 
+# Yes, yes that sounds even better. And since I've indented it like that, it probably means that this is the right answer. And since this is the right answer, it's probably worth making a note of the fact that our regression coefficients are *estimates* (we're trying to guess the parameters that describe a population!), which is why I've added the little hats, so that we get $\hat{b}_0$ and $\hat{b}_1$ rather than $b_0$ and $b_1$. Finally, I should also note that -- since there's actually more than one way to estimate a regression model -- the more technical name for this estimation process is **_ordinary least squares (OLS) regression_**.  
+# 
+# At this point, we now have a concrete definition for what counts as our "best" choice of regression coefficients, $\hat{b}_0$ and $\hat{b}_1$. The natural question to ask next is,  if our optimal regression coefficients are those that minimise the sum squared residuals, how do we *find* these wonderful numbers? The actual answer to this question is complicated, and it doesn't help you understand the logic of regression.^[Or at least, I'm assuming that it doesn't help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it *will* help *you* to know that the solution to the estimation problem turns out to be $\hat{b} = (X^TX)^{-1} X^T y$, where $\hat{b}$ is a vector containing the estimated regression coefficients,  $X$ is the "design matrix" that contains the predictor variables (plus an additional column containing all ones; strictly $X$ is a matrix of the regressors, but I haven't discussed the distinction yet), and $y$ is a vector containing the outcome variable. For everyone else, this isn't exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you'll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.]  As a result, this time I'm going to let you off the hook. Instead of showing you how to do it the long and tedious way first, and then "revealing" the wonderful shortcut that R provides you with, let's cut straight to the chase... and use the `lm()` function (short for "linear model") to do all the heavy lifting. 
+
+# In[4]:
+
+
+import numpy, scipy, matplotlib
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+xData = df['dan_sleep']
+yData = numpy.array(df['dan_grump'])
+
+# linear model
+def func(x, a, b):
+    return a * x + b
+
+
+initialParameters = numpy.array([1.0, 1.0])
+
+# curve fit the test data
+fittedParameters, pcov = curve_fit(func, xData, yData, initialParameters)
 
 
 
+modelPredictions = func(xData, *fittedParameters) 
+
+
+
+data = pd.DataFrame({'x': xData,
+                     'y': xData})
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
+sns.scatterplot(data = data, x = x, y = y, ax = axes[0])
+fig.axes[0].set_title("The best-fitting regression line!")
+fig.axes[0].set_xlabel("My sleep (hours)")
+fig.axes[0].set_ylabel("My grumpiness (0-10)")
+
+# create data for the fitted equation plot
+xModel = numpy.linspace(min(xData), max(xData))
+yModel = func(xModel, *fittedParameters)
+
+# now the model as a line plot
+axes[0].plot(xModel, yModel)
+
+# now add individual line for each point
+for i in range(len(xData)):
+    lineXdata = (xData[i], xData[i]) # same X
+    lineYdata = (yData[i], modelPredictions[i]) # different Y
+    axes[0].plot(lineXdata, lineYdata)
+
+    
+#####
+
+badParameters = np.array([-3, 80])
+badPredictions = func(xData, *badParameters) 
+
+bad_xModel = numpy.linspace(min(xData), max(xData))
+bad_yModel = func(bad_xModel, *badParameters)
+
+sns.scatterplot(data = data, x = x, y = y, ax = axes[1])
+fig.axes[1].set_title("Not the best-fitting regression line!")
+fig.axes[1].set_xlabel("My sleep (hours)")
+fig.axes[1].set_ylabel("My grumpiness (0-10)")
+fig.axes[1].plot(bad_xModel, bad_yModel)  
+
+for i in range(len(xData)):
+    lineXdata = (xData[i], xData[i]) 
+    lineYdata = (yData[i], badPredictions[i]) 
+    axes[1].plot(lineXdata, lineYdata)
+  
+    
+sns.despine()
 
