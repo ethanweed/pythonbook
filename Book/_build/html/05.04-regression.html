@@ -454,7 +454,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p class="caption"><span class="caption-number">Fig. 18.1 </span><span class="caption-text">Scatterplot showing grumpiness as a function of hours slept.</span><a class="headerlink" href="#fig-sleepycorrelation" title="Permalink to this image">¶</a></p>
 </div>
 <p>The actual scatterplot that we draw is the one shown in <a class="reference internal" href="#fig-sleepycorrelation"><span class="std std-numref">Fig. 18.1</span></a>, and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to the left panel in <a class="reference internal" href="#fig-sleep-regressions-1"><span class="std std-numref">Fig. 18.2</span></a>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in the right panel in <a class="reference internal" href="#fig-sleep-regressions-1"><span class="std std-numref">Fig. 18.2</span></a>.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -484,18 +484,15 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleep_regressions_1-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#glue(&quot;sleep_regressions_1-fig&quot;, fig, display=False)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_8_1.png" src="_images/05.04-regression_8_1.png" />
+<img alt="_images/05.04-regression_8_0.png" src="_images/05.04-regression_8_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-regressions-1" style="width: 600px">
-<div class="cell_output docutils container">
-<img alt="_images/05.04-regression_8_0.png" src="_images/05.04-regression_8_0.png" />
-</div>
 <p class="caption"><span class="caption-number">Fig. 18.2 </span><span class="caption-text">The panel to the left shows the sleep-grumpiness scatterplot from <a class="reference internal" href="#fig-sleepycorrelation"><span class="std std-numref">Fig. 18.1</span></a> with the best fitting regression line drawn over the top. Not surprisingly, the line goes through the middle of the data. In contrast, the panel to the right shows the same data, but with a very poor choice of regression line drawn over the top.</span><a class="headerlink" href="#fig-sleep-regressions-1" title="Permalink to this image">¶</a></p>
 </div>
 <p>This is not highly surprising: the line that I’ve drawn in Figure &#64;ref(fig:regression1b) doesn’t “fit” the data very well, so it doesn’t make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let’s start with a refresher of some high school maths. The formula for a straight line is usually written like this:</p>

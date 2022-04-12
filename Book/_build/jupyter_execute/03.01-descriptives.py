@@ -1044,7 +1044,7 @@ axes[2].set_title(baby_sleep.name);
 # ### The strength and direction of a relationship
 # 
 
-# In[49]:
+# In[133]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -1075,7 +1075,7 @@ glue("sleep_scatter-fig1", fig, display=False)
 # 
 # In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[50]:
+# In[134]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
@@ -1096,7 +1096,7 @@ glue("sleep_scatter-fig2", fig, display=False)
 # :figwidth: 600px
 # :name: fig-sleep_scatter2
 # 
-# Scatterplots showing the relationship between baby.sleep and dan.grump (left), as compared
+# Scatterplots showing the relationship between baby_sleep and dan_grump (left), as compared
 # to the relationship between baby.sleep and dan.sleep (right).
 # ```
 
@@ -1104,7 +1104,7 @@ glue("sleep_scatter-fig2", fig, display=False)
 # 
 # We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at {numref}`fig-corrs`, you can see several plots showing what different correlations look like.
 
-# In[51]:
+# In[135]:
 
 
 import matplotlib.pyplot as plt
@@ -1167,14 +1167,14 @@ for s, val in enumerate(rneg):
 # [^note13]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
 # 
 
-# In[52]:
+# In[136]:
 
 
 x = parenthood['dan.sleep']
 y = parenthood['dan.grump']
 
 
-# In[53]:
+# In[137]:
 
 
 x.corr(y)
@@ -1182,7 +1182,7 @@ x.corr(y)
 
 # However, the `cor()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:
 
-# In[54]:
+# In[138]:
 
 
 parenthood.corr()
@@ -1193,7 +1193,7 @@ parenthood.corr()
 #  
 # Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in {numref}`table-corr-interpretation` is pretty typical.
 
-# In[55]:
+# In[139]:
 
 
 correlation = ["-1.0 to -0.9", "-0.9 to -0.7", "-0.7 to -0.4", 
@@ -1220,7 +1220,7 @@ glue("corr-interpretation-table", df, display=False)
 
 # However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`Anscombe1973`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
-# In[56]:
+# In[140]:
 
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
@@ -1249,7 +1249,7 @@ print(df['x4'].corr(df['y4']))
 # 
 # You'd think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of $X$ against $Y$ for all four variables, as shown in {numref}`fig-anscombe` we see that all four of these are *spectacularly* different to each other. 
 
-# In[57]:
+# In[141]:
 
 
 import seaborn as sns
@@ -1282,7 +1282,7 @@ sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
 # 
 # To illustrate, consider the data plotted in {numref}`fig-rankcorr`, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
 
-# In[58]:
+# In[142]:
 
 
 import pandas as pd
@@ -1296,13 +1296,13 @@ effort
 
 # If we run a standard Pearson correlation, it shows a strong relationship between hours worked and grade received,
 
-# In[59]:
+# In[143]:
 
 
 effort['hours'].corr(effort['grade'])
 
 
-# In[60]:
+# In[144]:
 
 
 import seaborn as sns
@@ -1347,7 +1347,7 @@ ax.lines[0].set_linestyle("--")
 # 
 # Hm. These are *identical*. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get Python to construct new variables with these rankings using the `rank()` method, and specifiying which columns in our dataframe we want to rank, like this:
 
-# In[61]:
+# In[145]:
 
 
 ranked_hours = effort['hours'].rank()
@@ -1356,7 +1356,7 @@ ranked_grades = effort['grade'].rank()
 
 # As the table above shows, these two rankings are identical, so if we now correlate them we get a perfect relationship:
 
-# In[62]:
+# In[146]:
 
 
 ranked_hours.corr(ranked_grades)
@@ -1366,7 +1366,7 @@ ranked_hours.corr(ranked_grades)
 # 
 # [^note14]: Yikes, that's two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!
 
-# In[63]:
+# In[147]:
 
 
 effort['hours'].corr(effort['grade'], method="spearman")
@@ -1384,7 +1384,7 @@ effort['hours'].corr(effort['grade'], method="spearman")
 # 
 # Let's start with the simplest case, in which you're trying to calculate descriptive statistics for a single variable which has missing data. In Python, this means that there will be `nan` ("not a number") values in your data vector. Let's create a variable like that:
 
-# In[64]:
+# In[148]:
 
 
 partial = [10, 20, float('nan'), 30]
@@ -1392,7 +1392,7 @@ partial = [10, 20, float('nan'), 30]
 
 # Let's assume that you want to calculate the mean of this variable. By default, Python assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that although `nan` stands for "not a number", the more accurate interpretation of `nan` here is "There should be a number here, but I don't know what that number is". This means that `1 + nan = nan`: if I add 1 to some number that I don't know (i.e., the `nan`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell Python to ignore the `nan` values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the `partial` vector, without doing anything about the missing value, here's what happens:
 
-# In[65]:
+# In[149]:
 
 
 statistics.mean(partial)
@@ -1400,7 +1400,7 @@ statistics.mean(partial)
 
 # Technically correct, but deeply unhelpful. There are a few ways to deal with this. The first is to use methods from `numpy`. `numpy` has a collection of methods to calculate nan-friendly versions of your favorite descriptive statistics (although correlation is a special case, more on that below), such as `nanmean`, `nanmedian`, `nanpercentile`, `nanmax`, `nanmin`, `nansum`, `nanstd`, etc. So:
 
-# In[66]:
+# In[150]:
 
 
 import numpy as np
@@ -1415,7 +1415,7 @@ print(np.nanstd(partial))
 
 # This is great! Now we can get the descriptive statistics we want, without those pesky `nan`s getting in the way. Still, it is a little tedious to need to remember to to use the `np.nan` version of these functions when dealing with data containing `nan`s (which real data sets often do). As a bit of a consolation, `pandas` dataframes can already calculate these statistics for us, and ignore `nan`s by default. So, if we put our data in a `pandas` dataframe, we don't need to worry about it:
 
-# In[67]:
+# In[151]:
 
 
 import pandas as pd
@@ -1429,7 +1429,7 @@ df = pd.DataFrame(
 df
 
 
-# In[68]:
+# In[152]:
 
 
 print(df['var1'].mean())
@@ -1439,7 +1439,7 @@ print(df['var1'].std())
 
 # This is also great, but there is one little niggling problem. `var1`in our dataframe is the same as the `partial` variable we defined eaerlier. The mean and median values look the same as when we used the `numpy` methods, but the standard deviation is little bit different. What's up with that? As it turns out, `numpy` and `pandas` calculate standard deviation in slightly different ways: `numpy` uses $N$ in the demoninator, while `pandas` uses the "unbiased estimator" $N-1$ in the demoniator. To make `numpy` behave like `pandas`, we need to pass the `ddof=1` argument to `nanmean()`, like so:
 
-# In[69]:
+# In[153]:
 
 
 print(df['var1'].std())
@@ -1455,7 +1455,7 @@ print(np.nanstd(partial, ddof=1))
 # 
 # I mentioned earlier that the correlation is a special case. It doesn't have an `np.nancorr` argument, because the story becomes a lot more complicated when more than one variable is involved. To explore this, lets look at the data in `parenthood2.csv`. This is just like the `parenthood` data from before, but with some missing values introducd. Maybe I was just too tired some mornings to record the baby's hours of sleep, or to measure my own grumpiness. It happens.
 
-# In[70]:
+# In[154]:
 
 
 import pandas as pd
@@ -1468,7 +1468,7 @@ parenthood2.head()
 
 # We can see some of those pesky `nan`s right in the first 5 rows, and if we `describe()` our data, we can get a feeling for how many there are:
 
-# In[71]:
+# In[155]:
 
 
 parenthood2.describe()
@@ -1476,7 +1476,7 @@ parenthood2.describe()
 
 # By looking in the `count` row, we can see that out of the 100 days for which we have data, there are 9 days missing for `dan.sleep`, 11 days missing for `baby.sleep` and eight days missing for `dan.grump`. Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell Python how to handle those missing values. Here's what happens:
 
-# In[72]:
+# In[156]:
 
 
 parenthood2.corr()
@@ -1484,7 +1484,7 @@ parenthood2.corr()
 
 # This actually looks pretty good! We *know* there are `nan`s in the data, but `pandas` seems to deal with them handily. This is not untrue, but there is a small but important detail to be aware of. When it encounters data with `nan`s, `pandas` only looks at the pair of variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of `parenthood2` is for `baby.sleep`, Python will only drop observation 1 when `baby.sleep` is one of the variables involved, and keeps observation 1 when trying to correlate e.g. `dan.sleep` and `dan.grump`. If we want to simply ignore *all* rows that contain a `nan`, we need to tell `pandas` to drop them, like this:
 
-# In[73]:
+# In[157]:
 
 
 parenthood2.dropna().corr()
@@ -1492,7 +1492,7 @@ parenthood2.dropna().corr()
 
 # By checking the length of `parenthood2` and `parenthood2.dropna()`, we can see that using `dropna()` removes 27 entire rows from our data:
 
-# In[74]:
+# In[158]:
 
 
 print(len(parenthood2))

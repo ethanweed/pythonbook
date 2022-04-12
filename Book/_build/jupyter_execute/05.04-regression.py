@@ -80,7 +80,7 @@ fig.axes[1].plot(x,-3*x+80)
 
 sns.despine()
 
-glue("sleep_regressions_1-fig", fig, display=False)
+#glue("sleep_regressions_1-fig", fig, display=False)
 
 
 #  ```{glue:figure} sleep_regressions_1-fig
