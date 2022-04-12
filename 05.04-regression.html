@@ -48,6 +48,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="19. Factorial ANOVA" href="05.05-anova2.html" />
@@ -350,6 +352,129 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="linear-regression">
 <span id="regression"></span><h1><span class="section-number">18. </span>Linear regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h1>
+<p>The goal in this chapter is to introduce <strong><em>linear regression</em></strong>, the standard tool that statisticians rely on when analysing the relationship between interval scale predictors and interval scale outcomes. Stripped to its bare essentials, linear regression models are basically a slightly fancier version of the <span class="xref myst">Pearson correlation</span> though as we’ll see, regression models are much more powerful tools.</p>
+<p>Since the basic ideas in regression are closely tied to correlation, we’ll return to the <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code> file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I’m not getting enough sleep.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.59</td>
+      <td>10.18</td>
+      <td>56</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.91</td>
+      <td>11.66</td>
+      <td>60</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.14</td>
+      <td>7.92</td>
+      <td>82</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.71</td>
+      <td>9.61</td>
+      <td>55</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.68</td>
+      <td>9.75</td>
+      <td>67</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day. The actual scatterplot that we draw is the one shown in Figure &#64;ref(fig:regression0), and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to Figure &#64;ref(fig:regression1a). That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in Figure &#64;ref(fig:regression1b).</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> 
+                <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Grumpiness and sleep&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;My grumpiness (0-100)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;My sleep \(hours\)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_5_0.png" src="_images/05.04-regression_5_0.png" />
+</div>
+</div>
+<p>This is not highly surprising: the line that I’ve drawn in Figure &#64;ref(fig:regression1b) doesn’t “fit” the data very well, so it doesn’t make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let’s start with a refresher of some high school maths. The formula for a straight line is usually written like this:</p>
+<div class="math notranslate nohighlight">
+\[
+y = mx + c
+\]</div>
+<p>Or, at least, that’s what it was when I went to high school all those years ago. The two <em>variables</em> are <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, and we have two <em>coefficients</em>, <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>. The coefficient <span class="math notranslate nohighlight">\(m\)</span> represents the <em>slope</em> of the line, and the coefficient <span class="math notranslate nohighlight">\(c\)</span> represents the <em><span class="math notranslate nohighlight">\(y\)</span>-intercept</em> of the line. Digging further back into our decaying memories of high school (sorry, for some of us high school was a long time ago), we remember that the intercept is interpreted as “the value of <span class="math notranslate nohighlight">\(y\)</span> that you get when <span class="math notranslate nohighlight">\(x=0\)</span>”. Similarly, a slope of <span class="math notranslate nohighlight">\(m\)</span> means that if you increase the <span class="math notranslate nohighlight">\(x\)</span>-value by 1 unit, then the <span class="math notranslate nohighlight">\(y\)</span>-value goes up by <span class="math notranslate nohighlight">\(m\)</span> units; a negative slope means that the <span class="math notranslate nohighlight">\(y\)</span>-value would go down rather than up. Ah yes, it’s all coming back to me now.</p>
+<p>Now that we’ve remembered that, it should come as no surprise to discover that we use the exact same formula to describe a regression line. If <span class="math notranslate nohighlight">\(Y\)</span> is the outcome variable (the DV) and <span class="math notranslate nohighlight">\(X\)</span> is the predictor variable (the IV), then the formula that describes our regression is written like this:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{Y_i} = b_1 X_i + b_0
+\]</div>
+<p>Hm. Looks like the same formula, but there’s some extra frilly bits in this version. Let’s make sure we understand them. Firstly, notice that I’ve written <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_i\)</span> rather than just plain old <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. This is because we want to remember that we’re dealing with actual data. In this equation, <span class="math notranslate nohighlight">\(X_i\)</span> is the value of predictor variable for the <span class="math notranslate nohighlight">\(i\)</span>th observation (i.e., the number of hours of sleep that I got on day <span class="math notranslate nohighlight">\(i\)</span> of my little study), and <span class="math notranslate nohighlight">\(Y_i\)</span> is the corresponding value of the outcome variable (i.e., my grumpiness on that day). And although I haven’t said so explicitly in the equation, what we’re assuming is that this formula works for all observations in the data set (i.e., for all <span class="math notranslate nohighlight">\(i\)</span>). Secondly, notice that I wrote <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> and not <span class="math notranslate nohighlight">\(Y_i\)</span>. This is because we want to make the distinction between the <em>actual data</em> <span class="math notranslate nohighlight">\(Y_i\)</span>, and the <em>estimate</em> <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> (i.e., the prediction that our regression line is making). Thirdly, I changed the letters used to describe the coefficients from <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> to <span class="math notranslate nohighlight">\(b_1\)</span> and <span class="math notranslate nohighlight">\(b_0\)</span>. That’s just the way that statisticians like to refer to the coefficients in a regression model. I’ve no idea why they chose <span class="math notranslate nohighlight">\(b\)</span>, but that’s what they did. In any case <span class="math notranslate nohighlight">\(b_0\)</span> always refers to the intercept term, and <span class="math notranslate nohighlight">\(b_1\)</span> refers to the slope.</p>
+<p>Excellent, excellent. Next, I can’t help but notice that – regardless of whether we’re talking about the good regression line or the bad one – the data don’t fall perfectly on the line. Or, to say it another way, the data <span class="math notranslate nohighlight">\(Y_i\)</span> are not identical to the predictions of the regression model <span class="math notranslate nohighlight">\(\hat{Y_i}\)</span>. Since statisticians love to attach letters, names and numbers to everything, let’s refer to the difference between the model prediction and that actual data point as a <em>residual</em>, and we’ll refer to it as <span class="math notranslate nohighlight">\(\epsilon_i\)</span>.<a class="footnote-reference brackets" href="#noteepsilon" id="id1">1</a> Written using mathematics, the residuals are defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_i = Y_i - \hat{Y}_i
+\]</div>
+<p>which in turn means that we can write down the complete linear regression model as:</p>
+<div class="math notranslate nohighlight">
+\[
+Y_i = b_1 X_i + b_0 + \epsilon_i
+\]</div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The <span class="math notranslate nohighlight">\(\epsilon\)</span> symbol is the Greek letter epsilon. It’s traditional to use <span class="math notranslate nohighlight">\(\epsilon_i\)</span> or <span class="math notranslate nohighlight">\(e_i\)</span> to denote a residual.</p>
+</dd>
+</dl>
 </div>
 
     <script type="text/x-thebe-config">
