@@ -17,85 +17,14 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy, scipy, matplotlib
-import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-
-xData = df['dan_sleep']
-yData = numpy.array(df['dan_grump'])
-
-# linear model
-def func(x, a, b):
-    return a * x + b
-
-
-initialParameters = numpy.array([1.0, 1.0])
-
-# curve fit the test data
-fittedParameters, pcov = curve_fit(func, xData, yData, initialParameters)
-
-
-
-modelPredictions = func(xData, *fittedParameters) 
-
-
-
-data = pd.DataFrame({'x': xData,
-                     'y': xData})
-
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
-sns.scatterplot(data = data, x = x, y = y, ax = axes[0])
-fig.axes[0].set_title("The best-fitting regression line!")
-fig.axes[0].set_xlabel("My sleep (hours)")
-fig.axes[0].set_ylabel("My grumpiness (0-10)")
-
-# create data for the fitted equation plot
-xModel = numpy.linspace(min(xData), max(xData))
-yModel = func(xModel, *fittedParameters)
-
-# now the model as a line plot
-axes[0].plot(xModel, yModel)
-
-# now add individual line for each point
-for i in range(len(xData)):
-    lineXdata = (xData[i], xData[i]) # same X
-    lineYdata = (yData[i], modelPredictions[i]) # different Y
-    axes[0].plot(lineXdata, lineYdata)
-
-    
-#####
-
-badParameters = np.array([-3, 80])
-badPredictions = func(xData, *badParameters) 
-
-bad_xModel = numpy.linspace(min(xData), max(xData))
-bad_yModel = func(bad_xModel, *badParameters)
-
-sns.scatterplot(data = data, x = x, y = y, ax = axes[1])
-fig.axes[1].set_title("Not the best-fitting regression line!")
-fig.axes[1].set_xlabel("My sleep (hours)")
-fig.axes[1].set_ylabel("My grumpiness (0-10)")
-fig.axes[1].plot(bad_xModel, bad_yModel)  
-
-for i in range(len(xData)):
-    lineXdata = (xData[i], xData[i]) 
-    lineYdata = (yData[i], badPredictions[i]) 
-    axes[1].plot(lineXdata, lineYdata)
-  
-    
-sns.despine()
+coefs
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [4][0m, in [0;36m<cell line: 28>[0;34m()[0m
-[1;32m     24[0m data [38;5;241m=[39m pd[38;5;241m.[39mDataFrame({[38;5;124m'[39m[38;5;124mx[39m[38;5;124m'[39m: xData,
-[1;32m     25[0m                      [38;5;124m'[39m[38;5;124my[39m[38;5;124m'[39m: xData})
-[1;32m     27[0m fig, axes [38;5;241m=[39m plt[38;5;241m.[39msubplots([38;5;241m1[39m, [38;5;241m2[39m, figsize[38;5;241m=[39m([38;5;241m15[39m, [38;5;241m5[39m), sharey[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
-[0;32m---> 28[0m sns[38;5;241m.[39mscatterplot(data [38;5;241m=[39m data, x [38;5;241m=[39m x, y [38;5;241m=[39m [43my[49m, ax [38;5;241m=[39m axes[[38;5;241m0[39m])
-[1;32m     29[0m fig[38;5;241m.[39maxes[[38;5;241m0[39m][38;5;241m.[39mset_title([38;5;124m"[39m[38;5;124mThe best-fitting regression line![39m[38;5;124m"[39m)
-[1;32m     30[0m fig[38;5;241m.[39maxes[[38;5;241m0[39m][38;5;241m.[39mset_xlabel([38;5;124m"[39m[38;5;124mMy sleep (hours)[39m[38;5;124m"[39m)
+Input [0;32mIn [12][0m, in [0;36m<cell line: 1>[0;34m()[0m
+[0;32m----> 1[0m [43mcoefs[49m
 
-[0;31mNameError[0m: name 'y' is not defined
-NameError: name 'y' is not defined
+[0;31mNameError[0m: name 'coefs' is not defined
+NameError: name 'coefs' is not defined
 
