@@ -342,6 +342,16 @@ const thebe_selector_output = ".output, .cell_output"
    18.1. Estimating a linear regression model
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-regression-with-pingouin">
+   18.2. Calculating regression with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pingouin
+    </span>
+   </code>
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -365,6 +375,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#estimating-a-linear-regression-model">
    18.1. Estimating a linear regression model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-regression-with-pingouin">
+   18.2. Calculating regression with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pingouin
+    </span>
+   </code>
   </a>
  </li>
 </ul>
@@ -631,6 +651,90 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 <div class="figure align-default" id="fig-sleep-regressions-2" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 18.3 </span><span class="caption-text">A depiction of the residuals associated with the best fitting regression line (left panel), and the residuals associated with a poor regression line (right panel). The residuals are much smaller for the good regression line. Again, this is no surprise given that the good line is the one that goes right through the middle of the data.</span><a class="headerlink" href="#fig-sleep-regressions-2" title="Permalink to this image">¶</a></p>
 </div>
+</div>
+<div class="section" id="calculating-regression-with-pingouin">
+<h2><span class="section-number">18.2. </span>Calculating regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#calculating-regression-with-pingouin" title="Permalink to this headline">¶</a></h2>
+<p>As always, there are several different ways we could go about calculating a linear regression in Python, but we’ll stick with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, which for my money is one of the simplest and easiest packages to use.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display results, rounded to two decimal places.</span>
+<span class="n">lm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>125.96</td>
+      <td>3.02</td>
+      <td>41.76</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>119.97</td>
+      <td>131.94</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.94</td>
+      <td>0.43</td>
+      <td>-20.85</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-9.79</td>
+      <td>-8.09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As is its way, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> gives us a nice simple table, with a lot of information. Most importantly for now, we can see that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has caclulated the intercept <span class="math notranslate nohighlight">\(\hat{b}_0 = 125.96\)</span> and the slope <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span>. In other words, the best-fitting regression line that I plotted in {numref}<code class="docutils literal notranslate"> <span class="pre">fig-sleep_regressions_1</span></code> has this formula:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{Y}_i = -8.94 \ X_i + 125.96
+\]</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
