@@ -257,7 +257,7 @@ lm = pg.linear_regression(df['dan_grump'], df['dan_sleep'])
 lm.round(2)
 
 
-# The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son's sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie[^notenolan], but it's no good in statistics. So remember, predictor first, outcome second[^noteformula]
+# The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son's sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie[^noteNolan], but it's no good in statistics. So remember, predictor first, outcome second[^noteformula]
 # 
 # [^noteNolan]: Christopher Nolan, have your people call my people if you're interested, we'll do lunch!
 # [^noteformula]: This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used `statsmodels`, which also preserves the R-style formula notation.
