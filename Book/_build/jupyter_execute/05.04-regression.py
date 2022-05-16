@@ -383,6 +383,14 @@ ax.view_init(11,97)
 # 
 # ```
 
+# ### Formula for the general case
+# 
+# The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors all you have to do is add more $X$ terms and more $b$ coefficients. In other words, if you have $K$ predictor variables in the model then the regression equation looks like this:
+# 
+# $$
+# Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
+# $$
+
 # In[ ]:
 
 
