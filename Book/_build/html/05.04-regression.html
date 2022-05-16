@@ -351,6 +351,18 @@ const thebe_selector_output = ".output, .cell_output"
     </span>
    </code>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
+     18.2.1. Interpreting the estimated model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-linear-regression">
+   18.3. Multiple linear regression
+  </a>
  </li>
 </ul>
 
@@ -385,6 +397,18 @@ const thebe_selector_output = ".output, .cell_output"
      pingouin
     </span>
    </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
+     18.2.1. Interpreting the estimated model
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-linear-regression">
+   18.3. Multiple linear regression
   </a>
  </li>
 </ul>
@@ -653,7 +677,7 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </div>
 </div>
 <div class="section" id="calculating-regression-with-pingouin">
-<h2><span class="section-number">18.2. </span>Calculating regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#calculating-regression-with-pingouin" title="Permalink to this headline">¶</a></h2>
+<span id="pingouinregression"></span><h2><span class="section-number">18.2. </span>Calculating regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#calculating-regression-with-pingouin" title="Permalink to this headline">¶</a></h2>
 <p>As always, there are several different ways we could go about calculating a linear regression in Python, but we’ll stick with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, which for my money is one of the simplest and easiest packages to use.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -735,6 +759,20 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 \[
 \hat{Y}_i = -8.94 \ X_i + 125.96
 \]</div>
+<div class="section" id="interpreting-the-estimated-model">
+<h3><span class="section-number">18.2.1. </span>Interpreting the estimated model<a class="headerlink" href="#interpreting-the-estimated-model" title="Permalink to this headline">¶</a></h3>
+<p>The most important thing to be able to understand is how to interpret these coefficients. Let’s start with <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>, the slope. If we remember the definition of the slope, a regression coefficient of <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span> means that if I increase <span class="math notranslate nohighlight">\(X_i\)</span> by 1, then I’m decreasing <span class="math notranslate nohighlight">\(Y_i\)</span> by 8.94. That is, each additional hour of sleep that I gain will improve my mood, reducing my grumpiness by 8.94 grumpiness points. What about the intercept? Well, since <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> corresponds to “the expected value of <span class="math notranslate nohighlight">\(Y_i\)</span> when <span class="math notranslate nohighlight">\(X_i\)</span> equals 0”, it’s pretty straightforward. It implies that if I get zero hours of sleep (<span class="math notranslate nohighlight">\(X_i =0\)</span>) then my grumpiness will go off the scale, to an insane value of (<span class="math notranslate nohighlight">\(Y_i = 125.96\)</span>). Best to be avoided, I think.</p>
+</div>
+</div>
+<div class="section" id="multiple-linear-regression">
+<span id="multipleregression"></span><h2><span class="section-number">18.3. </span>Multiple linear regression<a class="headerlink" href="#multiple-linear-regression" title="Permalink to this headline">¶</a></h2>
+<p>The simple linear regression model that we’ve discussed up to this point assumes that there’s a single predictor variable that you’re interested in, in this case <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code>. In fact, up to this point, <em>every</em> statistical tool that we’ve talked about has assumed that your analysis uses one predictor variable and one outcome variable. However, in many (perhaps most) research projects you actually have multiple predictors that you want to examine. If so, it would be nice to be able to extend the linear regression framework to be able to include multiple predictors. Perhaps some kind of <strong><em>multiple regression</em></strong> model would be in order?</p>
+<p>Multiple regression is conceptually very simple. All we do is add more terms to our regression equation. Let’s suppose that we’ve got two variables that we’re interested in; perhaps we want to use both <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> to predict the <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> variable. As before, we let <span class="math notranslate nohighlight">\(Y_i\)</span> refer to my grumpiness on the <span class="math notranslate nohighlight">\(i\)</span>-th day. But now we have two <span class="math notranslate nohighlight">\(X\)</span> variables: the first corresponding to the amount of sleep I got and the second corresponding to the amount of sleep my son got. So we’ll let <span class="math notranslate nohighlight">\(X_{i1}\)</span> refer to the hours I slept on the <span class="math notranslate nohighlight">\(i\)</span>-th day, and <span class="math notranslate nohighlight">\(X_{i2}\)</span> refers to the hours that the baby slept on that day. If so, then we can write our regression model like this:</p>
+<div class="math notranslate nohighlight">
+\[
+Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
+\]</div>
+<p>As before, <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is the residual associated with the <span class="math notranslate nohighlight">\(i\)</span>-th observation, <span class="math notranslate nohighlight">\(\epsilon_i = {Y}_i - \hat{Y}_i\)</span>. In this model, we now have three coefficients that need to be estimated: <span class="math notranslate nohighlight">\(b_0\)</span> is the intercept, <span class="math notranslate nohighlight">\(b_1\)</span> is the coefficient associated with my sleep, and <span class="math notranslate nohighlight">\(b_2\)</span> is the coefficient associated with my son’s sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients <span class="math notranslate nohighlight">\(\hat{b}_0\)</span>, <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_2\)</span> are those that minimise the sum squared residuals.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
