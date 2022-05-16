@@ -223,7 +223,7 @@ sns.despine()
 # (pingouinregression)=
 # ## Calculating regression with `pingouin`
 # 
-# As always, there are several different ways we could go about calculating a linear regression in Python, but we'll stick with `pingouin`, which for my money is one of the simplest and easiest packages to use. 
+# As always, there are several different ways we could go about calculating a linear regression in Python, but we'll stick with `pingouin`, which for my money is one of the simplest and easiest packages to use. The `pingouin` command for linear regression is, well, `linear_regression`, so that couldn't be much more straightforward. After that, we just need to tell `pinguoin` which variable we want to use as a predictor variable (independent variable), and which one we want to use as the outcome variable (dependent variable). `pingouin` wants the predictor variable first, so, since we want to model my grumpiness as a function of my sleep, we write:
 
 # In[5]:
 
@@ -246,6 +246,22 @@ lm.round(2)
 # \hat{Y}_i = -8.94 \ X_i + 125.96
 # $$ 
 
+# ### Warning!!!
+# 
+# Remember, it's critical that you put the variables in the right order. If you reverse the predictor and outcome variables, `pinguoin` will happily calculate a result for you, but it will not be the one you are looking for. If instead, we had written `pg.linear_regression(df['dan_grump'], df['dan_sleep'])`, we would get the following:
+
+# In[7]:
+
+
+lm = pg.linear_regression(df['dan_grump'], df['dan_sleep'])
+lm.round(2)
+
+
+# The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son's sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie[^notenolan], but it's no good in statistics. So remember, predictor first, outcome second[^noteformula]
+# 
+# [^noteNolan]: Christopher Nolan, have your people call my people if you're interested, we'll do lunch!
+# [^noteformula]: This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used `statsmodels`, which also preserves the R-style formula notation.
+
 # ### Interpreting the estimated model
 # 
 # The most important thing to be able to understand is how to interpret these coefficients. Let's start with $\hat{b}_1$, the slope. If we remember the definition of the slope, a regression coefficient of $\hat{b}_1 = -8.94$ means that if I increase $X_i$ by 1, then I'm decreasing $Y_i$ by 8.94. That is, each additional hour of sleep that I gain will improve my mood, reducing my grumpiness by 8.94 grumpiness points. What about the intercept? Well, since $\hat{b}_0$ corresponds to "the expected value of $Y_i$ when $X_i$ equals 0", it's pretty straightforward. It implies that if I get zero hours of sleep ($X_i =0$) then my grumpiness will go off the scale, to an insane value of ($Y_i = 125.96$). Best to be avoided, I think.
@@ -263,6 +279,80 @@ lm.round(2)
 # $$
 
 # As before, $\epsilon_i$ is the residual associated with the $i$-th observation, $\epsilon_i = {Y}_i - \hat{Y}_i$. In this model, we now have three coefficients that need to be estimated: $b_0$ is the intercept, $b_1$ is the coefficient associated with my sleep, and $b_2$ is the coefficient associated with my son's sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients $\hat{b}_0$, $\hat{b}_1$ and $\hat{b}_2$ are those that minimise the sum squared residuals. 
+
+# (pingouinmultiplelinearregression)=
+# ## Calculating Multiple Linear Regression with `pingouin`
+# 
+# Doing mulitiple linear regression in `pingouin` is just as easy as adding some more predictor variables, like this:
+
+# In[8]:
+
+
+lm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
+
+
+# Still, there is one thing to watch out for. If you look carefully at the command above, you will notice that not only have we added a new predictor (`baby_sleep`), we have also added some extra brackets. While before our predictor variable was `['dan_sleep']`, now we have `[['dan_sleep', 'baby_sleep']]`. Why the extra set of `[]`?
+# 
+# This is because we are using the brackets in two different ways. When we wrote `['dan_sleep']`, the square brackets mean "select the column with the header 'dan_sleep'". But now we are giving `pingouin` a _list_ of columns to select, and `list` objects are _also_ defined by square brackets in Python. To keep things clear, another way to achieve the same result would be to define the list of predictor variables outside the call to `pingouin`:
+
+# In[9]:
+
+
+predictors = ['dan_sleep', 'baby_sleep']
+outcome = 'dan_grump'
+
+lm = pg.linear_regression(df[predictors], df[outcome])
+
+
+# You could do all the work outside of `pinguoin`, like this:
+
+# In[10]:
+
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+lm = pg.linear_regression(predictors, outcome)
+
+
+# All three of these will give the same result, so it's up to you choose what makes most sense to you. But now it's time to take a look at the results:
+
+# In[11]:
+
+
+lm.round(2)
+
+
+# The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, XXXXXXXXXXXXX shows a 3D plot that plots all three variables, along with the regression model itself.
+
+# In[12]:
+
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from mpl_toolkits.mplot3d import Axes3D
+
+
+sns.set(style = "darkgrid")
+
+fig = plt.figure(figsize=(15, 5)) 
+ax = fig.add_subplot(111, projection = '3d')
+
+x = df['dan_grump']
+y = df['dan_sleep']
+z = df['baby_sleep']
+
+
+ax.set_xlabel("My grumpiness")
+ax.set_ylabel("My sleep")
+ax.set_zlabel("Baby's sleep")
+
+
+ax.scatter(x, y, z)
+
+plt.show()
+
 
 # In[ ]:
 

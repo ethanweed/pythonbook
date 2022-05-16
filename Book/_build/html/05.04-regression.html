@@ -353,8 +353,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#warning">
+     18.2.1. Warning!!!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
-     18.2.1. Interpreting the estimated model
+     18.2.2. Interpreting the estimated model
     </a>
    </li>
   </ul>
@@ -362,6 +367,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#multiple-linear-regression">
    18.3. Multiple linear regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-multiple-linear-regression-with-pingouin">
+   18.4. Calculating Multiple Linear Regression with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pingouin
+    </span>
+   </code>
   </a>
  </li>
 </ul>
@@ -400,8 +415,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#warning">
+     18.2.1. Warning!!!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
-     18.2.1. Interpreting the estimated model
+     18.2.2. Interpreting the estimated model
     </a>
    </li>
   </ul>
@@ -409,6 +429,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#multiple-linear-regression">
    18.3. Multiple linear regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-multiple-linear-regression-with-pingouin">
+   18.4. Calculating Multiple Linear Regression with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pingouin
+    </span>
+   </code>
   </a>
  </li>
 </ul>
@@ -678,7 +708,7 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </div>
 <div class="section" id="calculating-regression-with-pingouin">
 <span id="pingouinregression"></span><h2><span class="section-number">18.2. </span>Calculating regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#calculating-regression-with-pingouin" title="Permalink to this headline">¶</a></h2>
-<p>As always, there are several different ways we could go about calculating a linear regression in Python, but we’ll stick with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, which for my money is one of the simplest and easiest packages to use.</p>
+<p>As always, there are several different ways we could go about calculating a linear regression in Python, but we’ll stick with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, which for my money is one of the simplest and easiest packages to use. The <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> command for linear regression is, well, <code class="docutils literal notranslate"><span class="pre">linear_regression</span></code>, so that couldn’t be much more straightforward. After that, we just need to tell <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> which variable we want to use as a predictor variable (independent variable), and which one we want to use as the outcome variable (dependent variable). <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> wants the predictor variable first, so, since we want to model my grumpiness as a function of my sleep, we write:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
@@ -759,8 +789,79 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 \[
 \hat{Y}_i = -8.94 \ X_i + 125.96
 \]</div>
+<div class="section" id="warning">
+<h3><span class="section-number">18.2.1. </span>Warning!!!<a class="headerlink" href="#warning" title="Permalink to this headline">¶</a></h3>
+<p>Remember, it’s critical that you put the variables in the right order. If you reverse the predictor and outcome variables, <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> will happily calculate a result for you, but it will not be the one you are looking for. If instead, we had written <code class="docutils literal notranslate"><span class="pre">pg.linear_regression(df['dan_grump'],</span> <span class="pre">df['dan_sleep'])</span></code>, we would get the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">])</span>
+<span class="n">lm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>12.78</td>
+      <td>0.28</td>
+      <td>45.27</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>12.22</td>
+      <td>13.34</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_grump</td>
+      <td>-0.09</td>
+      <td>0.00</td>
+      <td>-20.85</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-0.10</td>
+      <td>-0.08</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son’s sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie[^notenolan], but it’s no good in statistics. So remember, predictor first, outcome second<a class="footnote-reference brackets" href="#noteformula" id="id3">3</a></p>
+</div>
 <div class="section" id="interpreting-the-estimated-model">
-<h3><span class="section-number">18.2.1. </span>Interpreting the estimated model<a class="headerlink" href="#interpreting-the-estimated-model" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">18.2.2. </span>Interpreting the estimated model<a class="headerlink" href="#interpreting-the-estimated-model" title="Permalink to this headline">¶</a></h3>
 <p>The most important thing to be able to understand is how to interpret these coefficients. Let’s start with <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>, the slope. If we remember the definition of the slope, a regression coefficient of <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span> means that if I increase <span class="math notranslate nohighlight">\(X_i\)</span> by 1, then I’m decreasing <span class="math notranslate nohighlight">\(Y_i\)</span> by 8.94. That is, each additional hour of sleep that I gain will improve my mood, reducing my grumpiness by 8.94 grumpiness points. What about the intercept? Well, since <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> corresponds to “the expected value of <span class="math notranslate nohighlight">\(Y_i\)</span> when <span class="math notranslate nohighlight">\(X_i\)</span> equals 0”, it’s pretty straightforward. It implies that if I get zero hours of sleep (<span class="math notranslate nohighlight">\(X_i =0\)</span>) then my grumpiness will go off the scale, to an insane value of (<span class="math notranslate nohighlight">\(Y_i = 125.96\)</span>). Best to be avoided, I think.</p>
 </div>
 </div>
@@ -773,6 +874,152 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 \]</div>
 <p>As before, <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is the residual associated with the <span class="math notranslate nohighlight">\(i\)</span>-th observation, <span class="math notranslate nohighlight">\(\epsilon_i = {Y}_i - \hat{Y}_i\)</span>. In this model, we now have three coefficients that need to be estimated: <span class="math notranslate nohighlight">\(b_0\)</span> is the intercept, <span class="math notranslate nohighlight">\(b_1\)</span> is the coefficient associated with my sleep, and <span class="math notranslate nohighlight">\(b_2\)</span> is the coefficient associated with my son’s sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients <span class="math notranslate nohighlight">\(\hat{b}_0\)</span>, <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_2\)</span> are those that minimise the sum squared residuals.</p>
+</div>
+<div class="section" id="calculating-multiple-linear-regression-with-pingouin">
+<span id="pingouinmultiplelinearregression"></span><h2><span class="section-number">18.4. </span>Calculating Multiple Linear Regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#calculating-multiple-linear-regression-with-pingouin" title="Permalink to this headline">¶</a></h2>
+<p>Doing mulitiple linear regression in <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> is just as easy as adding some more predictor variables, like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Still, there is one thing to watch out for. If you look carefully at the command above, you will notice that not only have we added a new predictor (<code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>), we have also added some extra brackets. While before our predictor variable was <code class="docutils literal notranslate"><span class="pre">['dan_sleep']</span></code>, now we have <code class="docutils literal notranslate"><span class="pre">[['dan_sleep',</span> <span class="pre">'baby_sleep']]</span></code>. Why the extra set of <code class="docutils literal notranslate"><span class="pre">[]</span></code>?</p>
+<p>This is because we are using the brackets in two different ways. When we wrote <code class="docutils literal notranslate"><span class="pre">['dan_sleep']</span></code>, the square brackets mean “select the column with the header ‘dan_sleep’”. But now we are giving <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> a <em>list</em> of columns to select, and <code class="docutils literal notranslate"><span class="pre">list</span></code> objects are <em>also</em> defined by square brackets in Python. To keep things clear, another way to achieve the same result would be to define the list of predictor variables outside the call to <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span>
+
+<span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">predictors</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">outcome</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You could do all the work outside of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>All three of these will give the same result, so it’s up to you choose what makes most sense to you. But now it’s time to take a look at the results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>125.97</td>
+      <td>3.04</td>
+      <td>41.42</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>119.93</td>
+      <td>132.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.95</td>
+      <td>0.55</td>
+      <td>-16.17</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-10.05</td>
+      <td>-7.85</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>baby_sleep</td>
+      <td>0.01</td>
+      <td>0.27</td>
+      <td>0.04</td>
+      <td>0.97</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-0.53</td>
+      <td>0.55</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, XXXXXXXXXXXXX shows a 3D plot that plots all three variables, along with the regression model itself.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span> <span class="o">=</span> <span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">]</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;baby_sleep&#39;</span><span class="p">]</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;My grumpiness&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;My sleep&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;Baby&#39;s sleep&quot;</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_33_0.png" src="_images/05.04-regression_33_0.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -780,6 +1027,9 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 </dd>
 <dt class="label" id="notekungfu"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>Or at least, I’m assuming that it doesn’t help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it <em>will</em> help <em>you</em> to know that the solution to the estimation problem turns out to be <span class="math notranslate nohighlight">\(\hat{b} = (X^TX)^{-1} X^T y\)</span>, where <span class="math notranslate nohighlight">\(\hat{b}\)</span> is a vector containing the estimated regression coefficients,  <span class="math notranslate nohighlight">\(X\)</span> is the “design matrix” that contains the predictor variables (plus an additional column containing all ones; strictly <span class="math notranslate nohighlight">\(X\)</span> is a matrix of the regressors, but I haven’t discussed the distinction yet), and <span class="math notranslate nohighlight">\(y\)</span> is a vector containing the outcome variable. For everyone else, this isn’t exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you’ll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.</p>
+</dd>
+<dt class="label" id="noteformula"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, which also preserves the R-style formula notation.</p>
 </dd>
 </dl>
 </div>
