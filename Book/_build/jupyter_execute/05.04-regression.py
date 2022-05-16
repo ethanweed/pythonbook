@@ -339,23 +339,24 @@ sns.set(style = "darkgrid")
 fig = plt.figure(figsize=(25, 10)) 
 ax = fig.add_subplot(111, projection = '3d')
 
-x = df['dan_grump']
-y = df['dan_sleep']
-z = df['baby_sleep']
 
+x = df['dan_sleep']
+y = df['baby_sleep']
+z = df['dan_grump']
 
-ax.set_xlabel("My grumpiness")
-ax.set_ylabel("My sleep")
-ax.set_zlabel("Baby's sleep")
-
+ax.set_xlabel("dan_sleep")
+ax.set_ylabel("baby_sleep")
+ax.set_zlabel("dan_grump")
 
 ax.scatter(x, y, z)
 
 plt.show()
 
 
-# In[ ]:
-
-
-
-
+#  ```{glue:figure} sleep_regressions_3d-fig
+# :figwidth: 600px
+# :name: fig-sleep_regressions_3d
+# 
+# A 3D visualisation of a multiple regression model. There are two predictors in the model, `dan_sleep` and `baby_sleep`; the outcome variable is `dan.grump`. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we're trying to do is find a plane that is as close to all the blue dots as possible."
+# 
+# ```
