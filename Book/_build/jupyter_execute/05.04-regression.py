@@ -221,7 +221,7 @@ sns.despine()
 # ```
 
 # (pingouinregression)=
-# ## Calculating regression with `pingouin`
+# ## Linear Regression with Python
 # 
 # As always, there are several different ways we could go about calculating a linear regression in Python, but we'll stick with `pingouin`, which for my money is one of the simplest and easiest packages to use. The `pingouin` command for linear regression is, well, `linear_regression`, so that couldn't be much more straightforward. After that, we just need to tell `pinguoin` which variable we want to use as a predictor variable (independent variable), and which one we want to use as the outcome variable (dependent variable). `pingouin` wants the predictor variable first, so, since we want to model my grumpiness as a function of my sleep, we write:
 
@@ -281,7 +281,7 @@ lm.round(2)
 # As before, $\epsilon_i$ is the residual associated with the $i$-th observation, $\epsilon_i = {Y}_i - \hat{Y}_i$. In this model, we now have three coefficients that need to be estimated: $b_0$ is the intercept, $b_1$ is the coefficient associated with my sleep, and $b_2$ is the coefficient associated with my son's sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients $\hat{b}_0$, $\hat{b}_1$ and $\hat{b}_2$ are those that minimise the sum squared residuals. 
 
 # (pingouinmultiplelinearregression)=
-# ## Calculating Multiple Linear Regression with `pingouin`
+# ## Multiple Linear Regression in Python
 # 
 # Doing mulitiple linear regression in `pingouin` is just as easy as adding some more predictor variables, like this:
 
