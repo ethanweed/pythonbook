@@ -239,8 +239,7 @@ lm = pg.linear_regression(df['dan_sleep'], df['dan_grump'])
 lm.round(2)
 
 
-# As is its way, `pingouin` gives us a nice simple table, with a lot of information. Most importantly for now, we can see that `pingouin` has caclulated the intercept $\hat{b}_0 = 125.96$ and the slope $\hat{b}_1 = -8.94$. In other words, the best-fitting regression line that I plotted in {numref} `
-# fig-sleep_regressions_1` has this formula:
+# As is its way, `pingouin` gives us a nice simple table, with a lot of information. Most importantly for now, we can see that `pingouin` has caclulated the intercept $\hat{b}_0 = 125.96$ and the slope $\hat{b}_1 = -8.94$. In other words, the best-fitting regression line that I plotted in {numref}`fig-sleep_regressions_1` has this formula: 
 # 
 # $$
 # \hat{Y}_i = -8.94 \ X_i + 125.96
