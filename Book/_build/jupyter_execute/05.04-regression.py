@@ -325,13 +325,13 @@ lm.round(2)
 
 # The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, XXXXXXXXXXXXX shows a 3D plot that plots all three variables, along with the regression model itself.
 
+# In[ ]:
+
+
+
+
+
 # In[12]:
-
-
-coefs
-
-
-# In[47]:
 
 
 import matplotlib.pyplot as plt
@@ -340,8 +340,8 @@ import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
 
+sns.set_style("whitegrid")
 
-sns.set(style = 'whitegrid')
 
 fig = plt.figure(figsize=(25, 10)) 
 ax = fig.add_subplot(111, projection = '3d')
@@ -365,18 +365,26 @@ zs = xs*coefs[0]+ys*coefs[1]+intercept
 ax.plot_surface(xs,ys,zs, alpha=0.5)
 
 ax.plot_surface(xs,ys,zs, alpha=0.01)
-ax.scatter(x, y, z, color = 'black')
+ax.scatter(x, y, z, color = 'blue')
 
 ax.view_init(11,97)
 
 
-plt.show()
+
+
+
 
 
 #  ```{glue:figure} sleep_regressions_3d-fig
 # :figwidth: 600px
 # :name: fig-sleep_regressions_3d
 # 
-# A 3D visualisation of a multiple regression model. There are two predictors in the model, `dan_sleep` and `baby_sleep`; the outcome variable is `dan.grump`. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we're trying to do is find a plane that is as close to all the blue dots as possible."
+# A 3D visualisation of a multiple regression model. There are two predictors in the model, `dan_sleep` and `baby_sleep`; the outcome variable is `dan.grump`. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we're trying to do is find a plane that is as close to all the blue dots as possible.
 # 
 # ```
+
+# In[ ]:
+
+
+
+
