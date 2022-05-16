@@ -328,13 +328,20 @@ lm.round(2)
 # In[12]:
 
 
+max(x)
+
+
+# In[13]:
+
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
 
-sns.set(style = "darkgrid")
+
+sns.set(style = 'whitegrid')
 
 fig = plt.figure(figsize=(25, 10)) 
 ax = fig.add_subplot(111, projection = '3d')
@@ -348,7 +355,22 @@ ax.set_xlabel("dan_sleep")
 ax.set_ylabel("baby_sleep")
 ax.set_zlabel("dan_grump")
 
-ax.scatter(x, y, z)
+#ax.plot_surface(xx, yy, z, alpha=0.2)
+
+coefs = list(lm['coef'][1:])
+intercept = lm['coef'][0]
+xs = np.tile(np.arange(12), (12,1))
+ys = np.tile(np.arange(12), (12,1)).T
+zs = xs*coefs[0]+ys*coefs[1]+intercept
+ax.plot_surface(xs,ys,zs, alpha=0.5)
+
+ax.plot_surface(xs,ys,zs, alpha=0.01)
+ax.scatter(x, y, z, color = 'black')
+
+for angle in range(0, 360):
+   ax.view_init(angle,30)
+   plt.draw()
+   plt.pause(.001)
 
 plt.show()
 
