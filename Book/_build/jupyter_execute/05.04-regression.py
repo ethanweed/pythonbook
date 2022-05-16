@@ -328,10 +328,10 @@ lm.round(2)
 # In[12]:
 
 
-max(x)
+coefs
 
 
-# In[13]:
+# In[47]:
 
 
 import matplotlib.pyplot as plt
@@ -367,10 +367,8 @@ ax.plot_surface(xs,ys,zs, alpha=0.5)
 ax.plot_surface(xs,ys,zs, alpha=0.01)
 ax.scatter(x, y, z, color = 'black')
 
-for angle in range(0, 360):
-   ax.view_init(angle,30)
-   plt.draw()
-   plt.pause(.001)
+ax.view_init(11,97)
+
 
 plt.show()
 
