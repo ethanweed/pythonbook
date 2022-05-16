@@ -336,7 +336,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 sns.set(style = "darkgrid")
 
-fig = plt.figure(figsize=(15, 5)) 
+fig = plt.figure(figsize=(25, 10)) 
 ax = fig.add_subplot(111, projection = '3d')
 
 x = df['dan_grump']
