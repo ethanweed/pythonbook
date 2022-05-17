@@ -1351,6 +1351,58 @@ H_1: Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
 \]</div>
 <p>and the degrees of freedom associated with this are <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(N-K-1\)</span>. This <span class="math notranslate nohighlight">\(F\)</span> statistic has exactly the same interpretation as the one we introduced <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">when learning about ANOVAs</span></a>. Large <span class="math notranslate nohighlight">\(F\)</span> values indicate that the null hypothesis is performing poorly in comparison to the alternative hypothesis.</p>
+<p>“Ok, this is fine”, I hear you say, “but now show me the easy way! Show me how easy it is to get an <span class="math notranslate nohighlight">\(F\)</span> statistic from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>! <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> makes everything so much easier! Surely <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does this for me as well?</p>
+<p>Yeah. About that… actually, as of the time of writing (Tuesday the 17th of May, 2022), <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does <em>not</em> automatically calculate the <span class="math notranslate nohighlight">\(F\)</span> statistic for the model for you. This seems like kind of a strange omission to me, since it is pretty normal to report overall <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(p\)</span> values for a model, and <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> seems to be all about making the normal things easy. So, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one.</p>
+<p>I should mention that there are other statistics packages for Python that will do this for you. <a class="reference external" href="https://www.statsmodels.org/stable/regression.html">statsmodels</a> comes to mind, for instance. But this is opening a whole new can of worms that I’d rather avoid for now, so instead I provide you with code to calculate the <span class="math notranslate nohighlight">\(F\)</span> statistic and <span class="math notranslate nohighlight">\(p\)</span>-value for the model “manually” below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span> <span class="k">as</span> <span class="n">st</span>
+
+<span class="c1"># your predictor and outcome variables (aka, &quot;the data&quot;)</span>
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="c1"># model the data, and store the model information in a variable called &quot;mod&quot;</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+
+
+<span class="c1"># call the outcome data &quot;Y&quot;, just for the sake of generalizability</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">outcome</span>
+
+<span class="c1"># get the model residuals from the model object</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">residuals_</span>
+
+<span class="c1"># calculate the residual, the model, and the total sums of squares</span>
+<span class="n">SS_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+<span class="n">SS_tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
+<span class="n">SS_mod</span> <span class="o">=</span> <span class="n">SS_tot</span> <span class="o">-</span> <span class="n">SS_res</span>
+
+<span class="c1"># get the degrees of freedom for the model and the residuals</span>
+<span class="n">df_mod</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">df_model_</span>
+<span class="n">df_res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">df_resid_</span>
+
+<span class="c1"># caluculate the mean squares for the model and the residuals</span>
+<span class="n">MS_mod</span> <span class="o">=</span> <span class="n">SS_mod</span> <span class="o">/</span> <span class="n">df_mod</span>
+<span class="n">MS_res</span> <span class="o">=</span> <span class="n">SS_res</span> <span class="o">/</span> <span class="n">df_res</span>
+
+<span class="c1"># calculate the F-statistic</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">MS_mod</span> <span class="o">/</span> <span class="n">MS_res</span>
+
+<span class="c1"># estimate the p-value</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">df_mod</span><span class="p">,</span> <span class="n">df_res</span><span class="p">)</span>
+
+<span class="c1"># display the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;F=&quot;</span><span class="p">,</span><span class="n">F</span><span class="p">,</span> <span class="s2">&quot;p=&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.23828653684436 p= 2.1457300163208854e-36
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="tests-for-individual-coefficients">
 <h3><span class="section-number">18.6.2. </span>Tests for individual coefficients<a class="headerlink" href="#tests-for-individual-coefficients" title="Permalink to this headline">¶</a></h3>
@@ -1531,58 +1583,6 @@ t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
 </div></div></div>
 </div>
 <p>Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of <span class="math notranslate nohighlight">\(b\)</span> (e.g., 125.96 for the intercept, -8.9 for the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> predictor, and -0.01 for the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor). The second column is the standard error estimate <span class="math notranslate nohighlight">\(\hat\sigma_b\)</span>. The third column gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, and it’s worth noticing that in this table <span class="math notranslate nohighlight">\(t= \hat{b}/\mbox{SE}({\hat{b}})\)</span> every time. The fourth column gives you the actual <span class="math notranslate nohighlight">\(p\)</span> value for each of these tests.<a class="footnote-reference brackets" href="#notecorrection" id="id6">6</a> Then next column gives the <span class="math notranslate nohighlight">\(r^2\)</span> value and the adjusted <span class="math notranslate nohighlight">\(r^2\)</span> for the model, and the last two columns give us the upper and lower <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> bounds for each estimate.</p>
-<p>Ok, this is great, I hear you say. I love <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>! It gives me all the things I need to report my regression results. Now, where is that <span class="math notranslate nohighlight">\(F\)</span> value, you were talking about? Surely <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does this for me as well?</p>
-<p>Yeah. About that… actually, as of the time of writing, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does <em>not</em> automatically calculate the <span class="math notranslate nohighlight">\(F\)</span> statistic for the model for you. Now, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one.</p>
-<p>I should mention that there are other statistics packages for Python that will do this for you. <a class="reference external" href="https://www.statsmodels.org/stable/regression.html">statsmodels</a> comes to mind, for instance. But this is opening a whole new can of worms that I’d rather avoid for now, so instead I provide you with code to calculate the <span class="math notranslate nohighlight">\(F\)</span> statistic and <span class="math notranslate nohighlight">\(p\)</span>-value for the model “manually” below:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span> <span class="k">as</span> <span class="n">st</span>
-
-<span class="c1"># your predictor and outcome variables (aka, &quot;the data&quot;)</span>
-<span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
-<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
-
-<span class="c1"># model the data, and store the model information in a variable called &quot;mod&quot;</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
-
-
-<span class="c1"># call the outcome data &quot;Y&quot;, just for the sake of generalizability</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">outcome</span>
-
-<span class="c1"># get the model residuals from the model object</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">residuals_</span>
-
-<span class="c1"># calculate the residual, the model, and the total sums of squares</span>
-<span class="n">SS_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
-<span class="n">SS_tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
-<span class="n">SS_mod</span> <span class="o">=</span> <span class="n">SS_tot</span> <span class="o">-</span> <span class="n">SS_res</span>
-
-<span class="c1"># get the degrees of freedom for the model and the residuals</span>
-<span class="n">df_mod</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">df_model_</span>
-<span class="n">df_res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">df_resid_</span>
-
-<span class="c1"># caluculate the mean squares for the model and the residuals</span>
-<span class="n">MS_mod</span> <span class="o">=</span> <span class="n">SS_mod</span> <span class="o">/</span> <span class="n">df_mod</span>
-<span class="n">MS_res</span> <span class="o">=</span> <span class="n">SS_res</span> <span class="o">/</span> <span class="n">df_res</span>
-
-<span class="c1"># calculate the F-statistic</span>
-<span class="n">F</span> <span class="o">=</span> <span class="n">MS_mod</span> <span class="o">/</span> <span class="n">MS_res</span>
-
-<span class="c1"># estimate the p-value</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">df_mod</span><span class="p">,</span> <span class="n">df_res</span><span class="p">)</span>
-
-<span class="c1"># display the results</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;F=&quot;</span><span class="p">,</span><span class="n">F</span><span class="p">,</span> <span class="s2">&quot;p=&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.23828653684436 p= 2.1457300163208854e-36
-</pre></div>
-</div>
-</div>
-</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

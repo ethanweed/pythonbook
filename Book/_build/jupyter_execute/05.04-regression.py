@@ -557,61 +557,13 @@ r**2    # print the squared correlation
 
 # and the degrees of freedom associated with this are $K$ and $N-K-1$. This $F$ statistic has exactly the same interpretation as the one we introduced [when learning about ANOVAs](anova). Large $F$ values indicate that the null hypothesis is performing poorly in comparison to the alternative hypothesis.
 
-# ### Tests for individual coefficients
+# "Ok, this is fine", I hear you say, "but now show me the easy way! Show me how easy it is to get an $F$ statistic from `pingouin`! `pingouin` makes everything so much easier! Surely `pingouin` does this for me as well?
 # 
-# The $F$-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the $F$-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, *passing* the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:
-
-# In[20]:
-
-
-predictors = df[['dan_sleep', 'baby_sleep']]
-outcome = df['dan_grump']
-
-lmm = pg.linear_regression(predictors, outcome)
-lmm.round(2)
-
-
-# 
-# I can't help but notice that the estimated regression coefficient for the `baby_sleep` variable is tiny (0.01), relative to the value that we get for `dan_sleep` (-8.95). Given that these two variables are absolutely on the same scale (they're both measured in "hours slept"), I find this suspicious. In fact, I'm beginning to suspect that it's really only the amount of sleep that *I* get that matters in order to predict my grumpiness.
-# 
-# Once again, we can reuse a hypothesis test that we discussed earlier, this time the $t$-test. The test that we're interested has a null hypothesis that the true regression coefficient is zero ($b = 0$), which is to be tested against the alternative hypothesis that it isn't ($b \neq 0$). That is:
-# 
-# $$
-# \begin{array}{rl}
-# H_0: & b = 0 \\
-# H_1: & b \neq 0 
-# \end{array}
-# $$
-
-# How can we test this? Well, if the central limit theorem is kind to us, we might be able to guess that the sampling distribution of $\hat{b}$, the estimated regression coefficient, is a normal distribution with mean centred on $b$. What that would mean is that if the null hypothesis were true, then the sampling distribution of $\hat{b}$ has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, then we're in luck. That's *exactly* the situation for which we introduced the one-sample $t$ way back in [the chapter on t-tests](ttest). So let's define a $t$-statistic like this,
-# 
-# $$
-# t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
-# $$
-
-# I'll skip over the reasons why, but our degrees of freedom in this case are $df = N- K- 1$. Irritatingly, the estimate of the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, is not as easy to calculate as the standard error of the mean that we used for the simpler $t$-tests [earlier](ttest). In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it's sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly). 
-# 
-# In any case, this $t$-statistic can be interpreted in the same way as the $t$-statistics that we discussed [earlier](ttest). Assuming that you have a two-sided alternative (i.e., you don't really care if $b >0$ or $b < 0$), then it's the extreme values of $t$ (i.e., a lot less than zero or a lot greater than zero) that suggest that you should reject the null hypothesis. 
-
-# Now we are in a position to understand all the values in the multiple regression table provided by `pingouin`:
-
-# In[21]:
-
-
-lmm.round(2)
-
-
-# Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of $b$ (e.g., 125.96 for the intercept, -8.9 for the `dan_sleep` predictor, and -0.01 for the `baby_sleep` predictor). The second column is the standard error estimate $\hat\sigma_b$. The third column gives you the $t$-statistic, and it's worth noticing that in this table $t= \hat{b}/\mbox{SE}({\hat{b}})$ every time. The fourth column gives you the actual $p$ value for each of these tests.[^notecorrection] Then next column gives the $r^2$ value and the adjusted $r^2$ for the model, and the last two columns give us the upper and lower [confidence interval](ci) bounds for each estimate.
-# 
-# [^notecorrection]: Note that, although `pingouin` has done multiple tests here, it hasn't done a Bonferroni correction or anything. These are standard one-sample $t$-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.
-
-# Ok, this is great, I hear you say. I love `pingouin`! It gives me all the things I need to report my regression results. Now, where is that $F$ value, you were talking about? Surely `pingouin` does this for me as well?
-# 
-# Yeah. About that... actually, as of the time of writing, `pingouin` does _not_ automatically calculate the $F$ statistic for the model for you. Now, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
+# Yeah. About that... actually, as of the time of writing (Tuesday the 17th of May, 2022), `pingouin` does _not_ automatically calculate the $F$ statistic for the model for you. This seems like kind of a strange omission to me, since it is pretty normal to report overall $F$ and $p$ values for a model, and `pingouin` seems to be all about making the normal things easy. So, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
 # 
 # I should mention that there are other statistics packages for Python that will do this for you. [statsmodels](https://www.statsmodels.org/stable/regression.html) comes to mind, for instance. But this is opening a whole new can of worms that I'd rather avoid for now, so instead I provide you with code to calculate the $F$ statistic and $p$-value for the model "manually" below:
 
-# In[22]:
+# In[20]:
 
 
 import numpy as np
@@ -653,6 +605,54 @@ p = st.f.sf(F, df_mod, df_res)
 # display the results
 print("F=",F, "p=", p)
 
+
+# ### Tests for individual coefficients
+# 
+# The $F$-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the $F$-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, *passing* the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:
+
+# In[21]:
+
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+lmm = pg.linear_regression(predictors, outcome)
+lmm.round(2)
+
+
+# 
+# I can't help but notice that the estimated regression coefficient for the `baby_sleep` variable is tiny (0.01), relative to the value that we get for `dan_sleep` (-8.95). Given that these two variables are absolutely on the same scale (they're both measured in "hours slept"), I find this suspicious. In fact, I'm beginning to suspect that it's really only the amount of sleep that *I* get that matters in order to predict my grumpiness.
+# 
+# Once again, we can reuse a hypothesis test that we discussed earlier, this time the $t$-test. The test that we're interested has a null hypothesis that the true regression coefficient is zero ($b = 0$), which is to be tested against the alternative hypothesis that it isn't ($b \neq 0$). That is:
+# 
+# $$
+# \begin{array}{rl}
+# H_0: & b = 0 \\
+# H_1: & b \neq 0 
+# \end{array}
+# $$
+
+# How can we test this? Well, if the central limit theorem is kind to us, we might be able to guess that the sampling distribution of $\hat{b}$, the estimated regression coefficient, is a normal distribution with mean centred on $b$. What that would mean is that if the null hypothesis were true, then the sampling distribution of $\hat{b}$ has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, then we're in luck. That's *exactly* the situation for which we introduced the one-sample $t$ way back in [the chapter on t-tests](ttest). So let's define a $t$-statistic like this,
+# 
+# $$
+# t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
+# $$
+
+# I'll skip over the reasons why, but our degrees of freedom in this case are $df = N- K- 1$. Irritatingly, the estimate of the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, is not as easy to calculate as the standard error of the mean that we used for the simpler $t$-tests [earlier](ttest). In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it's sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly). 
+# 
+# In any case, this $t$-statistic can be interpreted in the same way as the $t$-statistics that we discussed [earlier](ttest). Assuming that you have a two-sided alternative (i.e., you don't really care if $b >0$ or $b < 0$), then it's the extreme values of $t$ (i.e., a lot less than zero or a lot greater than zero) that suggest that you should reject the null hypothesis. 
+
+# Now we are in a position to understand all the values in the multiple regression table provided by `pingouin`:
+
+# In[22]:
+
+
+lmm.round(2)
+
+
+# Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of $b$ (e.g., 125.96 for the intercept, -8.9 for the `dan_sleep` predictor, and -0.01 for the `baby_sleep` predictor). The second column is the standard error estimate $\hat\sigma_b$. The third column gives you the $t$-statistic, and it's worth noticing that in this table $t= \hat{b}/\mbox{SE}({\hat{b}})$ every time. The fourth column gives you the actual $p$ value for each of these tests.[^notecorrection] Then next column gives the $r^2$ value and the adjusted $r^2$ for the model, and the last two columns give us the upper and lower [confidence interval](ci) bounds for each estimate.
+# 
+# [^notecorrection]: Note that, although `pingouin` has done multiple tests here, it hasn't done a Bonferroni correction or anything. These are standard one-sample $t$-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.
 
 # In[77]:
 
