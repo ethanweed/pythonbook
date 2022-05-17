@@ -605,9 +605,9 @@ lmm.round(2)
 # 
 # [^notecorrection]: Note that, although `pingouin` has done multiple tests here, it hasn't done a Bonferroni correction or anything. These are standard one-sample $t$-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.
 
-# Ok, this is great, I hear you say. I love `pinguoin`! It gives me all the things I need to report my regression results. Now, where is that $F$ value, you were talking about? Surely `pinguoin` does this for me as well?
+# Ok, this is great, I hear you say. I love `pingouin`! It gives me all the things I need to report my regression results. Now, where is that $F$ value, you were talking about? Surely `pingouin` does this for me as well?
 # 
-# Yeah. About that... actually, as of the time of writing, `pinguoin` does _not_ automatically calculate the $F$ statistic for the model for you. Now, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
+# Yeah. About that... actually, as of the time of writing, `pingouin` does _not_ automatically calculate the $F$ statistic for the model for you. Now, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
 # 
 # I should mention that there are other statistics packages for Python that will do this for you. [statsmodels](https://www.statsmodels.org/stable/regression.html) comes to mind, for instance. But this is opening a whole new can of worms that I'd rather avoid for now, so instead I provide you with code to calculate the $F$ statistic and $p$-value for the model "manually" below:
 
