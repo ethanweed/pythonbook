@@ -376,6 +376,22 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">
+   18.5. Quantifying the fit of the regression model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-r-2-value">
+     18.5.1. The
+     <span class="math notranslate nohighlight">
+      \(R^2\)
+     </span>
+     value
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -431,6 +447,22 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#formula-for-the-general-case">
      18.4.1. Formula for the general case
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">
+   18.5. Quantifying the fit of the regression model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-r-2-value">
+     18.5.1. The
+     <span class="math notranslate nohighlight">
+      \(R^2\)
+     </span>
+     value
     </a>
    </li>
   </ul>
@@ -874,7 +906,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <p>Doing mulitiple linear regression in <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> is just as easy as adding some more predictor variables, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">lmm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -886,7 +918,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]</span>
 <span class="n">outcome</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span>
 
-<span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">predictors</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">outcome</span><span class="p">])</span>
+<span class="n">lmm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">predictors</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">outcome</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -897,7 +929,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
 <span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 
-<span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+<span class="n">lmm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -905,7 +937,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <p>All three of these will give the same result, so it’s up to you choose what makes most sense to you. But now it’s time to take a look at the results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lmm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -988,34 +1020,39 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
 
-
+<span class="c1"># style the plot</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 
-
+<span class="c1"># construct 3d plot space</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span> <span class="o">=</span> <span class="s1">&#39;3d&#39;</span><span class="p">)</span>
 
-
+<span class="c1"># define axes</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;baby_sleep&#39;</span><span class="p">]</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 
+<span class="c1"># set axis labels</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;dan_sleep&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;baby_sleep&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;dan_grump&quot;</span><span class="p">)</span>
 
-<span class="c1">#ax.plot_surface(xx, yy, z, alpha=0.2)</span>
 
-<span class="n">coefs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">lm</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
-<span class="n">intercept</span> <span class="o">=</span> <span class="n">lm</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># get intercept and regression coefficients from the lmm model</span>
+<span class="n">coefs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">lmm</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">lmm</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># create a 3d plane representation of the lmm predictions</span>
 <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
 <span class="n">zs</span> <span class="o">=</span> <span class="n">xs</span><span class="o">*</span><span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">ys</span><span class="o">*</span><span class="n">coefs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
+<span class="c1"># plot the data and plane</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 
+<span class="c1"># adjust the viewing angle</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">97</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1034,6 +1071,158 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 \[
 Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 \]</div>
+</div>
+</div>
+<div class="section" id="quantifying-the-fit-of-the-regression-model">
+<span id="r2"></span><h2><span class="section-number">18.5. </span>Quantifying the fit of the regression model<a class="headerlink" href="#quantifying-the-fit-of-the-regression-model" title="Permalink to this headline">¶</a></h2>
+<p>So we now know how to estimate the coefficients of a linear regression model. The problem is, we don’t yet know if this regression model is any good. For example, the <code class="docutils literal notranslate"><span class="pre">lm</span></code> model <em>claims</em> that every hour of sleep will improve my mood by quite a lot, but it might just be rubbish. Remember, the regression model only produces a prediction <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> about what my mood is like: my actual mood is <span class="math notranslate nohighlight">\(Y_i\)</span>. If these two are very close, then the regression model has done a good job. If they are very different, then it has done a bad job.</p>
+<div class="section" id="the-r-2-value">
+<h3><span class="section-number">18.5.1. </span>The <span class="math notranslate nohighlight">\(R^2\)</span> value<a class="headerlink" href="#the-r-2-value" title="Permalink to this headline">¶</a></h3>
+<p>Once again, let’s wrap a little bit of mathematics around this. Firstly, we’ve got the sum of the squared residuals:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{res} = \sum_i (Y_i - \hat{Y}_i)^2
+\]</div>
+<p>which we would hope to be pretty small. Specifically, what we’d like is for it to be very small in comparison to the total variability in the outcome variable,</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{tot} = \sum_i (Y_i - \bar{Y})^2
+\]</div>
+<p>While we’re here, let’s calculate these values in Python. Firstly, in order to make my Python commands look a bit more similar to the mathematical equations, I’ll create variables <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">]</span> <span class="c1"># the predictor</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span> <span class="c1"># the outcome</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, lets just examine the output for the simple model that uses only a single predictor:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lm</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">lm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>125.96</td>
+      <td>3.02</td>
+      <td>41.76</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>119.97</td>
+      <td>131.94</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.94</td>
+      <td>0.43</td>
+      <td>-20.85</td>
+      <td>0.0</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-9.79</td>
+      <td>-8.09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient (<span class="math notranslate nohighlight">\(beta\)</span>) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate <span class="math notranslate nohighlight">\(\hat{Y}, that is, the values that the model _predicts_ for the outcome measure, as opposed to \)</span>Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y_pred</span> <span class="o">=</span> <span class="o">-</span><span class="mf">8.94</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="mf">125.97</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Okay, now that we’ve got a variable which stores the regression model predictions for how grumpy I will be on any given day, let’s calculate our sum of squared residuals. We would do that using the following command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SS_resid</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
+<span class="n">SS_resid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1838.7224883200004
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wonderful. A big number that doesn’t mean very much. Still, let’s forge boldly onwards anyway, and calculate the total sum of squares as well. That’s also pretty simple:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">SS_tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
+<span class="n">SS_tot</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9998.590000000002
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hm. Well, it’s a much bigger number than the last one, so this does suggest that our regression model was making good predictions. But it’s not very interpretable.</p>
+<p>Perhaps we can fix this. What we’d like to do is to convert these two fairly meaningless numbers into one number. A nice, interpretable number, which for no particular reason we’ll call <span class="math notranslate nohighlight">\(R^2\)</span>. What we would like is for the value of <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 1 if the regression model makes no errors in predicting the data. In other words, if it turns out that the residual errors are zero, that is, if <span class="math notranslate nohighlight">\(\mbox{SS}_{res} = 0\)</span>, then we expect <span class="math notranslate nohighlight">\(R^2 = 1\)</span>. Similarly, if the model is completely useless, we would like <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 0. What do I mean by “useless”? Tempting as it is demand that the regression model move out of the house, cut its hair and get a real job, I’m probably going to have to pick a more practical definition: in this case, all I mean is that the residual sum of squares is no smaller than the total sum of squares, <span class="math notranslate nohighlight">\(\mbox{SS}_{res} = \mbox{SS}_{tot}\)</span>. Wait, why don’t we do exactly that? The formula that provides us with out <span class="math notranslate nohighlight">\(R^2\)</span> value is pretty simple to write down,</p>
+<div class="math notranslate nohighlight">
+\[
+R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
+\]</div>
+<p>and equally simple to calculate in Python:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span> <span class="p">(</span><span class="n">SS_resid</span> <span class="o">/</span> <span class="n">SS_tot</span><span class="p">)</span>
+<span class="n">R2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.816101821524835
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <span class="math notranslate nohighlight">\(R^2\)</span> value, sometimes called the <strong><em>coefficient of determination</em></strong><a class="footnote-reference brackets" href="#notenever" id="id5">5</a> has a simple interpretation: it is the <em>proportion</em> of the variance in the outcome variable that can be accounted for by the predictor. So in this case, the fact that we have obtained <span class="math notranslate nohighlight">\(R^2 = .816\)</span> means that the predictor (<code class="docutils literal notranslate"><span class="pre">my.sleep</span></code>) explains 81.6% of the variance in the outcome (<code class="docutils literal notranslate"><span class="pre">my.grump</span></code>).</p>
+<p>Naturally, you don’t actually need to type in all these commands yourself if you want to obtain the <span class="math notranslate nohighlight">\(R^2\)</span> value for your regression model. And as you have probably already noticed, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> calculates <span class="math notranslate nohighlight">\(R^2\)</span>  for us without even being asked to. But there’s another property of <span class="math notranslate nohighlight">\(R^2\)</span> that I want to point out.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -1047,6 +1236,9 @@ Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 </dd>
 <dt class="label" id="noteformula"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd><p>This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, which also preserves the R-style formula notation.</p>
+</dd>
+<dt class="label" id="notenever"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>And by “sometimes” I mean “almost never”. In practice everyone just calls it “<span class="math notranslate nohighlight">\(R\)</span>-squared”.</p>
 </dd>
 </dl>
 </div>

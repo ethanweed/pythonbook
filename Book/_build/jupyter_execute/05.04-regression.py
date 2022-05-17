@@ -288,7 +288,7 @@ lm.round(2)
 # In[8]:
 
 
-lm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
+lmm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
 
 
 # Still, there is one thing to watch out for. If you look carefully at the command above, you will notice that not only have we added a new predictor (`baby_sleep`), we have also added some extra brackets. While before our predictor variable was `['dan_sleep']`, now we have `[['dan_sleep', 'baby_sleep']]`. Why the extra set of `[]`?
@@ -301,7 +301,7 @@ lm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
 predictors = ['dan_sleep', 'baby_sleep']
 outcome = 'dan_grump'
 
-lm = pg.linear_regression(df[predictors], df[outcome])
+lmm = pg.linear_regression(df[predictors], df[outcome])
 
 
 # You could do all the work outside of `pinguoin`, like this:
@@ -312,7 +312,7 @@ lm = pg.linear_regression(df[predictors], df[outcome])
 predictors = df[['dan_sleep', 'baby_sleep']]
 outcome = df['dan_grump']
 
-lm = pg.linear_regression(predictors, outcome)
+lmm = pg.linear_regression(predictors, outcome)
 
 
 # All three of these will give the same result, so it's up to you choose what makes most sense to you. But now it's time to take a look at the results:
@@ -320,7 +320,7 @@ lm = pg.linear_regression(predictors, outcome)
 # In[11]:
 
 
-lm.round(2)
+lmm.round(2)
 
 
 # The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, {numref}`fig-sleep_regressions_3d` shows a 3D plot that plots all three variables, along with the regression model itself.
@@ -339,34 +339,39 @@ import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
-
+# style the plot
 sns.set_style("whitegrid")
 
-
+# construct 3d plot space
 fig = plt.figure(figsize=(25, 10)) 
 ax = fig.add_subplot(111, projection = '3d')
 
-
+# define axes
 x = df['dan_sleep']
 y = df['baby_sleep']
 z = df['dan_grump']
 
+# set axis labels
 ax.set_xlabel("dan_sleep")
 ax.set_ylabel("baby_sleep")
 ax.set_zlabel("dan_grump")
 
-#ax.plot_surface(xx, yy, z, alpha=0.2)
 
-coefs = list(lm['coef'][1:])
-intercept = lm['coef'][0]
+# get intercept and regression coefficients from the lmm model
+coefs = list(lmm['coef'][1:])
+intercept = lmm['coef'][0]
+
+# create a 3d plane representation of the lmm predictions
 xs = np.tile(np.arange(12), (12,1))
 ys = np.tile(np.arange(12), (12,1)).T
 zs = xs*coefs[0]+ys*coefs[1]+intercept
 ax.plot_surface(xs,ys,zs, alpha=0.5)
 
+# plot the data and plane
 ax.plot_surface(xs,ys,zs, alpha=0.01)
 ax.scatter(x, y, z, color = 'blue')
 
+# adjust the viewing angle
 ax.view_init(11,97)
 
 
@@ -390,6 +395,95 @@ ax.view_init(11,97)
 # $$
 # Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 # $$
+
+# (r2)=
+# ## Quantifying the fit of the regression model
+# 
+# So we now know how to estimate the coefficients of a linear regression model. The problem is, we don't yet know if this regression model is any good. For example, the `lm` model *claims* that every hour of sleep will improve my mood by quite a lot, but it might just be rubbish. Remember, the regression model only produces a prediction $\hat{Y}_i$ about what my mood is like: my actual mood is $Y_i$. If these two are very close, then the regression model has done a good job. If they are very different, then it has done a bad job. 
+
+# ### The $R^2$ value
+# 
+# Once again, let's wrap a little bit of mathematics around this. Firstly, we've got the sum of the squared residuals:
+# 
+# $$
+# \mbox{SS}_{res} = \sum_i (Y_i - \hat{Y}_i)^2
+# $$
+
+# which we would hope to be pretty small. Specifically, what we'd like is for it to be very small in comparison to the total variability in the outcome variable, 
+# 
+# $$
+# \mbox{SS}_{tot} = \sum_i (Y_i - \bar{Y})^2
+# $$
+
+# While we're here, let's calculate these values in Python. Firstly, in order to make my Python commands look a bit more similar to the mathematical equations, I'll create variables `X` and `Y`:
+
+# In[13]:
+
+
+X = df['dan_sleep'] # the predictor
+Y = df['dan_grump'] # the outcome
+
+
+# First, lets just examine the output for the simple model that uses only a single predictor:
+
+# In[14]:
+
+
+lm = pg.linear_regression(X, Y)
+lm.round(2)
+
+
+# In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
+
+# In[15]:
+
+
+
+Y_pred = -8.94 * X + 125.97
+
+
+# Okay, now that we've got a variable which stores the regression model predictions for how grumpy I will be on any given day, let's calculate our sum of squared residuals. We would do that using the following command:
+
+# In[16]:
+
+
+SS_resid = sum( (Y - Y_pred)**2 )
+SS_resid
+
+
+# Wonderful. A big number that doesn't mean very much. Still, let's forge boldly onwards anyway, and calculate the total sum of squares as well. That's also pretty simple:
+
+# In[17]:
+
+
+import numpy as np
+SS_tot = sum( (Y - np.mean(Y))**2 )
+SS_tot
+
+
+# 
+# Hm. Well, it's a much bigger number than the last one, so this does suggest that our regression model was making good predictions. But it's not very interpretable. 
+# 
+# Perhaps we can fix this. What we'd like to do is to convert these two fairly meaningless numbers into one number. A nice, interpretable number, which for no particular reason we'll call $R^2$. What we would like is for the value of $R^2$ to be equal to 1 if the regression model makes no errors in predicting the data. In other words, if it turns out that the residual errors are zero, that is, if $\mbox{SS}_{res} = 0$, then we expect $R^2 = 1$. Similarly, if the model is completely useless, we would like $R^2$ to be equal to 0. What do I mean by "useless"? Tempting as it is demand that the regression model move out of the house, cut its hair and get a real job, I'm probably going to have to pick a more practical definition: in this case, all I mean is that the residual sum of squares is no smaller than the total sum of squares, $\mbox{SS}_{res} = \mbox{SS}_{tot}$. Wait, why don't we do exactly that? The formula that provides us with out $R^2$ value is pretty simple to write down,
+# 
+# $$
+# R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
+# $$
+
+# and equally simple to calculate in Python:
+
+# In[18]:
+
+
+R2 = 1- (SS_resid / SS_tot)
+R2
+
+
+# The $R^2$ value, sometimes called the **_coefficient of determination_**[^notenever] has a simple interpretation: it is the *proportion* of the variance in the outcome variable that can be accounted for by the predictor. So in this case, the fact that we have obtained $R^2 = .816$ means that the predictor (`my.sleep`) explains 81.6\% of the variance in the outcome (`my.grump`). 
+# 
+# Naturally, you don't actually need to type in all these commands yourself if you want to obtain the $R^2$ value for your regression model. And as you have probably already noticed, `pingouin` calculates $R^2$  for us without even being asked to. But there's another property of $R^2$ that I want to point out. 
+# 
+# [^notenever]: And by "sometimes" I mean "almost never". In practice everyone just calls it "$R$-squared".
 
 # In[ ]:
 
