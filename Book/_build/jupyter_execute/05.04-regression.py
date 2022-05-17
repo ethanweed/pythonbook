@@ -433,7 +433,7 @@ lm = pg.linear_regression(X, Y)
 lm.round(2)
 
 
-# In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
+# In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}$, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
 
 # In[15]:
 
@@ -501,11 +501,164 @@ r**2    # print the squared correlation
 # 
 # ### The adjusted $R^2$ value
 # 
-# One final thing to point out before moving on. It's quite common for people to report a slightly different measure of model performance, known as "adjusted $R^2$". The motivation behind calculating the adjusted $R^2$ value is the observation that adding more predictors into the model will *always* call the $R^2$ value to increase (or at least not decrease). The adjusted $R^2$ value introduces a slight change to the calculation, as follows. For a regression model with $K$ predictors, fit to a data set containing $N$ observations, the adjusted $R^2$ is:
+# One final thing to point out before moving on. It's quite common for people to report a slightly different measure of model performance, known as "adjusted $R^2$". The motivation behind calculating the adjusted $R^2$ value is the observation that adding more predictors into the model will *always* cause the $R^2$ value to increase (or at least not decrease). The adjusted $R^2$ value introduces a slight change to the calculation, as follows. For a regression model with $K$ predictors, fit to a data set containing $N$ observations, the adjusted $R^2$ is:
 # 
 # $$
 # \mbox{adj. } R^2 = 1 - \left(\frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}} \times \frac{N-1}{N-K-1} \right)
 # $$
+
+# This adjustment is an attempt to take the degrees of freedom into account. The big advantage of the adjusted $R^2$ value is that when you add more predictors to the model, the adjusted $R^2$ value will only increase if the new variables improve the model performance more than you'd expect by chance. The big disadvantage is that the adjusted $R^2$ value *can't* be interpreted in the elegant way that $R^2$ can. $R^2$ has a simple interpretation as the proportion of variance in the outcome variable that is explained by the regression model; to my knowledge, no equivalent interpretation exists for adjusted $R^2$. 
+# 
+# An obvious question then, is whether you should report $R^2$ or adjusted $R^2$. This is probably a matter of personal preference. If you care more about interpretability, then $R^2$ is better. If you care more about correcting for bias, then adjusted $R^2$ is probably better. Speaking just for myself, I prefer $R^2$: my feeling is that it's more important to be able to interpret your measure of model performance. Besides, as we'll soon see in the section on [hypothesis tests for regression models](regressiontests), if you're worried that the improvement in $R^2$ that you get by adding a predictor is just due to chance and not because it's a better model, well, we've got hypothesis tests for that. 
+
+# (regressiontests)=
+# ## Hypothesis tests for regression models
+# 
+# So far we've talked about what a regression model is, how the coefficients of a regression model are estimated, and how we quantify the performance of the model (the last of these, incidentally, is basically our measure of effect size). The next thing we need to talk about is hypothesis tests. There are two different (but related) kinds of hypothesis tests that we need to talk about: those in which we test whether the regression model as a whole is performing significantly better than a null model; and those in which we test whether a particular regression coefficient is significantly different from zero. 
+# 
+# At this point, you're probably groaning internally, thinking that I'm going to introduce a whole new collection of tests. You're probably sick of hypothesis tests by now, and don't want to learn any new ones. Me too. I'm so sick of hypothesis tests that I'm going to shamelessly reuse the $F$-test from the [chapter on ANOVAs](anova) and the $t$-test from [the chapter on t-tests](ttest). In fact, all I'm going to do in this section is show you how those tests are imported wholesale into the regression framework.  
+
+# ### Testing the model as a whole
+# 
+# Okay, suppose you've estimated your regression model. The first hypothesis test you might want to try is one in which the null hypothesis that there is *no relationship* between the predictors and the outcome, and the alternative hypothesis is that *the data are distributed in exactly the way that the regression model predicts*. Formally, our "null model" corresponds to the fairly trivial "regression" model in which we include 0 predictors, and only include the intercept term $b_0$
+# 
+# $$
+# H_0: Y_i = b_0 + \epsilon_i
+# $$
+
+# If our regression model has $K$ predictors, the "alternative model" is described using the usual formula for a multiple regression model:
+# 
+# $$
+# H_1: Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
+# $$
+
+# How can we test these two hypotheses against each other? The trick is to understand that just like we did with ANOVA, it's possible to divide up the total variance $\mbox{SS}_{tot}$ into the sum of the residual variance $\mbox{SS}_{res}$ and the regression model variance $\mbox{SS}_{mod}$. I'll skip over the technicalities, since we covered most of them in the [ANOVA chapter](anova), and just note that:
+# 
+# $$
+# \mbox{SS}_{mod} = \mbox{SS}_{tot} - \mbox{SS}_{res}
+# $$
+
+# And, just like we did with the ANOVA, we can convert the sums of squares into mean squares by dividing by the degrees of freedom. 
+# 
+# $$
+# \begin{array}{rcl}
+# \mbox{MS}_{mod} &=& \displaystyle\frac{\mbox{SS}_{mod} }{df_{mod}} \\ \\
+# \mbox{MS}_{res} &=& \displaystyle\frac{\mbox{SS}_{res} }{df_{res} }
+# \end{array}
+# $$
+
+# So, how many degrees of freedom do we have? As you might expect, the $df$ associated with the model is closely tied to the number of predictors that we've included. In fact, it turns out that $df_{mod} = K$. For the residuals, the total degrees of freedom is $df_{res} = N -K - 1$. 
+# 
+# Now that we've got our mean square values, you're probably going to be entirely unsurprised (possibly even bored) to discover that we can calculate an $F$-statistic like this:
+# 
+# $$
+# F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
+# $$
+
+# and the degrees of freedom associated with this are $K$ and $N-K-1$. This $F$ statistic has exactly the same interpretation as the one we introduced [when learning about ANOVAs](anova). Large $F$ values indicate that the null hypothesis is performing poorly in comparison to the alternative hypothesis.
+
+# ### Tests for individual coefficients
+# 
+# The $F$-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the $F$-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, *passing* the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:
+
+# In[20]:
+
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+lmm = pg.linear_regression(predictors, outcome)
+lmm.round(2)
+
+
+# 
+# I can't help but notice that the estimated regression coefficient for the `baby_sleep` variable is tiny (0.01), relative to the value that we get for `dan_sleep` (-8.95). Given that these two variables are absolutely on the same scale (they're both measured in "hours slept"), I find this suspicious. In fact, I'm beginning to suspect that it's really only the amount of sleep that *I* get that matters in order to predict my grumpiness.
+# 
+# Once again, we can reuse a hypothesis test that we discussed earlier, this time the $t$-test. The test that we're interested has a null hypothesis that the true regression coefficient is zero ($b = 0$), which is to be tested against the alternative hypothesis that it isn't ($b \neq 0$). That is:
+# 
+# $$
+# \begin{array}{rl}
+# H_0: & b = 0 \\
+# H_1: & b \neq 0 
+# \end{array}
+# $$
+
+# How can we test this? Well, if the central limit theorem is kind to us, we might be able to guess that the sampling distribution of $\hat{b}$, the estimated regression coefficient, is a normal distribution with mean centred on $b$. What that would mean is that if the null hypothesis were true, then the sampling distribution of $\hat{b}$ has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, then we're in luck. That's *exactly* the situation for which we introduced the one-sample $t$ way back in [the chapter on t-tests](ttest). So let's define a $t$-statistic like this,
+# 
+# $$
+# t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
+# $$
+
+# I'll skip over the reasons why, but our degrees of freedom in this case are $df = N- K- 1$. Irritatingly, the estimate of the standard error of the regression coefficient, $\mbox{SE}({\hat{b}})$, is not as easy to calculate as the standard error of the mean that we used for the simpler $t$-tests [earlier](ttest). In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it's sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly). 
+# 
+# In any case, this $t$-statistic can be interpreted in the same way as the $t$-statistics that we discussed [earlier](ttest). Assuming that you have a two-sided alternative (i.e., you don't really care if $b >0$ or $b < 0$), then it's the extreme values of $t$ (i.e., a lot less than zero or a lot greater than zero) that suggest that you should reject the null hypothesis. 
+
+# Now we are in a position to understand all the values in the multiple regression table provided by `pingouin`:
+
+# In[21]:
+
+
+lmm.round(2)
+
+
+# Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of $b$ (e.g., 125.96 for the intercept, -8.9 for the `dan_sleep` predictor, and -0.01 for the `baby_sleep` predictor). The second column is the standard error estimate $\hat\sigma_b$. The third column gives you the $t$-statistic, and it's worth noticing that in this table $t= \hat{b}/\mbox{SE}({\hat{b}})$ every time. The fourth column gives you the actual $p$ value for each of these tests.[^notecorrection] Then next column gives the $r^2$ value and the adjusted $r^2$ for the model, and the last two columns give us the upper and lower [confidence interval](ci) bounds for each estimate.
+# 
+# [^notecorrection]: Note that, although `pingouin` has done multiple tests here, it hasn't done a Bonferroni correction or anything. These are standard one-sample $t$-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.
+
+# Ok, this is great, I hear you say. I love `pinguoin`! It gives me all the things I need to report my regression results. Now, where is that $F$ value, you were talking about? Surely `pinguoin` does this for me as well?
+# 
+# Yeah. About that... actually, as of the time of writing, `pinguoin` does _not_ automatically calculate the $F$ statistic for the model for you. Now, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
+# 
+# I should mention that there are other statistics packages for Python that will do this for you. [statsmodels](https://www.statsmodels.org/stable/regression.html) comes to mind, for instance. But this is opening a whole new can of worms that I'd rather avoid for now, so instead I provide you with code to calculate the $F$ statistic and $p$-value for the model "manually" below:
+
+# In[22]:
+
+
+import numpy as np
+from scipy import stats as st
+
+# your predictor and outcome variables (aka, "the data")
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+# model the data, and store the model information in a variable called "mod"
+mod = pg.linear_regression(predictors, outcome)
+
+
+# call the outcome data "Y", just for the sake of generalizability
+Y = outcome
+
+# get the model residuals from the model object
+res = mod.residuals_
+
+# calculate the residual, the model, and the total sums of squares
+SS_res = np.sum(np.square(res))
+SS_tot = sum( (Y - np.mean(Y))**2 )
+SS_mod = SS_tot - SS_res
+
+# get the degrees of freedom for the model and the residuals
+df_mod = mod.df_model_
+df_res = mod.df_resid_
+
+# caluculate the mean squares for the model and the residuals
+MS_mod = SS_mod / df_mod
+MS_res = SS_res / df_res
+
+# calculate the F-statistic
+F = MS_mod / MS_res
+
+# estimate the p-value
+p = st.f.sf(F, df_mod, df_res)
+
+# display the results
+print("F=",F, "p=", p)
+
+
+# In[77]:
+
+
+
+
 
 # In[ ]:
 
