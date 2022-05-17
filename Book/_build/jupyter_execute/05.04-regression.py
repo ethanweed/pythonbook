@@ -485,6 +485,28 @@ R2
 # 
 # [^notenever]: And by "sometimes" I mean "almost never". In practice everyone just calls it "$R$-squared".
 
+# ### The relationship between regression and correlation
+# 
+# At this point we can revisit my earlier claim that regression, in this very simple form that I've discussed so far, is basically the same thing as a correlation. Previously, we used the symbol $r$ to denote a Pearson correlation. Might there be some relationship between the value of the correlation coefficient $r$ and the $R^2$ value from linear regression? Of course there is: the squared correlation $r^2$ is identical to the $R^2$ value for a linear regression with only a single predictor. To illustrate this, here's the squared correlation:
+
+# In[19]:
+
+
+r = X.corr(Y)  # calculate the correlation
+r**2    # print the squared correlation
+
+
+# 
+# Yep, same number. In other words, running a Pearson correlation is more or less equivalent to running a linear regression model that uses only one predictor variable.
+# 
+# ### The adjusted $R^2$ value
+# 
+# One final thing to point out before moving on. It's quite common for people to report a slightly different measure of model performance, known as "adjusted $R^2$". The motivation behind calculating the adjusted $R^2$ value is the observation that adding more predictors into the model will *always* call the $R^2$ value to increase (or at least not decrease). The adjusted $R^2$ value introduces a slight change to the calculation, as follows. For a regression model with $K$ predictors, fit to a data set containing $N$ observations, the adjusted $R^2$ is:
+# 
+# $$
+# \mbox{adj. } R^2 = 1 - \left(\frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}} \times \frac{N-1}{N-K-1} \right)
+# $$
+
 # In[ ]:
 
 
