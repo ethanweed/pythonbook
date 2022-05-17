@@ -557,7 +557,7 @@ r**2    # print the squared correlation
 
 # and the degrees of freedom associated with this are $K$ and $N-K-1$. This $F$ statistic has exactly the same interpretation as the one we introduced [when learning about ANOVAs](anova). Large $F$ values indicate that the null hypothesis is performing poorly in comparison to the alternative hypothesis.
 
-# "Ok, this is fine", I hear you say, "but now show me the easy way! Show me how easy it is to get an $F$ statistic from `pingouin`! `pingouin` makes everything so much easier! Surely `pingouin` does this for me as well?
+# "Ok, this is fine", I hear you say, "but now show me the easy way! Show me how easy it is to get an $F$ statistic from `pingouin`! `pingouin` makes everything so much easier! Surely `pingouin` does this for me as well?"
 # 
 # Yeah. About that... actually, as of the time of writing (Tuesday the 17th of May, 2022), `pingouin` does _not_ automatically calculate the $F$ statistic for the model for you. This seems like kind of a strange omission to me, since it is pretty normal to report overall $F$ and $p$ values for a model, and `pingouin` seems to be all about making the normal things easy. So, I can only assume this will get added at some point, but for now, sadly, we are left to ourselves on this one. 
 # 
@@ -606,11 +606,43 @@ p = st.f.sf(F, df_mod, df_res)
 print("F=",F, "p=", p)
 
 
+# A more compact way to do this would be to take everything I have done above and put it inside a function. I've done this below, not least so that I will be able to copy/paste from it myself at some later date. Here is a function called `regression_f` that takes as its arguments a list of predictors, and an outcome variable, and spits out the $F$ and $p$ values.
+
+# In[21]:
+
+
+def regression_f(predictors, outcome):
+    mod = pg.linear_regression(predictors, outcome)
+    Y = outcome
+    res = mod.residuals_
+    SS_res = np.sum(np.square(res))
+    SS_tot = sum( (Y - np.mean(Y))**2 )
+    SS_mod = SS_tot - SS_res
+    df_mod = mod.df_model_
+    df_res = mod.df_resid_
+    MS_mod = SS_mod / df_mod
+    MS_res = SS_res / df_res
+    F = MS_mod / MS_res
+    p = st.f.sf(F, df_mod, df_res)
+    return(F, p)
+
+
+# Once we have run the function, all we need to do is plug in our values, and `regression_f` does the rest:
+
+# In[22]:
+
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+regression_f(predictors, outcome)
+
+
 # ### Tests for individual coefficients
 # 
 # The $F$-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the $F$-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, *passing* the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:
 
-# In[21]:
+# In[23]:
 
 
 predictors = df[['dan_sleep', 'baby_sleep']]
@@ -644,7 +676,7 @@ lmm.round(2)
 
 # Now we are in a position to understand all the values in the multiple regression table provided by `pingouin`:
 
-# In[22]:
+# In[24]:
 
 
 lmm.round(2)
