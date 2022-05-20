@@ -2142,6 +2142,17 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 \epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8">8</a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. To get the standardised residuals, the command you want is this:</p>
+<p>Note that this function uses a different name for the input argument, but it’s still just a linear regression object that the function wants to take as its input here.</p>
+<p>The third kind of residuals are <strong><em>Studentised residuals</em></strong> (also called “jackknifed residuals”) and they’re even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different:</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{i}^* = \frac{\epsilon_i}{\hat{\sigma}_{(-i)} \sqrt{1-h_i}}
+\]</div>
+<p>Notice that our estimate of the standard deviation here is written <span class="math notranslate nohighlight">\(\hat{\sigma}_{(-i)}\)</span>. What this corresponds to is the estimate of the residual standard deviation that you <em>would have obtained</em>, if you just deleted the <span class="math notranslate nohighlight">\(i\)</span>th observation from the data set. This sounds like the sort of thing that would be a nightmare to calculate, since it seems to be saying that you have to run <span class="math notranslate nohighlight">\(N\)</span> new regression models (even a modern computer might grumble a bit at that, especially if you’ve got a large data set). Fortunately, some terribly clever person has shown that this standard deviation estimate is actually given by the following equation:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}
+\]</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
