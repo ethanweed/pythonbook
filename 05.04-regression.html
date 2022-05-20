@@ -455,6 +455,18 @@ const thebe_selector_output = ".output, .cell_output"
    18.8. Assumptions of regression
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-checking">
+   18.9. Model checking
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#three-kinds-of-residuals">
+     18.9.1. Three kinds of residuals
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -592,6 +604,18 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#assumptions-of-regression">
    18.8. Assumptions of regression
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-checking">
+   18.9. Model checking
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#three-kinds-of-residuals">
+     18.9.1. Three kinds of residuals
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -2082,7 +2106,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 <div class="section" id="assumptions-of-regression">
 <span id="regressionassumptions"></span><h2><span class="section-number">18.8. </span>Assumptions of regression<a class="headerlink" href="#assumptions-of-regression" title="Permalink to this headline">¶</a></h2>
-<p>The linear regression model that I’ve been discussing relies on several assumptions. In the section on <span class="xref myst">regression diagnostics</span> we’ll talk a lot more about how to check that these assumptions are being met, but first, let’s have a look at each of them.</p>
+<p>The linear regression model that I’ve been discussing relies on several assumptions. In the section on <a class="reference internal" href="#regressiondiagnostics"><span class="std std-ref">regression diagnostics</span></a> we’ll talk a lot more about how to check that these assumptions are being met, but first, let’s have a look at each of them.</p>
 <ul class="simple">
 <li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <span class="xref myst"></span>.</p></li>
 <li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <span class="xref myst"></span>.</p></li>
@@ -2091,6 +2115,33 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
 <li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <span class="xref myst"></span>.</p></li>
 </ul>
+</div>
+<div class="section" id="model-checking">
+<span id="regressiondiagnostics"></span><h2><span class="section-number">18.9. </span>Model checking<a class="headerlink" href="#model-checking" title="Permalink to this headline">¶</a></h2>
+<p>The main focus of this section is <strong><em>regression diagnostics</em></strong>, a term that refers to the art of checking that the assumptions of your regression model have been met, figuring out how to fix the model if the assumptions are violated, and generally to check that nothing “funny” is going on. I refer to this as the “art” of model checking with good reason: it’s not easy, and while there are a lot of fairly standardised tools that you can use to diagnose and maybe even cure the problems that ail your model (if there are any, that is!), you really do need to exercise a certain amount of judgment when doing this. It’s easy to get lost in all the details of checking this thing or that thing, and it’s quite exhausting to try to remember what all the different things are. This has the very nasty side effect that a lot of people get frustrated when trying to learn <em>all</em> the tools, so instead they decide not to do <em>any</em> model checking. This is a bit of a worry!</p>
+<p>In this section, I describe several different things you can do to check that your regression model is doing what it’s supposed to. It doesn’t cover the full space of things you could do, but it’s still much more detailed than what I see a lot of people doing in practice; and I don’t usually cover all of this in my intro stats class myself. However, I do think it’s important that you get a sense of what tools are at your disposal, so I’ll try to introduce a bunch of them here.</p>
+<div class="section" id="three-kinds-of-residuals">
+<h3><span class="section-number">18.9.1. </span>Three kinds of residuals<a class="headerlink" href="#three-kinds-of-residuals" title="Permalink to this headline">¶</a></h3>
+<p>The majority of regression diagnostics revolve around looking at the residuals, and by now you’ve probably formed a sufficiently pessimistic theory of statistics to be able to guess that – precisely <em>because</em> of the fact that we care a lot about the residuals – there are several different kinds of  residual that we might consider. In particular, the following three kinds of residual are referred to in this section: “ordinary residuals”, “standardised residuals”, and “Studentised residuals”. There is a fourth kind that you’ll see referred to in some of the Figures, and that’s the “Pearson residual”: however, for the models that we’re talking about in this chapter, the Pearson residual is identical to the ordinary residual.</p>
+<p>The first and simplest kind of residuals that we care about are <strong><em>ordinary residuals</em></strong>. These are the actual, raw residuals that I’ve been talking about throughout this chapter. The ordinary residual is just the difference between the fitted value <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> and the observed value <span class="math notranslate nohighlight">\(Y_i\)</span>. I’ve been using the notation <span class="math notranslate nohighlight">\(\epsilon_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th ordinary residual, and by gum I’m going to stick to it. With this in mind, we have the very simple equation</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_i = Y_i - \hat{Y}_i
+\]</div>
+<p>This is of course what we saw earlier, and unless I specifically refer to some other kind of residual, this is the one I’m talking about. So there’s nothing new here: I just wanted to repeat myself. In any case, if you have run your regression model using <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, you can access the residuals from your model (in our case, our <code class="docutils literal notranslate"><span class="pre">mod2</span></code>)like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">mod2</span><span class="o">.</span><span class="n">residuals_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>One drawback to using ordinary residuals is that they’re always on a different scale, depending on what the outcome variable is and how good the regression model is. That is, Unless you’ve decided to run a regression model without an intercept term, the ordinary residuals will have mean 0; but the variance is different for every regression. In a lot of contexts, especially where you’re only interested in the <em>pattern</em> of the residuals and not their actual values, it’s convenient to estimate the <strong><em>standardised residuals</em></strong>, which are normalised in such a way as to have standard deviation 1. The way we calculate these is to divide the ordinary residual by an estimate of the (population) standard deviation of these residuals. For technical reasons, mumble mumble, the formula for this is:</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8">8</a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. To get the standardised residuals, the command you want is this:</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -2114,7 +2165,11 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <dt class="label" id="noteregressors"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
 <dd><p>Strictly, you standardise all the <em>regressors</em>: that is, every “thing” that has a regression coefficient associated with it in the model. For the regression models that I’ve talked about so far, each predictor variable maps onto exactly one regressor, and vice versa. However, that’s not actually true in general: we’ll see some examples of this when we learn about <a class="reference internal" href="05.05-anova2.html#anova2"><span class="std std-ref">factorial ANOVA</span></a>. But for now, we don’t need to care too much about this distinction.</p>
 </dd>
+<dt class="label" id="notehope"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
+<dd><p>Or have no hope, as the case may be.</p>
+</dd>
 </dl>
+</div>
 </div>
 </div>
 
