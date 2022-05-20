@@ -230,14 +230,14 @@ sns.despine()
 
 import pingouin as pg
 
-lm = pg.linear_regression(df['dan_sleep'], df['dan_grump'])
+mod1 = pg.linear_regression(df['dan_sleep'], df['dan_grump'])
 
 
 # In[6]:
 
 
 # Display results, rounded to two decimal places.
-lm.round(2)
+mod1.round(2)
 
 
 # As is its way, `pingouin` gives us a nice simple table, with a lot of information. Most importantly for now, we can see that `pingouin` has caclulated the intercept $\hat{b}_0 = 125.96$ and the slope $\hat{b}_1 = -8.94$. In other words, the best-fitting regression line that I plotted in {numref}`fig-sleep_regressions_1` has this formula: 
@@ -253,8 +253,8 @@ lm.round(2)
 # In[7]:
 
 
-lm = pg.linear_regression(df['dan_grump'], df['dan_sleep'])
-lm.round(2)
+modx = pg.linear_regression(df['dan_grump'], df['dan_sleep'])
+modx.round(2)
 
 
 # The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son's sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie[^noteNolan], but it's no good in statistics. So remember, predictor first, outcome second[^noteformula]
@@ -288,7 +288,7 @@ lm.round(2)
 # In[8]:
 
 
-lmm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
+mod2 = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
 
 
 # Still, there is one thing to watch out for. If you look carefully at the command above, you will notice that not only have we added a new predictor (`baby_sleep`), we have also added some extra brackets. While before our predictor variable was `['dan_sleep']`, now we have `[['dan_sleep', 'baby_sleep']]`. Why the extra set of `[]`?
@@ -301,7 +301,7 @@ lmm = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
 predictors = ['dan_sleep', 'baby_sleep']
 outcome = 'dan_grump'
 
-lmm = pg.linear_regression(df[predictors], df[outcome])
+mod2 = pg.linear_regression(df[predictors], df[outcome])
 
 
 # You could do all the work outside of `pinguoin`, like this:
@@ -312,7 +312,7 @@ lmm = pg.linear_regression(df[predictors], df[outcome])
 predictors = df[['dan_sleep', 'baby_sleep']]
 outcome = df['dan_grump']
 
-lmm = pg.linear_regression(predictors, outcome)
+mod2 = pg.linear_regression(predictors, outcome)
 
 
 # All three of these will give the same result, so it's up to you choose what makes most sense to you. But now it's time to take a look at the results:
@@ -320,16 +320,10 @@ lmm = pg.linear_regression(predictors, outcome)
 # In[11]:
 
 
-lmm.round(2)
+mod2.round(2)
 
 
 # The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, {numref}`fig-sleep_regressions_3d` shows a 3D plot that plots all three variables, along with the regression model itself.
-
-# In[ ]:
-
-
-
-
 
 # In[12]:
 
@@ -358,8 +352,8 @@ ax.set_zlabel("dan_grump")
 
 
 # get intercept and regression coefficients from the lmm model
-coefs = list(lmm['coef'][1:])
-intercept = lmm['coef'][0]
+coefs = list(mod2['coef'][1:])
+intercept = mod2['coef'][0]
 
 # create a 3d plane representation of the lmm predictions
 xs = np.tile(np.arange(12), (12,1))
@@ -429,8 +423,8 @@ Y = df['dan_grump'] # the outcome
 # In[14]:
 
 
-lm = pg.linear_regression(X, Y)
-lm.round(2)
+mod1 = pg.linear_regression(X, Y)
+mod1.round(2)
 
 
 # In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}$, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
@@ -606,6 +600,8 @@ p = st.f.sf(F, df_mod, df_res)
 print("F=",F, "p=", p)
 
 
+# ### An F-test function
+# 
 # A more compact way to do this would be to take everything I have done above and put it inside a function. I've done this below, not least so that I will be able to copy/paste from it myself at some later date. Here is a function called `regression_f` that takes as its arguments a list of predictors, and an outcome variable, and spits out the $F$ and $p$ values.
 
 # In[21]:
@@ -648,8 +644,8 @@ regression_f(predictors, outcome)
 predictors = df[['dan_sleep', 'baby_sleep']]
 outcome = df['dan_grump']
 
-lmm = pg.linear_regression(predictors, outcome)
-lmm.round(2)
+mod2 = pg.linear_regression(predictors, outcome)
+mod2.round(2)
 
 
 # 
@@ -679,18 +675,142 @@ lmm.round(2)
 # In[24]:
 
 
-lmm.round(2)
+mod2.round(2)
 
 
 # Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of $b$ (e.g., 125.96 for the intercept, -8.9 for the `dan_sleep` predictor, and -0.01 for the `baby_sleep` predictor). The second column is the standard error estimate $\hat\sigma_b$. The third column gives you the $t$-statistic, and it's worth noticing that in this table $t= \hat{b}/\mbox{SE}({\hat{b}})$ every time. The fourth column gives you the actual $p$ value for each of these tests.[^notecorrection] Then next column gives the $r^2$ value and the adjusted $r^2$ for the model, and the last two columns give us the upper and lower [confidence interval](ci) bounds for each estimate.
 # 
 # [^notecorrection]: Note that, although `pingouin` has done multiple tests here, it hasn't done a Bonferroni correction or anything. These are standard one-sample $t$-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.
 
-# In[77]:
+# If we add our F-test results to the mix:
+
+# In[25]:
 
 
+f = regression_f(predictors, outcome)
+print("F:", f[0].round(2), "p:", f[1])
 
 
+# we have everything we need to evaluate our model. In this case, the model performs significantly better than you'd expect by chance ($F(2,97) = 215.2$, $p<.001$), which isn't all that surprising: the $R^2 = .812$ value indicate that the regression model accounts for 81.2\% of the variability in the outcome measure. However, when we look back up at the $t$-tests for each of the individual coefficients, we have pretty strong evidence that the `baby_sleep` variable has no significant effect; all the work is being done by the `dan_sleep` variable. Taken together, these results suggest that `lmm` is actually the wrong model for the data: you'd probably be better off dropping the `baby_sleep` predictor entirely. In other words, the `mod1` model that we started with is the better model.
+
+# (corrhyp)=
+# ## Testing the significance of a correlation
+# 
+# 
+# ### Hypothesis tests for a single correlation
+# 
+# I don't want to spend too much time on this, but it's worth very briefly returning to the point I made earlier, that Pearson correlations are basically the same thing as linear regressions with only a single predictor added to the model. What this means is that the hypothesis tests that I just described in a regression context can also be applied to correlation coefficients. To see this, let's just revist our `mod1` model:
+
+# In[26]:
+
+
+X = df['dan_sleep'] # the predictor
+Y = df['dan_grump'] # the outcome
+mod1 = pg.linear_regression(X, Y)
+mod1.round(2)
+
+
+# The important thing to note here is the $t$ test associated with the predictor, in which we get a result of $t(98) = -20.85$, $p<.001$. Now let's compare this to the output of the `corr` function from `pinguoin`, which runs a hypothesis test to see if the observed correlation between two variables is significantly different from 0. 
+
+# In[27]:
+
+
+pg.corr(X,Y)
+
+
+# Now, just like the $F$-test from earlier, `pingouin` unfortunately doesn't calculate a $t$-statistic for us automatically when running a correlation. But the formula for the $t$-statistic of a Pearson correlation is just
+# 
+# 
+# $$
+# t = r\sqrt{\frac{n-2}{1-r^2}}
+# $$
+# 
+# so, with the output from `pg.corr(X,Y)` above, it's not too difficult to find $t$:
+
+# In[28]:
+
+
+from math import sqrt
+
+t = -0.903384*sqrt((100-2) / (1-(-0.903384)**2))
+t
+
+
+# Look familiar? -20.85 was the same $t$-value that we got when we ran the regression model. That's because the test for the significance of a correlation is identical to the $t$ test that we run on a coefficient in a regression model. 
+
+# (corrhyp2)=
+# ### Hypothesis tests for all pairwise correlations
+# 
+# Okay, one more digression before I return to regression properly. In the previous section I talked about you can run a hypothesis test on a single correlation. But we aren't restricted to computing a single correlation: you can compute *all* pairwise correlations among the variables in your data set. This leads people to the natural question: can we also run hypothesis tests on all of the pairwise correlations in our data using `pg.corr`?
+# 
+# The answer is no, and there's a very good reason for this. Testing a single correlation is fine: if you've got some reason to be asking "is A related to B?", then you should absolutely run a test to see if there's a significant correlation. But if you've got variables A, B, C, D and E and you're thinking about testing the correlations among all possible pairs of these, a statistician would want to ask: what's your hypothesis? If you're in the position of wanting to test all possible pairs of variables, then you're pretty clearly on a fishing expedition, hunting around in search of significant effects when you don't actually have a clear research hypothesis in mind. This is *dangerous*, and perhaps the authors of the `corr` function didn't want to endorse this sort of behavior. `corr` does have the nice feature that you can call it as an attribute of your dataframe, so for our parenthood data, if we want to see all the parwise correlations in the data, you can simply write
+
+# In[29]:
+
+
+df.corr()
+
+
+# and you get a nice correlation matrix, but no p-values.
+# 
+# On the other hand... a somewhat less hardline view might be to argue we've encountered this situation before, back when we talked about *post hoc tests* in ANOVA. When running post hoc tests, we didn't have any specific comparisons in mind, so what we did was apply a correction (e.g., Bonferroni, Holm, etc) in order to avoid the possibility of an inflated Type I error rate. From this perspective, it's okay to run hypothesis tests on all your pairwise correlations, but you must treat them as post hoc analyses, and if so you need to apply a correction for multiple comparisons. `rcorr`, also from `pingouin`, lets you do this. You can use the `padjust` argument to specify what kind of correction you would like to apply; here I have chosen a Bonferroni correction:
+
+# In[30]:
+
+
+df.rcorr(padjust = 'bonf')
+
+
+# The little stars indicate the "significance level": one star for $p<0.05$, two stars for $p<0.01$, and three stars for $p<0.001$.
+# 
+# So there you have it. If you really desperately want to do pairwise hypothesis tests on your correlations, the `rcorr` function will let you do it. But please, **please** be careful. I can't count the number of times I've had a student panicking in my office because they've run these pairwise correlation tests, and they get one or two significant results that don't make any sense. For some reason, the moment people see those little significance stars appear, they feel compelled to throw away all common sense and assume that the results must correspond to something real that requires an explanation. In most such cases, my experience has been that the right answer is "it's a Type I error". 
+
+# (regressioncoefs)=
+# ### Calculating standardised regression coefficients
+# 
+# One more thing that you might want to do is to calculate "standardised" regression coefficients, often denoted $\beta$. The rationale behind standardised coefficients goes like this. In a lot of situations, your variables are on fundamentally different scales. Suppose, for example, my regression model aims to predict people's IQ scores, using their educational attainment (number of years of education) and their income as predictors. Obviously, educational attainment and income are not on the same scales: the number of years of schooling can only vary by 10s of years, whereas income would vary by 10,000s of dollars (or more). The units of measurement have a big influence on the regression coefficients: the $b$ coefficients only make sense when interpreted in light of the units, both of the predictor variables and the outcome variable. This makes it very difficult to compare the coefficients of different predictors. Yet there are situations where you really do want to make comparisons between different coefficients. Specifically, you might want some kind of standard measure of which predictors have the strongest relationship to the outcome. This is what **_standardised coefficients_** aim to do. 
+
+# The basic idea is quite simple: the standardised coefficients are the coefficients that you would have obtained if you'd converted all the variables to [standard scores](zscores) $z$-scores before running the regression.[^noteregressors]  The idea here is that, by converting all the predictors to $z$-scores, they all go into the regression on the same scale, thereby removing the problem of having variables on different scales. Regardless of what the original variables were, a $\beta$ value of 1 means that an increase in the predictor of 1 standard deviation will produce a corresponding 1 standard deviation increase in the outcome variable. Therefore, if variable A has a larger absolute value of $\beta$ than variable B, it is deemed to have a stronger relationship with the outcome. Or at least that's the idea: it's worth being a little cautious here, since this does rely very heavily on the assumption that "a 1 standard deviation change" is fundamentally the same kind of thing for all variables. It's not always obvious that this is true. 
+# 
+# [^noteregressors]: Strictly, you standardise all the *regressors*: that is, every "thing" that has a regression coefficient associated with it in the model. For the regression models that I've talked about so far, each predictor variable maps onto exactly one regressor, and vice versa. However, that's not actually true in general: we'll see some examples of this when we learn about [factorial ANOVA](anova2). But for now, we don't need to care too much about this distinction.
+
+# Still, let's give it a try on the `parenthood` data.
+# 
+# 
+
+# In[31]:
+
+
+from scipy import stats
+
+df['dan_sleep_standard'] = stats.zscore(df['dan_sleep'])
+df['baby_sleep_standard'] = stats.zscore(df['baby_sleep'])
+
+
+predictors = df[['dan_sleep_standard', 'baby_sleep_standard']]
+outcome = df['dan_grump']
+
+mod3 = pg.linear_regression(predictors, outcome)
+mod3.round(2)
+
+
+# This clearly shows that the `dan_sleep` variable has a much stronger effect than the `baby_sleep` variable. However, this is a perfect example of a situation where it would probably make sense to use the original coefficients $b$ rather than the standardised coefficients $\beta$. After all, my sleep and the baby's sleep are *already* on the same scale: number of hours slept. Why complicate matters by converting these to $z$-scores?
+
+# (regressionassumptions)=
+# 
+# ## Assumptions of regression
+# 
+# The linear regression model that I've been discussing relies on several assumptions. In the section on [regression diagnostics](regressiondiagnostics) we'll talk a lot more about how to check that these assumptions are being met, but first, let's have a look at each of them.
+# 
+# 
+# - *Normality*. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the *residuals* are normally distributed. It's actually okay if the predictors $X$ and the outcome $Y$ are non-normal, so long as the residuals $\epsilon$ are normal. See [](regressionnormality).
+# - *Linearity*. A pretty fundamental assumption of the linear regression model is that relationship between $X$ and $Y$ actually be linear! Regardless of whether it's a simple regression or a multiple regression, we assume that the relatiships involved are linear. See [](regressionlinearity).
+# - *Homogeneity of variance*. Strictly speaking, the regression model assumes that each residual $\epsilon_i$ is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation $\sigma$ that is the same for every single residual. In practice, it's impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of $\hat{Y}$, and (if we're being especially paranoid) all values of every predictor $X$ in the model. See [](regressionhomogeneity).
+# - *Uncorrelated predictors*. The idea here is that, is a multiple regression model, you don't want your predictors to be too strongly correlated with each other. This isn't  "technically" an assumption of the regression model, but in practice it's required. Predictors that are too strongly correlated with each other (referred to as "collinearity") can cause problems when evaluating the model. See [](regressioncollinearity)
+# - *Residuals are independent of each other*. This is really just a "catch all" assumption, to the effect that "there's nothing else funny going on in the residuals". If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.
+# - *No "bad" outliers*. Again, not actually a technical assumption of the model (or rather, it's sort of implied by all the others), but there is an implicit assumption that your regression model isn't being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See [](regressionoutliers).
+# 
+# 
 
 # In[ ]:
 
