@@ -909,6 +909,7 @@ yModel = func(xModel, *fittedParameters)
 fig = plt.figure() 
 ax = fig.add_subplot()
 
+sns.set_style('white')
 sns.scatterplot(data = df, x='x', y='y1')
 
 # add regression line
