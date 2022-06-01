@@ -909,7 +909,7 @@ yModel = func(xModel, *fittedParameters)
 fig = plt.figure() 
 ax = fig.add_subplot()
 
-
+seaborn.set()
 sns.scatterplot(data = df, x='x', y='y1')
 
 # add regression line
@@ -930,7 +930,6 @@ ax.plot(2.5, 4, 'ro')
 ax.plot([2.5, 2.5], [2.3 ,4], linestyle='dashed')
 
 sns.despine()
-sns.set_style('white')
 
 
 # In[ ]:
