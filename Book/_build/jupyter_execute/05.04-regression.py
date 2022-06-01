@@ -927,11 +927,19 @@ yModel = func(xModel, *fittedParameters)
 
 ax.plot(xModel, yModel)
 ax.plot(2.5, 4, 'ro')
-ax.plot([2.5, 2.5], [2.3 ,4], linestyle='dashed')
+ax.plot([2.5, 2.5], [2.4 ,4], linestyle='dashed')
 ax.grid(False)
 
 sns.despine()
 
+
+#  ```{glue:figure} outlier-fig
+# :figwidth: 600px
+# :name: fig-outlier
+# 
+# An illustration of outliers. The orange line plots the regression line estimated when the anomalous (red) data point is included, and the dotted line shows the residual for the outlier. The blue line shows the regression line that would have been estimated without the anomalous observation included. The outlier has an unusual value on the outcome (y axis location) but not the predictor (x axis location), and lies a long way from the regression line.
+# 
+# ```
 
 # In[ ]:
 

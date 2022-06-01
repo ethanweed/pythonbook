@@ -2169,7 +2169,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <div class="section" id="three-kinds-of-anomalous-data">
 <span id="regressionoutliers"></span><h3><span class="section-number">18.9.2. </span>Three kinds of anomalous data<a class="headerlink" href="#three-kinds-of-anomalous-data" title="Permalink to this headline">¶</a></h3>
 <p>One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of “unusual” or “anomalous” observations. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called “anomalous”. All three are interesting, but they have rather different implications for your analysis.</p>
-<p>The first kind of unusual observation is an <strong><em>outlier</em></strong>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-outlier</span></code>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <span class="math notranslate nohighlight">\(\epsilon_i^*\)</span>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data – e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn’t throw an observation away just because it’s an outlier. But the fact that it’s an outlier is often a cue to look more closely at that case, and try to find out why it’s so different.</p>
+<p>The first kind of unusual observation is an <strong><em>outlier</em></strong>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in <a class="reference internal" href="#fig-outlier"><span class="std std-numref">Fig. 18.5</span></a>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <span class="math notranslate nohighlight">\(\epsilon_i^*\)</span>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data – e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn’t throw an observation away just because it’s an outlier. But the fact that it’s an outlier is often a cue to look more closely at that case, and try to find out why it’s so different.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2223,7 +2223,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.3</span> <span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4</span> <span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
@@ -2233,6 +2233,9 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <div class="cell_output docutils container">
 <img alt="_images/05.04-regression_108_0.png" src="_images/05.04-regression_108_0.png" />
 </div>
+</div>
+<div class="figure align-default" id="fig-outlier" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 18.5 </span><span class="caption-text">An illustration of outliers. The orange line plots the regression line estimated when the anomalous (red) data point is included, and the dotted line shows the residual for the outlier. The blue line shows the regression line that would have been estimated without the anomalous observation included. The outlier has an unusual value on the outcome (y axis location) but not the predictor (x axis location), and lies a long way from the regression line.</span><a class="headerlink" href="#fig-outlier" title="Permalink to this image">¶</a></p>
 </div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">

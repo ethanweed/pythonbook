@@ -13,6 +13,8 @@ Update: having by now gotten as far as figuring out how to use Python to overlay
 
 #### Log
 
+01-06-2022 Done with drafts of chi2, t-test, and one-way anova chapters, and almost done with draft of regression chapter.
+
 15-06-2021 Almost done with the theoretical chapters, moving on to the statistical tests now. Saving the chapters on basic programming, graphics, etc. for last. The plan is now to prioritize the chapters that I will need for teaching in the Fall semester.
 
 08-04-2021 Added myst extension -dollarmath to config.yml, so inline math renders now. This seemingly does *not* work for dollarmath inside of a pandas dataframe, so to do tables I will have to knit with kable in R, and then paste the mulitmarkdown into the jupyter notebook. Tables look better this way anyway, so no biggie. I still need to get footnotes to work, though.
