@@ -465,6 +465,11 @@ const thebe_selector_output = ".output, .cell_output"
      18.9.1. Three kinds of residuals
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">
+     18.9.2. Three kinds of anomalous data
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -613,6 +618,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#three-kinds-of-residuals">
      18.9.1. Three kinds of residuals
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">
+     18.9.2. Three kinds of anomalous data
     </a>
    </li>
   </ul>
@@ -2113,7 +2123,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <span class="xref myst"></span>.</p></li>
 <li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <span class="xref myst"></span></p></li>
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
-<li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <span class="xref myst"></span>.</p></li>
+<li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <a class="reference internal" href="#regressionoutliers"><span class="std std-ref">Three kinds of anomalous data</span></a>.</p></li>
 </ul>
 </div>
 <div class="section" id="model-checking">
@@ -2153,6 +2163,75 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 \[
 \hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}
 \]</div>
+<p>Isn’t that a pip?</p>
+<p>Before moving on, I should point out that you don’t often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. Most of the time the various functions that run the diagnostics will take care of these calculations for you.</p>
+</div>
+<div class="section" id="three-kinds-of-anomalous-data">
+<span id="regressionoutliers"></span><h3><span class="section-number">18.9.2. </span>Three kinds of anomalous data<a class="headerlink" href="#three-kinds-of-anomalous-data" title="Permalink to this headline">¶</a></h3>
+<p>One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of “unusual” or “anomalous” observations. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called “anomalous”. All three are interesting, but they have rather different implications for your analysis.</p>
+<p>The first kind of unusual observation is an <strong><em>outlier</em></strong>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-outlier</span></code>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <span class="math notranslate nohighlight">\(\epsilon_i^*\)</span>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data – e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn’t throw an observation away just because it’s an outlier. But the fact that it’s an outlier is often a cue to look more closely at that case, and try to find out why it’s so different.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+     <span class="s1">&#39;y1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">],</span>
+     <span class="s1">&#39;y2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">]</span>
+    <span class="p">})</span>
+
+
+
+<span class="c1"># fit linear regression model and save parameters</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">initialParameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">fittedParameters</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">],</span> <span class="n">initialParameters</span><span class="p">)</span>
+
+<span class="n">modelPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span> 
+
+<span class="n">xModel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]))</span>
+<span class="n">yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span>
+
+
+<span class="c1"># plot data</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y1&#39;</span><span class="p">)</span>
+
+<span class="c1"># add regression line</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
+
+
+<span class="n">initialParameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">fittedParameters</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y2&#39;</span><span class="p">],</span> <span class="n">initialParameters</span><span class="p">)</span>
+
+<span class="n">modelPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span> 
+
+<span class="n">xModel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]))</span>
+<span class="n">yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.3</span> <span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_108_0.png" src="_images/05.04-regression_108_0.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

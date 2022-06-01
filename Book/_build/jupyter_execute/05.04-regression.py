@@ -862,6 +862,75 @@ res = mod2.residuals_
 # \hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}
 # $$
 
+# Isn't that a pip?
+# 
+# Before moving on, I should point out that you don't often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. Most of the time the various functions that run the diagnostics will take care of these calculations for you.
+
+# (regressionoutliers)=
+# 
+# ### Three kinds of anomalous data
+# One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of "unusual" or "anomalous" observations. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called "anomalous". All three are interesting, but they have rather different implications for your analysis.
+# 
+# The first kind of unusual observation is an **_outlier_**. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in {numref}`fig-outlier`. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, $\epsilon_i^*$. Outliers are interesting: a big outlier *might* correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.
+
+# In[33]:
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import pandas as pd
+import seaborn as sns
+
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.5, 2.3, 2.4, 2.6, 2.8, 3.6, 4],
+     'y1': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8]
+    })
+
+
+
+# fit linear regression model and save parameters
+def func(x, a, b):
+    return a * x + b
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y1'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+
+# plot data
+fig = plt.figure() 
+ax = fig.add_subplot()
+
+sns.scatterplot(data = df, x='x', y='y1')
+
+# add regression line
+ax.plot(xModel, yModel)
+
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y2'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+ax.plot(xModel, yModel)
+ax.plot(2.5, 4, 'ro')
+ax.plot([2.5, 2.5], [2.3 ,4], linestyle='dashed')
+
+sns.despine()
+
+
 # In[ ]:
 
 
