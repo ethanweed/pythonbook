@@ -941,6 +941,72 @@ sns.despine()
 # 
 # ```
 
-# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in numref{`fig-leverage`}. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going.
+# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in numref{`fig-leverage`}. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going. We won't bother extracting the hat values here, but if you want to do this, you can use the `get_influence` method from the `statsmodel` package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.
 # 
 # [^notehatmatrix]: Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix $H$ that converts the vector of observed values $y$ into a vector of fitted values $\hat{y}$, such that $\hat{y} = H y$. The name comes from the fact that this is the matrix that "puts a hat on $y$". The  hat *value* of the $i$-th observation is the $i$-th diagonal element of this matrix (so technically I should be writing it as $h_{ii}$ rather than $h_{i}$). Oh, and in case you care, here's how it's calculated: $H = X(X^TX)^{-1} X^T$. Pretty, isn't it?
+
+# In[34]:
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import pandas as pd
+import seaborn as sns
+
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.4]
+    })
+
+
+
+# fit linear regression model and save parameters
+def func(x, a, b):
+    return a * x + b
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+
+# plot data
+fig = plt.figure() 
+ax = fig.add_subplot()
+
+
+sns.scatterplot(data = df, x='x', y='y')
+
+# add regression line
+ax.plot(xModel, yModel)
+
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y2'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+ax.plot(xModel, yModel)
+ax.plot(8, 7.4, 'ro')
+ax.plot([8, 8], [7.4 ,7.6], linestyle='dashed')
+ax.grid(False)
+
+sns.despine()
+
+
+# In[ ]:
+
+
+
+
