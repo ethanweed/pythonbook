@@ -885,7 +885,7 @@ import seaborn as sns
 
 df = pd.DataFrame(
     {'x': [1, 1.3, 1.8, 1.9, 2.5, 2.3, 2.4, 2.6, 2.8, 3.6, 4],
-     'y1': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8],
      'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8]
     })
 
@@ -897,7 +897,7 @@ def func(x, a, b):
 
 initialParameters = np.array([1.0, 1.0])
 
-fittedParameters, pcov = curve_fit(func, df['x'], df['y1'], initialParameters)
+fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
 
 modelPredictions = func(df['x'], *fittedParameters) 
 
@@ -910,7 +910,7 @@ fig = plt.figure()
 ax = fig.add_subplot()
 
 
-sns.scatterplot(data = df, x='x', y='y1')
+sns.scatterplot(data = df, x='x', y='y')
 
 # add regression line
 ax.plot(xModel, yModel)
