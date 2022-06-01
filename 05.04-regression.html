@@ -2237,7 +2237,71 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <div class="figure align-default" id="fig-outlier" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 18.5 </span><span class="caption-text">An illustration of outliers. The orange line plots the regression line estimated when the anomalous (red) data point is included, and the dotted line shows the residual for the outlier. The blue line shows the regression line that would have been estimated without the anomalous observation included. The outlier has an unusual value on the outcome (y axis location) but not the predictor (x axis location), and lies a long way from the regression line.</span><a class="headerlink" href="#fig-outlier" title="Permalink to this image">¶</a></p>
 </div>
-<p>The second way in which an observation can be unusual is if it has high <strong><em>leverage</em></strong>: this happens when the observation is very different from all the other observations. This doesn’t necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in numref{<code class="docutils literal notranslate"><span class="pre">fig-leverage</span></code>}. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <span class="math notranslate nohighlight">\(h_i\)</span>. The formula for the hat value is rather complicated<a class="footnote-reference brackets" href="#notehatmatrix" id="id9">9</a> but its interpretation is not: <span class="math notranslate nohighlight">\(h_i\)</span> is a measure of the extent to which the <span class="math notranslate nohighlight">\(i\)</span>-th observation is “in control” of where the regression line ends up going.</p>
+<p>The second way in which an observation can be unusual is if it has high <strong><em>leverage</em></strong>: this happens when the observation is very different from all the other observations. This doesn’t necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in numref{<code class="docutils literal notranslate"><span class="pre">fig-leverage</span></code>}. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <span class="math notranslate nohighlight">\(h_i\)</span>. The formula for the hat value is rather complicated<a class="footnote-reference brackets" href="#notehatmatrix" id="id9">9</a> but its interpretation is not: <span class="math notranslate nohighlight">\(h_i\)</span> is a measure of the extent to which the <span class="math notranslate nohighlight">\(i\)</span>-th observation is “in control” of where the regression line ends up going. We won’t bother extracting the hat values here, but if you want to do this, you can use the <code class="docutils literal notranslate"><span class="pre">get_influence</span></code> method from the <code class="docutils literal notranslate"><span class="pre">statsmodel</span></code> package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+     <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.8</span><span class="p">],</span>
+     <span class="s1">&#39;y2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.4</span><span class="p">]</span>
+    <span class="p">})</span>
+
+
+
+<span class="c1"># fit linear regression model and save parameters</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">initialParameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">fittedParameters</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">initialParameters</span><span class="p">)</span>
+
+<span class="n">modelPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span> 
+
+<span class="n">xModel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]))</span>
+<span class="n">yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span>
+
+
+<span class="c1"># plot data</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+
+<span class="c1"># add regression line</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
+
+
+<span class="n">initialParameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">fittedParameters</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y2&#39;</span><span class="p">],</span> <span class="n">initialParameters</span><span class="p">)</span>
+
+<span class="n">modelPredictions</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span> 
+
+<span class="n">xModel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]))</span>
+<span class="n">yModel</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="o">*</span><span class="n">fittedParameters</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xModel</span><span class="p">,</span> <span class="n">yModel</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">7.4</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.4</span> <span class="p">,</span><span class="mf">7.6</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_111_0.png" src="_images/05.04-regression_111_0.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
