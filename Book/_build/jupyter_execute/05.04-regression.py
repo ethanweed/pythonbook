@@ -909,7 +909,7 @@ yModel = func(xModel, *fittedParameters)
 fig = plt.figure() 
 ax = fig.add_subplot()
 
-sns.reset_orig()
+
 sns.scatterplot(data = df, x='x', y='y1')
 
 # add regression line
@@ -928,6 +928,7 @@ yModel = func(xModel, *fittedParameters)
 ax.plot(xModel, yModel)
 ax.plot(2.5, 4, 'ro')
 ax.plot([2.5, 2.5], [2.3 ,4], linestyle='dashed')
+ax.grid(False)
 
 sns.despine()
 
