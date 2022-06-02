@@ -941,7 +941,7 @@ sns.despine()
 # 
 # ```
 
-# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in numref{`fig-leverage`}. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going. We won't bother extracting the hat values here, but if you want to do this, you can use the `get_influence` method from the `statsmodel` package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.
+# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of numref{`fig-leverage-influence`}. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going. We won't bother extracting the hat values here, but if you want to do this, you can use the `get_influence` method from the `statsmodel` package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.
 # 
 # [^notehatmatrix]: Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix $H$ that converts the vector of observed values $y$ into a vector of fitted values $\hat{y}$, such that $\hat{y} = H y$. The name comes from the fact that this is the matrix that "puts a hat on $y$". The  hat *value* of the $i$-th observation is the $i$-th diagonal element of this matrix (so technically I should be writing it as $h_{ii}$ rather than $h_{i}$). Oh, and in case you care, here's how it's calculated: $H = X(X^TX)^{-1} X^T$. Pretty, isn't it?
 
@@ -953,6 +953,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import pandas as pd
 import seaborn as sns
+import string
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 
@@ -1053,11 +1054,21 @@ axes[1].plot([8, 8], [5 ,7.3], linestyle='dashed')
 axes[1].grid(False)
 
 
-
+for n, ax in enumerate(axes):   
+    ax.text(-0.1, 1.1, string.ascii_uppercase[n], transform=ax.transAxes, 
+            size=20)
 
 
 sns.despine()
 
+
+#  ```{glue:figure} leverage-influence-fig
+# :figwidth: 600px
+# :name: fig-leverage-influence
+# 
+# Outliers showing high leverage points (panel A) and high influence points (panel B).
+# 
+# ```
 
 # In[ ]:
 
