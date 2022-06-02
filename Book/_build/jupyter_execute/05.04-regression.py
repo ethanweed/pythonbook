@@ -979,10 +979,6 @@ xModel = np.linspace(min(df['x']), max(df['x']))
 yModel = func(xModel, *fittedParameters)
 
 
-# plot data
-#fig = plt.figure() 
-#ax = fig.add_subplot()
-
 
 sns.scatterplot(data = df, x='x', y='y', ax = axes[0])
 
@@ -1028,9 +1024,6 @@ xModel = np.linspace(min(df['x']), max(df['x']))
 yModel = func(xModel, *fittedParameters)
 
 
-# plot data
-#fig = plt.figure() 
-#ax = fig.add_subplot()
 
 
 sns.scatterplot(data = df, x='x', y='y', ax = axes[1])
@@ -1090,33 +1083,95 @@ sns.despine()
 
 import seaborn as sns
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
 
+# Define a figure with two panels
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
+# Define our made-up data
 df = pd.DataFrame(
     {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
-     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8]
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 5]
     })
 
-regression_model = sm.OLS(df['y'], df['x']).fit() 
+# Get Cook's distance
 
-influence = regression_model.get_influence()
+# model the data using statsmodels.api OLS (ordinary least squares)
+model = sm.OLS(df['y2'], df['x'])
+results = model.fit()
+
+# extract cook's distance
+influence = results.get_influence()
 cooks = influence.cooks_distance
 
+# for plotting, make a dataframe with the x data, and the corresponding cook's distances
 df_cooks = pd.DataFrame(
     {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
      'y': cooks[0]
     })
 
-sns.scatterplot(data = df_cooks, x = 'x', y = 'y')
-plt.axhline(y=1, color='red', linestyle='--')
-plt.axhline(y= 4/len(df['x']), color='blue', linestyle='--')
+# plot Cook's distance against the x data points
+sns.scatterplot(data = df_cooks, x = 'x', y = 'y', ax = axes[0])
+axes[0].axhline(y=1, color='gray', linestyle='--')
+axes[0].axhline(y= 4/len(df['x']), color='gray', linestyle='--')
+
+
+
+# Plot 2
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 5]
+    })
+
+
+
+# fit linear regression model and save parameters
+def func(x, a, b):
+    return a * x + b
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+
+
+
+sns.scatterplot(data = df, x='x', y='y', ax = axes[1])
+
+# add regression line
+axes[1].plot(xModel, yModel)
+
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y2'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+axes[1].plot(xModel, yModel)
+axes[1].plot(8, 5, 'ro')
+axes[1].plot([8, 8], [5 ,7.3], linestyle='dashed')
+axes[1].grid(False)
+
+
+for n, ax in enumerate(axes):   
+    ax.text(-0.1, 1.1, string.ascii_uppercase[n], transform=ax.transAxes, 
+            size=20)
+
 
 sns.despine()
 
 
-# In[ ]:
+# 
 
-
-
-
+# As a rough guide, Cook's distance greater than 1 is often considered large (that's what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that $4/N$ has also been suggested as a possible rule of thumb. 
