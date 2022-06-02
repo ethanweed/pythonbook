@@ -1076,7 +1076,7 @@ sns.despine()
 # Notice that this is a multiplication of something that measures the outlier-ness of the observation (the bit on the 
 # left), and something that measures the leverage of the observation (the bit on the right). In other words, in order to have a large Cook's distance, an observation must be a fairly substantial outlier *and* have high leverage.
 
-# Again, if you want to quantify Cook's distance, this can be done using using `statsmodels.api`. I won't go through this in detail, but
+# Again, if you want to quantify Cook's distance, this can be done using using `statsmodels.api`. I won't go through this in detail, but if you are interested, you can click to show the code, and see how I got the Cook's distance values from `statmodels`.
 
 # In[35]:
 
