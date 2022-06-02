@@ -941,7 +941,7 @@ sns.despine()
 # 
 # ```
 
-# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of {numref}`fig-leverage-influence`. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going. We won't bother extracting the hat values here, but if you want to do this, you can use the `get_influence` method from the `statsmodel` package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.
+# The second way in which an observation can be unusual is if it has high **_leverage_**: this happens when the observation is very different from all the other observations. This doesn't necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of {numref}`fig-leverage-influence`. The leverage of an observation is operationalised in terms of its *hat value*, usually written $h_i$. The formula for the hat value is rather complicated[^notehatmatrix] but its interpretation is not: $h_i$ is a measure of the extent to which the $i$-th observation is "in control" of where the regression line ends up going. We won't bother extracting the hat values here, but if you want to do this, you can use the `get_influence` method from the `statsmodels.api` package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.
 # 
 # [^notehatmatrix]: Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix $H$ that converts the vector of observed values $y$ into a vector of fitted values $\hat{y}$, such that $\hat{y} = H y$. The name comes from the fact that this is the matrix that "puts a hat on $y$". The  hat *value* of the $i$-th observation is the $i$-th diagonal element of this matrix (so technically I should be writing it as $h_{ii}$ rather than $h_{i}$). Oh, and in case you care, here's how it's calculated: $H = X(X^TX)^{-1} X^T$. Pretty, isn't it?
 
@@ -1073,6 +1073,47 @@ sns.despine()
 # In general, if an observation lies far away from the other ones in terms of the predictor variables, it will have a large hat value (as a rough guide, high leverage is when the hat value is more than 2-3 times the average; and note that the sum of the hat values is constrained to be equal to $K+1$). High leverage points are also worth looking at in more detail, but they're much less likely to be a cause for concern unless they are also outliers.
 # 
 # This brings us to our third measure of unusualness, the **_influence_** of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in {numref}`fig-leverage-influence`, panel B. Notice the contrast to panel A, and to {numref}`fig-outlier`: outliers don't move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage... that has a big effect on the regression line.
+
+# That's why we call these points high influence; and it's why they're the biggest worry. We operationalise influence in terms of a measure known as **_Cook's distance_**, 
+# 
+# $$
+# D_i = \frac{{\epsilon_i^*}^2 }{K+1} \times \frac{h_i}{1-h_i}
+# $$ 
+# 
+# Notice that this is a multiplication of something that measures the outlier-ness of the observation (the bit on the 
+# left), and something that measures the leverage of the observation (the bit on the right). In other words, in order to have a large Cook's distance, an observation must be a fairly substantial outlier *and* have high leverage.
+
+# Again, if you want to quantify Cook's distance, this can be done using using `statsmodels.api`. I won't go through this in detail, but
+
+# In[35]:
+
+
+import seaborn as sns
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8]
+    })
+
+regression_model = sm.OLS(df['y'], df['x']).fit() 
+
+influence = regression_model.get_influence()
+cooks = influence.cooks_distance
+
+df_cooks = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': cooks[0]
+    })
+
+sns.scatterplot(data = df_cooks, x = 'x', y = 'y')
+plt.axhline(y=1, color='red', linestyle='--')
+plt.axhline(y= 4/len(df['x']), color='blue', linestyle='--')
+
+sns.despine()
+
 
 # In[ ]:
 
