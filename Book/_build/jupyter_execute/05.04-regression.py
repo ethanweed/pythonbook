@@ -1106,7 +1106,7 @@ cooks = influence.cooks_distance
 
 # for plotting, make a dataframe with the x data, and the corresponding cook's distances
 df_cooks = pd.DataFrame(
-    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+    {'x': df['x'],
      'y': cooks[0]
     })
 
