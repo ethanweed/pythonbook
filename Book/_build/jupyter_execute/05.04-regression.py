@@ -1172,6 +1172,65 @@ for n, ax in enumerate(axes):
 sns.despine()
 
 
+#  ```{glue:figure} cooks-fig
+# :figwidth: 600px
+# :name: fig-cooks
 # 
+# A visualization of Cook's distance as a means for identifying the influence of each data point. Panel B is the same as panel B in {numre}`fig-leverage-influence` above. The red dot show the effect on the entire regression line that sinking the final point from 7.4 to 5 has. Panel A shows Cook's distance for the data set in which the data point at x = 8 is 5 (the orange line). The dashed lines show two possible cutoff points for a "large" Cook's distance: either 1 or 4/N, in which N is the number of data points.
+# 
+# ```
 
-# As a rough guide, Cook's distance greater than 1 is often considered large (that's what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that $4/N$ has also been suggested as a possible rule of thumb. 
+# As a rough guide, Cook's distance greater than 1 is often considered large (that's what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that $4/N$ has also been suggested as a possible rule of thumb. As the visualization in {numre}`fig-cooks` illustrates, the red data point at x = 8 has a large Cook's distance.
+
+# An obvious question to ask next is, if you do have large values of Cook's distance, what should you do? As always, there's no hard and fast rules. Probably the first thing to do is to try running the regression with that point excluded and see what happens to the model performance and to the regression coefficients. If they really are substantially different, it's time to start digging into your data set and your notes that you no doubt were scribbling as your ran your study; try to figure out *why* the point is so different. If you start to become convinced that this one data point is badly distorting your results, you might consider excluding it, but that's less than ideal unless you have a solid explanation for why this particular case is qualitatively different from the others and therefore deserves to be handled separately.[^noterobust] To give an example, let's delete the observation from day 64, the observation with the largest Cook's distance for the `mod2` model, where we predicted my grumpiness on the basis of my sleep, and my baby's sleep.
+# 
+# [^noterobust] `An alternative is to run a "robust regression"; I might discuss robust regression in a later version of this book.`
+
+# First, let's get back to the original sleep data, and remind ourselves of what our model coefficients looked like:
+
+# In[36]:
+
+
+import pandas as pd
+import pingouin as pg
+
+file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv'
+df = pd.read_csv(file)
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+mod2 = pg.linear_regression(predictors, outcome)
+mod2.round(2)
+
+
+# Then, we can remove the data from day 64, using the `drop()` method from `pandas`. Remember, as always, it's Python, and Python is zero-indexed, so it starts counting the days at 0 and not 1, and that means that day 64 is on row 63!
+
+# In[37]:
+
+
+df = df.drop(63)
+
+
+# In[38]:
+
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+mod2 = pg.linear_regression(predictors, outcome)
+mod2.round(2)
+
+
+# As you can see, those regression coefficients have barely changed in comparison to the values we got earlier. In other words, we really don't have any problem as far as anomalous data are concerned.
+
+# (regressionnormality)=
+# ### Checking the normality of the residuals
+# 
+# Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed [earlier](shapiro). Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The command I use might be something like this:
+
+# In[ ]:
+
+
+
+
