@@ -470,6 +470,11 @@ const thebe_selector_output = ".output, .cell_output"
      18.9.2. Three kinds of anomalous data
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">
+     18.9.3. Checking the normality of the residuals
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -623,6 +628,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">
      18.9.2. Three kinds of anomalous data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">
+     18.9.3. Checking the normality of the residuals
     </a>
    </li>
   </ul>
@@ -2118,7 +2128,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <span id="regressionassumptions"></span><h2><span class="section-number">18.8. </span>Assumptions of regression<a class="headerlink" href="#assumptions-of-regression" title="Permalink to this headline">¶</a></h2>
 <p>The linear regression model that I’ve been discussing relies on several assumptions. In the section on <a class="reference internal" href="#regressiondiagnostics"><span class="std std-ref">regression diagnostics</span></a> we’ll talk a lot more about how to check that these assumptions are being met, but first, let’s have a look at each of them.</p>
 <ul class="simple">
-<li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <span class="xref myst"></span>.</p></li>
+<li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <a class="reference internal" href="#regressionnormality"><span class="std std-ref">Checking the normality of the residuals</span></a>.</p></li>
 <li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <span class="xref myst"></span>.</p></li>
 <li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <span class="xref myst"></span>.</p></li>
 <li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <span class="xref myst"></span></p></li>
@@ -2463,7 +2473,194 @@ left), and something that measures the leverage of the observation (the bit on t
 <img alt="_images/05.04-regression_116_0.png" src="_images/05.04-regression_116_0.png" />
 </div>
 </div>
-<p>As a rough guide, Cook’s distance greater than 1 is often considered large (that’s what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <span class="math notranslate nohighlight">\(4/N\)</span> has also been suggested as a possible rule of thumb.</p>
+<div class="figure align-default" id="fig-cooks" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 18.7 </span><span class="caption-text">A visualization of Cook’s distance as a means for identifying the influence of each data point. Panel B is the same as panel B in <a href="#id10"><span class="problematic" id="id11">:numre:`fig-leverage-influence`</span></a> above. The red dot show the effect on the entire regression line that sinking the final point from 7.4 to 5 has. Panel A shows Cook’s distance for the data set in which the data point at x = 8 is 5 (the orange line). The dashed lines show two possible cutoff points for a “large” Cook’s distance: either 1 or 4/N, in which N is the number of data points.</span><a class="headerlink" href="#fig-cooks" title="Permalink to this image">¶</a></p>
+</div>
+<p>As a rough guide, Cook’s distance greater than 1 is often considered large (that’s what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <span class="math notranslate nohighlight">\(4/N\)</span> has also been suggested as a possible rule of thumb. As the visualization in <a href="#id12"><span class="problematic" id="id13">:numre:`fig-cooks`</span></a> illustrates, the red data point at x = 8 has a large Cook’s distance.</p>
+<p>An obvious question to ask next is, if you do have large values of Cook’s distance, what should you do? As always, there’s no hard and fast rules. Probably the first thing to do is to try running the regression with that point excluded and see what happens to the model performance and to the regression coefficients. If they really are substantially different, it’s time to start digging into your data set and your notes that you no doubt were scribbling as your ran your study; try to figure out <em>why</em> the point is so different. If you start to become convinced that this one data point is badly distorting your results, you might consider excluding it, but that’s less than ideal unless you have a solid explanation for why this particular case is qualitatively different from the others and therefore deserves to be handled separately.[^noterobust] To give an example, let’s delete the observation from day 64, the observation with the largest Cook’s distance for the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model, where we predicted my grumpiness on the basis of my sleep, and my baby’s sleep.</p>
+<p>[^noterobust] <code class="docutils literal notranslate"><span class="pre">An</span> <span class="pre">alternative</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">run</span> <span class="pre">a</span> <span class="pre">&quot;robust</span> <span class="pre">regression&quot;;</span> <span class="pre">I</span> <span class="pre">might</span> <span class="pre">discuss</span> <span class="pre">robust</span> <span class="pre">regression</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">later</span> <span class="pre">version</span> <span class="pre">of</span> <span class="pre">this</span> <span class="pre">book.</span></code></p>
+<p>First, let’s get back to the original sleep data, and remind ourselves of what our model coefficients looked like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+<span class="n">mod2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>125.97</td>
+      <td>3.04</td>
+      <td>41.42</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>119.93</td>
+      <td>132.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.95</td>
+      <td>0.55</td>
+      <td>-16.17</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-10.05</td>
+      <td>-7.85</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>baby_sleep</td>
+      <td>0.01</td>
+      <td>0.27</td>
+      <td>0.04</td>
+      <td>0.97</td>
+      <td>0.82</td>
+      <td>0.81</td>
+      <td>-0.53</td>
+      <td>0.55</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Then, we can remove the data from day 64, using the <code class="docutils literal notranslate"><span class="pre">drop()</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. Remember, as always, it’s Python, and Python is zero-indexed, so it starts counting the days at 0 and not 1, and that means that day 64 is on row 63!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+<span class="n">mod2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>126.36</td>
+      <td>3.00</td>
+      <td>42.19</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.82</td>
+      <td>120.41</td>
+      <td>132.30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.83</td>
+      <td>0.55</td>
+      <td>-16.13</td>
+      <td>0.00</td>
+      <td>0.82</td>
+      <td>0.82</td>
+      <td>-9.91</td>
+      <td>-7.74</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>baby_sleep</td>
+      <td>-0.13</td>
+      <td>0.28</td>
+      <td>-0.48</td>
+      <td>0.63</td>
+      <td>0.82</td>
+      <td>0.82</td>
+      <td>-0.68</td>
+      <td>0.41</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As you can see, those regression coefficients have barely changed in comparison to the values we got earlier. In other words, we really don’t have any problem as far as anomalous data are concerned.</p>
+</div>
+<div class="section" id="checking-the-normality-of-the-residuals">
+<span id="regressionnormality"></span><h3><span class="section-number">18.9.3. </span>Checking the normality of the residuals<a class="headerlink" href="#checking-the-normality-of-the-residuals" title="Permalink to this headline">¶</a></h3>
+<p>Like many of the statistical tools we’ve discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren’t fundamentally different to those that we discussed <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">earlier</span></a>. Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The command I use might be something like this:</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
