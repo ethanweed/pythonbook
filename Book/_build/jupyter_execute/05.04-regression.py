@@ -954,6 +954,7 @@ from scipy.optimize import curve_fit
 import pandas as pd
 import seaborn as sns
 
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
 
 df = pd.DataFrame(
     {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
@@ -978,14 +979,14 @@ yModel = func(xModel, *fittedParameters)
 
 
 # plot data
-fig = plt.figure() 
-ax = fig.add_subplot()
+#fig = plt.figure() 
+#ax = fig.add_subplot()
 
 
-sns.scatterplot(data = df, x='x', y='y')
+sns.scatterplot(data = df, x='x', y='y', ax = axes[0])
 
 # add regression line
-ax.plot(xModel, yModel)
+axes[0].plot(xModel, yModel)
 
 
 initialParameters = np.array([1.0, 1.0])
@@ -997,10 +998,63 @@ modelPredictions = func(df['x'], *fittedParameters)
 xModel = np.linspace(min(df['x']), max(df['x']))
 yModel = func(xModel, *fittedParameters)
 
-ax.plot(xModel, yModel)
-ax.plot(8, 7.4, 'ro')
-ax.plot([8, 8], [7.4 ,7.6], linestyle='dashed')
-ax.grid(False)
+axes[0].plot(xModel, yModel)
+axes[0].plot(8, 7.4, 'ro')
+axes[0].plot([8, 8], [7.4 ,7.6], linestyle='dashed')
+axes[0].grid(False)
+
+# Plot 2
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 5]
+    })
+
+
+
+# fit linear regression model and save parameters
+def func(x, a, b):
+    return a * x + b
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+
+# plot data
+#fig = plt.figure() 
+#ax = fig.add_subplot()
+
+
+sns.scatterplot(data = df, x='x', y='y', ax = axes[1])
+
+# add regression line
+axes[1].plot(xModel, yModel)
+
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y2'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+axes[1].plot(xModel, yModel)
+axes[1].plot(8, 5, 'ro')
+axes[1].plot([8, 8], [5 ,7.3], linestyle='dashed')
+axes[1].grid(False)
+
+
+
+
 
 sns.despine()
 
