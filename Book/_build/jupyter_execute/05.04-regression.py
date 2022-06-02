@@ -1110,6 +1110,8 @@ df_cooks = pd.DataFrame(
      'y': cooks[0]
     })
 
+# Panel A
+
 # plot Cook's distance against the x data points
 sns.scatterplot(data = df_cooks, x = 'x', y = 'y', ax = axes[0])
 axes[0].axhline(y=1, color='gray', linestyle='--')
@@ -1117,7 +1119,7 @@ axes[0].axhline(y= 4/len(df['x']), color='gray', linestyle='--')
 
 
 
-# Plot 2
+# Panel B (same as before)
 
 df = pd.DataFrame(
     {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
@@ -1131,6 +1133,8 @@ df = pd.DataFrame(
 def func(x, a, b):
     return a * x + b
 
+
+# first regression line
 initialParameters = np.array([1.0, 1.0])
 
 fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
@@ -1141,13 +1145,14 @@ xModel = np.linspace(min(df['x']), max(df['x']))
 yModel = func(xModel, *fittedParameters)
 
 
-
-
+# plot data points
 sns.scatterplot(data = df, x='x', y='y', ax = axes[1])
 
-# add regression line
+# plot first regression line
 axes[1].plot(xModel, yModel)
 
+
+# second regression line
 
 initialParameters = np.array([1.0, 1.0])
 
@@ -1159,16 +1164,20 @@ xModel = np.linspace(min(df['x']), max(df['x']))
 yModel = func(xModel, *fittedParameters)
 
 axes[1].plot(xModel, yModel)
+
+# add red point to show "outlier"
 axes[1].plot(8, 5, 'ro')
+
+# add dashed line to show change in residual
 axes[1].plot([8, 8], [5 ,7.3], linestyle='dashed')
 axes[1].grid(False)
 
-
+# add letter labels
 for n, ax in enumerate(axes):   
     ax.text(-0.1, 1.1, string.ascii_uppercase[n], transform=ax.transAxes, 
             size=20)
 
-
+# prettify
 sns.despine()
 
 
