@@ -1218,14 +1218,14 @@ mod2.round(2)
 # In[37]:
 
 
-df = df.drop(63)
+df_2 = df.drop(63)
 
 
 # In[38]:
 
 
-predictors = df[['dan_sleep', 'baby_sleep']]
-outcome = df['dan_grump']
+predictors = df_2[['dan_sleep', 'baby_sleep']]
+outcome = df_2['dan_grump']
 
 mod2 = pg.linear_regression(predictors, outcome)
 mod2.round(2)
@@ -1236,7 +1236,68 @@ mod2.round(2)
 # (regressionnormality)=
 # ### Checking the normality of the residuals
 # 
-# Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed [earlier](shapiro). Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The command I use might be something like this:
+# Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed [earlier](shapiro). Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The commands I use might be something like this:
+
+# In[39]:
+
+
+import pandas as pd
+import pingouin as pg
+import seaborn as sns
+
+res = mod2.residuals_
+res = pd.DataFrame(res, columns = ['Residuals'])
+
+sns.histplot(data = res, x = 'Residuals')
+sns.despine()
+
+
+#  ```{glue:figure} res-hist-fig
+# :figwidth: 600px
+# :name: fig-res-hist
+# 
+# A histogram of the (ordinary) residuals in the `mod2` model. These residuals look very close to being normally distributed, much moreso than is typically seen with real data. This shouldn’t surprise you... they aren’t real data, and they aren’t real residuals!
+# 
+# ```
+
+# The resulting plot is shown in {numref}`fig-rest-hist`, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the XXXX function:
+
+# In[40]:
+
+
+sw = pg.normality(res, method = 'shapiro')
+sw.round(2)
+
+
+# The W value of .99, at this sample size, is non-significant ($p$ = .82), again suggesting that the normality assumption isn’t in any danger here. As a third measure, we might also want to draw a QQ-plot. This can be most easily done using the `qqplot` function from `statsmodels.api`:
+
+# In[41]:
+
+
+import statsmodels.api as sm
+
+fig = sm.qqplot(res['Residuals'], line = 'q')
+sns.despine()
+
+
+# Finally, we can simply plot the observed values against the fitted values:
+
+# In[42]:
+
+
+predictors = df_2[['dan_sleep', 'baby_sleep']]
+outcome = df_2['dan_grump']
+
+mod2 = pg.linear_regression(predictors, outcome, as_dataframe = False)
+
+df_res_pred = pd.DataFrame(
+    {'observed': outcome,
+     'fitted': mod2['pred']
+    })
+
+sns.scatterplot(data = df_res_pred, x = 'fitted', y = 'observed')
+sns.despine()
+
 
 # In[ ]:
 
