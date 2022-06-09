@@ -844,9 +844,27 @@ res = mod2.residuals_
 # \epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
 # $$
 
-# where $\hat\sigma$ in this context is the estimated population standard deviation of the ordinary residuals, and $h_i$ is the "hat value" of the $i$th observation. I haven't explained hat values to you yet (but have no fear,[^notehope] it's coming shortly), so this won't make a lot of sense. For now, it's enough to interpret the standardised residuals as if we'd converted the ordinary residuals to $z$-scores. In fact, that is more or less the truth, it's just that we're being a bit fancier. To get the standardised residuals, the command you want is this:
+# where $\hat\sigma$ in this context is the estimated population standard deviation of the ordinary residuals, and $h_i$ is the "hat value" of the $i$th observation. I haven't explained hat values to you yet (but have no fear,[^notehope] it's coming shortly), so this won't make a lot of sense. For now, it's enough to interpret the standardised residuals as if we'd converted the ordinary residuals to $z$-scores. In fact, that is more or less the truth, it's just that we're being a bit fancier. Now, unfortunately, `pingouin` does not provide standardized residuals, so if we want to inspect these, the next best option is probably `statsmodels`:
 # 
 # [^notehope]: Or have no hope, as the case may be.
+
+# In[33]:
+
+
+import statsmodels.api as sm
+
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
+
+## fit a OLS model with intercept on TV and Radio
+predictors = sm.add_constant(predictors)
+mod = sm.OLS(outcome, predictors)
+est = mod.fit()
+
+#obtain standardized residuals
+influence = est.get_influence()
+res_standard = influence.resid_studentized_internal
+
 
 # Note that this function uses a different name for the input argument, but it's still just a linear regression object that the function wants to take as its input here.
 # 
@@ -861,9 +879,18 @@ res = mod2.residuals_
 # $$
 # \hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}
 # $$
-
+# 
 # Isn't that a pip?
 # 
+# If you ever need to calculate studentised residuals yourself, this is also possible using `statsmodels`. Since we have already used `statmodels` to estimate our model above, when we calculated the standardized residuals, we can just re-use our model estimate `est`from before:
+
+# In[34]:
+
+
+stud_res = est.outlier_test()
+stud_res.head()
+
+
 # Before moving on, I should point out that you don't often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. Most of the time the various functions that run the diagnostics will take care of these calculations for you.
 
 # (regressionoutliers)=
@@ -873,7 +900,7 @@ res = mod2.residuals_
 # 
 # The first kind of unusual observation is an **_outlier_**. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in {numref}`fig-outlier`. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, $\epsilon_i^*$. Outliers are interesting: a big outlier *might* correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.
 
-# In[33]:
+# In[35]:
 
 
 import numpy as np
@@ -945,7 +972,7 @@ sns.despine()
 # 
 # [^notehatmatrix]: Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix $H$ that converts the vector of observed values $y$ into a vector of fitted values $\hat{y}$, such that $\hat{y} = H y$. The name comes from the fact that this is the matrix that "puts a hat on $y$". The  hat *value* of the $i$-th observation is the $i$-th diagonal element of this matrix (so technically I should be writing it as $h_{ii}$ rather than $h_{i}$). Oh, and in case you care, here's how it's calculated: $H = X(X^TX)^{-1} X^T$. Pretty, isn't it?
 
-# In[34]:
+# In[36]:
 
 
 import numpy as np
@@ -1078,7 +1105,7 @@ sns.despine()
 
 # Again, if you want to quantify Cook's distance, this can be done using using `statsmodels.api`. I won't go through this in detail, but if you are interested, you can click to show the code, and see how I got the Cook's distance values from `statmodels`.
 
-# In[35]:
+# In[37]:
 
 
 import seaborn as sns
@@ -1198,7 +1225,7 @@ ax.grid(False)
 
 # First, let's get back to the original sleep data, and remind ourselves of what our model coefficients looked like:
 
-# In[36]:
+# In[38]:
 
 
 import pandas as pd
@@ -1216,13 +1243,13 @@ mod2.round(2)
 
 # Then, we can remove the data from day 64, using the `drop()` method from `pandas`. Remember, as always, it's Python, and Python is zero-indexed, so it starts counting the days at 0 and not 1, and that means that day 64 is on row 63!
 
-# In[37]:
+# In[39]:
 
 
 df_2 = df.drop(63)
 
 
-# In[38]:
+# In[40]:
 
 
 predictors = df_2[['dan_sleep', 'baby_sleep']]
@@ -1239,7 +1266,7 @@ mod2.round(2)
 # 
 # Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed [earlier](shapiro). Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The commands I use might be something like this:
 
-# In[39]:
+# In[41]:
 
 
 import pandas as pd
@@ -1263,7 +1290,7 @@ sns.despine()
 
 # The resulting plot is shown in {numref}`fig-rest-hist`, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the XXXX function:
 
-# In[40]:
+# In[42]:
 
 
 sw = pg.normality(res, method = 'shapiro')
@@ -1272,18 +1299,45 @@ sw.round(2)
 
 # The W value of .99, at this sample size, is non-significant ($p$ = .82), again suggesting that the normality assumption isn’t in any danger here. As a third measure, we might also want to draw a QQ-plot. This can be most easily done using the `qqplot` function from `statsmodels.api`:
 
-# In[41]:
+# In[43]:
 
 
 import statsmodels.api as sm
 
-fig = sm.qqplot(res['Residuals'], line = 'q')
+fig = sm.qqplot(res['Residuals'], line = 's')
 sns.despine()
 
 
-# Finally, we can simply plot the observed values against the fitted values:
+#  ```{glue:figure} qq-fig
+# :figwidth: 600px
+# :name: fig-qq
+# 
+# A Q-Q (quantile-quantile) plot, the theoretical quantiles according to the model, against the quantiles of the standardised residuals.
+# 
+# ```
 
-# In[42]:
+# A little note: Q-Q plots are often created by plotting the quantiles of the _standardized_ residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a _feeling_, based on your great experience of squinting at plots, for whether the data _seem_ normal enough, it probably doesn't matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me.
+
+# In[44]:
+
+
+# Define a figure with two panels
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+res_standard = pd.DataFrame(res_standard, columns = ['Standardized_Residuals'])
+
+sm.qqplot(res['Residuals'], line = 's', ax = axes[0])
+sm.qqplot(res_standard['Standardized_Residuals'], line = 's', ax = axes[1])
+
+axes[0].set_title('Ordinary residuals')
+axes[1].set_title('Standardized residuals')
+
+sns.despine()
+
+
+# In[45]:
 
 
 predictors = df_2[['dan_sleep', 'baby_sleep']]

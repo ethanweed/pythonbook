@@ -2161,7 +2161,26 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 \[
 \epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8">8</a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. To get the standardised residuals, the command you want is this:</p>
+<p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8">8</a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. Now, unfortunately, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does not provide standardized residuals, so if we want to inspect these, the next best option is probably <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="c1">## fit a OLS model with intercept on TV and Radio</span>
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">predictors</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="n">predictors</span><span class="p">)</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1">#obtain standardized residuals</span>
+<span class="n">influence</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span>
+<span class="n">res_standard</span> <span class="o">=</span> <span class="n">influence</span><span class="o">.</span><span class="n">resid_studentized_internal</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>Note that this function uses a different name for the input argument, but it’s still just a linear regression object that the function wants to take as its input here.</p>
 <p>The third kind of residuals are <strong><em>Studentised residuals</em></strong> (also called “jackknifed residuals”) and they’re even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different:</p>
 <div class="math notranslate nohighlight">
@@ -2174,6 +2193,73 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 \hat\sigma_{(-i)} = \hat{\sigma} \ \sqrt{\frac{N-K-1 - {\epsilon_{i}^\prime}^2}{N-K-2}}
 \]</div>
 <p>Isn’t that a pip?</p>
+<p>If you ever need to calculate studentised residuals yourself, this is also possible using <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. Since we have already used <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> to estimate our model above, when we calculated the standardized residuals, we can just re-use our model estimate <code class="docutils literal notranslate"><span class="pre">est</span></code>from before:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stud_res</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">outlier_test</span><span class="p">()</span>
+<span class="n">stud_res</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>student_resid</th>
+      <th>unadj_p</th>
+      <th>bonf(p)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.494821</td>
+      <td>0.621857</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.105570</td>
+      <td>0.271676</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.461729</td>
+      <td>0.645321</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.475346</td>
+      <td>0.635620</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.166721</td>
+      <td>0.867940</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p>Before moving on, I should point out that you don’t often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. Most of the time the various functions that run the diagnostics will take care of these calculations for you.</p>
 </div>
 <div class="section" id="three-kinds-of-anomalous-data">
@@ -2241,7 +2327,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_108_0.png" src="_images/05.04-regression_108_0.png" />
+<img alt="_images/05.04-regression_110_0.png" src="_images/05.04-regression_110_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-outlier" style="width: 600px">
@@ -2359,7 +2445,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_111_0.png" src="_images/05.04-regression_111_0.png" />
+<img alt="_images/05.04-regression_113_0.png" src="_images/05.04-regression_113_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-leverage-influence" style="width: 600px">
@@ -2480,7 +2566,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_116_0.png" src="_images/05.04-regression_116_0.png" />
+<img alt="_images/05.04-regression_118_0.png" src="_images/05.04-regression_118_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-cooks" style="width: 600px">
@@ -2686,7 +2772,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_127_0.png" src="_images/05.04-regression_127_0.png" />
+<img alt="_images/05.04-regression_129_0.png" src="_images/05.04-regression_129_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-res-hist" style="width: 600px">
@@ -2740,16 +2826,42 @@ left), and something that measures the leverage of the observation (the bit on t
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_132_0.png" src="_images/05.04-regression_132_0.png" />
+<img alt="_images/05.04-regression_134_0.png" src="_images/05.04-regression_134_0.png" />
 </div>
 </div>
-<p>Finally, we can simply plot the observed values against the fitted values:</p>
+<div class="figure align-default" id="fig-qq" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 18.9 </span><span class="caption-text">A Q-Q (quantile-quantile) plot, the theoretical quantiles according to the model, against the quantiles of the standardised residuals.</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">¶</a></p>
+</div>
+<p>A little note: Q-Q plots are often created by plotting the quantiles of the <em>standardized</em> residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a <em>feeling</em>, based on your great experience of squinting at plots, for whether the data <em>seem</em> normal enough, it probably doesn’t matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a figure with two panels</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">res_standard</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res_standard</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Standardized_Residuals&#39;</span><span class="p">])</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res_standard</span><span class="p">[</span><span class="s1">&#39;Standardized_Residuals&#39;</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Ordinary residuals&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Standardized residuals&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_137_0.png" src="_images/05.04-regression_137_0.png" />
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
@@ -2768,7 +2880,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_134_0.png" src="_images/05.04-regression_134_0.png" />
+<img alt="_images/05.04-regression_138_0.png" src="_images/05.04-regression_138_0.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
