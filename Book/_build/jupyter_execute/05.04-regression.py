@@ -1179,6 +1179,7 @@ for n, ax in enumerate(axes):
 
 # prettify
 sns.despine()
+ax.grid(False)
 
 
 #  ```{glue:figure} cooks-fig
