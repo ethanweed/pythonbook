@@ -2579,15 +2579,15 @@ left), and something that measures the leverage of the observation (the bit on t
 <p>Then, we can remove the data from day 64, using the <code class="docutils literal notranslate"><span class="pre">drop()</span></code> method from <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. Remember, as always, it’s Python, and Python is zero-indexed, so it starts counting the days at 0 and not 1, and that means that day 64 is on row 63!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
-<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 
 <span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
 <span class="n">mod2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -2669,7 +2669,107 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 <div class="section" id="checking-the-normality-of-the-residuals">
 <span id="regressionnormality"></span><h3><span class="section-number">18.9.3. </span>Checking the normality of the residuals<a class="headerlink" href="#checking-the-normality-of-the-residuals" title="Permalink to this headline">¶</a></h3>
-<p>Like many of the statistical tools we’ve discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren’t fundamentally different to those that we discussed <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">earlier</span></a>. Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The command I use might be something like this:</p>
+<p>Like many of the statistical tools we’ve discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren’t fundamentally different to those that we discussed <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">earlier</span></a>. Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The commands I use might be something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod2</span><span class="o">.</span><span class="n">residuals_</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">])</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_127_0.png" src="_images/05.04-regression_127_0.png" />
+</div>
+</div>
+<div class="figure align-default" id="fig-res-hist" style="width: 600px">
+<p class="caption"><span class="caption-number">Fig. 18.8 </span><span class="caption-text">A histogram of the (ordinary) residuals in the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model. These residuals look very close to being normally distributed, much moreso than is typically seen with real data. This shouldn’t surprise you… they aren’t real data, and they aren’t real residuals!</span><a class="headerlink" href="#fig-res-hist" title="Permalink to this image">¶</a></p>
+</div>
+<p>The resulting plot is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-rest-hist</span></code>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the XXXX function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sw</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">normality</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;shapiro&#39;</span><span class="p">)</span>
+<span class="n">sw</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>pval</th>
+      <th>normal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Residuals</th>
+      <td>0.99</td>
+      <td>0.82</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The W value of .99, at this sample size, is non-significant (<span class="math notranslate nohighlight">\(p\)</span> = .82), again suggesting that the normality assumption isn’t in any danger here. As a third measure, we might also want to draw a QQ-plot. This can be most easily done using the <code class="docutils literal notranslate"><span class="pre">qqplot</span></code> function from <code class="docutils literal notranslate"><span class="pre">statsmodels.api</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_132_0.png" src="_images/05.04-regression_132_0.png" />
+</div>
+</div>
+<p>Finally, we can simply plot the observed values against the fitted values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="n">df_res_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;observed&#39;</span><span class="p">:</span> <span class="n">outcome</span><span class="p">,</span>
+     <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span>
+    <span class="p">})</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_res_pred</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;observed&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05.04-regression_134_0.png" src="_images/05.04-regression_134_0.png" />
+</div>
+</div>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
