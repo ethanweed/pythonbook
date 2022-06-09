@@ -1287,7 +1287,7 @@ sns.despine()
 # 
 # ```
 
-# The resulting plot is shown in {numref}`fig-rest-hist`, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the `normality` function from `pingouin`:
+# The resulting plot is shown in {numref}`fig-res-hist`, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the `normality` function from `pingouin`:
 
 # In[42]:
 
