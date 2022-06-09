@@ -1315,6 +1315,8 @@ sns.despine()
 # 
 # ```
 
+# If our residuals were _perfectly_ normally distributed, then they would like right on the red line. These residuals veer off a little at the ends, but again, pretty damn close.
+# 
 # A little note: Q-Q plots are often created by plotting the quantiles of the _standardized_ residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a _feeling_, based on your great experience of squinting at plots, for whether the data _seem_ normal enough, it probably doesn't matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me, and you can get the ordinary residuals straight from `pingouin`, without needing to invoke `statsmodels`.
 
 # In[44]:
