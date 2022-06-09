@@ -844,7 +844,7 @@ res = mod2.residuals_
 # \epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
 # $$
 
-# where $\hat\sigma$ in this context is the estimated population standard deviation of the ordinary residuals, and $h_i$ is the "hat value" of the $i$th observation. I haven't explained hat values to you yet (but have no fear,[^notehope] it's coming shortly), so this won't make a lot of sense. For now, it's enough to interpret the standardised residuals as if we'd converted the ordinary residuals to $z$-scores. In fact, that is more or less the truth, it's just that we're being a bit fancier. Now, unfortunately, `pingouin` does not provide standardized residuals, so if we want to inspect these, the next best option is probably `statsmodels`:
+# where $\hat\sigma$ in this context is the estimated population standard deviation of the ordinary residuals, and $h_i$ is the "hat value" of the $i$th observation. I haven't explained hat values to you yet (but have no fear,[^notehope] it's coming shortly), so this won't make a lot of sense. For now, it's enough to interpret the standardised residuals as if we'd converted the ordinary residuals to $z$-scores. In fact, that is more or less the truth, it's just that we're being a bit fancier. Now, unfortunately, `pingouin` does not provide standardized residuals, so if we want to inspect these, the best option is probably `statsmodels`:
 # 
 # [^notehope]: Or have no hope, as the case may be.
 
@@ -881,7 +881,7 @@ res_standard = influence.resid_studentized_internal
 # 
 # Isn't that a pip?
 # 
-# If you ever need to calculate studentised residuals yourself, this is also possible using `statsmodels`. Since we have already used `statmodels` to estimate our model above, when we calculated the standardized residuals, we can just re-use our model estimate `est`from before:
+# If you ever need to calculate studentised residuals yourself, this is also possible using `statsmodels`. Since we have already used `statmodels` to estimate our model above, when we calculated the standardized residuals, we can just re-use our model estimate `est` from before, and the first column of the resulting dataframe gives us our studentized residuals:
 
 # In[34]:
 
