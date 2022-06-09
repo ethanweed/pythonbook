@@ -856,7 +856,7 @@ import statsmodels.api as sm
 predictors = df[['dan_sleep', 'baby_sleep']]
 outcome = df['dan_grump']
 
-## fit a OLS model with intercept on TV and Radio
+## fit regression model
 predictors = sm.add_constant(predictors)
 mod = sm.OLS(outcome, predictors)
 est = mod.fit()
