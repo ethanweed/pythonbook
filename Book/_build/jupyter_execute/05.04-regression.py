@@ -866,7 +866,6 @@ influence = est.get_influence()
 res_standard = influence.resid_studentized_internal
 
 
-# Note that this function uses a different name for the input argument, but it's still just a linear regression object that the function wants to take as its input here.
 # 
 # The third kind of residuals are **_Studentised residuals_** (also called "jackknifed residuals") and they're even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different:
 # 
@@ -1316,7 +1315,7 @@ sns.despine()
 # 
 # ```
 
-# A little note: Q-Q plots are often created by plotting the quantiles of the _standardized_ residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a _feeling_, based on your great experience of squinting at plots, for whether the data _seem_ normal enough, it probably doesn't matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me.
+# A little note: Q-Q plots are often created by plotting the quantiles of the _standardized_ residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a _feeling_, based on your great experience of squinting at plots, for whether the data _seem_ normal enough, it probably doesn't matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me, and you can get the ordinary residuals straight from `pingouin`, without needing to invoke `statsmodels`.
 
 # In[44]:
 
@@ -1336,6 +1335,9 @@ axes[1].set_title('Standardized residuals')
 
 sns.despine()
 
+
+# (regressionlinearity)=
+# ### Checking the linearity of the relationship
 
 # In[45]:
 

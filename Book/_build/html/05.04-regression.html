@@ -475,6 +475,11 @@ const thebe_selector_output = ".output, .cell_output"
      18.9.3. Checking the normality of the residuals
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">
+     18.9.4. Checking the linearity of the relationship
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -633,6 +638,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">
      18.9.3. Checking the normality of the residuals
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">
+     18.9.4. Checking the linearity of the relationship
     </a>
    </li>
   </ul>
@@ -2129,7 +2139,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <p>The linear regression model that I’ve been discussing relies on several assumptions. In the section on <a class="reference internal" href="#regressiondiagnostics"><span class="std std-ref">regression diagnostics</span></a> we’ll talk a lot more about how to check that these assumptions are being met, but first, let’s have a look at each of them.</p>
 <ul class="simple">
 <li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <a class="reference internal" href="#regressionnormality"><span class="std std-ref">Checking the normality of the residuals</span></a>.</p></li>
-<li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <span class="xref myst"></span>.</p></li>
+<li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <a class="reference internal" href="#regressionlinearity"><span class="std std-ref">Checking the linearity of the relationship</span></a>.</p></li>
 <li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <span class="xref myst"></span>.</p></li>
 <li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <span class="xref myst"></span></p></li>
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
@@ -2181,7 +2191,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </div>
 </div>
-<p>Note that this function uses a different name for the input argument, but it’s still just a linear regression object that the function wants to take as its input here.</p>
 <p>The third kind of residuals are <strong><em>Studentised residuals</em></strong> (also called “jackknifed residuals”) and they’re even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2838,7 +2847,7 @@ left), and something that measures the leverage of the observation (the bit on t
 <div class="figure align-default" id="fig-qq" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 18.9 </span><span class="caption-text">A Q-Q (quantile-quantile) plot, the theoretical quantiles according to the model, against the quantiles of the standardised residuals.</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">¶</a></p>
 </div>
-<p>A little note: Q-Q plots are often created by plotting the quantiles of the <em>standardized</em> residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a <em>feeling</em>, based on your great experience of squinting at plots, for whether the data <em>seem</em> normal enough, it probably doesn’t matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me.</p>
+<p>A little note: Q-Q plots are often created by plotting the quantiles of the <em>standardized</em> residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a <em>feeling</em>, based on your great experience of squinting at plots, for whether the data <em>seem</em> normal enough, it probably doesn’t matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me, and you can get the ordinary residuals straight from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, without needing to invoke <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a figure with two panels</span>
@@ -2862,6 +2871,9 @@ left), and something that measures the leverage of the observation (the bit on t
 <img alt="_images/05.04-regression_137_0.png" src="_images/05.04-regression_137_0.png" />
 </div>
 </div>
+</div>
+<div class="section" id="checking-the-linearity-of-the-relationship">
+<span id="regressionlinearity"></span><h3><span class="section-number">18.9.4. </span>Checking the linearity of the relationship<a class="headerlink" href="#checking-the-linearity-of-the-relationship" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
@@ -2880,7 +2892,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_138_0.png" src="_images/05.04-regression_138_0.png" />
+<img alt="_images/05.04-regression_139_0.png" src="_images/05.04-regression_139_0.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
