@@ -622,7 +622,7 @@ axes[1].set_title("Sample Standard Deviations")
 # \hat\sigma^2 = \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2 
 # $$
 # 
-# This is an unbiased estimator of the population variance $\sigma$. Moreover, this finally answers the question we raised [before](variability). Why did Python give us slightly different answers when we used the `statistics.variance` function? Because `statistics.variance` calculates $\hat\sigma^2$ not $s^2$, that's why. A similar story applies for the standard deviation. If we divide by $N-1$ rather than $N$, our estimate of the population standard deviation becomes:
+# This is an unbiased estimator of the population variance $\sigma$. Moreover, this finally answers the question we raised [before](variability). Why did Python give us slightly different answers when we used the `statistics.variance()` function? Because `statistics.variance()` calculates $\hat\sigma^2$ not $s^2$, that's why. A similar story applies for the standard deviation. If we divide by $N-1$ rather than $N$, our estimate of the population standard deviation becomes:
 # 
 # $$
 # \hat\sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2} 
