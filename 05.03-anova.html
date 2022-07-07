@@ -37,9 +37,12 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -2232,6 +2235,10 @@ p^\prime_j = p^\prime_{j+1}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/pingouin/pairwise.py:27: UserWarning: pairwise_ttests is deprecated, use pairwise_tests instead.
+  warnings.warn(&quot;pairwise_ttests is deprecated, use pairwise_tests instead.&quot;, UserWarning)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2940,7 +2947,7 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 </table>
 </div></div></div>
 </div>
-<p>Overall, it looks like there’s no significant effect here at all but, as we’ll <span class="xref myst">soon see</span> this is actually a misleading  answer! In any case, it’s irrelevant to our current goals: our interest here is in the <span class="math notranslate nohighlight">\(F\)</span>-statistic, which is <span class="math notranslate nohighlight">\(F(1,16) = 1.71\)</span>, and the <span class="math notranslate nohighlight">\(p\)</span>-value, which is .21. Since we only have two groups, I didn’t actually need to resort to an ANOVA, I could have just decided to run a Student <span class="math notranslate nohighlight">\(t\)</span>-test. So let’s see what happens when I do that. First, I’ll just re-arrange the data in to wide format:</p>
+<p>Overall, it looks like there’s no significant effect here at all but, as we’ll <a class="reference internal" href="05.05-anova2.html#anova2"><span class="std std-ref">soon see</span></a> this is actually a misleading  answer! In any case, it’s irrelevant to our current goals: our interest here is in the <span class="math notranslate nohighlight">\(F\)</span>-statistic, which is <span class="math notranslate nohighlight">\(F(1,16) = 1.71\)</span>, and the <span class="math notranslate nohighlight">\(p\)</span>-value, which is .21. Since we only have two groups, I didn’t actually need to resort to an ANOVA, I could have just decided to run a Student <span class="math notranslate nohighlight">\(t\)</span>-test. So let’s see what happens when I do that. First, I’ll just re-arrange the data in to wide format:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clinical_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -3022,7 +3029,7 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 </div>
 <div class="section" id="summary">
 <h2><span class="section-number">17.12. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>There’s a fair bit covered in this chapter, but there’s still a lot missing. Most obviously, I haven’t yet discussed any analog of the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test for more than two groups. There is a way of doing this, known as <em>repeated measures ANOVA</em>, which will appear in a later version of this book. I also haven’t discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in a <span class="xref myst">later chapter</span>. In terms of what we have discussed, the key topics were:</p>
+<p>There’s a fair bit covered in this chapter, but there’s still a lot missing. Most obviously, I haven’t yet discussed any analog of the paired samples <span class="math notranslate nohighlight">\(t\)</span>-test for more than two groups. There is a way of doing this, known as <em>repeated measures ANOVA</em>, which will appear in a later version of this book. I also haven’t discussed how to run an ANOVA when you are interested in more than one grouping variable, but that will be discussed in a lot of detail in a <a class="reference internal" href="05.05-anova2.html#anova2"><span class="std std-ref">later chapter</span></a>. In terms of what we have discussed, the key topics were:</p>
 <ul class="simple">
 <li><p>The basic logic behind <a class="reference internal" href="#anovaintro"><span class="std std-ref">how ANOVA works</span></a> and <a class="reference internal" href="#introduceaov"><span class="std std-ref">how to run one in Python</span></a>.</p></li>
 <li><p>How to compute an <a class="reference internal" href="#etasquared"><span class="std std-ref">effect size for an ANOVA</span></a>.</p></li>
