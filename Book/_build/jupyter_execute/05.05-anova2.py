@@ -126,7 +126,7 @@ round(model1, 2)
 
 
 model2 = pg.anova(dv='mood_gain', between=['drug', 'therapy'], data=df, detailed=True)
-round(model2, 2)
+round(model2, 4)
 
 
 # Most of this output is pretty simple to read too: the first row of the table reports a between-group sum of squares (SS) value associated with the `drug` factor, along with a corresponding between-group $df$ value. It also calculates a mean square value (MS), and $F$-statistic, an (uncorrected) $p$-value, and an estimate of the effect size (`np2`, that is, partial eta-squared). There is also a row corresponding to the `therapy` factor, and a row corresponding to the residuals (i.e., the within groups variation). 
@@ -149,9 +149,30 @@ round(model2, 2)
 # F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 # $$
 # 
-# To apply this formula to the  `drugs` factor, we take the mean square of $1.73$ and divide it by the residual mean square value of $0.07$, which gives us an $F$-statistic of $26.15$. The corresponding calculation for the `therapy` variable would be to divide $0.47$ by $0.07$ which gives $7.08$ as the $F$-statistic. Not surprisingly, of course, these are the same values that R has reported in the ANOVA table above.
+# Note that this use of "R" to refer to residuals is a bit awkward, since we also used the letter R to refer to the number of rows in the table, but I'm only going to use "R" to mean residuals in the context of SS$_R$ and MS$_R$, so hopefully this shouldn't be confusing. Anyway, to apply this formula to the  `drugs` factor, we take the mean square of $1.73$ and divide it by the residual mean square value of $0.07$, which gives us an $F$-statistic of $26.15$. The corresponding calculation for the `therapy` variable would be to divide $0.47$ by $0.07$ which gives $7.08$ as the $F$-statistic. Not surprisingly, of course, these are the same values that R has reported in the ANOVA table above.
 # 
 # The last part of the ANOVA table is the calculation of the $p$ values. Once again, there is nothing new here: for each of our two factors, what we're trying to do is test the null hypothesis that there is no relationship between the factor and the outcome variable (I'll be a bit more precise about this later on). To that end, we've (apparently) followed a similar strategy that we did in the one way ANOVA, and have calculated an $F$-statistic for each of these hypotheses. To convert these to $p$ values, all we need to do is note that the  that the sampling distribution for the $F$ *statistic* under the null hypothesis (that the factor in question is irrelevant) is an $F$ *distribution*: and that two degrees of freedom values are those corresponding to the factor, and those corresponding to the residuals. For the `drug` factor we're talking about an $F$ distribution with 2 and 14 degrees of freedom (I'll discuss degrees of freedom in more detail later). In contrast, for the `therapy` factor sampling distribution is $F$ with 1 and 14 degrees of freedom.
+
+# At this point, I hope you can see that the ANOVA table for this more complicated analysis corresponding to `model2` should be read in much the same way as the ANOVA table for the simpler analysis for `model1`. In short, it's telling us that the factorial ANOVA for our $3 \times 2$ design found a significant effect of drug ($F_{2,12} = 31.71, p < .001$) as well as a significant effect of therapy ($F_{1,12} = 8.58, p = .01$). Or, to use the more technically correct terminology, we would say that there are two **_main effects_** of drug and therapy. Why are these "main" effects? Well, because there could also be an *interaction* between the effect of `drug` and the effect of `therapy`. We'll explore the concept of [interactions](interactions) below.
+
+# In the previous section I had two goals: firstly, to show you that the Python commands needed to do factorial ANOVA are pretty much the same ones that we used for a one way ANOVA. The only difference is that we add the number of predictors in the `between` argument of `pingouin`'s `anova()` function. Secondly, I wanted to show you what the ANOVA table looks like in this case, so that you can see from the outset that the basic logic and structure behind factorial ANOVA is the same as that which underpins one way ANOVA. Try to hold onto that feeling. It's genuinely true, insofar as factorial ANOVA is built in more or less the same way as the simpler one-way ANOVA model. It's just that this feeling of familiarity starts to evaporate once you start digging into the details. Traditionally, this comforting sensation is replaced by an urge to murder the the authors of statistics textbooks.
+# 
+# Okay, let's start looking at some of those details. The explanation that I gave in the last section illustrates the fact that the hypothesis tests for the main effects (of drug and therapy in this case) are $F$-tests, but what it doesn't do is show you how the sum of squares (SS) values are calculated. Nor does it tell you explicitly how to calculate degrees of freedom ($df$ values) though that's a simple thing by comparison. Let's assume for now that we have only two predictor variables, Factor A and Factor B. If we use $Y$ to refer to the outcome variable, then we would use $Y_{rci}$ to refer to the outcome associated with the $i$-th member of group $rc$ (i.e., level/row $r$ for Factor A and level/column $c$ for Factor B). Thus, if we use $\bar{Y}$ to refer to a sample mean, we can use the same notation as before to refer to group means, marginal means and grand means: that is, $\bar{Y}_{rc}$ is the sample mean associated with the $r$th level of Factor A and the $c$th level of Factor B, $\bar{Y}_{r.}$ would be the marginal mean for the $r$th level of Factor A, $\bar{Y}_{.c}$ would be the marginal mean for the $c$th level of Factor B, and $\bar{Y}_{..}$ is the grand mean. In other words, our sample means can be organised into the same table as the population means. For our clinical trial data, that table looks like this:
+
+# |         |no therapy     |CBT            |total          |
+# |:--------|:--------------|:--------------|:--------------|
+# |placebo  |$\bar{Y}_{11}$ |$\bar{Y}_{12}$ |$\bar{Y}_{1.}$ |
+# |anxifree |$\bar{Y}_{21}$ |$\bar{Y}_{22}$ |$\bar{Y}_{2.}$ |
+# |joyzepam |$\bar{Y}_{31}$ |$\bar{Y}_{32}$ |$\bar{Y}_{3.}$ |
+# |total    |$\bar{Y}_{.1}$ |$\bar{Y}_{.2}$ |$\bar{Y}_{..}$ |
+
+# And if we look at the sample means that I showed earlier, we have $\bar{Y}_{11} = 0.30$, $\bar{Y}_{12} = 0.60$ etc. In our clinical trial example, the `drugs` factor has 3 levels and the `therapy` factor has 2 levels, and so what we're trying to run is a $3 \times 2$ factorial ANOVA. However, we'll be a little more general and say that Factor A (the row factor) has $R$ levels and Factor B (the column factor) has $C$ levels, and so what we're runnning here is an $R \times C$ factorial ANOVA.
+# 
+# Now that we've got our notation straight, we can compute the sum of squares values for each of the two factors in a relatively familiar way. For Factor A, our between group sum of squares is calculated by assessing the extent to which the (row) marginal means $\bar{Y}_{1.}$, $\bar{Y}_{2.}$ etc, are different from the grand mean $\bar{Y}_{..}$. We do this in the same way that we did for one-way ANOVA: calculate the sum of squared difference between the $\bar{Y}_{i.}$ values and the $\bar{Y}_{..}$ values. Specifically, if there are $N$ people in each group, then we calculate this:
+# 
+# $$
+# \mbox{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2
+# $$
 
 # In[ ]:
 
