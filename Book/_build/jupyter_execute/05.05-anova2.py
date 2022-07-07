@@ -79,4 +79,19 @@ round(df['mood_gain'].mean(),2)
 # |joyzepam |$\mu_{31}$ |$\mu_{32}$ |      |
 # |total    |           |           |      |
 
+# Okay, what about the remaining entries? For instance, how should we describe the average mood gain across the entire (hypothetical) population of people who might be given Joyzepam in an experiment like this, regardless of whether they were in CBT? We use the "dot" notation to express this. In the case of Joyzepam, notice that we're talking about the mean associated with the third row in the table. That is, we're averaging across two cell means (i.e., $\mu_{31}$ and $\mu_{32}$). The result of this averaging is referred to as a **_marginal mean_**, and would be denoted $\mu_{3.}$ in this case. The marginal mean for CBT corresponds to the population mean associated with the second column in the table, so we use the notation $\mu_{.2}$ to describe it. The grand mean is denoted $\mu_{..}$ because it is the mean obtained by averaging (marginalising[^notemarginalising]) over both. So our full table of population means can be written down like this:
 # 
+# [^notemarginalising]: Technically, marginalising isn't quite identical to a regular mean: it's a weighted average, where you take into account the frequency of the different events that you're averaging over. However, in a balanced design, all of our cell frequencies are equal by definition, so the two are equivalent. We'll discuss unbalanced designs later, and when we do so you'll see that all of our calculations become a real headache. But let's ignore this for now.
+
+# |         |no therapy |CBT        |total      |
+# |:--------|:----------|:----------|:----------|
+# |placebo  |$\mu_{11}$ |$\mu_{12}$ |$\mu_{1.}$ |
+# |anxifree |$\mu_{21}$ |$\mu_{22}$ |$\mu_{2.}$ |
+# |joyzepam |$\mu_{31}$ |$\mu_{32}$ |$\mu_{3.}$ |
+# |total    |$\mu_{.1}$ |$\mu_{.2}$ |$\mu_{..}$ |
+
+# In[ ]:
+
+
+
+
