@@ -344,6 +344,7 @@ ax2 = ax.twinx()
 sns.lineplot(x=x,y=y, ax=ax2, color='black')
 
 
+
 # Each data set contained only a single observation, so the mean of each sample is just one person's IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores.
 
 # In[10]:
@@ -437,6 +438,7 @@ def plotSamples(n):
     ax2.spines['right'].set_visible(False)
 
     
+
 
 
 # In[13]:
@@ -541,6 +543,7 @@ sns.histplot(sample_sds, ax=ax, binwidth=4)
 plt.axvline(15, color = 'black', linestyle = "dashed")
 
 
+
 # fig.cap="The sampling distribution of the sample standard deviation for a \"two IQ scores\" experiment. The true population standard deviation is 15 (dashed line), but as you can see from the histogram, the vast majority of experiments will produce a much smaller sample standard deviation than this. On average, this experiment would produce a sample standard deviation of only 8.5, well below the true value! In other words, the sample standard deviation is a *biased* estimate of the population standard deviation.
 # 
 # This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don't help very much. Instead, what I'll do is use R to simulate the results of some experiments. With that in mind, let's return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the `rnorm()` function to generate the the results of an experiment in which I measure $N=2$ IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the *sampling distribution of the standard deviation*. I've plotted this distribution in Figure \@ref(fig:sampdistsd). Even though the true population standard deviation is 15, the average of the *sample* standard deviations is only 8.5. Notice that this is a very different result to what we found in Figure \@ref(fig:IQsampb) when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100. 
@@ -608,6 +611,7 @@ axes[0].axhline(100, color = 'black', linestyle = "dashed")
 axes[1].axhline(15, color = 'black', linestyle = "dashed")
 axes[0].set_title("Sample Means")
 axes[1].set_title("Sample Standard Deviations")
+
 
 
 # fig.cap: An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. *On average*, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.
@@ -792,7 +796,6 @@ axes[1].plot()
 
 
 # In[24]:
-
 
 
 nomean_up = []

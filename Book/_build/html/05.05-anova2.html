@@ -37,9 +37,12 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -347,6 +350,11 @@ const thebe_selector_output = ".output, .cell_output"
      19.1.1. What hypotheses are we testing?
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#running-the-analysis-in-python">
+     19.1.2. Running the analysis in Python
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -377,6 +385,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">
      19.1.1. What hypotheses are we testing?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#running-the-analysis-in-python">
+     19.1.2. Running the analysis in Python
     </a>
    </li>
   </ul>
@@ -733,6 +746,200 @@ const thebe_selector_output = ".output, .cell_output"
 </tr>
 </tbody>
 </table>
+<p>Now that we have this notation, it is straightforward to formulate and express some hypotheses. Let’s suppose that the goal is to find out two things: firstly, does the choice of drug have any effect on mood, and secondly, does CBT have any effect on mood? These aren’t the only hypotheses that we could formulate of course, and we’ll see a really important example of a different kind of hypothesis in the section ong <span class="xref myst">interactions</span>, but these are the two simplest hypotheses to test, and so we’ll start there. Consider the first test. If drug has no effect, then we would expect all of the row means to be identical, right? So that’s our null hypothesis. On the other hand, if the drug does matter then we should expect these row means to be different. Formally, we write down our null and alternative hypotheses in terms of the <em>equality of marginal means</em>:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-align:left"><p>row means are the same i.e. <span class="math notranslate nohighlight">\(\mu_{1.} = \mu_{2.} = \mu_{3.}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
+<td class="text-align:left"><p>at least one row mean is different.</p></td>
+</tr>
+</tbody>
+</table>
+<p>It’s worth noting that these are <em>exactly</em> the same statistical hypotheses that we formed when we ran a one-way ANOVA on these data <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">way back when</span></a>. Back then I used the notation <span class="math notranslate nohighlight">\(\mu_P\)</span> to refer to the mean mood gain for the placebo group, with <span class="math notranslate nohighlight">\(\mu_A\)</span> and <span class="math notranslate nohighlight">\(\mu_J\)</span> corresponding to the group means for the two drugs, and the null hypothesis was <span class="math notranslate nohighlight">\(\mu_P = \mu_A = \mu_J\)</span>. So we’re actually talking about the same hypothesis: it’s just that the more complicated ANOVA requires more careful notation due to the presence of multiple grouping variables, so we’re now referring to this hypothesis as <span class="math notranslate nohighlight">\(\mu_{1.} = \mu_{2.} = \mu_{3.}\)</span>. However, as we’ll see shortly, although the hypothesis is identical, the test of that hypothesis is subtly different due to the fact that we’re now acknowledging the existence of the second grouping variable.</p>
+<p>Speaking of the other grouping variable, you won’t be surprised to discover that our second hypothesis test is formulated the same way. However, since we’re talking about the psychological therapy rather than drugs, our null hypothesis now corresponds to the equality of the column means:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-align:left"><p>column means are the same, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} = \mu_{.2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
+<td class="text-align:left"><p>column means are different, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} \neq \mu_{.2}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="running-the-analysis-in-python">
+<h3><span class="section-number">19.1.2. </span>Running the analysis in Python<a class="headerlink" href="#running-the-analysis-in-python" title="Permalink to this headline">¶</a></h3>
+<p>If the data you’re trying to analyse correspond to a balanced factorial design, then running your analysis of variance is easy. To see how easy it is, let’s start by reproducing the original analysis from <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">earlier</span></a>. In case you’ve forgotten, for that analysis we were using only a single factor (i.e., <code class="docutils literal notranslate"><span class="pre">drug</span></code>) as our between-subjects variable to predict our outcome (dependent) variable (i.e., <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>), and so this was what we did:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="n">model1</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.45</td>
+      <td>2</td>
+      <td>1.73</td>
+      <td>18.61</td>
+      <td>0.0</td>
+      <td>0.71</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Within</td>
+      <td>1.39</td>
+      <td>15</td>
+      <td>0.09</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Note that this time around I’ve used the name <code class="docutils literal notranslate"><span class="pre">model1</span></code> as the label for my <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, since I’m planning on creating quite a few other models too. To start with, suppose I’m also curious to find out if <code class="docutils literal notranslate"><span class="pre">therapy</span></code> has a relationship to <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. In light of what we’ve seen from our discussion of <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">multiple regression</span></a>, you probably won’t be surprised that all we have to do is extend the formula: in other words, if we specify <code class="docutils literal notranslate"><span class="pre">dv=mood.gain,</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy']</span></code> as our model, we’ll probably get what we’re after:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.45</td>
+      <td>2</td>
+      <td>1.73</td>
+      <td>31.71</td>
+      <td>0.00</td>
+      <td>0.84</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>therapy</td>
+      <td>0.47</td>
+      <td>1</td>
+      <td>0.47</td>
+      <td>8.58</td>
+      <td>0.01</td>
+      <td>0.42</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>drug * therapy</td>
+      <td>0.27</td>
+      <td>2</td>
+      <td>0.14</td>
+      <td>2.49</td>
+      <td>0.12</td>
+      <td>0.29</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>0.65</td>
+      <td>12</td>
+      <td>0.05</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This output is pretty simple to read too: the first row of the table reports a between-group sum of squares (SS) value associated with the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor, along with a corresponding between-group <span class="math notranslate nohighlight">\(df\)</span> value. It also calculates a mean square value (MS), and <span class="math notranslate nohighlight">\(F\)</span>-statistic, an (uncorrected) <span class="math notranslate nohighlight">\(p\)</span>-value, and an estimate of the effect size (<code class="docutils literal notranslate"><span class="pre">np2</span></code>, that is, partial eta-squared). There is also a row corresponding to the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor, and a row corresponding to the residuals (i.e., the within groups variation).</p>
+<p>Not only are all of the individual quantities pretty familiar, the relationships between these different quantities has remained unchanged: just like we saw with the original one-way ANOVA, note that the mean square value is calculated by dividing SS by the corresponding <span class="math notranslate nohighlight">\(df\)</span>. That is, it’s still true that</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{MS} = \frac{\mbox{SS}}{df}
+\]</div>
+<p>regardless of whether we’re talking about <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> or the residuals. To see this, let’s not worry about how the sums of squares values are calculated: instead, let’s take it on faith that Python has calculated the SS values correctly, and try to verify that all the rest of the numbers make sense. First, note that for the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor, we divide <span class="math notranslate nohighlight">\(3.45\)</span> by <span class="math notranslate nohighlight">\(2\)</span>, and end up with a mean square value of <span class="math notranslate nohighlight">\(1.73\)</span>. For the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor, there’s only 1 degree of freedom, so our calculations are even simpler: dividing <span class="math notranslate nohighlight">\(0.47\)</span> (the SS value) by 1 gives us an answer of <span class="math notranslate nohighlight">\(0.47\)</span> (the MS value).</p>
+<p>Turning to the <span class="math notranslate nohighlight">\(F\)</span> statistics and the <span class="math notranslate nohighlight">\(p\)</span> values, notice that we have two of each: one corresponding to the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor and the other corresponding to the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor. Regardless of which one we’re talking about, the <span class="math notranslate nohighlight">\(F\)</span> statistic is calculated by dividing the mean square value associated with the factor by the mean square value associated with the residuals. If we use “A” as shorthand notation to refer to the first factor (factor A; in this case <code class="docutils literal notranslate"><span class="pre">drug</span></code>) and “R” as shorthand notation to refer to the residuals, then the <span class="math notranslate nohighlight">\(F\)</span> statistic associated with factor A is denoted <span class="math notranslate nohighlight">\(F_A\)</span>, and is calculated as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
+\]</div>
+<p>To apply this formula to the  <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor, we take the mean square of <span class="math notranslate nohighlight">\(1.73\)</span> and divide it by the residual mean square value of <span class="math notranslate nohighlight">\(0.07\)</span>, which gives us an <span class="math notranslate nohighlight">\(F\)</span>-statistic of <span class="math notranslate nohighlight">\(26.15\)</span>. The corresponding calculation for the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> variable would be to divide <span class="math notranslate nohighlight">\(0.47\)</span> by <span class="math notranslate nohighlight">\(0.07\)</span> which gives <span class="math notranslate nohighlight">\(7.08\)</span> as the <span class="math notranslate nohighlight">\(F\)</span>-statistic. Not surprisingly, of course, these are the same values that R has reported in the ANOVA table above.</p>
+<p>The last part of the ANOVA table is the calculation of the <span class="math notranslate nohighlight">\(p\)</span> values. Once again, there is nothing new here: for each of our two factors, what we’re trying to do is test the null hypothesis that there is no relationship between the factor and the outcome variable (I’ll be a bit more precise about this later on). To that end, we’ve (apparently) followed a similar strategy that we did in the one way ANOVA, and have calculated an <span class="math notranslate nohighlight">\(F\)</span>-statistic for each of these hypotheses. To convert these to <span class="math notranslate nohighlight">\(p\)</span> values, all we need to do is note that the  that the sampling distribution for the <span class="math notranslate nohighlight">\(F\)</span> <em>statistic</em> under the null hypothesis (that the factor in question is irrelevant) is an <span class="math notranslate nohighlight">\(F\)</span> <em>distribution</em>: and that two degrees of freedom values are those corresponding to the factor, and those corresponding to the residuals. For the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor we’re talking about an <span class="math notranslate nohighlight">\(F\)</span> distribution with 2 and 14 degrees of freedom (I’ll discuss degrees of freedom in more detail later). In contrast, for the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor sampling distribution is <span class="math notranslate nohighlight">\(F\)</span> with 1 and 14 degrees of freedom. If we really wanted to, we could calculate the <span class="math notranslate nohighlight">\(p\)</span> value ourselves using the <code class="docutils literal notranslate"><span class="pre">pf()</span></code> function (see the section on <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">other distributions</span></a>. Just to prove that there’s nothing funny going on, here’s what that would look like for the <code class="docutils literal notranslate"><span class="pre">drug</span></code> variable:</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="notesubscript"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

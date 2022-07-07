@@ -107,7 +107,6 @@ glue("afl_fig", ax, display=False)
 # In[4]:
 
 
-
 (56 + 31 + 56 + 8 + 32) / 5
 
 
@@ -126,7 +125,6 @@ margins.sum()
 # In[6]:
 
 
-
 margins[0:5]
 
 #Dataframe.loc[["row1", "row2"...], ["column1", "column2", "column3"...]]
@@ -138,6 +136,7 @@ margins[0:5]
 
 
 margins[0:5].sum()/5
+
 
 
 # Although it's pretty easy to calculate the mean using the `sum()` function, we can do it in an even easier way, since Python also provides us with the `mean()` method from the `statistics` module. To calculate the mean for all 176 games, we would use the 
@@ -179,7 +178,6 @@ statistics.mean(margins[0:5])
 # [^note3]: `sort_values`is a *method* that belong to `pandas` *objects*. We'll get back to this later in [](getting-started-with-python). For now, the important thing is that it works!
 
 # In[10]:
-
 
 
 sorted_margins = afl_margins.sort_values(by = 'afl.margins')
@@ -270,8 +268,8 @@ statistics.median(margins)
 # In[12]:
 
 
-
 dataset = [-15,2,3,4,5,6,7,8,9,12]
+
 
 
 # Next, let's calculate means and medians:
@@ -320,7 +318,6 @@ stats.trim_mean(dataset3, 0.05)
 # In[17]:
 
 
-
 afl_finalists.head(n=25)
 
 
@@ -336,7 +333,6 @@ finalists.value_counts()
 # Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the `finalists` data is `"Geelong"`. If we want to extract the mode without inspecting the table, we can use the `statistics.mode` function to tell us which team has most often played in the finals.
 
 # In[19]:
-
 
 
 statistics.mode(finalists)
@@ -405,7 +401,6 @@ freq.max()
 # In[23]:
 
 
-
 import numpy as np
 np.quantile(margins, 0.5)
 
@@ -415,14 +410,12 @@ np.quantile(margins, 0.5)
 # In[24]:
 
 
-
 np.quantile(margins, [0.25, .75])
 
 
 # And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `iqr.stats` function, which will give us what we want.
 
 # In[25]:
-
 
 
 from scipy import stats
@@ -551,7 +544,6 @@ print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
 # [^note8]: Well, I will very briefly mention the one that I think is coolest, for a very particular definition of "cool", that is. Variances are *additive*. Here's what that means: suppose I have two variables $X$ and $Y$, whose variances are $\mbox{Var}(X)$ and $\mbox{Var}(Y)$ respectively. Now imagine I want to define a new variable $Z$ that is the sum of the two, $Z = X+Y$. As it turns out, the variance of $Z$ is equal to $\mbox{Var}(X) + \mbox{Var}(Y)$. This is a *very* useful property, but it's not true of the other measures that I talk about in this section.
 
 # In[29]:
-
 
 
 ( 376.36 + 31.36 + 376.36 + 817.96 + 21.16 ) / 5
@@ -912,6 +904,7 @@ file = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clinica
 
 df_clintrial = pd.read_csv(file)
 df_clintrial.head()
+
 
 
 # Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:

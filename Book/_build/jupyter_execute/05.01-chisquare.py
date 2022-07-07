@@ -161,7 +161,6 @@ observed-expected
 # In[8]:
 
 
-
 (observed - expected)**2 / expected
 
 
@@ -202,7 +201,6 @@ sum((observed - expected)**2/expected)
 # When I introduced the chi-square distribution in [other useful distributions](otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking {numref}`fig-manychi` you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
 # In[10]:
-
 
 
 from myst_nb import glue
@@ -255,8 +253,6 @@ glue("manychi_fig", fig, display=False)
 # The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of $X^2$ would lead is to reject the null hypothesis. As we saw earlier, large values of $X^2$ imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of $X^2$ imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if $X^2$ is bigger than the critical value we reject the null; but if $X^2$ is smaller than this value we retain the null. In other words, to use the language we introduced in the chapter on [hypothesis testing](hypothesis-testing), the chi-squared goodness of fit test is always a **_one-sided test_**. Right, so all we have to do is figure out what this critical value is. And it's pretty straightforward. If we want our test to have significance level of $\alpha = .05$ (that is, we are willing to tolerate a Type I error rate of 5\%), then we have to choose our critical value so that there is only a 5\% chance that $X^2$ could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in {numref}`fig-goftest`.
 
 # In[11]:
-
-
 
 
 import seaborn as sns
@@ -341,8 +337,6 @@ print("p = ", round(ans[1],3))
 # At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is *not* that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
 
 # In[15]:
-
-
 
 
 # make dictionary of values

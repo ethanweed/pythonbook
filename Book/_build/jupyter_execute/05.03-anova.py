@@ -165,7 +165,6 @@ sns.despine()
 # In[6]:
 
 
-
 from myst_nb import glue
 import numpy as np
 from scipy import stats
@@ -469,6 +468,7 @@ Y['weighted_squared_devs'] = Y['group_sizes'] * Y['squared_devs']
 
 
 
+
 # Again, I won't actually try to explain this code line by line, but -- just like last time -- there's nothing in there that we haven't seen in several places elsewhere in the book, so I'll leave it as an exercise for you to make sure you understand it. Once again, we can dump all our variables into a data frame so that we can print it out as a nice table:
 
 # In[11]:
@@ -594,6 +594,7 @@ pg.anova(dv='mood_gain',
          between='drug', 
          data=df,
          detailed=True)
+
 
 
 # If you check, you'll see we get the same answer either way. So that's _two_ easy ways to to ANOVA in Python! Time for beer and football!
@@ -863,6 +864,7 @@ formula = 'mood_gain ~ drug'
 
 model = ols(formula, data=df).fit()
 res = model.resid
+
 
 
 # We can print them out too, though it's not exactly an edifying experience.  In fact, given that I'm on the verge of putting *myself* to sleep just typing this, it might be a good idea to skip that step. Instead, let's draw some pictures and run ourselves a hypothesis test: 

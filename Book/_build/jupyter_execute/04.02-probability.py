@@ -625,7 +625,6 @@ glue("sdnorm_fig2", fig, display=False)
 # In[11]:
 
 
-
 stats.norm.pdf(1,1,0.1)
 
 

@@ -37,9 +37,12 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -726,9 +729,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  91.88338364014484  Standard deviation:  12.426776372680362
-100 samples. Mean:  98.64404219698034  Standard deviation:  16.933622297345526
-10000 samples. Mean:  100.24716350628442  Standard deviation:  14.99783414629134
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  95.9254192934138  Standard deviation:  9.350045831584165
+100 samples. Mean:  98.5862640685652  Standard deviation:  13.983649462200146
+10000 samples. Mean:  99.83863848703835  Standard deviation:  15.01317207221887
 </pre></div>
 </div>
 </div>
@@ -759,8 +762,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [103 108  77  75  95]
-Mean of simulated data:  91
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [104 105  83  90 127]
+Mean of simulated data:  101
 </pre></div>
 </div>
 </div>
@@ -775,7 +778,7 @@ Mean of simulated data:  91
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 94 108 134 101  86]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [116 113 114  82  97]
 Mean of simulated data:  104
 </pre></div>
 </div>
@@ -828,66 +831,66 @@ Mean of simulated data:  104
     <tr>
       <th>count</th>
       <td>5.000000</td>
-      <td>5.00000</td>
+      <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
       <td>5.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>94.200000</td>
-      <td>99.20000</td>
-      <td>93.200000</td>
-      <td>100.200000</td>
-      <td>102.400000</td>
+      <td>93.600000</td>
+      <td>95.400000</td>
+      <td>87.800000</td>
+      <td>97.600000</td>
+      <td>107.600000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>18.349387</td>
-      <td>13.17953</td>
-      <td>16.146207</td>
-      <td>13.845577</td>
-      <td>9.964939</td>
+      <td>3.130495</td>
+      <td>15.192103</td>
+      <td>4.816638</td>
+      <td>7.300685</td>
+      <td>16.257306</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>73.000000</td>
-      <td>82.00000</td>
-      <td>71.000000</td>
-      <td>87.000000</td>
-      <td>85.000000</td>
+      <td>91.000000</td>
+      <td>82.000000</td>
+      <td>81.000000</td>
+      <td>92.000000</td>
+      <td>92.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>83.000000</td>
-      <td>88.00000</td>
-      <td>87.000000</td>
-      <td>87.000000</td>
-      <td>104.000000</td>
+      <td>92.000000</td>
+      <td>82.000000</td>
+      <td>86.000000</td>
+      <td>93.000000</td>
+      <td>97.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>90.000000</td>
-      <td>107.00000</td>
-      <td>92.000000</td>
-      <td>98.000000</td>
+      <td>93.000000</td>
+      <td>96.000000</td>
+      <td>88.000000</td>
+      <td>95.000000</td>
       <td>106.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>106.000000</td>
-      <td>109.00000</td>
-      <td>102.000000</td>
-      <td>113.000000</td>
-      <td>107.000000</td>
+      <td>93.000000</td>
+      <td>98.000000</td>
+      <td>90.000000</td>
+      <td>98.000000</td>
+      <td>109.000000</td>
     </tr>
     <tr>
       <th>max</th>
+      <td>99.000000</td>
       <td>119.000000</td>
-      <td>110.00000</td>
-      <td>114.000000</td>
-      <td>116.000000</td>
+      <td>94.000000</td>
       <td>110.000000</td>
+      <td>134.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1246,7 +1249,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x15f609e70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x166551d50&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_43_1.png" src="_images/04.03-estimation_43_1.png" />
@@ -1556,9 +1559,9 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[15, 1, 25]
-[91.11229746406696, 92.07797593725415, 97.22383253472884]
-[98.96770253593306, 105.28202406274586, 112.21616746527116]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[42, 48]
+[99.04914109268755, 94.38998564880171]
+[108.79085890731245, 106.81001435119828]
 </pre></div>
 </div>
 </div>

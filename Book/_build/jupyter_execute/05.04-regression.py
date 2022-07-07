@@ -374,6 +374,7 @@ ax.view_init(11,97)
 
 
 
+
 #  ```{glue:figure} sleep_regressions_3d-fig
 # :figwidth: 600px
 # :name: fig-sleep_regressions_3d
@@ -430,7 +431,6 @@ mod1.round(2)
 # In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}$, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
 
 # In[15]:
-
 
 
 Y_pred = -8.94 * X + 125.97

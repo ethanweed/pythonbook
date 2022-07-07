@@ -296,7 +296,6 @@ df = df[df['year'] > 2004]
 # In[19]:
 
 
-
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
 ax1 = sns.boxplot(x = 'year', y = 'margin', data = df, ax=axes[0])

@@ -21,7 +21,6 @@
 # In[1]:
 
 
-
 seeker = 3.1415           # create the first variable
 lover = 2.7183            # create the second variable
 keeper = seeker * lover   # now multiply them to create a third one
@@ -31,7 +30,6 @@ print( keeper )           # print out the value of 'keeper'
 # it's a lot easier to understand what I'm doing than if I just write this:
 
 # In[2]:
-
 
 
 seeker = 3.1415

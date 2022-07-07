@@ -809,7 +809,6 @@ ax2.axhline(y=0, color='black')
 # In[25]:
 
 
-
 Harpo_wide = pd.DataFrame(
                 {'Anastasia': df.loc[df['tutor'] == 'Anastasia']['grade'],
                  'Bernadette': df.loc[df['tutor'] == 'Bernadette']['grade']})
@@ -830,7 +829,6 @@ ttest(Harpo_wide['Anastasia'], Harpo_wide['Bernadette'], correction = False)
 # You probably noticed that in addition to telling `ttest()` which means I wanted to compare, I also added the argument `correction = False` to the command. This wasn't strictly necessary in this case, because by default this argument is set to `True`. By saying `correction = False`, what we're really doing is telling Python to use the *Student* independent samples $t$-test, and not the *Welch* independent samples $t$-test. More on this later, when we get to [Welch](welchttest). For now, let's just get the descriptive statistics for Anastasia and Bernadette's students so we can report our results:
 
 # In[27]:
-
 
 
 Harpo_wide.describe()
@@ -905,8 +903,6 @@ Harpo_wide.describe()
 # ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for our purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number. 
 
 # In[28]:
-
-
 
 
 mu1 = 0
@@ -1321,7 +1317,6 @@ d
 # as our estimate of the effect size. 
 
 # In[657]:
-
 
 
 # find mean student grade for each tutor
