@@ -523,6 +523,190 @@ const thebe_selector_output = ".output, .cell_output"
 </table>
 </div></div></div>
 </div>
+<p>Now, this output shows a cross-tabulation of the group means for all possible combinations of the two factors (e.g., people who received the placebo and no therapy, people who received the placebo while getting CBT, etc). However, we can also construct tables that ignore one of the two factors. That gives us output that looks like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mood_gain</th>
+    </tr>
+    <tr>
+      <th>therapy</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CBT</th>
+      <td>1.04</td>
+    </tr>
+    <tr>
+      <th>no.therapy</th>
+      <td>0.72</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mood_gain</th>
+    </tr>
+    <tr>
+      <th>drug</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>anxifree</th>
+      <td>0.72</td>
+    </tr>
+    <tr>
+      <th>joyzepam</th>
+      <td>1.48</td>
+    </tr>
+    <tr>
+      <th>placebo</th>
+      <td>0.45</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>But of course, if we can ignore one factor we can certainly ignore both. That is, we might also be interested in calculating the average  mood gain across all 18 participants, regardless of what drug or psychological therapy they were given:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.88
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point we have 12 different sample means to keep track of! It is helpful to organise all these numbers into a single table, which would look like this:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p>no therapy</p></th>
+<th class="text-align:left head"><p>CBT</p></th>
+<th class="text-align:left head"><p>total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>no therapy</p></td>
+<td class="text-align:left"><p>CBT</p></td>
+<td class="text-align:left"><p>total</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>placebo</p></td>
+<td class="text-align:left"><p>0.30</p></td>
+<td class="text-align:left"><p>0.60</p></td>
+<td class="text-align:left"><p>0.45</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>anxifree</p></td>
+<td class="text-align:left"><p>0.40</p></td>
+<td class="text-align:left"><p>1.03</p></td>
+<td class="text-align:left"><p>0.72</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>joyzepam</p></td>
+<td class="text-align:left"><p>1.47</p></td>
+<td class="text-align:left"><p>1.50</p></td>
+<td class="text-align:left"><p>1.48</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>total</p></td>
+<td class="text-align:left"><p>0.72</p></td>
+<td class="text-align:left"><p>1.04</p></td>
+<td class="text-align:left"><p>0.88</p></td>
+</tr>
+</tbody>
+</table>
+<p>Now, each of these different means is of course a sample statistic: it’s a quantity that pertains to the specific observations that we’ve made during our study. What we want to make inferences about are the corresponding population parameters: that is, the true means as they exist within some broader population. Those population means can also be organised into a similar table, but we’ll need a little mathematical notation to do so. As usual, I’ll use the symbol <span class="math notranslate nohighlight">\(\mu\)</span> to denote a population mean. However, because there are lots of different means, I’ll need to use subscripts to distinguish between them.</p>
+<p>Here’s how the notation works. Our table is defined in terms of two factors: each row corresponds to a different level of Factor A (in this case <code class="docutils literal notranslate"><span class="pre">drug</span></code>), and each column corresponds to a different level of Factor B (in this case <code class="docutils literal notranslate"><span class="pre">therapy</span></code>). If we let <span class="math notranslate nohighlight">\(R\)</span> denote the number of rows in the table, and <span class="math notranslate nohighlight">\(C\)</span> denote the number of columns, we can refer to this as an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA. In this case <span class="math notranslate nohighlight">\(R=3\)</span> and <span class="math notranslate nohighlight">\(C=2\)</span>. We’ll use lowercase letters to refer to specific rows and columns, so <span class="math notranslate nohighlight">\(\mu_{rc}\)</span> refers to the population mean associated with the <span class="math notranslate nohighlight">\(r\)</span>th level of Factor A (i.e. row number <span class="math notranslate nohighlight">\(r\)</span>) and the <span class="math notranslate nohighlight">\(c\)</span>th level of Factor B (column number <span class="math notranslate nohighlight">\(c\)</span>).<a class="footnote-reference brackets" href="#notesubscript" id="id1">1</a> So the population means are now written like this:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p>no therapy</p></th>
+<th class="text-align:left head"><p>CBT</p></th>
+<th class="text-align:left head"><p>total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{11}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{12}\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{21}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{22}\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{31}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{32}\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>total</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+</tbody>
+</table>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="notesubscript"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The nice thing about the subscript notation is that generalises nicely: if our experiment had involved a third factor, then we could just add a third subscript. In principle, the notation extends to as many factors as you might care to include, but in this book we’ll rarely consider analyses involving more than two factors, and never more than three.</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
