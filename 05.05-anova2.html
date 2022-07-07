@@ -48,6 +48,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="20. Bayesian Statistics" href="06.01-bayes.html" />
@@ -330,6 +332,26 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">
+   19.1. Factorial ANOVA 1: balanced designs, no interactions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">
+     19.1.1. What hypotheses are we testing?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -342,6 +364,26 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">
+   19.1. Factorial ANOVA 1: balanced designs, no interactions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">
+     19.1.1. What hypotheses are we testing?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -350,6 +392,139 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="factorial-anova">
 <span id="anova2"></span><h1><span class="section-number">19. </span>Factorial ANOVA<a class="headerlink" href="#factorial-anova" title="Permalink to this headline">¶</a></h1>
+<p>Over the course of the last few chapters you can probably detect a general trend. We started out looking at tools that you can use to compare two groups to one another, most notably the <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref"><span class="math notranslate nohighlight">\(t\)</span>-test</span></a>. Then, we introduced <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a> (ANOVA) as a method for comparing more than two groups. The chapter on <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression</span></a> covered a somewhat different topic, but in doing so it introduced a powerful new idea: building statistical models that have <em>multiple</em> predictor variables used to explain a single outcome variable. For instance, a regression model could be used to predict the number of errors a student makes in a reading comprehension test based on the number of hours they studied for the test, and their score on a standardised IQ test. The goal in this chapter is to import this idea into the ANOVA framework. For instance, suppose we were interested in using the reading comprehension test to measure student achievements in three different schools, and we suspect that girls and boys are developing at different rates (and so would be expected to have different performance on average). Each student is classified in two different ways: on the basis of their gender, and on the basis of their school. What we’d like to do is analyse the reading comprehension scores in terms of <em>both</em> of these grouping variables. The tool for doing so is generically referred to as <strong><em>factorial ANOVA</em></strong>. However, since we have two grouping variables, we sometimes refer to the analysis as a two-way ANOVA, in contrast to the one-way ANOVAs that we <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ran earlier</span></a>.</p>
+<div class="section" id="factorial-anova-1-balanced-designs-no-interactions">
+<span id="factorialanovasimple"></span><h2><span class="section-number">19.1. </span>Factorial ANOVA 1: balanced designs, no interactions<a class="headerlink" href="#factorial-anova-1-balanced-designs-no-interactions" title="Permalink to this headline">¶</a></h2>
+<p>When we discussed <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a>, we assumed a fairly simple experimental design: each person falls into one of several groups, and we want to know whether these groups have different means on some outcome variable. In this section, I’ll discuss a broader class of experimental designs, known as <strong><em>factorial designs</em></strong>, in we have more than one grouping variable. I gave one example of how this kind of design might arise above. Another example appears in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ANOVA</span></a>, in which we were looking at the effect of different drugs on the <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> experienced by each person. In that chapter we did find a significant effect of drug, but at the end of the chapter we also ran an analysis to see if there was an effect of therapy. We didn’t find one, but there’s something a bit worrying about trying to run two <em>separate</em> analyses trying to predict the same outcome. Maybe there actually <em>is</em> an effect of therapy on mood gain, but we couldn’t find it because it was being “hidden” by the effect of drug? In other words, we’re going to want to run a <em>single</em> analysis that includes <em>both</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as predictors. For this analysis each person is cross-classified by the drug they were given (a factor with 3 levels) and what therapy they received (a factor with 2 levels). We refer to this as a <span class="math notranslate nohighlight">\(3 \times 2\)</span> factorial design. If we cross-tabulate <code class="docutils literal notranslate"><span class="pre">drug</span></code> by <code class="docutils literal notranslate"><span class="pre">therapy</span></code> using the <code class="docutils literal notranslate"><span class="pre">crosstab()</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, we get the following table:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;drug&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;therapy&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>therapy</th>
+      <th>CBT</th>
+      <th>no.therapy</th>
+    </tr>
+    <tr>
+      <th>drug</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>anxifree</th>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>joyzepam</th>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>placebo</th>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As you can see, not only do we have participants corresponding to all possible combinations of the two factors, indicating that our design is <strong><em>completely crossed</em></strong>, it turns out that there are an equal number of people in each group. In other words, we have a <strong><em>balanced</em></strong> design. In this section I’ll talk about how to analyse data from balanced designs, since this is the simplest case. The story for unbalanced designs is quite tedious, so we’ll put it to one side for the moment.</p>
+<div class="section" id="what-hypotheses-are-we-testing">
+<span id="factanovahyp"></span><h3><span class="section-number">19.1.1. </span>What hypotheses are we testing?<a class="headerlink" href="#what-hypotheses-are-we-testing" title="Permalink to this headline">¶</a></h3>
+<p>Like one-way ANOVA, factorial ANOVA is a tool for testing certain types of hypotheses about population means. So a sensible place to start would be to be explicit about what our hypotheses actually are. However, before we can even get to that point, it’s really useful to have some clean and simple notation to describe the population means. Because of the fact that observations are cross-classified in terms of two different factors, there are quite a lot of different means that one might be interested. To see this, let’s start by thinking about all the different sample means that we can calculate for this kind of design. Firstly, there’s the obvious idea that we might be interested in this table of group means:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">,</span> <span class="s1">&#39;drug&#39;</span><span class="p">])[[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>mood_gain</th>
+    </tr>
+    <tr>
+      <th>therapy</th>
+      <th>drug</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">CBT</th>
+      <th>anxifree</th>
+      <td>1.03</td>
+    </tr>
+    <tr>
+      <th>joyzepam</th>
+      <td>1.50</td>
+    </tr>
+    <tr>
+      <th>placebo</th>
+      <td>0.60</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">no.therapy</th>
+      <th>anxifree</th>
+      <td>0.40</td>
+    </tr>
+    <tr>
+      <th>joyzepam</th>
+      <td>1.47</td>
+    </tr>
+    <tr>
+      <th>placebo</th>
+      <td>0.30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
