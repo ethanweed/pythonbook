@@ -4,8 +4,4 @@
 # (bayes)=
 # # Bayesian Statistics
 
-# In[ ]:
-
-
-
-
+# Bayes is great.
