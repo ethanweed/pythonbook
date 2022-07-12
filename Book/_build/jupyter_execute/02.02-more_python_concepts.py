@@ -105,7 +105,9 @@ numbers = [4, 5, 1, 2, 6]
 statistics.mean(numbers)
 
 
-# You probably noticed the `.` in the code above. This is the way we tell Python that we want to use a command called `mean` which is found inside the library `statistics`. Without the `.`, even though we have imported `statistics`, which has a command called `mean`, we still can't just write `mean(numbers)`. We have to tell Python where to look for this command. This all seems very cumbersome, but it's really not so bad, there are good reasons for doing it this way, and you will get used to it fairly quickly.
+# You probably noticed the `.` in the code above. This is the way we tell Python that we want to use a command called `mean` which is found inside the library `statistics`. Without the `.`, even though we have imported `statistics`, which has a command called `mean`, we still can't just write `mean(numbers)`. We have to tell Python where to look for this command. This all seems very cumbersome, but it's really not so bad, there are good reasons for doing it this way[^noteconflicts], and you will get used to it fairly quickly.
+# 
+# [^noteconflicts]: Chiefly among them, this helps avoid unpleasant situations where we may have imported two different libraries that each contain a function with the same name, but which do different things, or worse yet, do different things but _appear_ to do the same thing, which could really get us in trouble!
 
 # One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:
 # 
