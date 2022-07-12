@@ -156,7 +156,7 @@ why_you_gotta_be_so.mean(numbers)
 # 
 # Let's suppose that you're reading through this book, and what you're doing is sitting down with it once a week and working through a whole chapter in each sitting. Not only that, you've been following my advice and typing in all these commands into Python. So far during this chapter, you'd have typed quite a few commands, although not all of them actually created variables.
 # 
-# An important part of learning to program is to develop the ability to keep a mental model of what Python knows and doesn't know at any given time active in your mind. This sounds very abstract, and it is, but as you become more familar with coding I think you will see what I mean. I won't dwell on this here, but it may be useful to take a quick peak at what I mean. If you are working in e.g. a Jupyter Notebook (and I do suggest you do this, at least at first), then by typing `%who` you can see a list of all the variable that Python is currently aware of. So, in my case, I get the following:
+# An important part of learning to program is to develop the ability to keep a mental model of what Python knows and doesn't know at any given time active in your mind. This sounds very abstract, and it is, but as you become more familar with coding I think you will see what I mean. I won't dwell on this here, but it may be useful to take a quick peak at what I mean. If you are working in e.g. a Jupyter Notebook (and I do suggest you do this, at least at first), then by typing `%who` you can see a list of all the variables that Python is currently aware of. So, in my case, I get the following:
 
 # In[10]:
 
@@ -164,7 +164,7 @@ why_you_gotta_be_so.mean(numbers)
 get_ipython().run_line_magic('who', '')
 
 
-# Here we can see variable that we defined, like `keeper` and `lover`, and also libraries that we imported (and renamed), like `np` and `sns`, as well as the library `statistics` which I then ill-advisedly re-imported and renamed `why_you_gotta_be_so`. To see more details on these variables, we can type `%whos`
+# Here we can see variables that we defined, like `keeper` and `lover`, and also libraries that we imported (and renamed), like `np` and `sns`, as well as the library `statistics` which I then ill-advisedly re-imported and renamed `why_you_gotta_be_so`. To see more details on these variables, we can type `%whos`
 
 # In[11]:
 
@@ -172,11 +172,11 @@ get_ipython().run_line_magic('who', '')
 get_ipython().run_line_magic('whos', '')
 
 
-# This tells us that e.g. `keeper` is a floating-point decimal number with the value 8.539539450000001, and shows us the true names of the objects we have renamed on import. These commands that start with a `%` sign, by the way, are called "magic" commands, and can only be used in environments like Jupyter, which support them. If you are not working in such an environment, you can use the command `dir()`, which achieve the same thing, but will also show you lots of information you probably aren't interested in at this stage.
+# This tells us that e.g. `keeper` is a floating-point decimal number with the value 8.539539450000001, and shows us the true names of the objects we have renamed on import. These commands that start with a `%` sign, by the way, are called "magic" commands, and can only be used in environments like Jupyter, which support them. If you are not working in such an environment, you can use the command `dir()`, which achieves the same thing, but will also show you lots of information you probably aren't interested in at this stage.
 
 # ### Removing variables from the workspace
 # 
-# Looking over that list of variables, it occurs to me that I really don't need them any more. I created them originally just to make a point, but they don't serve any useful purpose anymore, and now I want to get rid of them.  I'll show you how to do this, but first I want to warn you -- there's no "undo" option for variable removal. Once a variable is removed, it's gone forever unless you save it to disk. I'll show you how to do *that* in a later section, but quite clearly we have no need for these variables at all, so we can safely get rid of them by using the `del()` command.
+# Looking over that list of variables, it occurs to me that I really don't need them any more. I created them originally just to make a point, but they don't serve any useful purpose anymore, and now I want to get rid of them.  I'll show you how to do this, but first I want to warn you -- there's no "undo" option for variable removal. Once a variable is removed, it's gone forever. Most of the time this doesn't matter, though, because we still have the code we used to create the variable, so unless you delete that too, you can always just re-run the cells in your Jupyter Notebook, and Python will re-make your variables for you, just like they were before. But quite clearly we have no need for these variables any more, so we can safely get rid of them by using the `del()` command.
 
 # In[12]:
 
@@ -198,7 +198,7 @@ get_ipython().run_line_magic('who', '')
 # ## Loading and saving data
 # 
 # 
-# There are two main types of files that are likely to be relevant to us when doing data analysis. There are three in particular that are especially important from the perspective of this book:
+# There are several types of files that are likely to be relevant to us when doing data analysis, and there are two in particular that are especially important from the perspective of this book:
 # 
 # 
 # - *Comma separated value (CSV) files* are those with a .csv file extension. These are just regular old text files, and they can be opened with almost any software. It's quite typical for people to store data in CSV files, precisely because they're so simple.
@@ -215,15 +215,15 @@ get_ipython().run_line_magic('who', '')
 # On a Windows computer the root is the physical drive [^notedrive] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
 # 
 # ```
-# C:\Users\danRbook\pythonbook.pdf
+# C:\Users\ethan\pythonbook\book\LSP.pdf
 # ```
-# and what that *means* is that the book is called LSR.pdf, and it's in a folder called `book` which itself is in a folder called dan which itself is ... well, you get the idea. On Linux, Unix and Mac OS systems, the addresses look a little different, but they're more or less identical in spirit. Instead of using the backslash, folders are separated using a forward slash, and unlike Windows, they don't treat the physical drive as being the root of the file system. So, the path to this book on my Mac might be something like this:
+# and what that *means* is that the book is called LSP.pdf, and it's in a folder called `book` which itself is in a folder called `ethan` which itself is ... well, you get the idea. On Linux, Unix and Mac OS systems, the addresses look a little different, but they're more or less identical in spirit. Instead of using the backslash, folders are separated using a forward slash, and unlike Windows, they don't treat the physical drive as being the root of the file system. So, the path to this book on my Mac might be something like this:
 # 
 # ```
-# /Users/dan/Rbook/pythonbook.pdf
+# /Users/ethan/pythonbook/book/LSP.pdf
 # ```
 # 
-# So that's what we mean by the "path" to a file, and before we move on, it is critical that you learn how to copy the path to a file on your computer so that you can paste it into Python. There are (again!) multiple ways to do this on the various operating systems, and it doesn't really matter which method you use. A quick search will lead you to many many online tutorials; just find a method that works for you, on your computer.
+# So that's what we mean by the "path" to a file, and before we move on, it is critical that you learn how to copy the path to a file on your computer so that you can paste it into Python. There are (again!) multiple ways to do this on the various operating systems, and it doesn't really matter which method you use. A quick search will lead you to many many online tutorials; just find a method that works for you, on your computer. Even if you are working in a virtual Python environment in the browser (such as Google Colab), you will need some concept of file structure to navigate to your data and scripts.
 # 
 # [^notedrive]: Well, the partition, technically.
 
@@ -284,7 +284,7 @@ df = pd.read_csv(file)
 # (useful)=
 # ## Useful things to know about variables
 # 
-# In the chapter on [Getting started with Python](getting-started-with-python), I talked a lot about variables, how they're assigned and some of the things you can do with them, but there's a lot of additional complexities. That's not a surprise of course. However, some of those issues are worth drawing your attention to now. So that's the goal of this section; to cover a few extra topics. As a consequence, this section is basically a bunch of things that I want to briefly mention, but don't really fit in anywhere else. In short, I'll talk about several different issues in this section, which are only loosely connected to one another.
+# In the chapter on [Getting started with Python](getting-started-with-python), I talked a lot about variables, how they're assigned and some of the things you can do with them, but there are a lot of additional complexities. That probably comes as no great surprise, and we can't go over all of these now, but this section is basically just a bunch of things that I want to briefly mention, that don't really fit in anywhere else. In short, now I'll talk about several different issues in this section, which are only loosely connected to one another.
 
 # (types)=
 # ### Variable types
