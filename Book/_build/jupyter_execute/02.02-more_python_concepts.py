@@ -409,11 +409,11 @@ len(shopping)
 # 
 # It's now time to go back and take a closer look at dataframes.
 # 
-# In order to understand why we use dataframes, it helps to try to see what problem it solves. So let's imagine a little scenario in which I collected some data from nine participants. Let's say I divded the participants in two groups ("test" and "control"), and gave them a task. I then recorded their score on the task, as well as the time it took them to complete the task. I also noted down how old they were.
+# In order to understand why we use dataframes, it helps to try to see what problem the solve. So let's imagine a little scenario in which I collected some data from nine participants. Let's say I divded the participants in two groups ("test" and "control"), and gave them a task. I then recorded their score on the task, as well as the time it took them to complete the task. I also noted down how old they were.
 # 
 # the data look like this:
 
-# In[26]:
+# In[5]:
 
 
 age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
@@ -430,7 +430,7 @@ group = ["test", "test", "test", "test", "test", "control", "control", "control"
 # 
 # [^note6]: Although it really doesn't matter at this point, you may have noticed a new symbol here: the "curly brackets" or "curly braces". Python uses these to indicate yet another variable type: the dictionary. Here we are using the dictionary variable type in passing to feed our lists into a `pandas` dataframe.
 
-# In[27]:
+# In[6]:
 
 
 df = pd.DataFrame(
@@ -441,7 +441,7 @@ df = pd.DataFrame(
     })
 
 
-# In[28]:
+# In[7]:
 
 
 df
@@ -453,6 +453,8 @@ df
 # ### Indexing and slicing
 # 
 # ADD A SECTION HERE ON HOW INDICES AND SLICES WORK IN PYTHON
+# 
+# Ok, I still need to finish this section. In the meantime, check out the link below!
 # 
 # LINK TO: https://docs.python.org/2/tutorial/introduction.html
 # 
@@ -476,9 +478,9 @@ df
 
 # Let's take another look at our dataframe. We have created a dataframe called `df`, which contains all of our data for "The Very Exciting Psychology Experiment". Each row contains the data for one participant, so we can see that e.g. the first participant (in row zero, because Python!) was 17 years old, had a score of 12, responded in 3.552 seconds, and was placed in the test group. That's great, but how do we get this information out again? After all, there's no point in storing information if you don't use it, and there's no way to use information if you can't access it. So let's talk a bit about how to pull information out of a data frame. 
 # 
-# The first thing we might want to do is pull out one of our stored variables, let's say `score`. As usual, there are several ways to achieve this, but here we will use the simplest method I know. To access the data in the `score` column by the column name, we can write:
+# The first thing we might want to do is pull out one of our stored variables, let's say `score`. To access the data in the `score` column by the column name, we can write:
 
-# In[30]:
+# In[8]:
 
 
 score_data = df['score']
@@ -498,7 +500,7 @@ score_data
 
 # What if we want to get data from a row instead? In this case, we will use the `loc` attribute of a `pandas` dataframe, and use a number instead of name (i.e., no quotation marks), like this:
 
-# In[32]:
+# In[11]:
 
 
 score_data = df.loc[2]
@@ -540,10 +542,10 @@ print(my_column)
 # 
 # One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:
 
-# In[36]:
+# In[13]:
 
 
-df.columns.values.tolist()
+list(df)
 
 
 # Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute `head` is useful for this. By default it shows the first 5 lines of the dataframe:
