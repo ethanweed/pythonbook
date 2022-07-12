@@ -584,7 +584,7 @@ df.values.tolist()
 # 
 # - [Installing and importing libraries](packageinstall). Knowing how to extend the functionality of Python by installing and using libraries is critical to becoming an effective Python user
 # - [Loading and saving data](load). Finally, we encountered actual data files. Loading and saving data is obviously a crucial skill, this was dealt with here.
-# - [Getting around]. This section dealt very briefly with the concept of filesystems. Mostly, I just told you what a filesystem path is, and left it up to you to figure out how to find paths on your machine.
+# - [Filesystem paths](filesystem). This section dealt very briefly with the concept of filesystems. Mostly, I just told you what a filesystem path is, and left it up to you to figure out how to find paths on your machine.
 # - [Useful things to know about variables](useful). In this section, we talked about variable types, with a special focus on lists and dataframes. There is much more to say about these topics, but hopefully this is enough to get you started.
 # 
 # 
