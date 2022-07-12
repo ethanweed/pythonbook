@@ -538,7 +538,7 @@ print(my_row)
 print(my_column)
 
 
-# ### Three more dataframe tips for the road
+# ### Some more dataframe tips for the road
 # 
 # One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:
 
@@ -548,12 +548,20 @@ print(my_column)
 list(df)
 
 
-# Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute `head` is useful for this. By default it shows the first 5 lines of the dataframe:
+# Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute `head()` is useful for this. By default it shows the first 5 lines of the dataframe:
 
 # In[37]:
 
 
 df.head()
+
+
+# And if you want to see the last rows of the dataframe? `tail()` has got you covered:
+
+# In[15]:
+
+
+df.tail()
 
 
 # Finally, if you just want to get all of your data out of the dataframe and into a list, then `.values.tolist()` will do the job, giving you a list of lists, with each item in the list containing the data for a single row:
