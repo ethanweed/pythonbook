@@ -122,7 +122,7 @@ statistics.mean(numbers)
 from statistics import mean
 
 
-# Why would we want to do this? Well, one good reason is that now we *can* simply write `mean(numbers)`; we no longer have to write out `statistics.mean(numbers`:
+# Why would we want to do this? Well, one good reason is that now we *can* simply write `mean(numbers)`; we no longer have to write out `statistics.mean(numbers)`:
 
 # In[7]:
 
