@@ -289,7 +289,7 @@ df = pd.read_csv(file)
 # (types)=
 # ### Variable types
 # 
-# As we've seen, Python allows you to store different kinds of data. We have seen variables that store text (_strings_), numbers(_integers_ or _floats_), and even whole datasets (_dataframes_). These are just three of the many different types of variable that Python can store. Other common variable types in Python include _dictionaries_, _lists_, and _tuples_. It's important that we remember what kind of information each variable stores (and even more important that Python remembers) since different kinds of variables allow you to do different things to them. For instance, if your variables have numerical information in them, then it's okay to multiply them together:
+# As we've seen, Python allows you to store different kinds of data. We have seen variables that store text (_strings_), numbers (_integers_ or _floats_), and even whole datasets (_dataframes_). These are just three of the many different types of variable that Python can store. Other common variable types in Python include _dictionaries_, _lists_, and _tuples_. It's important that we remember what kind of information each variable stores (and even more important that Python remembers) since different kinds of variables allow you to do different things to them. For instance, if your variables have numerical information in them, then it's okay to add them together:
 
 # In[16]:
 
@@ -300,7 +300,7 @@ z = x + y
 print(z)
 
 
-# But if they contain character data, Python will still let you add the variables, but the outcome might be unexpected:
+# If they contain character data, Python will still let you add the variables, but the outcome might be unexpected:
 
 # In[17]:
 
@@ -324,14 +324,14 @@ x = "hello world"     # x is text (aka a "string")
 type(x)
 
 
-# In[19]:
+# In[1]:
 
 
 import pandas as pd
 
 file = "/Users/ethan/Documents/GitHub/pythonbook/Data/booksales.csv"
 
-x = pd.read_csv(file)
+x = pd.read_csv(file) # x is a dataframe
 
 type(x)
 
@@ -350,7 +350,7 @@ x = 3.14
 type(x)
 
 
-# Exciting, no?
+# Exciting, no? Trust me, you'll need to do this more often than you might think.
 
 # (lists)=
 # 
@@ -358,22 +358,22 @@ type(x)
 # 
 # A kind of variable that shows up all the time in data analysis with Python is the list. A list is just what it sounds like, it is a single variable that contains a list of items. Just about any variable type you can think of can be listed in a Python list:
 
-# In[22]:
+# In[2]:
 
 
 shopping = ["apples", "pears", "bananas"] # a list strings
 scores = [90, 65, 100, 82]                # a list of integers
 mixed = ["cats", 7, 309.42]               # a list of mixed strings, integers, and floats
-all = [shopping, scores, mixed]           # a list of lists!
+combined = [shopping, scores, mixed]      # a list of lists!
 
 
-# In[23]:
+# In[3]:
 
 
 print(shopping)
 print(scores)
 print(mixed)
-print(all)
+print(combined)
 
 
 # Let's say I am so enamored with Python that I actually decided to keep my shopping list in a Python list. Seems unlikely, I know, but bear with me. Later, I realize I have forgotten what I wrote on the list. This does kind of sound like me, actually. To see the contents of the entire list, I can use `print()`, the way I did above. But let's say I only want to see the second item on the list. Python has a way access specific items in lists, but it will seem strange at first!
