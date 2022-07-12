@@ -105,7 +105,7 @@ numbers = [4, 5, 1, 2, 6]
 statistics.mean(numbers)
 
 
-# You probably noticed the `.` in the code above. This is the way we tell Python that we want to use a command called `mean` which is found inside the library `statistics`. Without the `.`, even though we have imported `statistics`, which has a command called `mean`, we still can't just write `mean(numbers)`. We have to tell Python where to look for this command. This all seems very cumbersome, but it's really not so bad, there are good reasons for doing it this way[^note4], and you will get used to it fairly quickly.
+# You probably noticed the `.` in the code above. This is the way we tell Python that we want to use a command called `mean` which is found inside the library `statistics`. Without the `.`, even though we have imported `statistics`, which has a command called `mean`, we still can't just write `mean(numbers)`. We have to tell Python where to look for this command. This all seems very cumbersome, but it's really not so bad, there are good reasons for doing it this way, and you will get used to it fairly quickly.
 
 # One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:
 # 
@@ -210,7 +210,7 @@ get_ipython().run_line_magic('who', '')
 # 
 # In this section I describe the basic idea behind file locations and file paths. Regardless of whether you're using Window, macOS or Linux, every file on the computer is assigned a (fairly) human readable address, and every address has the same basic structure: it describes a *path* that starts from a *root* location, through as series of *folders* (or if you're an old-school computer user, *directories*), and finally ends up at the file. 
 # 
-# On a Windows computer the root is the physical drive [^note4] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
+# On a Windows computer the root is the physical drive [^notedrive] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
 # 
 # ```
 # C:\Users\danRbook\pythonbook.pdf
@@ -223,7 +223,7 @@ get_ipython().run_line_magic('who', '')
 # 
 # So that's what we mean by the "path" to a file, and before we move on, it is critical that you learn how to copy the path to a file on your computer so that you can paste it into Python. There are (again!) multiple ways to do this on the various operating systems, and it doesn't really matter which method you use. A quick search will lead you to many many online tutorials; just find a method that works for you, on your computer.
 # 
-# [^note4]: Well, the partition, technically.
+# [^notedrive]: Well, the partition, technically.
 
 # (loadingcsv)=
 # 
