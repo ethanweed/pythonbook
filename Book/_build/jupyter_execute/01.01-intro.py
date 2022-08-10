@@ -153,8 +153,8 @@ import seaborn as sns
 # Plot Berkely data
 berkelyplot = sns.lmplot(
     data = df_berkely,
-    x = "women.apply", y = "total.admit",
-    hue = "depart.size"
+    x = "women.apply", y = "total.admit"
+    #hue = "depart.size"
 )
 
 
