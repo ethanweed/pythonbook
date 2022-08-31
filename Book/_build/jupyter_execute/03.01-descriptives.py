@@ -217,6 +217,7 @@ statistics.median(margins)
 
 # Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed":  see the section on [](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
 
+# (housingpriceexample)=
 # ### A real life example
 # 
 # To try to get a sense of why you need to pay attention to the differences between the mean and the median, let's consider a real life example. Since I tend to mock journalists for their poor scientific and statistical knowledge, I should give credit where credit is due. This is from an excellent article on the ABC news website [^note4] 24 September, 2010:
