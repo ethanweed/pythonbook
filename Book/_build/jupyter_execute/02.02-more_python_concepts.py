@@ -111,9 +111,8 @@ statistics.mean(numbers)
 
 # One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:
 # 
-# >1. Choose to import only a portion of a library  
-# 
-# >2. Rename libraries of portions of libraries when importing
+# 1. Choose to import only a portion of a library  
+# 2. Rename libraries of portions of libraries when importing
 # 
 # Let's say we don't want to import the entire `statistics` library — we only want the `mean` command. We can achieve this like this:
 
