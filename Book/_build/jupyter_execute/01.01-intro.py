@@ -96,7 +96,7 @@
 # 
 # ...and they were worried about being sued. [^note4] Given that there were nearly 13,000 applicants, a difference of 9% in admission rates between males and females is just way too big to be a coincidence. Pretty compelling data, right? And if I were to say to you that these data *actually* reflect a weak bias in favour of women (sort of!), you'd probably think that I was either crazy or sexist. 
 # 
-# Oddly, it's actually sort of true ...when people started looking more carefully at the admissions data they told a rather different story {cite:p}`Bickel1975`. Specifically, when they looked at it on a department by department basis, it turned out that most of the departments actually had a slightly *higher* success rate for female applicants than for male applicants.  shows the admission figures for the six largest departments (with the names of the departments removed for privacy reasons):
+# Oddly, it's actually sort of true ...when people started looking more carefully at the admissions data they told a rather different story {cite:p}`Bickel1975`. Specifically, when they looked at it on a department by department basis, it turned out that most of the departments actually had a slightly *higher* success rate for female applicants than for male applicants. {numref}`fig-berkleytable` shows the admission figures for the six largest departments (with the names of the departments removed for privacy reasons):
 # 
 # [^note1]: The quote comes from Auden's 1946 poem *Under Which Lyre: A Reactionary Tract for the Times*, delivered as part of a commencement address at Harvard University. The history of the poem is kind of interesting: http://harvardmagazine.com/2007/11/a-poets-warning.html
 # 
