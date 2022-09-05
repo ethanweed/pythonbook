@@ -1431,7 +1431,7 @@ print(df['var1'].median())
 print(df['var1'].std())
 
 
-# This is also great, but there is one little niggling problem. `var1` in our dataframe is the same as the `partial` variable we defined eaerlier. The mean and median values look the same as when we used the `numpy` methods, but the standard deviation is little bit different. What's up with that? As it turns out, `numpy` and `pandas` calculate standard deviation in slightly different ways: `numpy` uses $N$ in the demoninator, while `pandas` uses the "unbiased estimator" $N-1$ in the demoniator. To make `numpy` behave like `pandas`, we need to pass the `ddof=1` argument to `nanmean()`, like so:
+# This is also great, but there is one little niggling problem. `var1` in our dataframe is the same as the `partial` variable we defined earlier. The mean and median values look the same as when we used the `numpy` methods, but the standard deviation is little bit different. What's up with that? As it turns out, `numpy` and `pandas` calculate standard deviation in slightly different ways: `numpy` uses $N$ in the demoninator, while `pandas` uses the "unbiased estimator" $N-1$ in the demoniator. To make `numpy` behave like `pandas`, we need to pass the `ddof=1` argument to `nanmean()`, like so:
 
 # In[153]:
 
