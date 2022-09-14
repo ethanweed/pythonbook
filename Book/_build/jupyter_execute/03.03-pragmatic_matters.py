@@ -32,9 +32,171 @@
 
 # (pandas)=
 # 
-# ## Your new friend, pandas
+# ## Dataframes
 
-# We've already used the `pandas` package [here](descriptives) and [there]()
+# We've already used the `pandas` package [here](descriptives) and [there](DrawingGraphs), but now it's time to look more closely at `pandas` dataframes. 
+# 
+# In order to understand why we use dataframes, it helps to try to see what problem the solve. So let's imagine a little scenario in which I collected some data from nine participants. Let's say I divded the participants in two groups ("test" and "control"), and gave them a task. I then recorded their score on the task, as well as the time it took them to complete the task. I also noted down how old they were.
+# 
+# the data look like this:
+
+# In[1]:
+
+
+age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
+score = [12, 10, 11, 15, 16, 14, 25, 21, 29]
+rt = [3.552, 1.624, 6.431, 7.132, 2.925, 4.662, 3.634, 3.635, 5.234]
+group = ["test", "test", "test", "test", "test", "control", "control", "control", "control"]
+
+
+# So there are four variables in active memory: `age`, `rt`, `group` and `score`. And it just so happens that all four of them are the same size (i.e., they're all lists with 9 elements). Aaaand it just so happens that `age[0]` corresponds to the age of the first person, and `rt[0]` is the response time of that very same person, etc. In other words, you and I both know that all four of these variables correspond to the *same* data set, and all four of them are organised in exactly the same way. 
+# 
+# However, Python *doesn't* know this! As far as it's concerned, there's no reason why the `age` variable has to be the same length as the `rt` variable; and there's no particular reason to think that `age[1]` has any special relationship to `score[1]` any more than it has a special relationship to `score[4]`. In other words, when we store everything in separate variables like this, Python doesn't know anything about the relationships between things. It doesn't even really know that these variables actually refer to a proper data set. The data frame fixes this: if we store our variables inside a data frame, we're telling Python to treat these variables as a single, fairly coherent data set. 
+# 
+# To see how they do this, let's create one. So how do we create a data frame? One way we've already seen: if we use `pandas` to import our data from a CSV file, it will store it as a data frame. A second way is to create it directly from some existing lists using the `pandas.Dataframe()` function. All you have to do is type a list of variables that you want to include in the data frame. The output is, well, a data frame. So, if I want to store all four variables from my experiment in a data frame called `df` I can do so like this[^notedict]:
+# 
+# [^notedict]: Although it really doesn't matter at this point, you may have noticed a new symbol here: the "curly brackets" or "curly braces". Python uses these to indicate yet another variable type: the dictionary. Here we are using the dictionary variable type in passing to feed our lists into a `pandas` dataframe.
+
+# In[2]:
+
+
+df = pd.DataFrame(
+    {'age': age,
+     'score': score,
+     'rt': rt,
+     'group': group
+    })
+
+
+# In[8]:
+
+
+df
+
+
+# Note that `df` is a completely self-contained variable. Once you've created it, it no longer depends on the original variables from which it was constructed. That is, if we make changes to the original `age` variable, it will *not* lead to any changes to the age data stored in `df`. 
+
+# (indexing)=
+# ### Indexing and slicing
+# 
+# ADD A SECTION HERE ON HOW INDICES AND SLICES WORK IN PYTHON
+# 
+# Ok, I still need to finish this section. In the meantime, check out the link below!
+# 
+# LINK TO: https://docs.python.org/2/tutorial/introduction.html
+# 
+# "One way to remember how slices work is to think of the indices as pointing between characters, with the left edge of the first character numbered 0. Then the right edge of the last character of a string of n characters has index n, for example:"
+# 
+# 
+# 
+# 
+
+# In[9]:
+
+
+#  +---+---+---+---+---+---+
+#  | P | y | t | h | o | n |
+#  +---+---+---+---+---+---+
+#  0   1   2   3   4   5   6
+# -6  -5  -4  -3  -2  -1
+
+
+# (indexingdataframes)=
+# ### Pulling out the contents of a data frame
+
+# Let's take another look at our dataframe. We have created a dataframe called `df`, which contains all of our data for "The Very Exciting Psychology Experiment". Each row contains the data for one participant, so we can see that e.g. the first participant (in row zero, because Python!) was 17 years old, had a score of 12, responded in 3.552 seconds, and was placed in the test group. That's great, but how do we get this information out again? After all, there's no point in storing information if you don't use it, and there's no way to use information if you can't access it. So let's talk a bit about how to pull information out of a data frame. 
+# 
+# The first thing we might want to do is pull out one of our stored variables, let's say `score`. To access the data in the `score` column by the column name, we can write:
+
+# In[10]:
+
+
+score_data = df['score']
+score_data
+
+
+# Pretty easy, right? We could also choose to ask for only data from e.g. the first 4 particpants. To do this, we write:
+
+# In[11]:
+
+
+score_data = df['score'][0:4]
+score_data
+
+
+# As always, we have to be very careful about the numbering, and things are even more confusing than I have let on, because what we are doing here is what Python calls *slicing* the data, and slice numbers work a little differently than index numbers. To get a slice of data from the first to the fourth rows, we need to write `[0:4]`, rather than `[0:3]`. Is this confusing? Yes, I think so! In any case, this is the way Python behaves, and we just need to get used to it. The best way to get the hang of it just to practice slicing a bunch of data, until you learn how to get the results you want.
+
+# What if we want to get data from a row instead? In this case, we will use the loc attribute of a pandas dataframe, and use a number instead of name (i.e., no quotation marks), like this:
+
+# In[12]:
+
+
+score_data = df.loc[2]
+score_data
+
+
+# Now we have what we need to get the data for columns and rows. Great! Unfortunately, there is one more thing I should mention[^note7]. If you look at the contents of score_data above, you will see that it is still not just the data: it also has information about the data, including which column and row it came from. And if we use type() to check, we can see that it is yet another variable type: this time, a pandas.core.series.Series. Yikes!
+# [^note7]: Actually, there are lots more things I should mention, but now is not the time. Working with dataframes takes practice, and there are some catches, but it's worth the effort!
+
+# In[13]:
+
+
+type(score_data)
+
+
+# Luckily, it's not too hard to get the raw data out of a `pandas` series. The simplest way is to just turn it into a list variable, using the command `list()`:
+
+# In[14]:
+
+
+my_row = list(score_data)
+my_row
+
+
+# If you want to get fancy, you can combine these steps, and do it all in one go:
+
+# In[15]:
+
+
+my_row = list(df.loc[2])
+my_column = list(df['score'])
+print(my_row)
+print(my_column)
+
+
+# ### Some more dataframe tips for the road
+# 
+# One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:
+
+# In[16]:
+
+
+list(df)
+
+
+# Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute head() is useful for this. By default it shows the first 5 lines of the dataframe:
+
+# In[17]:
+
+
+df.head()
+
+
+# And if you want to see the last rows of the dataframe? `tail()` has got you covered:
+
+# In[19]:
+
+
+df.tail()
+
+
+# Finally, if you just want to get all of your data out of the dataframe and into a list, then .values.tolist() will do the job, giving you a list of lists, with each item in the list containing the data for a single row:
+
+# In[20]:
+
+
+df.values.tolist()
+
 
 # (freqtables)=
 # 
