@@ -175,7 +175,7 @@ statistics.mean(margins[0:5])
 # $$
 # and there are *two* middle numbers, 31 and 32. The median is defined as the average of those two numbers, which is of course 31.5. As before, it's very tedious to do this by hand when you've got lots of numbers. To illustrate this, here's what happens when you use Python to sort all 176 winning margins. First, I'll use the `sort_values` method to display the winning margins in increasing numerical order. [^note3]
 # 
-# [^note3]: `sort_values`is a *method* that belong to `pandas` *objects*. We'll get back to this later in [](getting-started-with-python). For now, the important thing is that it works!
+# [^note3]: `sort_values`is a *method* that belong to `pandas` *objects*. We'll get back to this [later](pandas). For now, the important thing is that it works!
 
 # In[10]:
 
