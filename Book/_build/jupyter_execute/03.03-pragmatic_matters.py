@@ -35,7 +35,7 @@
 # 
 # ## Dataframes
 
-# We've already used the `pandas` package [here](descriptives) and [there](DrawingGraphs), but now it's time to look more closely at `pandas` dataframes. 
+# We've already used the `pandas` package [here](descriptives) and [there](DrawingGraphs), and [even over here](loadingcsv), but now it's time to look more closely at `pandas` dataframes. 
 # 
 # In order to understand why we use dataframes, it helps to try to see what problem the solve. So let's imagine a little scenario in which I collected some data from nine participants. Let's say I divded the participants in two groups ("test" and "control"), and gave them a task. I then recorded their score on the task, as well as the time it took them to complete the task. I also noted down how old they were.
 # 
