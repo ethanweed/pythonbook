@@ -244,7 +244,7 @@ get_ipython().run_line_magic('who', '')
 
 # As is often the case, there are many different ways to get the data from a CSV file into Python so that you can begin doing things with it. Here we will use the `pandas` library, which happens to have a handy command called `read_csv()` which does just what it says.
 # 
-# We can't just read the data in willy-nilly, though. We need some place to put it. As you may have already guessed, we need to define a variable to put our data into. We haven't talked about variable types yet, and now is not the time, but let it suffice to say that there are different kinds of variables, and some of them can store structured data like the rows and columns in a CSV file. `pandas` calls this kind of variable a "dataframe". You can name your dataframe whatever you like, of course, but by convention they are often called "df", so we'll do that too. Thus:
+# We can't just read the data in willy-nilly, though. We need some place to put it. As you may have already guessed, we need to define a variable to put our data into. We haven't talked about variable types yet, and now is not the time, but let it suffice to say that there are different kinds of variables, and some of them can store structured data like the rows and columns in a CSV file. `pandas` calls this kind of variable a ["dataframe"](pandas). You can name your dataframe whatever you like, of course, but by convention they are often called "df", so we'll do that too. Thus:
 
 # In[14]:
 
