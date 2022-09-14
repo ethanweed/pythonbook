@@ -399,6 +399,29 @@ print(combined)
 
 # Let's say I am so enamored with Python that I actually decided to keep my shopping list in a Python list. Seems unlikely, I know, but bear with me. Later, I realize I have forgotten what I wrote on the list. This does kind of sound like me, actually. To see the contents of the entire list, I can use `print()`, the way I did above. But let's say I only want to see the second item on the list. Python has a way access specific items in lists, but it will seem strange at first!
 
+# (indexing)=
+# ### Indexing and slicing
+# 
+# ADD A SECTION HERE ON HOW INDICES AND SLICES WORK IN PYTHON
+# 
+# Ok, I still need to finish this section. In the meantime, check out the link below!
+# 
+# LINK TO: https://docs.python.org/2/tutorial/introduction.html
+# 
+# "One way to remember how slices work is to think of the indices as pointing between characters, with the left edge of the first character numbered 0. Then the right edge of the last character of a string of n characters has index n, for example:"
+# 
+# 
+
+# In[2]:
+
+
+#  +---+---+---+---+---+---+
+#  | P | y | t | h | o | n |
+#  +---+---+---+---+---+---+
+#  0   1   2   3   4   5   6
+# -6  -5  -4  -3  -2  -1
+
+
 # Let's take a look. To access an item in a list, we need to know its `index`, that is, its location in the list. We indicate an index with square brackets. So to find the item with the index 2 in my shopping list, I can write `shopping[2]`, like so:
 
 # In[24]:
