@@ -39,7 +39,7 @@
 
 # (firstcommand)=
 # 
-# # Typing commands at the Python console
+# ## Typing commands at the Python console
 # 
 # One of the easiest things you can do with Python is use it as a simple calculator, so it's a good place to start. For instance, try typing `10 + 20`, and hitting enter.[^note2] When you do this, you've entered a ***command***, and Python will "execute" that command. If you are using Jupyter Notebooks, what you will see on screen will look something like this:
 # 
