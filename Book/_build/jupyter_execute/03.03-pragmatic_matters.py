@@ -79,31 +79,6 @@ df
 
 # Note that `df` is a completely self-contained variable. Once you've created it, it no longer depends on the original variables from which it was constructed. That is, if we make changes to the original `age` variable, it will *not* lead to any changes to the age data stored in `df`. 
 
-# (indexing)=
-# ### Indexing and slicing
-# 
-# ADD A SECTION HERE ON HOW INDICES AND SLICES WORK IN PYTHON
-# 
-# Ok, I still need to finish this section. In the meantime, check out the link below!
-# 
-# LINK TO: https://docs.python.org/2/tutorial/introduction.html
-# 
-# "One way to remember how slices work is to think of the indices as pointing between characters, with the left edge of the first character numbered 0. Then the right edge of the last character of a string of n characters has index n, for example:"
-# 
-# 
-# 
-# 
-
-# In[4]:
-
-
-#  +---+---+---+---+---+---+
-#  | P | y | t | h | o | n |
-#  +---+---+---+---+---+---+
-#  0   1   2   3   4   5   6
-# -6  -5  -4  -3  -2  -1
-
-
 # (indexingdataframes)=
 # ### Pulling out the contents of a data frame
 
@@ -111,7 +86,7 @@ df
 # 
 # The first thing we might want to do is pull out one of our stored variables, let's say `score`. To access the data in the `score` column by the column name, we can write:
 
-# In[5]:
+# In[4]:
 
 
 score_data = df['score']
@@ -120,7 +95,7 @@ score_data
 
 # Pretty easy, right? We could also choose to ask for only data from e.g. the first 4 particpants. To do this, we write:
 
-# In[6]:
+# In[5]:
 
 
 score_data = df['score'][0:4]
@@ -131,7 +106,7 @@ score_data
 
 # What if we want to get data from a row instead? In this case, we will use the loc attribute of a pandas dataframe, and use a number instead of name (i.e., no quotation marks), like this:
 
-# In[7]:
+# In[6]:
 
 
 score_data = df.loc[2]
@@ -141,7 +116,7 @@ score_data
 # Now we have what we need to get the data for columns and rows. Great! Unfortunately, there is one more thing I should mention[^note7]. If you look at the contents of score_data above, you will see that it is still not just the data: it also has information about the data, including which column and row it came from. And if we use type() to check, we can see that it is yet another variable type: this time, a pandas.core.series.Series. Yikes!
 # [^note7]: Actually, there are lots more things I should mention, but now is not the time. Working with dataframes takes practice, and there are some catches, but it's worth the effort!
 
-# In[8]:
+# In[7]:
 
 
 type(score_data)
@@ -149,7 +124,7 @@ type(score_data)
 
 # Luckily, it's not too hard to get the raw data out of a `pandas` series. The simplest way is to just turn it into a list variable, using the command `list()`:
 
-# In[9]:
+# In[8]:
 
 
 my_row = list(score_data)
@@ -158,7 +133,7 @@ my_row
 
 # If you want to get fancy, you can combine these steps, and do it all in one go:
 
-# In[10]:
+# In[9]:
 
 
 my_row = list(df.loc[2])
@@ -171,7 +146,7 @@ print(my_column)
 # 
 # One problem that sometimes comes up in practice is that you forget what you called all your variables. To get a list of the column names, you can use the command:
 
-# In[11]:
+# In[10]:
 
 
 list(df)
@@ -179,7 +154,7 @@ list(df)
 
 # Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute head() is useful for this. By default it shows the first 5 lines of the dataframe:
 
-# In[12]:
+# In[11]:
 
 
 df.head()
@@ -187,7 +162,7 @@ df.head()
 
 # And if you want to see the last rows of the dataframe? `tail()` has got you covered:
 
-# In[13]:
+# In[12]:
 
 
 df.tail()
@@ -195,7 +170,7 @@ df.tail()
 
 # Finally, if you just want to get all of your data out of the dataframe and into a list, then .values.tolist() will do the job, giving you a list of lists, with each item in the list containing the data for a single row:
 
-# In[14]:
+# In[13]:
 
 
 df.values.tolist()
@@ -209,7 +184,7 @@ df.values.tolist()
 # 
 # Let's start with a simple example. As the father of a small child, I naturally spend a lot of time watching TV shows like *In the Night Garden*, and I have transcribed a short section of the dialogue. Let's make a `pandas` dataframe with two variables, `speaker` and `utterance`. When we take a look at the data, it becomes very clear what happened to my sanity. 
 
-# In[15]:
+# In[14]:
 
 
 import pandas as pd
@@ -225,7 +200,7 @@ df
 
 # With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the `crosstab` method from `pandas` provides an easy way to do this:
 
-# In[16]:
+# In[15]:
 
 
 pd.crosstab(index = df["speaker"], columns = "count")
@@ -233,7 +208,7 @@ pd.crosstab(index = df["speaker"], columns = "count")
 
 # The output here tells us on the first line that what we’re looking at is a tabulation of the speaker variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it’s a frequency table. Notice that we set the argument `columns` to "count". If instead we want to cross-tabulate the speakers with the utterances, we can set `columns` to the "utterances" column in the dataframe:
 
-# In[17]:
+# In[16]:
 
 
 pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -243,7 +218,7 @@ pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
 # 
 # The tabulation commands discussed so far all construct a table of raw frequencies: that is, a count of the total number of cases that satisfy certain conditions. However, often you want your data to be organised in terms of proportions rather than counts. This could be as a proportion of the row totals or the column totals. Currently, these are both just called "All", so let's first save the output of our crosstab to a variable, and rename the row and column totals to "rowtotals" and "coltotals".
 
-# In[18]:
+# In[17]:
 
 
 tabs = pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -256,7 +231,7 @@ tabs
 
 # Now we can divide the entire frequency table by the totals in each column:
 
-# In[19]:
+# In[18]:
 
 
 tabs/tabs.loc['coltotals']
@@ -266,7 +241,7 @@ tabs/tabs.loc['coltotals']
 # 
 # The procedure to obtain the row-wise proportion, the procedure is slightly different:
 
-# In[20]:
+# In[19]:
 
 
 tabs.div(tabs["rowtotals"], axis=0)
@@ -290,7 +265,7 @@ tabs.div(tabs["rowtotals"], axis=0)
 # 
 # The data look like this:
 
-# In[21]:
+# In[20]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -298,7 +273,7 @@ data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
 
 # However, if you think about it, this isn't the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there's a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be $+3$ (strong agree) and $-3$ (strong disagree). By recoding the data in this way, it's a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores. Since these data are in a list, we can use a "list comprehension" to step through each element in the list, and subtract 4 from it:
 
-# In[22]:
+# In[21]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -308,7 +283,7 @@ data
 
 # If your data is in a `numpy array` rather than a `list`, it is even easier: just subtract 4 from array, and Python takes care of the rest:
 
-# In[23]:
+# In[22]:
 
 
 import numpy as np
@@ -319,7 +294,7 @@ data
 
 # One reason why it might be useful to center the data is that there are a lot of situations where you might prefer to analyse the *strength* of the opinion separately from the *direction* of the opinion. We can do two different transformations on this variable in order to distinguish between these two different concepts. Firstly, to compute an `opinion_strength` variable, we want to take the absolute value of the centred data (using the `abs()` function that we've seen previously), like so:
 
-# In[24]:
+# In[23]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -329,7 +304,7 @@ data
 
 # Secondly, to compute a variable that contains only the direction of the opinion and ignores the strength, we can use the `numpy.sign()` method to do this. This method is really simple: all negative numbers are converted to $-1$, all positive numbers are converted to $1$ and zero stays as $0$. So, when we apply `numpy.sign()` to our data we obtain the following:
 
-# In[25]:
+# In[24]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -340,7 +315,7 @@ data
 
 # And we're done. We now have three shiny new variables, all of which are useful transformations of the original likert data. Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. So, we can put our data in a dataframe, in a column called "scores"...
 
-# In[26]:
+# In[25]:
 
 
 import pandas as pd
@@ -353,7 +328,7 @@ df
 
 # ... and then do some calculations:
 
-# In[27]:
+# In[26]:
 
 
 df['centered'] = df['scores']-4
@@ -368,7 +343,7 @@ df
 # 
 # One pragmatic task that arises more often than you'd think is the problem of cutting a numeric variable up into discrete categories. For instance, suppose I'm interested in looking at the age distribution of people at a social gathering:
 
-# In[28]:
+# In[27]:
 
 
 #age = [60,58,24,26,34,42,31,30,33,2,9]
@@ -384,7 +359,7 @@ df
 # 
 # As it happens, `pandas` has a convenient method called `cut` for grouping data in this way:
 
-# In[29]:
+# In[28]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = [0,20,40,60], labels = ['young', 'adult', 'older'])
@@ -399,7 +374,7 @@ df
 
 # In the example above, I made all the decisions myself, but if you want to you can delegate a lot of the choices to Python. For instance, if you want you can specify the *number* of categories you want, rather than giving explicit ranges for them, and you can allow Python to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
 
-# In[30]:
+# In[29]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = 3)
@@ -408,7 +383,7 @@ df
 
 # With this command, I've asked for three categories, but let Python make the choices for where the boundaries should be. All of the important information can be extracted by looking at the tabulated data:
 
-# In[31]:
+# In[30]:
 
 
 pd.crosstab(index = df["categories"], columns = "count")
@@ -418,7 +393,7 @@ pd.crosstab(index = df["categories"], columns = "count")
 # 
 # Before moving on, I should take a moment to talk a little about the mechanics of the `cut()` function. Notice that Python has tried to divide the `age` variable into three roughly equal sized bins. Unless you specify the particular breaks you want, that's what it will do. But suppose you want to divide the `age` variable into three categories of different size, but with approximately identical numbers of people. How would you do that? Well, if that's the case, then what you want to do is have the breaks correspond to the 0th, 33rd, 66th and 100th percentiles of the data. One way to do this would be to calculate those values using the `np.quantile()` function and then use those quantiles as input to the `cut()` function. That's pretty easy to do, but it does take a couple of lines to type. So instead, the `pandas` library has a function called `qCut()` that does exactly this:
 
-# In[32]:
+# In[31]:
 
 
 df['categories'] = pd.qcut(x = df['age'], q = [0, .33, .66, 1] )
