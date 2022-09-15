@@ -20,7 +20,7 @@
 # - [Transforming or recoding a variable](transform)
 # - [Some useful mathematical functions](mathfunc)
 # - [Slicing](slicing) and dicing
-# - [Extracting a subset of a data frame](subset)
+# - [Extracting a subset of a data frame](subsets)
 # - [Sorting, flipping or merging data sets](manipulations)
 # - [Reshaping a data frame](reshaping)
 # 
