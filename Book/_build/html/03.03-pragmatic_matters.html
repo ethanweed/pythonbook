@@ -1063,7 +1063,7 @@ Name: 2, dtype: object
 </table>
 </div></div></div>
 </div>
-<p>The output here tells us on the first line that what we’re looking at is a tabulation of the speaker variable. On the second line it lists all the different speakers that exist in the data, and on the third line it tells you how many times that speaker appears in the data. In other words, it’s a frequency table. Notice that we set the argument <code class="docutils literal notranslate"><span class="pre">columns</span></code> to “count”. If instead we want to cross-tabulate the speakers with the utterances, we can set <code class="docutils literal notranslate"><span class="pre">columns</span></code> to the “utterances” column in the dataframe:</p>
+<p>The output here shows a column called “speaker”, and a column called “count”. In the “speaker” column, we can see the names of all the speakers, and in the “count” column, we can see the number of utterances for each speaker. In other words, it’s a frequency table. Notice that we set the argument <code class="docutils literal notranslate"><span class="pre">columns</span></code> to “count”. If instead we want to cross-tabulate the speakers with the utterances, we can set <code class="docutils literal notranslate"><span class="pre">columns</span></code> to the “utterances” column in the dataframe:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;speaker&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;utterance&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1218,7 +1218,86 @@ Name: 2, dtype: object
 </table>
 </div></div></div>
 </div>
-<p>Now we can divide the entire frequency table by the totals in each column:</p>
+<p>Before we go on, it might be worthwhile looking at the steps used to rename the final column and row, because they give us some important information about the way <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframes work. We saw before that you can get a list of the columns in your dataframe by using <code class="docutils literal notranslate"><span class="pre">list</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ee&#39;, &#39;onk&#39;, &#39;oo&#39;, &#39;pip&#39;, &#39;rowtotals&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Now we see that we can also get the names of the columns of our dataframe `tabs` by writing `tabs.columns`
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Input In [19]
+    Now we see that we can also get the names of the columns of our dataframe `tabs` by writing `tabs.columns`
+        ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;ee&#39;, &#39;onk&#39;, &#39;oo&#39;, &#39;pip&#39;, &#39;rowtotals&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.indexes.base.Index
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we check to see what kind of object this is, we can see that it is a <code class="docutils literal notranslate"><span class="pre">pandas.core.indexes.base.Index</span></code> object. Isn’t that a nice name? Furthermore, we can convert this object to a list in the usual way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">tabs</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ee&#39;, &#39;onk&#39;, &#39;oo&#39;, &#39;pip&#39;, &#39;rowtotals&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>and now that it is a list, we can do the usual sorts of things that we can with lists, such as replace items in the list with other items. This allows us make changes to the column headers, and then we can re-assign our list to be the new column headers of the dataframe. Hoo boy! Finally, note that the dataframe also has an index of row names, called <code class="docutils literal notranslate"><span class="pre">.index</span></code>. So in our case, this is <code class="docutils literal notranslate"><span class="pre">tabs.index</span></code>. Sometimes these row names will be actual names, such as is the case in our dataframe <code class="docutils literal notranslate"><span class="pre">tabs</span></code>. Other times, like in the dataframe <code class="docutils literal notranslate"><span class="pre">df</span></code> from above, the <code class="docutils literal notranslate"><span class="pre">index</span></code> of the dataframe will just be numbers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Either way, names or numbers, each <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe will have a <code class="docutils literal notranslate"><span class="pre">columns</span></code> and an <code class="docutils literal notranslate"><span class="pre">index</span></code> index.</p>
+<p>Now, after that fascinating digression into the structure of dataframes, back to our project which, as you surely recall, was converting our table of counts to a table of proportions. Having renamed the final column and row, now we can divide the entire frequency table by the totals in each column:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">/</span><span class="n">tabs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;coltotals&#39;</span><span class="p">]</span>
@@ -1289,7 +1368,7 @@ Name: 2, dtype: object
 </div></div></div>
 </div>
 <p>The columns sum to one, so we can see that makka-pakka and upsy-daisy each produced 40% of the utterances, while tombliboo only produced 20%. We can also see the proportion of characters associated with each utterance. For instance, whenever the utterance “ee” is made (in this data set), 100% of the time it’s a Tombliboo saying it.</p>
-<p>The procedure to obtain the row-wise proportion, the procedure is slightly different:</p>
+<p>The procedure to obtain the row-wise proportion, the procedure is slightly different. I’m <em>not</em> going to get into it now. It just <em>is</em>, ok?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabs</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">tabs</span><span class="p">[</span><span class="s2">&quot;rowtotals&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1415,13 +1494,14 @@ Name: 2, dtype: object
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span><span class="mi">4</span>
 <span class="n">data</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">data</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3, 3, 1, 0, 0, 0, 2, 2, 1, 1])
 </pre></div>
 </div>
 </div>
