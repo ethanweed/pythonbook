@@ -614,10 +614,14 @@ df.head()
 # 
 # Ugh. Plus, you might need some more things too. Let's take a look. First I'll show you the command that we need, and then I'll go through what it all means.
 
-# In[29]:
+# In[33]:
 
 
-df_long = pd.wide_to_long(df, stubnames = ['WMC','RT'], i=['id','gender'], j='drug', sep = '_', suffix = '.+')
+df_long = pd.wide_to_long(df, stubnames = ['WMC','RT'], 
+                          i=['id','gender'], 
+                          j='drug', 
+                          sep = '_', 
+                          suffix = '.+')
 df_long.head(10)
 
 
@@ -635,7 +639,7 @@ df_long.head(10)
 # 
 # There is one final step before our data is truly usable. Because `pandas` tries to preserve the idex information from the original dataframe, we end up with a somewhat odd-looking structure:
 
-# In[31]:
+# In[34]:
 
 
 df_long.head(4)
@@ -643,7 +647,7 @@ df_long.head(4)
 
 # This is called a MultiIndex. It is quite clear for a human to read, but it is cumbersome if we want to do further calculations with our data, which we probably do. The solution is to thow out the old index information, and reset the index, like so:
 
-# In[32]:
+# In[35]:
 
 
 df_long = df_long.reset_index()
