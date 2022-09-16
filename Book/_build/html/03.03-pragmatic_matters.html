@@ -416,6 +416,11 @@ const thebe_selector_output = ".output, .cell_output"
      7.8.1. Long form and wide form data
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+     7.8.2. Reshaping from long to wide format
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -512,6 +517,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#long-form-and-wide-form-data">
      7.8.1. Long form and wide form data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+     7.8.2. Reshaping from long to wide format
     </a>
    </li>
   </ul>
@@ -2201,11 +2211,11 @@ SyntaxError: invalid syntax
 <div class="section" id="long-form-and-wide-form-data">
 <h3><span class="section-number">7.8.1. </span>Long form and wide form data<a class="headerlink" href="#long-form-and-wide-form-data" title="Permalink to this headline">¶</a></h3>
 <p>The most common format in which you might obtain data is as a “case by variable” layout, commonly
-known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC) and reaction times (RT). We recruit 10 participants, and measure their WMC and RT under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which… well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The <code class="docutils literal notranslate"><span class="pre">drugs</span></code> data frame gives you a sense of what kind of data you might observe in an experiment like this:</p>
+known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which… well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The <code class="docutils literal notranslate"><span class="pre">drugs</span></code> data frame gives you a sense of what kind of data you might observe in an experiment like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs1.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2213,6 +2223,254 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>alcohol</th>
+      <th>caffeine</th>
+      <th>no_drug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>female</td>
+      <td>3.7</td>
+      <td>3.7</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>female</td>
+      <td>6.4</td>
+      <td>7.3</td>
+      <td>7.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>female</td>
+      <td>4.6</td>
+      <td>7.4</td>
+      <td>7.3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>male</td>
+      <td>6.4</td>
+      <td>7.8</td>
+      <td>8.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>female</td>
+      <td>4.9</td>
+      <td>5.2</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>male</td>
+      <td>5.4</td>
+      <td>6.6</td>
+      <td>7.2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>male</td>
+      <td>7.9</td>
+      <td>7.9</td>
+      <td>8.9</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>male</td>
+      <td>4.1</td>
+      <td>5.9</td>
+      <td>4.5</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>female</td>
+      <td>5.2</td>
+      <td>6.2</td>
+      <td>7.2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>female</td>
+      <td>6.2</td>
+      <td>7.4</td>
+      <td>7.8</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and three variables that refer their performance in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a <strong>within-subject</strong> factor. This is a case that can be fairly easily handled by <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">.melt()</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">])</span>
+<span class="n">df_wide</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>variable</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>3.7</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>6.4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>4.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>male</td>
+      <td>alcohol</td>
+      <td>6.4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>4.9</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>male</td>
+      <td>alcohol</td>
+      <td>5.4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>male</td>
+      <td>alcohol</td>
+      <td>7.9</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>male</td>
+      <td>alcohol</td>
+      <td>4.1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>5.2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>6.2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>3.7</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>7.3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>3</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>7.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Sometimes, though, we want to do something a little more complex. For example, what if we didn’t just measure working memory capacity (WMC), but we also measured their reaction time (RT). These data might look something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2301,66 +2559,358 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
       <td>262</td>
       <td>439</td>
     </tr>
-    <tr>
-      <th>5</th>
-      <td>6</td>
-      <td>male</td>
-      <td>5.4</td>
-      <td>6.6</td>
-      <td>7.2</td>
-      <td>492</td>
-      <td>230</td>
-      <td>464</td>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We want to reshape the data from wide format to long format, but we want to group the WMC data in one column, and the RT data in another column. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has a solution for this as well, and it’s called <code class="docutils literal notranslate"><span class="pre">wide_to_long()</span></code>. I wonder why they picked that name?</p>
+<p><code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> is pretty powerful, but it has some niggling details that you have to get right, otherwise you will find yourself sitting sadly, wondering about your life choices. Basically, to get <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> to do your bidding, you need to specify <em>at least</em> four things:</p>
+<ol class="simple">
+<li><p>the dataframe</p></li>
+<li><p>some “stubnames”</p></li>
+<li><p>one or more “id variables”</p></li>
+<li><p>the name of the “sub-observation variable”.</p></li>
+</ol>
+<p>Ugh. Plus, you might need some more things too. Let’s take a look. First I’ll show you the command that we need, and then I’ll go through what it all means.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">wide_to_long</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stubnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WMC&#39;</span><span class="p">,</span><span class="s1">&#39;RT&#39;</span><span class="p">],</span> <span class="n">i</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">j</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;.+&#39;</span><span class="p">)</span>
+<span class="n">df_long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>WMC</th>
+      <th>RT</th>
     </tr>
     <tr>
-      <th>6</th>
-      <td>7</td>
-      <td>male</td>
+      <th>id</th>
+      <th>gender</th>
+      <th>drug</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">1</th>
+      <th rowspan="3" valign="top">female</th>
+      <th>alcohol</th>
+      <td>3.7</td>
+      <td>488</td>
+    </tr>
+    <tr>
+      <th>caffeine</th>
+      <td>3.7</td>
+      <td>236</td>
+    </tr>
+    <tr>
+      <th>no.drug</th>
+      <td>3.9</td>
+      <td>371</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2</th>
+      <th rowspan="3" valign="top">female</th>
+      <th>alcohol</th>
+      <td>6.4</td>
+      <td>607</td>
+    </tr>
+    <tr>
+      <th>caffeine</th>
+      <td>7.3</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <th>no.drug</th>
       <td>7.9</td>
-      <td>7.9</td>
-      <td>8.9</td>
-      <td>690</td>
-      <td>259</td>
-      <td>327</td>
+      <td>349</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>8</td>
-      <td>male</td>
-      <td>4.1</td>
-      <td>5.9</td>
-      <td>4.5</td>
-      <td>486</td>
-      <td>230</td>
-      <td>305</td>
+      <th rowspan="3" valign="top">3</th>
+      <th rowspan="3" valign="top">female</th>
+      <th>alcohol</th>
+      <td>4.6</td>
+      <td>643</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>9</td>
-      <td>female</td>
-      <td>5.2</td>
-      <td>6.2</td>
-      <td>7.2</td>
-      <td>686</td>
-      <td>273</td>
-      <td>327</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>10</td>
-      <td>female</td>
-      <td>6.2</td>
+      <th>caffeine</th>
       <td>7.4</td>
-      <td>7.8</td>
-      <td>645</td>
-      <td>240</td>
-      <td>498</td>
+      <td>226</td>
+    </tr>
+    <tr>
+      <th>no.drug</th>
+      <td>7.3</td>
+      <td>412</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <th>male</th>
+      <th>alcohol</th>
+      <td>6.4</td>
+      <td>684</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and six variables that refer to one of the two measured variables (WMC or RT) in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a <strong>within-subject</strong> factor.</p>
+<p>First of all we need the name of the dataframe in wide format that we want to convert to long format. That’s easy enough. Next, we need the <code class="docutils literal notranslate"><span class="pre">stubnames</span></code>.  If you look at the column headers in the original, wide data, you will notice that each of the data columns has a prefix: either WMC or RT, to indicate whether the column shows working memory capacity data or reaction time data. These prefixes are the “stubs”, and <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> will use them to group the data. Your columns <em>have to have some kind of grouping prefix</em> for <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> to work!</p>
+<p>Next, we have the argument <code class="docutils literal notranslate"><span class="pre">i</span></code>. This is where we put the id variables. These variable remain consistent for each participant throughout the experiment. Participant 1’s RT may change as a result of intaking caffeine or alchol, but presumably her gender does not.</p>
+<p>Next up, we have the argument <code class="docutils literal notranslate"><span class="pre">j</span></code>. Here we put the name that of the column where <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> will put the <em>labels</em> that followed the prefix. In our case, these labels are “alchol”, “caffeine”, and “no.drug”, so a logical choice for <code class="docutils literal notranslate"><span class="pre">j</span></code> might be “drug”.</p>
+<p>Now, depending on our data, we might be able to stop here. These are the four required arguments to <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code>.  But in this case, we need two more variables.</p>
+<p>The first of these is <code class="docutils literal notranslate"><span class="pre">sep</span></code>. This is where we can indicate if there is some character that has been used to separate the prefix from the label in the original column names. We used an underscore <code class="docutils literal notranslate"><span class="pre">_</span></code> to separate e.g. “WMC” from “alchol”, so we can specify this here. Now, technically, we <em>could</em> have just used “WMC_” as our stubname instead of “WMC”, and left off the <code class="docutils literal notranslate"><span class="pre">sep</span></code> argument, but in that case our new columns would be called “WMC_” and “RT_”, and that wouldn’t look quite as prof, now would it?</p>
+<p>The second extra argument we need is <code class="docutils literal notranslate"><span class="pre">suffix</span></code>. By default, <code class="docutils literal notranslate"><span class="pre">wide_to_long</span></code> expects the labels to be numbers. I can’t really imagine why the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> authors would build in this assumption, but there it is. I’m sure they had their reasons. In any case, our labels are “alcohol”, “caffeine”, and “no.drug” are letters, not numbers, so we have to tell <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to look for non-numeric labels. In the <code class="docutils literal notranslate"><span class="pre">suffix</span></code> argument we can enter a regular expression that searches for the pattern that we are interested in. Regular expressions deserve (and have received) entire books devoted entirely to their explanation, so we won’t go further into this here. Suffice it to say that entering <code class="docutils literal notranslate"><span class="pre">.+</span></code> in the <code class="docutils literal notranslate"><span class="pre">suffix</span></code> argument will allow us to search for whatever might come after our separator <code class="docutils literal notranslate"><span class="pre">_</span></code>.</p>
+<p>There is one final step before our data is truly usable. Because <code class="docutils literal notranslate"><span class="pre">pandas</span></code> tries to preserve the idex information from the original dataframe, we end up with a somewhat odd-looking structure:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>WMC</th>
+      <th>RT</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th>gender</th>
+      <th>drug</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">1</th>
+      <th rowspan="3" valign="top">female</th>
+      <th>alcohol</th>
+      <td>3.7</td>
+      <td>488</td>
+    </tr>
+    <tr>
+      <th>caffeine</th>
+      <td>3.7</td>
+      <td>236</td>
+    </tr>
+    <tr>
+      <th>no.drug</th>
+      <td>3.9</td>
+      <td>371</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>female</th>
+      <th>alcohol</th>
+      <td>6.4</td>
+      <td>607</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This is called a MultiIndex. It is quite clear for a human to read, but it is cumbersome if we want to do further calculations with our data, which we probably do. The solution is to thow out the old index information, and reset the index, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_long</span> <span class="o">=</span> <span class="n">df_long</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>gender</th>
+      <th>drug</th>
+      <th>WMC</th>
+      <th>RT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>3.7</td>
+      <td>488</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>3.7</td>
+      <td>236</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>female</td>
+      <td>no.drug</td>
+      <td>3.9</td>
+      <td>371</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>6.4</td>
+      <td>607</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>7.3</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2</td>
+      <td>female</td>
+      <td>no.drug</td>
+      <td>7.9</td>
+      <td>349</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>4.6</td>
+      <td>643</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>7.4</td>
+      <td>226</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3</td>
+      <td>female</td>
+      <td>no.drug</td>
+      <td>7.3</td>
+      <td>412</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4</td>
+      <td>male</td>
+      <td>alcohol</td>
+      <td>6.4</td>
+      <td>684</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>4</td>
+      <td>male</td>
+      <td>caffeine</td>
+      <td>7.8</td>
+      <td>206</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>4</td>
+      <td>male</td>
+      <td>no.drug</td>
+      <td>8.2</td>
+      <td>252</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>5</td>
+      <td>female</td>
+      <td>alcohol</td>
+      <td>4.9</td>
+      <td>593</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>5</td>
+      <td>female</td>
+      <td>caffeine</td>
+      <td>5.2</td>
+      <td>262</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>5</td>
+      <td>female</td>
+      <td>no.drug</td>
+      <td>7.0</td>
+      <td>439</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Ah. Now we have our wide format data in a nice long format.</p>
+</div>
+<div class="section" id="reshaping-from-long-to-wide-format">
+<h3><span class="section-number">7.8.2. </span>Reshaping from long to wide format<a class="headerlink" href="#reshaping-from-long-to-wide-format" title="Permalink to this headline">¶</a></h3>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

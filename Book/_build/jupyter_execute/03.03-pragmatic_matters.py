@@ -239,13 +239,13 @@ list(tabs)
 Now we see that we can also get the names of the columns of our dataframe `tabs` by writing `tabs.columns`
 
 
-# In[22]:
+# In[85]:
 
 
 tabs.columns
 
 
-# In[23]:
+# In[86]:
 
 
 type(tabs.columns)
@@ -253,7 +253,7 @@ type(tabs.columns)
 
 # If we check to see what kind of object this is, we can see that it is a `pandas.core.indexes.base.Index` object. Isn't that a nice name? Furthermore, we can convert this object to a list in the usual way:
 
-# In[24]:
+# In[87]:
 
 
 list(tabs.columns)
@@ -261,7 +261,7 @@ list(tabs.columns)
 
 # and now that it is a list, we can do the usual sorts of things that we can with lists, such as replace items in the list with other items. This allows us make changes to the column headers, and then we can re-assign our list to be the new column headers of the dataframe. Hoo boy! Finally, note that the dataframe also has an index of row names, called `.index`. So in our case, this is `tabs.index`. Sometimes these row names will be actual names, such as is the case in our dataframe `tabs`. Other times, like in the dataframe `df` from above, the `index` of the dataframe will just be numbers:
 
-# In[25]:
+# In[88]:
 
 
 list(df.index)
@@ -271,7 +271,7 @@ list(df.index)
 # 
 # Now, after that fascinating digression into the structure of dataframes, back to our project which, as you surely recall, was converting our table of counts to a table of proportions. Having renamed the final column and row, now we can divide the entire frequency table by the totals in each column:
 
-# In[26]:
+# In[89]:
 
 
 tabs/tabs.loc['coltotals']
@@ -281,7 +281,7 @@ tabs/tabs.loc['coltotals']
 # 
 # The procedure to obtain the row-wise proportion, the procedure is slightly different. I'm _not_ going to get into it now. It just _is_, ok?
 
-# In[28]:
+# In[90]:
 
 
 tabs.div(tabs["rowtotals"], axis=0)
@@ -305,7 +305,7 @@ tabs.div(tabs["rowtotals"], axis=0)
 # 
 # The data look like this:
 
-# In[29]:
+# In[91]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -313,7 +313,7 @@ data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
 
 # However, if you think about it, this isn't the best way to represent these responses.   Because of the fairly symmetric way that we set up the response scale, there's a sense in which the midpoint of the scale should have been coded as 0 (no opinion), and the two endpoints should be $+3$ (strong agree) and $-3$ (strong disagree). By recoding the data in this way, it's a bit more reflective of how we really think about the responses. The recoding here is trivially easy: we just subtract 4 from the raw scores. Since these data are in a list, we can use a "list comprehension" to step through each element in the list, and subtract 4 from it:
 
-# In[30]:
+# In[92]:
 
 
 data = [1, 7, 3, 4, 4, 4, 2, 6, 5, 5]
@@ -323,7 +323,7 @@ data
 
 # If your data is in a `numpy array` rather than a `list`, it is even easier: just subtract 4 from array, and Python takes care of the rest:
 
-# In[31]:
+# In[93]:
 
 
 import numpy as np
@@ -334,7 +334,7 @@ data
 
 # One reason why it might be useful to center the data is that there are a lot of situations where you might prefer to analyse the *strength* of the opinion separately from the *direction* of the opinion. We can do two different transformations on this variable in order to distinguish between these two different concepts. Firstly, to compute an `opinion_strength` variable, we want to take the absolute value of the centred data (using the `abs()` function that we've seen previously), like so:
 
-# In[32]:
+# In[94]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -345,7 +345,7 @@ data
 
 # Secondly, to compute a variable that contains only the direction of the opinion and ignores the strength, we can use the `numpy.sign()` method to do this. This method is really simple: all negative numbers are converted to $-1$, all positive numbers are converted to $1$ and zero stays as $0$. So, when we apply `numpy.sign()` to our data we obtain the following:
 
-# In[33]:
+# In[95]:
 
 
 data = np.array([1, 7, 3, 4, 4, 4, 2, 6, 5, 5])
@@ -356,7 +356,7 @@ data
 
 # And we're done. We now have three shiny new variables, all of which are useful transformations of the original likert data. Before moving on, you might be curious to see what these calculations look like if the data had started out in a data frame. So, we can put our data in a dataframe, in a column called "scores"...
 
-# In[34]:
+# In[96]:
 
 
 import pandas as pd
@@ -369,7 +369,7 @@ df
 
 # ... and then do some calculations:
 
-# In[35]:
+# In[97]:
 
 
 df['centered'] = df['scores']-4
@@ -384,7 +384,7 @@ df
 # 
 # One pragmatic task that arises more often than you'd think is the problem of cutting a numeric variable up into discrete categories. For instance, suppose I'm interested in looking at the age distribution of people at a social gathering:
 
-# In[36]:
+# In[98]:
 
 
 #age = [60,58,24,26,34,42,31,30,33,2,9]
@@ -400,7 +400,7 @@ df
 # 
 # As it happens, `pandas` has a convenient method called `cut` for grouping data in this way:
 
-# In[37]:
+# In[99]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = [0,20,40,60], labels = ['young', 'adult', 'older'])
@@ -415,7 +415,7 @@ df
 
 # In the example above, I made all the decisions myself, but if you want to you can delegate a lot of the choices to Python. For instance, if you want you can specify the *number* of categories you want, rather than giving explicit ranges for them, and you can allow Python to come up with some labels for the categories. To give you a sense of how this works, have a look at the following example:
 
-# In[38]:
+# In[100]:
 
 
 df['categories'] = pd.cut(x = df['age'], bins = 3)
@@ -424,7 +424,7 @@ df
 
 # With this command, I've asked for three categories, but let Python make the choices for where the boundaries should be. All of the important information can be extracted by looking at the tabulated data:
 
-# In[39]:
+# In[101]:
 
 
 pd.crosstab(index = df["categories"], columns = "count")
@@ -434,7 +434,7 @@ pd.crosstab(index = df["categories"], columns = "count")
 # 
 # Before moving on, I should take a moment to talk a little about the mechanics of the `cut()` function. Notice that Python has tried to divide the `age` variable into three roughly equal sized bins. Unless you specify the particular breaks you want, that's what it will do. But suppose you want to divide the `age` variable into three categories of different size, but with approximately identical numbers of people. How would you do that? Well, if that's the case, then what you want to do is have the breaks correspond to the 0th, 33rd, 66th and 100th percentiles of the data. One way to do this would be to calculate those values using the `np.quantile()` function and then use those quantiles as input to the `cut()` function. That's pretty easy to do, but it does take a couple of lines to type. So instead, the `pandas` library has a function called `qCut()` that does exactly this:
 
-# In[40]:
+# In[102]:
 
 
 df['categories'] = pd.qcut(x = df['age'], q = [0, .33, .66, 1] )
@@ -570,21 +570,106 @@ df
 # ### Long form and wide form data
 # 
 # The most common format in which you might obtain data is as a “case by variable” layout, commonly
-# known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC) and reaction times (RT). We recruit 10 participants, and measure their WMC and RT under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The `drugs` data frame gives you a sense of what kind of data you might observe in an experiment like this:
+# known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The `drugs` data frame gives you a sense of what kind of data you might observe in an experiment like this:
 
-# In[42]:
+# In[1]:
 
 
 import pandas as pd
-df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs1.csv")
 
 
-# In[43]:
+# In[3]:
 
 
 df
 
 
-# This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and six variables that refer to one of the two measured variables (WMC or RT) in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a **within-subject** factor.
+# This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and three variables that refer their performance in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a **within-subject** factor. This is a case that can be fairly easily handled by `pandas` `.melt()` method:
 
+# In[4]:
+
+
+df_wide = pd.melt(df, id_vars=[ 'id', 'gender'])
+df_wide.head(13)
+
+
+# Sometimes, though, we want to do something a little more complex. For example, what if we didn't just measure working memory capacity (WMC), but we also measured their reaction time (RT). These data might look something like this:
+
+# In[27]:
+
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv")
+df.head()
+
+
+# We want to reshape the data from wide format to long format, but we want to group the WMC data in one column, and the RT data in another column. `pandas` has a solution for this as well, and it's called `wide_to_long()`. I wonder why they picked that name? 
 # 
+# `wide_to_long` is pretty powerful, but it has some niggling details that you have to get right, otherwise you will find yourself sitting sadly, wondering about your life choices. Basically, to get `wide_to_long` to do your bidding, you need to specify _at least_ four things: 
+# 
+# 1. the dataframe
+# 2. some "stubnames"
+# 3. one or more "id variables"
+# 4. the name of the "sub-observation variable". 
+# 
+# Ugh. Plus, you might need some more things too. Let's take a look. First I'll show you the command that we need, and then I'll go through what it all means.
+
+# In[29]:
+
+
+df_long = pd.wide_to_long(df, stubnames = ['WMC','RT'], i=['id','gender'], j='drug', sep = '_', suffix = '.+')
+df_long.head(10)
+
+
+# First of all we need the name of the dataframe in wide format that we want to convert to long format. That's easy enough. Next, we need the `stubnames`.  If you look at the column headers in the original, wide data, you will notice that each of the data columns has a prefix: either WMC or RT, to indicate whether the column shows working memory capacity data or reaction time data. These prefixes are the "stubs", and `wide_to_long` will use them to group the data. Your columns _have to have some kind of grouping prefix_ for `wide_to_long` to work!
+# 
+# Next, we have the argument `i`. This is where we put the id variables. These variable remain consistent for each participant throughout the experiment. Participant 1's RT may change as a result of intaking caffeine or alchol, but presumably her gender does not.
+# 
+# Next up, we have the argument `j`. Here we put the name that of the column where `wide_to_long` will put the _labels_ that followed the prefix. In our case, these labels are "alchol", "caffeine", and "no.drug", so a logical choice for `j` might be "drug". 
+# 
+# Now, depending on our data, we might be able to stop here. These are the four required arguments to `wide_to_long`.  But in this case, we need two more variables. 
+# 
+# The first of these is `sep`. This is where we can indicate if there is some character that has been used to separate the prefix from the label in the original column names. We used an underscore `_` to separate e.g. "WMC" from "alchol", so we can specify this here. Now, technically, we _could_ have just used "WMC_" as our stubname instead of "WMC", and left off the `sep` argument, but in that case our new columns would be called "WMC_" and "RT_", and that wouldn't look quite as prof, now would it?
+# 
+# The second extra argument we need is `suffix`. By default, `wide_to_long` expects the labels to be numbers. I can't really imagine why the `pandas` authors would build in this assumption, but there it is. I'm sure they had their reasons. In any case, our labels are "alcohol", "caffeine", and "no.drug" are letters, not numbers, so we have to tell `pandas` to look for non-numeric labels. In the `suffix` argument we can enter a regular expression that searches for the pattern that we are interested in. Regular expressions deserve (and have received) entire books devoted entirely to their explanation, so we won't go further into this here. Suffice it to say that entering `.+` in the `suffix` argument will allow us to search for whatever might come after our separator `_`.
+# 
+# There is one final step before our data is truly usable. Because `pandas` tries to preserve the idex information from the original dataframe, we end up with a somewhat odd-looking structure:
+
+# In[31]:
+
+
+df_long.head(4)
+
+
+# This is called a MultiIndex. It is quite clear for a human to read, but it is cumbersome if we want to do further calculations with our data, which we probably do. The solution is to thow out the old index information, and reset the index, like so:
+
+# In[32]:
+
+
+df_long = df_long.reset_index()
+df_long.head(15)
+
+
+# Ah. Now we have our wide format data in a nice long format.
+
+# ### Reshaping from long to wide format
+# 
+# 
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
