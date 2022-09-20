@@ -652,11 +652,16 @@ df_cakes_flipped
 # 
 # [^notesorry]: Not sorry.
 
-# In[121]:
+# In[ ]:
 
 
 first_three = df_cakes.loc[:, ['time.1', 'time.2', 'time.3']] 
 last_two = df_cakes.loc[:, ['time.4', 'time.5']]
+
+
+# In[121]:
+
+
 first_three
 
 
