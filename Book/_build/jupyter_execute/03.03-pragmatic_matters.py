@@ -572,7 +572,7 @@ df
 # The most common format in which you might obtain data is as a “case by variable” layout, commonly
 # known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The `drugs` data frame gives you a sense of what kind of data you might observe in an experiment like this:
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
@@ -596,7 +596,7 @@ df_wide.head(13)
 
 # Sometimes, though, we want to do something a little more complex. For example, what if we didn't just measure working memory capacity (WMC), but we also measured their reaction time (RT). These data might look something like this:
 
-# In[27]:
+# In[5]:
 
 
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv")
@@ -614,7 +614,7 @@ df.head()
 # 
 # Ugh. Plus, you might need some more things too. Let's take a look. First I'll show you the command that we need, and then I'll go through what it all means.
 
-# In[33]:
+# In[6]:
 
 
 df_long = pd.wide_to_long(df, stubnames = ['WMC','RT'], 
@@ -639,7 +639,7 @@ df_long.head(10)
 # 
 # There is one final step before our data is truly usable. Because `pandas` tries to preserve the idex information from the original dataframe, we end up with a somewhat odd-looking structure:
 
-# In[34]:
+# In[7]:
 
 
 df_long.head(4)
@@ -647,7 +647,7 @@ df_long.head(4)
 
 # This is called a MultiIndex. It is quite clear for a human to read, but it is cumbersome if we want to do further calculations with our data, which we probably do. The solution is to thow out the old index information, and reset the index, like so:
 
-# In[35]:
+# In[8]:
 
 
 df_long = df_long.reset_index()
@@ -666,10 +666,56 @@ df_long.head(15)
 
 
 
-# In[ ]:
+# In[30]:
 
 
+df_wide = pd.pivot(df_long, index=['id'], columns='drug', values=['gender', 'WMC', 'RT'])
+df_wide
 
+
+# In[31]:
+
+
+df_WMC = df_wide['WMC']
+df_WMC.columns = ['WMC_' + col for col in df_WMC.columns]
+df_WMC    
+
+
+# In[32]:
+
+
+df_RT = df_wide['RT']
+df_RT.columns = ['RT_' + col for col in df_RT.columns]
+df_RT
+
+
+# In[37]:
+
+
+df_gender = pd.DataFrame(df_wide['gender']['alcohol'])
+df_gender.columns = ['gender']
+df_gender
+
+
+# In[38]:
+
+
+df_wide = df_gender.join(df_WMC, on = 'id', how = 'left')
+df_wide
+
+
+# In[39]:
+
+
+df_wide = df_wide.join(df_RT, on = 'id', how = 'left')
+df_wide
+
+
+# In[40]:
+
+
+df_wide = df_wide.reset_index()
+df_wide
 
 
 # In[ ]:
