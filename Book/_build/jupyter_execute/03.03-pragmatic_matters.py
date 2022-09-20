@@ -646,7 +646,7 @@ df_cakes_flipped
 
 # An important point to recognise is that transposing a data frame is not always a sensible thing to do: in fact, I’d go so far as to argue that it’s usually not sensible. It depends a lot on whether the “cases” from your original data frame would make sense as variables, and to think of each of your original “variables” as cases. Still, there are some situations where it is useful to flip your data frame, so it’s nice to know that you can do it. A lot of statistical tools make the assumption that the rows of your data frame (or matrix) correspond to observations, and the columns correspond to the variables. That’s not unreasonable, of course, since that is a pretty standard convention. However, think about our cakes example here. This is a situation where you might want do an analysis of the different cakes (i.e. cakes as variables, time points as cases), but equally you might want to do an analysis where you think of the times as being the things of interest (i.e., times as variables, cakes as cases). If so, then it’s useful to know how to flip a data frame around.
 
-# ## Joining dataframes
+# ### Joining dataframes
 # 
 # Maybe we got our cake data in two batches (haha, sorry!) [^notesorry]. First we recorded times 1-3, and then later recorded times 4-5 in a separate dataframe, so that they looked like this: 
 # 
@@ -675,7 +675,7 @@ df_joined = first_three.join(last_two)
 df_joined
 
 
-# ## Concatenating dataframes
+# ### Concatenating dataframes
 # 
 # A similar situation might have occured with our Very Exciting Psychology Experiment. We saved the data for the test group in one dataframe, and the data for the control group in a different dataframe, so that they look like this:
 
