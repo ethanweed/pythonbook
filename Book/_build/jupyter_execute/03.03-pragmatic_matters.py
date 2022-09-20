@@ -588,16 +588,19 @@ old_and_slow_control
 
 
 
-# In[ ]:
+# In[75]:
 
 
+import pandas as pd
+
+df_cakes = pd.read_csv("")
 
 
-
-# In[ ]:
-
+# In[79]:
 
 
+df_flipped = df.transpose()
+df_flipped
 
 
 # In[ ]:
