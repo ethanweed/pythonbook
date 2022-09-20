@@ -582,32 +582,67 @@ old_and_slow_control
 
 
 
-# In[ ]:
-
-
-
-
-
-# In[75]:
+# In[86]:
 
 
 import pandas as pd
 
-df_cakes = pd.read_csv("")
+
+age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
+score = [12, 10, 11, 15, 16, 14, 25, 21, 29]
+rt = [3.552, 1.624, 6.431, 7.132, 2.925, 4.662, 3.634, 3.635, 5.234]
+group = ["test", "test", "test", "test", "test", "control", "control", "control", "control"]
+
+df = pd.DataFrame(
+    {'age': age,
+     'score': score,
+     'rt': rt,
+     'group': group
+    })
+
+df
 
 
-# In[79]:
+# In[89]:
 
 
-df_flipped = df.transpose()
-df_flipped
+df_sorted = df.sort_values(by=['age'])
+df_sorted
 
 
-# In[ ]:
+# In[92]:
 
 
+df_sorted = df.sort_values(by=['age'], ascending = False)
+df_sorted
 
 
+# In[93]:
+
+
+df_sorted = df.sort_values(by=['age', 'score'])
+df_sorted
+
+
+# ### Flipping (transposing) a dataframe
+
+# In[80]:
+
+
+import pandas as pd
+
+df_cakes = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cakes.csv")
+df_cakes
+
+
+# In[82]:
+
+
+df_cakes_flipped = df_cakes.transpose()
+df_cakes_flipped
+
+
+# An important point to recognise is that transposing a data frame is not always a sensible thing to do: in fact, I’d go so far as to argue that it’s usually not sensible. It depends a lot on whether the “cases” from your original data frame would make sense as variables, and to think of each of your original “variables” as cases. Still, there are some situations where it is useful to flip your data frame, so it’s nice to know that you can do it. A lot of statistical tools make the assumption that the rows of your data frame (or matrix) correspond to observations, and the columns correspond to the variables. That’s not unreasonable, of course, since that is a pretty standard convention. However, think about our cakes example here. This is a situation where you might want do an analysis of the different cakes (i.e. cakes as variables, time points as cases), but equally you might want to do an analysis where you think of the times as being the things of interest (i.e., times as variables, cakes as cases). If so, then it’s useful to know how to flip a data frame around.
 
 # (reshaping)=
 # ## Reshaping a dataframe

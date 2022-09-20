@@ -405,6 +405,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#sorting-flipping-and-merging-dataframes">
    7.7. Sorting, flipping, and merging dataframes
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flipping-transposing-a-dataframe">
+     7.7.1. Flipping (transposing) a dataframe
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reshaping-a-dataframe">
@@ -508,6 +515,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#sorting-flipping-and-merging-dataframes">
    7.7. Sorting, flipping, and merging dataframes
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flipping-transposing-a-dataframe">
+     7.7.1. Flipping (transposing) a dataframe
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reshaping-a-dataframe">
@@ -2676,7 +2690,20 @@ SyntaxError: invalid syntax
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">df_cakes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">age</span> <span class="o">=</span> <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+<span class="n">score</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.552</span><span class="p">,</span> <span class="mf">1.624</span><span class="p">,</span> <span class="mf">6.431</span><span class="p">,</span> <span class="mf">7.132</span><span class="p">,</span> <span class="mf">2.925</span><span class="p">,</span> <span class="mf">4.662</span><span class="p">,</span> <span class="mf">3.634</span><span class="p">,</span> <span class="mf">3.635</span><span class="p">,</span> <span class="mf">5.234</span><span class="p">]</span>
+<span class="n">group</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
+     <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span>
+     <span class="s1">&#39;rt&#39;</span><span class="p">:</span> <span class="n">rt</span><span class="p">,</span>
+     <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -2699,60 +2726,75 @@ SyntaxError: invalid syntax
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>speaker</th>
-      <th>utterance</th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>upsy-daisy</td>
-      <td>pip</td>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>upsy-daisy</td>
-      <td>pip</td>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>upsy-daisy</td>
-      <td>onk</td>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>upsy-daisy</td>
-      <td>onk</td>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>tombliboo</td>
-      <td>ee</td>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>tombliboo</td>
-      <td>oo</td>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>makka-pakka</td>
-      <td>pip</td>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>makka-pakka</td>
-      <td>pip</td>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>makka-pakka</td>
-      <td>onk</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>makka-pakka</td>
-      <td>onk</td>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
     </tr>
   </tbody>
 </table>
@@ -2760,8 +2802,382 @@ SyntaxError: invalid syntax
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_flipped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-<span class="n">df_flipped</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span>
+<span class="n">df_sorted</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">df_sorted</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">])</span>
+<span class="n">df_sorted</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="flipping-transposing-a-dataframe">
+<h3><span class="section-number">7.7.1. </span>Flipping (transposing) a dataframe<a class="headerlink" href="#flipping-transposing-a-dataframe" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_cakes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/cakes.csv&quot;</span><span class="p">)</span>
+<span class="n">df_cakes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time.1</th>
+      <th>time.2</th>
+      <th>time.3</th>
+      <th>time.4</th>
+      <th>time.5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>100</td>
+      <td>80</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>100</td>
+      <td>100</td>
+      <td>90</td>
+      <td>30</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>100</td>
+      <td>20</td>
+      <td>20</td>
+      <td>20</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cakes_flipped</span> <span class="o">=</span> <span class="n">df_cakes</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">df_cakes_flipped</span>
 </pre></div>
 </div>
 </div>
@@ -2788,44 +3204,49 @@ SyntaxError: invalid syntax
       <th>1</th>
       <th>2</th>
       <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>speaker</th>
-      <td>upsy-daisy</td>
-      <td>upsy-daisy</td>
-      <td>upsy-daisy</td>
-      <td>upsy-daisy</td>
-      <td>tombliboo</td>
-      <td>tombliboo</td>
-      <td>makka-pakka</td>
-      <td>makka-pakka</td>
-      <td>makka-pakka</td>
-      <td>makka-pakka</td>
+      <th>time.1</th>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
     </tr>
     <tr>
-      <th>utterance</th>
-      <td>pip</td>
-      <td>pip</td>
-      <td>onk</td>
-      <td>onk</td>
-      <td>ee</td>
-      <td>oo</td>
-      <td>pip</td>
-      <td>pip</td>
-      <td>onk</td>
-      <td>onk</td>
+      <th>time.2</th>
+      <td>80</td>
+      <td>100</td>
+      <td>20</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>time.3</th>
+      <td>0</td>
+      <td>90</td>
+      <td>20</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>time.4</th>
+      <td>0</td>
+      <td>30</td>
+      <td>20</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>time.5</th>
+      <td>0</td>
+      <td>10</td>
+      <td>20</td>
+      <td>100</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>An important point to recognise is that transposing a data frame is not always a sensible thing to do: in fact, I’d go so far as to argue that it’s usually not sensible. It depends a lot on whether the “cases” from your original data frame would make sense as variables, and to think of each of your original “variables” as cases. Still, there are some situations where it is useful to flip your data frame, so it’s nice to know that you can do it. A lot of statistical tools make the assumption that the rows of your data frame (or matrix) correspond to observations, and the columns correspond to the variables. That’s not unreasonable, of course, since that is a pretty standard convention. However, think about our cakes example here. This is a situation where you might want do an analysis of the different cakes (i.e. cakes as variables, time points as cases), but equally you might want to do an analysis where you think of the times as being the things of interest (i.e., times as variables, cakes as cases). If so, then it’s useful to know how to flip a data frame around.</p>
 </div>
 </div>
 <div class="section" id="reshaping-a-dataframe">
