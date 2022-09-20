@@ -660,28 +660,46 @@ df_long.head(15)
 # 
 # 
 
-# In[ ]:
+# Going the other way, from long to wide, is also not too hard, although it is still not quite as straightforward as one might wish. On the other hand it still far, far better than copy-pasting columns in Excel, which is a recipe for disaster. Trust me. I've been there.
+# 
+# To go from long to wide, we can start with our shiny new long format dataframe `df_long` and use `.pivot` to "swivel" our long-format columns into a wider format. `.pivot()` takes three critical arguments: index, columns, and values.
+# 
+# The "index" column keeps track of which data belongs with which: very important! In our case, we have a column called ` id` which contains a participant id-number for each participant, so we'll use that as our index. Then we know that in the wide dataframe, the right data will still go with the right participant.
+# 
+# Next we have the "columns" argument. Here we can use `drug` to make new columns called "alcohol", "caffeine", and "no.drug". There is one more level of categorization in our data, however: we have two measurements: "WMC" and "RT". So we can use the `values` argument to gather together this information as well, so that each value ends up in the right row and column.
 
-
-
-
-
-# In[30]:
+# In[47]:
 
 
 df_wide = pd.pivot(df_long, index=['id'], columns='drug', values=['gender', 'WMC', 'RT'])
 df_wide
 
 
-# In[31]:
+# And voilà! Our data have been shifted back into a format that nearly resembles how it started. There are some differences, though. Once again, `pandas` has used a "MultiIndex" to keep track of our data. As before, this is pretty easy to read, but less easy, perhaps, to work with. Remember, in our original data, WMC and RT were indicated as prefixes to the drug names, but this coupling was severed when we used these prefixes as "stubs" in the wide to long conversion. Let's put them back where the belong!
+# 
+# One way to do this is to split our new wide dataframe into three separate dataframes: one for WMC, one for RT, and one for gender. Then we can rename the columns with the appropriate prefixes before reassembling them into one.
+# 
+# We can start by selecting only the WMC data:
+
+# In[48]:
 
 
 df_WMC = df_wide['WMC']
+df_WMC
+
+
+# We can access the column names using the `.columns` method, then use a list comprehension to add the "WMC_" prefix again:
+
+# In[49]:
+
+
 df_WMC.columns = ['WMC_' + col for col in df_WMC.columns]
 df_WMC    
 
 
-# In[32]:
+# We can do the same for the RT data...
+
+# In[50]:
 
 
 df_RT = df_wide['RT']
@@ -689,7 +707,18 @@ df_RT.columns = ['RT_' + col for col in df_RT.columns]
 df_RT
 
 
-# In[37]:
+# The gender data are a little different, because here we just have three columns of repeated data:
+
+# In[53]:
+
+
+df_gender = df_wide['gender']
+df_gender
+
+
+# We really only need one of these, and since all columns contain the same information, we could choose any of them. We can use "chained" slicing to drill down to the "alcohol" column. Then, we can rename this column "gender":
+
+# In[56]:
 
 
 df_gender = pd.DataFrame(df_wide['gender']['alcohol'])
@@ -697,19 +726,25 @@ df_gender.columns = ['gender']
 df_gender
 
 
-# In[38]:
+# Now that we have three dataframe (df_WMC, df_RT, and df_gender) that all share the same index (`id`) we can join them back together, using the `.join()` method. First we can tack df_WMC onto df_gender:
+
+# In[58]:
 
 
 df_wide = df_gender.join(df_WMC, on = 'id', how = 'left')
 df_wide
 
 
-# In[39]:
+# Then we can attach `df_RT` to the right of the new `df_wide`:
+
+# In[59]:
 
 
 df_wide = df_wide.join(df_RT, on = 'id', how = 'left')
 df_wide
 
+
+# As a final toucy,
 
 # In[40]:
 

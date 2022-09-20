@@ -2915,6 +2915,10 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </div>
 <div class="section" id="reshaping-from-long-to-wide-format">
 <h3><span class="section-number">7.8.2. </span>Reshaping from long to wide format<a class="headerlink" href="#reshaping-from-long-to-wide-format" title="Permalink to this headline">¶</a></h3>
+<p>Going the other way, from long to wide, is also not too hard, although it is still not quite as straightforward as one might wish. On the other hand it still far, far better than copy-pasting columns in Excel, which is a recipe for disaster. Trust me. I’ve been there.</p>
+<p>To go from long to wide, we can start with our shiny new long format dataframe <code class="docutils literal notranslate"><span class="pre">df_long</span></code> and use <code class="docutils literal notranslate"><span class="pre">.pivot</span></code> to “swivel” our long-format columns into a wider format. <code class="docutils literal notranslate"><span class="pre">.pivot()</span></code> takes three critical arguments: index, columns, and values.</p>
+<p>The “index” column keeps track of which data belongs with which: very important! In our case, we have a column called <code class="docutils literal notranslate"> <span class="pre">id</span></code> which contains a participant id-number for each participant, so we’ll use that as our index. Then we know that in the wide dataframe, the right data will still go with the right participant.</p>
+<p>Next we have the “columns” argument. Here we can use <code class="docutils literal notranslate"><span class="pre">drug</span></code> to make new columns called “alcohol”, “caffeine”, and “no.drug”. There is one more level of categorization in our data, however: we have two measurements: “WMC” and “RT”. So we can use the <code class="docutils literal notranslate"><span class="pre">values</span></code> argument to gather together this information as well, so that each value ends up in the right row and column.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;WMC&#39;</span><span class="p">,</span> <span class="s1">&#39;RT&#39;</span><span class="p">])</span>
@@ -3099,10 +3103,115 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>And voilà! Our data have been shifted back into a format that nearly resembles how it started. There are some differences, though. Once again, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> has used a “MultiIndex” to keep track of our data. As before, this is pretty easy to read, but less easy, perhaps, to work with. Remember, in our original data, WMC and RT were indicated as prefixes to the drug names, but this coupling was severed when we used these prefixes as “stubs” in the wide to long conversion. Let’s put them back where the belong!</p>
+<p>One way to do this is to split our new wide dataframe into three separate dataframes: one for WMC, one for RT, and one for gender. Then we can rename the columns with the appropriate prefixes before reassembling them into one.</p>
+<p>We can start by selecting only the WMC data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_WMC</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s1">&#39;WMC&#39;</span><span class="p">]</span>
-<span class="n">df_WMC</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WMC_&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_WMC</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_WMC</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>drug</th>
+      <th>alcohol</th>
+      <th>caffeine</th>
+      <th>no.drug</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>3.7</td>
+      <td>3.7</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6.4</td>
+      <td>7.3</td>
+      <td>7.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.6</td>
+      <td>7.4</td>
+      <td>7.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.4</td>
+      <td>7.8</td>
+      <td>8.2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4.9</td>
+      <td>5.2</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>5.4</td>
+      <td>6.6</td>
+      <td>7.2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7.9</td>
+      <td>7.9</td>
+      <td>8.9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4.1</td>
+      <td>5.9</td>
+      <td>4.5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5.2</td>
+      <td>6.2</td>
+      <td>7.2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>6.2</td>
+      <td>7.4</td>
+      <td>7.8</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can access the column names using the <code class="docutils literal notranslate"><span class="pre">.columns</span></code> method, then use a list comprehension to add the “WMC_” prefix again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_WMC</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WMC_&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_WMC</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 <span class="n">df_WMC</span>    
 </pre></div>
 </div>
@@ -3202,6 +3311,7 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>We can do the same for the RT data…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_RT</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s1">&#39;RT&#39;</span><span class="p">]</span>
@@ -3305,6 +3415,110 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>The gender data are a little different, because here we just have three columns of repeated data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_gender</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span>
+<span class="n">df_gender</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>drug</th>
+      <th>alcohol</th>
+      <th>caffeine</th>
+      <th>no.drug</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>male</td>
+      <td>male</td>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>male</td>
+      <td>male</td>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>male</td>
+      <td>male</td>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>male</td>
+      <td>male</td>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>female</td>
+      <td>female</td>
+      <td>female</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We really only need one of these, and since all columns contain the same information, we could choose any of them. We can use “chained” slicing to drill down to the “alcohol” column. Then, we can rename this column “gender”:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_gender</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_wide</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">][</span><span class="s1">&#39;alcohol&#39;</span><span class="p">])</span>
@@ -3384,6 +3598,7 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>Now that we have three dataframe (df_WMC, df_RT, and df_gender) that all share the same index (<code class="docutils literal notranslate"><span class="pre">id</span></code>) we can join them back together, using the <code class="docutils literal notranslate"><span class="pre">.join()</span></code> method. First we can tack df_WMC onto df_gender:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_gender</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_WMC</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
@@ -3498,6 +3713,7 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>Then we can attach <code class="docutils literal notranslate"><span class="pre">df_RT</span></code> to the right of the new <code class="docutils literal notranslate"><span class="pre">df_wide</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_RT</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
@@ -3648,6 +3864,7 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
+<p>As a final toucy,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
