@@ -576,11 +576,7 @@ old_and_slow_control
 # (manipulations)=
 # ## Sorting, flipping, and merging dataframes
 
-# In[ ]:
-
-
-
-
+# ### Sorting dataframes
 
 # In[86]:
 
@@ -603,6 +599,8 @@ df = pd.DataFrame(
 df
 
 
+# #### Sorting by a column
+
 # In[89]:
 
 
@@ -610,12 +608,16 @@ df_sorted = df.sort_values(by=['age'])
 df_sorted
 
 
+# #### Sorting from largest to smallest
+
 # In[92]:
 
 
 df_sorted = df.sort_values(by=['age'], ascending = False)
 df_sorted
 
+
+# #### Sorting by multiple columns
 
 # In[93]:
 
@@ -626,7 +628,7 @@ df_sorted
 
 # ### Flipping (transposing) a dataframe
 
-# In[80]:
+# In[104]:
 
 
 import pandas as pd
@@ -635,7 +637,7 @@ df_cakes = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/m
 df_cakes
 
 
-# In[82]:
+# In[105]:
 
 
 df_cakes_flipped = df_cakes.transpose()
@@ -643,6 +645,62 @@ df_cakes_flipped
 
 
 # An important point to recognise is that transposing a data frame is not always a sensible thing to do: in fact, I’d go so far as to argue that it’s usually not sensible. It depends a lot on whether the “cases” from your original data frame would make sense as variables, and to think of each of your original “variables” as cases. Still, there are some situations where it is useful to flip your data frame, so it’s nice to know that you can do it. A lot of statistical tools make the assumption that the rows of your data frame (or matrix) correspond to observations, and the columns correspond to the variables. That’s not unreasonable, of course, since that is a pretty standard convention. However, think about our cakes example here. This is a situation where you might want do an analysis of the different cakes (i.e. cakes as variables, time points as cases), but equally you might want to do an analysis where you think of the times as being the things of interest (i.e., times as variables, cakes as cases). If so, then it’s useful to know how to flip a data frame around.
+
+# ## Joining dataframes
+# 
+# Maybe we got our cake data in two batches (haha, sorry!) [^notesorry]. First we recorded times 1-3, and then later recorded times 4-5 in a separate dataframe, so that they looked like this: 
+# 
+# [^notesorry]: Not sorry!
+
+# In[121]:
+
+
+first_three = df_cakes.loc[:, ['time.1', 'time.2', 'time.3']] 
+last_two = df_cakes.loc[:, ['time.4', 'time.5']]
+first_three
+
+
+# In[122]:
+
+
+last_two
+
+
+# What we want to do is `.join()` those suckers back together:
+
+# In[123]:
+
+
+df_joined = first_three.join(last_two)
+df_joined
+
+
+# ## Concatenating dataframes
+# 
+# A similar situation might have occured with our Very Exciting Psychology Experiment. We saved the data for the test group in one dataframe, and the data for the control group in a different dataframe, so that they look like this:
+
+# In[125]:
+
+
+df_test = df[df['group'] == 'test']
+df_control = df[df['group'] == 'control']
+df_test
+
+
+# In[124]:
+
+
+df_control
+
+
+# Just like the cake data from before, we want to squish these data together into one dataframe, but unlike the cake data, we want to put one dataframe _on top_ of the other one. After all, the columns are all the same, it's just that the data are for two different groups. Luckily, we _did_ remember to add a column to each dataframe recording which group the data were from, so all we need to do is stack these two datarames together. This is called _concatenating_ the data, and we can accomplish it with `.concat()`:
+
+# In[126]:
+
+
+df_concatenated = pd.concat([df_test, df_control])
+df_concatenated
+
 
 # (reshaping)=
 # ## Reshaping a dataframe
