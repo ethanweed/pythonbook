@@ -2201,6 +2201,474 @@ SyntaxError: invalid syntax
 </div>
 <div class="section" id="extracting-a-subset-of-a-dataframe">
 <span id="subsets"></span><h2><span class="section-number">7.6. </span>Extracting a subset of a dataframe<a class="headerlink" href="#extracting-a-subset-of-a-dataframe" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age</span> <span class="o">=</span> <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+<span class="n">score</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.552</span><span class="p">,</span> <span class="mf">1.624</span><span class="p">,</span> <span class="mf">6.431</span><span class="p">,</span> <span class="mf">7.132</span><span class="p">,</span> <span class="mf">2.925</span><span class="p">,</span> <span class="mf">4.662</span><span class="p">,</span> <span class="mf">3.634</span><span class="p">,</span> <span class="mf">3.635</span><span class="p">,</span> <span class="mf">5.234</span><span class="p">]</span>
+<span class="n">group</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;control&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
+     <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span>
+     <span class="s1">&#39;rt&#39;</span><span class="p">:</span> <span class="n">rt</span><span class="p">,</span>
+     <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">group</span>
+    <span class="p">})</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">]</span>
+<span class="n">df_test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>17</td>
+      <td>12</td>
+      <td>3.552</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21</td>
+      <td>11</td>
+      <td>6.431</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_control</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;control&#39;</span><span class="p">]</span>
+<span class="n">df_control</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_old</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">&gt;</span> <span class="mi">21</span><span class="p">]</span> 
+<span class="n">df_old</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_youngish</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">21</span> <span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">17</span><span class="p">)]</span>
+<span class="n">df_youngish</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>10</td>
+      <td>1.624</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18</td>
+      <td>16</td>
+      <td>2.925</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>19</td>
+      <td>14</td>
+      <td>4.662</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>18</td>
+      <td>21</td>
+      <td>3.635</td>
+      <td>control</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>19</td>
+      <td>29</td>
+      <td>5.234</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">old_and_slow</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rt&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">old_and_slow</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>37</td>
+      <td>15</td>
+      <td>7.132</td>
+      <td>test</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">old_and_slow_control</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rt&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;control&#39;</span><span class="p">)]</span>
+<span class="n">old_and_slow_control</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>score</th>
+      <th>rt</th>
+      <th>group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>47</td>
+      <td>25</td>
+      <td>3.634</td>
+      <td>control</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </div>
 <div class="section" id="sorting-flipping-and-merging-dataframes">
 <span id="manipulations"></span><h2><span class="section-number">7.7. </span>Sorting, flipping, and merging dataframes<a class="headerlink" href="#sorting-flipping-and-merging-dataframes" title="Permalink to this headline">¶</a></h2>
@@ -3864,7 +4332,7 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </table>
 </div></div></div>
 </div>
-<p>As a final toucy,</p>
+<p>As a final touch, we’ll <code class="docutils literal notranslate"><span class="pre">.reset()</span></code> the index to flatten out the MultiIndex, and we are back to where we started:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>

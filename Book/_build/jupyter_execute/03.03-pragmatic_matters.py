@@ -505,28 +505,72 @@ df
 
 
 
+# In[66]:
+
+
+age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
+score = [12, 10, 11, 15, 16, 14, 25, 21, 29]
+rt = [3.552, 1.624, 6.431, 7.132, 2.925, 4.662, 3.634, 3.635, 5.234]
+group = ["test", "test", "test", "test", "test", "control", "control", "control", "control"]
+
+import pandas as pd
+
+df = pd.DataFrame(
+    {'age': age,
+     'score': score,
+     'rt': rt,
+     'group': group
+    })
+
+df
+
+
+# In[64]:
+
+
+df_test = df[df['group'] == 'test']
+df_test
+
+
+# In[65]:
+
+
+df_control = df[df['group'] == 'control']
+df_control
+
+
+# In[69]:
+
+
+df_old = df[df['age']> 21] 
+df_old
+
+
 # In[ ]:
 
 
 
 
 
-# In[ ]:
+# In[71]:
 
 
+df_youngish = df[(df['age'] < 21 ) & (df['age'] > 17)]
+df_youngish
 
 
-
-# In[ ]:
-
+# In[73]:
 
 
+old_and_slow = df[(df['age'] > 21) & (df['rt'] > 3)]
+old_and_slow
 
 
-# In[ ]:
+# In[74]:
 
 
-
+old_and_slow_control = df[(df['age'] > 21) & (df['rt'] > 3) & (df['group'] == 'control')]
+old_and_slow_control
 
 
 # (manipulations)=
@@ -744,9 +788,9 @@ df_wide = df_wide.join(df_RT, on = 'id', how = 'left')
 df_wide
 
 
-# As a final toucy,
+# As a final touch, we'll `.reset()` the index to flatten out the MultiIndex, and we are back to where we started:
 
-# In[40]:
+# In[60]:
 
 
 df_wide = df_wide.reset_index()
