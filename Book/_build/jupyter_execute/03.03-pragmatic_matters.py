@@ -682,7 +682,9 @@ df_joined
 
 # ### Concatenating dataframes
 # 
-# A similar situation might have occured with our Very Exciting Psychology Experiment. We saved the data for the test group in one dataframe, and the data for the control group in a different dataframe, so that they look like this:
+# A similar situation might have occured with our Very Exciting Psychology Experiment[^notetrademark]. We saved the data for the test group in one dataframe, and the data for the control group in a different dataframe, so that they look like this:
+# 
+# [^notetrademark]: Registered trademark, patent pending.
 
 # In[125]:
 
