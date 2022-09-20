@@ -650,7 +650,7 @@ df_cakes_flipped
 # 
 # Maybe we got our cake data in two batches (haha, sorry!) [^notesorry]. First we recorded times 1-3, and then later recorded times 4-5 in a separate dataframe, so that they looked like this: 
 # 
-# [^notesorry]: Not sorry!
+# [^notesorry]: Not sorry.
 
 # In[121]:
 
