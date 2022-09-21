@@ -148,9 +148,17 @@ print(my_column)
 list(df)
 
 
-# Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute head() is useful for this. By default it shows the first 5 lines of the dataframe:
+# We can easily check to see how many rows and columns our dataframe has using `.shape`
 
 # In[11]:
+
+
+df.shape
+
+
+# Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute head() is useful for this. By default it shows the first 5 lines of the dataframe:
+
+# In[12]:
 
 
 df.head()
@@ -158,7 +166,7 @@ df.head()
 
 # And if you want to see the last rows of the dataframe? `tail()` has got you covered:
 
-# In[12]:
+# In[13]:
 
 
 df.tail()
@@ -166,7 +174,7 @@ df.tail()
 
 # Finally, if you just want to get all of your data out of the dataframe and into a list, then .values.tolist() will do the job, giving you a list of lists, with each item in the list containing the data for a single row:
 
-# In[13]:
+# In[14]:
 
 
 df.values.tolist()
@@ -180,7 +188,7 @@ df.values.tolist()
 # 
 # Let's start with a simple example. As the father of a small child, I naturally spend a lot of time watching TV shows like *In the Night Garden*, and I have transcribed a short section of the dialogue. Let's make a `pandas` dataframe with two variables, `speaker` and `utterance`. When we take a look at the data, it becomes very clear what happened to my sanity. 
 
-# In[14]:
+# In[15]:
 
 
 import pandas as pd
@@ -196,7 +204,7 @@ df
 
 # With these as my data, one task I might find myself needing to do is construct a frequency count of the number of utterances each character produces during the show. As usual, there are more than one way to achieve this, but the `crosstab` method from `pandas` provides an easy way to do this:
 
-# In[15]:
+# In[16]:
 
 
 pd.crosstab(index = df["speaker"], columns = "count")
@@ -204,7 +212,7 @@ pd.crosstab(index = df["speaker"], columns = "count")
 
 # The output here shows a column called "speaker", and a column called "count". In the "speaker" column, we can see the names of all the speakers, and in the "count" column, we can see the number of utterances for each speaker. In other words, it’s a frequency table. Notice that we set the argument `columns` to "count". If instead we want to cross-tabulate the speakers with the utterances, we can set `columns` to the "utterances" column in the dataframe:
 
-# In[16]:
+# In[17]:
 
 
 pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -214,7 +222,7 @@ pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
 # 
 # The tabulation commands discussed so far all construct a table of raw frequencies: that is, a count of the total number of cases that satisfy certain conditions. However, often you want your data to be organised in terms of proportions rather than counts. This could be as a proportion of the row totals or the column totals. Currently, these are both just called "All", so let's first save the output of our crosstab to a variable, and rename the row and column totals to "rowtotals" and "coltotals".
 
-# In[17]:
+# In[18]:
 
 
 tabs = pd.crosstab(index=df["speaker"], columns=df["utterance"],margins=True)
@@ -227,13 +235,13 @@ tabs
 
 # Before we go on, it might be worthwhile looking at the steps used to rename the final column and row, because they give us some important information about the way `pandas` dataframes work. We saw before that you can get a list of the columns in your dataframe by using `list`:
 
-# In[18]:
+# In[19]:
 
 
 list(tabs)
 
 
-# In[19]:
+# In[20]:
 
 
 Now we see that we can also get the names of the columns of our dataframe `tabs` by writing `tabs.columns`
