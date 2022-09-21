@@ -156,6 +156,8 @@ list(df)
 df.shape
 
 
+# The first number gives us the number of rows, and the second number is the number of columns. Our dataframe `df` is 9 rows long, and 4 columns wide.
+
 # Sometimes dataframes can be very large, and we just want to peek at them, to check what they look like, without data scrolling endlessly over the screen. The dataframe attribute head() is useful for this. By default it shows the first 5 lines of the dataframe:
 
 # In[12]:
@@ -459,16 +461,28 @@ df
 # 
 # ## A few more mathematical functions and operations
 
-# In[ ]:
+# (rounding)=
+# ###  Rounding
+# 
+# As you might expect, Python can round numbers with decimals to whole numbers. As you might also have come to expect by now, Python will not necessarily do it the way you expect! Take a look below:
+
+# In[157]:
 
 
+print(round(4.4))
+print(round(4.5))
+print(round(4.51))
 
 
+# Python rounds 4.4 to 4 and 4.51 to 5. However, notice what it does with 4.5: it rounds to this to 4 as well. This is just one of many ways to round numbers, so Python is not doing anything wrong; you just have to be aware that this is what it will do.
+# 
+# You can add a second argument to indicate the number of decimal places desired:
 
-# In[ ]:
+# In[158]:
 
 
-
+a = 3.777298672345782376823578287355
+round (a, 5)
 
 
 # In[ ]:
@@ -480,28 +494,68 @@ df
 # (slicing)=
 # ## Slicing and dicing your data
 
+# ### slicing a list:
+# 
+# "Slicing" is the most common way to get chunks of data out of a list. In theory, it is quite simple. The syntax is as follows: listname[first:last:step_size]. The first number in the square brackets is where the slice should start, the second is where it ends, and the third indicates the size of any jumps that should be made (e.g. take every 2nd or every 3rd item). If you put nothing in this third argument, it defaults to one.
+# 
+# However, counting can be very tricky in Python! In my experience, even when you think you understand how it works, you can still get tripped up. The best thing to do is just take a list of data and start slicing it as many ways as you can think of, until you get a feeling for how it works.
+
+# In[138]:
+
+
+age = [17, 19, 21, 37, 18, 19, 47, 18, 19]
+
+
+# Return the first four elements in the list:
+
+# In[143]:
+
+
+age[0:4]
+
+
+# Return the last four elements in the list
+
+# In[149]:
+
+
+age[-4:]
+
+
+# A different way to get the last four elements in the list:
+
+# In[144]:
+
+
+age[5:len(age)]
+
+
+# Return every second element, starting with the first
+
+# In[145]:
+
+
+age[::2]
+
+
+# Return every second element, starting with second
+
+# In[150]:
+
+
+age[1::2]
+
+
 # In[ ]:
 
 
 
 
 
-# In[ ]:
+# In[154]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+len(age)/2
 
 
 # (subsets)=
