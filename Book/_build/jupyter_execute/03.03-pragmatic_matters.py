@@ -554,16 +554,16 @@ age[::2]
 age[1::2]
 
 
-# In[ ]:
+# ### "popping" items out of a list
+# 
+# Sometimes it is useful to remove an item from a list. In Python, lists have a property called `.pop()` that allow you to do just that. Nothing against spinach, but there is one item in the list of fruits below that isn't like the others. So let's `.pop` it out:
+
+# In[166]:
 
 
-
-
-
-# In[154]:
-
-
-len(age)/2
+fruits = ['apples', 'pears', 'bananas', 'spinach', 'strawberries', 'grapes']
+fruits.pop(3)
+fruits
 
 
 # (subsets)=
