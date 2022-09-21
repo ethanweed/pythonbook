@@ -485,6 +485,14 @@ a = 3.777298672345782376823578287355
 round (a, 5)
 
 
+# ### Row-wise means of a dataframe
+
+# In[ ]:
+
+
+df['mean'] = df.mean(axis = 1)
+
+
 # In[ ]:
 
 
