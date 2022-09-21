@@ -475,12 +475,12 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#long-form-and-wide-form-data">
-     7.8.1. Long form and wide form data
+    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+     7.8.1. Reshaping from long to wide format
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+    <a class="reference internal nav-link" href="#id8">
      7.8.2. Reshaping from long to wide format
     </a>
    </li>
@@ -641,12 +641,12 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#long-form-and-wide-form-data">
-     7.8.1. Long form and wide form data
+    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+     7.8.1. Reshaping from long to wide format
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reshaping-from-long-to-wide-format">
+    <a class="reference internal nav-link" href="#id8">
      7.8.2. Reshaping from long to wide format
     </a>
    </li>
@@ -3968,8 +3968,8 @@ SyntaxError: invalid syntax
 <div class="section" id="reshaping-a-dataframe">
 <span id="reshaping"></span><h2><span class="section-number">7.8. </span>Reshaping a dataframe<a class="headerlink" href="#reshaping-a-dataframe" title="Permalink to this headline">¶</a></h2>
 <p>One of the most annoying tasks that you need to undertake on a regular basis is that of reshaping a data frame. Framed in the most general way, reshaping the data means taking the data in whatever format it’s given to you, and converting it to the format you need it. Of course, if we’re going to characterise the problem that broadly, then about half of this chapter can probably be thought of as a kind of reshaping. So we’re going to have to narrow things down a little bit. I’m going to begin with two of the most common ways we need to reshape data: moving from wide-format data to long-format data, and moving from long-format data to wide-format data.</p>
-<div class="section" id="long-form-and-wide-form-data">
-<h3><span class="section-number">7.8.1. </span>Long form and wide form data<a class="headerlink" href="#long-form-and-wide-form-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="reshaping-from-long-to-wide-format">
+<h3><span class="section-number">7.8.1. </span>Reshaping from long to wide format<a class="headerlink" href="#reshaping-from-long-to-wide-format" title="Permalink to this headline">¶</a></h3>
 <p>The most common format in which you might obtain data is as a “case by variable” layout, commonly
 known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which… well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The <code class="docutils literal notranslate"><span class="pre">drugs</span></code> data frame gives you a sense of what kind of data you might observe in an experiment like this:</p>
 <div class="cell docutils container">
@@ -4100,8 +4100,8 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 <p>This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and three variables that refer their performance in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a <strong>within-subject</strong> factor. This is a case that can be fairly easily handled by <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <code class="docutils literal notranslate"><span class="pre">.melt()</span></code> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">])</span>
-<span class="n">df_wide</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">])</span>
+<span class="n">df_long</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -4673,8 +4673,8 @@ known as the wide form of the data. To get a sense of what I’m talking about, 
 </div>
 <p>Ah. Now we have our wide format data in a nice long format.</p>
 </div>
-<div class="section" id="reshaping-from-long-to-wide-format">
-<h3><span class="section-number">7.8.2. </span>Reshaping from long to wide format<a class="headerlink" href="#reshaping-from-long-to-wide-format" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3><span class="section-number">7.8.2. </span>Reshaping from long to wide format<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Going the other way, from long to wide, is also not too hard, although it is still not quite as straightforward as one might wish. On the other hand it still far, far better than copy-pasting columns in Excel, which is a recipe for disaster. Trust me. I’ve been there.</p>
 <p>To go from long to wide, we can start with our shiny new long format dataframe <code class="docutils literal notranslate"><span class="pre">df_long</span></code> and use <code class="docutils literal notranslate"><span class="pre">.pivot</span></code> to “swivel” our long-format columns into a wider format. <code class="docutils literal notranslate"><span class="pre">.pivot()</span></code> takes three critical arguments: index, columns, and values.</p>
 <p>The “index” column keeps track of which data belongs with which: very important! In our case, we have a column called <code class="docutils literal notranslate"> <span class="pre">id</span></code> which contains a participant id-number for each participant, so we’ll use that as our index. Then we know that in the wide dataframe, the right data will still go with the right participant.</p>

@@ -784,19 +784,19 @@ df_concatenated
 
 # One of the most annoying tasks that you need to undertake on a regular basis is that of reshaping a data frame. Framed in the most general way, reshaping the data means taking the data in whatever format it’s given to you, and converting it to the format you need it. Of course, if we’re going to characterise the problem that broadly, then about half of this chapter can probably be thought of as a kind of reshaping. So we’re going to have to narrow things down a little bit. I'm going to begin with two of the most common ways we need to reshape data: moving from wide-format data to long-format data, and moving from long-format data to wide-format data.
 
-# ### Long form and wide form data
+# ### Reshaping from long to wide format
 # 
 # The most common format in which you might obtain data is as a “case by variable” layout, commonly
 # known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The `drugs` data frame gives you a sense of what kind of data you might observe in an experiment like this:
 
-# In[2]:
+# In[167]:
 
 
 import pandas as pd
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs1.csv")
 
 
-# In[3]:
+# In[168]:
 
 
 df
@@ -804,16 +804,16 @@ df
 
 # This is a data set in “wide form”, in which each participant corresponds to a single row. We have two variables that are characteristics of the subject (i.e., their id number and their gender) and three variables that refer their performance in one of the three testing conditions (alcohol, caffeine or no drug). Because all of the testing conditions (i.e., the three drug types) are applied to all participants, drug type is an example of a **within-subject** factor. This is a case that can be fairly easily handled by `pandas` `.melt()` method:
 
-# In[4]:
+# In[169]:
 
 
-df_wide = pd.melt(df, id_vars=[ 'id', 'gender'])
-df_wide.head(13)
+df_long = pd.melt(df, id_vars=[ 'id', 'gender'])
+df_long.head(13)
 
 
 # Sometimes, though, we want to do something a little more complex. For example, what if we didn't just measure working memory capacity (WMC), but we also measured their reaction time (RT). These data might look something like this:
 
-# In[5]:
+# In[170]:
 
 
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/drugs.csv")
