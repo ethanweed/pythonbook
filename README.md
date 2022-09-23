@@ -13,6 +13,8 @@ Update: having by now gotten as far as figuring out how to use Python to overlay
 
 #### Log
 
+23-09-2022 I have added a lot of what I wanted to put into the data wrangling chapter, although there is so much more that could go in there. I would like to add a section on list comprehensions somewhere, but maybe that will go in the basic programming chapter. There was a good deal from the original "practical matters" chapter that I have removed, because it was very specific to R. Instead, it would make more sense at some point to add more about different kinds of data structures and how they work, e.g. `pandas` dataframes and `numpy` series.
+
 01-06-2022 Done with drafts of chi2, t-test, and one-way anova chapters, and almost done with draft of regression chapter.
 
 15-06-2021 Almost done with the theoretical chapters, moving on to the statistical tests now. Saving the chapters on basic programming, graphics, etc. for last. The plan is now to prioritize the chapters that I will need for teaching in the Fall semester.
