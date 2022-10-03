@@ -127,21 +127,16 @@ sns.despine(top = True, right = True)
 
 # ## Plotting more complex data
 # 
-# At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using `seaborn`. However, ususally the data we want to plot are more complicated than this simple series of numbers. `seaborn` has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a "dataframe". We talked about dataframes back in the chapter called [More Python concepts](mechanics) and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with `seaborn` much easier. We'll use `pandas` to organize our data in dataframes. So, let's grab some data, put it in a dataframe, and talk more seriously about some real life graphics that you'll want to draw.
+# At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using `seaborn`. However, ususally the data we want to plot are more complicated than this simple series of numbers. `seaborn` has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a "dataframe". We talked about dataframes back in the chapter called [More Python concepts](mechanics) and we'll talk more extensively about them in the chapter on [Data Wrangling](datawrangling) and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with `seaborn` much easier. We'll use `pandas` to organize our data in dataframes. So, let's grab some data, put it in a dataframe, and talk more seriously about some real life graphics that you'll want to draw. I have stored the data online, and since `pandas` can read data straight from an internet URL (very handy!) we'll grab it from there:
 # 
-# You can read more about importing data from a .csv file [here](loadingcsv). The key line in the code below is `afl_margins = pd.read_csv('afl_margins.csv')`. The rest is just a convenience for me in writing this book. If you put the full path to your data between the quotation marks, you should be alright without the rest.
+# 
 
 # In[6]:
 
 
-import os
 import pandas as pd
-from pathlib import Path
 
-cwd = os.getcwd()
-os.chdir(str(Path(cwd).parents[0]) + '/Data')
-
-afl_margins = pd.read_csv('afl_margins.csv')
+afl_margins = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_margins.csv')
 
 
 # Just to remind ourselves what the data look like, we can use `head` to take a peek:
