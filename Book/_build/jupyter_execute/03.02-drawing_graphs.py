@@ -358,12 +358,12 @@ df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Da
 df.head()
 
 
-# Suppose my goal is to draw a scatterplot displaying the relationship between the amount of sleep that I get (`dan.sleep`) and how grumpy I am the next day (`dan.grump`). As you might expect given our earlier use of `scatterplot()` to display the `Fibonacci` data, the function that we use is the `scatterplot()` function. Simple!
+# Suppose my goal is to draw a scatterplot displaying the relationship between the amount of sleep that I get (`dan.sleep`) and how grumpy I am the next day (`dan.grump`). As you might expect given our earlier use of `scatterplot()` to display the `fibonacci` data, the function that we use is the `scatterplot()` function. Simple!
 
 # In[22]:
 
 
-ax = sns.scatterplot(x = 'dan.sleep', y = 'dan.grump', data = df)
+ax = sns.scatterplot(x = 'dan_sleep', y = 'dan_grump', data = df)
 
 
 # This does show a nice clear relationship between hours of sleep and grumpiness, but it would be nice to make that relationship even clearer with a line through the middle of the points. This can be easily done by replacing `scatterplot` with `regplot`. Everything else stays the same:
@@ -371,7 +371,7 @@ ax = sns.scatterplot(x = 'dan.sleep', y = 'dan.grump', data = df)
 # In[23]:
 
 
-ax = sns.regplot(x = 'dan.sleep', y = 'dan.grump', data = df)
+ax = sns.regplot(x = 'dan_sleep', y = 'dan_grump', data = df)
 
 
 # In this case, the line fits the data quite closely. In fact, we could easily see the relationship even without the line. Nevertheless, it is still just a model: the _exact_, true relationship between hours of sleep and grumpiness level is probably unknowable, so the slope of the line represents a best guess, given the data available. This uncertainty is represented by the faint translucent shaded area around the line. This area represents the [confidence interval](ci) of the model. In this case, the shaded area is quite narrow because the model (the line) does a pretty good job of representing the data. In other cases, this shaded area will be larger.
