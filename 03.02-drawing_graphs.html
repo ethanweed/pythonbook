@@ -670,18 +670,12 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="plotting-more-complex-data">
 <h2><span class="section-number">6.3. </span>Plotting more complex data<a class="headerlink" href="#plotting-more-complex-data" title="Permalink to this headline">¶</a></h2>
-<p>At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. However, ususally the data we want to plot are more complicated than this simple series of numbers. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a “dataframe”. We talked about dataframes back in the chapter called <a class="reference internal" href="02.02-more_python_concepts.html#mechanics"><span class="std std-ref">More Python concepts</span></a> and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> much easier. We’ll use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to organize our data in dataframes. So, let’s grab some data, put it in a dataframe, and talk more seriously about some real life graphics that you’ll want to draw.</p>
-<p>You can read more about importing data from a .csv file <a class="reference internal" href="02.02-more_python_concepts.html#loadingcsv"><span class="std std-ref">here</span></a>. The key line in the code below is <code class="docutils literal notranslate"><span class="pre">afl_margins</span> <span class="pre">=</span> <span class="pre">pd.read_csv('afl_margins.csv')</span></code>. The rest is just a convenience for me in writing this book. If you put the full path to your data between the quotation marks, you should be alright without the rest.</p>
+<p>At this point, we have seen how to make a fairly attractive plot (if I may say so myself) using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. However, ususally the data we want to plot are more complicated than this simple series of numbers. <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> has many good options for plotting complex data, but it is happiest if those data are stored in a structured format called a “dataframe”. We talked about dataframes back in the chapter called <a class="reference internal" href="02.02-more_python_concepts.html#mechanics"><span class="std std-ref">More Python concepts</span></a> and we’ll talk more extensively about them in the chapter on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">Data Wrangling</span></a> and will meet them again and again throughout this book. A dataframe is a kind of structured data with columns and rows, just a like a spreadsheet, and having your data organized in a dataframe will make working with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> much easier. We’ll use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to organize our data in dataframes. So, let’s grab some data, put it in a dataframe, and talk more seriously about some real life graphics that you’ll want to draw. I have stored the data online, and since <code class="docutils literal notranslate"><span class="pre">pandas</span></code> can read data straight from an internet URL (very handy!) we’ll grab it from there:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
-
-<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
+<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_margins.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -953,57 +947,17 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>margin</th>
-      <th>year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>33</td>
-      <td>1987</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>59</td>
-      <td>1987</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>45</td>
-      <td>1987</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>91</td>
-      <td>1987</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>39</td>
-      <td>1987</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;os&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>With <code class="docutils literal notranslate"><span class="pre">df.head</span></code> we can peek at the first few rows of the dataframe, and see that indeed it has one column with game margins, and another column with the year the game was played. The first five are indeed from 1987. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> also lets us peek at the <em>last</em> few rows, with <code class="docutils literal notranslate"><span class="pre">tail</span></code>:</p>
 <div class="cell docutils container">
@@ -1197,9 +1151,9 @@ const thebe_selector_output = ".output, .cell_output"
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>dan_sleep</th>
-      <th>baby_sleep</th>
-      <th>dan_grump</th>
+      <th>dan.sleep</th>
+      <th>baby.sleep</th>
+      <th>dan.grump</th>
       <th>day</th>
     </tr>
   </thead>
@@ -1251,84 +1205,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">Input In [22],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan.sleep&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan.grump&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_decorators.py:46,</span> in <span class="ni">_deprecate_positional_args.&lt;locals&gt;.inner_f</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span>         <span class="s2">&quot;Pass the following variable</span><span class="si">{}</span><span class="s2"> as </span><span class="si">{}</span><span class="s2">keyword arg</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">. &quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">38</span>         <span class="s2">&quot;From version 0.12, the only valid positional argument &quot;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">43</span>         <span class="ne">FutureWarning</span>
-<span class="g g-Whitespace">     </span><span class="mi">44</span>     <span class="p">)</span>
-<span class="nn">     45 kwargs.update({k: arg for k, arg</span> in <span class="ni">zip</span><span class="nt">(sig.parameters, args)})</span>
-<span class="ne">---&gt; </span><span class="mi">46</span> <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/relational.py:794,</span> in <span class="ni">scatterplot</span><span class="nt">(x, y, hue, style, size, data, palette, hue_order, hue_norm, sizes, size_order, size_norm, markers, style_order, x_bins, y_bins, units, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend, ax, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">779</span> <span class="nd">@_deprecate_positional_args</span>
-<span class="g g-Whitespace">    </span><span class="mi">780</span> <span class="k">def</span> <span class="nf">scatterplot</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">781</span>     <span class="o">*</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">790</span>     <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="g g-Whitespace">    </span><span class="mi">791</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">793</span>     <span class="n">variables</span> <span class="o">=</span> <span class="n">_ScatterPlotter</span><span class="o">.</span><span class="n">get_semantics</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
-<span class="ne">--&gt; </span><span class="mi">794</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">_ScatterPlotter</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">795</span>         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">796</span>         <span class="n">x_bins</span><span class="o">=</span><span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span><span class="o">=</span><span class="n">y_bins</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">797</span>         <span class="n">estimator</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="n">ci</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="n">n_boot</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">x_jitter</span><span class="o">=</span><span class="n">x_jitter</span><span class="p">,</span> <span class="n">y_jitter</span><span class="o">=</span><span class="n">y_jitter</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">799</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">801</span>     <span class="n">p</span><span class="o">.</span><span class="n">map_hue</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">hue_norm</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">802</span>     <span class="n">p</span><span class="o">.</span><span class="n">map_size</span><span class="p">(</span><span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">size_order</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">size_norm</span><span class="p">)</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/relational.py:580,</span> in <span class="ni">_ScatterPlotter.__init__</span><span class="nt">(self, data, variables, x_bins, y_bins, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">564</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">565</span>     <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">566</span>     <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{},</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">574</span>     <span class="c1"># the kind of plot to draw, but for the time being we need to set</span>
-<span class="g g-Whitespace">    </span><span class="mi">575</span>     <span class="c1"># this information so the SizeMapping can use it</span>
-<span class="g g-Whitespace">    </span><span class="mi">576</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_default_size_range</span> <span class="o">=</span> <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">577</span>         <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mf">.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;lines.markersize&quot;</span><span class="p">])</span>
-<span class="g g-Whitespace">    </span><span class="mi">578</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">580</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">582</span>     <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
-<span class="g g-Whitespace">    </span><span class="mi">583</span>     <span class="bp">self</span><span class="o">.</span><span class="n">legend</span> <span class="o">=</span> <span class="n">legend</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:604,</span> in <span class="ni">VectorPlotter.__init__</span><span class="nt">(self, data, variables)</span>
-<span class="g g-Whitespace">    </span><span class="mi">602</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{}):</span>
-<span class="ne">--&gt; </span><span class="mi">604</span>     <span class="bp">self</span><span class="o">.</span><span class="n">assign_variables</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">606</span>     <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_semantic_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="g g-Whitespace">    </span><span class="mi">607</span> 
-<span class="g g-Whitespace">    </span><span class="mi">608</span>         <span class="c1"># Create the mapping function</span>
-<span class="g g-Whitespace">    </span><span class="mi">609</span>         <span class="n">map_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">plotter</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:667,</span> in <span class="ni">VectorPlotter.assign_variables</span><span class="nt">(self, data, variables)</span>
-<span class="g g-Whitespace">    </span><span class="mi">665</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">666</span>     <span class="bp">self</span><span class="o">.</span><span class="n">input_format</span> <span class="o">=</span> <span class="s2">&quot;long&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">667</span>     <span class="n">plot_data</span><span class="p">,</span> <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assign_variables_longform</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">668</span>         <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">variables</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">669</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">671</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_data</span> <span class="o">=</span> <span class="n">plot_data</span>
-<span class="g g-Whitespace">    </span><span class="mi">672</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:887,</span> in <span class="ni">VectorPlotter._assign_variables_longform</span><span class="nt">(self, data, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">884</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">885</span>         <span class="c1"># We don&#39;t know what this name means</span>
-<span class="g g-Whitespace">    </span><span class="mi">886</span>         <span class="n">err</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not interpret value `</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">` for parameter `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">`&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">887</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">889</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">890</span> 
-<span class="g g-Whitespace">    </span><span class="mi">891</span>     <span class="c1"># Otherwise, assume the value is itself a vector of data</span>
-<span class="g g-Whitespace">    </span><span class="mi">892</span> 
-<span class="g g-Whitespace">    </span><span class="mi">893</span>     <span class="c1"># Raise when data is present and a vector can&#39;t be combined with it</span>
-<span class="g g-Whitespace">    </span><span class="mi">894</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-
-<span class="ne">ValueError</span>: Could not interpret value `dan.sleep` for parameter `x`
-</pre></div>
-</div>
+<img alt="_images/03.02-drawing_graphs_54_0.png" src="_images/03.02-drawing_graphs_54_0.png" />
 </div>
 </div>
 <p>This does show a nice clear relationship between hours of sleep and grumpiness, but it would be nice to make that relationship even clearer with a line through the middle of the points. This can be easily done by replacing <code class="docutils literal notranslate"><span class="pre">scatterplot</span></code> with <code class="docutils literal notranslate"><span class="pre">regplot</span></code>. Everything else stays the same:</p>
