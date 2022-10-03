@@ -48,14 +48,20 @@
 # 
 # ## An introduction to plotting
 # 
-# Before I discuss any specialised graphics, let's start by drawing a few very simple graphs just to get a feel for what it's like to draw pictures using Python and `seaborn`. To that end, let's start by importing `seaborn`, and create a small list called `Fibonacci` that contains a few numbers we'd like Python to draw for us. The customary abbreviation for `seaborn` is `sns`, so let's use that. We'll use our list `Fibonacci` to provide the values for the y-axis, but of course, we'll need something for the x-axis as well. Since `Fibonacci` contains 7 digits, we'll create another list, `x`, which has increasing integers from 1 to 7. Then we'll use `seaborn` to plot the x and y axes against each other:
+# Before I discuss any specialised graphics, let's start by drawing a few very simple graphs just to get a feel for what it's like to draw pictures using Python and `seaborn`. To that end, let's start by importing `seaborn`, and create a small list called `fibonacci` that contains a few numbers we'd like Python to draw for us. The customary abbreviation for `seaborn` is `sns`, so let's use that. We'll use our list `fibonacci` to provide the values for the y-axis, but of course, we'll need something for the x-axis as well. Since `fibonacci` contains 7 digits, we'll create another list, `x`, which has increasing integers from 1 to 7. Then we'll use `seaborn` to plot the x and y axes against each other:
 
 # In[1]:
 
 
 import seaborn as sns
+
 fibonacci = [1,1,2,3,5,8,13]
 x = [1,2,3,4,5,6,7]
+
+# By the way, instead of x = [1,2,3,4,5,6,7] we could have also written
+#x = range(1,len(fibonacci)+1)
+# This achieves the same thing, and could be useful e.g. if we didn't know how long the fibonacci list was.
+
 sns.scatterplot(x = x, y = fibonacci)
 
 
@@ -66,7 +72,7 @@ sns.scatterplot(x = x, y = fibonacci)
 # In[2]:
 
 
-sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
+sns.scatterplot(x = x, y = fibonacci, s = 300, color = 'orange')
 
 
 # ### Title and axis labels
@@ -82,7 +88,7 @@ sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
 # In[3]:
 
 
-ax = sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
+ax = sns.scatterplot(x = x, y = fibonacci, s = 300, color = 'orange')
 ax.set(title = 'My first plot', xlabel = 'My x-axis', ylabel='My y-axis')
 
 
@@ -96,7 +102,7 @@ ax.set(title = 'My first plot', xlabel = 'My x-axis', ylabel='My y-axis')
 
 
 sns.set_context("notebook", font_scale=1.5)
-ax = sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
+ax = sns.scatterplot(x = x, y = fibonacci, s = 300, color = 'orange')
 ax.set(title = 'My first plot', 
        xlabel = 'My x-axis', 
        ylabel='My y-axis')
@@ -106,13 +112,13 @@ ax.set(title = 'My first plot',
 
 # ### Open the box
 # 
-# `seaborn` has quite more customization options that you will probably want to know about, but many of them are more applicable to more complex figures, so I'll wait to mention them until later. For now, though, I just want to show you one more option: removing the top and right lines of the box that `seaborn` draws around the data. To me, these make the data feel cramped, and I'd rather give them room to breathe and flourish. So I like to use the `despine` command to remove these, and give the data a little elbow room. `seaborn` has its opinions, and I have mine!
+# `seaborn` has more customization options that you will probably want to know about, but many of them are more applicable to more complex figures, so I'll wait to mention them until later. For now, though, I just want to show you one more option: removing the top and right lines of the box that `seaborn` draws around the data. To me, these make the data feel cramped, and I'd rather give them room to breathe and flourish. So I like to use the `despine` command to remove these, and give the data a little elbow room. `seaborn` has its opinions, and I have mine!
 
 # In[5]:
 
 
 sns.set_context("notebook", font_scale=1.5)
-ax = sns.scatterplot(x = x, y = fibonacci, s = 400, color = 'orange')
+ax = sns.scatterplot(x = x, y = fibonacci, s = 300, color = 'orange')
 ax.set(title = 'My first plot', 
        xlabel = 'My x-axis', 
        ylabel='My y-axis')

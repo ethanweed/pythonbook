@@ -784,7 +784,7 @@ df_concatenated
 
 # One of the most annoying tasks that you need to undertake on a regular basis is that of reshaping a data frame. Framed in the most general way, reshaping the data means taking the data in whatever format it’s given to you, and converting it to the format you need it. Of course, if we’re going to characterise the problem that broadly, then about half of this chapter can probably be thought of as a kind of reshaping. So we’re going to have to narrow things down a little bit. I'm going to begin with two of the most common ways we need to reshape data: moving from wide-format data to long-format data, and moving from long-format data to wide-format data.
 
-# ### Reshaping from long to wide format
+# ### Reshaping from wide to long format
 # 
 # The most common format in which you might obtain data is as a “case by variable” layout, commonly
 # known as the wide form of the data. To get a sense of what I’m talking about, consider an experiment in which we are interested in the different effects that alcohol and and caffeine have on people’s working memory capacity (WMC). We recruit 10 participants, and measure their WMC under three different conditions: a “no drug” condition, in which they are not under the influence of either caffeine or alcohol, a “caffeine” condition, in which they are under the inflence of caffeine, and an “alcohol” condition, in which... well, you can probably guess. Ideally, I suppose, there would be a fourth condition in which both drugs are administered, but for the sake of simplicity let’s ignore that. The `drugs` data frame gives you a sense of what kind of data you might observe in an experiment like this:
