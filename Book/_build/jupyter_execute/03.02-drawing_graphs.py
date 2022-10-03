@@ -380,25 +380,18 @@ ax = sns.regplot(x = 'dan_sleep', y = 'dan_grump', data = df)
 # 
 # ## Bar graphs
 # 
-# Another form of graph that you often want to plot is the **_bar graph_**. To illustrate the use of the function, I'll use the `finalists` variable that I introduced in the section on . What I want to do is draw a bar graph that displays the number of finals that each team has played in over the time spanned by the `afl` data set.
+# Another form of graph that you often want to plot is the **_bar graph_**. To illustrate the use of the function, I'll use the `finalists` variable that I introduced in the section on [descriptive statistics](descriptives). What I want to do is draw a bar graph that displays the number of finals that each team has played in over the time spanned by the `afl` data set.
 
 # In[24]:
 
 
-import os
 import pandas as pd
-from pathlib import Path
 
-cwd = os.getcwd()
-os.chdir(str(Path(cwd).parents[0]) + '/Data')
-
-df = pd.read_csv('afl_finalists.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_finalists.csv')
 
 
 # In[25]:
 
-
-import pandas as pd
 
 # count up the number of times each team has been in the finals
 finalists = df['afl.finalists'].value_counts()
