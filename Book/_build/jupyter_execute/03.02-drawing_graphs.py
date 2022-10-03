@@ -150,7 +150,7 @@ afl_margins.head()
 # (histograms)=
 # ### Histograms
 # 
-# We can begin with the humble **_histogram_**. Histograms are one of the simplest and most useful ways of visualising data. They make most sense when you have an interval or ratio scale (e.g., the `afl_margins` data from the chapter on [descriptive statistics](descriptives)) and what you want to do is get an overall impression of the data. Most of you probably know how histograms work, since they're so widely used, but for the sake of completeness I'll describe them. All you do is divide up the possible values into **_bins_**, and then count the number of observations that fall within each bin. This count is referred to as the frequency of the bin, and is displayed as a bar: in the AFL winning margins data, there are 33 games in which the winning margin was less than 10 points, and it is this fact that is represented by the height of the leftmost bar in the figure below. Drawing this histogram with `seaborn` is pretty straightforward. The function you need to use is called `histplot`, and it has pretty reasonable default settings.
+# We can begin with the humble **_histogram_**. Histograms are one of the simplest and most useful ways of visualising data. They make most sense when you have interval or ratio scale (e.g., the `afl_margins` data from the chapter on [descriptive statistics](descriptives)) and what you want to do is get an overall impression of the data. You probably already know how histograms work, since they're so widely used, but for the sake of completeness I'll describe them. All you do is divide up the possible values into **_bins_**, and then count the number of observations that fall within each bin. This count is referred to as the frequency of the bin, and is displayed as a bar: in the AFL winning margins data, there are 33 games in which the winning margin was less than 10 points, and it is this fact that is represented by the height of the leftmost bar in the figure below. Drawing this histogram with `seaborn` is pretty straightforward. The function you need to use is called `histplot`, and it has pretty reasonable default settings.
 # 
 # By the way, I am going to change the `seaborn` context back to the default settings here, so that my figures will look as consistent as possible with yours, if you are following along at home.
 
@@ -159,6 +159,7 @@ afl_margins.head()
 
 import seaborn as sns
 sns.set_context("notebook", font_scale = 1)
+
 sns.histplot(data = afl_margins, x="afl.margins")
 
 
@@ -195,7 +196,7 @@ axes[1].set_title("Too many bins!")
 afl_margins.describe()
 
 
-# So how does a boxplot capture these numbers? The easiest way to describe what a boxplot looks like is just to draw one. The function for doing this in `seaborn` is (surprise, surprise) `boxplot()`. As always there's a lot of optional arguments that you can specify if you want, but for the most part you can just let R choose the defaults for you. That said, I'm going to override one of the defaults to start with by specifying the `range` option, but for the most part you won't want to do this (I'll explain why in a minute). With that as preamble, let's try the following command:
+# So how does a boxplot capture these numbers? The easiest way to describe what a boxplot looks like is just to draw one. The function for doing this in `seaborn` is (surprise, surprise) `boxplot()`.
 
 # In[11]:
 
@@ -215,7 +216,7 @@ sns.boxplot(data = afl_margins, y = 'afl.margins')
 sns.boxplot(data = afl_margins, x = 'afl.margins')
 
 
-# Because the boxplot automatically (unless you change the range argument) separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.
+# Because the boxplot automatically separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.
 
 # In[13]:
 
@@ -232,7 +233,7 @@ afl_margins[afl_margins['afl.margins'] > 300]
 
 # Aha! Game 177 had a margin of 327. Now, in this case this should come as no surprise to me, since I added this data point myself with the code `afl_margins.loc[177] = 327` above. But if we play along for a minute, then a game with a margin of 327 definitely doesn't sound right. So then I go back to the original data source (the internet!) and I discover that the actual margin of that game was 33 points. Now it's pretty clear what happened. Someone must have typed in the wrong number. Easily fixed, just by typing `afl_margins.loc[177] = 33`.   While this might seem like a silly example, I should stress that this kind of thing actually happens a lot. Real world data sets are often riddled with stupid errors, especially when someone had to type something into a computer at some point. In fact, there's actually a name for this phase of data analysis, since in practice it can waste a huge chunk of our time: **_data cleaning_**. It involves searching for typos, missing data and all sorts of other obnoxious errors in raw data files.
 
-# What about the real data? There is still that *other* extreme point at 116. Does the value of 116 constitute a funny observation not? Possibly. As it turns out the game in question was Fremantle v Hawthorn, and was played in round 21 (the second last home and away round of the season). Fremantle had already qualified for the final series and for them the outcome of the game was irrelevant; and the team decided to rest several of their star players. As a consequence, Fremantle went into the game severely underpowered. In contrast, Hawthorn had started the season very poorly but had ended on a massive winning streak, and for them a win could secure a place in the finals. With the game played on Hawthorn's home turf[^note7] and with so many unusual factors at play, it is perhaps no surprise that Hawthorn annihilated Fremantle by 116 points. Two weeks later, however, the two teams met again in an elimination final on Fremantle's home ground, and Fremantle won comfortably by 30 points.[^note8]
+# What about the real data? There is still that *other* extreme point at 116. Does the value of 116 constitute a funny observation not? Possibly. As it turns out the game in question was Fremantle v Hawthorn, and was played in round 21 (the second last home and away round of the season). Fremantle had already qualified for the final series. Since the outcome of the game was therefore irrelevant to them, they team decided to rest several of their star players. As a consequence, Fremantle went into the game severely underpowered. In contrast, Hawthorn had started the season very poorly but had ended on a massive winning streak, and for them a win could secure a place in the finals. With the game played on Hawthorn's home turf[^note7] and with so many unusual factors at play, it is perhaps no surprise that Hawthorn annihilated Fremantle by 116 points. Two weeks later, however, the two teams met again in an elimination final on Fremantle's home ground, and Fremantle won comfortably by 30 points.[^note8]
 # 
 # So, should we exclude the game from subsequent analyses? If this were a psychology experiment rather than an AFL season, I'd be quite tempted to exclude it because there's pretty strong evidence that Fremantle weren't really trying very hard: and to the extent that my research question is based on an assumption that participants are genuinely trying to do the task. On the other hand, in a lot of studies we're actually interested in seeing the full range of possible behaviour, and that includes situations where people decide not to try very hard: so excluding that observation would be a bad idea. In the context of the AFL data, a similar distinction applies. If I'd been trying to make tips about who would perform well in the finals, I would have (and in fact did) disregard the Round 21 massacre, because it's way too misleading. On the other hand, if my interest is solely in the home and away season itself, I think it would be a shame to throw away information pertaining to one of the most distinctive (if boring) games of the year. In other words, the decision about whether to include outliers or exclude them depends heavily on *why* you think the data look they way they do, and what you want to use the data *for*. Statistical tools can provide an automatic method for suggesting candidates for deletion, but you really need to exercise good judgment here. As I've said before, Python is a mindless automaton. It doesn't watch the footy, so it lacks the broader context to make an informed decision. You are *not* a mindless automaton, so you should exercise judgment: if the outlier looks legitimate to you, then keep it. In any case, let's return to our discussion of how to draw boxplots.
 # 
@@ -248,10 +249,7 @@ afl_margins[afl_margins['afl.margins'] > 300]
 # In[15]:
 
 
-cwd = os.getcwd()
-os.chdir(str(Path(cwd).parents[0]) + '/Data')
-
-df = pd.read_csv('afl2small.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl2small.csv')
 df.head()
 
 
@@ -263,7 +261,7 @@ df.head()
 df.tail()
 
 
-# and these games are from 2010, also as we might expect, so everything looks good. Incidently, these data are arranged in what is known as _long_ format, with all the margins in one column, and a second column indicating the year. This is as opposed to _wide_ format, in which there would be a separate column for every year. We'll return to these in following chapter on [data wrangling](datawrangling).
+# and these games are from 2010, also as we might expect, so everything looks good. Incidently, these data are arranged in what is known as _long_ format, with all the margins in one column, and a second column indicating the year. This is as opposed to _wide_ format, in which there would be a separate column for every year. We'll return to these later in the chapter on [data wrangling](datawrangling).
 # 
 # To plot these data, we just need to call up `boxplot()` once again, give `seaborn` the name of our dataframe, set the x-axis to "year" and the y-axis to "margin".
 
@@ -287,10 +285,7 @@ ax = sns.boxplot(x = 'year', y = 'margin', data = df)
 # In[18]:
 
 
-cwd = os.getcwd()
-os.chdir(str(Path(cwd).parents[0]) + '/Data')
-
-df = pd.read_csv('afl2small.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl2small.csv')
 df = df[df['year'] > 2004]
 
 
@@ -311,7 +306,7 @@ for ax in axes:
     ax.spines['top'].set_visible(False)
 
 
-# One final alternative to the plain boxplot that I will show you here is to _overlay_ a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the left is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!
+# One final alternative to the plain boxplot that I will show you here is to _overlay_ a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the right is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!
 
 # In[20]:
 
@@ -352,20 +347,14 @@ for ax in axes:
 # 
 # ## Scatterplots
 # 
-# **_Scatterplots_** are a simple but effective tool for visualising data. We've [already seen scatterplots](introplotting) in this chapter, when drawing the `Fibonacci` variable as a collection of dots. However, for the purposes of this section I have a slightly different notion in mind. Instead of just plotting one variable, what I want to do with my scatterplot is display the relationship between *two* variables, like we saw with the figures in the [section on correlation](correlation) It's this latter application that we usually have in mind when we use the term "scatterplot". In this kind of plot, each observation corresponds to one dot: the horizontal location of the dot plots the value of the observation on one variable, and the vertical location displays its value on the other variable. In many situations you don't really have a clear opinions about what the *causal* relationship is (e.g., does A cause B, or does B cause A, or does some other variable C control both A and B). If that's the case, it doesn't really matter which variable you plot on the x-axis and which one you plot on the y-axis. However, in many situations you do have a pretty strong idea which variable you think is most likely to be causal, or at least you have some suspicions in that direction. If so, then it's conventional to plot the cause variable on the x-axis, and the effect variable on the y-axis. With that in mind, let's look at how to draw scatterplots in R, using the same `parenthood` data set (i.e. `parenthood.csv`) that I used when introducing the idea of correlations.
+# **_Scatterplots_** are a simple but effective tool for visualising data. We've [already seen scatterplots](introplotting) in this chapter, when drawing the `fibonacci` variable as a collection of dots. However, for the purposes of this section I have a slightly different notion in mind. Instead of just plotting one variable, what I want to do with my scatterplot is display the relationship between *two* variables, like we saw with the figures in the [section on correlation](correlation) It's this latter application that we usually have in mind when we use the term "scatterplot". In this kind of plot, each observation corresponds to one dot: the horizontal location of the dot plots the value of the observation on one variable, and the vertical location displays its value on the other variable. In many situations you don't really have a clear opinions about what the *causal* relationship is (e.g., does A cause B, or does B cause A, or does some other variable C control both A and B). If that's the case, it doesn't really matter which variable you plot on the x-axis and which one you plot on the y-axis. However, in many situations you do have a pretty strong idea which variable you think is most likely to be causal, or at least you have some suspicions in that direction. If so, then it's conventional to plot the cause variable on the x-axis, and the effect variable on the y-axis. With that in mind, let's look at how to draw scatterplots in R, using the same `parenthood` data set (i.e. `parenthood.csv`) that I used when introducing the idea of correlations.
 
 # In[21]:
 
 
-from os import chdir as cd
 import pandas as pd
 
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'parenthood.csv'
-
-cd(pathin)
-
-df = pd.read_csv(file)
+df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv')
 df.head()
 
 

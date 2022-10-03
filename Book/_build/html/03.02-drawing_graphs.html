@@ -736,12 +736,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="histograms">
 <span id="id6"></span><h3><span class="section-number">6.3.1. </span>Histograms<a class="headerlink" href="#histograms" title="Permalink to this headline">¶</a></h3>
-<p>We can begin with the humble <strong><em>histogram</em></strong>. Histograms are one of the simplest and most useful ways of visualising data. They make most sense when you have an interval or ratio scale (e.g., the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data from the chapter on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>) and what you want to do is get an overall impression of the data. Most of you probably know how histograms work, since they’re so widely used, but for the sake of completeness I’ll describe them. All you do is divide up the possible values into <strong><em>bins</em></strong>, and then count the number of observations that fall within each bin. This count is referred to as the frequency of the bin, and is displayed as a bar: in the AFL winning margins data, there are 33 games in which the winning margin was less than 10 points, and it is this fact that is represented by the height of the leftmost bar in the figure below. Drawing this histogram with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is pretty straightforward. The function you need to use is called <code class="docutils literal notranslate"><span class="pre">histplot</span></code>, and it has pretty reasonable default settings.</p>
+<p>We can begin with the humble <strong><em>histogram</em></strong>. Histograms are one of the simplest and most useful ways of visualising data. They make most sense when you have interval or ratio scale (e.g., the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data from the chapter on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>) and what you want to do is get an overall impression of the data. You probably already know how histograms work, since they’re so widely used, but for the sake of completeness I’ll describe them. All you do is divide up the possible values into <strong><em>bins</em></strong>, and then count the number of observations that fall within each bin. This count is referred to as the frequency of the bin, and is displayed as a bar: in the AFL winning margins data, there are 33 games in which the winning margin was less than 10 points, and it is this fact that is represented by the height of the leftmost bar in the figure below. Drawing this histogram with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is pretty straightforward. The function you need to use is called <code class="docutils literal notranslate"><span class="pre">histplot</span></code>, and it has pretty reasonable default settings.</p>
 <p>By the way, I am going to change the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> context back to the default settings here, so that my figures will look as consistent as possible with yours, if you are following along at home.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
 <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;afl.margins&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -847,7 +848,7 @@ const thebe_selector_output = ".output, .cell_output"
 </table>
 </div></div></div>
 </div>
-<p>So how does a boxplot capture these numbers? The easiest way to describe what a boxplot looks like is just to draw one. The function for doing this in <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is (surprise, surprise) <code class="docutils literal notranslate"><span class="pre">boxplot()</span></code>. As always there’s a lot of optional arguments that you can specify if you want, but for the most part you can just let R choose the defaults for you. That said, I’m going to override one of the defaults to start with by specifying the <code class="docutils literal notranslate"><span class="pre">range</span></code> option, but for the most part you won’t want to do this (I’ll explain why in a minute). With that as preamble, let’s try the following command:</p>
+<p>So how does a boxplot capture these numbers? The easiest way to describe what a boxplot looks like is just to draw one. The function for doing this in <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is (surprise, surprise) <code class="docutils literal notranslate"><span class="pre">boxplot()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;afl.margins&#39;</span><span class="p">)</span>
@@ -877,7 +878,7 @@ const thebe_selector_output = ".output, .cell_output"
 <img alt="_images/03.02-drawing_graphs_33_1.png" src="_images/03.02-drawing_graphs_33_1.png" />
 </div>
 </div>
-<p>Because the boxplot automatically (unless you change the range argument) separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.</p>
+<p>Because the boxplot automatically separates out those observations that lie within a certain range, people often use them as an informal method for detecting outliers: observations that are “suspiciously” distant from the rest of the data. Here’s an example. Suppose that I’d drawn the boxplot for the AFL margins data, and it came up looking like the one below. It’s pretty clear that something funny is going on with one of the observations. Apparently, there was one game in which the margin was over 300 points! That doesn’t sound right to me. Now that I’ve become suspicious, it’s time to look a bit more closely at the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">177</span><span class="p">]</span> <span class="o">=</span> <span class="mi">327</span>
@@ -930,7 +931,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div></div></div>
 </div>
 <p>Aha! Game 177 had a margin of 327. Now, in this case this should come as no surprise to me, since I added this data point myself with the code <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">327</span></code> above. But if we play along for a minute, then a game with a margin of 327 definitely doesn’t sound right. So then I go back to the original data source (the internet!) and I discover that the actual margin of that game was 33 points. Now it’s pretty clear what happened. Someone must have typed in the wrong number. Easily fixed, just by typing <code class="docutils literal notranslate"><span class="pre">afl_margins.loc[177]</span> <span class="pre">=</span> <span class="pre">33</span></code>.   While this might seem like a silly example, I should stress that this kind of thing actually happens a lot. Real world data sets are often riddled with stupid errors, especially when someone had to type something into a computer at some point. In fact, there’s actually a name for this phase of data analysis, since in practice it can waste a huge chunk of our time: <strong><em>data cleaning</em></strong>. It involves searching for typos, missing data and all sorts of other obnoxious errors in raw data files.</p>
-<p>What about the real data? There is still that <em>other</em> extreme point at 116. Does the value of 116 constitute a funny observation not? Possibly. As it turns out the game in question was Fremantle v Hawthorn, and was played in round 21 (the second last home and away round of the season). Fremantle had already qualified for the final series and for them the outcome of the game was irrelevant; and the team decided to rest several of their star players. As a consequence, Fremantle went into the game severely underpowered. In contrast, Hawthorn had started the season very poorly but had ended on a massive winning streak, and for them a win could secure a place in the finals. With the game played on Hawthorn’s home turf<a class="footnote-reference brackets" href="#note7" id="id8">6</a> and with so many unusual factors at play, it is perhaps no surprise that Hawthorn annihilated Fremantle by 116 points. Two weeks later, however, the two teams met again in an elimination final on Fremantle’s home ground, and Fremantle won comfortably by 30 points.<a class="footnote-reference brackets" href="#note8" id="id9">7</a></p>
+<p>What about the real data? There is still that <em>other</em> extreme point at 116. Does the value of 116 constitute a funny observation not? Possibly. As it turns out the game in question was Fremantle v Hawthorn, and was played in round 21 (the second last home and away round of the season). Fremantle had already qualified for the final series. Since the outcome of the game was therefore irrelevant to them, they team decided to rest several of their star players. As a consequence, Fremantle went into the game severely underpowered. In contrast, Hawthorn had started the season very poorly but had ended on a massive winning streak, and for them a win could secure a place in the finals. With the game played on Hawthorn’s home turf<a class="footnote-reference brackets" href="#note7" id="id8">6</a> and with so many unusual factors at play, it is perhaps no surprise that Hawthorn annihilated Fremantle by 116 points. Two weeks later, however, the two teams met again in an elimination final on Fremantle’s home ground, and Fremantle won comfortably by 30 points.<a class="footnote-reference brackets" href="#note8" id="id9">7</a></p>
 <p>So, should we exclude the game from subsequent analyses? If this were a psychology experiment rather than an AFL season, I’d be quite tempted to exclude it because there’s pretty strong evidence that Fremantle weren’t really trying very hard: and to the extent that my research question is based on an assumption that participants are genuinely trying to do the task. On the other hand, in a lot of studies we’re actually interested in seeing the full range of possible behaviour, and that includes situations where people decide not to try very hard: so excluding that observation would be a bad idea. In the context of the AFL data, a similar distinction applies. If I’d been trying to make tips about who would perform well in the finals, I would have (and in fact did) disregard the Round 21 massacre, because it’s way too misleading. On the other hand, if my interest is solely in the home and away season itself, I think it would be a shame to throw away information pertaining to one of the most distinctive (if boring) games of the year. In other words, the decision about whether to include outliers or exclude them depends heavily on <em>why</em> you think the data look they way they do, and what you want to use the data <em>for</em>. Statistical tools can provide an automatic method for suggesting candidates for deletion, but you really need to exercise good judgment here. As I’ve said before, Python is a mindless automaton. It doesn’t watch the footy, so it lacks the broader context to make an informed decision. You are <em>not</em> a mindless automaton, so you should exercise judgment: if the outlier looks legitimate to you, then keep it. In any case, let’s return to our discussion of how to draw boxplots.</p>
 </div>
 <div class="section" id="drawing-multiple-boxplots">
@@ -938,26 +939,63 @@ const thebe_selector_output = ".output, .cell_output"
 <p>One last thing. What if you want to draw multiple boxplots at once? Suppose, for instance, I wanted separate boxplots showing the AFL margins not just for 2010, but for every year between 1987 and 2010. To do that, the first thing we’ll have to do is find the data. These are stored in the <code class="docutils literal notranslate"><span class="pre">aflsmall2.csv</span></code> file. So let’s load it and take a quick peek at what’s inside:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl2small.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;os&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>margin</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>33</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>59</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>45</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>91</td>
+      <td>1987</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>39</td>
+      <td>1987</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>With <code class="docutils literal notranslate"><span class="pre">df.head</span></code> we can peek at the first few rows of the dataframe, and see that indeed it has one column with game margins, and another column with the year the game was played. The first five are indeed from 1987. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> also lets us peek at the <em>last</em> few rows, with <code class="docutils literal notranslate"><span class="pre">tail</span></code>:</p>
 <div class="cell docutils container">
@@ -1019,7 +1057,7 @@ const thebe_selector_output = ".output, .cell_output"
 </table>
 </div></div></div>
 </div>
-<p>and these games are from 2010, also as we might expect, so everything looks good. Incidently, these data are arranged in what is known as <em>long</em> format, with all the margins in one column, and a second column indicating the year. This is as opposed to <em>wide</em> format, in which there would be a separate column for every year. We’ll return to these in following chapter on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">data wrangling</span></a>.</p>
+<p>and these games are from 2010, also as we might expect, so everything looks good. Incidently, these data are arranged in what is known as <em>long</em> format, with all the margins in one column, and a second column indicating the year. This is as opposed to <em>wide</em> format, in which there would be a separate column for every year. We’ll return to these later in the chapter on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">data wrangling</span></a>.</p>
 <p>To plot these data, we just need to call up <code class="docutils literal notranslate"><span class="pre">boxplot()</span></code> once again, give <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> the name of our dataframe, set the x-axis to “year” and the y-axis to “margin”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1041,10 +1079,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>An important point to stress is that while every part of the boxplot and stripplot represent exact features of the data, the shape of the violinplot is an estimate (a kernal density estimate, if you want to get techinical), that attempts to show the underlying distribution that produced the data. This will of course always be a best guess, since the true distribution is unknowable, in most cases. Because violin plots show distribution estimates, they cannot be interpreted in exactly the same way as, say, a boxplot. A glance at the y-axes in the figure below shows why. While the boxplots and strip plots share an identical y axis, the violin plot’s y-axis is different. If you look at the bottom, for instance, you will see that it extends below zero, and a winning margin of e.g. -1 is nonsensical. But this is because kernal density estimators don’t know anything about how games are decided in the Australian Football League. They just look at the data, and make a best guess about the distribution that these data were sampled from. So violin plots are very informative, especially in cases where they actually are violin-shaped, indicating that the data may come from a distribution with more than one peak, you have to remember what you are looking at, and not confuse them with curvy boxplots. Perhaps to alleviate this problem, the default setting in <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> is to draw a little mini boxplot inside the violin plot.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl2small.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl2small.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2004</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1071,7 +1106,7 @@ const thebe_selector_output = ".output, .cell_output"
 <img alt="_images/03.02-drawing_graphs_48_0.png" src="_images/03.02-drawing_graphs_48_0.png" />
 </div>
 </div>
-<p>One final alternative to the plain boxplot that I will show you here is to <em>overlay</em> a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the left is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!</p>
+<p>One final alternative to the plain boxplot that I will show you here is to <em>overlay</em> a strip plot on top of a boxplot. Using this method, you may get the best of both worlds. One potential issue with overlaying plots, though, is that they can obscure each other, concealing information. In the figure below, the panel to the left shows boxplots and the underlying data points in lovely color, but this makes it hard to see the data points when they are on top of the boxes. In the middle panel, this problem is solved by making the data points black. But now it is kind of hard to see the outliers indicated by the boxplots. The panel to the right is the best of the three, in my opinion, because you can see the box indiciating the quartiles, you can see the median, you can see the outliers, and you can see the data points. I think, though, that if I were preparing this plot for publication, I would remove the black diamonds from the boxplots showing the outliers, because you can see the actual data points right next to them, and it just gets confusing. To me, the outliers no longer look like outiers, they just look like weird data points. The moral? Data visualization is hard!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
@@ -1116,18 +1151,12 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="scatterplots">
 <span id="id10"></span><h2><span class="section-number">6.4. </span>Scatterplots<a class="headerlink" href="#scatterplots" title="Permalink to this headline">¶</a></h2>
-<p><strong><em>Scatterplots</em></strong> are a simple but effective tool for visualising data. We’ve <a class="reference internal" href="#introplotting"><span class="std std-ref">already seen scatterplots</span></a> in this chapter, when drawing the <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code> variable as a collection of dots. However, for the purposes of this section I have a slightly different notion in mind. Instead of just plotting one variable, what I want to do with my scatterplot is display the relationship between <em>two</em> variables, like we saw with the figures in the <a class="reference internal" href="03.01-descriptives.html#correlation"><span class="std std-ref">section on correlation</span></a> It’s this latter application that we usually have in mind when we use the term “scatterplot”. In this kind of plot, each observation corresponds to one dot: the horizontal location of the dot plots the value of the observation on one variable, and the vertical location displays its value on the other variable. In many situations you don’t really have a clear opinions about what the <em>causal</em> relationship is (e.g., does A cause B, or does B cause A, or does some other variable C control both A and B). If that’s the case, it doesn’t really matter which variable you plot on the x-axis and which one you plot on the y-axis. However, in many situations you do have a pretty strong idea which variable you think is most likely to be causal, or at least you have some suspicions in that direction. If so, then it’s conventional to plot the cause variable on the x-axis, and the effect variable on the y-axis. With that in mind, let’s look at how to draw scatterplots in R, using the same <code class="docutils literal notranslate"><span class="pre">parenthood</span></code> data set (i.e. <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code>) that I used when introducing the idea of correlations.</p>
+<p><strong><em>Scatterplots</em></strong> are a simple but effective tool for visualising data. We’ve <a class="reference internal" href="#introplotting"><span class="std std-ref">already seen scatterplots</span></a> in this chapter, when drawing the <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> variable as a collection of dots. However, for the purposes of this section I have a slightly different notion in mind. Instead of just plotting one variable, what I want to do with my scatterplot is display the relationship between <em>two</em> variables, like we saw with the figures in the <a class="reference internal" href="03.01-descriptives.html#correlation"><span class="std std-ref">section on correlation</span></a> It’s this latter application that we usually have in mind when we use the term “scatterplot”. In this kind of plot, each observation corresponds to one dot: the horizontal location of the dot plots the value of the observation on one variable, and the vertical location displays its value on the other variable. In many situations you don’t really have a clear opinions about what the <em>causal</em> relationship is (e.g., does A cause B, or does B cause A, or does some other variable C control both A and B). If that’s the case, it doesn’t really matter which variable you plot on the x-axis and which one you plot on the y-axis. However, in many situations you do have a pretty strong idea which variable you think is most likely to be causal, or at least you have some suspicions in that direction. If so, then it’s conventional to plot the cause variable on the x-axis, and the effect variable on the y-axis. With that in mind, let’s look at how to draw scatterplots in R, using the same <code class="docutils literal notranslate"><span class="pre">parenthood</span></code> data set (i.e. <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code>) that I used when introducing the idea of correlations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span> <span class="k">as</span> <span class="n">cd</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;parenthood.csv&#39;</span>
-
-<span class="n">cd</span><span class="p">(</span><span class="n">pathin</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/parenthood.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1151,9 +1180,9 @@ const thebe_selector_output = ".output, .cell_output"
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>dan.sleep</th>
-      <th>baby.sleep</th>
-      <th>dan.grump</th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
       <th>day</th>
     </tr>
   </thead>
@@ -1205,7 +1234,84 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.02-drawing_graphs_54_0.png" src="_images/03.02-drawing_graphs_54_0.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="nn">Input In [22],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan.sleep&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan.grump&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_decorators.py:46,</span> in <span class="ni">_deprecate_positional_args.&lt;locals&gt;.inner_f</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span>         <span class="s2">&quot;Pass the following variable</span><span class="si">{}</span><span class="s2"> as </span><span class="si">{}</span><span class="s2">keyword arg</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">. &quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>         <span class="s2">&quot;From version 0.12, the only valid positional argument &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span>         <span class="ne">FutureWarning</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span>     <span class="p">)</span>
+<span class="nn">     45 kwargs.update({k: arg for k, arg</span> in <span class="ni">zip</span><span class="nt">(sig.parameters, args)})</span>
+<span class="ne">---&gt; </span><span class="mi">46</span> <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/relational.py:794,</span> in <span class="ni">scatterplot</span><span class="nt">(x, y, hue, style, size, data, palette, hue_order, hue_norm, sizes, size_order, size_norm, markers, style_order, x_bins, y_bins, units, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend, ax, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">779</span> <span class="nd">@_deprecate_positional_args</span>
+<span class="g g-Whitespace">    </span><span class="mi">780</span> <span class="k">def</span> <span class="nf">scatterplot</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span>     <span class="o">*</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span>     <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">791</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">793</span>     <span class="n">variables</span> <span class="o">=</span> <span class="n">_ScatterPlotter</span><span class="o">.</span><span class="n">get_semantics</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+<span class="ne">--&gt; </span><span class="mi">794</span>     <span class="n">p</span> <span class="o">=</span> <span class="n">_ScatterPlotter</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">795</span>         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">796</span>         <span class="n">x_bins</span><span class="o">=</span><span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span><span class="o">=</span><span class="n">y_bins</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">797</span>         <span class="n">estimator</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="n">ci</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="n">n_boot</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">x_jitter</span><span class="o">=</span><span class="n">x_jitter</span><span class="p">,</span> <span class="n">y_jitter</span><span class="o">=</span><span class="n">y_jitter</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">799</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">801</span>     <span class="n">p</span><span class="o">.</span><span class="n">map_hue</span><span class="p">(</span><span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">hue_norm</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">802</span>     <span class="n">p</span><span class="o">.</span><span class="n">map_size</span><span class="p">(</span><span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">size_order</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">size_norm</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/relational.py:580,</span> in <span class="ni">_ScatterPlotter.__init__</span><span class="nt">(self, data, variables, x_bins, y_bins, estimator, ci, n_boot, alpha, x_jitter, y_jitter, legend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">564</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">565</span>     <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">566</span>     <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{},</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span>     <span class="c1"># the kind of plot to draw, but for the time being we need to set</span>
+<span class="g g-Whitespace">    </span><span class="mi">575</span>     <span class="c1"># this information so the SizeMapping can use it</span>
+<span class="g g-Whitespace">    </span><span class="mi">576</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_default_size_range</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">577</span>         <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mf">.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;lines.markersize&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">578</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">580</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">582</span>     <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+<span class="g g-Whitespace">    </span><span class="mi">583</span>     <span class="bp">self</span><span class="o">.</span><span class="n">legend</span> <span class="o">=</span> <span class="n">legend</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:604,</span> in <span class="ni">VectorPlotter.__init__</span><span class="nt">(self, data, variables)</span>
+<span class="g g-Whitespace">    </span><span class="mi">602</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{}):</span>
+<span class="ne">--&gt; </span><span class="mi">604</span>     <span class="bp">self</span><span class="o">.</span><span class="n">assign_variables</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">606</span>     <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_semantic_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">607</span> 
+<span class="g g-Whitespace">    </span><span class="mi">608</span>         <span class="c1"># Create the mapping function</span>
+<span class="g g-Whitespace">    </span><span class="mi">609</span>         <span class="n">map_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">plotter</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:667,</span> in <span class="ni">VectorPlotter.assign_variables</span><span class="nt">(self, data, variables)</span>
+<span class="g g-Whitespace">    </span><span class="mi">665</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">666</span>     <span class="bp">self</span><span class="o">.</span><span class="n">input_format</span> <span class="o">=</span> <span class="s2">&quot;long&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">667</span>     <span class="n">plot_data</span><span class="p">,</span> <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assign_variables_longform</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">668</span>         <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">variables</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">669</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">671</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_data</span> <span class="o">=</span> <span class="n">plot_data</span>
+<span class="g g-Whitespace">    </span><span class="mi">672</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/seaborn/_core.py:887,</span> in <span class="ni">VectorPlotter._assign_variables_longform</span><span class="nt">(self, data, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">884</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">885</span>         <span class="c1"># We don&#39;t know what this name means</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span>         <span class="n">err</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not interpret value `</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">` for parameter `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">`&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">887</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">889</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">890</span> 
+<span class="g g-Whitespace">    </span><span class="mi">891</span>     <span class="c1"># Otherwise, assume the value is itself a vector of data</span>
+<span class="g g-Whitespace">    </span><span class="mi">892</span> 
+<span class="g g-Whitespace">    </span><span class="mi">893</span>     <span class="c1"># Raise when data is present and a vector can&#39;t be combined with it</span>
+<span class="g g-Whitespace">    </span><span class="mi">894</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+
+<span class="ne">ValueError</span>: Could not interpret value `dan.sleep` for parameter `x`
+</pre></div>
+</div>
 </div>
 </div>
 <p>This does show a nice clear relationship between hours of sleep and grumpiness, but it would be nice to make that relationship even clearer with a line through the middle of the points. This can be easily done by replacing <code class="docutils literal notranslate"><span class="pre">scatterplot</span></code> with <code class="docutils literal notranslate"><span class="pre">regplot</span></code>. Everything else stays the same:</p>
