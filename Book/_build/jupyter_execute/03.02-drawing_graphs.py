@@ -433,7 +433,6 @@ ax = sns.barplot(x = 'Finals', y = 'Team', data = df2)
 ax = sns.barplot(x = 'Finals', y = 'Team', data = df2)
 ax.set(title = 'Number of Finals per Team', xlabel = 'Finals', ylabel='')
 sns.despine(top=True, right=True)
-sns.set_context("notebook", font_scale=1.5)
 
 
 # Now we're talking! A nice clear figure, that is pretty and easy to read. Yum!
