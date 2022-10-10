@@ -621,7 +621,7 @@ print("statistics.variance divide by N-1: ", sample_variance)
 # s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 # $$
 # 
-# and the function that we use to calculate it is `stdev()`. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by $N-1$ rather than $N$. For reasons that will make sense when we return to this topic in the Chapter on [](estimation), I'll refer to this new quantity as $\hat\sigma$ (read as: "sigma hat"), and the formula for this is 
+# and the function that we use to calculate it is `stdev()`. However, as you might have guessed from our discussion of the variance, what Python actually calculates is slightly different to the formula given above. Just like the we saw with the variance, what Python calculates is a version that divides by $N-1$ rather than $N$. For reasons that will make sense when we return to this topic in the chapter on [estimation](estimation), I'll refer to this new quantity as $\hat\sigma$ (read as: "sigma hat"), and the formula for this is 
 # 
 # $$
 # \hat\sigma = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
