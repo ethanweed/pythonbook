@@ -809,7 +809,7 @@ for ax in axes:
 
 
 # Again just ignore. This line is just here for the sake of figure captions and links.
-glue("kurtosis_fig", ax, display=False)
+#glue("kurtosis_fig", ax, display=False)
 
 
 # ```{glue:figure} kurtosis_fig
@@ -838,7 +838,7 @@ glue("kurtosis_fig", ax, display=False)
 # 
 # [^note_kurtosis]: The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.
 
-# In[124]:
+# In[40]:
 
 
 print("Pandas: ", margins.kurtosis())
@@ -858,7 +858,7 @@ print("Pearson: ",stats.kurtosis(margins, fisher=False))
 # 
 # The `describe()` method is an easy thing to use, but a tricky thing to understand in full, since it's a generic function. The basic idea behind the `describe()` method is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you ask it to describe. As a consequence, the behaviour of the `describe()` function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a *numeric* object:
 
-# In[125]:
+# In[41]:
 
 
 afl_margins.describe()
@@ -868,7 +868,7 @@ afl_margins.describe()
 # 
 # Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
 
-# In[126]:
+# In[42]:
 
 
 afl_margins['blowouts'] = np.where(afl_margins['afl.margins'] > 50, True, False)
@@ -877,7 +877,7 @@ afl_margins.head()
 
 # So that's what the `blowouts` variable looks like. Now let's ask Python to `describe()` this data: 
 
-# In[127]:
+# In[43]:
 
 
 afl_margins['blowouts'].describe()
@@ -891,7 +891,7 @@ afl_margins['blowouts'].describe()
 # 
 # Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in the chapter on [](ANOVA) (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
-# In[128]:
+# In[44]:
 
 
 import pandas as pd
@@ -904,7 +904,7 @@ df_clintrial.head()
 
 # Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
-# In[129]:
+# In[45]:
 
 
 df_clintrial.describe(include = 'all')
@@ -959,7 +959,7 @@ df_clintrial.describe(include = 'all')
 # 
 # After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-# In[130]:
+# In[46]:
 
 
 import pandas as pd
@@ -972,7 +972,7 @@ parenthood.head()
 
 # ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan.sleep`, `baby.sleep`, `dan.grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
-# In[131]:
+# In[47]:
 
 
 parenthood.describe()
@@ -982,7 +982,7 @@ parenthood.describe()
 # 
 # 
 
-# In[132]:
+# In[48]:
 
 
 import seaborn as sns
