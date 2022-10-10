@@ -17,68 +17,74 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np                                                              
-import seaborn as sns                                                           
-from scipy import stats                                                         
-import matplotlib.pyplot as plt
+import seaborn as sns
 
-# load some data
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file1 = 'kurtosisdata.csv'
-file2 = 'kurtosisdata_ncurve.csv'
+dan_grump = parenthood['dan.grump']
+dan_sleep = parenthood['dan.sleep']
+baby_sleep = parenthood['baby.sleep']
 
-cd(pathin)
+fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
+fig.suptitle('Sleep Data')
 
-df_kurtosis = pd.read_csv(file1)
+# My grumpiness
+sns.histplot(dan_grump, ax=axes[0])
+axes[0].set_title(dan_grump.name)
 
-# define a normal distribution with a mean of 0 and a standard deviation of 1
-mu = 0
-sigma = 1
-x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-y = stats.norm.pdf(x, mu, sigma)
+# My sleep
+sns.histplot(dan_sleep, ax=axes[1])
+axes[1].set_title(dan_sleep.name)
 
-platykurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Platykurtic"]
-mesokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Mesokurtic"]
-leptokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Leptokurtic"]
+# Baby's sleep
+sns.histplot(baby_sleep, ax=axes[2])
+axes[2].set_title(baby_sleep.name);
 
-
-fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-ax1 = sns.histplot(data=platykurtic, x = "Values", binwidth=.5, ax=axes[0])
-ax2 = sns.histplot(data=mesokurtic, x = "Values", binwidth=.5,  ax=axes[1])
-ax3 = sns.histplot(data=leptokurtic, x = "Values", binwidth=.5, ax=axes[2])
-
-
-
-#ax2 = ax.twinx()
-sns.lineplot(x=x,y=y*40000, ax=ax1, color='black')
-sns.lineplot(x=x,y=y*40000, ax=ax2, color='black')
-sns.lineplot(x=x,y=y*40000, ax=ax3, color='black')
-
-
-axes[0].set_title("Platykurtic\n\"too flat\"")
-axes[1].set_title("Mesokurtic\n\"just right\"")
-axes[2].set_title("Leptokurtic\n\"too pointy\"")
-
-for ax in axes:
-    ax.set_xlim(-6,6)
-    ax.set_ylim(0,25000)
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-
-
-
-# Again just ignore. This line is just here for the sake of figure captions and links.
-glue("kurtosis_fig", ax, display=False)
+# You know the drill by now: this is just for the purpose of linking to the figure in the book
+#glue("grump_fig", fig, display=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [39][0m, in [0;36m<cell line: 53>[0;34m()[0m
-[1;32m     48[0m     ax[38;5;241m.[39mspines[[38;5;124m'[39m[38;5;124mtop[39m[38;5;124m'[39m][38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
-[1;32m     52[0m [38;5;66;03m# Again just ignore. This line is just here for the sake of figure captions and links.[39;00m
-[0;32m---> 53[0m [43mglue[49m([38;5;124m"[39m[38;5;124mkurtosis_fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+[0;31mKeyError[0m                                  Traceback (most recent call last)
+File [0;32m~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/pandas/core/indexes/base.py:3621[0m, in [0;36mIndex.get_loc[0;34m(self, key, method, tolerance)[0m
+[1;32m   3620[0m [38;5;28;01mtry[39;00m:
+[0;32m-> 3621[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_engine[49m[38;5;241;43m.[39;49m[43mget_loc[49m[43m([49m[43mcasted_key[49m[43m)[49m
+[1;32m   3622[0m [38;5;28;01mexcept[39;00m [38;5;167;01mKeyError[39;00m [38;5;28;01mas[39;00m err:
 
-[0;31mNameError[0m: name 'glue' is not defined
-NameError: name 'glue' is not defined
+File [0;32m~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/pandas/_libs/index.pyx:136[0m, in [0;36mpandas._libs.index.IndexEngine.get_loc[0;34m()[0m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/pandas/_libs/index.pyx:163[0m, in [0;36mpandas._libs.index.IndexEngine.get_loc[0;34m()[0m
+
+File [0;32mpandas/_libs/hashtable_class_helper.pxi:5198[0m, in [0;36mpandas._libs.hashtable.PyObjectHashTable.get_item[0;34m()[0m
+
+File [0;32mpandas/_libs/hashtable_class_helper.pxi:5206[0m, in [0;36mpandas._libs.hashtable.PyObjectHashTable.get_item[0;34m()[0m
+
+[0;31mKeyError[0m: 'dan.grump'
+
+The above exception was the direct cause of the following exception:
+
+[0;31mKeyError[0m                                  Traceback (most recent call last)
+Input [0;32mIn [48][0m, in [0;36m<cell line: 3>[0;34m()[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
+[0;32m----> 3[0m dan_grump [38;5;241m=[39m [43mparenthood[49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mdan.grump[39;49m[38;5;124;43m'[39;49m[43m][49m
+[1;32m      4[0m dan_sleep [38;5;241m=[39m parenthood[[38;5;124m'[39m[38;5;124mdan.sleep[39m[38;5;124m'[39m]
+[1;32m      5[0m baby_sleep [38;5;241m=[39m parenthood[[38;5;124m'[39m[38;5;124mbaby.sleep[39m[38;5;124m'[39m]
+
+File [0;32m~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/pandas/core/frame.py:3505[0m, in [0;36mDataFrame.__getitem__[0;34m(self, key)[0m
+[1;32m   3503[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39mcolumns[38;5;241m.[39mnlevels [38;5;241m>[39m [38;5;241m1[39m:
+[1;32m   3504[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_getitem_multilevel(key)
+[0;32m-> 3505[0m indexer [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mcolumns[49m[38;5;241;43m.[39;49m[43mget_loc[49m[43m([49m[43mkey[49m[43m)[49m
+[1;32m   3506[0m [38;5;28;01mif[39;00m is_integer(indexer):
+[1;32m   3507[0m     indexer [38;5;241m=[39m [indexer]
+
+File [0;32m~/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/pandas/core/indexes/base.py:3623[0m, in [0;36mIndex.get_loc[0;34m(self, key, method, tolerance)[0m
+[1;32m   3621[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_engine[38;5;241m.[39mget_loc(casted_key)
+[1;32m   3622[0m [38;5;28;01mexcept[39;00m [38;5;167;01mKeyError[39;00m [38;5;28;01mas[39;00m err:
+[0;32m-> 3623[0m     [38;5;28;01mraise[39;00m [38;5;167;01mKeyError[39;00m(key) [38;5;28;01mfrom[39;00m [38;5;21;01merr[39;00m
+[1;32m   3624[0m [38;5;28;01mexcept[39;00m [38;5;167;01mTypeError[39;00m:
+[1;32m   3625[0m     [38;5;66;03m# If we have a listlike key, _check_indexing_error will raise[39;00m
+[1;32m   3626[0m     [38;5;66;03m#  InvalidIndexError. Otherwise we fall through and re-raise[39;00m
+[1;32m   3627[0m     [38;5;66;03m#  the TypeError.[39;00m
+[1;32m   3628[0m     [38;5;28mself[39m[38;5;241m.[39m_check_indexing_error(key)
+
+[0;31mKeyError[0m: 'dan.grump'
+KeyError: 'dan.grump'
 
