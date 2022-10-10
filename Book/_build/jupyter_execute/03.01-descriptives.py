@@ -123,10 +123,8 @@ margins.sum()
 
 margins[0:5]
 
-#Dataframe.loc[["row1", "row2"...], ["column1", "column2", "column3"...]]
 
-
-# Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this again here, but I touched on it in back in the section on [](indexing). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
+# Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this here, but I touch on it in the section on [pulling out the contents of a data frame](indexingdataframes). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
 
 # In[7]:
 
