@@ -17,28 +17,26 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
-fig.suptitle('Sleepy, grumpy scatterplots')
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
+fig.suptitle('Sleepier, grumpier scatterplots')
 
 sns.scatterplot(x = dan_sleep, y = dan_grump, ax = axes[0])
-fig.axes[0].set_title("Dan")
-fig.axes[0].set_xlabel("Sleep")
+fig.axes[0].set_xlabel("Baby's sleep")
 fig.axes[0].set_ylabel("My grumpiness")
 
-sns.scatterplot(x = baby_sleep, y = dan_grump, ax = axes[1])
-fig.axes[1].set_title("Baby")
-fig.axes[1].set_xlabel("Sleep")
-fig.axes[1].set_ylabel("My grumpiness")
+sns.scatterplot(x = baby_sleep, y = dan_sleep, ax = axes[1])
+fig.axes[1].set_xlabel("Baby's sleep")
+fig.axes[1].set_ylabel("My sleep")
 
-glue("sleep_scatter-fig1", fig, display=False)
+glue("sleep_scatter-fig2", fig, display=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [49][0m, in [0;36m<cell line: 14>[0;34m()[0m
-[1;32m     11[0m fig[38;5;241m.[39maxes[[38;5;241m1[39m][38;5;241m.[39mset_xlabel([38;5;124m"[39m[38;5;124mSleep[39m[38;5;124m"[39m)
-[1;32m     12[0m fig[38;5;241m.[39maxes[[38;5;241m1[39m][38;5;241m.[39mset_ylabel([38;5;124m"[39m[38;5;124mMy grumpiness[39m[38;5;124m"[39m)
-[0;32m---> 14[0m [43mglue[49m([38;5;124m"[39m[38;5;124msleep_scatter-fig1[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+Input [0;32mIn [50][0m, in [0;36m<cell line: 12>[0;34m()[0m
+[1;32m      9[0m fig[38;5;241m.[39maxes[[38;5;241m1[39m][38;5;241m.[39mset_xlabel([38;5;124m"[39m[38;5;124mBaby[39m[38;5;124m'[39m[38;5;124ms sleep[39m[38;5;124m"[39m)
+[1;32m     10[0m fig[38;5;241m.[39maxes[[38;5;241m1[39m][38;5;241m.[39mset_ylabel([38;5;124m"[39m[38;5;124mMy sleep[39m[38;5;124m"[39m)
+[0;32m---> 12[0m [43mglue[49m([38;5;124m"[39m[38;5;124msleep_scatter-fig2[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
 [0;31mNameError[0m: name 'glue' is not defined
 NameError: name 'glue' is not defined

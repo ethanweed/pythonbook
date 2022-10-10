@@ -1049,7 +1049,7 @@ fig.axes[1].set_title("Baby")
 fig.axes[1].set_xlabel("Sleep")
 fig.axes[1].set_ylabel("My grumpiness")
 
-glue("sleep_scatter-fig1", fig, display=False)
+#glue("sleep_scatter-fig1", fig, display=False)
 
 
 # ```{glue:figure} sleep_scatter_fig1
@@ -1064,7 +1064,7 @@ glue("sleep_scatter-fig1", fig, display=False)
 # 
 # In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[134]:
+# In[50]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
