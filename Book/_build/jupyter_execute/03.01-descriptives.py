@@ -433,7 +433,7 @@ stats.iqr(margins)
 # | 2            | 31       | -5.6                     | 5.6                |
 # | 3            | 56       | 19.4                     | 19.4               |
 # | 4            | 8        | -28.6                    | 28.6               |
-# | 5            | 32       | -4.6                     |                    |
+# | 5            | 32       | -4.6                     |  4.6               |
 
 # Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let's do that:
 # 
