@@ -1020,7 +1020,7 @@ following command:</p>
 <li><p>If your data are ordinal scale, you’re more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn’t depend on the precise numbers involved. That’s exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it’s not really appropriate for ordinal data.</p></li>
 <li><p>For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you’re trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don’t have a lot of data), but it’s very sensitive to extreme values, as we’ll see when we look at <a class="reference internal" href="#trimmed-mean"><span class="std std-ref">trimmed means</span></a>.</p></li>
 </ul>
-<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (or “skewed”:  see the section on <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">Skew and kurtosis</span></a>). This is illustrated in <a class="reference internal" href="#fig-meanmedian"><span class="std std-numref">Fig. 5.2</span></a>, above. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
+<p>Let’s expand on that last part a little. One consequence is that there’s systematic differences between the mean and the median when the histogram is asymmetric (or “skewed”:  see the section on <a class="reference internal" href="#skew-and-kurtosis"><span class="std std-ref">skew and kurtosis</span></a>). This is illustrated in <a class="reference internal" href="#fig-meanmedian"><span class="std std-numref">Fig. 5.2</span></a>, above. Notice that the median (right hand side) is located closer to the “body” of the histogram, whereas the mean (left hand side) gets dragged towards the “tail” (where the extreme values are). To give a concrete example, suppose Bob (income $50,000), Kate (income $60,000) and Jane (income $65,000) are sitting at a table: the average income at the table is $58,333 and the median income is $60,000. Then Bill sits down with them (income $100,000,000). The average income has now jumped to $25,043,750 but the median rises only to $62,500. If you’re interested in looking at the overall income at the table, the mean might be the right answer; but if you’re interested in what counts as a typical income at the table, the median would be a better choice here.</p>
 </div>
 <div class="section" id="a-real-life-example">
 <span id="housingpriceexample"></span><h3><span class="section-number">5.1.5. </span>A real life example<a class="headerlink" href="#a-real-life-example" title="Permalink to this headline">¶</a></h3>
@@ -1416,31 +1416,37 @@ Name: afl.finalists, dtype: int64
 <p>Since the previous paragraph might sound a little abstract, let’s go through the <strong><em>mean absolute deviation</em></strong> from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let’s think about our AFL winning margins data, and once again we’ll start by pretending that there’s only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, <span class="math notranslate nohighlight">\(\bar{X}\)</span>. For these five observations, our mean is <span class="math notranslate nohighlight">\(\bar{X} = 36.6\)</span>. The next step is to convert each of our observations <span class="math notranslate nohighlight">\(X_i\)</span> into a deviation score. We do this by calculating the difference between the observation <span class="math notranslate nohighlight">\(X_i\)</span> and the mean <span class="math notranslate nohighlight">\(\bar{X}\)</span>. That is, the deviation score is defined to be <span class="math notranslate nohighlight">\(X_i - \bar{X}\)</span>. For the first observation in our sample, this is equal to <span class="math notranslate nohighlight">\(56 - 36.6 = 19.4\)</span>. Okay, that’s simple enough. The next step in the process is to convert these deviations to absolute deviations. We do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of <span class="math notranslate nohighlight">\(-3\)</span> as <span class="math notranslate nohighlight">\(|-3|\)</span>, and so we say that <span class="math notranslate nohighlight">\(|-3| = 3\)</span>. We use the absolute value function here because we don’t really care whether the value is higher than the mean or lower than the mean, we’re just interested in how <em>close</em> it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:</p>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p>the observation</p></th>
-<th class="text-align:left head"><p>its symbol</p></th>
-<th class="text-align:left head"><p>the observed value</p></th>
+<tr class="row-odd"><th class="head"><p>which game</p></th>
+<th class="head"><p>value</p></th>
+<th class="head"><p>deviation from mean</p></th>
+<th class="head"><p>absolute deviation</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>winning margin, game 1</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_1\)</span></p></td>
-<td class="text-align:left"><p>56 points</p></td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>56</p></td>
+<td><p>19.4</p></td>
+<td><p>19.4</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 2</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_2\)</span></p></td>
-<td class="text-align:left"><p>31 points</p></td>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>31</p></td>
+<td><p>-5.6</p></td>
+<td><p>5.6</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>winning margin, game 3</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_3\)</span></p></td>
-<td class="text-align:left"><p>56 points</p></td>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>56</p></td>
+<td><p>19.4</p></td>
+<td><p>19.4</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>winning margin, game 4</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_4\)</span></p></td>
-<td class="text-align:left"><p>8 points</p></td>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>8</p></td>
+<td><p>-28.6</p></td>
+<td><p>28.6</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>winning margin, game 5</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(X_5\)</span></p></td>
-<td class="text-align:left"><p>32 points</p></td>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>32</p></td>
+<td><p>-4.6</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
