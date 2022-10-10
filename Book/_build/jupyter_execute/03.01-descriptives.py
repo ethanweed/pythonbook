@@ -724,7 +724,7 @@ ax = sns.displot(
 )
 
 # This is just for the purposes of putting this figure in this book. Feel free to ignore!
-glue("skew_fig", ax, display=False)
+#glue("skew_fig", ax, display=False)
 
 
 # ```{glue:figure} skew_fig
@@ -743,7 +743,7 @@ glue("skew_fig", ax, display=False)
 # where $N$ is the number of observations, $\bar{X}$ is the sample mean, and $\hat{\sigma}$ is the standard deviation (the "divide by $N-1$" version, that is). Luckily, `pandas`
 # already knows how to calculate skew:
 
-# In[122]:
+# In[38]:
 
 
 margins.skew(axis = 0, skipna = True)
@@ -754,7 +754,7 @@ margins.skew(axis = 0, skipna = True)
 # 
 # The final measure that is sometimes referred to, though very rarely in practice, is the **_kurtosis_** of a data set. Put simply, kurtosis is a measure of the "pointiness" of a data set, as illustrated in {numref}`fig-kurtosis`.
 
-# In[123]:
+# In[39]:
 
 
 import numpy as np                                                              

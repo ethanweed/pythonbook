@@ -17,37 +17,67 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pandas as pd
-import seaborn as sns
-from os import chdir as cd
+import numpy as np                                                              
+import seaborn as sns                                                           
+from scipy import stats                                                         
+import matplotlib.pyplot as plt
 
 # load some data
 pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'skewdata.csv'
+file1 = 'kurtosisdata.csv'
+file2 = 'kurtosisdata_ncurve.csv'
 
 cd(pathin)
 
-df_skew = pd.read_csv(file)
+df_kurtosis = pd.read_csv(file1)
 
-# plot histograms of the data
-ax = sns.displot(
-        data = df_skew, x = "Values", col="Skew",
-        binwidth=.02, height=3, facet_kws=dict(margin_titles=True),
-)
+# define a normal distribution with a mean of 0 and a standard deviation of 1
+mu = 0
+sigma = 1
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = stats.norm.pdf(x, mu, sigma)
 
-# This is just for the purposes of putting this figure in this book. Feel free to ignore!
-glue("skew_fig", ax, display=False)
+platykurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Platykurtic"]
+mesokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Mesokurtic"]
+leptokurtic = df_kurtosis.loc[df_kurtosis["Kurtosis"] == "Leptokurtic"]
+
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+ax1 = sns.histplot(data=platykurtic, x = "Values", binwidth=.5, ax=axes[0])
+ax2 = sns.histplot(data=mesokurtic, x = "Values", binwidth=.5,  ax=axes[1])
+ax3 = sns.histplot(data=leptokurtic, x = "Values", binwidth=.5, ax=axes[2])
+
+
+
+#ax2 = ax.twinx()
+sns.lineplot(x=x,y=y*40000, ax=ax1, color='black')
+sns.lineplot(x=x,y=y*40000, ax=ax2, color='black')
+sns.lineplot(x=x,y=y*40000, ax=ax3, color='black')
+
+
+axes[0].set_title("Platykurtic\n\"too flat\"")
+axes[1].set_title("Mesokurtic\n\"just right\"")
+axes[2].set_title("Leptokurtic\n\"too pointy\"")
+
+for ax in axes:
+    ax.set_xlim(-6,6)
+    ax.set_ylim(0,25000)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+
+
+# Again just ignore. This line is just here for the sake of figure captions and links.
+glue("kurtosis_fig", ax, display=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [37][0m, in [0;36m<cell line: 20>[0;34m()[0m
-[1;32m     14[0m ax [38;5;241m=[39m sns[38;5;241m.[39mdisplot(
-[1;32m     15[0m         data [38;5;241m=[39m df_skew, x [38;5;241m=[39m [38;5;124m"[39m[38;5;124mValues[39m[38;5;124m"[39m, col[38;5;241m=[39m[38;5;124m"[39m[38;5;124mSkew[39m[38;5;124m"[39m,
-[1;32m     16[0m         binwidth[38;5;241m=[39m[38;5;241m.02[39m, height[38;5;241m=[39m[38;5;241m3[39m, facet_kws[38;5;241m=[39m[38;5;28mdict[39m(margin_titles[38;5;241m=[39m[38;5;28;01mTrue[39;00m),
-[1;32m     17[0m )
-[1;32m     19[0m [38;5;66;03m# This is just for the purposes of putting this figure in this book. Feel free to ignore![39;00m
-[0;32m---> 20[0m [43mglue[49m([38;5;124m"[39m[38;5;124mskew_fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+Input [0;32mIn [39][0m, in [0;36m<cell line: 53>[0;34m()[0m
+[1;32m     48[0m     ax[38;5;241m.[39mspines[[38;5;124m'[39m[38;5;124mtop[39m[38;5;124m'[39m][38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
+[1;32m     52[0m [38;5;66;03m# Again just ignore. This line is just here for the sake of figure captions and links.[39;00m
+[0;32m---> 53[0m [43mglue[49m([38;5;124m"[39m[38;5;124mkurtosis_fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
 [0;31mNameError[0m: name 'glue' is not defined
 NameError: name 'glue' is not defined
