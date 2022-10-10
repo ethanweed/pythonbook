@@ -209,7 +209,7 @@ statistics.median(margins)
 # - If your data are ordinal scale, you're more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn't depend on the precise numbers involved. That's exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it's not really appropriate for ordinal data.
 # - For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you're trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don't have a lot of data), but it's very sensitive to extreme values, as we'll see when we look at [trimmed means](trimmed_mean).  
 
-# Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed":  see the section on [](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
+# Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed":  see the section on [skew and kurtosis](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
 
 # (housingpriceexample)=
 # ### A real life example
@@ -427,13 +427,13 @@ stats.iqr(margins)
 # 
 # Since the previous paragraph might sound a little abstract, let's go through the **_mean absolute deviation_** from the mean a little more slowly. One useful thing about this measure is that the name actually tells you exactly how to calculate it. Let's think about our AFL winning margins data, and once again we'll start by pretending that there's only 5 games in total, with winning margins of 56, 31, 56, 8 and 32. Since our calculations rely on an examination of the deviation from some reference point (in this case the mean), the first thing we need to calculate is the mean, $\bar{X}$. For these five observations, our mean is $\bar{X} = 36.6$. The next step is to convert each of our observations $X_i$ into a deviation score. We do this by calculating the difference between the observation $X_i$ and the mean $\bar{X}$. That is, the deviation score is defined to be $X_i - \bar{X}$. For the first observation in our sample, this is equal to $56 - 36.6 = 19.4$. Okay, that's simple enough. The next step in the process is to convert these deviations to absolute deviations. We do this by converting any negative values to positive ones. Mathematically, we would denote the absolute value of $-3$ as $|-3|$, and so we say that $|-3| = 3$. We use the absolute value function here because we don't really care whether the value is higher than the mean or lower than the mean, we're just interested in how *close* it is to the mean. To help make this process as obvious as possible, the table below shows these calculations for all five observations:
 
-# |the observation        |its symbol |the observed value |
-# |:----------------------|:----------|:------------------|
-# |winning margin, game 1 |$X_1$      |56 points          |
-# |winning margin, game 2 |$X_2$      |31 points          |
-# |winning margin, game 3 |$X_3$      |56 points          |
-# |winning margin, game 4 |$X_4$      |8 points           |
-# |winning margin, game 5 |$X_5$      |32 points          |
+# | which game   | value    | deviation from mean      | absolute deviation |
+# |--------------|----------|--------------------------|--------------------|
+# | 1            | 56       | 19.4                     | 19.4               |
+# | 2            | 31       | -5.6                     | 5.6                |
+# | 3            | 56       | 19.4                     | 19.4               |
+# | 4            | 8        | -28.6                    | 28.6               |
+# | 5            | 32       | -4.6                     |                    |
 
 # Now that we have calculated the absolute deviation score for every observation in the data set, all that we have to do to calculate the mean of these scores. Let's do that:
 # 
