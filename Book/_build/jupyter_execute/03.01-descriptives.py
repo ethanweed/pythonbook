@@ -970,7 +970,7 @@ parenthood = pd.read_csv(file)
 parenthood.head()
 
 
-# ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan.sleep`, `baby.sleep`, `dan.grump` and `day`. Next, I'll calculate some basic descriptive statistics:
+# ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan_sleep`, `baby_sleep`, `dan_grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
 # In[47]:
 
@@ -986,10 +986,11 @@ parenthood.describe()
 
 
 import seaborn as sns
+from matplotlib import pyplot as plt
 
-dan_grump = parenthood['dan.grump']
-dan_sleep = parenthood['dan.sleep']
-baby_sleep = parenthood['baby.sleep']
+dan_grump = parenthood['dan_grump']
+dan_sleep = parenthood['dan_sleep']
+baby_sleep = parenthood['baby_sleep']
 
 fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
 fig.suptitle('Sleep Data')
@@ -1032,7 +1033,7 @@ axes[2].set_title(baby_sleep.name);
 # ### The strength and direction of a relationship
 # 
 
-# In[133]:
+# In[49]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
