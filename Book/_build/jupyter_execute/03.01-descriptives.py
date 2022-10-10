@@ -43,7 +43,7 @@ ax.set(xlabel ="Winning Margin",
 #glue("afl_fig", ax, display=False)
 
 
-# ```
+# ```{glue:figure} afl_fig
 # :figwidth: 600px
 # :name: fig-AFL-Margins
 # 
