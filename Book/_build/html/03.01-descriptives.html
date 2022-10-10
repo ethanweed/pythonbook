@@ -716,13 +716,11 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/Data&#39;</span><span class="p">)</span>
 
-<span class="n">afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_finalists.csv&#39;</span><span class="p">)</span>
-<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;afl_margins.csv&#39;</span><span class="p">)</span>
+
+<span class="n">afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_finalists.csv&#39;</span><span class="p">)</span>
+<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_margins.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -730,28 +728,81 @@ const thebe_selector_output = ".output, .cell_output"
 <p>There are two variables here, <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> and <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code>. We’ll focus a bit on these two variables in this chapter, so I’d better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) <a class="footnote-reference brackets" href="#note1" id="id1">1</a> The <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The <code class="docutils literal notranslate"><span class="pre">afl_finalists</span></code> variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let’s have a look at the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     afl.margins
-0             56
-1             31
-2             56
-3              8
-4             32
-..           ...
-171           28
-172           38
-173           29
-174           10
-175           10
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-[176 rows x 1 columns]
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+<p>176 rows × 1 columns</p>
+</div></div></div>
 </div>
 <p>This output doesn’t make it easy to get a sense of what the data are actually saying. Just “looking at the data” isn’t a terribly effective way of understanding data. In order to get some idea about what’s going on, we need to calculate some descriptive statistics (this chapter) and draw some nice pictures (next chapter). Since the descriptive statistics are the easier of the two topics, I’ll start with those, but nevertheless I’ll show you a histogram of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data, since it should help you get a sense of what the data we’re trying to describe actually look like. But for what it’s worth, this histogram was generated using the <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> package. We’ll talk a lot more about how to draw histograms in <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>. For now, it’s enough to look at the histogram and note that it provides a fairly interpretable representation of the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data.</p>
 <div class="cell tag_hide-input docutils container">
@@ -877,7 +928,7 @@ Name: afl.margins, dtype: int64
 </div>
 </div>
 </div>
-<p>Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am <strong>not</strong> going to get into this again here, but I touched on it in back in the section on <a class="reference internal" href="03.03-pragmatic_matters.html#indexing"><span class="std std-ref">Indexing and slicing</span></a>. To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:</p>
+<p>Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am <strong>not</strong> going to get into this again here, but I touched on it in back in the section on <a class="reference internal" href="02.02-more_python_concepts.html#indexing"><span class="std std-ref">Indexing and slicing</span></a>. To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span>
@@ -1814,7 +1865,7 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x175895210&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x17eabac50&gt;
 </pre></div>
 </div>
 </div>

@@ -11,13 +11,11 @@
 
 import os
 import pandas as pd
-from pathlib import Path
 
-cwd = os.getcwd()
-os.chdir(str(Path(cwd).parents[0]) + '/Data')
 
-afl_finalists = pd.read_csv('afl_finalists.csv')
-afl_margins = pd.read_csv('afl_margins.csv')
+
+afl_finalists = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_finalists.csv')
+afl_margins = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_margins.csv')
 
 
 # There are two variables here, `afl_finalists` and `afl_margins`. We'll focus a bit on these two variables in this chapter, so I'd better tell you what they are. Unlike most of data sets in this book, these are actually real data, relating to the Australian Football League (AFL) [^note1] The `afl_margins` variable contains the winning margin (number of points) for all 176 home and away games played during the 2010 season. The `afl_finalists` variable contains the names of all 400 teams that played in all 200 finals matches played during the period 1987 to 2010.  Let's have a look at the `afl_margins` variable:
@@ -27,7 +25,7 @@ afl_margins = pd.read_csv('afl_margins.csv')
 # In[2]:
 
 
-print(afl_margins)
+afl_margins
 
 
 # 
