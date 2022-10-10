@@ -482,7 +482,7 @@ data.mad()
 
 # Ok, I lied again. There is more than one thing to notice (when isn't there?). `pandas` calls this the "MAD". And, as we have seen, this is _also_ the acronym for the _median absolute difference_. To find the median absolute difference, we can use the `robust` module from the `statsmodels` package, which has a function called, you guessed it, `mad`. Except this time the "m" in "MAD" stand for "median" and not "mean". Haha, isn't naming fun?
 # 
-# We'll talk more about median absolute deviation[](mad) below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!
+# We'll talk more about [median absolute deviation](mad) below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!
 
 # In[28]:
 
