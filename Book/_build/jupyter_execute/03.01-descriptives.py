@@ -9,7 +9,6 @@
 # In[1]:
 
 
-import os
 import pandas as pd
 
 afl_finalists = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_finalists.csv')
