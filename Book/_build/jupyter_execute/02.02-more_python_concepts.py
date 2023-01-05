@@ -269,7 +269,7 @@ file = "/Users/ethan/Documents/GitHub/pythonbook/Data/booksales.csv"
 df = pd.read_csv(file)
 
 
-# Either way works, but I think this looks nicer, and it also has an additional advantage: it makes the code more versatile. Right now we are just loading a single CSV, but if we want to load many CSV files, it might be useful to write a [loop](loops) that puts different paths into the same variable `file`. But that is a discussion for another time.
+# Either way works, but I think this looks nicer, and it also has an additional advantage: it makes the code more versatile. Right now we are just loading a single CSV, but if we want to load many CSV files, it might be useful to write a [loop](loops) that puts different paths into the same variable `file`. But that is a discussion for [another time](loops).
 
 # ### Saving a dataframe as a CSV
 # 
