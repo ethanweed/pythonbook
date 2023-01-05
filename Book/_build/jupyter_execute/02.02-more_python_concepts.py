@@ -22,7 +22,7 @@
 seeker = 3.1415           # create the first variable
 lover = 2.7183            # create the second variable
 keeper = seeker * lover   # now multiply them to create a third one
-print(keeper)           # print out the value of 'keeper'
+print(keeper)            # print out the value of 'keeper'
 
 
 # it's a lot easier to understand what I'm doing than if I just write this:
@@ -43,7 +43,7 @@ print(keeper)
 # ## Installing and importing 
 # 
 # 
-# There is lots to love about Python as a programming language. Although it has its quirks and peculiarities like any language (programming or natural), it is relatively flexible and welcoming to newcomers, while still be very, very powerful. But one of the best things about Python isn't even the language itself, it is the rich ecosystem of code written by other people that you can use to make Python do things for you. These **libraries** or **packages** [^note2] contain code that people have written to solve particular problems, and then kindly made available for other people, like you and me, so that we don't have to spend our time reinventing the wheel. By installing and importing libraries, you can achieve very complicated things with only a few lines of your own code, by standing on the shoulders of others. Just ask Cueball from the webcomic xkcd:[^note3]
+# There is lots to love about Python as a programming language. Although it has its quirks and peculiarities like any language (programming or natural), it is relatively flexible and welcoming to newcomers, while still very, very powerful. But one of the best things about Python isn't even the language itself, it is the rich ecosystem of code written by other people that you can use to make Python do things for you. These **libraries** or **packages** [^note2] contain code that people have written to solve particular problems, and then kindly made available for other people, like you and me, so that we don't have to spend our time reinventing the wheel. By installing and importing libraries, you can achieve very complicated things with only a few lines of your own code, by standing on the shoulders of others. Just ask Cueball from the webcomic xkcd:[^note3]
 # 
 # [^note2]: There are some subtle differences between libraries, packages, and modules, but we don't need to concern ourselves with these here, and I may well mix up these words in the text. The key thing is, they are bits of code that we need to import to make stuff happen in Python.  
 # [^note3]: https://xkcd.com/353/
@@ -60,11 +60,11 @@ print(keeper)
 # 
 # I won't get into the details of installing libraries here, simply because it is too much for me to tackle. If you are using Python in an online enviroment, you may already have access to all the libraries mentioned in this book. If you are working with Python on your own computer, the exact details of how you install packages may vary. If you want to use Python on your own computer, and are just getting started, I recommend [Anaconda](https://www.anaconda.com/products/individual#Downloads) as a relatively easy way to install Python and get quick access to all the most common and important libraries.
 # 
-# [^note4]: Basically, the reason is that there are thousands of libraries, and probably thousands of authors of libraries, and no-one really knows what all of them do. Keeping the installation separate from the loading minimizes the chances that two libraries will interact with each other in a nasty way. 
+# [^note4]: Basically, the reason is that there are thousands of libraries, and probably thousands of authors of libraries, and no-one really knows what all of them do. Keeping the installation separate from the loading minimizes the chances that two libraries will interact with each other in a nasty way, like using the same name for different things. 
 
 # ### What libraries does this book use?
 # 
-# In this book, I have made a concerted effort to limit the number of libraries needed. Often you will find that you can use different libraries to achieve the same results, and sometimes one of these may suit your needs more than another. This is something that can make doing analysis by code rather than pointing and clicking in a dedicated statistics program a bit off-putting; in Excel, there is usually only one way to do things, while in Python, there are many. I think this is part of what makes doing statistics using code better, though: you can make your own informed choices, and do *exactly* the analysis you want to do; you don't have to accept some piece of software's default settings. However, point of this book is to get you started doing data analysis and statistics in Python, not to show you all the different ways you could achieve the same goal, so in an effort to keep things simple, I have tried to limit the libraries used in this book to a few of the most important and most common ones for doing statistics with Python. The most prominent ones are: `numpy`, `scipy`, `pandas`, `matplotlib`, `seaborn`, `statistics`, `pingouin`, `math`, and `statsmodels`, but I may use others as well, as needed.
+# In this book, I have made a concerted effort to limit the number of libraries needed. Often you will find that you can use different libraries to achieve the same results, and sometimes one of these may suit your needs more than another. This is something that can make doing analysis by code rather than pointing and clicking in a dedicated statistics program a bit off-putting; in Excel, there is usually only one way to do things, while in Python, there are many. I think this is part of what makes doing statistics using code better, though: you can make your own informed choices, and do *exactly* the analysis you want to do; you don't have to accept some piece of software's default settings. However, the point of this book is to get you started doing data analysis and statistics in Python, not to show you all the different ways you could achieve the same goal, so in an effort to keep things simple, I have tried to limit the libraries used in this book to a few of the most important and most common ones for doing statistics with Python. The libraries we will return to again and again are: `numpy`, `pandas`, `matplotlib`, `seaborn`, `statistics`, `math`, and `pingouin`, but I may use others as well, as needed. Other powerful libraries that I won't make much use of in this book, but that you will probably end up using at some point if you continue to do statistics with Python include `scipy`, `statmodels`, and `scikit-learn`.
 # 
 # ### How will I import libraries in this book?
 # 
@@ -110,7 +110,7 @@ statistics.mean(numbers)
 # One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:
 # 
 # 1. Choose to import only a portion of a library  
-# 2. Rename libraries of portions of libraries when importing
+# 2. Rename libraries or portions of libraries when importing
 # 
 # Let's say we don't want to import the entire `statistics` library — we only want the `mean` command. We can achieve this like this:
 
@@ -138,7 +138,7 @@ import numpy as np
 import seaborn as sns
 
 
-# This is very convenient, but be careful: if you e.g. import `numpy` as `np`, the Python will only recognize it as `np`, at least for the time your code is in Python's active memory. Also, although you can use whatever abbreviations you like, I highly recommend sticking to the conventional ones, for your sake and for the sake of others trying to read your code. It's kind of fun the first time to do something like
+# This is very convenient, but be careful: if you e.g. import `numpy` as `np`, then Python will only recognize it as `np`, at least for the time your code is in Python's active memory. Also, although you can use whatever abbreviations you like, I highly recommend sticking to the conventional ones, for your sake and for the sake of others trying to read your code. It's kind of fun the first time to do something like
 
 # In[9]:
 
