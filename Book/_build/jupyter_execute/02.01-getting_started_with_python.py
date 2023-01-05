@@ -79,7 +79,7 @@
 # 
 # To some extent, I'm stating the obvious here, but it's important. The people who wrote Python are smart. You, the user, are smart. But Python itself is dumb. And because it's dumb, it has to be mindlessly obedient. It does *exactly* what you ask it to do. There is  no equivalent to "autocorrect" in Python[^note_codecompletion], and for good reason. When doing advanced stuff -- and even the simplest of statistics is pretty advanced in a lot of ways -- it's dangerous to let a mindless automaton like Python try to overrule the human user. But because of this, it's your responsibility to be careful. Always make sure you type *exactly what you mean*. When dealing with computers, it's not enough to type "approximately" the right thing. In general, you absolutely *must* be precise in what you say to Python ... like all machines it is too stupid to be anything other than absurdly literal in its interpretation.
 # 
-# [^note_codecompletion]: Ok, some IDE programs do offer code completion, so that you can begin typing code, and the IDE will suggest the Python code that it thinks you intend to type, but it still want save you if type the wrong thing. And also it might not guess your intentions correctly. Even smart IDEs are still dumb computer programs.
+# [^note_codecompletion]: Ok, some IDE programs do offer code completion, so that you can begin typing code, and the IDE will suggest the Python code that it thinks you intend to type, but this still won't save you if type the wrong thing. And also it might not guess your intentions correctly. Even smart IDEs are still dumb computer programs.
 
 # ### Python is (a teeny bit) flexible with spacing
 # 
