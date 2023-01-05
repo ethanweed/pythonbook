@@ -710,7 +710,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<p>Clearly, this isn’t a problem for Python either. However, it’s worth stopping for a second, and thinking about what Python just did. Clearly, since it gave us an answer of <code class="docutils literal notranslate"><span class="pre">9</span></code> it must have multiplied <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">4</span></code> (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if Python had decided instead to add <code class="docutils literal notranslate"><span class="pre">1+2</span></code> (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of <code class="docutils literal notranslate"><span class="pre">12</span></code>.</p>
+<p>Clearly, this isn’t a problem for Python either. However, it’s worth stopping for a second, and thinking about what Python just did. Clearly, since it gave us an answer of <code class="docutils literal notranslate"><span class="pre">9</span></code> it must have multiplied <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">4</span></code> (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if Python had decided instead to add <code class="docutils literal notranslate"><span class="pre">1+2</span></code> (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of <code class="docutils literal notranslate"><span class="pre">12</span></code>. How did it know what to do?</p>
 <p>To answer this, you need to know the <strong><em>order of operations</em></strong> that Python uses. If you remember back to your high school maths classes, it’s actually the same order that you got taught when you were at school: the “<strong><em>BEDMAS</em></strong>” order. That is, first calculate things inside <strong>B</strong>rackets <code class="docutils literal notranslate"><span class="pre">()</span></code>, then calculate <strong>E</strong>xponents <code class="docutils literal notranslate"><span class="pre">**</span></code>, then <strong>D</strong>ivision <code class="docutils literal notranslate"><span class="pre">/</span></code> and <strong>M</strong>ultiplication <code class="docutils literal notranslate"><span class="pre">*</span></code>, then <strong>A</strong>ddition <code class="docutils literal notranslate"><span class="pre">+</span></code> and <strong>S</strong>ubtraction <code class="docutils literal notranslate"><span class="pre">-</span></code>. So, to continue the example above, if we want to force Python to calculate the <code class="docutils literal notranslate"><span class="pre">1+2</span></code> part before the multiplication, all we would have to do is enclose it in brackets:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -806,12 +806,12 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revenue</span> <span class="o">=</span> <span class="n">sales</span> <span class="o">*</span> <span class="n">royalty</span>
-<span class="n">revenue</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">revenue</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2450
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2450
 </pre></div>
 </div>
 </div>
@@ -830,7 +830,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<p>In this calculation, Python has taken the old value of <code class="docutils literal notranslate"><span class="pre">revenue</span></code> (i.e., 2450) and added 550 to that value, producing a value of 3000. This new value is assigned to the <code class="docutils literal notranslate"><span class="pre">revenue</span></code> variable, overwriting its previous value. In any case, we now know that I’m expecting to make $3000 off this. Pretty sweet, I thinks to myself. Or at least, that’s what I thinks until I do a few more calculations and work out what the implied hourly wage I’m making off this looks like.</p>
+<p>In this calculation, Python has taken the old value of <code class="docutils literal notranslate"><span class="pre">revenue</span></code><a class="footnote-reference brackets" href="#note-print" id="id8">7</a> (i.e., 2450) and added 550 to that value, producing a value of 3000. This new value is assigned to the <code class="docutils literal notranslate"><span class="pre">revenue</span></code> variable, overwriting its previous value. In any case, we now know that I’m expecting to make $3000 off this. Pretty sweet, I thinks to myself. Or at least, that’s what I thinks until I do a few more calculations and work out what the implied hourly wage I’m making off this looks like.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
@@ -850,6 +850,9 @@ const thebe_selector_output = ".output, .cell_output"
 </dd>
 <dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
 <dd><p>If you’re reading this with Python open, a good learning trick is to try typing in a few different variations on what I’ve done here. If you experiment with your commands, you’ll quickly learn what works and what doesn’t.</p>
+</dd>
+<dt class="label" id="note-print"><span class="brackets"><a class="fn-backref" href="#id8">7</a></span></dt>
+<dd><p>Just as an aside, you may have noticed (of course you did!) that the first time I wrote <code class="docutils literal notranslate"><span class="pre">print(revenue)</span></code> and the second time I just wrote <code class="docutils literal notranslate"><span class="pre">revenue</span></code>. This works, because in jupyter notebooks, if you write the variable name by itself, it will output the contents of that variable, just as if you had asked it <code class="docutils literal notranslate"><span class="pre">print</span></code> the variable. This only works for the last variable in the cell though, so you if want to see the contents of several variables, you will have to use <code class="docutils literal notranslate"><span class="pre">print</span></code></p>
 </dd>
 </dl>
 </div>
