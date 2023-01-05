@@ -11,7 +11,7 @@ Update: having by now gotten as far as figuring out how to use Python to overlay
 
 
 
-#### Log
+## Progress Log
 
 05-01-2023 Nearly two years since I started this project. I never imagined it would take this long, even taking [Hofstadter's law](https://en.wikipedia.org/wiki/Hofstadter%27s_law) into account, which I did. This semester I am starting at the beginning again, and going though the old chapters, cleaning stuff up, and adding details. These are the chapters that I use most in teaching, and they still contain errors like references to R that should have been changed to Python, and important missing stuff like explaining the different variable types, and basic programming stuff like loops and conditionals. Once I have made a second pass through these chapters, I'll do draft versions of the later chapters. I would be thrilled if I could make it to the Bayes chapter by Spring, but let's see how it goes.
 
