@@ -399,7 +399,7 @@ print(mixed)
 print(combined)
 
 
-# Let's say I am so enamored with Python that I actually decided to keep my shopping list in a Python list. Seems unlikely, I know, but bear with me. Later, I realize I have forgotten what I wrote on the list. This does kind of sound like me, actually. To see the contents of the entire list, I can use `print()`, the way I did above. But let's say I only want to see the second item on the list. Python has a way access specific items in lists, but it will seem strange at first!
+# Let's say I am so enamored with Python that I actually decided to keep my shopping list in a Python list. Seems unlikely, I know, but bear with me. Later, I realize I have forgotten what I wrote on the list. This does kind of sound like me, actually. To see the contents of the entire list, I can use `print()`, the way I did above. But let's say I only want to see the second item on the list. Python has a way to access specific items in lists, but it will seem strange at first!
 
 # (indexing)=
 # ### Indexing and slicing
