@@ -9,13 +9,11 @@
 # >
 # >-- Louis Sullivan
 
-# In the chapter on [Getting started with Python](getting-started-with-python) our main goal was to, well, get started with Python. As we go through the book we'll run into a lot of new  Python concepts, which I'll explain alongside the relevant data analysis concepts. However, there's still quite a few things that I need to talk about now, otherwise we'll run into problems when we start trying to work with data and do statistics. So that's the goal in this chapter: to build on the introductory content from the last chapter, to get you to the point that we can start using Python for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the "mechanics" of Python: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I'll talk more about what kinds of variables exist in Python, and introduce three new kinds of variables: factors, data frames and formulas. I'll finish up by talking a little bit about the help documentation in Python as well as some other avenues for finding assistance. In general, I'm not trying to be comprehensive in this chapter, I'm trying to make sure that you've got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later. 
+# In the chapter on [Getting started with Python](getting-started-with-python) our main goal was to, well, get started with Python. As we go through the book we'll run into a lot of new  Python concepts, which I'll explain alongside the relevant data analysis concepts. However, there's still quite a few things that I need to talk about now, otherwise we'll run into problems when we start trying to work with data and do statistics. So that's the goal in this chapter: to build on the introductory stuff from the last chapter, to get you to the point that we can start using Python for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the "mechanics" of Python: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I'll talk more about what kinds of variables exist in Python, and introduce three new kinds of variables: factors, data frames and formulas. I'll finish up by talking a little bit about the help documentation in Python as well as some other avenues for finding assistance. In general, I'm not trying to be comprehensive in this chapter, I'm trying to make sure that you've got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later. 
 
 # ## Using comments
 # 
-# Before discussing any of the more complicated stuff, I want to introduce the **_comment_** character, `#`. It has a simple meaning: it tells Python to ignore everything else you've written on this line. You won't have much need of the `#` character immediately, but it's very useful later on when writing scripts. However, while you don't need to use it, I want to be able to include comments in my Python extracts. For instance, if you read this: [^note1]
-# 
-# [^note1]: Notice that I used `print(keeper)` rather than just typing `keeper`. Later on in the text I'll sometimes use the `print()` function to display things because I think it helps make clear what I'm doing, but in practice people rarely do this.
+# Before discussing any of the more complicated stuff, I want to introduce the **_comment_** character, `#`. It has a simple meaning: it tells Python to ignore everything else you've written on this line. You won't have much need of the `#` character immediately, but it's very useful later on when writing scripts. However, while you don't need to use it, I want to be able to include comments in my Python extracts. For instance, if you read this:
 # 
 
 # In[1]:
@@ -24,7 +22,7 @@
 seeker = 3.1415           # create the first variable
 lover = 2.7183            # create the second variable
 keeper = seeker * lover   # now multiply them to create a third one
-print( keeper )           # print out the value of 'keeper'
+print(keeper)           # print out the value of 'keeper'
 
 
 # it's a lot easier to understand what I'm doing than if I just write this:
@@ -35,7 +33,7 @@ print( keeper )           # print out the value of 'keeper'
 seeker = 3.1415
 lover = 2.7183
 keeper = seeker * lover
-print( keeper )    
+print(keeper)    
 
 
 # From now on, you'll start seeing `#` characters appearing in the code extracts, with some human-readable explanatory remarks next to them. These are still perfectly legitimate commands, since Python knows that it should ignore the `#` character and everything after it. But hopefully they'll help make things a little easier to understand.

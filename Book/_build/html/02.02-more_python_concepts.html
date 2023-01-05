@@ -623,16 +623,16 @@ const thebe_selector_output = ".output, .cell_output"
 <div><p><em>Form follows function</em></p>
 <p>– Louis Sullivan</p>
 </div></blockquote>
-<p>In the chapter on <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting started with Python</span></a> our main goal was to, well, get started with Python. As we go through the book we’ll run into a lot of new  Python concepts, which I’ll explain alongside the relevant data analysis concepts. However, there’s still quite a few things that I need to talk about now, otherwise we’ll run into problems when we start trying to work with data and do statistics. So that’s the goal in this chapter: to build on the introductory content from the last chapter, to get you to the point that we can start using Python for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the “mechanics” of Python: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I’ll talk more about what kinds of variables exist in Python, and introduce three new kinds of variables: factors, data frames and formulas. I’ll finish up by talking a little bit about the help documentation in Python as well as some other avenues for finding assistance. In general, I’m not trying to be comprehensive in this chapter, I’m trying to make sure that you’ve got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later.</p>
+<p>In the chapter on <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting started with Python</span></a> our main goal was to, well, get started with Python. As we go through the book we’ll run into a lot of new  Python concepts, which I’ll explain alongside the relevant data analysis concepts. However, there’s still quite a few things that I need to talk about now, otherwise we’ll run into problems when we start trying to work with data and do statistics. So that’s the goal in this chapter: to build on the introductory stuff from the last chapter, to get you to the point that we can start using Python for statistics. Broadly speaking, the chapter comes in two parts. The first half of the chapter is devoted to the “mechanics” of Python: installing and loading packages, managing the workspace, navigating the file system, and loading and saving data. In the second half, I’ll talk more about what kinds of variables exist in Python, and introduce three new kinds of variables: factors, data frames and formulas. I’ll finish up by talking a little bit about the help documentation in Python as well as some other avenues for finding assistance. In general, I’m not trying to be comprehensive in this chapter, I’m trying to make sure that you’ve got the basic foundations needed to tackle the content that comes later in the book. However, a lot of the topics are revisited in more detail later.</p>
 <div class="section" id="using-comments">
 <h2><span class="section-number">4.1. </span>Using comments<a class="headerlink" href="#using-comments" title="Permalink to this headline">¶</a></h2>
-<p>Before discussing any of the more complicated stuff, I want to introduce the <strong><em>comment</em></strong> character, <code class="docutils literal notranslate"><span class="pre">#</span></code>. It has a simple meaning: it tells Python to ignore everything else you’ve written on this line. You won’t have much need of the <code class="docutils literal notranslate"><span class="pre">#</span></code> character immediately, but it’s very useful later on when writing scripts. However, while you don’t need to use it, I want to be able to include comments in my Python extracts. For instance, if you read this: <a class="footnote-reference brackets" href="#note1" id="id1">1</a></p>
+<p>Before discussing any of the more complicated stuff, I want to introduce the <strong><em>comment</em></strong> character, <code class="docutils literal notranslate"><span class="pre">#</span></code>. It has a simple meaning: it tells Python to ignore everything else you’ve written on this line. You won’t have much need of the <code class="docutils literal notranslate"><span class="pre">#</span></code> character immediately, but it’s very useful later on when writing scripts. However, while you don’t need to use it, I want to be able to include comments in my Python extracts. For instance, if you read this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seeker</span> <span class="o">=</span> <span class="mf">3.1415</span>           <span class="c1"># create the first variable</span>
 <span class="n">lover</span> <span class="o">=</span> <span class="mf">2.7183</span>            <span class="c1"># create the second variable</span>
 <span class="n">keeper</span> <span class="o">=</span> <span class="n">seeker</span> <span class="o">*</span> <span class="n">lover</span>   <span class="c1"># now multiply them to create a third one</span>
-<span class="nb">print</span><span class="p">(</span> <span class="n">keeper</span> <span class="p">)</span>           <span class="c1"># print out the value of &#39;keeper&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">keeper</span><span class="p">)</span>           <span class="c1"># print out the value of &#39;keeper&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -648,7 +648,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seeker</span> <span class="o">=</span> <span class="mf">3.1415</span>
 <span class="n">lover</span> <span class="o">=</span> <span class="mf">2.7183</span>
 <span class="n">keeper</span> <span class="o">=</span> <span class="n">seeker</span> <span class="o">*</span> <span class="n">lover</span>
-<span class="nb">print</span><span class="p">(</span> <span class="n">keeper</span> <span class="p">)</span>    
+<span class="nb">print</span><span class="p">(</span><span class="n">keeper</span><span class="p">)</span>    
 </pre></div>
 </div>
 </div>
@@ -662,7 +662,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="installing-and-importing">
 <span id="packageinstall"></span><h2><span class="section-number">4.2. </span>Installing and importing<a class="headerlink" href="#installing-and-importing" title="Permalink to this headline">¶</a></h2>
-<p>There is lots to love about Python as a programming language. Although it has its quirks and peculiarities like any language (programming or natural), it is relatively flexible and welcoming to newcomers, while still be very, very powerful. But one of the best things about Python isn’t even the language itself, it is the rich ecosystem of code written by other people that you can use to make Python do things for you. These <strong>libraries</strong> or <strong>packages</strong> <a class="footnote-reference brackets" href="#note2" id="id2">2</a> contain code that people have written to solve particular problems, and then kindly made available for other people, like you and me, so that we don’t have to spend our time reinventing the wheel. By installing and importing libraries, you can achieve very complicated things with only a few lines of your own code, by standing on the shoulders of others. Just ask Cueball from the webcomic xkcd:<a class="footnote-reference brackets" href="#note3" id="id3">3</a></p>
+<p>There is lots to love about Python as a programming language. Although it has its quirks and peculiarities like any language (programming or natural), it is relatively flexible and welcoming to newcomers, while still be very, very powerful. But one of the best things about Python isn’t even the language itself, it is the rich ecosystem of code written by other people that you can use to make Python do things for you. These <strong>libraries</strong> or <strong>packages</strong> <a class="footnote-reference brackets" href="#note2" id="id1">1</a> contain code that people have written to solve particular problems, and then kindly made available for other people, like you and me, so that we don’t have to spend our time reinventing the wheel. By installing and importing libraries, you can achieve very complicated things with only a few lines of your own code, by standing on the shoulders of others. Just ask Cueball from the webcomic xkcd:<a class="footnote-reference brackets" href="#note3" id="id2">2</a></p>
 <p><img alt="xkcdpython" src="https://imgs.xkcd.com/comics/python.png" /></p>
 <p>When doing anything other than the very most basic forms of data analysis in Python, we will almost always need to use libraries. However, before we get started, there’s a critical distinction that you need to understand, which is the difference between having a package <strong><em>installed</em></strong> on your computer, and having a package <strong><em>imported</em></strong> in Python. I do not have any idea how many Python libraries are available out there, but it is a lot. Thousands. If you install Python on your computer, you won’t get all of them, just a handfull of the standard ones. Depending on how you install Python on your computer, you may have more or fewer libraries installed, but either way, there are thousands more out there that you do not currently have installed. So that’s what installed means: it means “it’s on your computer somewhere”. The critical thing to remember is that just because something is on your computer doesn’t mean Python can use it. In order for Python to be able to <em>use</em> one of your installed libraries, that library must also be “imported”. Basically what it boils down to is this:</p>
 <blockquote>
@@ -671,7 +671,7 @@ const thebe_selector_output = ".output, .cell_output"
 <blockquote>
 <div><p>A library must be imported before it can be used.</p>
 </div></blockquote>
-<p>This two step process might seem a little odd at first, but the designers of Python had very good reasons to do it this way,<a class="footnote-reference brackets" href="#note4" id="id4">4</a> and you get the hang of it pretty quickly.</p>
+<p>This two step process might seem a little odd at first, but the designers of Python had very good reasons to do it this way,<a class="footnote-reference brackets" href="#note4" id="id3">3</a> and you get the hang of it pretty quickly.</p>
 <p>I won’t get into the details of installing libraries here, simply because it is too much for me to tackle. If you are using Python in an online enviroment, you may already have access to all the libraries mentioned in this book. If you are working with Python on your own computer, the exact details of how you install packages may vary. If you want to use Python on your own computer, and are just getting started, I recommend <a class="reference external" href="https://www.anaconda.com/products/individual#Downloads">Anaconda</a> as a relatively easy way to install Python and get quick access to all the most common and important libraries.</p>
 <div class="section" id="what-libraries-does-this-book-use">
 <h3><span class="section-number">4.2.1. </span>What libraries does this book use?<a class="headerlink" href="#what-libraries-does-this-book-use" title="Permalink to this headline">¶</a></h3>
@@ -679,7 +679,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="how-will-i-import-libraries-in-this-book">
 <h3><span class="section-number">4.2.2. </span>How will I import libraries in this book?<a class="headerlink" href="#how-will-i-import-libraries-in-this-book" title="Permalink to this headline">¶</a></h3>
-<p>Once you import a library into Python’s active memory, you don’t need to do it again. In writing this book, each chapter is a python file <a class="footnote-reference brackets" href="#note5" id="id5">5</a>. So, if I have imported e.g. <code class="docutils literal notranslate"><span class="pre">numpy</span></code> early in the chapter, I don’t need to do it again in a later section of the chapter. But, normally I will, because I want the code snippets in this book to be as easy as possible to copy and paste into your own computer. If I don’t put the <code class="docutils literal notranslate"><span class="pre">import</span></code> command at the top of the snippet, and you have not already imported the library, then you might copy and paste my code into your computer and get an error message. Then again, sometimes I might forget to put the import statement in, or I might think it should be obvious, or I might just get lazy, so make sure to keep an eye out for this!</p>
+<p>Once you import a library into Python’s active memory, you don’t need to do it again. In writing this book, each chapter is a python file <a class="footnote-reference brackets" href="#note5" id="id4">4</a>. So, if I have imported e.g. <code class="docutils literal notranslate"><span class="pre">numpy</span></code> early in the chapter, I don’t need to do it again in a later section of the chapter. But, normally I will, because I want the code snippets in this book to be as easy as possible to copy and paste into your own computer. If I don’t put the <code class="docutils literal notranslate"><span class="pre">import</span></code> command at the top of the snippet, and you have not already imported the library, then you might copy and paste my code into your computer and get an error message. Then again, sometimes I might forget to put the import statement in, or I might think it should be obvious, or I might just get lazy, so make sure to keep an eye out for this!</p>
 </div>
 <div class="section" id="importing-libraries">
 <h3><span class="section-number">4.2.3. </span>Importing libraries<a class="headerlink" href="#importing-libraries" title="Permalink to this headline">¶</a></h3>
@@ -732,7 +732,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<p>You probably noticed the <code class="docutils literal notranslate"><span class="pre">.</span></code> in the code above. This is the way we tell Python that we want to use a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code> which is found inside the library <code class="docutils literal notranslate"><span class="pre">statistics</span></code>. Without the <code class="docutils literal notranslate"><span class="pre">.</span></code>, even though we have imported <code class="docutils literal notranslate"><span class="pre">statistics</span></code>, which has a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code>, we still can’t just write <code class="docutils literal notranslate"><span class="pre">mean(numbers)</span></code>. We have to tell Python where to look for this command. This all seems very cumbersome, but it’s really not so bad, there are good reasons for doing it this way<a class="footnote-reference brackets" href="#noteconflicts" id="id6">6</a>, and you will get used to it fairly quickly.</p>
+<p>You probably noticed the <code class="docutils literal notranslate"><span class="pre">.</span></code> in the code above. This is the way we tell Python that we want to use a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code> which is found inside the library <code class="docutils literal notranslate"><span class="pre">statistics</span></code>. Without the <code class="docutils literal notranslate"><span class="pre">.</span></code>, even though we have imported <code class="docutils literal notranslate"><span class="pre">statistics</span></code>, which has a command called <code class="docutils literal notranslate"><span class="pre">mean</span></code>, we still can’t just write <code class="docutils literal notranslate"><span class="pre">mean(numbers)</span></code>. We have to tell Python where to look for this command. This all seems very cumbersome, but it’s really not so bad, there are good reasons for doing it this way<a class="footnote-reference brackets" href="#noteconflicts" id="id5">5</a>, and you will get used to it fairly quickly.</p>
 <p>One of the ways in which Python is quite flexible is that it gives you some options in terms of how you import libraries. More precisely, you can:</p>
 <ol class="simple">
 <li><p>Choose to import only a portion of a library</p></li>
@@ -864,7 +864,7 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 <div class="section" id="filesystem-paths">
 <span id="filesystem"></span><h3><span class="section-number">4.4.1. </span>Filesystem paths<a class="headerlink" href="#filesystem-paths" title="Permalink to this headline">¶</a></h3>
 <p>In this section I describe the basic idea behind file locations and file paths. Regardless of whether you’re using Window, macOS or Linux, every file on the computer is assigned a (fairly) human readable address, and every address has the same basic structure: it describes a <em>path</em> that starts from a <em>root</em> location, through as series of <em>folders</em> (or if you’re an old-school computer user, <em>directories</em>), and finally ends up at the file.</p>
-<p>On a Windows computer the root is the physical drive <a class="footnote-reference brackets" href="#notedrive" id="id7">7</a> on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a <code class="docutils literal notranslate"><span class="pre">\</span></code> symbol. So, the complete path to this book on my Windows computer might be something like this:</p>
+<p>On a Windows computer the root is the physical drive <a class="footnote-reference brackets" href="#notedrive" id="id6">6</a> on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a <code class="docutils literal notranslate"><span class="pre">\</span></code> symbol. So, the complete path to this book on my Windows computer might be something like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">ethan</span>\<span class="n">pythonbook</span>\<span class="n">book</span>\<span class="n">LSP</span><span class="o">.</span><span class="n">pdf</span>
 </pre></div>
 </div>
@@ -1020,22 +1020,22 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 </div>
 </div>
 <div class="section" id="ints">
-<span id="id8"></span><h2><span class="section-number">4.6. </span>Ints<a class="headerlink" href="#ints" title="Permalink to this headline">¶</a></h2>
+<span id="id7"></span><h2><span class="section-number">4.6. </span>Ints<a class="headerlink" href="#ints" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="floats">
-<span id="id9"></span><h2><span class="section-number">4.7. </span>Floats<a class="headerlink" href="#floats" title="Permalink to this headline">¶</a></h2>
+<span id="id8"></span><h2><span class="section-number">4.7. </span>Floats<a class="headerlink" href="#floats" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="strings">
-<span id="id10"></span><h2><span class="section-number">4.8. </span>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2><span class="section-number">4.8. </span>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="dicts">
-<span id="id11"></span><h2><span class="section-number">4.9. </span>Dicts<a class="headerlink" href="#dicts" title="Permalink to this headline">¶</a></h2>
+<span id="id10"></span><h2><span class="section-number">4.9. </span>Dicts<a class="headerlink" href="#dicts" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="sets">
-<span id="id12"></span><h2><span class="section-number">4.10. </span>Sets<a class="headerlink" href="#sets" title="Permalink to this headline">¶</a></h2>
+<span id="id11"></span><h2><span class="section-number">4.10. </span>Sets<a class="headerlink" href="#sets" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="lists">
-<span id="id13"></span><h2><span class="section-number">4.11. </span>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2><span class="section-number">4.11. </span>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
 <p>Lists are just what they sound like: a single variable that contains a list of items. Just about any variable type you can think of can be listed in a Python list:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1130,25 +1130,22 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 <p>Taken together, the chapter on <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">Getting Started with Python</span></a> and <a class="reference internal" href="#mechanics"><span class="std std-ref">More Python Concepts</span></a> provide enough of a background that you can finally get started doing some statistics! Yes, there’s a lot more Python concepts that you ought to know (and we’ll talk about some of them in the chapters on <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">Data Wrangling</span></a> and <a class="reference internal" href="03.04-basic_programming.html#programming"><span class="std std-ref">Basic Programming</span></a>, but I think that we’ve talked quite enough about programming for the moment. It’s time to see how your experience with programming can be used to do some data analysis…</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Notice that I used <code class="docutils literal notranslate"><span class="pre">print(keeper)</span></code> rather than just typing <code class="docutils literal notranslate"><span class="pre">keeper</span></code>. Later on in the text I’ll sometimes use the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function to display things because I think it helps make clear what I’m doing, but in practice people rarely do this.</p>
-</dd>
-<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>There are some subtle differences between libraries, packages, and modules, but we don’t need to concern ourselves with these here, and I may well mix up these words in the text. The key thing is, they are bits of code that we need to import to make stuff happen in Python.</p>
 </dd>
-<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>https://xkcd.com/353/</p>
 </dd>
-<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p>Basically, the reason is that there are thousands of libraries, and probably thousands of authors of libraries, and no-one really knows what all of them do. Keeping the installation separate from the loading minimizes the chances that two libraries will interact with each other in a nasty way.</p>
 </dd>
-<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd><p>Well, actually it is an <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file, but let’s not bicker and argue about who killed who.</p>
 </dd>
-<dt class="label" id="noteconflicts"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dt class="label" id="noteconflicts"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
 <dd><p>Chiefly among them, this helps avoid unpleasant situations where we may have imported two different libraries that each contain a function with the same name, but which do different things, or worse yet, do different things but <em>appear</em> to do the same thing, which could really get us in trouble!</p>
 </dd>
-<dt class="label" id="notedrive"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
+<dt class="label" id="notedrive"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
 <dd><p>Well, the partition, technically.</p>
 </dd>
 </dl>
