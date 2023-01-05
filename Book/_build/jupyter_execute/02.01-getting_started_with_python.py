@@ -179,7 +179,7 @@
 1 + 2 * 4
 
 
-# Clearly, this isn't a problem for Python either. However, it's worth stopping for a second, and thinking about what Python just did. Clearly, since it gave us an answer of `9` it must have multiplied `2 * 4` (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if Python had decided instead to add `1+2` (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of `12`. 
+# Clearly, this isn't a problem for Python either. However, it's worth stopping for a second, and thinking about what Python just did. Clearly, since it gave us an answer of `9` it must have multiplied `2 * 4` (to get an interim answer of 8) and then added 1 to that. But, suppose it had decided to just go from left to right: if Python had decided instead to add `1+2` (to get an interim answer of 3) and then multiplied by 4, it would have come up with an answer of `12`. How did it know what to do?
 # 
 # To answer this, you need to know the **_order of operations_** that Python uses. If you remember back to your high school maths classes, it's actually the same order that you got taught when you were at school: the "**_BEDMAS_**" order. That is, first calculate things inside **B**rackets `()`, then calculate **E**xponents `**`, then **D**ivision `/` and **M**ultiplication `*`, then **A**ddition `+` and **S**ubtraction `-`. So, to continue the example above, if we want to force Python to calculate the `1+2` part before the multiplication, all we would have to do is enclose it in brackets:
 
@@ -228,7 +228,7 @@ sales
 # 
 # Okay, let's get back to my original story. In my quest to become rich, I've written this textbook. To figure out how good a strategy is, I've started creating some variables in Python. In addition to defining a `sales` variable that counts the number of copies I'm going to sell, I can also create a variable called `royalty`, indicating how much money I get per copy. Let's say that my royalties are about \$7 per book:
 
-# In[14]:
+# In[16]:
 
 
 sales = 350
@@ -237,7 +237,7 @@ royalty = 7
 
 # The nice thing about variables (in fact, the whole point of having variables) is that we can do anything with a variable that we ought to be able to do with the information that it stores. That is, since Python allows me to multiply `350` by `7`
 
-# In[15]:
+# In[17]:
 
 
 350 * 7
@@ -245,7 +245,7 @@ royalty = 7
 
 # it also allows me to multiply `sales` by `royalty`
 
-# In[16]:
+# In[18]:
 
 
 sales * royalty
@@ -253,11 +253,11 @@ sales * royalty
 
 # As far as Python is concerned, the `sales * royalty` command is the same as the `350 * 7` command. Not surprisingly, I can assign the output of this calculation to a new variable, which I'll call `revenue`. And when we do this, the new variable `revenue` gets the value `2450`. So let's do that, and then get Python to print out the value of `revenue` so that we can verify that it's done what we asked:
 
-# In[17]:
+# In[19]:
 
 
 revenue = sales * royalty
-revenue
+print(revenue)
 
 
 # That's fairly straightforward. A slightly more subtle thing we can do is reassign the value of my variable, based on its current value. For instance, suppose that one of my students (no doubt under the influence of psychotropic drugs) loves the book so much that he or she donates me an extra \$550. The simplest way to capture this is by a command like this:
@@ -269,7 +269,9 @@ revenue = revenue + 550
 revenue
 
 
-# In this calculation, Python has taken the old value of `revenue` (i.e., 2450) and added 550 to that value, producing a value of 3000. This new value is assigned to the `revenue` variable, overwriting its previous value. In any case, we now know that I'm expecting to make \$3000 off this. Pretty sweet, I thinks to myself. Or at least, that's what I thinks until I do a few more calculations and work out what the implied hourly wage I'm making off this looks like. 
+# In this calculation, Python has taken the old value of `revenue`[^note_print] (i.e., 2450) and added 550 to that value, producing a value of 3000. This new value is assigned to the `revenue` variable, overwriting its previous value. In any case, we now know that I'm expecting to make \$3000 off this. Pretty sweet, I thinks to myself. Or at least, that's what I thinks until I do a few more calculations and work out what the implied hourly wage I'm making off this looks like. 
+# 
+# [^note_print]: Just as an aside, you may have noticed (of course you did!) that the first time I wrote `print(revenue)` and the second time I just wrote `revenue`. This works, because in jupyter notebooks, if you write the variable name by itself, it will output the contents of that variable, just as if you had asked it `print` the variable. This only works for the last variable in the cell though, so you if want to see the contents of several variables, you will have to use `print`
 
 # In[34]:
 
