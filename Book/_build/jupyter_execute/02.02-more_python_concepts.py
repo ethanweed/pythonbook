@@ -210,7 +210,7 @@ get_ipython().run_line_magic('who', '')
 # 
 # In this section I describe the basic idea behind file locations and file paths. Regardless of whether you're using Window, macOS or Linux, every file on the computer is assigned a (fairly) human readable address, and every address has the same basic structure: it describes a *path* that starts from a *root* location, through as series of *folders* (or if you're an old-school computer user, *directories*), and finally ends up at the file. 
 # 
-# On a Windows computer the root is the physical drive [^notedrive] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file names on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
+# On a Windows computer the root is the physical drive [^notedrive] on which the file is stored, and for most home computers the name of the hard drive that stores all your files is C: and therefore most file paths on Windows begin with C:. After that come the folders, and on Windows the folder names are separated by a `\` symbol. So, the complete path to this book on my Windows computer might be something like this:
 # 
 # ```
 # C:\Users\ethan\pythonbook\book\LSP.pdf
@@ -269,7 +269,7 @@ file = "/Users/ethan/Documents/GitHub/pythonbook/Data/booksales.csv"
 df = pd.read_csv(file)
 
 
-# Either way works, but I think this looks nicer, and it also has an additional advantage: it makes the code more versitile. Right now we are just loading a single CSV, but if we want to load many CSV files, it might be useful to write a [loop](loops) that puts different paths into the same variable `file`. But that is a discussion for another time.
+# Either way works, but I think this looks nicer, and it also has an additional advantage: it makes the code more versatile. Right now we are just loading a single CSV, but if we want to load many CSV files, it might be useful to write a [loop](loops) that puts different paths into the same variable `file`. But that is a discussion for another time.
 
 # ### Saving a dataframe as a CSV
 # 
