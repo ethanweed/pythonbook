@@ -282,7 +282,7 @@ df = pd.read_csv(file)
 # (useful)=
 # ## Useful things to know about variables
 # 
-# In the chapter on [Getting started with Python](getting-started-with-python), I talked a lot about variables, how they're assigned and some of the things you can do with them, but there are a lot of additional complexities. That probably comes as no great surprise, and we can't go over all of these now, but this section is basically just a bunch of things that I want to briefly mention, that don't really fit in anywhere else. In short, now I'll talk about several different issues in this section, which are only loosely connected to one another.
+# In the chapter on [Getting started with Python](getting-started-with-python), I talked a about variables, how they're assigned and some of the things you can do with them, but there are a lot of additional complexities. That probably comes as no great surprise, and we can't go over all of these now, but this section is basically just a bunch of things that I want to briefly mention, that don't really fit in anywhere else. In short, now I'll talk about several different issues in this section, which are only loosely connected to one another.
 
 # (types)=
 # ### Variable types
@@ -298,13 +298,13 @@ z = x + y
 print(z)
 
 
-# If they contain character data, Python will still let you add the variables, but the outcome might be unexpected:
+# If they contain character data (strings), Python will still let you add the variables, but the outcome might be unexpected:
 
 # In[17]:
 
 
-x = "1"   # x is character, as indicated by the quotation marks
-y = "2"   # y is character, as indicated by the quotation marks
+x = "1"   # x is string, as indicated by the quotation marks
+y = "2"   # y is string, as indicated by the quotation marks
 x + y           
 
 
