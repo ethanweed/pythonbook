@@ -341,10 +341,10 @@ x = 100     # x is an integer
 type(x)
 
 
-# In[21]:
+# In[1]:
 
 
-x = 3.14
+x = 3.14    # x is a floating-point decimal
 type(x)
 
 
@@ -370,6 +370,10 @@ type(x)
 
 # (sets)=
 # ## Sets
+
+# (tuples)=
+# 
+# ## Tuples
 
 # (lists)=
 # 
