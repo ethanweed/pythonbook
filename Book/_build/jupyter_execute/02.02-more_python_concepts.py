@@ -554,7 +554,13 @@ a.upper()
 a.split()
 
 
-# In[109]:
+# In[114]:
+
+
+a.split('a')
+
+
+# In[115]:
 
 
 'X'.join(a)
