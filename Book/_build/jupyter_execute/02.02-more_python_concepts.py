@@ -470,7 +470,7 @@ print('2.5 rounded is:',round(2.5))
 1 + 1.0000000000000001
 
 
-# Ugh. Really? Yup. If your computer has a 64-bit processor (and these days, it probaby does), there is a hard limit on the number of decimal places it can store. If you like, play around with it yourself, and see where these limits lie. Just for "fun", here are two last examples:
+# Ugh. Really? Yup. If your computer has a 64-bit processor (and these days, it probaby does), there is a hard limit on the number of decimal places it can store. If you like, play around with it yourself, and see where these limits lie. Just for "fun", here are a few last examples:
 
 # In[100]:
 
