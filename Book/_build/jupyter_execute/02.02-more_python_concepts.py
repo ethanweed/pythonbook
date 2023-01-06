@@ -285,7 +285,7 @@ df = pd.read_csv(file)
 # In the chapter on [Getting started with Python](getting-started-with-python), I talked a about variables, how they're assigned and some of the things you can do with them, but there are a lot of additional complexities. That probably comes as no great surprise, and we can't go over all of these now, but this section is basically just a bunch of things that I want to briefly mention, that don't really fit in anywhere else. In short, now I'll talk about several different issues in this section, which are only loosely connected to one another.
 
 # (types)=
-# ### Variable types
+# ## Variable types
 # 
 # As we've seen, Python allows you to store different kinds of data. We have seen variables that store text (_strings_), numbers (_integers_ or _floats_), and even whole datasets (_dataframes_). These are just three of the many different types of variable that Python can store. Other common variable types in Python include _dictionaries_, _lists_, and _tuples_. It's important that we remember what kind of information each variable stores (and even more important that Python remembers) since different kinds of variables allow you to do different things to them. For instance, if your variables have numerical information in them, then it's okay to add them together:
 
@@ -354,13 +354,35 @@ type(x)
 # 
 # I KNOW I HAVEN'T FINSIHED THIS SECTION YET. I'LL COME BACK AND DO IT, I PROMISE!
 
+# ## Regular variables and collection variables
+# 
+# There are two main types of variable in Python, which I will call "regular variables" and "collection variables". 
+# 
+# The regular variables are:
+# 
+# 1. Integers
+# 2. Floats
+# 3. Strings
+# 
+# 
+# The collection variables are:
+# 
+# 1. Lists
+# 2. Tuples
+# 3. Sets
+# 4. Dictionaries
+# 
+# As I [mentioned](loadingcsv), there are also other kinds of collection variables, such as `pandas` dataframes provide more structure and allow for more complex, organized data storage and manipulation. But we'll get to these in due time, as needed. For now, I want to introduce you to the basic set of variables in Python.
+
+# ## Regular variables
+
 # (ints)=
 # 
-# #### Intergers
+# ### Intergers
 
 # We have already spent some time with one of Python's most common variable types, the interger. Integers are pretty straightforward: they are whole numbers, like 2, 7, 4392, 0, and -34. There's not so much more to say about them. You can do all [the usual sorts of things](arithmetic) with integers that you might expect: you can add them, subtract them, multiply them, etc. To give a some quick examples:
 
-# In[2]:
+# In[91]:
 
 
 cows = 75
@@ -374,7 +396,7 @@ print("Total number of animals:", animals_total)
 
 # (floats)=
 # 
-# ## Floats
+# ### Floats
 
 # On their face, floats are also pretty straightforward: they're decimal fractions, like 0.234, 0.333, or -0.000003. Most of the time, this level of understanding is all you need. Occasionally, though, you will run into some confusing behavior with floats, so it is worth saying just a few more words about them. There are two issues with floats which we should at least be aware of:
 # 
@@ -383,14 +405,14 @@ print("Total number of animals:", animals_total)
 # 
 # Let's start by looking at some decimal fractions:
 
-# In[8]:
+# In[92]:
 
 
 a = 1/10
 print(a)
 
 
-# In[6]:
+# In[93]:
 
 
 a = 1/3
@@ -403,7 +425,7 @@ print(a)
 # 
 # That is, to the computer, 1/10 is actually an infinitely repeating series, just like the answer to 1/3 is in the base 10 math we are used to. So when Python shows us that 1/10 = 0.1, it is really just rounding up, so that the answer looks like what we expect to see. This means that decimal fractions are not as precise as we might think, and explains why the answer Python gives us when we add decimals together might be surprising:
 
-# In[11]:
+# In[94]:
 
 
 .1 + .1 + .1
@@ -413,7 +435,7 @@ print(a)
 # 
 # Now, here's the other thing to be aware of with floats in Python. Often when we have a number with a decimal, we want to round it. So rather than 1.5, we might want to round to a whole number:
 
-# In[15]:
+# In[95]:
 
 
 round(1.5)
@@ -423,7 +445,7 @@ round(1.5)
 # 
 # [^base2.5]: 0.5 is actually stored as 0.1 in base 2. Ha ha! Isn't math fun?
 
-# In[23]:
+# In[96]:
 
 
 print('1.5 rounded is:',round(1.5))
@@ -434,7 +456,7 @@ print('2.5 rounded is:',round(2.5))
 
 # We musn't get off an any further tangents here, because most of the time we don't have to think about these bits of esoterica, but I will mention just one last oddity about floats that you might conceivably run into at some point. Let's say we add the following two numbers:
 
-# In[42]:
+# In[98]:
 
 
 1 + 1.000000000000001
@@ -442,7 +464,7 @@ print('2.5 rounded is:',round(2.5))
 
 # So far so good. Now say we put in just one more zero:
 
-# In[47]:
+# In[99]:
 
 
 1 + 1.0000000000000001
@@ -450,10 +472,11 @@ print('2.5 rounded is:',round(2.5))
 
 # Ugh. Really? Yup. If your computer has a 64-bit processor (and these days, it probaby does), there is a hard limit on the number of decimal places it can store. If you like, play around with it yourself, and see where these limits lie. Just for "fun", here are two last examples:
 
-# In[50]:
+# In[100]:
 
 
 print(1 + 1.0000000000000001)
+print(1 + 1.000000000000001)
 print(1 + 1.0000000000000009)
 
 
@@ -461,21 +484,109 @@ print(1 + 1.0000000000000009)
 
 # (strings)=
 # 
-# ## Strings
+# ### Strings
 
-# (dicts)=
-# ## Dicts
+# Strings are variables that store characters, like "g", "h", "a", and "p", but also "cat", "apple", and "supercalifragilisticexpialidocious". Strings can also be things like "$", ",", ";" and "?". Somewhat confusingly, strings can also be things like "3", "42", and "-8374.87". Maybe it is helpful to think of strings as being one of the roles these symbols can play, just like a book could be a gift, a paperweight, a doorstop, or a weapon. Ok, maybe that's not so helpful after all. Let's try some examples instead:
 
-# (sets)=
-# ## Sets
+# In[101]:
 
-# (tuples)=
+
+a = "I am a string"
+print(a)
+
+
+# In[102]:
+
+
+a = "I am a "
+b = "string"
+c = a + b
+print(c)
+
+
+# In[103]:
+
+
+# These numbers are integers
+a = 1
+b = 2
+print(a + b)
+
+
+# In[104]:
+
+
+# These numbers are stringss
+a = '1'
+b = '2'
+print(a + b)
+
+
+# So we can add strings together, but the result is different than when we add integers together. To Python, the numbers in the cell above are just the _characters_ 1 and 2, not the _values_ 1 and 2. So it just sticks them together, just like it would any other strings, if you add them.
 # 
-# ## Tuples
+# Now, while we can add two strings together, we can't multiply two strings by each other, or subtract, or divide. What would that even mean. We _can_ multiply strings by an interger, though:
+
+# In[105]:
+
+
+a = 'cat'
+print(a*5)
+
+
+# There are many more fun things we can do with strings; many more than I will go into here. I will give a few examples, though, just to whet your appetite:
+
+# In[106]:
+
+
+a = 'a long time ago in a galaxy far far away'
+a.title()
+
+
+# In[107]:
+
+
+a.upper()
+
+
+# In[108]:
+
+
+a.split()
+
+
+# In[109]:
+
+
+'X'.join(a)
+
+
+# In[110]:
+
+
+a.replace('galaxy', 'suburb')
+
+
+# In[111]:
+
+
+a.replace('a', 'A')
+
+
+# In[112]:
+
+
+a.replace(' ', '_')
+
+
+# Python is a fantastic tool for working with strings, which makes it the language of choice for very many people working with text data of any sort. But now it is time to move on to collection variables.
+
+# ## Collection variables
+# 
+# Collection variables provide a way to, well, _collect_ information. We'll look at these in turn, starting with lists.
 
 # (lists)=
 # 
-# ## Lists
+# ### Lists
 # 
 # Lists are just what they sound like: a single variable that contains a list of items. Just about any variable type you can think of can be listed in a Python list:
 
@@ -547,6 +658,13 @@ shopping[2]
 len(shopping)
 
 
+# (tuples)=
+# 
+# ## Tuples
+
+# (dicts)=
+# ## Dicts
+
 # 
 # ## Summary
 # 
@@ -559,6 +677,9 @@ len(shopping)
 # 
 # 
 # Taken together, the chapter on [Getting Started with Python](getting-started-with-python) and [More Python Concepts](mechanics) provide enough of a background that you can finally get started doing some statistics! Yes, there's a lot more Python concepts that you ought to know (and we'll talk about some of them in the chapters on [Data Wrangling](datawrangling) and [Basic Programming](programming), but I think that we've talked quite enough about programming for the moment. It's time to see how your experience with programming can be used to do some data analysis...
+
+# (sets)=
+# ## Sets
 
 # In[ ]:
 
