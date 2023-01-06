@@ -355,11 +355,109 @@ type(x)
 # I KNOW I HAVEN'T FINSIHED THIS SECTION YET. I'LL COME BACK AND DO IT, I PROMISE!
 
 # (ints)=
-# ## Ints
+# 
+# #### Intergers
+
+# We have already spent some time with one of Python's most common variable types, the interger. Integers are pretty straightforward: they are whole numbers, like 2, 7, 4392, 0, and -34. There's not so much more to say about them. You can do all [the usual sorts of things](arithmetic) with integers that you might expect: you can add them, subtract them, multiply them, etc. To give a some quick examples:
+
+# In[2]:
+
+
+cows = 75
+pigs = 21
+hens = 7
+
+animals_total = cows + pigs + hens
+
+print("Total number of animals:", animals_total)
+
 
 # (floats)=
 # 
 # ## Floats
+
+# On their face, floats are also pretty straightforward: they're decimal fractions, like 0.234, 0.333, or -0.000003. Most of the time, this level of understanding is all you need. Occasionally, though, you will run into some confusing behavior with floats, so it is worth saying just a few more words about them. There are two issues with floats which we should at least be aware of:
+# 
+# 1. Computers store decimal fractions as base 2 fractions (binary), not base 10, the way we are used to thinking of them.
+# 2. There are more than one way to round fractions, and Python may not round fractions the way you expect.
+# 
+# Let's start by looking at some decimal fractions:
+
+# In[8]:
+
+
+a = 1/10
+print(a)
+
+
+# In[6]:
+
+
+a = 1/3
+print(a)
+
+
+# Nothing odd here. In base 10 math, 1 can be equally divided into ten parts, and the answer is 0.1
+# 
+# But to our computers, the answer to 1 divided by 10 is stored as a `float` variable, and stored in base 2. Which means, that to Python 1 divided by 10 is actually 0.0001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001....
+# 
+# That is, to the computer, 1/10 is actually an infinitely repeating series, just like the answer to 1/3 is in the base 10 math we are used to. So when Python shows us that 1/10 = 0.1, it is really just rounding up, so that the answer looks like what we expect to see. This means that decimal fractions are not as precise as we might think, and explains why the answer Python gives us when we add decimals together might be surprising:
+
+# In[11]:
+
+
+.1 + .1 + .1
+
+
+# This answer makes no sense if we think that 0.1 is _exactly_ 0.1, but makes more sense if we understand that to Python, 0.1 is just an approximation of the answer to 1/10. Now, most of the time this is not going to matter much, but it _could_ make a difference, so it is good to be aware of it.
+# 
+# Now, here's the other thing to be aware of with floats in Python. Often when we have a number with a decimal, we want to round it. So rather than 1.5, we might want to round to a whole number:
+
+# In[15]:
+
+
+round(1.5)
+
+
+# But, although most of us who aren't mathematicians or computer scientists or whatever can go blissfully through life being unaware of it, there are many [different strategies for rounding numbers](https://en.wikipedia.org/wiki/Rounding). Python uses the one known as "[rounding half to even](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even)", which means that when there is a tie, that is, when the number we want to round is exactly halfway between two integers, Python will round to the nearest _even_ number. Now, unlike 0.1, which as we saw above, is stored as an infinitely long approximation of 1/10 in base 2, 0.5 is actually stored as a precise number in base 2[^base2.5], which means that even to Python, 1.5 is exactly halfway between 1 and 2, and 2.5 is halfway between 2 and 3. And, when deciding ties Python rounds to the neares even number, we can get some surprising results:
+# 
+# [^base2.5]: 0.5 is actually stored as 0.1 in base 2. Ha ha! Isn't math fun?
+
+# In[23]:
+
+
+print('1.5 rounded is:',round(1.5))
+print('2.5 rounded is:',round(2.5))
+
+
+# Great, Python. Just great -_-
+
+# We musn't get off an any further tangents here, because most of the time we don't have to think about these bits of esoterica, but I will mention just one last oddity about floats that you might conceivably run into at some point. Let's say we add the following two numbers:
+
+# In[42]:
+
+
+1 + 1.000000000000001
+
+
+# So far so good. Now say we put in just one more zero:
+
+# In[47]:
+
+
+1 + 1.0000000000000001
+
+
+# Ugh. Really? Yup. If your computer has a 64-bit processor (and these days, it probaby does), there is a hard limit on the number of decimal places it can store. If you like, play around with it yourself, and see where these limits lie. Just for "fun", here are two last examples:
+
+# In[50]:
+
+
+print(1 + 1.0000000000000001)
+print(1 + 1.0000000000000009)
+
+
+# Alright. Enough floats. Mostly they work the way you would expect, but if they don't, now you know some of the possible reasons. Time to move on to something more fun: strings!
 
 # (strings)=
 # 
