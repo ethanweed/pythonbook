@@ -616,30 +616,7 @@ print(combined)
 
 # Let's say I am so enamored with Python that I actually decided to keep my shopping list in a Python list. Seems unlikely, I know, but bear with me. Later, I realize I have forgotten what I wrote on the list. This does kind of sound like me, actually. To see the contents of the entire list, I can use `print()`, the way I did above. But let's say I only want to see the second item on the list. Python has a way to access specific items in lists, but it will seem strange at first!
 
-# (indexing)=
-# ### Indexing and slicing
-# 
-# ADD A SECTION HERE ON HOW INDICES AND SLICES WORK IN PYTHON
-# 
-# Ok, I still need to finish this section. In the meantime, check out the link below!
-# 
-# LINK TO: https://docs.python.org/2/tutorial/introduction.html
-# 
-# "One way to remember how slices work is to think of the indices as pointing between characters, with the left edge of the first character numbered 0. Then the right edge of the last character of a string of n characters has index n, for example:"
-# 
-# 
-
-# In[2]:
-
-
-#  +---+---+---+---+---+---+
-#  | P | y | t | h | o | n |
-#  +---+---+---+---+---+---+
-#  0   1   2   3   4   5   6
-# -6  -5  -4  -3  -2  -1
-
-
-# Let's take a look. To access an item in a list, we need to know its `index`, that is, its location in the list. We indicate an index with square brackets. So to find the item with the index 2 in my shopping list, I can write `shopping[2]`, like so:
+# Let's take a look. To access an item in a list, we need to know its `index`, that is, its location in the list. We indicate an index with square brackets. In Python, this is known as [`slicing`](indexing). So to find the item with the index 2 in my shopping list, I can write `shopping[2]`, like so:
 
 # In[24]:
 
@@ -654,6 +631,18 @@ shopping[2]
 # 
 # Now just when you have started to get used to zero-indexing, try negative indexing on for size. We can also count backwards from the end of the list, by using negative indices such as `shopping[-2]` But be careful: when you use negative indexing, Python behaves the way you might have originally expected it to. Thus, `shopping[-1]` will return "bananas", `shopping[-2]` will give us "pears", etc. That's just how Python is.
 # 
+# At some point I stumbled on the visualization below. Unfortunately, I can no longer remember where I found it, so I cannot attribute it, but you may find it helpful when trying to remember how indexing works in Python. But probably the best way is to just try it out, and pretty soon you'll get used to it.
+
+# In[1]:
+
+
+#  +---+---+---+---+---+---+
+# | P | y | t | h | o | n |
+#  +---+---+---+---+---+---+
+#  0   1   2   3   4   5   6
+# -6  -5  -4  -3  -2  -1
+
+
 # ### Finding the length of a list
 # 
 # One last thing on lists for now: it can often be useful to check how many items are in your list. With the toy examples we are using here, of course, it is easy to see how long the list is, because we just typed in the items ourselves. But in actual data analysis, we often deal with very long lists that contain an unknown number of items. In these cases we can use `len()` to check how long the list is:
@@ -667,9 +656,106 @@ len(shopping)
 # (tuples)=
 # 
 # ## Tuples
+# 
+# Tuples are similar to lists, but they have one important difference: you can mess around and change what is inside of lists, but you can't do that with tuples. In programmer-ese, we can say that lists are _mutable_, but tuples are _immutable_. Once you make one, you can't change it (unless you just make a new one, with the same name, in which case you're now technically dealing with a new tuple, so you didn't really change it all).
+# 
+# While Python uses square brackets (`[ ]`) to indicate lists, it uses regular old parentheses plus a comma to indicate tuples. Let's take a look:
+
+# In[3]:
+
+
+shopping_list = ["apples", "pears", "bananas"]
+shopping_tuple = ("apples", "pears", "bananas")
+
+
+# We can still get data out of tuples in the same way we get it out of lists, by slicing them, using square brackets and an index value:
+
+# In[4]:
+
+
+shopping_tuple[0]
+
+
+# Now, if I decide I don't want apples after all, but want grapes instead, I can just re-assign the new value to the appropriate position in the list, replacing "apples" with "grapes"
+
+# In[8]:
+
+
+shopping_list[0] = 'grapes'
+print(shopping_list)
+
+
+# Don't try that kind of funny business with a tuple, though. It won't have any of it:
+
+# In[9]:
+
+
+shopping_tuple[0] = 'grapes'
+print(shopping_tuple)
+
+
+# One more detail, before we leave tuples. Remember I said that Python uses parentheses _and_ a comma to indicate that something is a tuple? I meant it. If we try to make a tuple that only has one item, you might think we could do it like this:
+
+# In[13]:
+
+
+a = ('pears')
+type(a)
+
+
+# But, as you can see, Python does not think this is a tuple. It just sees it as a string. To make a tuple with only item, we still need the comma:
+
+# In[14]:
+
+
+a = ('pears',)
+type(a)
+
+
+# Ah. Now Python understands that we want to make a tuple.
 
 # (dicts)=
-# ## Dicts
+# ## Dictionaries
+# 
+# Dictionaries are a very useful varialbe type in Python, but it may take you a while to appreciate their usefulness. Trust me, though. Once you begin to appreciate what dictionaries can do, you will learn to love them. But, like anything (or anyone), before you can truly love dictionaries, you have to get to know them.
+# 
+# In essence, dictionaries are very simple. They consist of two parts: a key, and a value. 
+
+# In[16]:
+
+
+my_week = {'shopping': ['apples', 'pears', 'bananas'],
+          'todo': ['sleep', 'teach', 'feed the cat']}
+
+
+# In[18]:
+
+
+print(my_week['shopping'])
+
+
+# In[19]:
+
+
+print(my_week['todo'])
+
+
+# ## Combining variable types
+# 
+# list of tuples, tuples, of lists, lists of lists, etc.
+
+# (indexing)=
+# ### Indexing and slicing
+# 
+# Ok, I know I really need to write this section!!
+# 
+# - More on slices (e.g. start, end, steps)
+
+# In[2]:
+
+
+
+
 
 # 
 # ## Summary
