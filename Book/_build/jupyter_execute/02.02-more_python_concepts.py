@@ -661,7 +661,7 @@ len(shopping)
 # 
 # While Python uses square brackets (`[ ]`) to indicate lists, it uses regular old parentheses plus a comma to indicate tuples. Let's take a look:
 
-# In[3]:
+# In[44]:
 
 
 shopping_list = ["apples", "pears", "bananas"]
@@ -670,10 +670,10 @@ shopping_tuple = ("apples", "pears", "bananas")
 
 # We can still get data out of tuples in the same way we get it out of lists, by slicing them, using square brackets and an index value:
 
-# In[4]:
+# In[42]:
 
 
-shopping_tuple[0]
+print(shopping_tuple[0])
 
 
 # Now, if I decide I don't want apples after all, but want grapes instead, I can just re-assign the new value to the appropriate position in the list, replacing "apples" with "grapes"
@@ -736,7 +736,7 @@ print(me['name'])
 
 # Of course, most dictionaries will have more than one entry. If were to make a dictionary with information about my pet, for instance, I might write:
 
-# In[21]:
+# In[46]:
 
 
 my_pet = {'name': 'D2',
@@ -745,7 +745,7 @@ my_pet = {'name': 'D2',
          'dislikes': 'loud noises'}
 
 
-# Now,if I can't remember what kind of animal my pet is, I can always consult my dictionary:
+# Now, if I can't remember what kind of animal my pet is, I can always consult my dictionary:
 
 # In[22]:
 
@@ -778,7 +778,98 @@ print(my_week['todo'])
 
 # ## Combining variable types
 # 
-# list of tuples, tuples, of lists, lists of lists, etc.
+# We have already seen that while regular variables are either one type or another, collection variables can contain different types of variables. For example, in the section on [lists](lists), we saw that lists can also contain other lists. These collection variables are really quite flexible, so before we leave them, I just want to give a few more examples of variable type combinations:
+
+# #### Lists of lists
+
+# In[34]:
+
+
+owls = ['Barred Owl', 'Burrowing Owl', 'Barn Owl', 'Screech Owl', 'Spotted Owl']
+finches = ['Goldfinch', 'Crossbill', 'Redpoll', 'Grosbeak']
+sparrows = ['House Sparrow', 'Song Sparrow', 'White-Throated Sparrow', 'Captain Jack Sparrow']
+
+birds = [owls, finches, sparrows]
+print(birds)
+
+
+# #### A dictionary of ....???
+
+# In[39]:
+
+
+mishmosh = {'birds': birds,
+          'dictionaries': (my_week, my_pet)}
+
+
+# Now, this one is a collection of strange bedfellows, but Python isn't judgy. So, in `mishmosh`, I have two keys, `birds` and `dictionaries`. Why not? If we look in the dictionary, we can see that the value for the key `birds` is a list of lists:
+
+# In[40]:
+
+
+mishmosh['birds']
+
+
+# and the value for the key `dictionaries` is a tuple of dictionaries!
+
+# In[41]:
+
+
+mishmosh['dictionaries']
+
+
+# We'll leave it there for now, but hopefully you can see that by using these basic elements: regular variables and collection variables, you can store data in a structured way, so that you can access it when you need it. There is one last type of collection variable that will come in handy, and that is the set. Sets are the collection of _unique_ items in a collection of items. As an example, say every student in a class wrote down their favorite color, and we put them all into a list, like this:
+
+# (sets)=
+# ## Sets
+
+# In[49]:
+
+
+our_colors = ['green', 'blue', 'red', 'blue', 'orange', 'yellow', 'green', 'blue', 'green', 'blue']
+
+
+# Since every student wrote down a color, if we find the length of the list, we will also find the number of students in the class:
+
+# In[50]:
+
+
+len(our_colors)
+
+
+# But some students wrote the same colors as other students. So if we want to find the unique colors chosen, ignoring in repeated colors, we can find the `set` of our list:
+
+# In[51]:
+
+
+set(our_colors)
+
+
+# And by finding the length of the set, we can see how many unique colors were chosen:
+
+# In[52]:
+
+
+len(set(our_colors))
+
+
+# As another example, we could make a see how many unique characters make up a sentence:
+
+# In[55]:
+
+
+len(set('Python is the most wonderful programming language in the world and I love it so much!'))
+
+
+# In case you are wondering, here are the characters:
+
+# In[56]:
+
+
+print(set('Python is the most wonderful programming language in the world and I love it so much!'))
+
+
+# Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.
 
 # (indexing)=
 # ### Indexing and slicing
@@ -805,9 +896,6 @@ print(my_week['todo'])
 # 
 # 
 # Taken together, the chapter on [Getting Started with Python](getting-started-with-python) and [More Python Concepts](mechanics) provide enough of a background that you can finally get started doing some statistics! Yes, there's a lot more Python concepts that you ought to know (and we'll talk about some of them in the chapters on [Data Wrangling](datawrangling) and [Basic Programming](programming), but I think that we've talked quite enough about programming for the moment. It's time to see how your experience with programming can be used to do some data analysis...
-
-# (sets)=
-# ## Sets
 
 # In[ ]:
 
