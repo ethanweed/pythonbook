@@ -1002,7 +1002,7 @@ spent[4]
 spent[4:10]
 
 
-# #### From one position to the end
+# #### Values from one position to the end
 
 # In[88]:
 
