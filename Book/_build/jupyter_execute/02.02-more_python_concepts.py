@@ -712,6 +712,12 @@ a = ('pears',)
 type(a)
 
 
+# In[32]:
+
+
+print(a[0])
+
+
 # Ah. Now Python understands that we want to make a tuple.
 
 # (dicts)=
