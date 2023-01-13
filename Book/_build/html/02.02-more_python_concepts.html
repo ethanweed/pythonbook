@@ -491,17 +491,53 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#sets">
    4.13. Sets
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indexing-and-slicing">
+   4.14. Indexing and slicing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slices">
+   4.15. Slices
+  </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#indexing-and-slicing">
-     4.13.1. Indexing and slicing
+    <a class="reference internal nav-link" href="#a-single-value">
+     4.15.1. A single value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-range-of-values-between-start-and-end">
+     4.15.2. A range of values between
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       start
+      </span>
+     </code>
+     and
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       end
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-one-position-to-the-end">
+     4.15.3. From one position to the end
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#every-nth-item-within-a-range">
+     4.15.4. Every nth item within a range
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   4.14. Summary
+   4.16. Summary
   </a>
  </li>
 </ul>
@@ -677,17 +713,53 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#sets">
    4.13. Sets
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indexing-and-slicing">
+   4.14. Indexing and slicing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slices">
+   4.15. Slices
+  </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#indexing-and-slicing">
-     4.13.1. Indexing and slicing
+    <a class="reference internal nav-link" href="#a-single-value">
+     4.15.1. A single value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-range-of-values-between-start-and-end">
+     4.15.2. A range of values between
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       start
+      </span>
+     </code>
+     and
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       end
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-one-position-to-the-end">
+     4.15.3. From one position to the end
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#every-nth-item-within-a-range">
+     4.15.4. Every nth item within a range
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
-   4.14. Summary
+   4.16. Summary
   </a>
  </li>
 </ul>
@@ -1850,8 +1922,9 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 </div>
 </div>
 <p>Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.</p>
+</div>
 <div class="section" id="indexing-and-slicing">
-<span id="indexing"></span><h3><span class="section-number">4.13.1. </span>Indexing and slicing<a class="headerlink" href="#indexing-and-slicing" title="Permalink to this headline">¶</a></h3>
+<span id="indexing"></span><h2><span class="section-number">4.14. </span>Indexing and slicing<a class="headerlink" href="#indexing-and-slicing" title="Permalink to this headline">¶</a></h2>
 <p>It’s no good having data stored in a collection variable if we can’t get it out again. We have already seen some examples of using indices and slices to retrieve data, but before we end the chapter, let’s just see a few more. Remember our list of birds:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1950,9 +2023,136 @@ He likes sleeping
 </div>
 <p>If this seems like an enormous amount of work to go to just to store details about my cat, well, I don’t blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python.</p>
 </div>
+<div class="section" id="slices">
+<h2><span class="section-number">4.15. </span>Slices<a class="headerlink" href="#slices" title="Permalink to this headline">¶</a></h2>
+<p>I have mentioned the concept of slicing before, but now it is time to talk about it in a bit more depth. Sometimes we want to access a portion of our data. For example, we might want only part of a string, or part of a list. Say I go to the store every day, and every day I write down how much I spend.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">345</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">432</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">575</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">565</span><span class="p">,</span><span class="mi">345</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">233</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">865</span><span class="p">,</span><span class="mi">45645</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">332</span><span class="p">,</span><span class="mi">453</span><span class="p">,</span><span class="mi">346</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">324</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can <em>slice</em> the data, to find any grouping of these numbers that we like. For example, the first five:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, 5, 345, 4, 6]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The slice uses square brackets<a class="footnote-reference brackets" href="#namespacepolution" id="id13">8</a> to indicate which data we want. By now, we are familiar enough with Python to know that Python starts counting a zero, so it makes sense that if we want the first 5 numbers from our list, that we will need to start with the zeroeth number.<a class="footnote-reference brackets" href="#sense" id="id14">9</a> But why does the slice end with the fifth number? Because, wouldn’t that be the fourth number, if we start counting at zero. Yes, it would, except that Python slices <em>end</em> with the item in the position indicated by the second number <em>not including that number</em>! So when we write <code class="docutils literal notranslate"><span class="pre">[0:5]</span></code>, Python starts counting at 0, then includes everything up to one less than the final number. Sometimes I think the authors of Python are just messing with us. But if play around with it a bit, you’ll soon get the hang of it.</p>
+<p>We can also get the last five items:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[23, 234, 3, 324, 1]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we are counting backwards to five positions from the end, and then going forwards to the end.</p>
+<p>Of course, we could also take a section from the middle:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 12, 432, 6, 575, 43]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The general form for slices is <code class="docutils literal notranslate"><span class="pre">[start:end:step]</span></code>, where <code class="docutils literal notranslate"><span class="pre">step</span></code> indicates how many positions to jump each time. If you don’t indicate any value for <code class="docutils literal notranslate"><span class="pre">step</span></code>, Python assumes it is one. If you don’t put any value for <code class="docutils literal notranslate"><span class="pre">end</span></code>, then Python assumes it is the same as the value for <code class="docutils literal notranslate"><span class="pre">start</span></code>. We can combine these to find:</p>
+<div class="section" id="a-single-value">
+<h3><span class="section-number">4.15.1. </span>A single value<a class="headerlink" href="#a-single-value" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="a-range-of-values-between-start-and-end">
+<h3><span class="section-number">4.15.2. </span>A range of values between <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code><a class="headerlink" href="#a-range-of-values-between-start-and-end" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 12, 432, 6, 575, 43]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="from-one-position-to-the-end">
+<h3><span class="section-number">4.15.3. </span>From one position to the end<a class="headerlink" href="#from-one-position-to-the-end" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">15</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 565, 345, 43, 233, 12, 865, 45645, 45, 332, 453, 346, 23, 234, 3, 324, 1]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="every-nth-item-within-a-range">
+<h3><span class="section-number">4.15.4. </span>Every nth item within a range<a class="headerlink" href="#every-nth-item-within-a-range" title="Permalink to this headline">¶</a></h3>
+<p>Here, for example, we find every seventh item between item 0 and 17:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, 6, 6]
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here we find every fourth item in the entire list:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spent</span><span class="p">[::</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, 6, 575, 234, 565, 12, 332, 234]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that we have seen how to use the different data types to store data, and indices and slices to get data out, it is time for a break. Storing data in collections like lists, tuples, and dictionaries, together with accessing data using indices and slices gives you enormous flexibility, but it takes practice to get used to it. Slicing in particular, I find, gives people (including me!) trouble, so I really do recommend spending some time making lists of data, and slicing them in every way you can think of, until you get the feeling for how it works.</p>
+</div>
 </div>
 <div class="section" id="summary">
-<h2><span class="section-number">4.14. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.16. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>This chapter continued where <a class="reference internal" href="02.01-getting_started_with_python.html#getting-started-with-python"><span class="std std-ref">the previous chapter</span></a> left off. The focus was still primarily on introducing basic Python concepts, but this time at least you can see how those concepts are related to data analysis:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#packageinstall"><span class="std std-ref">Installing and importing libraries</span></a>. Knowing how to extend the functionality of Python by installing and using libraries is critical to becoming an effective Python user</p></li>
@@ -1983,6 +2183,12 @@ He likes sleeping
 </dd>
 <dt class="label" id="base2-5"><span class="brackets"><a class="fn-backref" href="#id8">7</a></span></dt>
 <dd><p>0.5 is actually stored as 0.1 in base 2. Ha ha! Isn’t math fun?</p>
+</dd>
+<dt class="label" id="namespacepolution"><span class="brackets"><a class="fn-backref" href="#id13">8</a></span></dt>
+<dd><p>Yes, square brackets, just like lists use square brackets. Haha! Isn’t it fun when the same symbol means different things, and you just have to know what it means in a given context? Of course it is!</p>
+</dd>
+<dt class="label" id="sense"><span class="brackets"><a class="fn-backref" href="#id14">9</a></span></dt>
+<dd><p>I use the term “sense” broadly, here.</p>
 </dd>
 </dl>
 </div>

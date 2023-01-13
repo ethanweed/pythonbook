@@ -872,7 +872,7 @@ print(set('Python is the most wonderful programming language in the world and I 
 # Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.
 
 # (indexing)=
-# ### Indexing and slicing
+# ## Indexing and slicing
 # 
 # It's no good having data stored in a collection variable if we can't get it out again. We have already seen some examples of using indices and slices to retrieve data, but before we end the chapter, let's just see a few more. Remember our list of birds:
 
@@ -939,6 +939,96 @@ print('He likes', mishmosh['dictionaries'][1]['likes'])
 
 
 # If this seems like an enormous amount of work to go to just to store details about my cat, well, I don't blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python.
+
+# ## Slices
+# 
+# I have mentioned the concept of slicing before, but now it is time to talk about it in a bit more depth. Sometimes we want to access a portion of our data. For example, we might want only part of a string, or part of a list. Say I go to the store every day, and every day I write down how much I spend.
+
+# In[76]:
+
+
+spent = [2,5,345,4,6,12,432,6,575,43,64,32,234,23,6,3,565,345,43,233,12,865,45645,45,332,453,346,23,234,3,324,1]
+
+
+# We can _slice_ the data, to find any grouping of these numbers that we like. For example, the first five:
+
+# In[77]:
+
+
+spent[0:5]
+
+
+# The slice uses square brackets[^namespacepolution] to indicate which data we want. By now, we are familiar enough with Python to know that Python starts counting a zero, so it makes sense that if we want the first 5 numbers from our list, that we will need to start with the zeroeth number.[^sense] But why does the slice end with the fifth number? Because, wouldn't that be the fourth number, if we start counting at zero. Yes, it would, except that Python slices _end_ with the item in the position indicated by the second number _not including that number_! So when we write `[0:5]`, Python starts counting at 0, then includes everything up to one less than the final number. Sometimes I think the authors of Python are just messing with us. But if play around with it a bit, you'll soon get the hang of it.
+# 
+# [^namespacepolution]: Yes, square brackets, just like lists use square brackets. Haha! Isn't it fun when the same symbol means different things, and you just have to know what it means in a given context? Of course it is!
+# 
+# [^sense]: I use the term "sense" broadly, here.
+# 
+# 
+
+# We can also get the last five items:
+
+# In[79]:
+
+
+spent[-5:]
+
+
+# Here we are counting backwards to five positions from the end, and then going forwards to the end.
+# 
+# Of course, we could also take a section from the middle:
+
+# In[81]:
+
+
+spent[4:10]
+
+
+# The general form for slices is `[start:end:step]`, where `step` indicates how many positions to jump each time. If you don't indicate any value for `step`, Python assumes it is one. If you don't put any value for `end`, then Python assumes it is the same as the value for `start`. We can combine these to find:
+# 
+# #### A single value
+
+# In[84]:
+
+
+spent[4]
+
+
+#  #### A range of values between `start` and `end`
+
+# In[87]:
+
+
+spent[4:10]
+
+
+# #### From one position to the end
+
+# In[88]:
+
+
+spent[15:]
+
+
+# #### Every nth item within a range
+# 
+# Here, for example, we find every seventh item between item 0 and 17:
+
+# In[89]:
+
+
+spent[0:17:7]
+
+
+# And here we find every fourth item in the entire list:
+
+# In[90]:
+
+
+spent[::4]
+
+
+# Now that we have seen how to use the different data types to store data, and indices and slices to get data out, it is time for a break. Storing data in collections like lists, tuples, and dictionaries, together with accessing data using indices and slices gives you enormous flexibility, but it takes practice to get used to it. Slicing in particular, I find, gives people (including me!) trouble, so I really do recommend spending some time making lists of data, and slicing them in every way you can think of, until you get the feeling for how it works.
 
 # 
 # ## Summary
