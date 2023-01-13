@@ -1594,11 +1594,49 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 <div class="section" id="dictionaries">
 <span id="dicts"></span><h2><span class="section-number">4.11. </span>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>Dictionaries are a very useful varialbe type in Python, but it may take you a while to appreciate their usefulness. Trust me, though. Once you begin to appreciate what dictionaries can do, you will learn to love them. But, like anything (or anyone), before you can truly love dictionaries, you have to get to know them.</p>
-<p>In essence, dictionaries are very simple. They consist of two parts: a key, and a value.</p>
+<p>In essence, dictionaries are very simple. They consist of two parts: keys, and values. You can think of the key as the word you look up in the dictionary, and the value as the definition. The syntax for defining a dictionary is <code class="docutils literal notranslate"><span class="pre">{key:</span> <span class="pre">value}</span></code>. A simple key-value pair could be {‘name’: ‘Ethan}.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ethan&#39;</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">me</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ethan
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of course, most dictionaries will have more than one entry. If were to make a dictionary with information about my pet, for instance, I might write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_pet</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;species&#39;</span><span class="p">:</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;likes&#39;</span><span class="p">:</span> <span class="s1">&#39;sleeping&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;dislikes&#39;</span><span class="p">:</span> <span class="s1">&#39;loud noises&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now,if I can’t remember what kind of animal my pet is, I can always consult my dictionary:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_pet</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;cat&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dictionary values can be more than just a single string, though. Let’s say I want to plan out my week using Python (because that would be a normal thing to do!) I can make a dictionary called <code class="docutils literal notranslate"><span class="pre">my_week</span></code>, and include entries for shopping and a to-do list.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_week</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;shopping&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;apples&#39;</span><span class="p">,</span> <span class="s1">&#39;pears&#39;</span><span class="p">,</span> <span class="s1">&#39;bananas&#39;</span><span class="p">],</span>
-          <span class="s1">&#39;todo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;teach&#39;</span><span class="p">,</span> <span class="s1">&#39;feed the cat&#39;</span><span class="p">]}</span>
+          <span class="s1">&#39;todo&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;teach&#39;</span><span class="p">,</span> <span class="s1">&#39;feed the cat&#39;</span><span class="p">)}</span>
 </pre></div>
 </div>
 </div>
@@ -1622,11 +1660,12 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;sleep&#39;, &#39;teach&#39;, &#39;feed the cat&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;sleep&#39;, &#39;teach&#39;, &#39;feed the cat&#39;)
 </pre></div>
 </div>
 </div>
 </div>
+<p>Notice that I have made the value for <code class="docutils literal notranslate"><span class="pre">shopping</span></code> a list, but the value for <code class="docutils literal notranslate"><span class="pre">todo</span></code> is a tuple. That might be because I want to keep open the option to change items in my shopping list, but want to keep my to-do list fixed. Or it might just be because I wanted to demonstrate that dictionary values can be all kinds of different variable types.</p>
 </div>
 <div class="section" id="combining-variable-types">
 <h2><span class="section-number">4.12. </span>Combining variable types<a class="headerlink" href="#combining-variable-types" title="Permalink to this headline">¶</a></h2>
