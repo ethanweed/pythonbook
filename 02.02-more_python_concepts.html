@@ -1852,10 +1852,103 @@ why_you_gotta_be_so   module      &lt;module &#39;statistics&#39; from&lt;...&gt
 <p>Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.</p>
 <div class="section" id="indexing-and-slicing">
 <span id="indexing"></span><h3><span class="section-number">4.13.1. </span>Indexing and slicing<a class="headerlink" href="#indexing-and-slicing" title="Permalink to this headline">¶</a></h3>
-<p>Ok, I know I really need to write this section!!</p>
-<ul class="simple">
-<li><p>More on slices (e.g. start, end, steps)</p></li>
-</ul>
+<p>It’s no good having data stored in a collection variable if we can’t get it out again. We have already seen some examples of using indices and slices to retrieve data, but before we end the chapter, let’s just see a few more. Remember our list of birds:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">owls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Barred Owl&#39;</span><span class="p">,</span> <span class="s1">&#39;Burrowing Owl&#39;</span><span class="p">,</span> <span class="s1">&#39;Barn Owl&#39;</span><span class="p">,</span> <span class="s1">&#39;Screech Owl&#39;</span><span class="p">,</span> <span class="s1">&#39;Spotted Owl&#39;</span><span class="p">]</span>
+<span class="n">finches</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Goldfinch&#39;</span><span class="p">,</span> <span class="s1">&#39;Crossbill&#39;</span><span class="p">,</span> <span class="s1">&#39;Redpoll&#39;</span><span class="p">,</span> <span class="s1">&#39;Grosbeak&#39;</span><span class="p">]</span>
+<span class="n">sparrows</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;House Sparrow&#39;</span><span class="p">,</span> <span class="s1">&#39;Song Sparrow&#39;</span><span class="p">,</span> <span class="s1">&#39;White-Throated Sparrow&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain Jack Sparrow&#39;</span><span class="p">]</span>
+
+<span class="n">birds</span> <span class="o">=</span> <span class="p">[</span><span class="n">owls</span><span class="p">,</span> <span class="n">finches</span><span class="p">,</span> <span class="n">sparrows</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We already know how to find the owl in position 2 (keeping in mind that we start counting at 0):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">owls</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Barn Owl&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or the final owl in the list:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">owls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Spotted Owl&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>But the variable <code class="docutils literal notranslate"><span class="pre">birds</span></code> is a list of lists.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">birds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;Barred Owl&#39;, &#39;Burrowing Owl&#39;, &#39;Barn Owl&#39;, &#39;Screech Owl&#39;, &#39;Spotted Owl&#39;], [&#39;Goldfinch&#39;, &#39;Crossbill&#39;, &#39;Redpoll&#39;, &#39;Grosbeak&#39;], [&#39;House Sparrow&#39;, &#39;Song Sparrow&#39;, &#39;White-Throated Sparrow&#39;, &#39;Captain Jack Sparrow&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>So to dig the data out of <code class="docutils literal notranslate"><span class="pre">birds</span></code>, we need to go two levels deep with our slices. To get ‘Redpoll’, for example, we need to find the second item of the first list:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">birds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Redpoll
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our variable <code class="docutils literal notranslate"><span class="pre">mishmsoh</span></code> was even more complicated, but the same principle still applies. We just need to work our way down through the layers, until we get to the data we want.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mishmosh</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;birds&#39;</span><span class="p">:</span> <span class="n">birds</span><span class="p">,</span>
+          <span class="s1">&#39;dictionaries&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">my_week</span><span class="p">,</span> <span class="n">my_pet</span><span class="p">)}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mishmosh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;birds&#39;: [[&#39;Barred Owl&#39;, &#39;Burrowing Owl&#39;, &#39;Barn Owl&#39;, &#39;Screech Owl&#39;, &#39;Spotted Owl&#39;], [&#39;Goldfinch&#39;, &#39;Crossbill&#39;, &#39;Redpoll&#39;, &#39;Grosbeak&#39;], [&#39;House Sparrow&#39;, &#39;Song Sparrow&#39;, &#39;White-Throated Sparrow&#39;, &#39;Captain Jack Sparrow&#39;]], &#39;dictionaries&#39;: ({&#39;shopping&#39;: [&#39;apples&#39;, &#39;pears&#39;, &#39;bananas&#39;], &#39;todo&#39;: (&#39;sleep&#39;, &#39;teach&#39;, &#39;feed the cat&#39;)}, {&#39;name&#39;: &#39;D2&#39;, &#39;species&#39;: &#39;cat&#39;, &#39;likes&#39;: &#39;sleeping&#39;, &#39;dislikes&#39;: &#39;loud noises&#39;})}
+</pre></div>
+</div>
+</div>
+</div>
+<p>So, if I am still having a hard time remembering what kind of pet I have, all I need to do is find the information in the variable:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;My pet is a&#39;</span><span class="p">,</span> <span class="n">mishmosh</span><span class="p">[</span><span class="s1">&#39;dictionaries&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;species&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;His name is&#39;</span><span class="p">,</span> <span class="n">mishmosh</span><span class="p">[</span><span class="s1">&#39;dictionaries&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;He likes&#39;</span><span class="p">,</span> <span class="n">mishmosh</span><span class="p">[</span><span class="s1">&#39;dictionaries&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;likes&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My pet is a cat
+His name is D2
+He likes sleeping
+</pre></div>
+</div>
+</div>
+</div>
+<p>If this seems like an enormous amount of work to go to just to store details about my cat, well, I don’t blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python.</p>
 </div>
 </div>
 <div class="section" id="summary">
