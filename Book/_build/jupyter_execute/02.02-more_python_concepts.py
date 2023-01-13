@@ -719,26 +719,56 @@ type(a)
 # 
 # Dictionaries are a very useful varialbe type in Python, but it may take you a while to appreciate their usefulness. Trust me, though. Once you begin to appreciate what dictionaries can do, you will learn to love them. But, like anything (or anyone), before you can truly love dictionaries, you have to get to know them.
 # 
-# In essence, dictionaries are very simple. They consist of two parts: a key, and a value. 
+# In essence, dictionaries are very simple. They consist of two parts: keys, and values. You can think of the key as the word you look up in the dictionary, and the value as the definition. The syntax for defining a dictionary is `{key: value}`. A simple key-value pair could be {'name': 'Ethan}.
 
-# In[16]:
+# In[20]:
+
+
+me = {'name': 'Ethan'}
+print(me['name'])
+
+
+# Of course, most dictionaries will have more than one entry. If were to make a dictionary with information about my pet, for instance, I might write:
+
+# In[21]:
+
+
+my_pet = {'name': 'D2',
+         'species': 'cat',
+         'likes': 'sleeping',
+         'dislikes': 'loud noises'}
+
+
+# Now,if I can't remember what kind of animal my pet is, I can always consult my dictionary:
+
+# In[22]:
+
+
+my_pet['species']
+
+
+# Dictionary values can be more than just a single string, though. Let's say I want to plan out my week using Python (because that would be a normal thing to do!) I can make a dictionary called `my_week`, and include entries for shopping and a to-do list. 
+
+# In[28]:
 
 
 my_week = {'shopping': ['apples', 'pears', 'bananas'],
-          'todo': ['sleep', 'teach', 'feed the cat']}
+          'todo': ('sleep', 'teach', 'feed the cat')}
 
 
-# In[18]:
+# In[29]:
 
 
 print(my_week['shopping'])
 
 
-# In[19]:
+# In[30]:
 
 
 print(my_week['todo'])
 
+
+# Notice that I have made the value for `shopping` a list, but the value for `todo` is a tuple. That might be because I want to keep open the option to change items in my shopping list, but want to keep my to-do list fixed. Or it might just be because I wanted to demonstrate that dictionary values can be all kinds of different variable types.
 
 # ## Combining variable types
 # 
