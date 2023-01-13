@@ -723,7 +723,7 @@ print(a[0])
 # (dicts)=
 # ## Dictionaries
 # 
-# Dictionaries are a very useful varialbe type in Python, but it may take you a while to appreciate their usefulness. Trust me, though. Once you begin to appreciate what dictionaries can do, you will learn to love them. But, like anything (or anyone), before you can truly love dictionaries, you have to get to know them.
+# Dictionaries are a very useful variable type in Python, but it may take you a while to appreciate their usefulness. Trust me, though. Once you begin to appreciate what dictionaries can do, you will learn to love them. But, like anything (or anyone), before you can truly love dictionaries, you have to get to know them.
 # 
 # In essence, dictionaries are very simple. They consist of two parts: keys, and values. You can think of the key as the word you look up in the dictionary, and the value as the definition. The syntax for defining a dictionary is `{key: value}`. A simple key-value pair could be {'name': 'Ethan}.
 
