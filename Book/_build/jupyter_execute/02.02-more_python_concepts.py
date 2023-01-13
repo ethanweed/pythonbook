@@ -910,9 +910,9 @@ owls[-1]
 birds
 
 
-# So to dig the data out of `birds`, we need to go two levels deep with our slices. To get 'Redpoll', for example, we need to find the second item of the first list:
+# So to dig the data out of `birds`, we need to go two levels deep with our slices. To get 'Redpoll', for example, we need to find the item in position 2 of list 1:
 
-# In[64]:
+# In[92]:
 
 
 print(birds[1][2])
