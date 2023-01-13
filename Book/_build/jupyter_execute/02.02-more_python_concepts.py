@@ -904,10 +904,10 @@ owls[-1]
 
 # But the variable `birds` is a list of lists.
 
-# In[63]:
+# In[91]:
 
 
-print(birds)
+birds
 
 
 # So to dig the data out of `birds`, we need to go two levels deep with our slices. To get 'Redpoll', for example, we need to find the second item of the first list:
