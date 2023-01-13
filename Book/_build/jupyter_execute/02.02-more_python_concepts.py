@@ -920,12 +920,12 @@ print(birds[1][2])
 
 # Our variable `mishmsoh` was even more complicated, but the same principle still applies. We just need to work our way down through the layers, until we get to the data we want.
 
-# In[68]:
+# In[93]:
 
 
 mishmosh = {'birds': birds,
           'dictionaries': (my_week, my_pet)}
-print(mishmosh)
+mishmosh
 
 
 # So, if I am still having a hard time remembering what kind of pet I have, all I need to do is find the information in the variable:
