@@ -874,15 +874,71 @@ print(set('Python is the most wonderful programming language in the world and I 
 # (indexing)=
 # ### Indexing and slicing
 # 
-# Ok, I know I really need to write this section!!
-# 
-# - More on slices (e.g. start, end, steps)
+# It's no good having data stored in a collection variable if we can't get it out again. We have already seen some examples of using indices and slices to retrieve data, but before we end the chapter, let's just see a few more. Remember our list of birds:
 
-# In[2]:
+# In[59]:
 
 
+owls = ['Barred Owl', 'Burrowing Owl', 'Barn Owl', 'Screech Owl', 'Spotted Owl']
+finches = ['Goldfinch', 'Crossbill', 'Redpoll', 'Grosbeak']
+sparrows = ['House Sparrow', 'Song Sparrow', 'White-Throated Sparrow', 'Captain Jack Sparrow']
+
+birds = [owls, finches, sparrows]
 
 
+# We already know how to find the owl in position 2 (keeping in mind that we start counting at 0):
+
+# In[60]:
+
+
+owls[2]
+
+
+# Or the final owl in the list:
+
+# In[61]:
+
+
+owls[-1]
+
+
+# But the variable `birds` is a list of lists.
+
+# In[63]:
+
+
+print(birds)
+
+
+# So to dig the data out of `birds`, we need to go two levels deep with our slices. To get 'Redpoll', for example, we need to find the second item of the first list:
+
+# In[64]:
+
+
+print(birds[1][2])
+
+
+# Our variable `mishmsoh` was even more complicated, but the same principle still applies. We just need to work our way down through the layers, until we get to the data we want.
+
+# In[68]:
+
+
+mishmosh = {'birds': birds,
+          'dictionaries': (my_week, my_pet)}
+print(mishmosh)
+
+
+# So, if I am still having a hard time remembering what kind of pet I have, all I need to do is find the information in the variable:
+
+# In[75]:
+
+
+print('My pet is a', mishmosh['dictionaries'][1]['species'])
+print('His name is', mishmosh['dictionaries'][1]['name'])
+print('He likes', mishmosh['dictionaries'][1]['likes'])
+
+
+# If this seems like an enormous amount of work to go to just to store details about my cat, well, I don't blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python.
 
 # 
 # ## Summary
