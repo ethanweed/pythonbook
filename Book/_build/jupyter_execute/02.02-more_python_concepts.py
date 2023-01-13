@@ -938,7 +938,7 @@ print('His name is', mishmosh['dictionaries'][1]['name'])
 print('He likes', mishmosh['dictionaries'][1]['likes'])
 
 
-# If this seems like an enormous amount of work to go to just to store details about my cat, well, I don't blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python.
+# If this seems like an enormous amount of work to go to just to store details about my cat, well, I don't blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python. And yes, I did name my cat D2.
 
 # ## Slices
 # 
