@@ -877,20 +877,20 @@ Name: afl.margins, dtype: int64
 </div>
 </div>
 </div>
-<p>Or, we could just ask Python for the mean, with</p>
-<p>Now, as you may remember (you do remember, right?) I spent some time whinging back in <a class="reference internal" href="02.02-more_python_concepts.html#importinglibraries"><span class="std std-ref">the previous chapter</span></a> about how the Python developers were really mean because they gave us a built-in function for adding but not for averaging, and I made a big deal about how we had to import <code class="docutils literal notranslate"><span class="pre">statistics.mean</span></code>. So why, I hear you ask, can we all of sudden calculate means <em>without</em> importing <code class="docutils literal notranslate"><span class="pre">statistics.mean</span></code>?</p>
+<p>Or, we could just ask Python for the mean, without further ado:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>35.30113636363637
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>36.6
 </pre></div>
 </div>
 </div>
 </div>
+<p>Now, as you may remember (you do remember, right?) I spent some time whinging back in <a class="reference internal" href="02.02-more_python_concepts.html#importinglibraries"><span class="std std-ref">the previous chapter</span></a> about how the Python developers were really mean because they gave us a built-in function for adding but not for averaging, and I made a big deal about how we had to import <code class="docutils literal notranslate"><span class="pre">statistics.mean</span></code>. So why, I hear you ask, can we all of sudden calculate means <em>without</em> importing <code class="docutils literal notranslate"><span class="pre">statistics.mean</span></code>?</p>
 <p>As you may have already guessed<a class="footnote-reference brackets" href="#smartiepants" id="id3">3</a>, this is because the data we are working with are stored in a <a class="reference internal" href="03.03-pragmatic_matters.html#pandas"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe</span></a>, which means we are dealing with a different variable type here. We can confirm this, by checking what kind of variable <code class="docutils literal notranslate"><span class="pre">margins</span></code> actually is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
