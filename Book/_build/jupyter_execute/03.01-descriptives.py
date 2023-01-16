@@ -162,7 +162,7 @@ a = list(margins)
 a.mean()
 
 
-# In this case, we would have to take the longer route, by either converting our list `a` to a variable type with a `mean` method, or by importing `statistics.mean` and using that directly on the list:
+# In this case, we would have to take the longer route, by either converting our list `a` to a variable type with a `mean` method, such as a `pandas` series, or by importing `statistics.mean` and using that directly on the list:
 
 # In[23]:
 
