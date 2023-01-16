@@ -111,7 +111,7 @@ sns.despine()
 
 margins = afl_margins['afl.margins']
 
-margins.sum()
+sum(margins)
 
 
 # If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector. So the command would now be:
@@ -127,9 +127,11 @@ margins[0:5]
 # In[7]:
 
 
-margins[0:5].sum()/5
+sum(margins[0:5])/5
 
 
+
+# Or, we could just ask Python for the mean, with
 
 # Now, as you may remember (you do remember, right?) I spent some time whinging back in [the previous chapter](importinglibraries) about how the Python developers were really mean because they gave us a built-in function for adding but not for averaging, and I made a big deal about how we had to import `statistics.mean`. So why, I hear you ask, can we all of sudden calculate means _without_ importing `statistics.mean`?
 
