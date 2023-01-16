@@ -31,7 +31,6 @@ print(afl_margins)
 # In[3]:
 
 
-#from myst_nb import glue
 import seaborn as sns
 
 ax = sns.histplot(afl_margins)
@@ -39,7 +38,7 @@ ax = sns.histplot(afl_margins)
 ax.set(xlabel ="Winning Margin", 
                 ylabel = "Frequency")
 
-#glue("afl_fig", ax, display=False)
+sns.despine()
 
 
 # ```{glue:figure} afl_fig
