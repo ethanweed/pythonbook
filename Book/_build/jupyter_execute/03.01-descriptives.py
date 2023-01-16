@@ -151,7 +151,7 @@ margins[0:5].mean()
 type(margins)
 
 
-# Ah. `margins` is not a list, or an integer, or any of the other usual suspects. It is a special kind of type that is defined by the `pandas` package, and like all variable types, it has its own set of special [methods](methods) that we can access using the `.` syntax. If you have been following along and entering the code on your own computer, then if you write `dir(margins)`, you will see that `pandas.core.series.Series` variables have a long list of methods associated with them, and amongst them is both `sum` and `mean`.
+# Ah. `margins` is not a list, or an integer, or any of the other usual suspects. It is a special kind of type that is defined by the `pandas` package, and like all variable types, it has its own set of special [methods](methods) that we can access using the `.` syntax. If you have been following along and entering the code on your own computer, then you can write `dir(margins)`, and you will see that `pandas.core.series.Series` variables have a long list of methods associated with them, and amongst them is both `sum` and `mean`.
 
 # If we were to convert `margins` to a different variable type, say, a list, then we could no longer use `.mean()`:
 
