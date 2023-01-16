@@ -72,6 +72,7 @@ print(keeper)
 # 
 # [^note5]: Well, actually it is an `.ipynb` file, but let's not bicker and argue about who killed who.
 
+# (importinglibraries)=
 # ### Importing libraries
 # 
 # Assuming you have the libraries you need installed on your computer, or can access them in the virtual Python environment you are using in your browser, you will need to import them before you can actually use them. So, for instance, if I want to find the sum of five numbers, I can write
@@ -350,9 +351,7 @@ type(x)
 
 # Exciting, no? Trust me, you'll need to do this more often than you might think.
 
-# Since Python packages can add their own variable types (like the `pandas.core.frame.DataFrame` variable we saw above), there can be quite a few different variable types in Python. But it is worth spending a little time getting to know the standard variable types in Python, so here I'll introduce you to a few of the usual suspects: ints, floats, strings, dicts, lists, and sets. These variable types are like the basic building blocks in Python, and once you become familar with them and get to know their quirks, foibles, and properties, everything else in Python becomes so much easier.
-# 
-# I KNOW I HAVEN'T FINSIHED THIS SECTION YET. I'LL COME BACK AND DO IT, I PROMISE!
+# Since Python packages can add their own variable types (like the `pandas.core.frame.DataFrame` variable we saw above), there can be quite a few different variable types in Python. But it is worth spending a little time getting to know the standard variable types in Python, so here I'll introduce you to a few of the usual suspects: integers, floats, strings, dictionaries, lists, and sets. These variable types are like the basic building blocks in Python, and once you become familar with them and get to know their quirks, foibles, and properties, everything else in Python becomes so much easier.
 
 # ## Regular variables and collection variables
 # 
@@ -871,6 +870,72 @@ print(set('Python is the most wonderful programming language in the world and I 
 
 # Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.
 
+# (methods)=
+# ## Variable methods
+# 
+# We have already seen that different types of variables in Python have different properties. Add two integers together, and you will get the sum of those two numbers. Add two strings together, and Python will just stick those two strings together to make a longer string. The differences in variable properties go deeper, however. We have already seen an example of this with the string type. Remeber the following example?
+
+# In[95]:
+
+
+a = 'a long time ago in a galaxy far far away'
+a = a.title()
+print(a)
+
+
+# Here, we created a string of words separated by spaces, all lowercase, and called it `a`. Then, by writing the name of the variable, `a`, followed by `.title()`, Python knew to convert the string to title case. We can also convert our variable `a`, now in title case, to upper case, by a similar method:
+
+# In[96]:
+
+
+a = a.upper()
+print(a)
+
+
+# `title()` and `upper()` are examples of special properties that all string variables possess. These special properties are called "methods". To see the full list of methods available for a variable in Python, we can use the function `dir()`. So, for example, since `a` is a string, we can see what methods are available for strings by writing `dir(a)`:
+
+# In[97]:
+
+
+dir(a)
+
+
+# Yikes! You can safely ignore all the things with `__` in front of and after them, like `__add__`, and `__class__`. These aren't meant for us to meddle with! But even setting these aside, you can see that for strings the list is quite long, and to be honest with you, I don't even know what all of these do. Lists, on the other hand, don't have as many methods available to them:
+
+# In[112]:
+
+
+b = [3, 6, 1231]
+dir(b)
+
+
+# We can access these special methods by writing the name of the variable, and then a `.` and then the name of the method. But we can only use the methods that are available for the type of variable we are working with. Lists, for instance, do not have a `title` method, so it's no good taking our list `b` and writing
+
+# In[113]:
+
+
+b.title()
+
+
+# (dynamictypes)=
+# ## Dynamic typing
+# 
+# In some respects, Python is a very flexible and user-friendly language. One of the ways that Python shows its friendly face to us is the way variables are defined. In some languages, you need to say up front what kind of variable you want to make. If you want to define a variable `b` that contains a the number 342, then you might need to write something like `int b = 342`. In Python, we can just write `b = 342`, and then Python does the work of figuring out that `b` is an integer variable. If we later assign something else to `b`, e.g. `b = 'zebrafish`, Python doesn't object. It just says "Hey, I guess `b` is a string now. Cool!" This flexibility is called "Dynamic Typing" and it can make working with Python easier, but can also get us in trouble, because sometime we _think_ we know what type our variable is, but we are wrong. Luckily, you can always check with `type()`
+
+# In[116]:
+
+
+b = 342
+type(b)
+
+
+# In[117]:
+
+
+b = 'zebrafish'
+type(b)
+
+
 # (indexing)=
 # ## Indexing and slicing
 # 
@@ -940,6 +1005,7 @@ print('He likes', mishmosh['dictionaries'][1]['likes'])
 
 # If this seems like an enormous amount of work to go to just to store details about my cat, well, I don't blame you. But just file these variable types away somewhere in your mind, because they will all be very useful later on as you progress with Python. And yes, I did name my cat D2.
 
+# (slices)=
 # ## Slices
 # 
 # I have mentioned the concept of slicing before, but now it is time to talk about it in a bit more depth. Sometimes we want to access a portion of our data. For example, we might want only part of a string, or part of a list. Say I go to the store every day, and every day I write down how much I spend.
