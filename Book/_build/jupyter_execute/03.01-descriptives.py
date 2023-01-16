@@ -122,51 +122,56 @@ margins.sum()
 margins[0:5]
 
 
-# Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this here, but I talked about it in the section on [lists](lists) and went into more detail in the section on [slices](slices), and will probably mention it again in the section on [pulling out the contents of a data frame](indexingdataframes).
-# 
-# Now, if you've been paying attention (and you have been paying attention, right?), you will remeber that back in the previous chapter, I went through a [whole thing](importinglibraries) about Python includes a built-in function `sum` for summing numbers, and I whinged about how the Python developers were so stingy with their built-in functions that we had to resort to importing the `statistics` package to get access to a function `mean` that we could use to calculate means. Now, although nobody enjoys a good whinge more than I do, it is time to give this a little more nuance. Because, in fact, we can calculate the mean of the first five margins without going through the bother of impoting `statistics`:
+# Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this here, but I talked about it in the section on [lists](lists) and went into more detail in the section on [slices](slices), and will probably mention it again in the section on [pulling out the contents of a data frame](indexingdataframes). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
 
 # In[7]:
-
-
-margins[0:5].mean()
-
-
-# Now, the long-winded way still works, mind you:
-
-# In[8]:
-
-
-from statistics import mean
-mean(margins[0:5])
-
-
-# but in this case, we don't need to go through all the trouble of importing `statistics`. This is because when we loaded the data in to Python, we put it in a [`pandas` dataframe](pandas), and this imbued our data with special powers.
-
-# In[9]:
 
 
 margins[0:5].sum()/5
 
 
 
-# Then again, why even bother going through the trouble of summing and then dividing by 5? Even easier would be to simply use the `mean`
+# Now, as you may remember (you do remember, right?) I spent some time whinging back in [the previous chapter](importinglibraries) about how the Python developers were really mean because they gave us a built-in function for adding but not for averaging, and I made a big deal about how we had to import `statistics.mean`. So why, I hear you ask, can we all of sudden calculate means _without_ importing `statistics.mean`?
 
-# In[10]:
+# In[8]:
 
 
 margins.mean()
 
 
-# In[11]:
+# As you may have already guessed[^smartiepants], this is because the data we are working with are stored in a [`pandas` dataframe](pandas), which means we are dealing with a different variable type here. We can confirm this, by checking what kind of variable `margins` actually is: 
+# 
+# [^smartiepants]: Or already knew, in which case you are probaby skipping this section and won't read this anyway
+
+# In[9]:
+
+
+type(margins)
+
+
+# Ah. `margins` is not a list, or an integer, or any of the other usual suspects. It is a special kind of type that is defined by the `pandas` package, and like all variable types, it has its own set of special [methods](methods) that we can access using the `.` syntax. If you have been following along and entering the code on your own computer, then if you write `dir(margins)`, you will see that `pandas.core.series.Series` variables have a long list of methods associated with them, and amongst them is both `sum` and `mean`.
+
+# If we were to convert `margins` to a different variable type, say, a list, then we could no longer use `.mean()`:
+
+# In[10]:
+
+
+a = list(margins)
+a.mean()
+
+
+# In this case, we would have to take the longer route, by either converting our list `a` to a variable type with a `mean` method, or by importing `statistics.mean` and using that directly on the list:
+
+# In[23]:
 
 
 import statistics
 statistics.mean(margins)
 
 
-# Although it's pretty easy to calculate the mean using the `sum()` function, we can do it in an even easier way, since Python also provides us with the `mean()` method from the `statistics` module. To calculate the mean for all 176 games, we would use the 
-# following command:
+# I said that Python was powerful. I never said it was easy, did I? Don't worry, it gets easier with time[^numb]
+# 
+# [^numb]: Or, perhaps, you just get numb to the pain.
 
 # Here's what we would do to calculate the mean for only the first five observations:
 
@@ -176,8 +181,7 @@ statistics.mean(margins)
 statistics.mean(margins[0:5])
 
 
-# As you can see, this gives exactly the same answers as the previous calculations. 
-# 
+# (median)=
 # 
 # 
 # ### The median
@@ -196,7 +200,7 @@ statistics.mean(margins[0:5])
 # 
 # [^note3]: `sort_values`is a *method* that belong to `pandas` *objects*. We'll get back to this [later](pandas). For now, the important thing is that it works!
 
-# In[13]:
+# In[94]:
 
 
 sorted_margins = afl_margins.sort_values(by = 'afl.margins')
@@ -205,7 +209,7 @@ sorted_margins[84:92]
 
 # If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command:
 
-# In[14]:
+# In[95]:
 
 
 import statistics
@@ -285,7 +289,7 @@ statistics.median(margins)
 # 
 # [^note5]: Or at least, the basic statistical theory -- these days there is a whole subfield of statistics called *robust statistics* that tries to grapple with the messiness of real data and develop theory that can cope with it.
 
-# In[15]:
+# In[96]:
 
 
 dataset = [-15,2,3,4,5,6,7,8,9,12]
@@ -294,14 +298,14 @@ dataset = [-15,2,3,4,5,6,7,8,9,12]
 
 # Next, let's calculate means and medians:
 
-# In[16]:
+# In[97]:
 
 
 import statistics
 statistics.mean(dataset)
 
 
-# In[17]:
+# In[98]:
 
 
 statistics.median(dataset)
@@ -311,7 +315,7 @@ statistics.median(dataset)
 # 
 # [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky, it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module. You can do that too, but this footnote is already getting much too long. We'll get back to these things and much more in [](getting-started-with-python).
 
-# In[18]:
+# In[99]:
 
 
 import numpy as np
@@ -323,7 +327,7 @@ stats.trim_mean(dataset2, 0.1)
 
 # which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write `trim = .1`, not `trim = 10`. In any case, let's finish up by calculating the 5% trimmed mean for the `afl_margins` data, 
 
-# In[19]:
+# In[100]:
 
 
 dataset3 = np.array(margins)
@@ -335,7 +339,7 @@ stats.trim_mean(dataset3, 0.05)
 # 
 # The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let's examine a different aspect to the data set. Who has played in the most finals? The `afl_finalists` data contains the name of every team that played in any AFL final from 1987-2010, so let's have a look at it. To do this we will use the `head()` method. `head()` is a method that can be used when the data is contained in a `pandas` `dataframe` object (which ours is). It can be useful when you're working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using `print(afl_finalists)` will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.
 
-# In[20]:
+# In[101]:
 
 
 afl_finalists.head(n=25)
@@ -343,7 +347,7 @@ afl_finalists.head(n=25)
 
 # There are actually 400 entries (aren't you glad we didn't print them all?). We *could* read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a **_frequency table_**. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let's use the `value_counts()` method to do this task for us:
 
-# In[21]:
+# In[102]:
 
 
 finalists = afl_finalists['afl.finalists']
@@ -352,7 +356,7 @@ finalists.value_counts()
 
 # Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the `finalists` data is `"Geelong"`. If we want to extract the mode without inspecting the table, we can use the `statistics.mode` function to tell us which team has most often played in the finals.
 
-# In[22]:
+# In[103]:
 
 
 statistics.mode(finalists)
@@ -360,7 +364,7 @@ statistics.mode(finalists)
 
 # If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with `value_counts` and then find the largest value with `max`.
 
-# In[23]:
+# In[104]:
 
 
 freq = finalists.value_counts()
@@ -373,13 +377,13 @@ freq.max()
 # 
 # [^note7]: This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.
 
-# In[24]:
+# In[105]:
 
 
 statistics.mode(margins)
 
 
-# In[25]:
+# In[106]:
 
 
 freq = margins.value_counts()
@@ -418,7 +422,7 @@ freq.max()
 # 
 # The **_interquartile range_** (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a **_quantile_** is (they're more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number $x$ such that 10% of the data is less than $x$. In fact, we've already come across the idea: the median of a data set is its 50th quantile / percentile! The `numpy` module actually provides you with a way of calculating quantiles, using the (surprise, surprise) `quantile()` function. Let's use it to calculate the median AFL winning margin:
 
-# In[26]:
+# In[107]:
 
 
 import numpy as np
@@ -427,7 +431,7 @@ np.quantile(margins, 0.5)
 
 # And not surprisingly, this agrees with the answer that we saw earlier with the `median()` function. Now, we can actually input lots of quantiles at once, by specifying which quantiles we want. So lets do that, and get the 25th and 75th percentile:
 
-# In[27]:
+# In[108]:
 
 
 np.quantile(margins, [0.25, .75])
@@ -435,7 +439,7 @@ np.quantile(margins, [0.25, .75])
 
 # And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `iqr.stats` function, which will give us what we want.
 
-# In[28]:
+# In[109]:
 
 
 from scipy import stats
@@ -480,7 +484,7 @@ stats.iqr(margins)
 # 
 # The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
 
-# In[29]:
+# In[110]:
 
 
 from statistics import mean
@@ -496,7 +500,7 @@ ADD
 
 # Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, I suggest using the `pandas` method `mad()` to make life easier. There is one important thing to notice, however: `pandas` will want the data to be in a different format, namely the simply and elegantly named `pandas.core.series.Series` format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can't, so it is worth putting up with the name. To find the AAD, we can just do:
 
-# In[30]:
+# In[111]:
 
 
 import pandas as pd
@@ -509,7 +513,7 @@ data.mad()
 # 
 # We'll talk more about [median absolute deviation](mad) below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!
 
-# In[31]:
+# In[112]:
 
 
 import pandas as pd
@@ -563,7 +567,7 @@ print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
 # 
 # [^note8]: Well, I will very briefly mention the one that I think is coolest, for a very particular definition of "cool", that is. Variances are *additive*. Here's what that means: suppose I have two variables $X$ and $Y$, whose variances are $\mbox{Var}(X)$ and $\mbox{Var}(Y)$ respectively. Now imagine I want to define a new variable $Z$ that is the sum of the two, $Z = X+Y$. As it turns out, the variance of $Z$ is equal to $\mbox{Var}(X) + \mbox{Var}(Y)$. This is a *very* useful property, but it's not true of the other measures that I talk about in this section.
 
-# In[32]:
+# In[113]:
 
 
 ( 376.36 + 31.36 + 376.36 + 817.96 + 21.16 ) / 5
@@ -573,7 +577,7 @@ print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
 # 
 # As always, we want to avoid having to type in a whole lot of numbers ourselves, and fortunately the `statistics` module provides a function called `variance` which saves us the trouble. And as it happens, we have the values lying around in the variable `data`, which we created in the previous section. With this in mind, we can just calculate the variance of `data` by using the following command
 
-# In[33]:
+# In[114]:
 
 
 import statistics
@@ -586,7 +590,7 @@ statistics.variance(data)
 # 
 # [^note9]: With the possible exception of the third question.
 
-# In[34]:
+# In[115]:
 
 
 import statistics
@@ -601,7 +605,7 @@ var
 
 # Now let's use the `statistics.variance()` function:
 
-# In[35]:
+# In[116]:
 
 
 import statistics
@@ -623,7 +627,7 @@ var
 # 
 # By the way, if you _do_ want to calculate variance and divide by $N$ and not $N-1$, Python does a have a way to do this as well; you just need to ask for `pvariance()` instead of `variance()`:
 
-# In[36]:
+# In[117]:
 
 
 population_variance = statistics.pvariance(afl_margins['afl.margins'])
@@ -654,7 +658,7 @@ print("statistics.variance divide by N-1: ", sample_variance)
 # 
 # With that in mind, calculating standard deviations in Python is simple:
 
-# In[37]:
+# In[118]:
 
 
 statistics.stdev(margins)
@@ -685,7 +689,7 @@ statistics.stdev(margins)
 # 
 # As you'd expect, Python has a method for calculating MAD. It is in the `robust` object from the `statsmodels` package, and you will be shocked no doubt to hear that it's called `mad()`. However, it's a little bit more complicated than the functions that we've been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself `x`, and a `constant` that I'll explain in a moment. For our purposes, the constant is 1, so our command becomes
 
-# In[38]:
+# In[119]:
 
 
 import numpy as np
@@ -698,7 +702,7 @@ robust.mad(margins, c=1)
 # 
 # Okay, so what exactly is this `c = 1` argument? I won't go into all the details here, but here's the gist. Although the "raw" MAD value that I've described above is completely interpretable on its own terms, that's not actually how it's used in a lot of real world contexts. Instead, what happens a lot is that the researcher *actually* wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a "robust" way of calculating "something that is like the mean", it's not uncommon to use MAD as a method for calculating "something that is like the standard deviation". Unfortunately, the *raw* MAD value doesn't do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions (the assumption again being that the data are normally-distributed!), you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of `constant` is 1.4826, and so when you use the `mad()` command without manually setting a value, here's what you get:
 
-# In[39]:
+# In[120]:
 
 
 robust.mad(margins)
@@ -727,7 +731,7 @@ robust.mad(margins)
 # 
 # There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we've been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I've actually never seen kurtosis reported in a scientific article to date. 
 
-# In[40]:
+# In[121]:
 
 
 import pandas as pd
@@ -768,7 +772,7 @@ ax = sns.displot(
 # where $N$ is the number of observations, $\bar{X}$ is the sample mean, and $\hat{\sigma}$ is the standard deviation (the "divide by $N-1$" version, that is). Luckily, `pandas`
 # already knows how to calculate skew:
 
-# In[41]:
+# In[122]:
 
 
 margins.skew(axis = 0, skipna = True)
@@ -779,7 +783,7 @@ margins.skew(axis = 0, skipna = True)
 # 
 # The final measure that is sometimes referred to, though very rarely in practice, is the **_kurtosis_** of a data set. Put simply, kurtosis is a measure of the "pointiness" of a data set, as illustrated in {numref}`fig-kurtosis`.
 
-# In[42]:
+# In[123]:
 
 
 import numpy as np                                                              
@@ -863,7 +867,7 @@ for ax in axes:
 # 
 # [^note_kurtosis]: The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.
 
-# In[43]:
+# In[124]:
 
 
 print("Pandas: ", margins.kurtosis())
@@ -883,7 +887,7 @@ print("Pearson: ",stats.kurtosis(margins, fisher=False))
 # 
 # The `describe()` method is an easy thing to use, but a tricky thing to understand in full, since it's a generic function. The basic idea behind the `describe()` method is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you ask it to describe. As a consequence, the behaviour of the `describe()` function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a *numeric* object:
 
-# In[44]:
+# In[125]:
 
 
 afl_margins.describe()
@@ -893,7 +897,7 @@ afl_margins.describe()
 # 
 # Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
 
-# In[45]:
+# In[126]:
 
 
 afl_margins['blowouts'] = np.where(afl_margins['afl.margins'] > 50, True, False)
@@ -902,7 +906,7 @@ afl_margins.head()
 
 # So that's what the `blowouts` variable looks like. Now let's ask Python to `describe()` this data: 
 
-# In[46]:
+# In[127]:
 
 
 afl_margins['blowouts'].describe()
@@ -916,7 +920,7 @@ afl_margins['blowouts'].describe()
 # 
 # Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in the chapter on [](ANOVA) (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
-# In[47]:
+# In[128]:
 
 
 import pandas as pd
@@ -929,7 +933,7 @@ df_clintrial.head()
 
 # Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
-# In[48]:
+# In[129]:
 
 
 df_clintrial.describe(include = 'all')
@@ -984,7 +988,7 @@ df_clintrial.describe(include = 'all')
 # 
 # After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-# In[49]:
+# In[9]:
 
 
 import pandas as pd
@@ -997,7 +1001,7 @@ parenthood.head()
 
 # ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan_sleep`, `baby_sleep`, `dan_grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
-# In[50]:
+# In[10]:
 
 
 parenthood.describe()
@@ -1007,7 +1011,7 @@ parenthood.describe()
 # 
 # 
 
-# In[51]:
+# In[13]:
 
 
 import seaborn as sns
@@ -1058,7 +1062,7 @@ axes[2].set_title(baby_sleep.name);
 # ### The strength and direction of a relationship
 # 
 
-# In[52]:
+# In[133]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -1089,7 +1093,7 @@ fig.axes[1].set_ylabel("My grumpiness")
 # 
 # In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[53]:
+# In[134]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
