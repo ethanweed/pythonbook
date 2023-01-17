@@ -313,7 +313,7 @@ statistics.median(dataset)
 
 # That's a fairly substantial difference, but I'm tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the $-15$ one. So let's just try trimming the mean a bit. If I take a 10% trimmed mean [^note6], we'll drop the extreme values on either side, and take the mean of the rest: 
 # 
-# [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky: it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also, I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module. For a refresher on these technicalities, flip back a few pages to the section on[importing libraries](importinglibraries).
+# [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky: it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also, I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module (you can do that too). For a refresher on these technicalities, flip back a few pages to the section on [importing libraries](importinglibraries).
 
 # In[99]:
 
