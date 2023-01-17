@@ -211,7 +211,7 @@ sorted_margins[84:92]
 
 # If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the `median` command[^nomoremethodsnotes]:
 # 
-# [^nomoremethodsnotes]: By now, you are hopefully getting used to the "dot" syntax, where we use a `.` to call an object [method](methods). These distinctions don't really matter so much at this point anyway, so I'm just going to go ahead and start calling things "commands". However, for the sake of thoroughness (or something) I will point out that if your data are not in an object like a `pandas` series that has a built-in `median` method, you can also do `import statistics.median` and then write `statistics.median(margins)` and get the same result.
+# [^nomoremethodsnotes]: By now, you are hopefully getting used to the "dot" syntax, where we use a `.` to call an object [method](methods). These distinctions don't really matter so much at this point anyway, so I'm just going to go ahead and start calling things "commands". However, for the sake of thoroughness (or something) I will point out that if your data are not in an object like a `pandas` series that has a built-in `median` method, you can also do `import statistics` and then write `statistics.median(margins)` and get the same result.
 
 # In[30]:
 
@@ -220,8 +220,6 @@ margins.median()
 
 
 # which outputs the median value of 30.5. 
-# 
-# By the way, in the code above, I imported the `statistics` package (or module, or library, or whatever you like to call it). Actually, I didn't really need to do that, because I had already done it earlier, when we used it to calculate the mean. Once a package is imported, Python will remember it, at least until your Python session is finished. But to make it easy to copy/paste code out of this book, I am going to try to remember to add the import commands every time (unless I forget, or it just seems unnecessary), but you won't need to do this when you are writing your own code, and in fact it will just make your code messier if you do.
 # 
 # 
 # ### Mean or median? What's the difference?
