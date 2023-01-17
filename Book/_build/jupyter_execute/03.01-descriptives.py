@@ -438,7 +438,7 @@ np.quantile(margins, 0.5)
 np.quantile(margins, [0.25, .75])
 
 
-# And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `iqr.stats` function, which will give us what we want.
+# And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `stats.iqr` function, which will give us what we want.
 
 # In[109]:
 
