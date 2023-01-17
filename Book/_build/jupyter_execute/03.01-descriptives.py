@@ -209,7 +209,7 @@ sorted_margins = afl_margins.sort_values(by = 'afl.margins')
 sorted_margins[84:92]
 
 
-# If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the median command[^nomoremethodsnotes]:
+# If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the `median` command[^nomoremethodsnotes]:
 # 
 # [^nomoremethodsnotes]: By now, you are hopefully getting used to the "dot" syntax, where we use a `.` to call an object [method](methods). These distinctions don't really matter so much at this point anyway, so I'm just going to go ahead and start calling things "commands".
 
