@@ -871,9 +871,9 @@ print(set('Python is the most wonderful programming language in the world and I 
 # Notice that not only does Python count the blank space and the exclamation mark as characters, it also counts the upper and lower case I/i as separate characters. Just to keep you on your toes.
 
 # (methods)=
-# ## Variable methods
+# ## Object methods
 # 
-# We have already seen that different types of variables in Python have different properties. Add two integers together, and you will get the sum of those two numbers. Add two strings together, and Python will just stick those two strings together to make a longer string. The differences in variable properties go deeper, however. We have already seen an example of this with the string type. Remeber the following example?
+# We have already seen that different types of variables (or "objects") in Python have different properties. Add two integers together, and you will get the sum of those two numbers. Add two strings together, and Python will just stick those two strings together to make a longer string. The differences in variable properties go deeper, however. We have already seen an example of this with the string type. Remeber the following example?
 
 # In[95]:
 
