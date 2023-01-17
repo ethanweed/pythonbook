@@ -588,7 +588,10 @@ a.replace(' ', '_')
 # (arguments)=
 # ## Arguments
 # 
-# This might be as good a place as any to introduce the concept of _arguments_. Arguments in Python are not heated discussions about who got the bigger piece of cake. Arguments in Python are opportunities for us to give Python functions some information. As an example, above I used the the `replace` method. Let's try a different example:
+# This might be as good a place as any to introduce the concept of _arguments_. Arguments in Python are not heated discussions about whether or not Die Hard is a Christmas movie[^diehard], or how to pronounce the first consonant in "gif"[^gif]. Arguments in Python are opportunities for us to give Python functions some information. As an example, above I used the the `replace` method. Let's try a different example:
+# 
+# [^diehard]: It is if you want it to be.
+# [^gif]: Yeah, right. You're not going to trick me into stating an opinion on that one!
 
 # In[125]:
 
