@@ -315,19 +315,20 @@ statistics.median(dataset)
 # 
 # [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky: it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also, I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module (you can do that too). For a refresher on these technicalities, flip back a few pages to the section on [importing libraries](importinglibraries).
 
-# In[99]:
+# In[35]:
 
 
 import numpy as np
 from scipy import stats
+
 dataset2 = np.array(dataset)
 
 stats.trim_mean(dataset2, 0.1)
 
 
-# which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write `trim = .1`, not `trim = 10`. In any case, let's finish up by calculating the 5% trimmed mean for the `afl_margins` data, 
+# which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write `trim = .1`, not `trim = 10`. In any case, let's finish up by calculating the 5% trimmed mean for the `afl_margins` data 
 
-# In[100]:
+# In[36]:
 
 
 dataset3 = np.array(margins)

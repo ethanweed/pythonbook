@@ -534,7 +534,7 @@ print(a*5)
 
 # There are many more fun things we can do with strings; many more than I will go into here. I will give a few examples, though, just to whet your appetite:
 
-# In[106]:
+# In[119]:
 
 
 a = 'a long time ago in a galaxy far far away'
@@ -565,7 +565,7 @@ a.split('a')
 'X'.join(a)
 
 
-# In[110]:
+# In[120]:
 
 
 a.replace('galaxy', 'suburb')
@@ -584,6 +584,39 @@ a.replace(' ', '_')
 
 
 # Python is a fantastic tool for working with strings, which makes it the language of choice for very many people working with text data of any sort. But now it is time to move on to collection variables.
+
+# (arguments)=
+# ## Arguments
+# 
+# This might be as good a place as any to introduce the concept of _arguments_. Arguments in Python are not heated discussions about who got the bigger piece of cake. Arguments in Python are opportunities for us to give Python functions some information. As an example, above I used the the `replace` method. Let's try a different example:
+
+# In[125]:
+
+
+a = 'a long time ago in a galaxy far far away'
+
+a.replace('a', '@')
+
+
+# The `replace` method has three possible arugments, and requires that at least the first two be used. Put differently, we cannot simply write
+
+# In[126]:
+
+
+a = 'a long time ago in a galaxy far far away'
+
+a.replace()
+
+
+# Because, as the error message says, `replace` expects us to at a minimum tell it what to replace, and what to replace it with. That seems fair enough, actually. How else is it supposed to know, if we don't tell it? In fact, `replace` has another, optional, argument, "count". If we use this third arguement, we can also tell `replace` how _many_ instances of the old thing we want to replace with the new. The default value is all of them, but if we wanted, we could e.g. only replace the first two instances of 'a' with '@':
+
+# In[128]:
+
+
+a.replace('a', '@', 2)
+
+
+# How did I know that `replace` has three arguments? How will you know how many arguments other methods and functions have? Well, I knew because I searched the internet for "python string replace method arguments", and that's my advice to you, too. Until just now, I had no idea that there was a third argument available for `replace`, because I had never needed it for anything. So I just learned something too!
 
 # ## Collection variables
 # 
