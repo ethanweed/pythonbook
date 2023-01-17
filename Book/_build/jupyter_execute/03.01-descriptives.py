@@ -239,7 +239,7 @@ margins.median()
 # - If your data are ordinal scale, you're more likely to want to use the median than the mean. The median only makes use of the order information in your data (i.e., which numbers are bigger), but doesn't depend on the precise numbers involved. That's exactly the situation that applies when your data are ordinal scale. The mean, on the other hand, makes use of the precise numeric values assigned to the observations, so it's not really appropriate for ordinal data.
 # - For interval and ratio scale data, either one is generally acceptable. Which one you pick depends a bit on what you're trying to achieve. The mean has the advantage that it uses all the information in the data (which is useful when you don't have a lot of data), but it's very sensitive to extreme values, as we'll see when we look at [trimmed means](trimmed_mean).  
 
-# Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed":  see the section on [skew and kurtosis](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
+# Let's expand on that last part a little. One consequence is that there's systematic differences between the mean and the median when the histogram is asymmetric (or "skewed": for more detail,  see the section on [skew and kurtosis](skew-and-kurtosis)). This is illustrated in {numref}`fig-meanmedian`, above. Notice that the median (right hand side) is located closer to the "body" of the histogram, whereas the mean (left hand side) gets dragged towards the "tail" (where the extreme values are). To give a concrete example, suppose Bob (income \$50,000), Kate (income \$60,000) and Jane (income \$65,000) are sitting at a table: the average income at the table is \$58,333 and the median income is \$60,000. Then Bill sits down with them (income \$100,000,000). The average income has now jumped to \$25,043,750 but the median rises only to \$62,500. If you're interested in looking at the overall income at the table, the mean might be the right answer; but if you're interested in what counts as a typical income at the table, the median would be a better choice here.
 
 # (housingpriceexample)=
 # ### A real life example
@@ -290,23 +290,22 @@ margins.median()
 # 
 # [^note5]: Or at least, the basic statistical theory -- these days there is a whole subfield of statistics called *robust statistics* that tries to grapple with the messiness of real data and develop theory that can cope with it.
 
-# In[96]:
+# In[32]:
 
 
 dataset = [-15,2,3,4,5,6,7,8,9,12]
 
 
+# Next, let's calculate means and medians. Since our data is now in a regular old list, and not in a dataframe, we can't use the `.mean()` and `.median()` [methods](methods), so we'll just go the old-school route, and `import` our old friend `statistics`:
 
-# Next, let's calculate means and medians:
-
-# In[97]:
+# In[33]:
 
 
 import statistics
 statistics.mean(dataset)
 
 
-# In[98]:
+# In[34]:
 
 
 statistics.median(dataset)
@@ -314,7 +313,7 @@ statistics.median(dataset)
 
 # That's a fairly substantial difference, but I'm tempted to think that the mean is being influenced a bit too much by the extreme values at either end of the data set, especially the $-15$ one. So let's just try trimming the mean a bit. If I take a 10% trimmed mean [^note6], we'll drop the extreme values on either side, and take the mean of the rest: 
 # 
-# [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky, it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module. You can do that too, but this footnote is already getting much too long. We'll get back to these things and much more in [](getting-started-with-python).
+# [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky: it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also, I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module. For a refresher on these technicalities, flip back a few pages to the section on[importing libraries](importinglibraries).
 
 # In[99]:
 
