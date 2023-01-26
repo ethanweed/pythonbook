@@ -1328,7 +1328,7 @@ sns.despine()
 # 
 # To illustrate, consider the data plotted in {numref}`fig-rankcorr`, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
 
-# In[142]:
+# In[84]:
 
 
 import pandas as pd
@@ -1342,13 +1342,13 @@ effort
 
 # If we run a standard Pearson correlation, it shows a strong relationship between hours worked and grade received,
 
-# In[143]:
+# In[85]:
 
 
 effort['hours'].corr(effort['grade'])
 
 
-# In[144]:
+# In[86]:
 
 
 import seaborn as sns
@@ -1358,6 +1358,7 @@ sns.regplot(x='hours', y='grade', data=effort, ci=None, ax=ax)
 sns.lineplot(x='hours', y='grade', data=effort, color = "black", ci=None, ax=ax)
 ax.lines[0].set_linestyle("--")
 
+sns.despine()
 
 #glue("rankcorr-fig", fig, display=False)
 
