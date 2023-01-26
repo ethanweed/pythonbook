@@ -1495,7 +1495,7 @@ Name: afl.finalists, dtype: int64
 <div class="math notranslate nohighlight">
 \[\frac{19.4 + 5.6 + 19.4 + 28.6 + 4.6}{5} = 15.52\]</div>
 <p>And we’re done. The mean absolute deviation for these five scores is 15.52.</p>
-<p>However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, “mean absolute deviation” and “median absolute deviation” have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you <em><strong>both use the abbreviation MAD even though they mean different things!</strong></em> Sigh. What I’ll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here’s the formula that describes what we just calculated:</p>
+<p>However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. First, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, “mean absolute deviation” and “median absolute deviation” have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you <em><strong>both use the abbreviation MAD even though they mean different things!</strong></em> Sigh. What I’ll do is use AAD instead, short for <em>average</em> absolute deviation. Now that we have some unambiguous notation, here’s the formula that describes what we just calculated:</p>
 <div class="math notranslate nohighlight">
 \[ADD\mbox{}(X) = \frac{1}{N} \sum_{i = 1}^N |X_i - \bar{X}|\]</div>
 <p>The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that’s pretty tedious. You’d end up with a series of commands that might look like this:</p>
@@ -1509,12 +1509,12 @@ Name: afl.finalists, dtype: int64
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>                         <span class="c1">#    each value and the mean and add it to the list AD    </span>
     <span class="n">AD</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">X_bar</span><span class="p">)))</span>       
 <span class="n">ADD</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">AD</span><span class="p">)</span>                      <span class="c1"># 4. find the mean of the absolute values</span>
-<span class="n">ADD</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ADD</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
 </pre></div>
 </div>
 </div>
