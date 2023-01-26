@@ -593,16 +593,16 @@ statistics.variance(data)
 # 
 # [^note9]: With the possible exception of the third question.
 
-# In[115]:
+# In[42]:
 
 
 import statistics
-m = statistics.mean(afl_margins['afl.margins'])
-v = []
-for n in afl_margins['afl.margins']:
-    squared_error = (n-m)**2
-    v.append(squared_error)
-var = statistics.mean(v)
+m = statistics.mean(afl_margins['afl.margins'])  #Find the mean of afl.margins
+v = []                                           #Create an empty list
+for n in afl_margins['afl.margins']:             #Look at each entry in afl.margins
+    squared_error = (n-m)**2                     #Find the squared difference between each item and the mean
+    v.append(squared_error)                      #Put each squared in the list v
+var = statistics.mean(v)                         #Find the mean of v (mean of the squared errors)
 var
 
 

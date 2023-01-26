@@ -1678,12 +1678,12 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
-<span class="n">v</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]:</span>
-    <span class="n">squared_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">squared_error</span><span class="p">)</span>
-<span class="n">var</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>  <span class="c1">#Find the mean of afl.margins</span>
+<span class="n">v</span> <span class="o">=</span> <span class="p">[]</span>                                           <span class="c1">#Create an empty list</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">]:</span>             <span class="c1">#Look at each entry in afl.margins</span>
+    <span class="n">squared_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>                     <span class="c1">#Find the squared difference between each item and the mean</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">squared_error</span><span class="p">)</span>                      <span class="c1">#Put each squared in the list v</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>                         <span class="c1">#Find the mean of v (mean of the squared errors)</span>
 <span class="n">var</span>
 </pre></div>
 </div>
