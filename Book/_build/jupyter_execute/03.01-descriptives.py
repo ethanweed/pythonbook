@@ -852,10 +852,6 @@ for ax in axes:
 
 
 
-# Again just ignore. This line is just here for the sake of figure captions and links.
-#glue("kurtosis_fig", ax, display=False)
-
-
 # ```{glue:figure} kurtosis_fig
 # :figwidth: 600px
 # :name: fig-kurtosis
