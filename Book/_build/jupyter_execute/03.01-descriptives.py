@@ -588,7 +588,7 @@ import statistics
 statistics.variance(data)
 
 
-# and you get the same... no, wait... you get a completely different answer. That’s just weird. Is Python broken? Is this a typo? Is Dan an idiot?
+# and you get the same... no, wait... you get a completely different answer. That’s just weird. Is Python broken? Is this a typo? Are Danielle and Ethan idiots?
 # As it happens, the answer is no[^note9]. It's not a typo, and Python is not making a mistake. To get a feel for what's happening, let's stop using the tiny data set containing only 5 data points, and switch to the full set of 176 games that we've got stored in our  `afl_margins` vector. First, let's calculate the variance by using the formula that I described above:
 # 
 # [^note9]: With the possible exception of the third question.
