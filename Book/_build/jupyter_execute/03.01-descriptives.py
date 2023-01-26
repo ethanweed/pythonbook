@@ -798,7 +798,7 @@ margins.skew(axis = 0, skipna = True)
 # 
 # The final measure that is sometimes referred to, though very rarely in practice, is the **_kurtosis_** of a data set. Put simply, kurtosis is a measure of the "pointiness" of a data set, as illustrated in {numref}`fig-kurtosis`.
 
-# In[123]:
+# In[68]:
 
 
 import numpy as np                                                              
@@ -807,11 +807,11 @@ from scipy import stats
 import matplotlib.pyplot as plt
 
 # load some data
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file1 = 'kurtosisdata.csv'
-file2 = 'kurtosisdata_ncurve.csv'
 
-cd(pathin)
+file1 = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/kurtosisdata.csv'
+file2 = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/kurtosisdata_ncurve.csv'
+
+
 
 df_kurtosis = pd.read_csv(file1)
 
