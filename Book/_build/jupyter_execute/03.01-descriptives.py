@@ -771,12 +771,6 @@ sns.despine()
     
 
 
-# In[58]:
-
-
-df_skew['Skew'].unique()
-
-
 # ```{glue:figure} skew_fig
 # :figwidth: 600px
 # :name: fig-skew
