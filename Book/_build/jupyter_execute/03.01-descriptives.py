@@ -626,7 +626,7 @@ var
 # 
 # $$
 
-# So that's the *what*. The real question is *why* Python is dividing by $N-1$ and not by $N$. After all, the variance is supposed to be the *mean* squared deviation, right? So shouldn't we be dividing by $N$, the actual number of observations in the sample? Well, yes, we should. However, as we'll discuss in the section on [estimation](estimation), there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by $N$) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample *in and of itself*. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". However, I'm getting ahead of myself. For now, let's just take it on faith that Python knows what it's doing, and we'll revisit the question later on when we talk about [estimation](estimation). 
+# So that's the *what*. The real question is *why* Python is dividing by $N-1$ and not by $N$. After all, the variance is supposed to be the *mean* squared deviation, right? So shouldn't we be dividing by $N$, the actual number of observations in the sample? Well, yes, we should. However, as we'll discuss in the section on [estimation](estimation), there's a subtle distinction between "describing a sample" and "making guesses about the population from which the sample came". Up to this point, it's been a distinction without a difference. Regardless of whether you're describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus dividing by $N$) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you're not terribly interested in the sample *in and of itself*. Rather, the sample exists to tell you something about the world. If so, you're actually starting to move away from calculating a "sample statistic", and towards the idea of estimating a "population parameter". However, I'm getting ahead of myself. For now, let's just take it on faith that Python knows what it's doing, and we'll revisit the question later on when we talk about [estimation](estimation). 
 # 
 # By the way, if you _do_ want to calculate variance and divide by $N$ and not $N-1$, Python does a have a way to do this as well; you just need to ask for `pvariance()` instead of `variance()`:
 
@@ -734,36 +734,54 @@ robust.mad(margins)
 # 
 # There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we've been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I've actually never seen kurtosis reported in a scientific article to date. 
 
-# In[121]:
+# In[67]:
 
 
 import pandas as pd
 import seaborn as sns
-from os import chdir as cd
+from matplotlib import pyplot as plt
+
 
 # load some data
-pathin = '/Users/ethan/Documents/GitHub/pythonbook/Data/'
-file = 'skewdata.csv'
+url = 'https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/skewdata.csv'
 
-cd(pathin)
 
-df_skew = pd.read_csv(file)
+df_skew = pd.read_csv(url)
 
-# plot histograms of the data
-ax = sns.displot(
-        data = df_skew, x = "Values", col="Skew",
-        binwidth=.02, height=3, facet_kws=dict(margin_titles=True),
-)
 
-# This is just for the purposes of putting this figure in this book. Feel free to ignore!
-#glue("skew_fig", ax, display=False)
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+ax1 = sns.histplot(data = df_skew.loc[df_skew['Skew'] == 'NegSkew'], x = 'Values', binwidth = 0.02, ax=axes[0])
+ax2 = sns.histplot(data = df_skew.loc[df_skew['Skew'] == 'NoSkew'], x = 'Values', binwidth = 0.02, ax=axes[1])
+ax3 = sns.histplot(data = df_skew.loc[df_skew['Skew'] == 'PosSkew'], x = 'Values', binwidth = 0.02, ax=axes[2])
+
+axes[0].set_title("Negative Skew")
+axes[1].set_title("No Skew")
+axes[2].set_title("Positive Skew")
+
+for ax in axes:
+    ax.set(xticklabels=[])
+    ax.set(yticklabels=[])
+    ax.set(xlabel=None)
+    ax.set(ylabel=None)
+    ax.tick_params(bottom=False)
+    ax.tick_params(left=False)
+
+sns.despine()
+    
+
+
+# In[58]:
+
+
+df_skew['Skew'].unique()
 
 
 # ```{glue:figure} skew_fig
 # :figwidth: 600px
 # :name: fig-skew
 # 
-# An illustration of skewness. On the left we have a negatively skewed data set (skewness “  ́.93), in the middle we have a data set with no skew (technically, skewness “  ́.006), and on the right we have a positively skewed data set (skewness “ .93).
+# An illustration of skewness. On the left we have a negatively skewed data set (skewness = -.93), in the middle we have a data set with no skew (technically, skewness = .006), and on the right we have a positively skewed data set (skewness = .93).
 # ```
 
 # Since it's the more interesting of the two, let's start by talking about the **_skewness_**. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As {numref}`fig-skew` illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is "longer" than the upper tail) and not so many extremely large values (left panel), then we say that the data are *negatively skewed*. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are *positively skewed*. That's the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows

@@ -1714,7 +1714,7 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 <p>Hm. These two numbers are very similar this time. That seems like too much of a coincidence to be a mistake. And of course it isn’t a mistake. In fact, it’s very simple to explain what Python is doing here, but slightly trickier to explain <em>why</em> Python is doing it. So let’s start with the “what”. What Python is doing is evaluating a slightly different formula to the one I showed you above. Instead of averaging the squared deviations, which requires you to divide by the number of data points <span class="math notranslate nohighlight">\(N\)</span>, Python has chosen to divide by <span class="math notranslate nohighlight">\(N-1\)</span>. In other words, the formula that Python is using is this one</p>
 <div class="math notranslate nohighlight">
 \[\frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2\]</div>
-<p>So that’s the <em>what</em>. The real question is <em>why</em> Python is dividing by <span class="math notranslate nohighlight">\(N-1\)</span> and not by <span class="math notranslate nohighlight">\(N\)</span>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn’t we be dividing by <span class="math notranslate nohighlight">\(N\)</span>, the actual number of observations in the sample? Well, yes, we should. However, as we’ll discuss in the section on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus divide by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. However, I’m getting ahead of myself. For now, let’s just take it on faith that Python knows what it’s doing, and we’ll revisit the question later on when we talk about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>.</p>
+<p>So that’s the <em>what</em>. The real question is <em>why</em> Python is dividing by <span class="math notranslate nohighlight">\(N-1\)</span> and not by <span class="math notranslate nohighlight">\(N\)</span>. After all, the variance is supposed to be the <em>mean</em> squared deviation, right? So shouldn’t we be dividing by <span class="math notranslate nohighlight">\(N\)</span>, the actual number of observations in the sample? Well, yes, we should. However, as we’ll discuss in the section on <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>, there’s a subtle distinction between “describing a sample” and “making guesses about the population from which the sample came”. Up to this point, it’s been a distinction without a difference. Regardless of whether you’re describing a sample or drawing inferences about the population, the mean is calculated exactly the same way. Not so for the variance, or the standard deviation, or for many other measures besides. What I outlined to you initially (i.e., take the actual average, and thus dividing by <span class="math notranslate nohighlight">\(N\)</span>) assumes that you literally intend to calculate the variance of the sample. Most of the time, however, you’re not terribly interested in the sample <em>in and of itself</em>. Rather, the sample exists to tell you something about the world. If so, you’re actually starting to move away from calculating a “sample statistic”, and towards the idea of estimating a “population parameter”. However, I’m getting ahead of myself. For now, let’s just take it on faith that Python knows what it’s doing, and we’ll revisit the question later on when we talk about <a class="reference internal" href="04.03-estimation.html#estimation"><span class="std std-ref">estimation</span></a>.</p>
 <p>By the way, if you <em>do</em> want to calculate variance and divide by <span class="math notranslate nohighlight">\(N\)</span> and not <span class="math notranslate nohighlight">\(N-1\)</span>, Python does a have a way to do this as well; you just need to ask for <code class="docutils literal notranslate"><span class="pre">pvariance()</span></code> instead of <code class="docutils literal notranslate"><span class="pre">variance()</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1826,38 +1826,57 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span> <span class="k">as</span> <span class="n">cd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
 
 <span class="c1"># load some data</span>
-<span class="n">pathin</span> <span class="o">=</span> <span class="s1">&#39;/Users/ethan/Documents/GitHub/pythonbook/Data/&#39;</span>
-<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;skewdata.csv&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/skewdata.csv&#39;</span>
 
-<span class="n">cd</span><span class="p">(</span><span class="n">pathin</span><span class="p">)</span>
 
-<span class="n">df_skew</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">df_skew</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
-<span class="c1"># plot histograms of the data</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;Values&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Skew&quot;</span><span class="p">,</span>
-        <span class="n">binwidth</span><span class="o">=</span><span class="mf">.02</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">facet_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">margin_titles</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="p">)</span>
 
-<span class="c1"># This is just for the purposes of putting this figure in this book. Feel free to ignore!</span>
-<span class="c1">#glue(&quot;skew_fig&quot;, ax, display=False)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_skew</span><span class="p">[</span><span class="s1">&#39;Skew&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;NegSkew&#39;</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">binwidth</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_skew</span><span class="p">[</span><span class="s1">&#39;Skew&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;NoSkew&#39;</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">binwidth</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_skew</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_skew</span><span class="p">[</span><span class="s1">&#39;Skew&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;PosSkew&#39;</span><span class="p">],</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">binwidth</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Negative Skew&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;No Skew&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Positive Skew&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">yticklabels</span><span class="o">=</span><span class="p">[])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+    
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_99_1.png" src="_images/03.01-descriptives_99_1.png" />
+<img alt="_images/03.01-descriptives_99_0.png" src="_images/03.01-descriptives_99_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_skew</span><span class="p">[</span><span class="s1">&#39;Skew&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;NegSkew&#39;, &#39;NoSkew&#39;, &#39;PosSkew&#39;], dtype=object)
+</pre></div>
+</div>
 </div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.FacetGrid at 0x15feaa830&gt;
-</pre></div>
-</div>
-</div>
-<p class="caption"><span class="caption-number">Fig. 5.4 </span><span class="caption-text">An illustration of skewness. On the left we have a negatively skewed data set (skewness “  ́.93), in the middle we have a data set with no skew (technically, skewness “  ́.006), and on the right we have a positively skewed data set (skewness “ .93).</span><a class="headerlink" href="#fig-skew" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 5.4 </span><span class="caption-text">An illustration of skewness. On the left we have a negatively skewed data set (skewness = -.93), in the middle we have a data set with no skew (technically, skewness = .006), and on the right we have a positively skewed data set (skewness = .93).</span><a class="headerlink" href="#fig-skew" title="Permalink to this image">¶</a></p>
 </div>
 <p>Since it’s the more interesting of the two, let’s start by talking about the <strong><em>skewness</em></strong>. Skewness is basically a measure of asymmetry, and the easiest way to explain it is by drawing some pictures. As <a class="reference internal" href="#fig-skew"><span class="std std-numref">Fig. 5.4</span></a> illustrates, if the data tend to have a lot of extreme small values (i.e., the lower tail is “longer” than the upper tail) and not so many extremely large values (left panel), then we say that the data are <em>negatively skewed</em>. On the other hand, if there are more extremely large values than extremely small ones (right panel) we say that the data are <em>positively skewed</em>. That’s the qualitative idea behind skewness. The actual formula for the skewness of a data set is as follows</p>
 <div class="math notranslate nohighlight">
@@ -1939,7 +1958,7 @@ already knows how to calculate skew:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_104_1.png" src="_images/03.01-descriptives_104_1.png" />
+<img alt="_images/03.01-descriptives_105_1.png" src="_images/03.01-descriptives_105_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
@@ -2556,7 +2575,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_127_0.png" src="_images/03.01-descriptives_127_0.png" />
+<img alt="_images/03.01-descriptives_128_0.png" src="_images/03.01-descriptives_128_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
@@ -2624,7 +2643,7 @@ z = \frac{35 - 17}{5} = 3.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_131_1.png" src="_images/03.01-descriptives_131_1.png" />
+<img alt="_images/03.01-descriptives_132_1.png" src="_images/03.01-descriptives_132_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
@@ -2651,7 +2670,7 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_134_1.png" src="_images/03.01-descriptives_134_1.png" />
+<img alt="_images/03.01-descriptives_135_1.png" src="_images/03.01-descriptives_135_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -2692,7 +2711,7 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_137_0.png" src="_images/03.01-descriptives_137_0.png" />
+<img alt="_images/03.01-descriptives_138_0.png" src="_images/03.01-descriptives_138_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
@@ -2970,7 +2989,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x4&#39;, ylabel=&#39;y4&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/03.01-descriptives_151_1.png" src="_images/03.01-descriptives_151_1.png" />
+<img alt="_images/03.01-descriptives_152_1.png" src="_images/03.01-descriptives_152_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
@@ -3098,7 +3117,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03.01-descriptives_158_0.png" src="_images/03.01-descriptives_158_0.png" />
+<img alt="_images/03.01-descriptives_159_0.png" src="_images/03.01-descriptives_159_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
