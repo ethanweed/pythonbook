@@ -798,7 +798,7 @@ margins.skew(axis = 0, skipna = True)
 # 
 # The final measure that is sometimes referred to, though very rarely in practice, is the **_kurtosis_** of a data set. Put simply, kurtosis is a measure of the "pointiness" of a data set, as illustrated in {numref}`fig-kurtosis`.
 
-# In[68]:
+# In[69]:
 
 
 import numpy as np                                                              
@@ -847,9 +847,15 @@ axes[2].set_title("Leptokurtic\n\"too pointy\"")
 for ax in axes:
     ax.set_xlim(-6,6)
     ax.set_ylim(0,25000)
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
+    ax.set(xticklabels=[])
+    ax.set(yticklabels=[])
+    ax.set(xlabel=None)
+    ax.set(ylabel=None)
+    ax.tick_params(bottom=False)
+    ax.tick_params(left=False)
+    
 
+sns.despine()
 
 
 # ```{glue:figure} kurtosis_fig
@@ -942,7 +948,7 @@ df_clintrial.head()
 
 
 
-# Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs; and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
+# Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
 # In[129]:
 
@@ -957,7 +963,7 @@ df_clintrial.describe(include = 'all')
 # ## Standard scores
 # 
 # 
-# Suppose my friend is putting together a new questionnaire intended to measure "grumpiness". The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let's imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about would be to say that I have grumpiness of 35/50, so you might say that I'm 70% grumpy. But that's a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I'm only 70% grumpy *with respect to this set of survey questions*. Even if it's a very good questionnaire, this isn't very a informative statement. 
+# Suppose my friend is putting together a new questionnaire intended to measure "grumpiness". The survey has 50 questions, which you can answer in a grumpy way or not. Across a big sample (hypothetically, let's imagine a million people or so!) the data are fairly normally distributed, with the mean grumpiness score being 17 out of 50 questions answered in a grumpy way, and the standard deviation is 5. In contrast, when I take the questionnaire, I answer 35 out of 50 questions in a grumpy way. So, how grumpy am I? One way to think about it would be to say that I have grumpiness of 35/50, so you might say that I'm 70% grumpy. But that's a bit weird, when you think about it. If my friend had phrased her questions a bit differently, people might have answered them in a different way, so the overall distribution of answers could easily move up or down depending on the precise way in which the questions were asked. So, I'm only 70% grumpy *with respect to this set of survey questions*. Even if it's a very good questionnaire, this isn't very a informative statement. 
 # 
 # A simpler way around this is to describe my grumpiness by comparing me to other people. Shockingly, out of my friend's sample of 1,000,000 people, only 159 people were as grumpy as me (that's not at all unrealistic, frankly), suggesting that I'm in the top 0.016% of people for grumpiness. This makes much more sense than trying to interpret the raw data. This idea -- that we should describe my grumpiness in terms of the overall distribution of the grumpiness of humans -- is the qualitative idea that standardisation attempts to get at. One way to do this is to do exactly what I just did, and describe everything in terms of percentiles. However, the problem with doing this is that "it's lonely at the top". Suppose that my friend had only collected a sample of 1000 people (still a pretty big sample for the purposes of testing a new questionnaire, I'd like to add), and this time gotten a mean of 16 out of 50 with a standard deviation of 5, let's say. The problem is that almost certainly, not a single person in that sample would be as grumpy as me.
 # 
@@ -999,7 +1005,7 @@ df_clintrial.describe(include = 'all')
 # 
 # After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-# In[9]:
+# In[72]:
 
 
 import pandas as pd
@@ -1012,7 +1018,7 @@ parenthood.head()
 
 # ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan_sleep`, `baby_sleep`, `dan_grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
-# In[10]:
+# In[73]:
 
 
 parenthood.describe()
@@ -1022,7 +1028,7 @@ parenthood.describe()
 # 
 # 
 
-# In[13]:
+# In[76]:
 
 
 import seaborn as sns
@@ -1047,8 +1053,13 @@ axes[1].set_title(dan_sleep.name)
 sns.histplot(baby_sleep, ax=axes[2])
 axes[2].set_title(baby_sleep.name);
 
-# You know the drill by now: this is just for the purpose of linking to the figure in the book
-#glue("grump_fig", fig, display=False)
+for ax in axes:
+    ax.set(yticklabels=[])
+    ax.set(ylabel=None)
+    ax.tick_params(bottom=False)
+    ax.tick_params(left=False)
+    
+sns.despine()
 
 
 # ```{glue:figure} grump_fig
@@ -1073,7 +1084,7 @@ axes[2].set_title(baby_sleep.name);
 # ### The strength and direction of a relationship
 # 
 
-# In[133]:
+# In[77]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -1089,7 +1100,7 @@ fig.axes[1].set_title("Baby")
 fig.axes[1].set_xlabel("Sleep")
 fig.axes[1].set_ylabel("My grumpiness")
 
-#glue("sleep_scatter-fig1", fig, display=False)
+sns.despine()
 
 
 # ```{glue:figure} sleep_scatter_fig1
@@ -1104,7 +1115,7 @@ fig.axes[1].set_ylabel("My grumpiness")
 # 
 # In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[134]:
+# In[78]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
@@ -1118,7 +1129,8 @@ sns.scatterplot(x = baby_sleep, y = dan_sleep, ax = axes[1])
 fig.axes[1].set_xlabel("Baby's sleep")
 fig.axes[1].set_ylabel("My sleep")
 
-glue("sleep_scatter-fig2", fig, display=False)
+sns.despine()
+#glue("sleep_scatter-fig2", fig, display=False)
 
 
 # ```{glue:figure} sleep_scatter_fig2
@@ -1133,7 +1145,7 @@ glue("sleep_scatter-fig2", fig, display=False)
 # 
 # We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at {numref}`fig-corrs`, you can see several plots showing what different correlations look like.
 
-# In[135]:
+# In[79]:
 
 
 import matplotlib.pyplot as plt
@@ -1159,6 +1171,9 @@ for s, val in enumerate(rneg):
     sns.scatterplot(x=x,y=y, ax = axes[s,1])
     axes[s,1].set_title('r = ' + str(val))
 
+
+sns.despine()
+    
 #glue("corrs-fig", fig, display=False)
 
 
