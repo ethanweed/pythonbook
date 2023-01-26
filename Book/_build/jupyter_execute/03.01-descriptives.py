@@ -477,7 +477,7 @@ stats.iqr(margins)
 # 
 # And we're done. The mean absolute deviation for these five scores is 15.52. 
 # 
-# However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. Firstly, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, "mean absolute deviation" and "median absolute deviation" have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you _**both use the abbreviation MAD even though they mean different things!**_ Sigh. What I'll do is use AAD instead, short for *average* absolute deviation. Now that we have some unambiguous notation, here's the formula that describes what we just calculated:
+# However, while our calculations for this little example are at an end, we do have a couple of things left to talk about. First, we should really try to write down a proper mathematical formula. But in order do to this I need some mathematical notation to refer to the mean absolute deviation. Irritatingly, "mean absolute deviation" and "median absolute deviation" have the same acronym (MAD), which leads to a certain amount of ambiguity. To make matters worse, packages that include functions to calculate these things for you _**both use the abbreviation MAD even though they mean different things!**_ Sigh. What I'll do is use AAD instead, short for *average* absolute deviation. Now that we have some unambiguous notation, here's the formula that describes what we just calculated:
 # 
 # $$
 # 
@@ -487,7 +487,7 @@ stats.iqr(margins)
 # 
 # The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
 
-# In[110]:
+# In[41]:
 
 
 from statistics import mean
@@ -498,7 +498,7 @@ AD = []                             # 3. find the  absolute value of the differe
 for i in X:                         #    each value and the mean and add it to the list AD    
     AD.append(abs((i-X_bar)))       
 ADD = mean(AD)                      # 4. find the mean of the absolute values
-ADD
+print(ADD)
 
 
 # Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, I suggest using the `pandas` method `mad()` to make life easier. There is one important thing to notice, however: `pandas` will want the data to be in a different format, namely the simply and elegantly named `pandas.core.series.Series` format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can't, so it is worth putting up with the name. To find the AAD, we can just do:
