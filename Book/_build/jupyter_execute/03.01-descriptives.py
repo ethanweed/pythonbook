@@ -1264,7 +1264,7 @@ glue("corr-interpretation-table", df, display=False)
 
 # However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`Anscombe1973`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
-# In[140]:
+# In[81]:
 
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
@@ -1293,7 +1293,7 @@ print(df['x4'].corr(df['y4']))
 # 
 # You'd think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of $X$ against $Y$ for all four variables, as shown in {numref}`fig-anscombe` we see that all four of these are *spectacularly* different to each other. 
 
-# In[141]:
+# In[82]:
 
 
 import seaborn as sns
@@ -1305,6 +1305,8 @@ sns.scatterplot(x = df['x'], y = df['y1'], ax = axes[0,0])
 sns.scatterplot(x = df['x'], y = df['y2'], ax = axes[0,1])
 sns.scatterplot(x = df['x'], y = df['y3'], ax = axes[1,0])
 sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
+
+sns.despine()
 
 #glue("anscombe-fig", fig, display=False)
 
