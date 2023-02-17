@@ -1308,7 +1308,7 @@ sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
 
 sns.despine()
 
-#glue("anscombe-fig", fig, display=False)
+glue("anscombe-fig", fig, display=False)
 
 
 # ```{glue:figure} anscombe-fig
