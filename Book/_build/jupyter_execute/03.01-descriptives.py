@@ -1251,8 +1251,8 @@ df = pd.DataFrame(
      'Strength': strength,
      'Direction': direction
     }) 
-df
-#glue("corr-interpretation-table", df, display=False)
+
+glue("corr-interpretation-table", df, display=True)
 
 
 # ```{glue:figure} corr-interpretation-table
