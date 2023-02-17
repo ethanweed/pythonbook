@@ -1237,7 +1237,7 @@ parenthood.corr()
 #  
 # Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in {numref}`table-corr-interpretation` is pretty typical.
 
-# In[17]:
+# In[20]:
 
 
 correlation = ["-1.0 to -0.9", "-0.9 to -0.7", "-0.7 to -0.4", 
@@ -1251,8 +1251,8 @@ df = pd.DataFrame(
      'Strength': strength,
      'Direction': direction
     }) 
-
-glue("corr-interpretation-table", df, display=True)
+df
+#glue("corr-interpretation-table", df, display=True)
 
 
 # ```{glue:figure} corr-interpretation-table
