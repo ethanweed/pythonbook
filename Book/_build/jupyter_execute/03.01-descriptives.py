@@ -164,7 +164,7 @@ a.mean()
 
 # In this case, we would have to take the longer route, by either converting our list `a` to a variable type with a `mean` method, such as a `pandas` series, or by importing `statistics.mean` and using that directly on the list:
 
-# In[23]:
+# In[ ]:
 
 
 import statistics
@@ -177,7 +177,7 @@ statistics.mean(margins)
 
 # Here's what we would do to calculate the mean for only the first five observations:
 
-# In[12]:
+# In[ ]:
 
 
 statistics.mean(margins[0:5])
@@ -202,7 +202,7 @@ statistics.mean(margins[0:5])
 # 
 # [^note3]: `sort_values` is a *method* that belong to `pandas` *objects*. We'll discuss `pandas` more [later](pandas), and you are already somewhat familiar with the [concept of methods](methods) in Python. For now, the important thing is that it works!
 
-# In[94]:
+# In[ ]:
 
 
 sorted_margins = afl_margins.sort_values(by = 'afl.margins')
@@ -213,7 +213,7 @@ sorted_margins[84:92]
 # 
 # [^nomoremethodsnotes]: By now, you are hopefully getting used to the "dot" syntax, where we use a `.` to call an object [method](methods). These distinctions don't really matter so much at this point anyway, so I'm just going to go ahead and start calling things "commands". However, for the sake of thoroughness (or something) I will point out that if your data are not in an object like a `pandas` series that has a built-in `median` method, you can also do `import statistics` and then write `statistics.median(margins)` and get the same result.
 
-# In[30]:
+# In[ ]:
 
 
 margins.median()
@@ -290,7 +290,7 @@ margins.median()
 # 
 # [^note5]: Or at least, the basic statistical theory -- these days there is a whole subfield of statistics called *robust statistics* that tries to grapple with the messiness of real data and develop theory that can cope with it.
 
-# In[32]:
+# In[ ]:
 
 
 dataset = [-15,2,3,4,5,6,7,8,9,12]
@@ -298,14 +298,14 @@ dataset = [-15,2,3,4,5,6,7,8,9,12]
 
 # Next, let's calculate means and medians. Since our data is now in a regular old list, and not in a dataframe, we can't use the `.mean()` and `.median()` [methods](methods), so we'll just go the old-school route, and `import` our old friend `statistics`:
 
-# In[33]:
+# In[ ]:
 
 
 import statistics
 statistics.mean(dataset)
 
 
-# In[34]:
+# In[ ]:
 
 
 statistics.median(dataset)
@@ -315,7 +315,7 @@ statistics.median(dataset)
 # 
 # [^note6]: Here I use the `stats` function from the `scipy` module. But `stats` is picky: it only wants to deal with data in a certain format called `numpy arrays`. So, to give it what it wants, we also need to import `numpy`, and then convert our data into an `array`. Also, I only imported part of the `scipy` module (you can do that) and renamed the `numpy` module (you can do that too). For a refresher on these technicalities, flip back a few pages to the section on [importing libraries](importinglibraries).
 
-# In[35]:
+# In[ ]:
 
 
 import numpy as np
@@ -328,7 +328,7 @@ stats.trim_mean(dataset2, 0.1)
 
 # which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write `trim = .1`, not `trim = 10`. In any case, let's finish up by calculating the 5% trimmed mean for the `afl_margins` data 
 
-# In[36]:
+# In[ ]:
 
 
 dataset3 = np.array(margins)
@@ -340,7 +340,7 @@ stats.trim_mean(dataset3, 0.05)
 # 
 # The mode of a sample is very simple: it is the value that occurs most frequently. To illustrate the mode using the AFL data, let's examine a different aspect to the data set. Who has played in the most finals? The `afl_finalists` data contains the name of every team that played in any AFL final from 1987-2010, so let's have a look at it. To do this we will use the `head()` method. `head()` is a method that can be used when the data is contained in a `pandas` `dataframe` object (which ours is). It can be useful when you're working with data with a lot of rows, since you can use it to tell you how many rows to return. There have been a lot of finals in this period so printing afl finalists using `print(afl_finalists)` will just fill us the screen. The command below tells Python we just want the first 25 rows of the dataframe.
 
-# In[101]:
+# In[ ]:
 
 
 afl_finalists.head(n=25)
@@ -350,7 +350,7 @@ afl_finalists.head(n=25)
 # 
 # [^onelineortwo]: `value_counts()` is a method available to us because our data is in a `pandas` dataframe. In the example below, I have made a new variable called `finalists` which contains the `afl.finalists` column from the `afl_finalists` dataframe. Of course, we could just do `value_counts()` directly on the `pandas` column like this: `afl_finalists['afl.finalists'].value_counts()`. The result is the same.
 
-# In[37]:
+# In[ ]:
 
 
 finalists = afl_finalists['afl.finalists']
@@ -359,7 +359,7 @@ finalists.value_counts()
 
 # Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the `finalists` data is `"Geelong"`. If we want to extract the mode without inspecting the table, we can use the `statistics.mode` function to tell us which team has most often played in the finals.
 
-# In[103]:
+# In[ ]:
 
 
 statistics.mode(finalists)
@@ -367,7 +367,7 @@ statistics.mode(finalists)
 
 # If we want to find the number of finals they have played in, we can e.g. first extract the frequencies with `value_counts` and then find the largest value with `max`.
 
-# In[104]:
+# In[ ]:
 
 
 freq = finalists.value_counts()
@@ -380,13 +380,13 @@ freq.max()
 # 
 # [^note7]: This is called a "0-1 loss function", meaning that you either win (1) or you lose (0), with no middle ground.
 
-# In[105]:
+# In[ ]:
 
 
 statistics.mode(margins)
 
 
-# In[106]:
+# In[ ]:
 
 
 freq = margins.value_counts()
@@ -425,7 +425,7 @@ freq.max()
 # 
 # The **_interquartile range_** (IQR) is like the range, but instead of calculating the difference between the biggest and smallest value, it calculates the difference between the 25th quantile and the 75th quantile. Probably you already know what a **_quantile_** is (they're more commonly called percentiles), but if not: the 10th percentile of a data set is the smallest number $x$ such that 10% of the data is less than $x$. In fact, we've already come across the idea: the median of a data set is its 50th quantile / percentile! The `numpy` module actually provides you with a way of calculating quantiles, using the (surprise, surprise) `quantile()` function. Let's use it to calculate the median AFL winning margin:
 
-# In[107]:
+# In[ ]:
 
 
 import numpy as np
@@ -434,7 +434,7 @@ np.quantile(margins, 0.5)
 
 # And not surprisingly, this agrees with the answer that we saw earlier with the `median()` function. Now, we can actually input lots of quantiles at once, by specifying which quantiles we want. So lets do that, and get the 25th and 75th percentile:
 
-# In[108]:
+# In[ ]:
 
 
 np.quantile(margins, [0.25, .75])
@@ -442,7 +442,7 @@ np.quantile(margins, [0.25, .75])
 
 # And, by noting that $50.5 - 12.75 = 37.75$, we can see that the interquartile range for the 2010 AFL winning margins data is 37.75. Of course, that seems like too much work to do all that typing, and luckily we don't have to, since the kind folks at `scipy` have already done the work for us and provided us with the  `stats.iqr` function, which will give us what we want.
 
-# In[109]:
+# In[ ]:
 
 
 from scipy import stats
@@ -487,7 +487,7 @@ stats.iqr(margins)
 # 
 # The last thing we need to talk about is how to calculate AAD in Python. One possibility would be to do everything using low level commands, laboriously following the same steps that I used when describing the calculations above. However, that's pretty tedious. You'd end up with a series of commands that might look like this:
 
-# In[41]:
+# In[ ]:
 
 
 from statistics import mean
@@ -503,7 +503,7 @@ print(ADD)
 
 # Each of those commands is pretty simple, but there's just too many of them. And because I find that to be too much typing, I suggest using the `pandas` method `mad()` to make life easier. There is one important thing to notice, however: `pandas` will want the data to be in a different format, namely the simply and elegantly named `pandas.core.series.Series` format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can't, so it is worth putting up with the name. To find the AAD, we can just do:
 
-# In[111]:
+# In[ ]:
 
 
 import pandas as pd
@@ -516,7 +516,7 @@ data.mad()
 # 
 # We'll talk more about [median absolute deviation](mad) below. For now, just be careful to be aware of which one you are using, and why, and everything will be ok!
 
-# In[112]:
+# In[ ]:
 
 
 import pandas as pd
@@ -570,7 +570,7 @@ print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
 # 
 # [^note8]: Well, I will very briefly mention the one that I think is coolest, for a very particular definition of "cool", that is. Variances are *additive*. Here's what that means: suppose I have two variables $X$ and $Y$, whose variances are $\mbox{Var}(X)$ and $\mbox{Var}(Y)$ respectively. Now imagine I want to define a new variable $Z$ that is the sum of the two, $Z = X+Y$. As it turns out, the variance of $Z$ is equal to $\mbox{Var}(X) + \mbox{Var}(Y)$. This is a *very* useful property, but it's not true of the other measures that I talk about in this section.
 
-# In[113]:
+# In[ ]:
 
 
 ( 376.36 + 31.36 + 376.36 + 817.96 + 21.16 ) / 5
@@ -580,7 +580,7 @@ print("Statsmodels MAD is the median absolute deviation:", statsmodels_mad)
 # 
 # As always, we want to avoid having to type in a whole lot of numbers ourselves, and fortunately the `statistics` module provides a function called `variance` which saves us the trouble. And as it happens, we have the values lying around in the variable `data`, which we created in the previous section. With this in mind, we can just calculate the variance of `data` by using the following command
 
-# In[114]:
+# In[ ]:
 
 
 import statistics
@@ -593,7 +593,7 @@ statistics.variance(data)
 # 
 # [^note9]: With the possible exception of the third question.
 
-# In[42]:
+# In[ ]:
 
 
 import statistics
@@ -608,7 +608,7 @@ var
 
 # Now let's use the `statistics.variance()` function:
 
-# In[116]:
+# In[ ]:
 
 
 import statistics
@@ -630,7 +630,7 @@ var
 # 
 # By the way, if you _do_ want to calculate variance and divide by $N$ and not $N-1$, Python does a have a way to do this as well; you just need to ask for `pvariance()` instead of `variance()`:
 
-# In[117]:
+# In[ ]:
 
 
 population_variance = statistics.pvariance(afl_margins['afl.margins'])
@@ -661,7 +661,7 @@ print("statistics.variance divide by N-1: ", sample_variance)
 # 
 # With that in mind, calculating standard deviations in Python is simple:
 
-# In[118]:
+# In[ ]:
 
 
 statistics.stdev(margins)
@@ -692,7 +692,7 @@ statistics.stdev(margins)
 # 
 # As you'd expect, Python has a method for calculating MAD. It is in the `robust` object from the `statsmodels` package, and you will be shocked no doubt to hear that it's called `mad()`. However, it's a little bit more complicated than the functions that we've been using previously. If you want to use it to calculate MAD in the exact same way that I have described it above, the command that you need to use specifies two arguments: the data set itself `x`, and a `constant` that I'll explain in a moment. For our purposes, the constant is 1, so our command becomes
 
-# In[119]:
+# In[ ]:
 
 
 import numpy as np
@@ -705,7 +705,7 @@ robust.mad(margins, c=1)
 # 
 # Okay, so what exactly is this `c = 1` argument? I won't go into all the details here, but here's the gist. Although the "raw" MAD value that I've described above is completely interpretable on its own terms, that's not actually how it's used in a lot of real world contexts. Instead, what happens a lot is that the researcher *actually* wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a "robust" way of calculating "something that is like the mean", it's not uncommon to use MAD as a method for calculating "something that is like the standard deviation". Unfortunately, the *raw* MAD value doesn't do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions (the assumption again being that the data are normally-distributed!), you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of `constant` is 1.4826, and so when you use the `mad()` command without manually setting a value, here's what you get:
 
-# In[120]:
+# In[ ]:
 
 
 robust.mad(margins)
@@ -734,7 +734,7 @@ robust.mad(margins)
 # 
 # There are two more descriptive statistics that you will sometimes see reported in the psychological literature, known as skew and kurtosis. In practice, neither one is used anywhere near as frequently as the measures of central tendency and variability that we've been talking about. Skew is pretty important, so you do see it mentioned a fair bit; but I've actually never seen kurtosis reported in a scientific article to date. 
 
-# In[67]:
+# In[ ]:
 
 
 import pandas as pd
@@ -787,7 +787,7 @@ sns.despine()
 # where $N$ is the number of observations, $\bar{X}$ is the sample mean, and $\hat{\sigma}$ is the standard deviation (the "divide by $N-1$" version, that is). Luckily, `pandas`
 # already knows how to calculate skew:
 
-# In[122]:
+# In[ ]:
 
 
 margins.skew(axis = 0, skipna = True)
@@ -798,7 +798,7 @@ margins.skew(axis = 0, skipna = True)
 # 
 # The final measure that is sometimes referred to, though very rarely in practice, is the **_kurtosis_** of a data set. Put simply, kurtosis is a measure of the "pointiness" of a data set, as illustrated in {numref}`fig-kurtosis`.
 
-# In[69]:
+# In[ ]:
 
 
 import numpy as np                                                              
@@ -884,7 +884,7 @@ sns.despine()
 # 
 # [^note_kurtosis]: The "$-3$" part is something that statisticians tack on to ensure that the normal curve has kurtosis zero. It looks a bit stupid, just sticking a "-3" at the end of the formula, but there are good mathematical reasons for doing this.
 
-# In[124]:
+# In[ ]:
 
 
 print("Pandas: ", margins.kurtosis())
@@ -904,7 +904,7 @@ print("Pearson: ",stats.kurtosis(margins, fisher=False))
 # 
 # The `describe()` method is an easy thing to use, but a tricky thing to understand in full, since it's a generic function. The basic idea behind the `describe()` method is that it prints out some useful information about whatever object (i.e., variable, as far as we're concerned) you ask it to describe. As a consequence, the behaviour of the `describe()` function differs quite dramatically depending on the class of the object that you give it. Let's start by giving it a *numeric* object:
 
-# In[125]:
+# In[ ]:
 
 
 afl_margins.describe()
@@ -914,7 +914,7 @@ afl_margins.describe()
 # 
 # Okay, what about if we feed it a logical vector instead? Let's say I want to know something about how many "blowouts" there were in the 2010 AFL season. I operationalise the concept of a blowout as a game in which the winning margin exceeds 50 points. Let's create a logical variable `blowouts` in which the $i$-th element is `TRUE` if that game was a blowout according to my definition:
 
-# In[126]:
+# In[ ]:
 
 
 afl_margins['blowouts'] = np.where(afl_margins['afl.margins'] > 50, True, False)
@@ -923,7 +923,7 @@ afl_margins.head()
 
 # So that's what the `blowouts` variable looks like. Now let's ask Python to `describe()` this data: 
 
-# In[127]:
+# In[ ]:
 
 
 afl_margins['blowouts'].describe()
@@ -937,7 +937,7 @@ afl_margins['blowouts'].describe()
 # 
 # Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in a [later chapter](ANOVA) when we discuss analysis of variance (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
-# In[1]:
+# In[ ]:
 
 
 import pandas as pd
@@ -950,7 +950,7 @@ df_clintrial.head()
 
 # Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood_gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
-# In[129]:
+# In[ ]:
 
 
 df_clintrial.describe(include = 'all')
@@ -1005,7 +1005,7 @@ df_clintrial.describe(include = 'all')
 # 
 # After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-# In[2]:
+# In[ ]:
 
 
 import pandas as pd
@@ -1018,7 +1018,7 @@ parenthood.head()
 
 # ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan_sleep`, `baby_sleep`, `dan_grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
-# In[3]:
+# In[ ]:
 
 
 parenthood.describe()
@@ -1028,7 +1028,7 @@ parenthood.describe()
 # 
 # 
 
-# In[4]:
+# In[ ]:
 
 
 import seaborn as sns
@@ -1084,7 +1084,7 @@ sns.despine()
 # ### The strength and direction of a relationship
 # 
 
-# In[5]:
+# In[ ]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -1115,7 +1115,7 @@ sns.despine()
 # 
 # In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby_sleep` v `dan_grump`" to the scatterplot of `baby_sleep` v `dan_sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[6]:
+# In[ ]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
@@ -1145,7 +1145,7 @@ sns.despine()
 # 
 # We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at {numref}`fig-corrs`, you can see several plots showing what different correlations look like.
 
-# In[7]:
+# In[ ]:
 
 
 import matplotlib.pyplot as plt
@@ -1211,14 +1211,14 @@ sns.despine()
 # [^note13]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `pingouin.corr` (or `scipy.stats.pearsonr`, or `scipy.stats.spearmanr`).
 # 
 
-# In[13]:
+# In[ ]:
 
 
 x = parenthood['dan_sleep']
 y = parenthood['dan_grump']
 
 
-# In[14]:
+# In[ ]:
 
 
 x.corr(y)
@@ -1226,7 +1226,7 @@ x.corr(y)
 
 # However, the `corr()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:
 
-# In[15]:
+# In[ ]:
 
 
 parenthood.corr()
@@ -1237,7 +1237,7 @@ parenthood.corr()
 #  
 # Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in {numref}`table-corr-interpretation` is pretty typical.
 
-# In[27]:
+# In[ ]:
 
 
 correlation = ["-1.0 to -0.9", "-0.9 to -0.7", "-0.7 to -0.4", 
@@ -1264,7 +1264,7 @@ df.style.hide(axis='index')
 
 # However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`Anscombe1973`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
-# In[18]:
+# In[ ]:
 
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
@@ -1293,7 +1293,7 @@ print(df['x4'].corr(df['y4']))
 # 
 # You'd think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of $X$ against $Y$ for all four variables, as shown in {numref}`fig-anscombe` we see that all four of these are *spectacularly* different to each other. 
 
-# In[82]:
+# In[ ]:
 
 
 import seaborn as sns
@@ -1308,7 +1308,7 @@ sns.scatterplot(x = df['x4'], y = df['y4'], ax = axes[1,1])
 
 sns.despine()
 
-glue("anscombe-fig", fig, display=False)
+#glue("anscombe-fig", fig, display=False)
 
 
 # ```{glue:figure} anscombe-fig
@@ -1328,7 +1328,7 @@ glue("anscombe-fig", fig, display=False)
 # 
 # To illustrate, consider the data plotted in {numref}`fig-rankcorr`, showing the relationship between hours worked and grade received for 10 students taking some class. The curious thing about this -- highly fictitious -- data set is that increasing your effort *always* increases your grade. It might be by a lot or it might be by a little, but increasing effort will never decrease your grade. The data are stored in `effort.csv`:
 
-# In[84]:
+# In[ ]:
 
 
 import pandas as pd
@@ -1342,13 +1342,13 @@ effort
 
 # If we run a standard Pearson correlation, it shows a strong relationship between hours worked and grade received,
 
-# In[85]:
+# In[ ]:
 
 
 effort['hours'].corr(effort['grade'])
 
 
-# In[86]:
+# In[ ]:
 
 
 import seaborn as sns
@@ -1394,7 +1394,7 @@ sns.despine()
 # 
 # Hm. These are *identical*. The student who put in the most effort got the best grade, the student with the least effort got the worst grade, etc. We can get Python to construct new variables with these rankings using the `rank()` method, and specifiying which columns in our dataframe we want to rank, like this:
 
-# In[145]:
+# In[ ]:
 
 
 ranked_hours = effort['hours'].rank()
@@ -1403,17 +1403,17 @@ ranked_grades = effort['grade'].rank()
 
 # As the table above shows, these two rankings are identical, so if we now correlate them we get a perfect relationship:
 
-# In[146]:
+# In[ ]:
 
 
 ranked_hours.corr(ranked_grades)
 
 
-# What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `cor()` method. [^note14] Since we are skipping the extra step of "manually" creating new, ranked variables, we can just operate directly on the dataframe columns:
+# What we've just re-invented is **_Spearman's rank order correlation_**, usually denoted $\rho$ to distinguish it from the Pearson correlation $r$. We can calculate Spearman's $\rho$ using R in two different ways. Firstly we could do it the way I just showed, using the `rank()` function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that's way too much effort to do every time. It's much easier to just specify the `method` argument of the `corr()` method. [^note14] Since we are skipping the extra step of "manually" creating new, ranked variables, we can just operate directly on the dataframe columns:
 # 
 # [^note14]: Yikes, that's two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!
 
-# In[147]:
+# In[ ]:
 
 
 effort['hours'].corr(effort['grade'], method="spearman")
@@ -1431,7 +1431,7 @@ effort['hours'].corr(effort['grade'], method="spearman")
 # 
 # Let's start with the simplest case, in which you're trying to calculate descriptive statistics for a single variable which has missing data. In Python, this means that there will be `nan` ("not a number") values in your data vector. Let's create a variable like that:
 
-# In[148]:
+# In[1]:
 
 
 partial = [10, 20, float('nan'), 30]
@@ -1439,7 +1439,7 @@ partial = [10, 20, float('nan'), 30]
 
 # Let's assume that you want to calculate the mean of this variable. By default, Python assumes that you want to calculate the mean using all four elements of this vector, which is probably the safest thing for a dumb automaton to do, but it's rarely what you actually want. Why not? Well, remember that although `nan` stands for "not a number", the more accurate interpretation of `nan` here is "There should be a number here, but I don't know what that number is". This means that `1 + nan = nan`: if I add 1 to some number that I don't know (i.e., the `nan`) then the answer is *also* a number that I don't know. As a consequence, if you don't explicitly tell Python to ignore the `nan` values, and the data set does have missing values, then the output will itself be a missing value. If I try to calculate the mean of the `partial` vector, without doing anything about the missing value, here's what happens:
 
-# In[149]:
+# In[2]:
 
 
 statistics.mean(partial)
@@ -1447,7 +1447,7 @@ statistics.mean(partial)
 
 # Technically correct, but deeply unhelpful. There are a few ways to deal with this. The first is to use methods from `numpy`. `numpy` has a collection of methods to calculate nan-friendly versions of your favorite descriptive statistics (although correlation is a special case, more on that below), such as `nanmean`, `nanmedian`, `nanpercentile`, `nanmax`, `nanmin`, `nansum`, `nanstd`, etc. So:
 
-# In[150]:
+# In[3]:
 
 
 import numpy as np
@@ -1462,7 +1462,7 @@ print(np.nanstd(partial))
 
 # This is great! Now we can get the descriptive statistics we want, without those pesky `nan`s getting in the way. Still, it is a little tedious to need to remember to to use the `np.nan` version of these functions when dealing with data containing `nan`s (which real data sets often do). As a bit of a consolation, `pandas` dataframes can already calculate these statistics for us, and ignore `nan`s by default. So, if we put our data in a `pandas` dataframe, we don't need to worry about it:
 
-# In[151]:
+# In[4]:
 
 
 import pandas as pd
@@ -1476,7 +1476,7 @@ df = pd.DataFrame(
 df
 
 
-# In[152]:
+# In[5]:
 
 
 print(df['var1'].mean())
@@ -1486,7 +1486,7 @@ print(df['var1'].std())
 
 # This is also great, but there is one little niggling problem. `var1` in our dataframe is the same as the `partial` variable we defined earlier. The mean and median values look the same as when we used the `numpy` methods, but the standard deviation is little bit different. What's up with that? As it turns out, `numpy` and `pandas` calculate standard deviation in slightly different ways: `numpy` uses $N$ in the demoninator, while `pandas` uses the "unbiased estimator" $N-1$ in the demoniator. To make `numpy` behave like `pandas`, we need to pass the `ddof=1` argument to `nanmean()`, like so:
 
-# In[153]:
+# In[6]:
 
 
 print(df['var1'].std())
@@ -1500,9 +1500,9 @@ print(np.nanstd(partial, ddof=1))
 # 
 # ### Missing values in pairwise calculations
 # 
-# I mentioned earlier that the correlation is a special case. It doesn't have an `np.nancorr` argument, because the story becomes a lot more complicated when more than one variable is involved. To explore this, lets look at the data in `parenthood2.csv`. This is just like the `parenthood` data from before, but with some missing values introducd. Maybe I was just too tired some mornings to record the baby's hours of sleep, or to measure my own grumpiness. It happens.
+# I mentioned earlier that correlation is a special case. It doesn't have an `np.nancorr` argument, because the story becomes a lot more complicated when more than one variable is involved. To explore this, lets look at the data in `parenthood2.csv`. This is just like the `parenthood` data from before, but with some missing values introducd. Maybe I was just too tired some mornings to record the baby's hours of sleep, or to measure my own grumpiness. It happens.
 
-# In[154]:
+# In[9]:
 
 
 import pandas as pd
@@ -1515,23 +1515,23 @@ parenthood2.head()
 
 # We can see some of those pesky `nan`s right in the first 5 rows, and if we `describe()` our data, we can get a feeling for how many there are:
 
-# In[155]:
+# In[10]:
 
 
 parenthood2.describe()
 
 
-# By looking in the `count` row, we can see that out of the 100 days for which we have data, there are 9 days missing for `dan.sleep`, 11 days missing for `baby.sleep` and eight days missing for `dan.grump`. Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell Python how to handle those missing values. Here's what happens:
+# By looking in the `count` row, we can see that out of the 100 days for which we have data, there are 9 days missing for `dan_sleep`, 11 days missing for `baby_sleep` and eight days missing for `dan_grump`. Suppose what I would like is a correlation matrix. And let's also suppose that I don't bother to tell Python how to handle those missing values. Here's what happens:
 
-# In[156]:
+# In[11]:
 
 
 parenthood2.corr()
 
 
-# This actually looks pretty good! We *know* there are `nan`s in the data, but `pandas` seems to deal with them handily. This is not untrue, but there is a small but important detail to be aware of. When it encounters data with `nan`s, `pandas` only looks at the pair of variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of `parenthood2` is for `baby.sleep`, Python will only drop observation 1 when `baby.sleep` is one of the variables involved, and keeps observation 1 when trying to correlate e.g. `dan.sleep` and `dan.grump`. If we want to simply ignore *all* rows that contain a `nan`, we need to tell `pandas` to drop them, like this:
+# This actually looks pretty good! We *know* there are `nan`s in the data, but `pandas` seems to deal with them handily. This is not untrue, but there is a small but important detail to be aware of. When it encounters data with `nan`s, `pandas` only looks at the pair of variables that it's trying to correlate when determining what to drop. So, for instance, since the only missing value for observation 1 of `parenthood2` is for `baby_sleep`, Python will only drop observation 1 when `baby_sleep` is one of the variables involved, and keeps observation 1 when trying to correlate e.g. `dan.sleep` and `dan_grump`. If we want to simply ignore *all* rows that contain a `nan`, we need to tell `pandas` to drop them, like this:
 
-# In[157]:
+# In[12]:
 
 
 parenthood2.dropna().corr()
@@ -1539,7 +1539,7 @@ parenthood2.dropna().corr()
 
 # By checking the length of `parenthood2` and `parenthood2.dropna()`, we can see that using `dropna()` removes 27 entire rows from our data:
 
-# In[158]:
+# In[13]:
 
 
 print(len(parenthood2))
@@ -1585,9 +1585,3 @@ print(len(parenthood2.dropna()))
 # Yet it is not so simple: without numbers, without counts, without a description of what happened, we have *no chance* of understanding what really happened, no opportunity event to try to summon the missing feeling. And in truth, as I write this, sitting in comfort on a Saturday morning, half a world and a whole lifetime away from the Gulags, when I put the Ellman estimate next to the Stalin quote a dull dread settles in my stomach and a chill settles over me. The Stalinist repression is something truly beyond my experience, but with a combination of statistical data and those recorded personal histories that have come down to us, it is not entirely beyond my comprehension. Because what Ellman's numbers tell us is this: over a two year period, Stalinist repression wiped out the equivalent of every man, woman and child currently alive in the city where I live. Each one of those deaths had it's own story, was it's own tragedy, and only some of those are known to us now. Even so, with a few carefully chosen statistics, the scale of the atrocity starts to come into focus.  
 # 
 # Thus it is no small thing to say that the first task of the statistician and the scientist is to summarise the data, to find some collection of numbers that can convey to an audience a sense of what has happened. This is the job of descriptive statistics, but it's not a job that can be told solely using the numbers. You are a data analyst, not a statistical software package. Part of your job is to take these *statistics* and turn them into a *description*. When you analyse data, it is not sufficient to list off a collection of numbers. Always remember that what you're really trying to do is communicate with a human audience. The numbers are important, but they need to be put together into a meaningful story that your audience can interpret. That means you need to think about framing. You need to think about context. And you need to think about the individual events that your statistics are summarising. 
-
-# In[ ]:
-
-
-
-
