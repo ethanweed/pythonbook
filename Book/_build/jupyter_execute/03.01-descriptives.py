@@ -937,7 +937,7 @@ afl_margins['blowouts'].describe()
 # 
 # Okay what about data frames? When you `describe()` a dataframe, it produces a slightly condensed summary of each variable inside the data frame (as long as you specify that you want `'all'` the variables). To give you a sense of how this can be useful, let's try this for a new data set, one that you've never seen before. The data is stored in the `clinical_trial_data.csv` file, and we'll use it a lot in a [later chapter](ANOVA) when we discuss analysis of variance (you can find a complete description of the data at the start of that chapter). Let's load it, and see what we've got:
 
-# In[128]:
+# In[1]:
 
 
 import pandas as pd
@@ -948,7 +948,7 @@ df_clintrial.head()
 
 
 
-# Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood.gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
+# Our dataframe `df_clintrial` contains three variables, `drug`, `therapy` and `mood_gain`. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let's see if the `describe()` function sheds a little more light on this situation:
 
 # In[129]:
 
@@ -1005,7 +1005,7 @@ df_clintrial.describe(include = 'all')
 # 
 # After spending so much time looking at the AFL data, I'm starting to get bored with sports. Instead, let's turn to a topic close to every parent's heart: sleep. The following data set is fictitious, but based on real events. Suppose I'm curious to find out how much my infant son's sleeping habits affect my mood. Let's say that I can rate my grumpiness very precisely, on a scale from 0 (not at all grumpy) to 100 (grumpy as a very, very grumpy old man). And, lets also assume that I've been measuring my grumpiness, my sleeping patterns and my son's sleeping patterns for quite some time now. Let's say, for 100 days. And, being a nerd, I've saved the data as a file called `parenthood.csv`. If we load the data...
 
-# In[72]:
+# In[2]:
 
 
 import pandas as pd
@@ -1018,7 +1018,7 @@ parenthood.head()
 
 # ... we see that the file contains a single data frame called `parenthood`, which contains four variables `dan_sleep`, `baby_sleep`, `dan_grump` and `day`. Next, I'll calculate some basic descriptive statistics:
 
-# In[73]:
+# In[3]:
 
 
 parenthood.describe()
@@ -1028,7 +1028,7 @@ parenthood.describe()
 # 
 # 
 
-# In[76]:
+# In[4]:
 
 
 import seaborn as sns
@@ -1084,7 +1084,7 @@ sns.despine()
 # ### The strength and direction of a relationship
 # 
 
-# In[77]:
+# In[5]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
@@ -1111,11 +1111,11 @@ sns.despine()
 # tionship between baby.sleep and dan.grump (right).
 # ```
 
-# We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let's compare the relationship between `dan.sleep` and `dan.grump` with that between `baby.sleep` and `dan.grump` {numref}`fig-sleep_scatter1`. When looking at these two plots side by side, it's clear that the relationship is *qualitatively* the same in both cases: more sleep equals less grump! However, it's also pretty obvious that the relationship between `dan.sleep` and `dan.grump` is *stronger* than the relationship between `baby.sleep` and `dan.grump`. The plot on the left is "neater" than the one on the right. What it feels like is that if you want to predict what my mood is, it'd help you a little bit to know how many hours my son slept, but it'd be *more* helpful to know how many hours I slept. 
+# We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let's compare the relationship between `dan_sleep` and `dan_grump` with that between `baby_sleep` and `dan_grump` {numref}`fig-sleep_scatter1`. When looking at these two plots side by side, it's clear that the relationship is *qualitatively* the same in both cases: more sleep equals less grump! However, it's also pretty obvious that the relationship between `dan_sleep` and `dan_grump` is *stronger* than the relationship between `baby_sleep` and `dan_grump`. The plot on the left is "neater" than the one on the right. What it feels like is that if you want to predict what my mood is, it'd help you a little bit to know how many hours my son slept, but it'd be *more* helpful to know how many hours I slept. 
 # 
-# In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby.sleep` v `dan.grump`" to the scatterplot of `baby.sleep` v `dan.sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
+# In contrast, let's consider {numref}`fig-sleep_scatter2`. If we compare the scatterplot of "`baby_sleep` v `dan_grump`" to the scatterplot of `baby_sleep` v `dan_sleep`, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get *more* sleep (positive relationship, but if he sleeps more then I get *less* grumpy (negative relationship).
 
-# In[78]:
+# In[6]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False) # y axes are now on different scales, so sharey=False
@@ -1145,7 +1145,7 @@ sns.despine()
 # 
 # We can make these ideas a bit more explicit by introducing the idea of a **_correlation coefficient_** (or, more specifically, Pearson's correlation coefficient), which is traditionally denoted by $r$. The correlation coefficient between two variables $X$ and $Y$ (sometimes denoted $r_{XY}$), which we'll define more precisely in the next section, is a measure that varies from $-1$ to $1$. When $r = -1$ it means that we have a perfect negative relationship, and when $r = 1$ it means we have a perfect positive relationship. When $r = 0$, there's no relationship at all. If you look at {numref}`fig-corrs`, you can see several plots showing what different correlations look like.
 
-# In[79]:
+# In[7]:
 
 
 import matplotlib.pyplot as plt
@@ -1190,7 +1190,7 @@ sns.despine()
 # \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
 # $$
 # 
-# Because we're multiplying (i.e., taking the "product" of) a quantity that depends on $X$ by a quantity that depends on $Y$ and then averaging [^note_covariance], you can think of the formula for the covariance as an "average cross product" between $X$ and $Y$. The covariance has the nice property that, if $X$ and $Y$ are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in {numref}`fig-corrs` then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which $X$ and $Y$ are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if $X$ refers to the `dan.sleep` variable (units: hours) and $Y$ refers to the `dan.grump` variable (units: grumps), then the units for their covariance are "hours $\times$ grumps". And I have no freaking idea what that would even mean. 
+# Because we're multiplying (i.e., taking the "product" of) a quantity that depends on $X$ by a quantity that depends on $Y$ and then averaging [^note_covariance], you can think of the formula for the covariance as an "average cross product" between $X$ and $Y$. The covariance has the nice property that, if $X$ and $Y$ are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in {numref}`fig-corrs` then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn't easy to interpret: it depends on the units in which $X$ and $Y$ are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if $X$ refers to the `dan_sleep` variable (units: hours) and $Y$ refers to the `dan_grump` variable (units: grumps), then the units for their covariance are "hours $\times$ grumps". And I have no freaking idea what that would even mean. 
 # 
 # The Pearson correlation coefficient $r$ fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the $z$-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it'll do for our purposes)  In other words, the correlation between $X$ and $Y$ can be written as follows:
 # 
@@ -1208,25 +1208,25 @@ sns.despine()
 # 
 # Calculating correlations in Python can be done using the `corr()` method. The simplest way to use the command is to specify two input arguments `x` and `y`, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: [^note13] 
 # 
-# [^note13]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `scipy.stats.pearsonr` (or `scipy.stats.spearmanr`).
+# [^note13]: If you are reading this after having already completed the chapter on [hypothesis testing](hypothesis-testing) you might be wondering about hypothesis tests for correlations. This can be done with `pingouin.corr` (or `scipy.stats.pearsonr`, or `scipy.stats.spearmanr`).
 # 
 
-# In[136]:
+# In[13]:
 
 
-x = parenthood['dan.sleep']
-y = parenthood['dan.grump']
+x = parenthood['dan_sleep']
+y = parenthood['dan_grump']
 
 
-# In[137]:
+# In[14]:
 
 
 x.corr(y)
 
 
-# However, the `cor()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:
+# However, the `corr()` function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete "correlation matrix", between all pairs of variables in the data frame:
 
-# In[138]:
+# In[15]:
 
 
 parenthood.corr()
@@ -1237,7 +1237,7 @@ parenthood.corr()
 #  
 # Naturally, in real life you don't see many correlations of 1. So how should you interpret a correlation of, say $r= .4$? The honest answer is that it really depends on what you want to use the data for, and on how strong the correlations in your field tend to be. A  friend of mine in engineering once argued that any correlation less than $.95$ is completely useless (I think he was exaggerating, even for engineering). On the other hand there are real cases -- even in psychology -- where you should really expect correlations that strong. For instance, one of the benchmark data sets used to test theories of how people judge similarities is so clean that any theory that can't achieve a correlation of at least $.9$ really isn't deemed to be successful. However, when looking for (say) elementary correlates of intelligence (e.g., inspection time, response time), if you get a correlation above $.3$ you're doing very very well. In short, the interpretation of a correlation depends a lot on the context. That said, the rough guide in {numref}`table-corr-interpretation` is pretty typical.
 
-# In[139]:
+# In[17]:
 
 
 correlation = ["-1.0 to -0.9", "-0.9 to -0.7", "-0.7 to -0.4", 
@@ -1252,7 +1252,7 @@ df = pd.DataFrame(
      'Direction': direction
     }) 
 
-glue("corr-interpretation-table", df, display=False)
+#glue("corr-interpretation-table", df, display=False)
 
 
 # ```{glue:figure} corr-interpretation-table
@@ -1264,7 +1264,7 @@ glue("corr-interpretation-table", df, display=False)
 
 # However, something that can never be stressed enough is that you should *always* look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is "Anscombe's Quartet"  {cite}`Anscombe1973`, which is a collection of four data sets. Each data set has two variables, an $X$ and a $Y$. For all four data sets the mean value for $X$ is 9 and the mean for $Y$ is 7.5. The, standard deviations for all $X$ variables are almost identical, as are those for the the $Y$ variables. And in each case the correlation between $X$ and $Y$ is $r = 0.816$. You can verify this yourself, like this:
 
-# In[81]:
+# In[18]:
 
 
 x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]

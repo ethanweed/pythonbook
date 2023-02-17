@@ -2187,7 +2187,7 @@ Name: blowouts, dtype: object
       <th></th>
       <th>drug</th>
       <th>therapy</th>
-      <th>mood.gain</th>
+      <th>mood_gain</th>
     </tr>
   </thead>
   <tbody>
@@ -2225,7 +2225,7 @@ Name: blowouts, dtype: object
 </table>
 </div></div></div>
 </div>
-<p>Our dataframe <code class="docutils literal notranslate"><span class="pre">df_clintrial</span></code> contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function sheds a little more light on this situation:</p>
+<p>Our dataframe <code class="docutils literal notranslate"><span class="pre">df_clintrial</span></code> contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function sheds a little more light on this situation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_clintrial</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
@@ -2640,8 +2640,8 @@ z = \frac{35 - 17}{5} = 3.6
 <p class="caption"><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Scatterplots showing the relationship between dan.sleep and dan.grump (left) and the rela-
 tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" href="#fig-sleep-scatter1" title="Permalink to this image">¶</a></p>
 </div>
-<p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> with that between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> <a class="reference internal" href="#fig-sleep-scatter1"><span class="std std-numref">Fig. 5.7</span></a>. When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
-<p>In contrast, let’s consider <a class="reference internal" href="#fig-sleep-scatter2"><span class="std std-numref">Fig. 5.8</span></a>. If we compare the scatterplot of “<code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>” to the scatterplot of <code class="docutils literal notranslate"><span class="pre">baby.sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code>, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get <em>more</em> sleep (positive relationship, but if he sleeps more then I get <em>less</em> grumpy (negative relationship).</p>
+<p>We can draw scatterplots to give us a general sense of how closely related two variables are. Ideally though, we might want to say a bit more about it than that. For instance, let’s compare the relationship between <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> with that between <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> <a class="reference internal" href="#fig-sleep-scatter1"><span class="std std-numref">Fig. 5.7</span></a>. When looking at these two plots side by side, it’s clear that the relationship is <em>qualitatively</em> the same in both cases: more sleep equals less grump! However, it’s also pretty obvious that the relationship between <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> is <em>stronger</em> than the relationship between <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code>. The plot on the left is “neater” than the one on the right. What it feels like is that if you want to predict what my mood is, it’d help you a little bit to know how many hours my son slept, but it’d be <em>more</em> helpful to know how many hours I slept.</p>
+<p>In contrast, let’s consider <a class="reference internal" href="#fig-sleep-scatter2"><span class="std std-numref">Fig. 5.8</span></a>. If we compare the scatterplot of “<code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code>” to the scatterplot of <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> v <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code>, the overall strength of the relationship is the same, but the direction is different. That is, if my son sleeps more, I get <em>more</em> sleep (positive relationship, but if he sleeps more then I get <em>less</em> grumpy (negative relationship).</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># y axes are now on different scales, so sharey=False</span>
@@ -2716,7 +2716,7 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 \[
 \mbox{Cov}(X,Y) = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right) \left( Y_i - \bar{Y} \right)
 \]</div>
-<p>Because we’re multiplying (i.e., taking the “product” of) a quantity that depends on <span class="math notranslate nohighlight">\(X\)</span> by a quantity that depends on <span class="math notranslate nohighlight">\(Y\)</span> and then averaging <a class="footnote-reference brackets" href="#note-covariance" id="id23">18</a>, you can think of the formula for the covariance as an “average cross product” between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. The covariance has the nice property that, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in <a class="reference internal" href="#fig-corrs"><span class="std std-numref">Fig. 5.9</span></a> then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn’t easy to interpret: it depends on the units in which <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if <span class="math notranslate nohighlight">\(X\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.sleep</span></code> variable (units: hours) and <span class="math notranslate nohighlight">\(Y\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code> variable (units: grumps), then the units for their covariance are “hours <span class="math notranslate nohighlight">\(\times\)</span> grumps”. And I have no freaking idea what that would even mean.</p>
+<p>Because we’re multiplying (i.e., taking the “product” of) a quantity that depends on <span class="math notranslate nohighlight">\(X\)</span> by a quantity that depends on <span class="math notranslate nohighlight">\(Y\)</span> and then averaging <a class="footnote-reference brackets" href="#note-covariance" id="id23">18</a>, you can think of the formula for the covariance as an “average cross product” between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. The covariance has the nice property that, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are entirely unrelated, then the covariance is exactly zero. If the relationship between them is positive (in the sense shown in <a class="reference internal" href="#fig-corrs"><span class="std std-numref">Fig. 5.9</span></a> then the covariance is also positive; and if the relationship is negative then the covariance is also negative. In other words, the covariance captures the basic qualitative idea of correlation. Unfortunately, the raw magnitude of the covariance isn’t easy to interpret: it depends on the units in which <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are expressed, and worse yet, the actual units that the covariance itself is expressed in are really weird. For instance, if <span class="math notranslate nohighlight">\(X\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> variable (units: hours) and <span class="math notranslate nohighlight">\(Y\)</span> refers to the <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> variable (units: grumps), then the units for their covariance are “hours <span class="math notranslate nohighlight">\(\times\)</span> grumps”. And I have no freaking idea what that would even mean.</p>
 <p>The Pearson correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> fixes this interpretation problem by standardising the covariance, in pretty much the exact same way that the <span class="math notranslate nohighlight">\(z\)</span>-score standardises a raw score: by dividing by the standard deviation. However, because we have two variables that contribute to the covariance, the standardisation only works if we divide by both standard deviations (this is an oversimplification, but it’ll do for our purposes)  In other words, the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can be written as follows:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2729,8 +2729,8 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 <p>Calculating correlations in Python can be done using the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. The simplest way to use the command is to specify two input arguments <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, each one corresponding to one of the variables. The following extract illustrates the basic usage of the function: <a class="footnote-reference brackets" href="#note13" id="id24">19</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan.sleep&#39;</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan.grump&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">parenthood</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2742,12 +2742,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.9033840374657273
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.9033840374657269
 </pre></div>
 </div>
 </div>
 </div>
-<p>However, the <code class="docutils literal notranslate"><span class="pre">cor()</span></code> function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete “correlation matrix”, between all pairs of variables in the data frame:</p>
+<p>However, the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete “correlation matrix”, between all pairs of variables in the data frame:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parenthood</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
@@ -2773,29 +2773,29 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>dan.sleep</th>
-      <th>baby.sleep</th>
-      <th>dan.grump</th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
       <th>day</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>dan.sleep</th>
+      <th>dan_sleep</th>
       <td>1.000000</td>
       <td>0.627949</td>
       <td>-0.903384</td>
       <td>-0.098408</td>
     </tr>
     <tr>
-      <th>baby.sleep</th>
+      <th>baby_sleep</th>
       <td>0.627949</td>
       <td>1.000000</td>
       <td>-0.565964</td>
       <td>-0.010434</td>
     </tr>
     <tr>
-      <th>dan.grump</th>
+      <th>dan_grump</th>
       <td>-0.903384</td>
       <td>-0.565964</td>
       <td>1.000000</td>
@@ -2830,100 +2830,12 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
      <span class="s1">&#39;Direction&#39;</span><span class="p">:</span> <span class="n">direction</span>
     <span class="p">})</span> 
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;corr-interpretation-table&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#glue(&quot;corr-interpretation-table&quot;, df, display=False)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="figure align-default" id="table-corr-interpretation" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Correlation</th>
-      <th>Strength</th>
-      <th>Direction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-1.0 to -0.9</td>
-      <td>Very strong</td>
-      <td>Negative</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.9 to -0.7</td>
-      <td>Strong</td>
-      <td>Negative</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-0.7 to -0.4</td>
-      <td>Moderate</td>
-      <td>Negative</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.4 to -0.2</td>
-      <td>Weak</td>
-      <td>Negative</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-0.2 to 0</td>
-      <td>Negligible</td>
-      <td>Negative</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0 to 0.2</td>
-      <td>Negligible</td>
-      <td>Positive</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>0.2 to 0.4</td>
-      <td>Weak</td>
-      <td>Positive</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>.4 to 0.7</td>
-      <td>Moderate</td>
-      <td>Positive</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>0.7 to 0.9</td>
-      <td>Strong</td>
-      <td>Positive</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>0.9 to 1.0</td>
-      <td>Very strong</td>
-      <td>Positive</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 <p class="caption"><span class="caption-number">Fig. 5.10 </span><span class="caption-text">A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.</span><a class="headerlink" href="#table-corr-interpretation" title="Permalink to this image">¶</a></p>
 </div>
 <p>However, something that can never be stressed enough is that you should <em>always</em> look at the scatterplot before attaching any interpretation to the data. A correlation might not mean what you think it means. The classic illustration of this is “Anscombe’s Quartet”  <span id="id25">[<a class="reference internal" href="bibliography.html#id40" title="F. J. Anscombe. Graphs in statistical analysis. American Statistician, 27:17–21, 1973.">Anscombe, 1973</a>]</span>, which is a collection of four data sets. Each data set has two variables, an <span class="math notranslate nohighlight">\(X\)</span> and a <span class="math notranslate nohighlight">\(Y\)</span>. For all four data sets the mean value for <span class="math notranslate nohighlight">\(X\)</span> is 9 and the mean for <span class="math notranslate nohighlight">\(Y\)</span> is 7.5. The, standard deviations for all <span class="math notranslate nohighlight">\(X\)</span> variables are almost identical, as are those for the the <span class="math notranslate nohighlight">\(Y\)</span> variables. And in each case the correlation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(r = 0.816\)</span>. You can verify this yourself, like this:</p>
@@ -3763,7 +3675,7 @@ The death of millions is a statistic.</em></p>
 <dd><p>Just like we saw with the variance and the standard deviation, in practice we divide by <span class="math notranslate nohighlight">\(N-1\)</span> rather than <span class="math notranslate nohighlight">\(N\)</span>.</p>
 </dd>
 <dt class="label" id="note13"><span class="brackets"><a class="fn-backref" href="#id24">19</a></span></dt>
-<dd><p>If you are reading this after having already completed the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a> you might be wondering about hypothesis tests for correlations. This can be done with <code class="docutils literal notranslate"><span class="pre">scipy.stats.pearsonr</span></code> (or <code class="docutils literal notranslate"><span class="pre">scipy.stats.spearmanr</span></code>).</p>
+<dd><p>If you are reading this after having already completed the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a> you might be wondering about hypothesis tests for correlations. This can be done with <code class="docutils literal notranslate"><span class="pre">pingouin.corr</span></code> (or <code class="docutils literal notranslate"><span class="pre">scipy.stats.pearsonr</span></code>, or <code class="docutils literal notranslate"><span class="pre">scipy.stats.spearmanr</span></code>).</p>
 </dd>
 <dt class="label" id="note14"><span class="brackets"><a class="fn-backref" href="#id26">20</a></span></dt>
 <dd><p>Yikes, that’s two uses of the word method, and they mean different things. Sigh. Language is hard, and things get confusing when code-switching between human language and computer language!</p>
