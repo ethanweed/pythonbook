@@ -1251,7 +1251,7 @@ df = pd.DataFrame(
      'Strength': strength,
      'Direction': direction
     }) 
-
+df
 #glue("corr-interpretation-table", df, display=False)
 
 
