@@ -933,12 +933,22 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>35.30113636363637
+</pre></div>
+</div>
+</div>
 </div>
 <p>I said that Python was powerful. I never said it was easy, did I? Don’t worry, it gets easier with time<a class="footnote-reference brackets" href="#numb" id="id4">4</a></p>
 <p>Here’s what we would do to calculate the mean for only the first five observations:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>36.6
 </pre></div>
 </div>
 </div>
@@ -964,11 +974,74 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>165</th>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>33</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>If we peek at the middle of these sorted values, we can see that the middle values are 30 and 31, so the median winning margin for 2010 was 30.5 points. In real life, of course, no-one actually calculates the median by sorting the data and then looking for the middle value. In real life, we use the <code class="docutils literal notranslate"><span class="pre">median</span></code> command<a class="footnote-reference brackets" href="#nomoremethodsnotes" id="id6">6</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.5
 </pre></div>
 </div>
 </div>
@@ -1043,10 +1116,20 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.1
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.5
 </pre></div>
 </div>
 </div>
@@ -1063,12 +1146,22 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.5
+</pre></div>
+</div>
+</div>
 </div>
 <p>which in this case gives exactly the same answer as the median. Note that, to get a 10% trimmed mean you write <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">.1</span></code>, not <code class="docutils literal notranslate"><span class="pre">trim</span> <span class="pre">=</span> <span class="pre">10</span></code>. In any case, let’s finish up by calculating the 5% trimmed mean for the <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> data</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
 <span class="n">stats</span><span class="o">.</span><span class="n">trim_mean</span><span class="p">(</span><span class="n">dataset3</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>33.75
 </pre></div>
 </div>
 </div>
@@ -1083,6 +1176,132 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.finalists</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Carlton</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Essendon</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Geelong</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Geelong</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Hawthorn</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Melbourne</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>West Coast</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Collingwood</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Essendon</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Collingwood</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>There are actually 400 entries (aren’t you glad we didn’t print them all?). We <em>could</em> read through all 400, and count the number of occasions on which each team name appears in our list of finalists, thereby producing a <strong><em>frequency table</em></strong>. However, that would be mindless and boring: exactly the sort of task that computers are great at. So let’s use the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> method to do this task for us<a class="footnote-reference brackets" href="#onelineortwo" id="id12">10</a>:</p>
 <div class="cell docutils container">
@@ -1092,11 +1311,37 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Geelong             39
+West Coast          38
+Essendon            32
+Melbourne           28
+Collingwood         28
+North Melbourne     28
+Hawthorn            27
+Carlton             26
+Adelaide            26
+Sydney              26
+Brisbane            25
+St Kilda            24
+Western Bulldogs    24
+Port Adelaide       17
+Richmond             6
+Fremantle            6
+Name: afl.finalists, dtype: int64
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now that we have our frequency table, we can just look at it and see that, over the 24 years for which we have data, Geelong has played in more finals than any other team. Thus, the mode of the <code class="docutils literal notranslate"><span class="pre">finalists</span></code> data is <code class="docutils literal notranslate"><span class="pre">&quot;Geelong&quot;</span></code>. If we want to extract the mode without inspecting the table, we can use the <code class="docutils literal notranslate"><span class="pre">statistics.mode</span></code> function to tell us which team has most often played in the finals.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">finalists</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Geelong&#39;
 </pre></div>
 </div>
 </div>
@@ -1109,6 +1354,11 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>39
+</pre></div>
+</div>
+</div>
 </div>
 <p>Taken together, we observe that Geelong (39 finals) played in more finals than any other team during the 1987-2010 period.</p>
 <p>One last point to make with respect to the mode. While it’s generally true that the mode is most often calculated when you have nominal scale data (because means and medians are useless for those sorts of variables), there are some situations in which you really do want to know the mode of an ordinal, interval or ratio scale variable. For instance, let’s go back to thinking about our <code class="docutils literal notranslate"><span class="pre">afl_margins</span></code> variable. This variable is clearly ratio scale (if it’s not clear to you, it may help to re-read <a class="reference internal" href="01.02-studydesign.html#scales"><span class="std std-ref">Scales of measurement</span></a>), and so in most situations the mean or the median is the measure of central tendency that you want. But consider this scenario… a friend of yours is offering a bet. They pick a football game at random, and (without knowing who is playing) you have to guess the <em>exact</em> margin. If you guess correctly, you win $50. If you don’t, you lose $1. There are no consolation prizes for “almost” getting the right answer. You have to guess exactly the right margin. <a class="footnote-reference brackets" href="#note7" id="id13">11</a> For this bet, the mean and the median are completely useless to you. It is the mode that you should bet on. So, we calculate this modal value</p>
@@ -1118,11 +1368,21 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="n">margins</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="n">freq</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
 </pre></div>
 </div>
 </div>
@@ -1156,11 +1416,21 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.5
+</pre></div>
+</div>
+</div>
 </div>
 <p>And not surprisingly, this agrees with the answer that we saw earlier with the <code class="docutils literal notranslate"><span class="pre">median()</span></code> function. Now, we can actually input lots of quantiles at once, by specifying which quantiles we want. So lets do that, and get the 25th and 75th percentile:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">.75</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([12.75, 50.5 ])
 </pre></div>
 </div>
 </div>
@@ -1170,6 +1440,11 @@ Name: afl.margins, dtype: int64
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="n">stats</span><span class="o">.</span><span class="n">iqr</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>37.75
 </pre></div>
 </div>
 </div>
@@ -1238,6 +1513,11 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
+</pre></div>
+</div>
+</div>
 </div>
 <p>Each of those commands is pretty simple, but there’s just too many of them. And because I find that to be too much typing, I suggest using the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> method <code class="docutils literal notranslate"><span class="pre">mad()</span></code> to make life easier. There is one important thing to notice, however: <code class="docutils literal notranslate"><span class="pre">pandas</span></code> will want the data to be in a different format, namely the simply and elegantly named <code class="docutils literal notranslate"><span class="pre">pandas.core.series.Series</span></code> format. Haha, just kidding. At least about the simple and elegant name. The format is great, though, and can do lots of things that ordinary lists can’t, so it is worth putting up with the name. To find the AAD, we can just do:</p>
 <div class="cell docutils container">
@@ -1246,6 +1526,11 @@ Name: afl.margins, dtype: int64
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
 <span class="n">data</span><span class="o">.</span><span class="n">mad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.52
 </pre></div>
 </div>
 </div>
@@ -1266,6 +1551,12 @@ Name: afl.margins, dtype: int64
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pandas MAD is the mean absolute deviation:&quot;</span><span class="p">,</span> <span class="n">pandas_mad</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statsmodels MAD is the median absolute deviation:&quot;</span><span class="p">,</span> <span class="n">statsmodels_mad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pandas MAD is the mean absolute deviation: 15.52
+Statsmodels MAD is the median absolute deviation: 24.0
 </pre></div>
 </div>
 </div>
@@ -1360,6 +1651,11 @@ Name: afl.margins, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>324.64
+</pre></div>
+</div>
+</div>
 </div>
 <p>… we end up with a variance of 324.64. Exciting, isn’t it? For the moment, let’s ignore the burning question that you’re all probably thinking (i.e., what the heck does a variance of 324.64 actually mean?) and instead talk a bit more about how to do the calculations in Python, because this will reveal something very weird.</p>
 <p>As always, we want to avoid having to type in a whole lot of numbers ourselves, and fortunately the <code class="docutils literal notranslate"><span class="pre">statistics</span></code> module provides a function called <code class="docutils literal notranslate"><span class="pre">variance</span></code> which saves us the trouble. And as it happens, we have the values lying around in the variable <code class="docutils literal notranslate"><span class="pre">data</span></code>, which we created in the previous section. With this in mind, we can just calculate the variance of <code class="docutils literal notranslate"><span class="pre">data</span></code> by using the following command</p>
@@ -1368,6 +1664,11 @@ Name: afl.margins, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
 
 <span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>405
 </pre></div>
 </div>
 </div>
@@ -1387,6 +1688,11 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>675.9718168904958
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now let’s use the <code class="docutils literal notranslate"><span class="pre">statistics.variance()</span></code> function:</p>
 <div class="cell docutils container">
@@ -1396,6 +1702,11 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 <span class="n">var</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;afl.margins&#39;</span><span class="p">])</span>
 
 <span class="n">var</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>679.834512987013
 </pre></div>
 </div>
 </div>
@@ -1412,6 +1723,12 @@ As it happens, the answer is no<a class="footnote-reference brackets" href="#not
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;statistics.pvariance divides by N: &quot;</span><span class="p">,</span> <span class="n">population_variance</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;statistics.variance divide by N-1: &quot;</span><span class="p">,</span> <span class="n">sample_variance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>statistics.pvariance divides by N:  675.9718168904959
+statistics.variance divide by N-1:  679.834512987013
 </pre></div>
 </div>
 </div>
@@ -1434,6 +1751,11 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>26.073636359108274
 </pre></div>
 </div>
 </div>
@@ -1461,12 +1783,22 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19.5
+</pre></div>
+</div>
+</div>
 </div>
 <p>Apart from the weirdness of having to type that <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">1</span></code> part, this is pretty straightforward.</p>
 <p>Okay, so what exactly is this <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">1</span></code> argument? I won’t go into all the details here, but here’s the gist. Although the “raw” MAD value that I’ve described above is completely interpretable on its own terms, that’s not actually how it’s used in a lot of real world contexts. Instead, what happens a lot is that the researcher <em>actually</em> wants to calculate the standard deviation. However, in the same way that the mean is very sensitive to extreme values, the standard deviation is vulnerable to the exact same issue. So, in much the same way that people sometimes use the median as a “robust” way of calculating “something that is like the mean”, it’s not uncommon to use MAD as a method for calculating “something that is like the standard deviation”. Unfortunately, the <em>raw</em> MAD value doesn’t do this. Our raw MAD value is 19.5, and our standard deviation was 26.07. However, what some clever person has shown is that, under certain assumptions (the assumption again being that the data are normally-distributed!), you can multiply the raw MAD value by 1.4826 and obtain a number that is directly comparable to the standard deviation. As a consequence, the default value of <code class="docutils literal notranslate"><span class="pre">constant</span></code> is 1.4826, and so when you use the <code class="docutils literal notranslate"><span class="pre">mad()</span></code> command without manually setting a value, here’s what you get:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robust</span><span class="o">.</span><span class="n">mad</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28.91074326085924
 </pre></div>
 </div>
 </div>
@@ -1527,6 +1859,9 @@ s = \sqrt{ \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2 }
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_99_0.png" src="_images/03.01-descriptives_99_0.png" />
+</div>
 </div>
 <div class="figure align-default" id="fig-skew" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.4 </span><span class="caption-text">An illustration of skewness. On the left we have a negatively skewed data set (skewness = -.93), in the middle we have a data set with no skew (technically, skewness = .006), and on the right we have a positively skewed data set (skewness = .93).</span><a class="headerlink" href="#fig-skew" title="Permalink to this image">¶</a></p>
@@ -1541,6 +1876,11 @@ already knows how to calculate skew:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skipna</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7804075289401982
 </pre></div>
 </div>
 </div>
@@ -1607,6 +1947,9 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_104_0.png" src="_images/03.01-descriptives_104_0.png" />
+</div>
 </div>
 <div class="figure align-default" id="fig-kurtosis" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.5 </span><span class="caption-text">An illustration of kurtosis. On the left, we have a “platykurtic” data set (kurtosis = -.95), meaning that the data set is “too flat”. In the middle we have a “mesokurtic” data set (kurtosis is almost exactly 0), which means that the pointiness of the data is just about right. Finally, on the right, we have a “leptokurtic” data set (kurtosis = 2.12) indicating that the data set is “too pointy”. Note that kurtosis is measured with respect to a normal curve (black line).</span><a class="headerlink" href="#fig-kurtosis" title="Permalink to this image">¶</a></p>
@@ -1648,6 +1991,13 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pandas:  0.10109718805638757
+Fischer:  0.06434955786516161
+Pearson:  3.0643495578651616
+</pre></div>
+</div>
+</div>
 </div>
 <p>Take your pick, I guess? <code class="docutils literal notranslate"><span class="pre">pandas</span></code> actually also calculates Fischer kurtosis, but <code class="docutils literal notranslate"><span class="pre">stats.kurtosis(margins,</span> <span class="pre">fisher=True)</span></code> adds a “bias correction” by default, while the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> version doesn’t. <code class="docutils literal notranslate"><span class="pre">stats.kurtosis(margins,</span> <span class="pre">fisher=True,</span> <span class="pre">bias=False)</span></code>will get you the same thing as the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> version. Ugh. If you want to assess the kurtosis of the data, you could probably do worse than just plotting the data and using your eyeballs.</p>
 </div>
@@ -1663,6 +2013,64 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>176.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.301136</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>26.073636</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>12.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>30.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>116.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>For numeric variables, we get a whole bunch of useful descriptive statistics. It gives us the minimum and maximum values (i.e., the range), the first and third quartiles (25th and 75th percentiles; i.e., the IQR), the mean and the median. In other words, it gives us a pretty good collection of descriptive statistics related to the central tendency and the spread of the data.</p>
 <p>Okay, what about if we feed it a logical vector instead? Let’s say I want to know something about how many “blowouts” there were in the 2010 AFL season. I operationalise the concept of a blowout as a game in which the winning margin exceeds 50 points. Let’s create a logical variable <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> in which the <span class="math notranslate nohighlight">\(i\)</span>-th element is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if that game was a blowout according to my definition:</p>
@@ -1673,11 +2081,72 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>afl.margins</th>
+      <th>blowouts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>56</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>31</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>56</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>So that’s what the <code class="docutils literal notranslate"><span class="pre">blowouts</span></code> variable looks like. Now let’s ask Python to <code class="docutils literal notranslate"><span class="pre">describe()</span></code> this data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">afl_margins</span><span class="p">[</span><span class="s1">&#39;blowouts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count       176
+unique        2
+top       False
+freq        132
+Name: blowouts, dtype: object
 </pre></div>
 </div>
 </div>
@@ -1697,6 +2166,64 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>drug</th>
+      <th>therapy</th>
+      <th>mood_gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>anxifree</td>
+      <td>no.therapy</td>
+      <td>0.6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>anxifree</td>
+      <td>no.therapy</td>
+      <td>0.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Our dataframe <code class="docutils literal notranslate"><span class="pre">df_clintrial</span></code> contains three variables, <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. Presumably then, this data is from a clinical trial of some kind, in which people were administered different drugs, and the researchers looked to see what the drugs did to their mood. Let’s see if the <code class="docutils literal notranslate"><span class="pre">describe()</span></code> function sheds a little more light on this situation:</p>
 <div class="cell docutils container">
@@ -1705,6 +2232,100 @@ already knows how to calculate skew:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>drug</th>
+      <th>therapy</th>
+      <th>mood_gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>18</td>
+      <td>18</td>
+      <td>18.000000</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>3</td>
+      <td>2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>placebo</td>
+      <td>no.therapy</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>6</td>
+      <td>9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.883333</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.533854</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.100000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.425000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.850000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.300000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.800000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>If we want to <code class="docutils literal notranslate"><span class="pre">describe</span></code> the entire dataframe, we need to add the argument  <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">=</span> <span class="pre">'all'</span></code>. This gives us information on all of the of columns, but this is still rather limited. I mean, I guess I learned something about this data, but if we want to really understand these data, we will have to use other tools to investigate them. That is what the rest of this book is about.</p>
 </div>
@@ -1750,6 +2371,70 @@ z = \frac{35 - 17}{5} = 3.6
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.59</td>
+      <td>10.18</td>
+      <td>56</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.91</td>
+      <td>11.66</td>
+      <td>60</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.14</td>
+      <td>7.92</td>
+      <td>82</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7.71</td>
+      <td>9.61</td>
+      <td>55</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.68</td>
+      <td>9.75</td>
+      <td>67</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>… we see that the file contains a single data frame called <code class="docutils literal notranslate"><span class="pre">parenthood</span></code>, which contains four variables <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code>, <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>, <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> and <code class="docutils literal notranslate"><span class="pre">day</span></code>. Next, I’ll calculate some basic descriptive statistics:</p>
 <div class="cell docutils container">
@@ -1758,6 +2443,91 @@ z = \frac{35 - 17}{5} = 3.6
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.00000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>6.965200</td>
+      <td>8.049200</td>
+      <td>63.71000</td>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.015884</td>
+      <td>2.074232</td>
+      <td>10.04967</td>
+      <td>29.011492</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>4.840000</td>
+      <td>3.250000</td>
+      <td>41.00000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>6.292500</td>
+      <td>6.425000</td>
+      <td>57.00000</td>
+      <td>25.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>7.030000</td>
+      <td>7.950000</td>
+      <td>62.00000</td>
+      <td>50.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>7.740000</td>
+      <td>9.635000</td>
+      <td>71.00000</td>
+      <td>75.250000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>9.000000</td>
+      <td>12.070000</td>
+      <td>91.00000</td>
+      <td>100.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Finally, to give a graphical depiction of what each of the three interesting variables looks like, <a class="reference internal" href="#fig-grump"><span class="std std-numref">Fig. 5.6</span></a> plots histograms.</p>
 <div class="cell tag_hide-outuput tag_hide-input docutils container">
@@ -1793,6 +2563,9 @@ z = \frac{35 - 17}{5} = 3.6
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_127_0.png" src="_images/03.01-descriptives_127_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-grump" style="width: 650px">
@@ -1859,6 +2632,9 @@ z = \frac{35 - 17}{5} = 3.6
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_131_0.png" src="_images/03.01-descriptives_131_0.png" />
+</div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter1" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Scatterplots showing the relationship between dan.sleep and dan.grump (left) and the rela-
@@ -1883,6 +2659,9 @@ tionship between baby.sleep and dan.grump (right).</span><a class="headerlink" h
 <span class="c1">#glue(&quot;sleep_scatter-fig2&quot;, fig, display=False)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_134_0.png" src="_images/03.01-descriptives_134_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sleep-scatter2" style="width: 600px">
@@ -1925,6 +2704,9 @@ to the relationship between baby.sleep and dan.sleep (right).</span><a class="he
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_137_0.png" src="_images/03.01-descriptives_137_0.png" />
+</div>
 </div>
 <div class="figure align-default" id="fig-corrs" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.9 </span><span class="caption-text">Illustration of the effect of varying the strength and direction of a correlation. In the left hand column, the correlations are 0, .33, .66 and 1. In the right hand column, the correlations are 0, -.33, -.66 and -1.</span><a class="headerlink" href="#fig-corrs" title="Permalink to this image">¶</a></p>
@@ -1959,6 +2741,11 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.9033840374657269
+</pre></div>
+</div>
+</div>
 </div>
 <p>However, the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> function is a bit more powerful than this simple example suggests. For example, you can also calculate a complete “correlation matrix”, between all pairs of variables in the data frame:</p>
 <div class="cell docutils container">
@@ -1967,6 +2754,63 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dan_sleep</th>
+      <th>baby_sleep</th>
+      <th>dan_grump</th>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>dan_sleep</th>
+      <td>1.000000</td>
+      <td>0.627949</td>
+      <td>-0.903384</td>
+      <td>-0.098408</td>
+    </tr>
+    <tr>
+      <th>baby_sleep</th>
+      <td>0.627949</td>
+      <td>1.000000</td>
+      <td>-0.565964</td>
+      <td>-0.010434</td>
+    </tr>
+    <tr>
+      <th>dan_grump</th>
+      <td>-0.903384</td>
+      <td>-0.565964</td>
+      <td>1.000000</td>
+      <td>0.076479</td>
+    </tr>
+    <tr>
+      <th>day</th>
+      <td>-0.098408</td>
+      <td>-0.010434</td>
+      <td>0.076479</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </div>
 <div class="section" id="interpreting-a-correlation">
@@ -1990,6 +2834,71 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_74719">
+  <thead>
+    <tr>
+      <th id="T_74719_level0_col0" class="col_heading level0 col0" >Correlation</th>
+      <th id="T_74719_level0_col1" class="col_heading level0 col1" >Strength</th>
+      <th id="T_74719_level0_col2" class="col_heading level0 col2" >Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_74719_row0_col0" class="data row0 col0" >-1.0 to -0.9</td>
+      <td id="T_74719_row0_col1" class="data row0 col1" >Very strong</td>
+      <td id="T_74719_row0_col2" class="data row0 col2" >Negative</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row1_col0" class="data row1 col0" >-0.9 to -0.7</td>
+      <td id="T_74719_row1_col1" class="data row1 col1" >Strong</td>
+      <td id="T_74719_row1_col2" class="data row1 col2" >Negative</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row2_col0" class="data row2 col0" >-0.7 to -0.4</td>
+      <td id="T_74719_row2_col1" class="data row2 col1" >Moderate</td>
+      <td id="T_74719_row2_col2" class="data row2 col2" >Negative</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row3_col0" class="data row3 col0" >-0.4 to -0.2</td>
+      <td id="T_74719_row3_col1" class="data row3 col1" >Weak</td>
+      <td id="T_74719_row3_col2" class="data row3 col2" >Negative</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row4_col0" class="data row4 col0" >-0.2 to 0</td>
+      <td id="T_74719_row4_col1" class="data row4 col1" >Negligible</td>
+      <td id="T_74719_row4_col2" class="data row4 col2" >Negative</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row5_col0" class="data row5 col0" >0 to 0.2 </td>
+      <td id="T_74719_row5_col1" class="data row5 col1" >Negligible</td>
+      <td id="T_74719_row5_col2" class="data row5 col2" >Positive</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row6_col0" class="data row6 col0" >0.2 to 0.4</td>
+      <td id="T_74719_row6_col1" class="data row6 col1" >Weak</td>
+      <td id="T_74719_row6_col2" class="data row6 col2" >Positive</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row7_col0" class="data row7 col0" >.4 to 0.7</td>
+      <td id="T_74719_row7_col1" class="data row7 col1" >Moderate</td>
+      <td id="T_74719_row7_col2" class="data row7 col2" >Positive</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row8_col0" class="data row8 col0" >0.7 to 0.9</td>
+      <td id="T_74719_row8_col1" class="data row8 col1" >Strong</td>
+      <td id="T_74719_row8_col2" class="data row8 col2" >Positive</td>
+    </tr>
+    <tr>
+      <td id="T_74719_row9_col0" class="data row9 col0" >0.9 to 1.0</td>
+      <td id="T_74719_row9_col1" class="data row9 col1" >Very strong</td>
+      <td id="T_74719_row9_col2" class="data row9 col2" >Positive</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <div class="figure align-default" id="table-corr-interpretation" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.10 </span><span class="caption-text">A rough guide to interpreting correlations. Note that I say a rough guide. There aren’t hard and fast rules for what counts as strong or weak relationships. It depends on the context.</span><a class="headerlink" href="#table-corr-interpretation" title="Permalink to this image">¶</a></p>
@@ -2020,6 +2929,14 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.81642051634484
+0.8162365060002427
+0.8162867394895982
+0.8165214368885031
+</pre></div>
+</div>
+</div>
 </div>
 <p>and so on.</p>
 <p>You’d think that these four data sets would look pretty similar to one another. They do not. If we draw scatterplots of <span class="math notranslate nohighlight">\(X\)</span> against <span class="math notranslate nohighlight">\(Y\)</span> for all four variables, as shown in <a class="reference internal" href="#fig-anscombe"><span class="std std-numref">Fig. 5.11</span></a> we see that all four of these are <em>spectacularly</em> different to each other.</p>
@@ -2041,6 +2958,9 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_151_0.png" src="_images/03.01-descriptives_151_0.png" />
+</div>
 </div>
 <div class="figure align-default" id="fig-anscombe" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 5.11 </span><span class="caption-text">Anscombe’s quartet. All four of these data sets have a Pearson correlation of r “ .816, but they are qualitatively different from one another.</span><a class="headerlink" href="#fig-anscombe" title="Permalink to this image">¶</a></p>
@@ -2061,11 +2981,93 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hours</th>
+      <th>grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>76</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>40</td>
+      <td>79</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>28</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>27</td>
+      <td>47</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>59</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>46</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>68</td>
+      <td>88</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>If we run a standard Pearson correlation, it shows a strong relationship between hours worked and grade received,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;hours&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9094019658612525
 </pre></div>
 </div>
 </div>
@@ -2084,6 +3086,9 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 <span class="c1">#glue(&quot;rankcorr-fig&quot;, fig, display=False)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03.01-descriptives_158_0.png" src="_images/03.01-descriptives_158_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-rankcorr" style="width: 600px">
@@ -2158,11 +3163,21 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9999999999999999
+</pre></div>
+</div>
+</div>
 </div>
 <p>What we’ve just re-invented is <strong><em>Spearman’s rank order correlation</em></strong>, usually denoted <span class="math notranslate nohighlight">\(\rho\)</span> to distinguish it from the Pearson correlation <span class="math notranslate nohighlight">\(r\)</span>. We can calculate Spearman’s <span class="math notranslate nohighlight">\(\rho\)</span> using R in two different ways. Firstly we could do it the way I just showed, using the <code class="docutils literal notranslate"><span class="pre">rank()</span></code> function to construct the rankings, and then calculate the Pearson correlation on these ranks. However, that’s way too much effort to do every time. It’s much easier to just specify the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">corr()</span></code> method. <a class="footnote-reference brackets" href="#note14" id="id26">20</a> Since we are skipping the extra step of “manually” creating new, ranked variables, we can just operate directly on the dataframe columns:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;hours&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9999999999999999
 </pre></div>
 </div>
 </div>
@@ -2191,12 +3206,7 @@ r_{XY}  = \frac{\mbox{Cov}(X,Y)}{ \hat{\sigma}_X \ \hat{\sigma}_Y}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [2],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">partial</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;statistics&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nan
 </pre></div>
 </div>
 </div>
