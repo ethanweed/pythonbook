@@ -939,6 +939,7 @@ X \sim \mbox{Binomial}(\theta, N)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticker</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 <span class="c1">#print(x)</span>
@@ -950,7 +951,13 @@ X \sim \mbox{Binomial}(\theta, N)
 <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">21.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s1">&#39;0.00&#39;</span><span class="p">,</span> <span class="s1">&#39;0.05&#39;</span><span class="p">,</span> <span class="s1">&#39;0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;0.15&#39;</span><span class="p">,</span> <span class="s1">&#39;0.20&#39;</span><span class="p">,</span> <span class="s1">&#39;0.25&#39;</span><span class="p">])</span>
+
+<span class="n">ticks_loc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">ticks_lab</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">*</span><span class="mf">0.001</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ticks_loc</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">ticks_loc</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([(</span><span class="n">x</span><span class="o">*</span><span class="mf">0.001</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ticks_loc</span><span class="p">])</span>
+
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Probability&#39;</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
@@ -958,11 +965,7 @@ X \sim \mbox{Binomial}(\theta, N)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_38421/1511055224.py:15: UserWarning: FixedFormatter should only be used together with FixedLocator
-  ax.set_yticklabels([&#39;0.00&#39;, &#39;0.05&#39;, &#39;0.10&#39;, &#39;0.15&#39;, &#39;0.20&#39;, &#39;0.25&#39;])
-</pre></div>
-</div>
-<img alt="_images/04.02-probability_14_1.png" src="_images/04.02-probability_14_1.png" />
+<img alt="_images/04.02-probability_14_0.png" src="_images/04.02-probability_14_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skulls" style="width: 600px">
@@ -1423,8 +1426,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.05182854 -0.63326365 -0.19786371 -1.54673985 -0.43213151 -0.63519239
- -0.99837506 -0.50227921  3.06720046 -0.14198776]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.34920684  0.79979987  0.21540329 -0.87812027 -1.96322386  0.36758167
+ -0.51748869 -0.08841376  0.23464014  0.85067221]
 </pre></div>
 </div>
 </div>
