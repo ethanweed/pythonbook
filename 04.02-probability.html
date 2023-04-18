@@ -936,7 +936,7 @@ X \sim \mbox{Binomial}(\theta, N)
 <p>Yeah, yeah. I know what you’re thinking: notation, notation, notation. Really, who cares? Very few readers of this book are here for the notation, so I should probably move on and talk about how to use the binomial distribution. I’ve included the formula for the binomial distribution below, since some readers may want to play with it themselves, but since most people probably don’t care that much and because we don’t need the formula in this book, I won’t talk about it in any detail. Instead, I just want to show you what the binomial distribution looks like. To that end, <a class="reference internal" href="#fig-skulls"><span class="std std-numref">Fig. 10.3</span></a> plots the binomial probabilities for all possible values of <span class="math notranslate nohighlight">\(X\)</span> for our dice rolling experiment, from <span class="math notranslate nohighlight">\(X=0\)</span> (no skulls) all the way up to <span class="math notranslate nohighlight">\(X=20\)</span> (all skulls). Note that this is basically a bar chart, and is no different to the “pants probability” plot I drew in <a class="reference internal" href="#fig-pants"><span class="std std-numref">Fig. 10.2</span></a>. On the horizontal axis we have all the possible events, and on the vertical axis we can read off the probability of each of those events. So, the probability of rolling 4 skulls out of 20 times is about 0.20 (the actual answer is 0.2022036, as we’ll see in a moment). In other words, you’d expect that to happen about 20% of the times you repeated this experiment.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from myst_nb import glue</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -946,16 +946,18 @@ X \sim \mbox{Binomial}(\theta, N)
 <span class="c1"># See what happens if you increase the number of times the experiment is run</span>
 <span class="c1">#x = np.random.binomial(n=20, p=1/6, size=10000000)</span>
 
-<span class="n">skulls</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">skulls</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span>
 <span class="n">skulls</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">21</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;skulls-fig&quot;</span><span class="p">,</span> <span class="n">skulls</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="c1">#glue(&quot;skulls-fig&quot;, skulls, display=False)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_14_1.png" src="_images/04.02-probability_14_1.png" />
+<img alt="_images/04.02-probability_14_0.png" src="_images/04.02-probability_14_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-skulls" style="width: 600px">
@@ -1416,8 +1418,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.68362374 -0.94884314 -0.34954315 -1.12053696 -0.28033508 -0.88675305
- -2.04953317 -1.29640491  1.72931908 -1.9097041 ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.3000699   1.32903175  0.61770273 -0.22435045  2.03045091  0.39514246
+  0.15268108 -0.3704443  -1.39642737  0.53981365]
 </pre></div>
 </div>
 </div>
