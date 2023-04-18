@@ -285,8 +285,8 @@ x = np.random.binomial(n=20, p=1/6, size=1000)
 
 ax = sns.histplot(x, bins=20, binwidth=.2)
 ax.set(xlim=(0,20))
-plt.xticks(np.arange(min(x), 21, 5))
-#ax.set_xticklabels(np.arange(min(x), 20, 1))
+plt.xticks(np.arange(0.1, 21.1, 5))
+ax.set_xticklabels([0,5,10,15, 20])
 
 sns.despine()
 
