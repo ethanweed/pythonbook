@@ -283,7 +283,7 @@ x = np.random.binomial(n=20, p=1/6, size=1000)
 # See what happens if you increase the number of times the experiment is run
 #x = np.random.binomial(n=20, p=1/6, size=10000000)
 
-ax = sns.histplot(x, bins=20, binwidth=.1)
+ax = sns.histplot(x, bins=20, binwidth=.2)
 ax.set(xlim=(0,20))
 plt.xticks(np.arange(min(x), 21, 5))
 #ax.set_xticklabels(np.arange(min(x), 20, 1))
