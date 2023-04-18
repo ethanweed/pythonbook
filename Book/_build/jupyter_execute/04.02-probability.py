@@ -274,6 +274,25 @@ glue("pants-fig", fig, display=False)
 
 
 import numpy as np
+from scipy.stats import binom
+import matplotlib.pyplot as plt
+
+N = 20
+m = list(range(0,21,1))
+p = 1/6
+
+y = binom.pmf(m,N,p)
+
+plt.stem(m,y)
+
+
+
+
+
+# In[5]:
+
+
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.ticker as mticker
@@ -346,7 +365,7 @@ sns.despine()
 # 
 # To give you a feel for how the binomial distribution changes when we alter the values of $\theta$ and $N$, let's suppose that instead of rolling dice, I'm actually flipping coins. This time around, my experiment involves flipping a fair coin repeatedly, and the outcome that I'm interested in is the number of heads that I observe. In this scenario, the success probability is now $\theta = 1/2$. Suppose I were to flip the coin $N=20$ times. In this example, I've changed the success probability, but kept the size of the experiment the same. What does this do to our binomial distribution? Well, as {numref}`binomial-fig` shows, the main effect of this is to shift the whole distribution, as you'd expect. Okay, what if we flipped a coin $N=100$ times? Well, in that case, the distribution stays roughly in the middle, but there's a bit more variability in the possible outcomes. 
 
-# In[5]:
+# In[6]:
 
 
 get_ipython().run_line_magic('matplotlib', 'agg')
@@ -406,7 +425,7 @@ glue("fig-binomial", fig, display=False)
 # 
 # Instead of focusing on the maths, let's try to get a sense for what it means for a variable to be normally distributed. To that end, have a look at {numref}`fig-normal`, which plots a normal distribution with mean $\mu = 0$ and standard deviation $\sigma = 1$. You can see where the name "bell curve" comes from: it looks a bit like a bell. Notice that, unlike the plots that I drew to illustrate the binomial distribution, the picture of the normal distribution in {numref}`fig-normal` shows a smooth curve instead of "histogram-like" bars. This isn't an arbitrary choice: the normal distribution is continuous, whereas the binomial is discrete. For instance, in the die rolling example from the last section, it was possible to get 3 skulls or 4 skulls, but impossible to get 3.9 skulls. The figures that I drew in the previous section reflected this fact: in {numref}`fig-skulls`, for instance, there's a bar located at $X=3$ and another one at $X=4$, but there's nothing in between. Continuous quantities don't have this constraint. For instance, suppose we're talking about the weather. The temperature on a pleasant Spring day could be 23 degrees, 24 degrees, 23.9 degrees, or anything in between since temperature is a continuous variable, and so a normal distribution might be quite appropriate for describing Spring temperatures. In fact, the normal distribution is so handy that people tend to use it even when the variable isn't actually continuous. As long as there are enough categories (e.g., Likert scale responses to a questionnaire), it's pretty standard practice to use the normal distribution as an approximation. This works out much better in practice than you'd think.
 
-# In[6]:
+# In[7]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -438,7 +457,7 @@ glue("normal_fig", fig, display=False)
 
 # With this in mind, let's see if we can't get an intuition for how the normal distribution works. Firstly, let's have a look at what happens when we play around with the parameters of the distribution. To that end, {numref}`fig-two-normals` plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same "width". The only difference between them is that they've been shifted to the left or to the right. In every other respect they're identical. 
 
-# In[7]:
+# In[8]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -480,7 +499,7 @@ sns.despine()
 
 # In contrast, if we increase the standard deviation while keeping the mean constant, the peak of the distribution stays in the same place, but the distribution gets wider, as you can see in {numref}`fig-two-normals2`. Notice, though, that when we widen the distribution, the height of the peak shrinks. This has to happen: in the same way that the heights of the bars that we used to draw a discrete binomial distribution have to *sum* to 1, the total *area under the curve* for the normal distribution must equal 1. 
 
-# In[8]:
+# In[9]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -527,7 +546,7 @@ glue("two-normals_fig2", fig, display=False)
 
 # Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3\% of the area falls within 1 standard deviation of the mean. Similarly, 95.4\% of the distribution falls within 2 standard deviations of the mean, and 99.7\% of the distribution is within 3 standard deviations. This idea is illustrated in {numref}`fig-sdnorm` and {numref}`fig-sdnorm2`.
 
-# In[9]:
+# In[10]:
 
 
 get_ipython().run_line_magic('matplotlib', 'agg')
@@ -576,7 +595,7 @@ glue("sdnorm_fig", fig, display=False)
 # ```
 # 
 
-# In[10]:
+# In[11]:
 
 
 get_ipython().run_line_magic('matplotlib', 'agg')
@@ -633,7 +652,7 @@ glue("sdnorm_fig2", fig, display=False)
 # 
 # Throughout my discussion of the normal distribution, there's been one or two things that don't quite make sense. Perhaps you noticed that the $y$-axis in these figures is labelled "Probability Density" rather than density. Maybe you noticed that I used $p(X)$ instead of $P(X)$ when giving the formula for the normal distribution. Maybe you're wondering what the `d`in  `stats.norm.pdf()` stands for. Ok, probably not. But still, you've probably guessed that `pdf` has little to do with the [Portable Document Format](https://en.wikipedia.org/wiki/PDF). And maybe, just maybe, you've been playing around with the `stats.norm.pdf()` function, and you accidentally typed in a command like this:
 
-# In[11]:
+# In[12]:
 
 
 stats.norm.pdf(1,1,0.1)
@@ -658,7 +677,7 @@ stats.norm.pdf(1,1,0.1)
 # 
 # -  The **_$t$ distribution_** is a continuous distribution that looks very similar to a normal distribution, but has heavier tails: see {numref}`fig-tdist`. This distribution tends to arise in situations where you think that the data actually follow a normal distribution, but you don't know the mean or standard deviation. To plot the probability density for a $t$ distribution, we just need `stats.t.pdf()` instead of `stats.norm.pdf()`. We'll run into this distribution again in the chapter on [Comparing Two Means](ttest). 
 
-# In[12]:
+# In[13]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -702,7 +721,7 @@ glue("tdist-fig", fig, display=False)
 
 # - The **_$\chi^2$ distribution_** is another distribution that turns up in lots of different places. The situation in which we'll see it is when doing [categorical data analysis](chisquare), but it's one of those things that actually pops up all over the place. When you dig into the maths (and who doesn't love doing that?), it turns out that the main reason why the $\chi^2$ distribution turns up all over the place is that, if you have a bunch of variables that are normally distributed, square their values and then add them up (a procedure referred to as taking a "sum of squares"), this sum has a $\chi^2$ distribution. You'd be amazed how often this fact turns out to be useful. Anyway, here's what a $\chi^2$ distribution looks like: {numref}`fig-chi2`. By this point, you probably won't be surprised to find out that we can plot a chi2 distribution using `stats.chi2.pdf()`.
 
-# In[13]:
+# In[14]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -735,7 +754,7 @@ glue("chi2-fig", fig, display=False)
 
 # - The **_$F$ distribution_** looks a bit like a $\chi^2$ distribution, and it arises whenever you need to compare two $\chi^2$ distributions to one another. Admittedly, this doesn't exactly sound like something that any sane person would want to do, but it turns out to be very important in real world data analysis. Remember when I said that $\chi^2$ turns out to be the key distribution when we're taking a "sum of squares"? Well, what that means is if you want to compare two different "sums of squares", you're probably talking about something that has an $F$ distribution. Of course, as yet I still haven't given you an example of anything that involves a sum of squares, but I will... in the chapter on [comparing several means](ANOVA). And that's where we'll run into the $F$ distribution. Oh, and here's a picture: {numref}`fig-Fdist`. Predictably, we can plot the F distribution using `stats.f.pdf()`.
 
-# In[14]:
+# In[15]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -768,7 +787,7 @@ glue("Fdist-fig", fig, display=False)
 
 # Because these distributions are all tightly related to the normal distribution and to each other, and because they are will turn out to be the important distributions when doing inferential statistics later in this book, I think it's useful to do a little demonstration using Python, just to "convince ourselves" that these distributions really are related to each other in the way that they're supposed to be. First, we'll use the `random.normal()` function to generate 1000 normally-distributed observations: 
 
-# In[15]:
+# In[16]:
 
 
 import numpy as np
@@ -784,7 +803,7 @@ print(dist[0:10])
 
 # So the `dist` variable contains 1000 numbers that are normally distributed, and have mean 0 and standard deviation 1, and the actual print out of these numbers goes on for rather a long time. Next, what we can do is use the `histplot()` function from `seaborn` to draw a histogram of the data, like so:
 
-# In[16]:
+# In[17]:
 
 
 import seaborn as sns
@@ -794,7 +813,7 @@ sns.histplot(dist)
 
 # If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on [Drawing Graphs](DrawingGraphs)), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution. 
 
-# In[17]:
+# In[18]:
 
 
 import numpy as np
@@ -826,7 +845,7 @@ sns.despine()
 # 
 # [^note6]: Of course, you can give variables any name you want, and we could just as well call these Larry, Moe, and Curly, or Huey, Dewey, and Louie, but in programming, the most boringly obvious names are usually the best ones. When writing code, we are looking for clarity, not dramatic effect!
 
-# In[18]:
+# In[19]:
 
 
 import numpy as np
@@ -838,7 +857,7 @@ normal_c = np.random.normal(0, 1, 1000) # and another!
 
 # Now that we've done that, the theory says we should square these and add them together, like this
 
-# In[19]:
+# In[20]:
 
 
 chi_square_data = np.square(normal_a) + np.square(normal_b) + np.square(normal_c)
@@ -846,7 +865,7 @@ chi_square_data = np.square(normal_a) + np.square(normal_b) + np.square(normal_c
 
 # and the resulting `chi_square_data` variable should contain 1000 observations that follow a chi-square distribution with 3 degrees of freedom. You can use the `sns.histplot()` function to have a look at these observations yourself, using a command like this,
 
-# In[20]:
+# In[21]:
 
 
 import seaborn as sns
@@ -856,7 +875,7 @@ sns.histplot(chi_square_data)
 
 # and you should obtain a result that looks pretty similar to the chi-square plot in {numref}`fig-chi2`. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:
 
-# In[21]:
+# In[22]:
 
 
 import numpy as np
@@ -883,7 +902,7 @@ sns.despine()
 # 
 # We can extend this demonstration to the $t$ distribution and the $F$ distribution. Earlier, I implied that the $t$ distribution is related to the normal distribution when the standard deviation is unknown. That's certainly true, and that's the what we'll see later on in the chapter on [Comparing two means](ttest), but there's a somewhat more precise relationship between the normal, chi-square and $t$ distributions. Suppose we "scale" our chi-square data by dividing it by the degrees of freedom, like so:
 
-# In[22]:
+# In[23]:
 
 
 scaled_chi_square_data = chi_square_data / 3
@@ -891,7 +910,7 @@ scaled_chi_square_data = chi_square_data / 3
 
 # We then take a set of normally distributed variables and divide them by (the square root of) our scaled chi-square variable which had $df=3$, and the result is a $t$ distribution with 3 degrees of freedom. If we plot the histogram of `t_3`, we end up with something that looks very similar to the t distribution.
 
-# In[23]:
+# In[24]:
 
 
 normal_d = np.random.normal(0, 1, 1000) # yet another set of normally distributed data
@@ -902,7 +921,7 @@ sns.histplot(t_3)
 
 # Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:
 
-# In[24]:
+# In[25]:
 
 
 import numpy as np
@@ -927,7 +946,7 @@ sns.despine()
 
 # Similarly, we can obtain an $F$ distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an $F$ distribution with 3 and 20 degrees of freedom. We could do this using `numpy.random.f()`, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with `chi_square_data` illustrates, we can actually do this using `numpy.random.normal()` if we really want to, but this time I'll take a short cut:
 
-# In[25]:
+# In[26]:
 
 
 chi_square_3 = np.random.chisquare(3, 1000)         # generate chi square data with df = 3...
@@ -943,7 +962,7 @@ sns.histplot(f_3_20)                                # ... and draw a picture
 
 # The resulting `f_3_20` variable does in fact store variables that follow an $F$ distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real $F$ distribution with $df_1 = 3$ and $df_2 = 20$. Again, they match. I'll hide the code this time, but you can click the button to take a look.
 
-# In[26]:
+# In[27]:
 
 
 import numpy as np
