@@ -941,13 +941,15 @@ X \sim \mbox{Binomial}(\theta, N)
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c1">#print(x)</span>
 
 <span class="c1"># See what happens if you increase the number of times the experiment is run</span>
 <span class="c1">#x = np.random.binomial(n=20, p=1/6, size=10000000)</span>
-
-<span class="n">skulls</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=</span><span class="mf">.2</span><span class="p">)</span>
-<span class="n">skulls</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">21</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">bw</span> <span class="o">=</span> <span class="mf">.4</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">binwidth</span><span class="o">=</span><span class="n">bw</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="n">bw</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
@@ -1415,8 +1417,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.14423869 -0.46842807 -1.71943376  1.55726923  0.85314716  1.25301621
- -0.1253821  -0.01577129 -0.51709284  0.17833702]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.61260671  0.59583564  0.56222299  0.02342904  1.24176078  0.71395003
+  0.70271552 -1.97227536  0.31213729 -0.08491874]
 </pre></div>
 </div>
 </div>
