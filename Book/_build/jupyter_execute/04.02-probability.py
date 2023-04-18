@@ -276,6 +276,7 @@ glue("pants-fig", fig, display=False)
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.ticker as mticker
 
 x = np.random.binomial(n=20, p=1/6, size=1000)
 #print(x)
@@ -287,7 +288,13 @@ ax = sns.histplot(x, bins=20, binwidth=.2)
 ax.set(xlim=(0,20))
 plt.xticks(np.arange(0.1, 21.1, 5))
 ax.set_xticklabels([0,5,10,15, 20])
-ax.set_yticklabels(['0.00', '0.05', '0.10', '0.15', '0.20', '0.25'])
+
+ticks_loc = ax.get_yticks().tolist()
+ticks_lab = [(x*0.001) for x in ticks_loc]
+
+ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+ax.set_yticklabels([(x*0.001) for x in ticks_loc])
+
 ax.set_ylabel('Probability')
 
 sns.despine()
