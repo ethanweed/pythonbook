@@ -273,7 +273,7 @@ glue("pants-fig", fig, display=False)
 # In[4]:
 
 
-from myst_nb import glue
+#from myst_nb import glue
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -283,11 +283,13 @@ x = np.random.binomial(n=20, p=1/6, size=1000)
 # See what happens if you increase the number of times the experiment is run
 #x = np.random.binomial(n=20, p=1/6, size=10000000)
 
-skulls = sns.histplot(x, bins=20,binwidth=1)
+skulls = sns.histplot(x, bins=20,binwidth=.1)
 skulls.set(xlim=(0,20))
-plt.xticks(np.arange(min(x), 20, 1.0))
+plt.xticks(np.arange(min(x), 21, 1.0))
 
-glue("skulls-fig", skulls, display=False)
+sns.despine()
+
+#glue("skulls-fig", skulls, display=False)
 
 
 # ```{glue:figure} skulls_fig
