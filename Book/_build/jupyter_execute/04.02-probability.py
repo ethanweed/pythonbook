@@ -282,10 +282,10 @@ x = np.random.binomial(n=20, p=1/6, size=1000)
 
 # See what happens if you increase the number of times the experiment is run
 #x = np.random.binomial(n=20, p=1/6, size=10000000)
-bw = .4
-ax = sns.histplot(x, bins=20,binwidth=bw)
+
+ax = sns.histplot(x, bins=20, discrete=True)
 ax.set(xlim=(0,20))
-plt.xticks(np.arange(min(x)+bw/2, 21+bw/2, 1))
+plt.xticks(np.arange(min(x), 21, 1))
 ax.set_xticklabels(np.arange(min(x), 21, 1))
 
 sns.despine()
