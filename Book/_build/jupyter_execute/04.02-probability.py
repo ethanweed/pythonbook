@@ -295,7 +295,7 @@ ticks_lab = [(x*0.001) for x in ticks_loc]
 ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
 ax.set_yticklabels([(x*0.001) for x in ticks_loc])
 
-ax.set_ylabel('Probability')
+ax.set_ylabel('Estimated Probability')
 
 sns.despine()
 
