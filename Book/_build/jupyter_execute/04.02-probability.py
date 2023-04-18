@@ -287,6 +287,8 @@ ax = sns.histplot(x, bins=20, binwidth=.2)
 ax.set(xlim=(0,20))
 plt.xticks(np.arange(0.1, 21.1, 5))
 ax.set_xticklabels([0,5,10,15, 20])
+ax.set_yticklabels(['0.00', '0.05', '0.10', '0.15', '0.20', '0.25'])
+ax.set_ylabel('Probability')
 
 sns.despine()
 
