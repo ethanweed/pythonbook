@@ -344,7 +344,8 @@ sns.despine()
 
 
 from scipy.stats import binom
-binom.pmf(k=4, n=20, p=1/6)
+p = binom.pmf(k=4, n=20, p=1/6)
+print('The probability of rolling 4 skulls with 20 dice is', p)
 
 
 # 
