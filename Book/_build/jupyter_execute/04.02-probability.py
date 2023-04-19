@@ -103,7 +103,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from myst_nb import glue
+
 
 
 def coin_flips(n):
@@ -138,7 +138,9 @@ df['runs'] = runs
 
 ax = sns.lineplot(data = df, x = 'flips', y = 'proportion_heads', hue = 'runs')
 
-glue("frequentist_probability_fig", ax, display=False)
+sns.despine()
+
+#glue("frequentist_probability_fig", ax, display=False)
 
 
 # ```{glue:figure} frequentist_probability_fig
