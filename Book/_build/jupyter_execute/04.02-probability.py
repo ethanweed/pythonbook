@@ -208,7 +208,6 @@ sns.despine()
 # In[3]:
 
 
-from myst_nb import glue
 import pandas as pd
 import seaborn as sns
 
@@ -218,7 +217,8 @@ df = pd.DataFrame(
     }) 
 
 fig = sns.barplot(x='eventNames', y='probabilities', data=df)
-glue("pants-fig", fig, display=False)
+
+sns.despine()
 
 
 # ```{glue:figure} pants_fig
