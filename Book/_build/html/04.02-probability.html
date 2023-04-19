@@ -1401,8 +1401,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.26688479  0.76947528  1.36703943  1.75468525  1.75574909  0.74064158
- -0.38978275  0.2662664  -0.78726521  0.54736627]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.63908066 -0.13338413 -0.90683757  0.2787397  -0.67910897 -0.2973383
+  0.85249254 -1.4325678  -0.32418984  1.11391846]
 </pre></div>
 </div>
 </div>
@@ -1534,14 +1534,13 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <span class="n">t_3</span> <span class="o">=</span> <span class="n">normal_d</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">scaled_chi_square_data</span><span class="p">)</span> <span class="c1"># divide by square root of scaled chi-square to get t</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">t_3</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
-</pre></div>
-</div>
-<img alt="_images/04.02-probability_66_1.png" src="_images/04.02-probability_66_1.png" />
+<img alt="_images/04.02-probability_66_0.png" src="_images/04.02-probability_66_0.png" />
 </div>
 </div>
 <p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
@@ -1583,15 +1582,14 @@ X \sim \mbox{Normal}(\mu,\sigma)
 
 <span class="n">f_3_20</span> <span class="o">=</span> <span class="n">scaled_chi_square_3</span> <span class="o">/</span> <span class="n">scaled_chi_square_20</span> <span class="c1"># take the ratio of the two chi squares...</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">f_3_20</span><span class="p">)</span>                                <span class="c1"># ... and draw a picture</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">f_3_20</span><span class="p">)</span>                                <span class="c1"># draw a picture</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>                                       <span class="c1"># ... and remove those unsightly top and right &quot;spines&quot; from the plot</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
-</pre></div>
-</div>
-<img alt="_images/04.02-probability_70_1.png" src="_images/04.02-probability_70_1.png" />
+<img alt="_images/04.02-probability_70_0.png" src="_images/04.02-probability_70_0.png" />
 </div>
 </div>
 <p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>

@@ -891,6 +891,8 @@ t_3 = normal_d / np.sqrt(scaled_chi_square_data) # divide by square root of scal
 
 sns.histplot(t_3)
 
+sns.despine()
+
 
 # Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:
 
@@ -930,7 +932,9 @@ scaled_chi_square_20 = chi_square_20 / 20           # and scale the other one...
 
 f_3_20 = scaled_chi_square_3 / scaled_chi_square_20 # take the ratio of the two chi squares...
 
-sns.histplot(f_3_20)                                # ... and draw a picture
+sns.histplot(f_3_20)                                # draw a picture
+
+sns.despine()                                       # ... and remove those unsightly top and right "spines" from the plot
 
 
 # The resulting `f_3_20` variable does in fact store variables that follow an $F$ distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real $F$ distribution with $df_1 = 3$ and $df_2 = 20$. Again, they match. I'll hide the code this time, but you can click the button to take a look.
