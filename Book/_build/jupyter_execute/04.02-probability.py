@@ -281,10 +281,10 @@ import seaborn as sns
 from scipy.stats import binom
 
 N = 20
-m = list(range(0,21,1))
+r = list(range(0,21,1))
 p = 1/6
 
-y = binom.pmf(m,N,p)
+y = binom.pmf(r,N,p)
 
 df = pd.DataFrame(
     {'probabilities': y,
@@ -354,32 +354,46 @@ binom.pmf(k=4, n=20, p=1/6)
 # In[6]:
 
 
-get_ipython().run_line_magic('matplotlib', 'agg')
-
-from myst_nb import glue
-from numpy import random
-import matplotlib.pyplot as plt
 import seaborn as sns
+from matplotlib import pyplot as plt
 
 
-x_20 = random.binomial(n=20, p=1/2, size=1000)
-x_100 = random.binomial(n=100, p=1/2, size=1000)
+from scipy.stats import binom
+
+n1 = 20
+n2 = 100
+r1 = list(range(0,20,1))
+r2 = list(range(0,100,1))
+p1 = 1/2
+p2 = 1/2
+
+y1 = binom.pmf(r1,n1,p1)
+y2 = binom.pmf(r2,n2,p2)
+
+df1 = pd.DataFrame(
+    {'probabilities': y1,
+     'heads': np.arange(0,20,1),
+    }) 
+
+
+df2 = pd.DataFrame(
+    {'probabilities': y2,
+     'heads': np.arange(0,100,1),
+    }) 
+
+
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 fig.suptitle('Coin Flips')
 
-# 20 flips
-sns.histplot(x_20, bins=20,binwidth=1,ax=axes[0])
+
 axes[0].set_title('20 flips')
-axes[0].set(xlim=(0,20))
-
-# 100 flips
-sns.histplot(x_100, bins=20,binwidth=1, ax=axes[1])
 axes[1].set_title('100 flips')
-axes[1].set(xlim=(0,100))
 
+ax1 = sns.barplot(x='heads', y='probabilities', data=df1, ax=axes[0])
+ax2 = sns.barplot(x='heads', y='probabilities', data=df2, ax=axes[1])
 
-glue("fig-binomial", fig, display=False)
+sns.despine()
 
 
 # ```{glue:figure} fig-binomial
