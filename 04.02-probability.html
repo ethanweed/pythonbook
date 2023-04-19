@@ -1005,11 +1005,13 @@ p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
 
+<span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+
 <span class="n">n1</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">n2</span> <span class="o">=</span> <span class="mi">100</span>
 
-<span class="n">r1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">r2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="n">step</span><span class="p">))</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">step</span><span class="p">))</span>
 
 <span class="n">p1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
 <span class="n">p2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
@@ -1019,13 +1021,13 @@ p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 
 <span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;probability&#39;</span><span class="p">:</span> <span class="n">y1</span><span class="p">,</span>
-     <span class="s1">&#39;heads&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+     <span class="s1">&#39;heads&#39;</span><span class="p">:</span> <span class="n">r1</span><span class="p">,</span>
     <span class="p">})</span> 
 
 
 <span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;probability&#39;</span><span class="p">:</span> <span class="n">y2</span><span class="p">,</span>
-     <span class="s1">&#39;heads&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+     <span class="s1">&#39;heads&#39;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span>
     <span class="p">})</span> 
 
 
@@ -1443,8 +1445,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.42026575 -1.11731586  1.12874681 -0.75059676  1.4049927   3.25459255
-  0.09333999 -1.13435174 -0.61180664  0.96306754]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.02015527  2.77771512 -1.36453171  0.09343848 -0.14991132 -0.61678297
+ -0.41526918  0.05629429  0.14307741  0.46565486]
 </pre></div>
 </div>
 </div>
