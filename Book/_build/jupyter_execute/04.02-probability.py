@@ -779,6 +779,8 @@ import seaborn as sns
 
 sns.histplot(dist)
 
+sns.despine()
+
 
 # If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on [Drawing Graphs](DrawingGraphs)), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution. 
 
