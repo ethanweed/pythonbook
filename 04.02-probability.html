@@ -757,7 +757,7 @@ P(\mbox{heads}) = 0.5
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+
 
 
 <span class="k">def</span> <span class="nf">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -792,20 +792,17 @@ P(\mbox{heads}) = 0.5
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;flips&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;proportion_heads&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;runs&#39;</span><span class="p">)</span>
 
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;frequentist_probability_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="c1">#glue(&quot;frequentist_probability_fig&quot;, ax, display=False)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_4_1.png" src="_images/04.02-probability_4_1.png" />
+<img alt="_images/04.02-probability_4_0.png" src="_images/04.02-probability_4_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-frequentist-probability" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;flips&#39;, ylabel=&#39;proportion_heads&#39;&gt;
-</pre></div>
-</div>
-</div>
 <p class="caption"><span class="caption-number">Fig. 10.1 </span><span class="caption-text">An illustration of how frequentist probability works. If you flip a fair coin over and over again, the proportion of heads that you’ve seen eventually settles down, and converges to the true probability of 0.5. Each line shows the result of one of four different simulated experiments: in each case, we pretend we flipped a coin 1000 times, and kept track of the proportion of flips that were heads as we went along. Although none of these sequences actually ended up with an exact value of .5, if we’d extended the experiment for an infinite number of coin flips they would have.</span><a class="headerlink" href="#fig-frequentist-probability" title="Permalink to this image">¶</a></p>
 </div>
 <p>The frequentist definition of probability has some desirable characteristics. Firstly, it is objective: the probability of an event is <em>necessarily</em> grounded in the world. The only way that probability statements can make sense is if they refer to (a sequence of) events that occur in the physical universe. <a class="footnote-reference brackets" href="#note1" id="id1">1</a> Secondly, it is unambiguous: any two people watching the same sequence of events unfold, trying to calculate the probability of an event, must inevitably come up with the same answer. However, it also has undesirable characteristics. Firstly, infinite sequences don’t exist in the physical world. Suppose you picked up a coin from your pocket and started to flip it. Every time it lands, it impacts on the ground. Each impact wears the coin down a bit; eventually, the coin will be destroyed.</p>
@@ -1414,8 +1411,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.63512953  0.72905111 -0.03969894  0.54687036  0.40191586 -3.37815587
-  0.10573091  0.13276805  0.58549567 -0.35103711]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.41984779  0.08318329  0.19341604  0.98488011  1.3636042  -0.10873129
+ -1.16767322 -0.31156796  0.04343377  1.14010072]
 </pre></div>
 </div>
 </div>
