@@ -407,15 +407,6 @@ sns.despine()
 # The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in {numref}`fig-skulls`, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.
 # ```
 
-# At this point, I should probably explain what `random.binom` is actually doing. What's random about it, anyway? I thought the binomial distribution was a known quantity? What the `random.binom` method does is to take the input arguments (`N`, `p`, and `size`), and simulate an experiment that can be reduced to counts of "successes" (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of "success", I could get Python to simulate the results of these experiments by using the following command:
-# 
-# `random.binomial(n=20, p=1/6, size=1000)`
-# 
-# If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, [^note4] but for the purposes of this book we don't need to worry too much about them.
-# 
-# [^note4]: Since computers are  deterministic machines, they can't actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are *pseudorandom*, and the quality of those numbers depends on the specific method used. But for our purposes, we can just think of these numbers as random.
-# 
-
 # (normal)=
 # ## The normal distribution
 # 
