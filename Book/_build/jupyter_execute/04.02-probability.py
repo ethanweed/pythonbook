@@ -362,8 +362,10 @@ from scipy.stats import binom
 
 n1 = 20
 n2 = 100
+
 r1 = list(range(0,20,1))
 r2 = list(range(0,100,1))
+
 p1 = 1/2
 p2 = 1/2
 
