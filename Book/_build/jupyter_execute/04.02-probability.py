@@ -360,11 +360,13 @@ from matplotlib import pyplot as plt
 
 from scipy.stats import binom
 
+step = 1
+
 n1 = 20
 n2 = 100
 
-r1 = list(range(0,20,1))
-r2 = list(range(0,100,1))
+r1 = list(range(0,20,step))
+r2 = list(range(0,100,step))
 
 p1 = 1/2
 p2 = 1/2
@@ -374,13 +376,13 @@ y2 = binom.pmf(r2,n2,p2)
 
 df1 = pd.DataFrame(
     {'probability': y1,
-     'heads': np.arange(0,20,1),
+     'heads': r1,
     }) 
 
 
 df2 = pd.DataFrame(
     {'probability': y2,
-     'heads': np.arange(0,100,1),
+     'heads': r2,
     }) 
 
 
