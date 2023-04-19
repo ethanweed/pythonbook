@@ -287,11 +287,11 @@ p = 1/6
 y = binom.pmf(r,N,p)
 
 df = pd.DataFrame(
-    {'probabilities': y,
+    {'probability': y,
      'skulls': np.arange(0,21,1),
     }) 
 
-fig = sns.barplot(x='skulls', y='probabilities', data=df)
+fig = sns.barplot(x='skulls', y='probability', data=df)
 
 sns.despine()
 
@@ -371,13 +371,13 @@ y1 = binom.pmf(r1,n1,p1)
 y2 = binom.pmf(r2,n2,p2)
 
 df1 = pd.DataFrame(
-    {'probabilities': y1,
+    {'probability': y1,
      'heads': np.arange(0,20,1),
     }) 
 
 
 df2 = pd.DataFrame(
-    {'probabilities': y2,
+    {'probability': y2,
      'heads': np.arange(0,100,1),
     }) 
 
@@ -390,8 +390,8 @@ fig.suptitle('Coin Flips')
 axes[0].set_title('20 flips')
 axes[1].set_title('100 flips')
 
-ax1 = sns.barplot(x='heads', y='probabilities', data=df1, ax=axes[0])
-ax2 = sns.barplot(x='heads', y='probabilities', data=df2, ax=axes[1])
+ax1 = sns.barplot(x='heads', y='probability', data=df1, ax=axes[0])
+ax2 = sns.barplot(x='heads', y='probability', data=df2, ax=axes[1])
 
 sns.despine()
 
