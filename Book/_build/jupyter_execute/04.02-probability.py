@@ -366,8 +366,8 @@ step = 1
 n1 = 20
 n2 = 100
 
-r1 = list(range(0,20,step))
-r2 = list(range(0,100,step))
+r1 = list(range(0,21,step))
+r2 = list(range(0,101,step))
 
 p1 = 1/2
 p2 = 1/2
@@ -397,6 +397,8 @@ axes[1].set_title('100 flips')
 
 ax1 = sns.barplot(x='heads', y='probability', data=df1, ax=axes[0])
 ax2 = sns.barplot(x='heads', y='probability', data=df2, ax=axes[1])
+
+ax2.set_xticks([0, 20, 40, 60,80, 100])
 
 sns.despine()
 
