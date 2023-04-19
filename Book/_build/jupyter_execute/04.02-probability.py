@@ -454,8 +454,6 @@ sns.despine()
 # In[8]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import pandas as pd
@@ -480,8 +478,6 @@ ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
 sns.lineplot(x = x, y = y2, ax=ax2, linestyle='--')
 sns.despine()
 
-#glue("two-normals_fig", fig, display=False)
-
 
 #  ```{glue:figure} two-normals_fig
 # :figwidth: 600px
@@ -496,8 +492,6 @@ sns.despine()
 # In[9]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import pandas as pd
@@ -527,7 +521,6 @@ ax2.tick_params(left=False, labelleft=False, top=False, labeltop=False,
 sns.lineplot(x = x, y = y2, ax=ax2, linestyle='--')
 sns.despine()
 
-glue("two-normals_fig2", fig, display=False)
 
 
 #  ```{glue:figure} two-normals_fig2
@@ -543,8 +536,6 @@ glue("two-normals_fig2", fig, display=False)
 # In[10]:
 
 
-get_ipython().run_line_magic('matplotlib', 'agg')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
@@ -578,8 +569,6 @@ axes[1].set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
 
-glue("sdnorm_fig", fig, display=False)
-
 
 #  ```{glue:figure} sdnorm_fig
 # :figwidth: 600px
@@ -592,8 +581,6 @@ glue("sdnorm_fig", fig, display=False)
 # In[11]:
 
 
-get_ipython().run_line_magic('matplotlib', 'agg')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
@@ -626,8 +613,6 @@ axes[0].set(xlabel='Observed value', ylabel='Probability density')
 axes[1].set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
-
-glue("sdnorm_fig2", fig, display=False)
 
 
 #  ```{glue:figure} sdnorm_fig2
@@ -674,8 +659,6 @@ stats.norm.pdf(1,1,0.1)
 # In[13]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
@@ -701,7 +684,6 @@ sns.lineplot(x = x, y = y2, ax=ax2)
 fig.set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
-glue("tdist-fig", fig, display=False)
 
 
 #  ```{glue:figure} tdist_fig
@@ -718,8 +700,6 @@ glue("tdist-fig", fig, display=False)
 # In[14]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
@@ -730,12 +710,10 @@ x = np.linspace(0, 10, 100)
 
 y = stats.chi2.pdf(x, degfree)
 
-
 fig = sns.lineplot(x = x, y = y)
 fig.set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
-glue("chi2-fig", fig, display=False)
 
 
 #  ```{glue:figure} chi2_fig
@@ -751,8 +729,6 @@ glue("chi2-fig", fig, display=False)
 # In[15]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
@@ -769,7 +745,6 @@ fig = sns.lineplot(x = x, y = y)
 fig.set(xlabel='Observed value', ylabel='Probability density')
 
 sns.despine()
-glue("Fdist-fig", fig, display=False)
 
 
 #  ```{glue:figure} Fdist_fig
@@ -865,6 +840,8 @@ chi_square_data = np.square(normal_a) + np.square(normal_b) + np.square(normal_c
 import seaborn as sns
 
 sns.histplot(chi_square_data)
+
+sns.despine()
 
 
 # and you should obtain a result that looks pretty similar to the chi-square plot in {numref}`fig-chi2`. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:
