@@ -426,24 +426,20 @@ sns.despine()
 # In[7]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-from myst_nb import glue
 import numpy as np
 import scipy.stats as stats
 import seaborn as sns
-
 
 mu = 0
 variance = 1
 sigma = np.sqrt(variance)
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+
 fig = sns.lineplot(x = x, y = stats.norm.pdf(x, mu, sigma))
 plt.xlabel('Observed Value')
 plt.ylabel('Probability Density')
 
 sns.despine()
-
-glue("normal_fig", fig, display=False)
 
 
 #  ```{glue:figure} normal_fig
