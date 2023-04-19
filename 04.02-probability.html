@@ -1053,9 +1053,6 @@ p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 <div class="figure align-default" id="binomial-fig" style="width: 600px">
 <p class="caption"><span class="caption-number">Fig. 10.4 </span><span class="caption-text">The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in <a class="reference internal" href="#fig-skulls"><span class="std std-numref">Fig. 10.3</span></a>, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.</span><a class="headerlink" href="#binomial-fig" title="Permalink to this image">¶</a></p>
 </div>
-<p>At this point, I should probably explain what <code class="docutils literal notranslate"><span class="pre">random.binom</span></code> is actually doing. What’s random about it, anyway? I thought the binomial distribution was a known quantity? What the <code class="docutils literal notranslate"><span class="pre">random.binom</span></code> method does is to take the input arguments (<code class="docutils literal notranslate"><span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">p</span></code>, and <code class="docutils literal notranslate"><span class="pre">size</span></code>), and simulate an experiment that can be reduced to counts of “successes” (whatever that means in the context of the experiment. Python generates random outcomes from the binomial distribution, given the input arguments. So, for instance, suppose I were to repeat my die rolling experiment 10000 times. Since we know that for each roll, there is a 1/6 chance of “success”, I could get Python to simulate the results of these experiments by using the following command:</p>
-<p><code class="docutils literal notranslate"><span class="pre">random.binomial(n=20,</span> <span class="pre">p=1/6,</span> <span class="pre">size=1000)</span></code></p>
-<p>If you re-run the code generating the figures above, you will see that they change slightly each time. After all, they represent the results of simulated experiments. The overall pattern will stay the same, however. Most of the time, I will roll somewhere between 1 to 5 skulls. There are a lot of subtleties associated with random number generation using a computer, <a class="footnote-reference brackets" href="#note4" id="id6">4</a> but for the purposes of this book we don’t need to worry too much about them.</p>
 </div>
 </div>
 <div class="section" id="the-normal-distribution">
@@ -1091,7 +1088,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_25_1.png" src="_images/04.02-probability_25_1.png" />
+<img alt="_images/04.02-probability_24_1.png" src="_images/04.02-probability_24_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-normal" style="width: 600px">
@@ -1136,7 +1133,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_28_0.png" src="_images/04.02-probability_28_0.png" />
+<img alt="_images/04.02-probability_27_0.png" src="_images/04.02-probability_27_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals" style="width: 600px">
@@ -1181,7 +1178,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_31_1.png" src="_images/04.02-probability_31_1.png" />
+<img alt="_images/04.02-probability_30_1.png" src="_images/04.02-probability_30_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals2" style="width: 600px">
@@ -1239,7 +1236,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <div class="figure align-default" id="fig-sdnorm" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_34_0.png" src="_images/04.02-probability_34_0.png" />
+<img alt="_images/04.02-probability_33_0.png" src="_images/04.02-probability_33_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 10.8 </span><span class="caption-text">The area under the curve tells you the probability that an observation falls within a particular range. The solid lines plot normal distributions with mean <span class="math notranslate nohighlight">\(mu=0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma=1\)</span> The shaded areas illustrate “areas under the curve” for two important cases. On the left, we can see that there is a 68.3% chance that an observation will fall within one standard deviation of the mean. On the right, we see that there is a 95.4% chance that an observation will fall within two standard deviations of the mean.</span><a class="headerlink" href="#fig-sdnorm" title="Permalink to this image">¶</a></p>
 </div>
@@ -1289,7 +1286,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <div class="figure align-default" id="fig-sdnorm2" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_36_0.png" src="_images/04.02-probability_36_0.png" />
+<img alt="_images/04.02-probability_35_0.png" src="_images/04.02-probability_35_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 10.9 </span><span class="caption-text">Two more examples of the “area under the curve idea”. There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.</span><a class="headerlink" href="#fig-sdnorm2" title="Permalink to this image">¶</a></p>
 </div>
@@ -1313,7 +1310,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <p>As it turns out, the second answer is correct. What we’ve calculated here isn’t actually a probability: it’s something else. To understand what that something is, you have to spend a little time thinking about what it really <em>means</em> to say that <span class="math notranslate nohighlight">\(X\)</span> is a continuous variable. Let’s say we’re talking about the temperature outside. The thermometer tells me it’s 23 degrees, but I know that’s not really true. It’s not <em>exactly</em> 23 degrees. Maybe it’s 23.1 degrees, I think to myself. But I know that that’s not really true either, because it might actually be 23.09 degrees. But, I know that… well, you get the idea. The tricky thing with genuinely continuous quantities is that you never really know exactly what they are.</p>
 <p>Now think about what this implies when we talk about probabilities. Suppose that tomorrow’s maximum temperature is sampled from a normal distribution with mean 23 and standard deviation 1. What’s the probability that the temperature will be <em>exactly</em> 23 degrees? The answer is “zero”, or possibly, “a number so close to zero that it might as well be zero”. Why is this? It’s like trying to throw a dart at an infinitely small dart board: no matter how good your aim, you’ll never hit it. In real life you’ll never get a value of exactly 23. It’ll always be something like 23.1 or 22.99998 or something. In other words, it’s completely meaningless to talk about the probability that the temperature is exactly 23 degrees. However, in everyday language, if I told you that it was 23 degrees outside and it turned out to be 22.9998 degrees, you probably wouldn’t call me a liar. Because in everyday language, “23 degrees” usually means something like “somewhere between 22.5 and 23.5 degrees”. And while it doesn’t feel very meaningful to ask about the probability that the temperature is exactly 23 degrees, it does seem sensible to ask about the probability that the temperature lies between 22.5 and 23.5, or between 20 and 30, or any other range of temperatures.</p>
 <p>The point of this discussion is to make clear that, when we’re talking about continuous distributions, it’s not meaningful to talk about the probability of a specific value. However, what we <em>can</em> talk about is the probability that the value lies within a particular range of values. To find out the probability associated with a particular range, what you need to do is calculate the “area under the curve”. We’ve seen this concept already: in {numref}(fig-sdnorm), the shaded areas shown depict genuine probabilities (e.g., in the left hand panel of {numref}(fig-sdnorm) it shows the probability of observing a value that falls within 1 standard deviation of the mean).</p>
-<p>Okay, so that explains part of the story. I’ve explained a little bit about how continuous probability distributions should be interpreted (i.e., area under the curve is the key thing), but I haven’t actually explained what the <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> function actually calculates. Equivalently, what does the formula for <span class="math notranslate nohighlight">\(p(x)\)</span> that I described earlier actually mean? Obviously, <span class="math notranslate nohighlight">\(p(x)\)</span> doesn’t describe a probability, but what is it? The name for this quantity <span class="math notranslate nohighlight">\(p(x)\)</span> is a <strong><em>probability density</em></strong>, and in terms of the plots we’ve been drawing, it corresponds to the <em>height</em> of the curve. The densities themselves aren’t meaningful in and of themselves: but they’re “rigged” to ensure that the <em>area</em> under the curve is always interpretable as genuine probabilities. To be honest, that’s about as much as you really need to know for now. <a class="footnote-reference brackets" href="#note5" id="id7">5</a></p>
+<p>Okay, so that explains part of the story. I’ve explained a little bit about how continuous probability distributions should be interpreted (i.e., area under the curve is the key thing), but I haven’t actually explained what the <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> function actually calculates. Equivalently, what does the formula for <span class="math notranslate nohighlight">\(p(x)\)</span> that I described earlier actually mean? Obviously, <span class="math notranslate nohighlight">\(p(x)\)</span> doesn’t describe a probability, but what is it? The name for this quantity <span class="math notranslate nohighlight">\(p(x)\)</span> is a <strong><em>probability density</em></strong>, and in terms of the plots we’ve been drawing, it corresponds to the <em>height</em> of the curve. The densities themselves aren’t meaningful in and of themselves: but they’re “rigged” to ensure that the <em>area</em> under the curve is always interpretable as genuine probabilities. To be honest, that’s about as much as you really need to know for now. <a class="footnote-reference brackets" href="#note5" id="id6">4</a></p>
 </div>
 </div>
 <div class="section" id="other-useful-distributions">
@@ -1356,7 +1353,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_42_1.png" src="_images/04.02-probability_42_1.png" />
+<img alt="_images/04.02-probability_41_1.png" src="_images/04.02-probability_41_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-tdist" style="width: 600px">
@@ -1389,7 +1386,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_45_1.png" src="_images/04.02-probability_45_1.png" />
+<img alt="_images/04.02-probability_44_1.png" src="_images/04.02-probability_44_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-chi2" style="width: 600px">
@@ -1423,7 +1420,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_48_1.png" src="_images/04.02-probability_48_1.png" />
+<img alt="_images/04.02-probability_47_1.png" src="_images/04.02-probability_47_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-fdist" style="width: 600px">
@@ -1445,8 +1442,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.02015527  2.77771512 -1.36453171  0.09343848 -0.14991132 -0.61678297
- -0.41526918  0.05629429  0.14307741  0.46565486]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.37831539 -2.73361035  0.33569858  0.32634112  0.37071113 -0.37896185
+ -0.87036865 -0.06972565  1.17092262  0.35705844]
 </pre></div>
 </div>
 </div>
@@ -1464,7 +1461,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_53_1.png" src="_images/04.02-probability_53_1.png" />
+<img alt="_images/04.02-probability_52_1.png" src="_images/04.02-probability_52_1.png" />
 </div>
 </div>
 <p>If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution.</p>
@@ -1497,10 +1494,10 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_55_0.png" src="_images/04.02-probability_55_0.png" />
+<img alt="_images/04.02-probability_54_0.png" src="_images/04.02-probability_54_0.png" />
 </div>
 </div>
-<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to create three sets of normally-distributed data. Let’s call them <code class="docutils literal notranslate"><span class="pre">normal_a</span></code>, <code class="docutils literal notranslate"><span class="pre">normal_b</span></code>, and <code class="docutils literal notranslate"><span class="pre">normal_c</span></code>.<a class="footnote-reference brackets" href="#note6" id="id8">6</a></p>
+<p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to create three sets of normally-distributed data. Let’s call them <code class="docutils literal notranslate"><span class="pre">normal_a</span></code>, <code class="docutils literal notranslate"><span class="pre">normal_b</span></code>, and <code class="docutils literal notranslate"><span class="pre">normal_c</span></code>.<a class="footnote-reference brackets" href="#note6" id="id7">5</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1533,7 +1530,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_61_1.png" src="_images/04.02-probability_61_1.png" />
+<img alt="_images/04.02-probability_60_1.png" src="_images/04.02-probability_60_1.png" />
 </div>
 </div>
 <p>and you should obtain a result that looks pretty similar to the chi-square plot in <a class="reference internal" href="#fig-chi2"><span class="std std-numref">Fig. 10.11</span></a>. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:</p>
@@ -1561,7 +1558,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_63_0.png" src="_images/04.02-probability_63_0.png" />
+<img alt="_images/04.02-probability_62_0.png" src="_images/04.02-probability_62_0.png" />
 </div>
 </div>
 <p>It’s pretty clear that – even though I used <code class="docutils literal notranslate"><span class="pre">random.norm()</span></code> to do all the work rather than <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf</span></code> – the observations stored in the <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> variable really do follow a chi-square distribution. Admittedly, this probably doesn’t seem all that interesting right now, but later on when we start encountering the chi-square distribution in the chapter on <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">Categorical data analysis</span></a>, it will be useful to understand the fact that these distributions are related to one another.</p>
@@ -1587,7 +1584,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_67_1.png" src="_images/04.02-probability_67_1.png" />
+<img alt="_images/04.02-probability_66_1.png" src="_images/04.02-probability_66_1.png" />
 </div>
 </div>
 <p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
@@ -1615,7 +1612,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_69_0.png" src="_images/04.02-probability_69_0.png" />
+<img alt="_images/04.02-probability_68_0.png" src="_images/04.02-probability_68_0.png" />
 </div>
 </div>
 <p>Similarly, we can obtain an <span class="math notranslate nohighlight">\(F\)</span> distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. We could do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.f()</span></code>, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> illustrates, we can actually do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.normal()</span></code> if we really want to, but this time I’ll take a short cut:</p>
@@ -1637,7 +1634,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_71_1.png" src="_images/04.02-probability_71_1.png" />
+<img alt="_images/04.02-probability_70_1.png" src="_images/04.02-probability_70_1.png" />
 </div>
 </div>
 <p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>
@@ -1665,7 +1662,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_73_0.png" src="_images/04.02-probability_73_0.png" />
+<img alt="_images/04.02-probability_72_0.png" src="_images/04.02-probability_72_0.png" />
 </div>
 </div>
 <p>Okay, time to wrap this section up. We’ve seen three new distributions: <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span>. They’re all continuous distributions, and they’re all closely related to the normal distribution. I’ve talked a little bit about the precise nature of this relationship, and shown you some Python commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we’re going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn’t be surprised to see <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span> distributions popping up all over the place when you start trying to do your data analysis.</p>
@@ -1679,7 +1676,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <li><p>Basics of <a class="reference internal" href="#basicprobability"><span class="std std-ref">probability theory</span></a></p></li>
 <li><p><a class="reference internal" href="#binomial"><span class="std std-ref">Binomial</span></a> distribution, <a class="reference internal" href="#normal"><span class="std std-ref">normal</span></a> distribution, and <a class="reference internal" href="#otherdists"><span class="std std-ref">others</span></a></p></li>
 </ul>
-<p>As you’d expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the “simpler” task of documenting standard probability distributions is a big topic. I’ve described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called “Statistical Distributions” <span id="id9">[<a class="reference internal" href="bibliography.html#id19" title="M. Evans, N. Hastings, and B. Peacock. Statistical Distributions (3rd ed). Wiley, 2011.">Evans <em>et al.</em>, 2011</a>]</span> that lists a <em>lot</em> more than that. Fortunately for you, very little of this is necessary. You’re unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won’t need them for this book, but it never hurts to know that there are other possibilities out there.</p>
+<p>As you’d expect, my coverage is by no means exhaustive. Probability theory is a large branch of mathematics in its own right, entirely separate from its application to statistics and data analysis. As such, there are thousands of books written on the subject and universities generally offer multiple classes devoted entirely to probability theory. Even the “simpler” task of documenting standard probability distributions is a big topic. I’ve described five standard probability distributions in this chapter, but sitting on my bookshelf I have a 45-chapter book called “Statistical Distributions” <span id="id8">[<a class="reference internal" href="bibliography.html#id19" title="M. Evans, N. Hastings, and B. Peacock. Statistical Distributions (3rd ed). Wiley, 2011.">Evans <em>et al.</em>, 2011</a>]</span> that lists a <em>lot</em> more than that. Fortunately for you, very little of this is necessary. You’re unlikely to need to know dozens of statistical distributions when you go out and do real world data analysis, and you definitely won’t need them for this book, but it never hurts to know that there are other possibilities out there.</p>
 <p>Picking up on that last point, there’s a sense in which this whole chapter is something of a digression. Many undergraduate psychology classes on statistics skim over this content very quickly (I know mine did), and even the more advanced classes will often “forget” to revisit the basic foundations of the field. Most academic psychologists would not know the difference between probability and density, and until recently very few would have been aware of the difference between Bayesian and frequentist probability. However, I think it’s important to understand these things before moving onto the applications. For example, there are a lot of rules about what you’re “allowed” to say when doing statistical inference, and many of these can seem arbitrary and weird. However, they start to make sense if you understand that there is this Bayesian/frequentist distinction. Similarly, in the chapter on <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">comparing two means</span></a> we’re going to talk about something called the <span class="math notranslate nohighlight">\(t\)</span>-test, and if you really want to have a grasp of the mechanics of the <span class="math notranslate nohighlight">\(t\)</span>-test, it really helps to have a sense of what a <span class="math notranslate nohighlight">\(t\)</span>-distribution actually looks like. You get the idea, I hope.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
@@ -1692,13 +1689,10 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
 <dd><p>Note that the term “success” is pretty arbitrary, and doesn’t actually imply that the outcome is something to be desired. If <span class="math notranslate nohighlight">\(\theta\)</span> referred to the probability that any one passenger gets injured in a bus crash, I’d still call it the success probability, but that doesn’t mean I want people to get hurt in bus crashes!</p>
 </dd>
-<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id6">4</a></span></dt>
-<dd><p>Since computers are  deterministic machines, they can’t actually produce truly random behaviour. Instead, what they do is take advantage of various mathematical functions that share a lot of similarities with true randomness. What this means is that any random numbers generated on a computer are <em>pseudorandom</em>, and the quality of those numbers depends on the specific method used. But for our purposes, we can just think of these numbers as random.</p>
-</dd>
-<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id7">5</a></span></dt>
+<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id6">4</a></span></dt>
 <dd><p>For those readers who know a little calculus, I’ll give a slightly more precise explanation. In the same way that probabilities are non-negative numbers that must sum to 1, probability densities are non-negative numbers that must integrate to 1 (where the integral is taken across all possible values of <span class="math notranslate nohighlight">\(X\)</span>). To calculate the probability that <span class="math notranslate nohighlight">\(X\)</span> falls between <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> we calculate the definite integral of the density function over the corresponding range, <span class="math notranslate nohighlight">\(\int_a^b p(x) \ dx\)</span>. If you don’t remember or never learned calculus, don’t worry about this. It’s not needed for this book.</p>
 </dd>
-<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id8">6</a></span></dt>
+<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id7">5</a></span></dt>
 <dd><p>Of course, you can give variables any name you want, and we could just as well call these Larry, Moe, and Curly, or Huey, Dewey, and Louie, but in programming, the most boringly obvious names are usually the best ones. When writing code, we are looking for clarity, not dramatic effect!</p>
 </dd>
 </dl>
