@@ -976,14 +976,26 @@ p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 </div>
 <div class="section" id="working-with-the-binomial-distribution-in-python">
 <h3><span class="section-number">10.4.2. </span>Working with the binomial distribution in Python<a class="headerlink" href="#working-with-the-binomial-distribution-in-python" title="Permalink to this headline">¶</a></h3>
-<p>Although some people find it handy to know the above formulas, most people just want to know how to use the distributions without worrying too much about the maths. To that end, the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> module has a method called <code class="docutils literal notranslate"><span class="pre">random.binomial</span></code> that calculates binomial probabilities for us. The arguments to the function are</p>
+<p>Although some people find it handy to know the above formulas, most people just want to know how to use the distributions without worrying too much about the maths. To that end, the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> module has a method called <code class="docutils literal notranslate"><span class="pre">binom.pmf</span></code> that calculates binomial probabilities for us. The arguments to the function are</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>. This is a number, or vector of numbers, specifying the outcomes whose probability you’re trying to calculate.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">prob</span></code>. This is the success probability for any one trial in the experiment.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code>. This is a number telling Python the size of the experiment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>. The number of success you are interested in.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n</span></code>. The number of attempts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p</span></code>. This is the success probability for any one trial in the experiment.</p></li>
 </ul>
-<p>So, in order to calculate the probability of getting <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">4</span></code> skulls, from an experiment of <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">=</span> <span class="pre">20</span></code> trials, in which the probability of getting a skull on any one trial is <code class="docutils literal notranslate"><span class="pre">prob</span> <span class="pre">=</span> <span class="pre">1/6</span></code> … well, the command I would use is simply this:</p>
-<p><code class="docutils literal notranslate"><span class="pre">random.binomial(n=4,</span> <span class="pre">p=1/6,</span> <span class="pre">size=20)</span></code></p>
+<p>So, in order to calculate the probability of getting <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">4</span></code> skulls, from an experiment of <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">20</span></code> trials, in which the probability of getting a skull on any one trial is <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">1/6</span></code> … well, the command I would use is simply this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
+<span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.20220358121717238
+</pre></div>
+</div>
+</div>
+</div>
 <p>To give you a feel for how the binomial distribution changes when we alter the values of <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(N\)</span>, let’s suppose that instead of rolling dice, I’m actually flipping coins. This time around, my experiment involves flipping a fair coin repeatedly, and the outcome that I’m interested in is the number of heads that I observe. In this scenario, the success probability is now <span class="math notranslate nohighlight">\(\theta = 1/2\)</span>. Suppose I were to flip the coin <span class="math notranslate nohighlight">\(N=20\)</span> times. In this example, I’ve changed the success probability, but kept the size of the experiment the same. What does this do to our binomial distribution? Well, as <a class="reference internal" href="#binomial-fig"><span class="std std-numref">Fig. 10.4</span></a> shows, the main effect of this is to shift the whole distribution, as you’d expect. Okay, what if we flipped a coin <span class="math notranslate nohighlight">\(N=100\)</span> times? Well, in that case, the distribution stays roughly in the middle, but there’s a bit more variability in the possible outcomes.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -1021,7 +1033,7 @@ p(X | \mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( -\frac{(X - \mu)^2}
 </div>
 <div class="figure align-default" id="binomial-fig" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_19_0.png" src="_images/04.02-probability_19_0.png" />
+<img alt="_images/04.02-probability_21_0.png" src="_images/04.02-probability_21_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 10.4 </span><span class="caption-text">The binomial distribution with size parameter of N = 20 and an underlying success probability of θ = 1/2. Compare these plots to those in <a class="reference internal" href="#fig-skulls"><span class="std std-numref">Fig. 10.3</span></a>, which also had a size parameter of N = 20 and an underlying success probability of θ = 1/6.</span><a class="headerlink" href="#binomial-fig" title="Permalink to this image">¶</a></p>
 </div>
@@ -1063,7 +1075,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_23_1.png" src="_images/04.02-probability_23_1.png" />
+<img alt="_images/04.02-probability_25_1.png" src="_images/04.02-probability_25_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-normal" style="width: 600px">
@@ -1108,7 +1120,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_26_0.png" src="_images/04.02-probability_26_0.png" />
+<img alt="_images/04.02-probability_28_0.png" src="_images/04.02-probability_28_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals" style="width: 600px">
@@ -1153,7 +1165,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_29_1.png" src="_images/04.02-probability_29_1.png" />
+<img alt="_images/04.02-probability_31_1.png" src="_images/04.02-probability_31_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals2" style="width: 600px">
@@ -1211,7 +1223,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <div class="figure align-default" id="fig-sdnorm" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_32_0.png" src="_images/04.02-probability_32_0.png" />
+<img alt="_images/04.02-probability_34_0.png" src="_images/04.02-probability_34_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 10.8 </span><span class="caption-text">The area under the curve tells you the probability that an observation falls within a particular range. The solid lines plot normal distributions with mean <span class="math notranslate nohighlight">\(mu=0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma=1\)</span> The shaded areas illustrate “areas under the curve” for two important cases. On the left, we can see that there is a 68.3% chance that an observation will fall within one standard deviation of the mean. On the right, we see that there is a 95.4% chance that an observation will fall within two standard deviations of the mean.</span><a class="headerlink" href="#fig-sdnorm" title="Permalink to this image">¶</a></p>
 </div>
@@ -1261,7 +1273,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 <div class="figure align-default" id="fig-sdnorm2" style="width: 600px">
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_34_0.png" src="_images/04.02-probability_34_0.png" />
+<img alt="_images/04.02-probability_36_0.png" src="_images/04.02-probability_36_0.png" />
 </div>
 <p class="caption"><span class="caption-number">Fig. 10.9 </span><span class="caption-text">Two more examples of the “area under the curve idea”. There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.</span><a class="headerlink" href="#fig-sdnorm2" title="Permalink to this image">¶</a></p>
 </div>
@@ -1328,7 +1340,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_40_1.png" src="_images/04.02-probability_40_1.png" />
+<img alt="_images/04.02-probability_42_1.png" src="_images/04.02-probability_42_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-tdist" style="width: 600px">
@@ -1361,7 +1373,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_43_1.png" src="_images/04.02-probability_43_1.png" />
+<img alt="_images/04.02-probability_45_1.png" src="_images/04.02-probability_45_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-chi2" style="width: 600px">
@@ -1395,7 +1407,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_46_1.png" src="_images/04.02-probability_46_1.png" />
+<img alt="_images/04.02-probability_48_1.png" src="_images/04.02-probability_48_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-fdist" style="width: 600px">
@@ -1417,8 +1429,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.41535262 -0.27746792  1.16795693 -0.04986259  1.89040553  0.37500583
- -0.79168835  0.30747871  0.94715593  0.1524093 ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.23470392 -0.09380977  1.02879095  2.03286826  0.59127717 -0.85624617
+  0.45684261  2.13910641 -0.01420842 -0.52296984]
 </pre></div>
 </div>
 </div>
@@ -1436,7 +1448,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_51_1.png" src="_images/04.02-probability_51_1.png" />
+<img alt="_images/04.02-probability_53_1.png" src="_images/04.02-probability_53_1.png" />
 </div>
 </div>
 <p>If you do this, you should see something similar to the plot above. With a little more work we can do some formatting (see the chapter on <a class="reference internal" href="03.02-drawing_graphs.html#drawinggraphs"><span class="std std-ref">Drawing Graphs</span></a>), and also plot the true distribution of the data as a solid black line (i.e., a normal distribution with mean 0 and standard deviation 1), so that you can compare the data that we just generated to the true distribution.</p>
@@ -1469,7 +1481,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_53_0.png" src="_images/04.02-probability_53_0.png" />
+<img alt="_images/04.02-probability_55_0.png" src="_images/04.02-probability_55_0.png" />
 </div>
 </div>
 <p>In the previous example all I did was generate lots of normally distributed observations using <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> and then compared those to the true probability distribution in the figure (using <code class="docutils literal notranslate"><span class="pre">stats.norm.pdf()</span></code> to generate the black line in the figure. Now let’s try something trickier. We’ll try to generate some observations that follow a chi-square distribution with 3 degrees of freedom, but instead of using <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf()</span></code>, we’ll start with variables that are normally distributed, and see if we can exploit the known relationships between normal and chi-square distributions to do the work. As I mentioned earlier, a chi-square distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom is what you get when you take <span class="math notranslate nohighlight">\(k\)</span> normally-distributed variables (with mean 0 and standard deviation 1), square them, and add them up. Since we want a chi-square distribution with 3 degrees of freedom, we’ll need to create three sets of normally-distributed data. Let’s call them <code class="docutils literal notranslate"><span class="pre">normal_a</span></code>, <code class="docutils literal notranslate"><span class="pre">normal_b</span></code>, and <code class="docutils literal notranslate"><span class="pre">normal_c</span></code>.<a class="footnote-reference brackets" href="#note6" id="id8">6</a></p>
@@ -1505,7 +1517,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_59_1.png" src="_images/04.02-probability_59_1.png" />
+<img alt="_images/04.02-probability_61_1.png" src="_images/04.02-probability_61_1.png" />
 </div>
 </div>
 <p>and you should obtain a result that looks pretty similar to the chi-square plot in <a class="reference internal" href="#fig-chi2"><span class="std std-numref">Fig. 10.11</span></a>. Once again, with a bit more code, we can plot the actual chi-square distribution with 3 degrees of freedom over our histogram generated from random samples and compare:</p>
@@ -1533,7 +1545,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_61_0.png" src="_images/04.02-probability_61_0.png" />
+<img alt="_images/04.02-probability_63_0.png" src="_images/04.02-probability_63_0.png" />
 </div>
 </div>
 <p>It’s pretty clear that – even though I used <code class="docutils literal notranslate"><span class="pre">random.norm()</span></code> to do all the work rather than <code class="docutils literal notranslate"><span class="pre">stats.chi2.pdf</span></code> – the observations stored in the <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> variable really do follow a chi-square distribution. Admittedly, this probably doesn’t seem all that interesting right now, but later on when we start encountering the chi-square distribution in the chapter on <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">Categorical data analysis</span></a>, it will be useful to understand the fact that these distributions are related to one another.</p>
@@ -1559,7 +1571,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_65_1.png" src="_images/04.02-probability_65_1.png" />
+<img alt="_images/04.02-probability_67_1.png" src="_images/04.02-probability_67_1.png" />
 </div>
 </div>
 <p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
@@ -1587,7 +1599,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_67_0.png" src="_images/04.02-probability_67_0.png" />
+<img alt="_images/04.02-probability_69_0.png" src="_images/04.02-probability_69_0.png" />
 </div>
 </div>
 <p>Similarly, we can obtain an <span class="math notranslate nohighlight">\(F\)</span> distribution by taking the ratio between two scaled chi-square distributions. Suppose, for instance, we wanted to generate data from an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom. We could do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.f()</span></code>, but we could also do the same thing by generating two chi-square variables, one with 3 degrees of freedom, and the other with 20 degrees of freedom. As the example with <code class="docutils literal notranslate"><span class="pre">chi_square_data</span></code> illustrates, we can actually do this using <code class="docutils literal notranslate"><span class="pre">numpy.random.normal()</span></code> if we really want to, but this time I’ll take a short cut:</p>
@@ -1609,7 +1621,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/04.02-probability_69_1.png" src="_images/04.02-probability_69_1.png" />
+<img alt="_images/04.02-probability_71_1.png" src="_images/04.02-probability_71_1.png" />
 </div>
 </div>
 <p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>
@@ -1637,7 +1649,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_71_0.png" src="_images/04.02-probability_71_0.png" />
+<img alt="_images/04.02-probability_73_0.png" src="_images/04.02-probability_73_0.png" />
 </div>
 </div>
 <p>Okay, time to wrap this section up. We’ve seen three new distributions: <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span>. They’re all continuous distributions, and they’re all closely related to the normal distribution. I’ve talked a little bit about the precise nature of this relationship, and shown you some Python commands that illustrate this relationship. The key thing for our purposes, however, is not that you have a deep understanding of all these different distributions, nor that you remember the precise relationships between them. The main thing is that you grasp the basic idea that these distributions are all deeply related to one another, and to the normal distribution. Later on in this book, we’re going to run into data that are normally distributed, or at least assumed to be normally distributed. What I want you to understand right now is that, if you make the assumption that your data are normally distributed, you shouldn’t be surprised to see <span class="math notranslate nohighlight">\(\chi^2\)</span>, <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(F\)</span> distributions popping up all over the place when you start trying to do your data analysis.</p>
