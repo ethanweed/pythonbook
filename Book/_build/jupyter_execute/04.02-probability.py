@@ -934,7 +934,7 @@ f_3_20 = scaled_chi_square_3 / scaled_chi_square_20 # take the ratio of the two 
 
 sns.histplot(f_3_20)                                # draw a picture
 
-sns.despine()                                       # ... and remove those unsightly top and right "spines" from the plot
+sns.despine()                                       # ... and remove that unsightly box around the plot
 
 
 # The resulting `f_3_20` variable does in fact store variables that follow an $F$ distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real $F$ distribution with $df_1 = 3$ and $df_2 = 20$. Again, they match. I'll hide the code this time, but you can click the button to take a look.
