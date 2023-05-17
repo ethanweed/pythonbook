@@ -706,14 +706,14 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                          <span class="mi">106</span> <span class="mi">101</span> <span class="mi">98</span> <span class="mi">80</span> <span class="mi">74</span> <span class="o">...</span> <span class="mi">107</span> <span class="mi">72</span> <span class="mi">100</span>
 </pre></div>
 </div>
-<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel B. As you can see, the histogram is <em>roughly</em> the right shape, but it’s a very crude approximation to the true population distribution shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel C. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <strong><em>sample statistics</em></strong> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I’ll talk about how you can <span class="xref myst">estimate population parameters</span> using your sample statistics and how to work out <a class="reference internal" href="#ci"><span class="std std-ref">how confident you are in your estimates</span></a> but before we get to that there’s a few more ideas in sampling theory that you need to know about.</p>
+<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel B. As you can see, the histogram is <em>roughly</em> the right shape, but it’s a very crude approximation to the true population distribution shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel A. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <strong><em>sample statistics</em></strong> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I’ll talk about how you can <span class="xref myst">estimate population parameters</span> using your sample statistics and how to work out <a class="reference internal" href="#ci"><span class="std std-ref">how confident you are in your estimates</span></a> but before we get to that there’s a few more ideas in sampling theory that you need to know about.</p>
 </div>
 </div>
 <div class="section" id="the-law-of-large-numbers">
 <h2><span class="section-number">11.2. </span>The law of large numbers<a class="headerlink" href="#the-law-of-large-numbers" title="Permalink to this headline">¶</a></h2>
 <p>In the previous section I showed you the results of one fictitious IQ experiment with a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
 <p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data above, I used the numpy package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size.</p>
-<p>I can compute the mean IQ using the <code class="docutils literal notranslate"><span class="pre">mean()</span></code>function and the standard deviation using the <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> function, both from the <code class="docutils literal notranslate"><span class="pre">statistics</span></code>package, and I can draw a histgram using <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. The histogram of this much larger sample is shown in Figure &#64;ref(fig:IQdist)c. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
+<p>I can compute the mean IQ using the <code class="docutils literal notranslate"><span class="pre">mean()</span></code>function and the standard deviation using the <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> function, both from the <code class="docutils literal notranslate"><span class="pre">statistics</span></code>package, and I can draw a histgram using <code class="docutils literal notranslate"><span class="pre">histplot()</span></code> from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. The histogram of this much larger sample is shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel C. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one. This is reflected in the sample statistics: the mean IQ for the larger sample turns out to be 99.9, and the standard deviation is 15.1. These values are now very close to the true population.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  94.06963078878769  Standard deviation:  10.298620281720511
-100 samples. Mean:  101.37776122265011  Standard deviation:  17.72937101444625
-10000 samples. Mean:  99.99980819011536  Standard deviation:  15.0418038194312
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  103.71216395761007  Standard deviation:  25.937043761715294
+100 samples. Mean:  103.49020993689905  Standard deviation:  15.75585332073313
+10000 samples. Mean:  99.82537693882598  Standard deviation:  14.951791812193559
 </pre></div>
 </div>
 </div>
@@ -763,7 +763,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 96  89  77  69 105]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 44 105  99 104  85]
 Mean of simulated data:  87
 </pre></div>
 </div>
@@ -779,8 +779,8 @@ Mean of simulated data:  87
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [118  86  87 118  82]
-Mean of simulated data:  98
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [108 119 132 114  98]
+Mean of simulated data:  114
 </pre></div>
 </div>
 </div>
@@ -839,59 +839,59 @@ Mean of simulated data:  98
     </tr>
     <tr>
       <th>mean</th>
-      <td>88.000000</td>
-      <td>105.400000</td>
-      <td>102.200000</td>
       <td>98.800000</td>
-      <td>93.800000</td>
+      <td>101.600000</td>
+      <td>104.800000</td>
+      <td>96.800000</td>
+      <td>100.600000</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>13.982131</td>
-      <td>11.148991</td>
-      <td>7.949843</td>
-      <td>15.912259</td>
-      <td>23.784449</td>
+      <td>12.173742</td>
+      <td>10.358571</td>
+      <td>17.005881</td>
+      <td>23.721298</td>
+      <td>21.125814</td>
     </tr>
     <tr>
       <th>min</th>
+      <td>89.000000</td>
+      <td>88.000000</td>
+      <td>78.000000</td>
       <td>64.000000</td>
-      <td>93.000000</td>
-      <td>96.000000</td>
-      <td>82.000000</td>
-      <td>62.000000</td>
+      <td>67.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>90.000000</td>
-      <td>94.000000</td>
-      <td>98.000000</td>
-      <td>90.000000</td>
-      <td>81.000000</td>
+      <td>91.000000</td>
+      <td>93.000000</td>
+      <td>103.000000</td>
+      <td>87.000000</td>
+      <td>99.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>91.000000</td>
-      <td>110.000000</td>
+      <td>94.000000</td>
+      <td>108.000000</td>
+      <td>105.000000</td>
+      <td>98.000000</td>
       <td>100.000000</td>
-      <td>96.000000</td>
-      <td>97.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>95.000000</td>
-      <td>113.000000</td>
       <td>101.000000</td>
-      <td>102.000000</td>
-      <td>104.000000</td>
+      <td>108.000000</td>
+      <td>115.000000</td>
+      <td>107.000000</td>
+      <td>116.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>100.000000</td>
-      <td>117.000000</td>
-      <td>116.000000</td>
-      <td>124.000000</td>
-      <td>125.000000</td>
+      <td>119.000000</td>
+      <td>111.000000</td>
+      <td>123.000000</td>
+      <td>128.000000</td>
+      <td>121.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1250,7 +1250,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x1818163e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x17f6e95d0&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_43_1.png" src="_images/04.03-estimation_43_1.png" />
@@ -1560,9 +1560,9 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[24, 29, 36, 41]
-[93.0906069871885, 92.8037221113265, 96.58618224110857, 89.69970825882962]
-[104.18939301281151, 103.1162778886735, 109.57381775889142, 101.26029174117039]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[21, 31, 44]
+[91.6893652029845, 93.59852188776671, 92.26368002291841]
+[107.0306347970155, 109.5214781122333, 106.37631997708158]
 </pre></div>
 </div>
 </div>
