@@ -1,44 +1,33 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
-import scipy.stats as stats
-import math
+```{glue:figure} iq_table
+:figwidth: 600px
+:name: table_iq
 
-mu = 100
-sigma = 15
-x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-y = stats.norm.pdf(x, mu, sigma)
-
-sns.lineplot(x=x,y=y)
-
+Ten replications of the IQ experiment, each with a sample size of N = 5.
 ------------------
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Input [0;32mIn [1][0m, in [0;36m<cell line: 1>[0;34m()[0m
-[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
-[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
-[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
+[0;36m  Input [0;32mIn [6][0;36m[0m
+[0;31m    :figwidth: 600px[0m
+[0m                 ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid decimal literal
 
-[0;31mModuleNotFoundError[0m: No module named 'matplotlib'
-ModuleNotFoundError: No module named 'matplotlib'
+SyntaxError: invalid decimal literal (2828902306.py, line 2)
 
