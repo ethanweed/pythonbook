@@ -102,7 +102,7 @@
 # 
 # Okay. Setting aside the thorny methodological issues associated with obtaining a random sample and my rather unfortunate tendency to rant about lazy methodological criticism, let's consider a slightly different issue. Up to this point we have been talking about populations the way a scientist might. To a psychologist, a population might be a group of people. To an ecologist, a population might be a group of bears. In most cases the populations that scientists care about are concrete things that actually exist in the real world. Statisticians, however, are a funny lot. On the one hand, they *are* interested in real world data and real science in the same way that scientists are. On the other hand, they also operate in the realm of pure abstraction in the way that mathematicians do. As a consequence, statistical theory tends to be a bit abstract in how a population is defined. In much the same way that psychological researchers operationalise our abstract theoretical ideas in terms of [concrete measurements](studydesign), statisticians operationalise the concept of a "population" in terms of mathematical objects that they know how to work with. You've already come across these objects in the chapter on [probability](probability)): they're called probability distributions.
 # 
-# The idea is quite simple. Let's say we're talking about IQ scores. To a psychologist, the population of interest is a group of actual humans who have IQ scores. A statistician "simplifies" this by operationally defining the population as the probability distribution depicted in Figure \@ref(fig:IQdista). IQ tests are designed so that the average IQ is 100, the standard deviation of IQ scores is 15, and the distribution of IQ scores is normal. These values are referred to as the **_population parameters_** because they are characteristics of the entire population. That is, we say that the population mean $\mu$ is 100, and the population standard deviation $\sigma$ is 15.
+# The idea is quite simple. Let's say we're talking about IQ scores. To a psychologist, the population of interest is a group of actual humans who have IQ scores. A statistician "simplifies" this by operationally defining the population as the probability distribution depicted in {numref}`fig-IQ`. IQ tests are designed so that the average IQ is 100, the standard deviation of IQ scores is 15, and the distribution of IQ scores is normal. These values are referred to as the **_population parameters_** because they are characteristics of the entire population. That is, we say that the population mean $\mu$ is 100, and the population standard deviation $\sigma$ is 15.
 
 # In[1]:
 
@@ -133,8 +133,9 @@ ax2 = sns.histplot(IQ,ax=axes[2])
 
 # add titles, labels, and formatting
 labels = ['A', 'B', 'C']
-titles = ['Normal Distribution', '100 samples', '10000 samples']
+titles = ['Normal Distribution', '100 samples', '10,000 samples']
 for i,ax in enumerate(axes):
+    ax.set_title(titles[i])
     ax.text(-0.1, 1.15, labels[i], transform=ax.transAxes,
       fontsize=16, fontweight='bold', va='top', ha='right')
     ax.set(xticklabels=[])
@@ -149,6 +150,14 @@ for i,ax in enumerate(axes):
 sns.despine()
 
 
+
+# ```{glue:figure} IQ_fig
+# :figwidth: 600px
+# :name: fig-IQ
+# 
+# The population distribution of IQ scores (panel A) and two samples drawn randomly from it. In panel B we have a sample of 100 observations, and panel C we have a sample of 10,000 observations.
+# ```
+# 
 
 # Now suppose I run an experiment. I select 100 people at random and administer an IQ test, giving me a simple random sample from the population. My sample would consist of a collection of numbers like this:
 # ```
