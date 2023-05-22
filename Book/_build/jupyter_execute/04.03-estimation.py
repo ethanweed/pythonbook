@@ -265,7 +265,7 @@ df
 list(df['Sample Mean'])
 
 
-# What if I continued like this for 10,000 replications, and then drew a histogram? Using the magical powers of Python that's exactly what I did, and you can see the results in Figure \@ref(fig:sampdistmean). As this picture illustrates, the average of 5 IQ scores is usually between 90 and 110. But more importantly, what it highlights is that if we replicate an experiment over and over again, what we end up with is a *distribution* of sample means! This distribution has a special name in statistics: it's called the **_sampling distribution of the mean_**. 
+# What if I continued like this for 10,000 replications, and then drew a histogram? Using the magical powers of Python that's exactly what I did, and you can see the results in {numref}`IQ_samp_dist`. As this picture illustrates, the average of 5 IQ scores is usually between 90 and 110. But more importantly, what it highlights is that if we replicate an experiment over and over again, what we end up with is a *distribution* of sample means! This distribution has a special name in statistics: it's called the **_sampling distribution of the mean_**. 
 
 # In[7]:
 
@@ -314,7 +314,15 @@ for ax in axes:
 
 
 
-# fig.cap="The sampling distribution of the mean for the \"five IQ scores experiment\". If you sample 5 people at random and calculate their *average* IQ, you'll almost certainly get a number between 80 and 120, even though there are quite a lot of individuals who have IQs above 120 or below 80. For comparison, the black line plots the population distribution of IQ scores."
+# ```{glue:figure} IQ_samp_dist
+# :figwidth: 600px
+# :name: fig-IQ_samp_dist
+# 
+# The sampling distribution of the mean for the \"five IQ scores experiment\". If you sample 5 people at random and calculate their *average* IQ, you'll almost certainly get a number between 80 and 120, even though there are quite a lot of individuals who have IQs above 120 or below 80. For comparison, the black line plots the population distribution of IQ scores.
+# ```
+# 
+
+# 
 # 
 # Sampling distributions are another important theoretical idea in statistics, and they're crucial for understanding the behaviour of small samples. For instance, when I ran the very first "five IQ scores" experiment, the sample mean turned out to be 95. What the sampling distribution in Figure \@ref(fig:sampdistmean) tells us, though, is that the "five IQ scores" experiment is not very accurate. If I repeat the experiment, the sampling distribution tells me that I can expect to see a sample mean anywhere between 80 and 120. 
 # 
