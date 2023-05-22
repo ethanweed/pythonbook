@@ -756,7 +756,7 @@ expected, observed_pingouin, stats = pg.chi2_independence(df, x='happy', y='on.f
 stats
 
 
-# Speaking as someone who doesn't want to be set on fire, I'd *really* like to be able to get a better answer than this. This is where **_Fisher's exact test_** {cite}Fisher1922 comes in very handy. 
+# Speaking as someone who doesn't want to be set on fire, I'd *really* like to be able to get a better answer than this. This is where **_Fisher's exact test_** {cite}`Fisher1922` comes in very handy. 
 # 
 # The Fisher exact test works somewhat differently to the chi-square test (or in fact any of the other hypothesis tests that I talk about in this book) insofar as it doesn't have a test statistic; it calculates the $p$-value "directly". I'll explain the basics of how the test works for a $2 \times 2$ contingency table, though the test works fine for larger tables. As before, let's have some notation: 
 # 
