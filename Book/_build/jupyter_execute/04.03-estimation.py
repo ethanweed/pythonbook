@@ -296,8 +296,8 @@ sns.histplot(sample_means, ax=ax)
 ax2 = ax.twinx()
 sns.lineplot(x=x,y=y, ax=ax2, color='black')
 
+# format the figure
 axes=[ax, ax2]
-
 for ax in axes:
     ax.set(yticklabels=[])
     ax.set(ylabel=None)
@@ -322,10 +322,9 @@ for ax in axes:
 
 # 
 # 
-# Sampling distributions are another important theoretical idea in statistics, and they're crucial for understanding the behaviour of small samples. For instance, when I ran the very first "five IQ scores" experiment, the sample mean turned out to be 95. What the sampling distribution in Figure \@ref(fig:sampdistmean) tells us, though, is that the "five IQ scores" experiment is not very accurate. If I repeat the experiment, the sampling distribution tells me that I can expect to see a sample mean anywhere between 80 and 120. 
+# Sampling distributions are another important theoretical idea in statistics, and they're crucial for understanding the behaviour of small samples. For instance, when I ran the very first "five IQ scores" experiment, the sample mean turned out to be 95. What the sampling distribution in {numref}`fig-IQ_samp_dist` tells us, though, is that the "five IQ scores" experiment is not very accurate. If I repeat the experiment, the sampling distribution tells me that I can expect to see a sample mean anywhere between 80 and 120. 
 # 
 
-# fig.cap="The sampling distribution of the *maximum* for the \"five IQ scores experiment\". If you sample 5 people at random and select the one with the highest IQ score, you'll probably see someone with an IQ between 100 and 140."
 # 
 # ### Sampling distributions exist for any sample statistic!
 # 
@@ -361,6 +360,18 @@ fig, ax = plt.subplots()
 sns.histplot(sample_maxes, ax=ax)
 ax2 = ax.twinx()
 sns.lineplot(x=x,y=y, ax=ax2, color='black')
+
+# format the figure
+axes=[ax, ax2]
+for ax in axes:
+    ax.set(yticklabels=[])
+    ax.set(ylabel=None)
+    ax.set(xlabel='IQ Score')
+    ax.tick_params(axis='both', 
+                    which='both',
+                    left=False,
+                    right=False)
+    ax.spines[['right', 'top']].set_visible(False)
 
 
 # fig.cap="The sampling distribution of the *maximum* for the \"five IQ scores experiment\". If you sample 5 people at random and select the one with the highest IQ score, you'll probably see someone with an IQ between 100 and 140."
