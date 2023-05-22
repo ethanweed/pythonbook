@@ -387,7 +387,7 @@ for ax in axes:
 # (clt)=
 # ### The central limit theorem
 # 
-# An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line).
+# At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you'll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you'll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures \@ref(fig:IQsampa), \@ref(fig:IQsampb) and \@ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the **_standard error_**. The standard error of a statistic is often denoted SE, and since we're usually interested in the standard error of the sample *mean*, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.
 
 # In[9]:
 
@@ -405,65 +405,55 @@ sigma = 15
 x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
 y = stats.norm.pdf(x, mu, sigma)
 
-# run 10000 simulated experiments with 1 subject each, and calculate the sample mean for each experiment
-n = 1
-sample_means = []
-for i in range(1,10000):
-    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
-    sample_means.append(sample_mean)
+# arrange a grid of three plots
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
 
-# plot a histogram of the distribution of sample means, together with the population distribution
-fig, ax = plt.subplots()
-sns.histplot(sample_means, ax=ax, binwidth=4)
-ax2 = ax.twinx()
-sns.lineplot(x=x,y=y, ax=ax2, color='black')
+labels = ['A', 'B', 'C']
+titles = ['N = 1', 'N = 2', 'N = 10']
+
+# run 10000 simulated experiments with either 1, 2, or 10 subjects each, and calculate the sample mean for each experiment
+for s,n in enumerate([1, 2, 10]):
+    sample_means = []
+    for i in range(1,10000):
+        sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_means.append(sample_mean)
+
+    # plot a histogram of the distribution of sample means, together with the population distribution
+    ax1 = sns.histplot(sample_means, ax=axes[s], binwidth=4)
+    ax1.set_title(titles[s])
+    ax1.text(-0.1, 1.15, labels[s], transform=ax1.transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
+    ax2 = ax1.twinx()
+    sns.lineplot(x=x,y=y, color='black')
+    
+
+    # format the figures
+    subaxes=[ax1, ax2]
+    for ax in subaxes:
+        ax.set(yticklabels=[])
+        ax.set(ylabel=None)
+        ax.set(xlabel='IQ Score')
+        ax.tick_params(axis='both', 
+                    which='both',
+                    left=False,
+                    right=False)
+        ax.spines[['right', 'top']].set_visible(False)
+    
 
 
 
-# Each data set contained only a single observation, so the mean of each sample is just one person's IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores.
 
-# In[10]:
+# ```{glue:figure} IQ_clm-fig
+# :figwidth: 600px
+# :name: fig-IQ-clm
+# 
+# An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line). In panel a, each data set contained only a single observation, so the mean of each sample is just one person’s IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores. However, when we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person’s IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution. By the time we raise the sample size to 10 (panel c), we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean.
+# ```
 
-
-n = 2
-sample_means = []
-for i in range(1,10000):
-    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
-    sample_means.append(sample_mean)
-
-
-# plot a histogram of the distribution of sample means, together with the population distribution
-fig, ax = plt.subplots()
-sns.histplot(sample_means, ax=ax, binwidth=4)
-ax2 = ax.twinx()
-sns.lineplot(x=x,y=y, ax=ax2, color='black')
-
-
-# When we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person's IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution.
-
-# In[11]:
-
-
-n = 10
-sample_means = []
-for i in range(1,10000):
-    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
-    sample_means.append(sample_mean)
-
-
-# plot a histogram of the distribution of sample means, together with the population distribution
-fig, ax = plt.subplots()
-sns.histplot(sample_means, ax=ax, binwidth=4)
-ax2 = ax.twinx()
-sns.lineplot(x=x,y=y, ax=ax2, color='black')
-
-
-# By the time we raise the sample size to 10, we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean. At this point I hope you have a pretty good sense of what sampling distributions are, and in particular what the sampling distribution of the mean is. In this section I want to talk about how the sampling distribution of the mean changes as a function of sample size. Intuitively, you already know part of the answer: if you only have a few observations, the sample mean is likely to be quite inaccurate: if you replicate a small experiment and recalculate the mean you'll get a very different answer. In other words, the sampling distribution is quite wide. If you replicate a large experiment and recalculate the sample mean you'll probably get the same answer you got last time, so the sampling distribution will be very narrow. You can see this visually in Figures \@ref(fig:IQsampa), \@ref(fig:IQsampb) and \@ref(fig:IQsampc): the bigger the sample size, the narrower the sampling distribution gets. We can quantify this effect by calculating the standard deviation of the sampling distribution, which is referred to as the **_standard error_**. The standard error of a statistic is often denoted SE, and since we're usually interested in the standard error of the sample *mean*, we often use the acronym SEM. As you can see just by looking at the picture, as the sample size $N$ increases, the SEM decreases.  
 # 
 # Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using R. To do this, I started with the "ramped" distribution shown in the histogram in Figure \@ref(fig:cltdemo). As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Next, I used R to simulate the results of a large number of experiments. In each experiment I took $N=2$ samples from this distribution, and then calculated the sample mean. Figure \@ref(fig:cltdemob) plots the histogram of these sample means (i.e., the sampling distribution of the mean for $N=2$). This time, the histogram produces a $\cap$-shaped distribution: it's still not normal, but it's a lot closer to the black line than the population distribution in Figure \@ref(fig:cltdemoa). When I increase the sample size to $N=4$, the sampling distribution of the mean is very close to normal (Figure \@ref(fig:cltdemoc), and by the time we reach a sample size of $N=8$ it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!
 
-# In[12]:
+# In[10]:
 
 
 import math
@@ -517,7 +507,7 @@ def plotSamples(n):
 
 
 
-# In[13]:
+# In[11]:
 
 
 plotSamples(1)
@@ -525,7 +515,7 @@ plotSamples(1)
 
 # 
 
-# In[14]:
+# In[12]:
 
 
 plotSamples(2)
@@ -533,13 +523,13 @@ plotSamples(2)
 
 # 
 
-# In[15]:
+# In[13]:
 
 
 plotSamples(4)
 
 
-# In[16]:
+# In[14]:
 
 
 plotSamples(8)
@@ -597,7 +587,7 @@ plotSamples(8)
 # ```
 # This time around, our sample is *just* large enough for us to be able to observe some variability: two observations is the bare minimum number needed for any variability to be observed! For our new data set, the sample mean is $\bar{X}=21$, and the sample standard deviation is $s=1$. What intuitions do we have about the population? Again, as far as the population mean goes, the best guess we can possibly make is the sample mean: if forced to guess, we'd probably guess that the population mean cromulence is 21. What about the standard deviation? This is a little more complicated. The sample standard deviation is only based on two observations, and if you're at all like me you probably have the intuition that, with only two observations, we haven't given the population "enough of a chance" to reveal its true variability to us. It's not just that we suspect that the estimate is *wrong*: after all, with only two observations we expect it to be wrong to some degree. The worry is that the error is *systematic*. Specifically, we suspect that the sample standard deviation is likely to be smaller than the population standard deviation. 
 
-# In[17]:
+# In[15]:
 
 
 import statistics
@@ -626,7 +616,7 @@ plt.axvline(15, color = 'black', linestyle = "dashed")
 
 # Now let's extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of $N=2$, let's repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in Figure \@ref(fig:estimatorbias). On the left hand side (panel a), I've plotted the average sample mean and on the right hand side (panel b), I've plotted the average standard deviation. The two plots are quite different: *on average*, the average sample mean is equal to the population mean. It is an **_unbiased estimator_**, which is essentially the reason why your best estimate for the population mean is the sample mean.^[I should note that I'm hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it's beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there's some hidden complexity here.] The plot on the right is quite different: on average, the sample standard deviation $s$ is *smaller* than the population standard deviation $\sigma$. It is a **_biased estimator_**. In other words, if we want to make a "best guess" $\hat\sigma$ about the value of the population standard deviation $\sigma$, we should make sure our guess is a little bit larger than the sample standard deviation $s$. 
 
-# In[18]:
+# In[16]:
 
 
 import statistics
@@ -732,7 +722,7 @@ axes[1].set_title("Sample Standard Deviations")
 # 
 # Armed with an understanding of sampling distributions, constructing a confidence interval for the mean is actually pretty easy. Here's how it works. Suppose the true population mean is $\mu$ and the standard deviation is $\sigma$. I've just finished running my study that has $N$ participants, and the mean IQ among those participants is $\bar{X}$. We know from our discussion of the central limit theorem (Section \@ref(clt) that the sampling distribution of the mean is approximately normal. We also know from our discussion of the normal distribution Section \@ref(normal) that there is a 95\% chance that a normally-distributed quantity will fall within two standard deviations of the true mean. To be more precise, we can use the `norm.ppf()` function from `scipy.stats` to compute the 2.5th and 97.5th percentiles of the normal distribution
 
-# In[19]:
+# In[17]:
 
 
 from scipy.stats import norm
@@ -759,7 +749,7 @@ norm.ppf([.025, 0.975])
 # 
 # Of course, there's nothing special about the number 1.96: it just happens to be the multiplier you need to use if you want a 95\% confidence interval. If I'd wanted a 70\% confidence interval, I could have used the `norm.ppf` function to calculate the 15th and 85th quantiles:
 
-# In[20]:
+# In[18]:
 
 
 norm.ppf([.15, .85])
@@ -771,7 +761,7 @@ norm.ppf([.15, .85])
 # 
 # As usual, I lied. The formula that I've given above for the 95\% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation $\sigma$. Yet, in Section \@ref(pointestimates I stressed the fact that we don't actually *know* the true population parameters. Because we don't know the true value of $\sigma$, we have to use an estimate of the population standard deviation $\hat{\sigma}$ instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the $t$-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When $N$ is very large, we get pretty much the same value using `t.ppf()` that we would if we used `norm.ppf()`...
 
-# In[21]:
+# In[19]:
 
 
 from scipy.stats import t
@@ -781,7 +771,7 @@ t.ppf([.025, 0.975], df = N-1)
 
 # But when $N$ is small, we get a much bigger number when we use the $t$ distribution:
 
-# In[22]:
+# In[20]:
 
 
 from scipy.stats import t
@@ -803,7 +793,7 @@ t.ppf([.025, 0.975], df = N-1)
 # 
 # ```
 
-# In[23]:
+# In[21]:
 
 
 from scipy.stats import t, sem
@@ -871,7 +861,7 @@ axes[1].axhline(y=100, linestyle = "dashed")
 axes[1].plot()
 
 
-# In[24]:
+# In[22]:
 
 
 nomean_up = []
@@ -894,7 +884,7 @@ print(nomean_up)
 # 
 # To produce the confidence intervals for the plots of simulated IQ data above, I used the ``t``, ``sem``, and ``mean``functions available in the ``scipy.stats``package. Another option is to use the ``tconfint_mean `` function from the ``statsmodels`` package. As you can see, both methods give nearly identical results. Method 1 is good insofar is at requires you to explicitly specify the desired confidence interval, the degrees of freedom, and the standard error of the mean. Method takes care of all of this for us, which makes it easier, but a bit more of a black box.
 
-# In[25]:
+# In[23]:
 
 
 # Sample data:
@@ -922,7 +912,7 @@ print("Method 2: ", ci_2)
 # 
 # There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
 
-# In[26]:
+# In[24]:
 
 
 import seaborn as sns
@@ -932,7 +922,7 @@ tips.head()
 
 # To compare the mean total bill for lunches and dinners for smokers and non-smokers, we can use ``sns.pointplot``. Notice that you can specifiy the size of desired confidence interval. By convention, people tend to use a 95% confidence interval, and this is the default in seaborn, but it is possible to specify a different one. Just make sure you report what size confidence interval you are showing! In the figure to the right, below, I have used a 40% confidence interval, but I probably wouldn't do that in a paper, because it is likely to confuse or mislead readers who expect a 95% CI.
 
-# In[27]:
+# In[25]:
 
 
 import seaborn as sns
@@ -950,7 +940,7 @@ axes[1].set_title("40% Confidence Interval")
 
 # For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with ``ci=None``, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.
 
-# In[28]:
+# In[26]:
 
 
 import seaborn as sns
@@ -964,7 +954,7 @@ sns.regplot(x="total_bill", y="tip", data=tips, ci = None, ax=axes[1])
 
 # For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoint, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one above showing confidence intervals for simulated IQ data, you may need to dive into ``matplotlib``, which allows much more customization than is available simply using seaborn.
 
-# In[29]:
+# In[27]:
 
 
 import seaborn as sns
