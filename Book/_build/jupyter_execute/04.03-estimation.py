@@ -332,7 +332,7 @@ for ax in axes:
 # ```
 #                       110 117 122 119 113 ... 
 # ```
-# Doing this over and over again would give me a very different sampling distribution, namely the *sampling distribution of the maximum*. The sampling distribution of the maximum of 5 IQ scores is shown in Figure \@ref(fig:sampdistmax). Not surprisingly, if you pick 5 people at random and then find the person with the highest IQ score, they're going to have an above average IQ. Most of the time you'll end up with someone whose IQ is measured in the 100 to 140 range. 
+# Doing this over and over again would give me a very different sampling distribution, namely the *sampling distribution of the maximum*. The sampling distribution of the maximum of 5 IQ scores is shown in {numref}`fig-IQ_max`. Not surprisingly, if you pick 5 people at random and then find the person with the highest IQ score, they're going to have an above average IQ. Most of the time you'll end up with someone whose IQ is measured in the 100 to 140 range. 
 
 # In[8]:
 
@@ -374,7 +374,15 @@ for ax in axes:
     ax.spines[['right', 'top']].set_visible(False)
 
 
-# fig.cap="The sampling distribution of the *maximum* for the \"five IQ scores experiment\". If you sample 5 people at random and select the one with the highest IQ score, you'll probably see someone with an IQ between 100 and 140."
+# ```{glue:figure} IQ_max_fig
+# :figwidth: 600px
+# :name: fig-IQ_max
+# 
+# The sampling distribution of the *maximum* for the \"five IQ scores experiment\". If you sample 5 people at random and select the one with the highest IQ score, you'll probably see someone with an IQ between 100 and 140.
+# ```
+# 
+# 
+# 
 
 # (clt)=
 # ### The central limit theorem
