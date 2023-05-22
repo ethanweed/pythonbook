@@ -214,8 +214,11 @@ print("10000 samples. Mean: ", statistics.mean(IQ_10000), " Standard deviation: 
 # In[3]:
 
 
+import random
 import numpy as np
 import statistics
+
+random.seed=42
 
 IQ_1 = np.random.normal(loc=100,scale=15,size=5).astype(int)
 print("Simulated data: ", IQ_1)
