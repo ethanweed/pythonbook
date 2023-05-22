@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  92.00727445933222  Standard deviation:  10.77215212609104
-100 samples. Mean:  99.85572600687101  Standard deviation:  14.302063219009534
-10000 samples. Mean:  100.04373723589073  Standard deviation:  15.149846172415744
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  101.56358446803078  Standard deviation:  14.246890854360558
+100 samples. Mean:  98.10425282622052  Standard deviation:  14.05499821753614
+10000 samples. Mean:  99.72123733945841  Standard deviation:  15.04827264367633
 </pre></div>
 </div>
 </div>
@@ -756,11 +756,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p>With this in mind, let’s abandon the idea that our studies will have sample sizes of 10000, and consider a very modest experiment indeed. This time around we’ll sample <span class="math notranslate nohighlight">\(N=5\)</span> people and measure their IQ scores. As before, I can simulate this experiment in Python using numpy’s <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> function. We can convert these to integers with <code class="docutils literal notranslate"><span class="pre">astype(int)</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">statistics</span>
-
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
 
 <span class="n">IQ_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated data: &quot;</span><span class="p">,</span> <span class="n">IQ_1</span><span class="p">)</span>
@@ -769,13 +766,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [137 106  57 109 107]
-Mean of simulated data:  103
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [100  95  78  91  86]
+Mean of simulated data:  90
 </pre></div>
 </div>
 </div>
 </div>
-<p>Not surprisingly, the mean from this sample turn is much less accurate than the previous experiment. Now imagine that I decided to <strong><em>replicate</em></strong> the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, R allows me to simulate the results of this procedure:</p>
+<p>Because we are sampling at random from the normal distribution, the mean of the simulated data will change every time we run the code. In fact, this number will likely change every time I updated this book, since the code will run again, and pick five new values from the normal distribution. Depending on the luck of the draw, the mean may be closer or further from the true mean of 100. Now imagine that I decided to <strong><em>replicate</em></strong> the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, Python allows me to simulate the results of this procedure:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IQ_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
@@ -785,8 +782,8 @@ Mean of simulated data:  103
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [103 107  89  98  79]
-Mean of simulated data:  95
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [106 109  99  90  93]
+Mean of simulated data:  99
 </pre></div>
 </div>
 </div>
