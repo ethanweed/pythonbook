@@ -222,7 +222,7 @@ print("Simulated data: ", IQ_1)
 print("Mean of simulated data: ", statistics.mean(IQ_1))
 
 
-# Because we are sampling at random from the normal distribution, the mean of the simulated data will change every time we run the code. In fact, this number will likely change every time I updated this book, since the code will run again, and pick five new values from the normal distribution. Depending on the luck of the draw, the mean may be closer or further from the true mean of 100. Now imagine that I decided to **_replicate_** the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, Python allows me to simulate the results of this procedure:
+# Because we are sampling at random from the normal distribution, the mean of the simulated data will change every time we run the code. In fact, this number will likely change every time I updat this book, since the code will run again, and pick five new values from the normal distribution. Depending on the luck of the draw, the mean may be closer or further from the true mean of 100. Now imagine that I decided to **_replicate_** the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, Python allows me to simulate the results of this procedure:
 
 # In[4]:
 
@@ -246,6 +246,7 @@ df = pd.DataFrame(
      'Person 5': np.random.normal(loc=100,scale=15,size=10).astype(int),
     }) 
 
+df['Sample Mean']=df.mean(axis=1)
 df.index=['Replication '+str(i+1) for i in range(df.shape[0])]
 df
 

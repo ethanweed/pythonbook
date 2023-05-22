@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  103.38116224164679  Standard deviation:  16.440891408432517
-100 samples. Mean:  100.65959299464542  Standard deviation:  16.305678263810417
-10000 samples. Mean:  100.16693530170812  Standard deviation:  15.126074053924706
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  101.73389979514029  Standard deviation:  13.872050577330763
+100 samples. Mean:  100.56195854427092  Standard deviation:  14.918980192422362
+10000 samples. Mean:  99.85298187071577  Standard deviation:  14.796234711779315
 </pre></div>
 </div>
 </div>
@@ -766,13 +766,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [137 114 132 119 126]
-Mean of simulated data:  125
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [104 110 121  80 132]
+Mean of simulated data:  109
 </pre></div>
 </div>
 </div>
 </div>
-<p>Because we are sampling at random from the normal distribution, the mean of the simulated data will change every time we run the code. In fact, this number will likely change every time I updated this book, since the code will run again, and pick five new values from the normal distribution. Depending on the luck of the draw, the mean may be closer or further from the true mean of 100. Now imagine that I decided to <strong><em>replicate</em></strong> the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, Python allows me to simulate the results of this procedure:</p>
+<p>Because we are sampling at random from the normal distribution, the mean of the simulated data will change every time we run the code. In fact, this number will likely change every time I updat this book, since the code will run again, and pick five new values from the normal distribution. Depending on the luck of the draw, the mean may be closer or further from the true mean of 100. Now imagine that I decided to <strong><em>replicate</em></strong> the experiment. That is, I repeat the procedure as closely as possible: I randomly sample 5 new people and measure their IQ. Again, Python allows me to simulate the results of this procedure:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IQ_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
@@ -782,8 +782,8 @@ Mean of simulated data:  125
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 85  94 110  91 106]
-Mean of simulated data:  97
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [140 119 103 103  83]
+Mean of simulated data:  109
 </pre></div>
 </div>
 </div>
@@ -800,6 +800,7 @@ Mean of simulated data:  97
      <span class="s1">&#39;Person 5&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
     <span class="p">})</span> 
 
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Sample Mean&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Replication &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 <span class="n">df</span>
 </pre></div>
@@ -829,88 +830,99 @@ Mean of simulated data:  97
       <th>Person 3</th>
       <th>Person 4</th>
       <th>Person 5</th>
+      <th>Sample Mean</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Replication 1</th>
-      <td>105</td>
+      <td>104</td>
+      <td>86</td>
+      <td>91</td>
+      <td>99</td>
       <td>84</td>
-      <td>95</td>
-      <td>113</td>
-      <td>126</td>
+      <td>92.8</td>
     </tr>
     <tr>
       <th>Replication 2</th>
-      <td>124</td>
-      <td>110</td>
+      <td>101</td>
+      <td>84</td>
       <td>109</td>
-      <td>78</td>
-      <td>81</td>
+      <td>108</td>
+      <td>88</td>
+      <td>98.0</td>
     </tr>
     <tr>
       <th>Replication 3</th>
+      <td>91</td>
+      <td>88</td>
+      <td>108</td>
+      <td>101</td>
       <td>95</td>
-      <td>73</td>
-      <td>100</td>
-      <td>96</td>
-      <td>102</td>
+      <td>96.6</td>
     </tr>
     <tr>
       <th>Replication 4</th>
-      <td>92</td>
-      <td>100</td>
-      <td>108</td>
-      <td>109</td>
-      <td>82</td>
+      <td>107</td>
+      <td>122</td>
+      <td>81</td>
+      <td>102</td>
+      <td>101</td>
+      <td>102.6</td>
     </tr>
     <tr>
       <th>Replication 5</th>
+      <td>105</td>
+      <td>104</td>
       <td>85</td>
-      <td>75</td>
-      <td>62</td>
-      <td>103</td>
-      <td>102</td>
+      <td>96</td>
+      <td>94</td>
+      <td>96.8</td>
     </tr>
     <tr>
       <th>Replication 6</th>
-      <td>93</td>
-      <td>78</td>
+      <td>89</td>
+      <td>109</td>
+      <td>134</td>
       <td>77</td>
-      <td>119</td>
-      <td>121</td>
+      <td>91</td>
+      <td>100.0</td>
     </tr>
     <tr>
       <th>Replication 7</th>
-      <td>103</td>
-      <td>88</td>
-      <td>82</td>
-      <td>96</td>
+      <td>110</td>
       <td>107</td>
+      <td>121</td>
+      <td>90</td>
+      <td>110</td>
+      <td>107.6</td>
     </tr>
     <tr>
       <th>Replication 8</th>
-      <td>119</td>
-      <td>106</td>
-      <td>93</td>
+      <td>132</td>
+      <td>85</td>
       <td>86</td>
-      <td>119</td>
+      <td>102</td>
+      <td>105</td>
+      <td>102.0</td>
     </tr>
     <tr>
       <th>Replication 9</th>
       <td>111</td>
-      <td>100</td>
-      <td>114</td>
-      <td>83</td>
-      <td>62</td>
+      <td>121</td>
+      <td>99</td>
+      <td>98</td>
+      <td>117</td>
+      <td>109.2</td>
     </tr>
     <tr>
       <th>Replication 10</th>
-      <td>90</td>
-      <td>88</td>
-      <td>93</td>
-      <td>106</td>
-      <td>118</td>
+      <td>101</td>
+      <td>98</td>
+      <td>111</td>
+      <td>104</td>
+      <td>95</td>
+      <td>101.8</td>
     </tr>
   </tbody>
 </table>
@@ -1270,7 +1282,7 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x17d695990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x181a24370&gt;
 </pre></div>
 </div>
 <img alt="_images/04.03-estimation_44_1.png" src="_images/04.03-estimation_44_1.png" />
@@ -1580,9 +1592,9 @@ Because we divide the population standard devation \)</span>\sigma<span class="m
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[19]
-[99.42714242645157]
-[109.53285757354844]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 4, 21, 41, 49, 48]
+[96.57593138617591, 93.41793539969072, 101.31003768860485, 100.16183717772688, 91.94175977009029, 91.31517406995148]
+[108.06406861382408, 105.9420646003093, 111.32996231139514, 111.91816282227313, 102.93824022990971, 103.08482593004852]
 </pre></div>
 </div>
 </div>
