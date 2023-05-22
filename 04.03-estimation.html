@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  106.78392408455554  Standard deviation:  12.192181164419015
-100 samples. Mean:  100.45212607436794  Standard deviation:  15.729705020971107
-10000 samples. Mean:  99.97407404951677  Standard deviation:  15.181720301363747
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  95.11057018327004  Standard deviation:  17.151548612513317
+100 samples. Mean:  100.8517562570233  Standard deviation:  14.426341980602999
+10000 samples. Mean:  100.12548173964667  Standard deviation:  14.913623285715106
 </pre></div>
 </div>
 </div>
@@ -756,15 +756,18 @@ const thebe_selector_output = ".output, .cell_output"
 <p>With this in mind, let’s abandon the idea that our studies will have sample sizes of 10000, and consider a very modest experiment indeed. This time around we’ll sample <span class="math notranslate nohighlight">\(N=5\)</span> people and measure their IQ scores. As before, I can simulate this experiment in Python using numpy’s <code class="docutils literal notranslate"><span class="pre">random.normal()</span></code> function. We can convert these to integers with <code class="docutils literal notranslate"><span class="pre">astype(int)</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IQ_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
+
+<span class="n">IQ_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated data: &quot;</span><span class="p">,</span> <span class="n">IQ_1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean of simulated data: &quot;</span><span class="p">,</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">IQ_1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [100  98 121  93  92]
-Mean of simulated data:  100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [125  90  98  90 103]
+Mean of simulated data:  101
 </pre></div>
 </div>
 </div>
@@ -779,8 +782,8 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 88 105  78 127 122]
-Mean of simulated data:  104
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [107 134 122 116 124]
+Mean of simulated data:  120
 </pre></div>
 </div>
 </div>
