@@ -271,8 +271,10 @@ list(df['Sample Mean'])
 
 
 import matplotlib.pyplot as plt
-import numpy as np
 import scipy.stats as stats
+import seaborn as sns
+import numpy as np
+import statistics
 import math
 
 # define a normal distribution with a mean of 100 and a standard deviation of 15
@@ -293,6 +295,24 @@ fig, ax = plt.subplots()
 sns.histplot(sample_means, ax=ax)
 ax2 = ax.twinx()
 sns.lineplot(x=x,y=y, ax=ax2, color='black')
+
+axes=[ax, ax2]
+
+for ax in axes:
+    ax.set(xticklabels=[])
+    ax.set(yticklabels=[])
+    ax.set(ylabel=None)
+    ax.set(xlabel='IQ Score')
+    ax.tick_params(axis='both', 
+                    which='both',
+                    bottom=False,
+                    left=False,
+                    right=False)
+    ax.spines[['right', 'top']].set_visible(False)
+    
+
+ax.set(xlabel='IQ Score')
+
 
 
 # fig.cap="The sampling distribution of the mean for the \"five IQ scores experiment\". If you sample 5 people at random and calculate their *average* IQ, you'll almost certainly get a number between 80 and 120, even though there are quite a lot of individuals who have IQs above 120 or below 80. For comparison, the black line plots the population distribution of IQ scores."
