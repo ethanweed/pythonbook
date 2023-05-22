@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  97.19264537812036  Standard deviation:  10.131716911287002
-100 samples. Mean:  99.28511735427557  Standard deviation:  15.034371490014218
-10000 samples. Mean:  100.21940804963708  Standard deviation:  15.088895808957721
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  106.78392408455554  Standard deviation:  12.192181164419015
+100 samples. Mean:  100.45212607436794  Standard deviation:  15.729705020971107
+10000 samples. Mean:  99.97407404951677  Standard deviation:  15.181720301363747
 </pre></div>
 </div>
 </div>
@@ -741,14 +741,14 @@ const thebe_selector_output = ".output, .cell_output"
 <blockquote>
 <div><p><em>For even the most stupid of men, by some instinct of nature, by himself and without any instruction (which is a remarkable thing), is convinced that the more observations have been made, the less danger there is of wandering from one’s goal</em></p>
 </div></blockquote>
-<p>Okay, so the passage comes across as a bit condescending (not to mention sexist), but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the <strong><em>law of large numbers</em></strong>. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that’s what the mean is… an average), so let’s look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size “approaches” infinity (written as <span class="math notranslate nohighlight">\(N \rightarrow \infty\)</span>) the sample mean approaches the population mean (<span class="math notranslate nohighlight">\(\bar{X} \rightarrow \mu\)</span>).^[Technically, the law of large numbers pertains to any sample statistic that can be described as an average of independent quantities. That’s certainly true for the sample mean. However, it’s also possible to write many other sample statistics as averages of one form or another. The variance of a sample, for instance, can be rewritten as a kind of average and so is subject to the law of large numbers. The minimum value of a sample, however, cannot be written as an average of anything and is therefore not governed by the law of large numbers.]</p>
+<p>Okay, so the passage comes across as a bit condescending, but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the <strong><em>law of large numbers</em></strong>. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that’s what the mean is… an average), so let’s look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size “approaches” infinity (written as <span class="math notranslate nohighlight">\(N \rightarrow \infty\)</span>) the sample mean approaches the population mean (<span class="math notranslate nohighlight">\(\bar{X} \rightarrow \mu\)</span>).^[Technically, the law of large numbers pertains to any sample statistic that can be described as an average of independent quantities. That’s certainly true for the sample mean. However, it’s also possible to write many other sample statistics as averages of one form or another. The variance of a sample, for instance, can be rewritten as a kind of average and so is subject to the law of large numbers. The minimum value of a sample, however, cannot be written as an average of anything and is therefore not governed by the law of large numbers.]</p>
 <p>I don’t intend to subject you to a proof that the law of large numbers is true, but it’s one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it <strong><em>will be wrong</em></strong>, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.</p>
 </div>
 <div class="section" id="sampling-distributions-and-the-central-limit-theorem">
 <span id="samplingdists"></span><h2><span class="section-number">11.3. </span>Sampling distributions and the central limit theorem<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem" title="Permalink to this headline">¶</a></h2>
 <p>The law of large numbers is a very powerful tool, but it’s not going to be good enough to answer all our questions. Among other things, all it gives us is a “long run guarantee”. In the long run, if we were somehow able to collect an infinite amount of data, then the law of large numbers guarantees that our sample statistics will be correct. But as John Maynard Keynes famously argued in economics, a long run guarantee is of little use in real life:</p>
 <blockquote>
-<div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> &#64;Keynes1923</p>
+<div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> <span id="id3">[<a class="reference internal" href="bibliography.html#id16" title="John Maynard Keynes. A Tract on Monetary Reform. Macmillan and Company, London, 1923.">Keynes, 1923</a>]</span></p>
 </div></blockquote>
 <p>As in economics, so too in psychology and statistics. It is not enough to know that we will <em>eventually</em> arrive at the right answer when calculating the sample mean. Knowing that an infinitely large data set will tell me the exact value of the population mean is cold comfort when my <em>actual</em> data set has a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. In real life, then, we must know something about the behaviour of the sample mean when it is calculated from a more modest data set!</p>
 <div class="section" id="sampling-distribution-of-the-mean">
@@ -763,8 +763,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 85 106 109  82  84]
-Mean of simulated data:  93
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [100  98 121  93  92]
+Mean of simulated data:  100
 </pre></div>
 </div>
 </div>
@@ -779,8 +779,8 @@ Mean of simulated data:  93
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 93  92 114 116  86]
-Mean of simulated data:  100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 88 105  78 127 122]
+Mean of simulated data:  104
 </pre></div>
 </div>
 </div>
