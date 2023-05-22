@@ -451,7 +451,7 @@ for s,n in enumerate([1, 2, 10]):
 # ```
 
 # 
-# Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using Python. To do this, I wrote a function called `plotSamples` that produces the "ramped" distribution shown in the first histogram below when $N=1$. As you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Then I provided the function with increasingly larger numbers of "participants" for each simulated experiment. As the size of $N$ increases, the sampling distribution of the mean looks increasingly normal, and by the time we reach a sample size of $N=8$ it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!
+# Okay, so that's one part of the story. However, there's something I've been glossing over so far. All my examples up to this point have been based on the "IQ scores" experiments, and because IQ scores are roughly normally distributed, I've assumed that the population distribution is normal. What if it isn't normal? What happens to the sampling distribution of the mean? The remarkable thing is this: no matter what shape your population distribution is, as $N$ increases the sampling distribution of the mean starts to look more like a normal distribution. To give you a sense of this, I ran some simulations using Python. To do this, I wrote a function called `plotSamples` that produces the "ramped" beta distribution shown in the first histogram below when $N=1$. You can use the "click to show" button to take a look at the code, if you want to see how it works. The important thing for our purposes is that, as you can see by comparing the triangular shaped histogram to the bell curve plotted by the black line, the population distribution doesn't look very much like a normal distribution at all. Then I provided the function with increasingly larger numbers of "participants" for each simulated experiment. As the size of $N$ increases, the sampling distribution of the mean looks increasingly normal, and by the time we reach a sample size of $N=8$ it's almost perfectly normal. In other words, as long as your sample size isn't tiny, the sampling distribution of the mean will be approximately normal no matter what your population distribution looks like!
 
 # In[10]:
 
@@ -465,8 +465,6 @@ import matplotlib.pyplot as plt
 # parameters of the beta
 a=2
 b=1
-
-
 
 def plotSamples(n):
     # create normal distribution with mean and standard deviation of the beta
