@@ -489,17 +489,21 @@ def plotSamples(n):
     sns.histplot(sample_means)
     ax2 = ax.twinx()
     sns.lineplot(x=x,y=y, ax=ax2, color='black')
-    ax.set(yticklabels=[])
-    ax2.set(yticklabels=[])
-    ax.set(ylabel=None)
-    ax2.set(ylabel=None)
-    ax.tick_params(left=False)
-    ax2.tick_params(right=False)
+    axes = [ax, ax2]
+    for ax in axes:
+      ax.set(yticklabels=[])
+    #ax2.set(yticklabels=[])
+      ax.set(ylabel=None)
+    #ax2.set(ylabel=None)
+      ax.tick_params(left=False)
+    #ax2.tick_params(right=False)
+    
+      ax.spines[['top', 'right']].set_visible(False)
+    #ax.spines['right'].set_visible(False)
+    #ax2.spines['top'].set_visible(False)
+    #ax2.spines['right'].set_visible(False)
+
     ax.set_title("Sample size = " + str(n))
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax2.spines['top'].set_visible(False)
-    ax2.spines['right'].set_visible(False)
 
     
 
