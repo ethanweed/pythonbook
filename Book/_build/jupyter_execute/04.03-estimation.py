@@ -311,7 +311,6 @@ for ax in axes:
     ax.spines[['right', 'top']].set_visible(False)
     
 
-ax.set(xlabel='IQ Score')
 
 
 
