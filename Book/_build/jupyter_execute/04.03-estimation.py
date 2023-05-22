@@ -265,7 +265,7 @@ df
 list(df['Sample Mean'])
 
 
-# What if I continued like this for 10,000 replications, and then drew a histogram? Using the magical powers of Python that's exactly what I did, and you can see the results in {numref}`IQ_samp_dist`. As this picture illustrates, the average of 5 IQ scores is usually between 90 and 110. But more importantly, what it highlights is that if we replicate an experiment over and over again, what we end up with is a *distribution* of sample means! This distribution has a special name in statistics: it's called the **_sampling distribution of the mean_**. 
+# What if I continued like this for 10,000 replications, and then drew a histogram? Using the magical powers of Python that's exactly what I did, and you can see the results in {numref}`fig-IQ_samp_dist`. As this picture illustrates, the average of 5 IQ scores is usually between 90 and 110. But more importantly, what it highlights is that if we replicate an experiment over and over again, what we end up with is a *distribution* of sample means! This distribution has a special name in statistics: it's called the **_sampling distribution of the mean_**. 
 
 # In[7]:
 
@@ -299,13 +299,11 @@ sns.lineplot(x=x,y=y, ax=ax2, color='black')
 axes=[ax, ax2]
 
 for ax in axes:
-    ax.set(xticklabels=[])
     ax.set(yticklabels=[])
     ax.set(ylabel=None)
     ax.set(xlabel='IQ Score')
     ax.tick_params(axis='both', 
                     which='both',
-                    bottom=False,
                     left=False,
                     right=False)
     ax.spines[['right', 'top']].set_visible(False)
