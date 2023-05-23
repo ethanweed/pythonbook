@@ -806,7 +806,7 @@ list(norm.ppf([.15, .85]))
 
 from scipy.stats import t
 N = 10000   # suppose our sample size is 10,000
-t.ppf([.025, 0.975], df = N-1)
+list(t.ppf([.025, 0.975], df = N-1))
 
 
 # But when $N$ is small, we get a much bigger number when we use the $t$ distribution:
@@ -816,7 +816,7 @@ t.ppf([.025, 0.975], df = N-1)
 
 from scipy.stats import t
 N = 10   # suppose our sample size is 10
-t.ppf([.025, 0.975], df = N-1)
+list(t.ppf([.025, 0.975], df = N-1))
 
 
 # There's nothing too mysterious about what's happening here. Bigger values mean that the confidence interval is wider, indicating that we're more uncertain about what the true value of $\mu$ actually is. When we use the $t$ distribution instead of the normal distribution, we get bigger numbers, indicating that we have more uncertainty. And why do we have that extra uncertainty? Well, because our estimate of the population standard deviation $\hat\sigma$ might be wrong! If it's wrong, it implies that we're a bit less sure about what our sampling distribution of the mean actually looks like... and this uncertainty ends up getting reflected in a wider confidence interval.  
@@ -824,9 +824,9 @@ t.ppf([.025, 0.975], df = N-1)
 # 
 # ### Interpreting a confidence interval
 # 
-# The hardest thing about confidence intervals is understanding what they *mean*. Whenever people first encounter confidence intervals, the first instinct is almost always to say that "there is a 95\% probabaility that the true mean lies inside the confidence interval". It's simple, and it seems to capture the common sense idea of what it means to say that I am "95\% confident". Unfortunately, it's not quite right. The intuitive definition relies very heavily on your own personal *beliefs* about the value of the population mean. I say that I am 95\% confident because those are my beliefs. In everyday life that's perfectly okay, but if you remember back to Section \@ref(probmeaning), you'll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase "95\% probability" is allowed to refer to a personal belief. However, confidence intervals are *not* Bayesian tools. Like everything else in this chapter, confidence intervals are *frequentist* tools, and if you are going to use frequentist methods then it's not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!
+# The hardest thing about confidence intervals is understanding what they *mean*. Whenever people first encounter confidence intervals, the first instinct is almost always to say that "there is a 95\% probabaility that the true mean lies inside the confidence interval". It's simple, and it seems to capture the common sense idea of what it means to say that I am "95\% confident". Unfortunately, it's not quite right. The intuitive definition relies very heavily on your own personal *beliefs* about the value of the population mean. I say that I am 95\% confident because those are my beliefs. In everyday life that's perfectly okay, but if you remember back to the section on [the meaning of probability](probmeaning), you'll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase "95\% probability" is allowed to refer to a personal belief. However, confidence intervals are *not* Bayesian tools. Like everything else in this chapter, confidence intervals are *frequentist* tools, and if you are going to use frequentist methods then it's not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!
 # 
-# Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the frequencies of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in Figure \@ref(fig:cirep), which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.
+# Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the *frequencies* of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in Figure \@ref(fig:cirep), which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment (top panel) and another 50 confidence intervals for a "measure 25 IQ scores" experiment (bottom panel). A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.
 
 # ```{r cirep, fig.cap="95% confidence intervals. The top (panel a) shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The dot marks the location of the sample mean, and the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true mean (i.e., 100), but the three intervals marked with asterisks do not. The lower graph (panel b) shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.", echo=FALSE}
 # knitr::include_graphics(file.path(projecthome, "img/estimation/confIntReplicated.png"))
@@ -874,6 +874,7 @@ for s, val in enumerate(no_mean):
 axes[0].vlines(x=range(1,51), ymin=lowers, ymax=uppers, color = highlight)
 axes[0].axhline(y=100, linestyle = "dashed")
 axes[0].plot()
+axes[0].set_title("Sample Size = " + str(n))
 
 
 n = 25
@@ -899,7 +900,26 @@ for s, val in enumerate(no_mean):
 axes[1].vlines(x=range(1,51), ymin=lowers, ymax=uppers, color = highlight)
 axes[1].axhline(y=100, linestyle = "dashed")
 axes[1].plot()
+axes[1].set_title("Sample Size = " + str(n))
 
+for ax in axes:
+      ax.set(ylabel=None)
+      ax.tick_params(left=False)    
+      ax.spines[['top', 'right']].set_visible(False)
+      ax.tick_params(axis='both', 
+                    which='both',
+                    left=False,
+                    right=False)
+
+
+#  ```{glue:figure} cirep-fig
+# :figwidth: 600px
+# :name: fig-cirep
+# 
+# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The doshed line marks the location of the sample mean, and the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true mean (i.e., 100), but the intervals in red do not. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.
+# 
+# ```
+# 
 
 # In[22]:
 
