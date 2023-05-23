@@ -708,6 +708,8 @@ axes[0].axhline(100, color = 'black', linestyle = "dashed")
 axes[1].axhline(15, color = 'black', linestyle = "dashed")
 axes[0].set_title("Sample Means")
 axes[1].set_title("Sample Standard Deviations")
+axes[0].spines[['top', 'right']].set_visible(False)
+axes[1].spines[['top', 'right']].set_visible(False)
 
 
 
