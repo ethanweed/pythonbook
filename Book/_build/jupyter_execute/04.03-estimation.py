@@ -838,7 +838,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
-random.seed=42
+random.seed=123
 
 n = 10
 
