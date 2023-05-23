@@ -826,7 +826,7 @@ list(t.ppf([.025, 0.975], df = N-1))
 # 
 # The hardest thing about confidence intervals is understanding what they *mean*. Whenever people first encounter confidence intervals, the first instinct is almost always to say that "there is a 95\% probabaility that the true mean lies inside the confidence interval". It's simple, and it seems to capture the common sense idea of what it means to say that I am "95\% confident". Unfortunately, it's not quite right. The intuitive definition relies very heavily on your own personal *beliefs* about the value of the population mean. I say that I am 95\% confident because those are my beliefs. In everyday life that's perfectly okay, but if you remember back to the section on [the meaning of probability](probmeaning), you'll notice that talking about personal belief and confidence is a Bayesian idea. Personally (speaking as a Bayesian) I have no problem with the idea that the phrase "95\% probability" is allowed to refer to a personal belief. However, confidence intervals are *not* Bayesian tools. Like everything else in this chapter, confidence intervals are *frequentist* tools, and if you are going to use frequentist methods then it's not appropriate to attach a Bayesian interpretation to them. If you use frequentist methods, you must adopt frequentist interpretations!
 # 
-# Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the *frequencies* of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in {numref}`fig-cirep`, which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment Panel A and another 50 confidence intervals for a "measure 25 IQ scores" experiment Panel B. A bit fortuitously, across the 100 replications that I simulated, it turned out that exactly 95 of them contained the true mean.
+# Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the *frequencies* of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in {numref}`fig-cirep`, which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment Panel A and another 50 confidence intervals for a "measure 25 IQ scores" experiment Panel B. 
 
 # In[21]:
 
@@ -838,7 +838,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
-random.seed=123
+random.seed=12345
 
 n = 10
 
