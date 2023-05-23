@@ -828,11 +828,6 @@ list(t.ppf([.025, 0.975], df = N-1))
 # 
 # Okay, so if that's not the right answer, what is? Remember what we said about frequentist probability: the only way we are allowed to make "probability statements" is to talk about a sequence of events, and to count up the *frequencies* of different kinds of events. From that perspective, the interpretation of a 95\% confidence interval must have something to do with replication. Specifically: if we replicated the experiment over and over again and computed a 95\% confidence interval for each replication, then 95\% of those *intervals* would contain the true mean. More generally, 95\% of all confidence intervals constructed using this procedure should contain the true population mean. This idea is illustrated in {numref}`fig-cirep`, which shows 50 confidence intervals constructed for a "measure 10 IQ scores" experiment Panel A and another 50 confidence intervals for a "measure 25 IQ scores" experiment Panel B. 
 
-# ```{r cirep, fig.cap="95% confidence intervals. The top (panel a) shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The dot marks the location of the sample mean, and the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true mean (i.e., 100), but the three intervals marked with asterisks do not. The lower graph (panel b) shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.", echo=FALSE}
-# knitr::include_graphics(file.path(projecthome, "img/estimation/confIntReplicated.png"))
-# 
-# ```
-
 # In[21]:
 
 
