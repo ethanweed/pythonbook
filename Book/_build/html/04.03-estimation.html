@@ -587,7 +587,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="estimating-unknown-quantities-from-a-sample">
 <span id="estimation"></span><h1><span class="section-number">11. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
-<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">Descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections &#64;ref(srs) through &#64;ref(samplesandclt) are focused on sampling theory, and Sections &#64;ref(pointestimates) and &#64;ref(ci) make use of sampling theory to discuss how statisticians think about estimation.</p>
+<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in the section on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections &#64;ref(srs) through &#64;ref(samplesandclt) are focused on sampling theory, and <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> and <a class="reference internal" href="#ci"><span class="std std-ref">confidence intervals</span></a> make use of sampling theory to discuss how statisticians think about estimation.</p>
 <div class="section" id="samples-populations-and-sampling">
 <h2><span class="section-number">11.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p>In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
@@ -706,7 +706,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                          <span class="mi">106</span> <span class="mi">101</span> <span class="mi">98</span> <span class="mi">80</span> <span class="mi">74</span> <span class="o">...</span> <span class="mi">107</span> <span class="mi">72</span> <span class="mi">100</span>
 </pre></div>
 </div>
-<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel B. As you can see, the histogram is <em>roughly</em> the right shape, but it’s a very crude approximation to the true population distribution shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel A. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <strong><em>sample statistics</em></strong> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I’ll talk about how you can <span class="xref myst">estimate population parameters</span> using your sample statistics and how to work out <a class="reference internal" href="#ci"><span class="std std-ref">how confident you are in your estimates</span></a> but before we get to that there’s a few more ideas in sampling theory that you need to know about.</p>
+<p>Each of these IQ scores is sampled from a normal distribution with mean 100 and standard deviation 15. So if I  plot a histogram of the sample, I get something like the one shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel B. As you can see, the histogram is <em>roughly</em> the right shape, but it’s a very crude approximation to the true population distribution shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel A. When I calculate the mean of my sample, I get a number that is fairly close to the population mean 100 but not identical. In this case, it turns out that the people in my sample have a mean IQ of 98.5, and the standard deviation of their IQ scores is 15.9. These <strong><em>sample statistics</em></strong> are properties of my data set, and although they are fairly similar to the true population values, they are not the same. In general, sample statistics are the things you can calculate from your data set, and the population parameters are the things you want to learn about. Later on in this chapter I’ll talk about how you can <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimate population parameters</span></a> using your sample statistics and how to work out <a class="reference internal" href="#ci"><span class="std std-ref">how confident you are in your estimates</span></a> but before we get to that there’s a few more ideas in sampling theory that you need to know about.</p>
 </div>
 </div>
 <div class="section" id="the-law-of-large-numbers">
@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  97.20080451959292  Standard deviation:  20.612042187824585
-100 samples. Mean:  99.22249832993487  Standard deviation:  16.26302997457752
-10000 samples. Mean:  100.07961656894864  Standard deviation:  15.004414552685594
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  89.46022837578143  Standard deviation:  13.993186720779319
+100 samples. Mean:  103.0649438455897  Standard deviation:  12.316404615854298
+10000 samples. Mean:  100.02965767603392  Standard deviation:  14.982033527995506
 </pre></div>
 </div>
 </div>
@@ -766,8 +766,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 86 120 118 103 113]
-Mean of simulated data:  108
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [101  93 100  70  93]
+Mean of simulated data:  91
 </pre></div>
 </div>
 </div>
@@ -782,8 +782,8 @@ Mean of simulated data:  108
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 94 107  99 111  98]
-Mean of simulated data:  101
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 80 102  73  81 125]
+Mean of simulated data:  92
 </pre></div>
 </div>
 </div>
@@ -836,93 +836,93 @@ Mean of simulated data:  101
   <tbody>
     <tr>
       <th>Replication 1</th>
-      <td>86</td>
-      <td>89</td>
-      <td>109</td>
-      <td>112</td>
-      <td>95</td>
-      <td>98.2</td>
+      <td>114</td>
+      <td>54</td>
+      <td>92</td>
+      <td>73</td>
+      <td>107</td>
+      <td>88.0</td>
     </tr>
     <tr>
       <th>Replication 2</th>
       <td>104</td>
-      <td>103</td>
-      <td>113</td>
-      <td>94</td>
-      <td>102</td>
-      <td>103.2</td>
+      <td>63</td>
+      <td>96</td>
+      <td>77</td>
+      <td>122</td>
+      <td>92.4</td>
     </tr>
     <tr>
       <th>Replication 3</th>
+      <td>112</td>
+      <td>91</td>
+      <td>86</td>
       <td>106</td>
-      <td>123</td>
-      <td>102</td>
-      <td>93</td>
-      <td>93</td>
-      <td>103.4</td>
+      <td>85</td>
+      <td>96.0</td>
     </tr>
     <tr>
       <th>Replication 4</th>
-      <td>96</td>
-      <td>107</td>
-      <td>85</td>
-      <td>112</td>
+      <td>94</td>
+      <td>94</td>
+      <td>92</td>
       <td>86</td>
-      <td>97.2</td>
-    </tr>
-    <tr>
-      <th>Replication 5</th>
-      <td>88</td>
-      <td>85</td>
-      <td>106</td>
-      <td>96</td>
-      <td>99</td>
+      <td>108</td>
       <td>94.8</td>
     </tr>
     <tr>
-      <th>Replication 6</th>
+      <th>Replication 5</th>
+      <td>121</td>
+      <td>100</td>
+      <td>104</td>
       <td>94</td>
-      <td>122</td>
-      <td>129</td>
-      <td>111</td>
-      <td>84</td>
-      <td>108.0</td>
+      <td>85</td>
+      <td>100.8</td>
+    </tr>
+    <tr>
+      <th>Replication 6</th>
+      <td>97</td>
+      <td>78</td>
+      <td>125</td>
+      <td>78</td>
+      <td>88</td>
+      <td>93.2</td>
     </tr>
     <tr>
       <th>Replication 7</th>
-      <td>103</td>
-      <td>120</td>
-      <td>94</td>
-      <td>107</td>
-      <td>101</td>
-      <td>105.0</td>
+      <td>96</td>
+      <td>88</td>
+      <td>62</td>
+      <td>91</td>
+      <td>116</td>
+      <td>90.6</td>
     </tr>
     <tr>
       <th>Replication 8</th>
-      <td>62</td>
-      <td>98</td>
-      <td>87</td>
-      <td>100</td>
-      <td>110</td>
-      <td>91.4</td>
+      <td>108</td>
+      <td>83</td>
+      <td>127</td>
+      <td>106</td>
+      <td>106</td>
+      <td>106.0</td>
     </tr>
     <tr>
       <th>Replication 9</th>
-      <td>89</td>
-      <td>112</td>
-      <td>127</td>
       <td>98</td>
-      <td>115</td>
-      <td>108.2</td>
+      <td>74</td>
+      <td>105</td>
+      <td>64</td>
+      <td>98</td>
+      <td>87.8</td>
     </tr>
     <tr>
       <th>Replication 10</th>
-      <td>60</td>
-      <td>102</td>
-      <td>87</td>
-      <td>110</td>
-      <td>117</td>
-      <td>95.2</td>
+      <td>96</td>
+      <td>104</td>
+      <td>86</td>
+      <td>84</td>
+      <td>115</td>
+      <td>97.0</td>
     </tr>
   </tbody>
 </table>
@@ -936,7 +936,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[98.2, 103.2, 103.4, 97.2, 94.8, 108.0, 105.0, 91.4, 108.2, 95.2]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[88.0, 92.4, 96.0, 94.8, 100.8, 93.2, 90.6, 106.0, 87.8, 97.0]
 </pre></div>
 </div>
 </div>
@@ -1220,7 +1220,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="section" id="estimating-population-parameters">
-<h2><span class="section-number">11.4. </span>Estimating population parameters<a class="headerlink" href="#estimating-population-parameters" title="Permalink to this headline">¶</a></h2>
+<span id="pointestimates"></span><h2><span class="section-number">11.4. </span>Estimating population parameters<a class="headerlink" href="#estimating-population-parameters" title="Permalink to this headline">¶</a></h2>
 <p>In all the IQ examples in the previous sections, we actually knew the population parameters ahead of time. As every undergraduate gets taught in their very first lecture on the measurement of intelligence, IQ scores are <em>defined</em> to have mean 100 and standard deviation 15. However, this is a bit of a lie. How do we know that IQ scores have a true population mean of 100? Well, we know this because the people who designed the tests have administered them to very large samples, and have then “rigged” the scoring rules so that their sample has mean 100. That’s not a bad thing of course: it’s an important part of designing a psychological measurement. However, it’s important to keep in mind that this theoretical mean of 100 only attaches to the population that the test designers used to design the tests. Good test designers will actually go to some lengths to provide “test norms” that can apply to lots of different populations (e.g., different age groups, nationalities etc).</p>
 <p>This is very handy, but of course almost every research project of interest involves looking at a different population of people to those used in the test norms. For instance, suppose you wanted to measure the effect of low level lead poisoning on cognitive functioning in Port Pirie, a South Australian industrial town with a lead smelter. Perhaps you decide that you want to compare IQ scores among people in Port Pirie to a comparable sample in Whyalla, a South Australian industrial town with a steel refinery. <a class="footnote-reference brackets" href="#note-hard" id="id5">3</a> Regardless of which town you’re thinking about, it doesn’t make a lot of sense simply to <em>assume</em> that the true population mean IQ is 100. No-one has, to my knowledge, produced sensible norming data that can automatically be applied to South Australian industrial towns. We’re going to have to <strong><em>estimate</em></strong> the population parameters from a sample of data. So how do we do this?</p>
 <div class="section" id="estimating-the-population-mean">
@@ -1479,7 +1479,7 @@ Mean of simulated data:  101
 <p>and so the formula for <span class="math notranslate nohighlight">\(\mbox{CI}_{70}\)</span> would be the same as the formula for <span class="math notranslate nohighlight">\(\mbox{CI}_{95}\)</span> except that we’d use 1.04 as our magic number rather than 1.96.</p>
 <div class="section" id="a-slight-mistake-in-the-formula">
 <h3><span class="section-number">11.5.1. </span>A slight mistake in the formula<a class="headerlink" href="#a-slight-mistake-in-the-formula" title="Permalink to this headline">¶</a></h3>
-<p>As usual, I lied. The formula that I’ve given above for the 95% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. Yet, in the section on <span class="xref myst">point estimates</span> I stressed the fact that we don’t actually <em>know</em> the true population parameters. Because we don’t know the true value of <span class="math notranslate nohighlight">\(\sigma\)</span>, we have to use an estimate of the population standard deviation <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the <span class="math notranslate nohighlight">\(t\)</span>-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When <span class="math notranslate nohighlight">\(N\)</span> is very large, we get pretty much the same value using <code class="docutils literal notranslate"><span class="pre">t.ppf()</span></code> that we would if we used <code class="docutils literal notranslate"><span class="pre">norm.ppf()</span></code>…</p>
+<p>As usual, I lied. The formula that I’ve given above for the 95% confidence interval is approximately correct, but I glossed over an important detail in the discussion. Notice my formula requires you to use the standard error of the mean, SEM, which in turn requires you to use the true population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. Yet, in the section on <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> I stressed the fact that we don’t actually <em>know</em> the true population parameters. Because we don’t know the true value of <span class="math notranslate nohighlight">\(\sigma\)</span>, we have to use an estimate of the population standard deviation <span class="math notranslate nohighlight">\(\hat{\sigma}\)</span> instead. This is pretty straightforward to do, but this has the consequence that we need to use the quantiles of the <span class="math notranslate nohighlight">\(t\)</span>-distribution rather than the normal distribution to calculate our magic number; and the answer depends on the sample size. When <span class="math notranslate nohighlight">\(N\)</span> is very large, we get pretty much the same value using <code class="docutils literal notranslate"><span class="pre">t.ppf()</span></code> that we would if we used <code class="docutils literal notranslate"><span class="pre">norm.ppf()</span></code>…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
@@ -1608,9 +1608,9 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[8, 23, 30, 44]
-[97.6106240376276, 91.67052317125658, 94.49460912025995, 92.77881246934292]
-[112.9493759623724, 100.56947682874343, 102.86539087974006, 102.66118753065707]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[23]
+[93.55805734399353]
+[106.04194265600647]
 </pre></div>
 </div>
 </div>
