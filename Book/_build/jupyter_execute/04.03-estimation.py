@@ -765,7 +765,7 @@ axes[1].spines[['top', 'right']].set_visible(False)
 
 
 from scipy.stats import norm
-norm.ppf([.025, 0.975])
+list(norm.ppf([.025, 0.975]))
 
 
 # Okay, so I lied earlier on. The more correct answer is that there is a 95\% chance that a normally-distributed quantity will fall within 1.96 standard deviations of the true mean. Next, recall that the standard deviation of the sampling distribution is referred to as the standard error, and the standard error of the mean is written as SEM. When we put all these pieces together, we learn that there is a 95\% probability that the sample mean $\bar{X}$ that we have actually observed lies within 1.96 standard errors of the population mean. Mathematically, we write this as:
@@ -791,7 +791,7 @@ norm.ppf([.025, 0.975])
 # In[18]:
 
 
-norm.ppf([.15, .85])
+list(norm.ppf([.15, .85]))
 
 
 # and so the formula for $\mbox{CI}_{70}$ would be the same as the formula for $\mbox{CI}_{95}$ except that we'd use 1.04 as our magic number rather than 1.96.
