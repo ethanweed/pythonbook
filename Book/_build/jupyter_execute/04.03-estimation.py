@@ -857,7 +857,7 @@ for i in range(1,51):
 
 x = range(1,51)
     
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
+fig, axes = plt.subplots(2, 1, figsize=(15, 5), sharey=False, sharex=False)
 fig.suptitle('Simulated IQ Data')
 
 
