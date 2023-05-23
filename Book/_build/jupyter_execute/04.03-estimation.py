@@ -510,13 +510,6 @@ def plotSamples(n):
 plotSamples(1)
 
 
-# ```{glue:figure} cltdemo1_fig
-# :figwidth: 600px
-# :name: fig-cltdemo1
-#   
-# ```
-# 
-
 # In[12]:
 
 
