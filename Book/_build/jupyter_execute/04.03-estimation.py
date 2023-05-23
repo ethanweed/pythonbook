@@ -573,9 +573,9 @@ plotSamples(8)
 
 # |Symbol      |What it's called                |Do we know what it is?            |
 # |:-----------|:-------------------------------|:---------------------------------|
-# |$\bar{X}$   |Sample mean                     |Yes. Calculated from the raw data |
+# |$\bar{X}$   |Sample mean                     |Yes - Calculated from the raw data |
 # |$\mu$       |True population mean            |Almost never known for sure       |
-# |$\hat{\mu}$ |Estimate of the population mean |Yes. Identical to the sample mean |
+# |$\hat{\mu}$ |Estimate of the population mean |Yes - Identical to the sample mean |
 
 # ### Estimating the population standard deviation
 # 
@@ -702,7 +702,7 @@ fig.suptitle('Simulated IQ Data')
 
 sns.lineplot(data=df, x='N', y='SampleMeans',ax=axes[0], linestyle = "dashdot")
 sns.lineplot(data=df, x='N', y='SampleSDs',ax=axes[1], linestyle = "dashdot")
-axes[0].set(ylim=(0,110))
+axes[0].set(ylim=(0,120))
 axes[1].set(ylim=(0,17))
 axes[0].axhline(100, color = 'black', linestyle = "dashed")
 axes[1].axhline(15, color = 'black', linestyle = "dashed")
