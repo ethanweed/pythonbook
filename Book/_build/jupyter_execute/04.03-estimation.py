@@ -621,13 +621,14 @@ plt.axvline(15, color = 'black', linestyle = "dashed")
 ax.set(yticklabels=[])
 ax.set(ylabel=None)
 ax.set(xlabel='Sample Standard Deviation')
+ax.set_title("Population Standard Deviation")
 ax.tick_params(left=False)    
 ax.spines[['top', 'right']].set_visible(False)
 ax.tick_params(axis='both', 
                     which='both',
                     left=False,
                     right=False)
-ax.set_title("Population Standard Deviation")
+
 
 
 
