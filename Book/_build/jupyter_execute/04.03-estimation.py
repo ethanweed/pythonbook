@@ -571,7 +571,7 @@ plotSamples(8)
 # 
 # In this example, estimating the unknown poulation parameter is straightforward. I calculate the sample mean, and I use that as my **_estimate of the population mean_**. It's pretty simple, and in the next section I'll explain the statistical justification for this intuitive answer. However, for the moment what I want to do is make sure you recognise that the sample statistic and the estimate of the population parameter are conceptually different things. A sample statistic is a description of your data, whereas the estimate is a guess about the population. With that in mind, statisticians often use different notation to refer to them. For instance, if true population mean is denoted $\mu$, then we would use $\hat\mu$ to refer to our estimate of the population mean. In contrast, the sample mean is denoted $\bar{X}$ or sometimes $m$. However, in simple random samples, the estimate of the population mean is identical to the sample mean: if I observe a sample mean of $\bar{X} = 98.5$, then my estimate of the population mean is also $\hat\mu = 98.5$. To help keep the notation clear, here's a handy table:
 
-# |Symbol      |What it's calle                 |Do we know what it is?            |
+# |Symbol      |What it's called                |Do we know what it is?            |
 # |:-----------|:-------------------------------|:---------------------------------|
 # |$\bar{X}$   |Sample mean                     |Yes  calculated from the raw data |
 # |$\mu$       |True population mean            |Almost never known for sure       |
