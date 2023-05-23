@@ -838,7 +838,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
-random.seed=12345
+random.seed=42
 
 n = 10
 
@@ -875,7 +875,7 @@ axes[0].plot()
 axes[0].set_title("Sample Size = " + str(n))
 
 
-n = 25
+n = 50
 
 uppers = []
 lowers = []
