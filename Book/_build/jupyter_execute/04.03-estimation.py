@@ -573,9 +573,9 @@ plotSamples(8)
 
 # |Symbol      |What it's called                |Do we know what it is?            |
 # |:-----------|:-------------------------------|:---------------------------------|
-# |$\bar{X}$   |Sample mean                     |Yes  calculated from the raw data |
+# |$\bar{X}$   |Sample mean                     |Yes. Calculated from the raw data |
 # |$\mu$       |True population mean            |Almost never known for sure       |
-# |$\hat{\mu}$ |Estimate of the population mean |Yes  identical to the sample mean |
+# |$\hat{\mu}$ |Estimate of the population mean |Yes. Identical to the sample mean |
 
 # ### Estimating the population standard deviation
 # 
@@ -587,7 +587,7 @@ plotSamples(8)
 # 20
 # ```
 # 
-# This is a perfectly legitimate sample, even if it does have a sample size of $N=1$. It has a sample mean of 20, and because every observation in this sample is equal to the sample mean (obviously!) it has a sample standard deviation of 0. As a description of the *sample* this seems quite right: the sample contains a single observation and therefore there is no variation observed within the sample. A sample standard deviation of $s = 0$ is the right answer here. But as an estimate of the *population* standard deviation, it feels completely insane, right? Admittedly, you and I don't know anything at all about what "cromulence" is, but we know something about data: the only reason that we don't see any variability in the *sample* is that the sample is too small to display any variation! So, if you have a sample size of $N=1$, it *feels* like the right answer is just to say "no idea at all". 
+# This is a perfectly legitimate sample, even if it does have a sample size of $N=1$. It has a sample mean of 20, and because every observation in this sample is equal to the sample mean (obviously!) It has a sample standard deviation of 0. As a description of the *sample* this seems quite right: the sample contains a single observation and therefore there is no variation observed within the sample. A sample standard deviation of $s = 0$ is the right answer here. But as an estimate of the *population* standard deviation, it feels completely insane, right? Admittedly, you and I don't know anything at all about what "cromulence" is, but we know something about data: the only reason that we don't see any variability in the *sample* is that the sample is too small to display any variation! So, if you have a sample size of $N=1$, it *feels* like the right answer is just to say "no idea at all". 
 # 
 # Notice that you *don't* have the same intuition when it comes to the sample mean and the population mean. If forced to make a best guess about the population mean, it doesn't feel completely insane to guess that the population mean is 20. Sure, you probably wouldn't feel very confident in that guess, because you have only the one observation to work with, but it's still the best guess you can make. 
 # 
@@ -614,9 +614,20 @@ for i in range(1,10000):
 
 # plot a histogram of the distribution of sample standard deviations, together with dashed line indicating 
 # population standard deviation
-fig, ax = plt.subplots()
-sns.histplot(sample_sds, ax=ax, binwidth=4)
+#fig, ax = plt.subplots()
+ax=sns.histplot(sample_sds, binwidth=4)
 plt.axvline(15, color = 'black', linestyle = "dashed")
+
+ax.set(yticklabels=[])
+ax.set(ylabel=None)
+ax.set(xlabel='Sample Standard Deviation')
+ax.tick_params(left=False)    
+ax.spines[['top', 'right']].set_visible(False)
+ax.tick_params(axis='both', 
+                    which='both',
+                    left=False,
+                    right=False)
+ax.set_title("Population Standard Deviation")
 
 
 
