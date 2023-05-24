@@ -848,6 +848,7 @@ import random
 
 random.seed=42
 
+
 ns = [10, 25]
 labels = ['A', 'B']
 
@@ -859,16 +860,16 @@ fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
 for f, ax in enumerate(axes):
     uppers = []
     lowers = []
+    sample_means = []
 
     for i in range(1,51):
         simdata = np.random.normal(loc=100,scale=15,size=ns[f]).astype(int)
-        sample_mean = statistics.mean(simdata)
-        sample_means.append(sample_mean)
+        sample_means.append(statistics.mean(simdata))
         ci_int = t.interval(alpha=0.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
         uppers.append(ci_int[1])
         lowers.append(ci_int[0])
 
-    x = range(1,51)
+    x = list(range(1,51))
         
     too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
     too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
@@ -878,7 +879,8 @@ for f, ax in enumerate(axes):
         highlight[val-1] = 'red'
 
 
-    ax.vlines(x=range(1,51), ymin=lowers, ymax=uppers, color = highlight)
+    
+    ax.vlines(x=x, ymin=lowers, ymax=uppers, color = highlight)
     ax.axhline(y=100, linestyle = "dashed")
     ax.plot()
     ax.set_title("Sample Size = " + str(ns[f]))
@@ -892,16 +894,22 @@ for f, ax in enumerate(axes):
                     right=False)
 
 
+# In[22]:
+
+
+len(list(range(1,51)))
+
+
 #  ```{glue:figure} cirep-fig
 # :figwidth: 600px
 # :name: fig-cirep
 # 
-# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The doshed line marks the location of the sample mean, and the line shows the 95% confidence interval. In total 47 of the 50 confidence intervals do contain the true mean (i.e., 100), but the intervals in red do not. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.
+# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The doshed line marks the location of the sample mean, and the line shows the 95% confidence interval. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.
 # 
 # ```
 # 
 
-# In[22]:
+# In[23]:
 
 
 nomean_up = []
@@ -924,7 +932,7 @@ print(nomean_up)
 # 
 # To produce the confidence intervals for the plots of simulated IQ data above, I used the ``t``, ``sem``, and ``mean``functions available in the ``scipy.stats``package. Another option is to use the ``tconfint_mean `` function from the ``statsmodels`` package. As you can see, both methods give nearly identical results. Method 1 is good insofar is at requires you to explicitly specify the desired confidence interval, the degrees of freedom, and the standard error of the mean. Method takes care of all of this for us, which makes it easier, but a bit more of a black box.
 
-# In[23]:
+# In[24]:
 
 
 # Sample data:
@@ -952,7 +960,7 @@ print("Method 2: ", ci_2)
 # 
 # There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
 
-# In[24]:
+# In[25]:
 
 
 import seaborn as sns
@@ -962,7 +970,7 @@ tips.head()
 
 # To compare the mean total bill for lunches and dinners for smokers and non-smokers, we can use ``sns.pointplot``. Notice that you can specifiy the size of desired confidence interval. By convention, people tend to use a 95% confidence interval, and this is the default in seaborn, but it is possible to specify a different one. Just make sure you report what size confidence interval you are showing! In the figure to the right, below, I have used a 40% confidence interval, but I probably wouldn't do that in a paper, because it is likely to confuse or mislead readers who expect a 95% CI.
 
-# In[25]:
+# In[26]:
 
 
 import seaborn as sns
@@ -980,7 +988,7 @@ axes[1].set_title("40% Confidence Interval")
 
 # For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with ``ci=None``, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.
 
-# In[26]:
+# In[27]:
 
 
 import seaborn as sns
@@ -994,7 +1002,7 @@ sns.regplot(x="total_bill", y="tip", data=tips, ci = None, ax=axes[1])
 
 # For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoint, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one above showing confidence intervals for simulated IQ data, you may need to dive into ``matplotlib``, which allows much more customization than is available simply using seaborn.
 
-# In[27]:
+# In[28]:
 
 
 import seaborn as sns
