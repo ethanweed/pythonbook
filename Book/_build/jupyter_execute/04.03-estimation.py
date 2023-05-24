@@ -728,7 +728,9 @@ for s, ax in enumerate(axes):
 # 
 # The fix to this systematic bias turns out to be very simple. Here's how it works. Before tackling the standard deviation, let's look at the variance. If you recall from the section on [measures of variability](variability), the sample variance is defined to be the average of the squared deviations from the sample mean. That is:
 # 
-# $s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2$  
+# $$
+# s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
+# $$  
 # 
 # The sample variance $s^2$ is a biased estimator of the population variance $\sigma^2$. But as it turns out, we only need to make a tiny tweak to transform this into an unbiased estimator. All we have to do is divide by $N-1$ rather than by $N$. If we do that, we obtain the following formula:
 # 
