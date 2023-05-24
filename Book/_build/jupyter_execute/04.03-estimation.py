@@ -650,6 +650,7 @@ import statistics
 import numpy as np
 import seaborn as sns
 import pandas as pd
+from matplotlib import pyplot as plt
 
 
 
@@ -706,6 +707,11 @@ axes[0].set_title("Sample Means")
 axes[1].set_title("Sample Standard Deviations")
 axes[0].spines[['top', 'right']].set_visible(False)
 axes[1].spines[['top', 'right']].set_visible(False)
+
+labels = ['A', 'B']
+for s, ax in enumerate(axes):
+    axes[s].text(-0.1, 1, labels[s], transform=axes[s].transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
+
 
 
 
