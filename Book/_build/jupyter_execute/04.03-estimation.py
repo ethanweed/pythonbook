@@ -848,53 +848,61 @@ import random
 
 random.seed=42
 
-
+n_experiments = 50
 ns = [10, 25]
 labels = ['A', 'B']
 
-population_mean = [0]*50
+population_mean = [0]*n_experiments
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
 #  fig.suptitle('Simulated IQ Data')
+
 
 for f, ax in enumerate(axes):
     uppers = []
     lowers = []
     sample_means = []
+    
+    x = list(range(0,n_experiments))
 
-    for i in range(1,51):
+    for i in x:
         simdata = np.random.normal(loc=100,scale=15,size=ns[f]).astype(int)
         sample_means.append(statistics.mean(simdata))
-        ci_int = t.interval(alpha=0.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
-        uppers.append(ci_int[1])
-        lowers.append(ci_int[0])
+        ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
+        uppers.append(ci[1])
+        lowers.append(ci[0])
 
-    x = list(range(1,51))
+    
         
     too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
     too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
     no_mean = too_high + too_low
-    highlight = ['blue']*50
+    no_means.append(no_mean)
+    highlight = ['blue']*n_experiments
     for s, val in enumerate(no_mean):
-        highlight[val-1] = 'red'
+        highlight[val] = 'red'
 
-
-    
+    sns.pointplot(x=x, y=sample_means, join=False, ax=ax)
+    ax.set_ylim([70,130])
     ax.vlines(x=x, ymin=lowers, ymax=uppers, color = highlight)
     ax.axhline(y=100, linestyle = "dashed")
-    ax.plot()
+    #ax.plot()
     ax.set_title("Sample Size = " + str(ns[f]))
     ax.set(ylabel=None)
     ax.text(-0.1, 1, labels[f], transform=ax.transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
-    ax.tick_params(left=False)    
+    ax.tick_params(left=False)
+    
     ax.spines[['top', 'right']].set_visible(False)
     ax.tick_params(axis='both', 
                     which='both',
                     left=False,
-                    right=False)
+                    right=False,
+                    bottom=False,
+                    labelbottom=False)
 
 
-# In[22]:
+
+# In[34]:
 
 
 len(list(range(1,51)))
@@ -909,7 +917,7 @@ len(list(range(1,51)))
 # ```
 # 
 
-# In[23]:
+# In[312]:
 
 
 nomean_up = []
@@ -924,7 +932,7 @@ print(nomean_up)
 
 # The critical difference here is that the Bayesian claim makes a probability statement about the population mean (i.e., it refers to our uncertainty about the population mean), which is not allowed under the frequentist interpretation of probability because you can't "replicate" a population! In the frequentist claim, the population mean is fixed and no probabilistic claims can be made about it. Confidence intervals, however, are repeatable so we can replicate experiments. Therefore a frequentist is allowed to talk about the probability that the *confidence interval* (a random variable) contains the true mean; but is not allowed to talk about the probability that the *true population mean* (not a repeatable event) falls within the confidence interval. 
 # 
-# I know that this seems a little pedantic, but it does matter. It matters because the difference in interpretation leads to a difference in the mathematics. There is a Bayesian alternative to confidence intervals, known as *credible intervals*. In most situations credible intervals are quite similar to confidence intervals, but in other cases they are drastically different. As promised, though, I'll talk more about the Bayesian perspective in Chapter \@ref(bayes).
+# I know that this seems a little pedantic, but it does matter. It matters because the difference in interpretation leads to a difference in the mathematics. There is a Bayesian alternative to confidence intervals, known as *credible intervals*. In most situations credible intervals are quite similar to confidence intervals, but in other cases they are drastically different. As promised, though, I'll talk more about the Bayesian perspective in a [later chapter](bayes).
 # 
 # 
 # ### Calculating confidence intervals in Python
@@ -932,11 +940,11 @@ print(nomean_up)
 # 
 # To produce the confidence intervals for the plots of simulated IQ data above, I used the ``t``, ``sem``, and ``mean``functions available in the ``scipy.stats``package. Another option is to use the ``tconfint_mean `` function from the ``statsmodels`` package. As you can see, both methods give nearly identical results. Method 1 is good insofar is at requires you to explicitly specify the desired confidence interval, the degrees of freedom, and the standard error of the mean. Method takes care of all of this for us, which makes it easier, but a bit more of a black box.
 
-# In[24]:
+# In[47]:
 
 
 # Sample data:
-data = range(1,10)
+data = range(1,25)
 
 # Method 1:
 import numpy as np
@@ -960,7 +968,7 @@ print("Method 2: ", ci_2)
 # 
 # There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
 
-# In[25]:
+# In[341]:
 
 
 import seaborn as sns
@@ -970,7 +978,7 @@ tips.head()
 
 # To compare the mean total bill for lunches and dinners for smokers and non-smokers, we can use ``sns.pointplot``. Notice that you can specifiy the size of desired confidence interval. By convention, people tend to use a 95% confidence interval, and this is the default in seaborn, but it is possible to specify a different one. Just make sure you report what size confidence interval you are showing! In the figure to the right, below, I have used a 40% confidence interval, but I probably wouldn't do that in a paper, because it is likely to confuse or mislead readers who expect a 95% CI.
 
-# In[26]:
+# In[4]:
 
 
 import seaborn as sns
@@ -988,7 +996,7 @@ axes[1].set_title("40% Confidence Interval")
 
 # For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with ``ci=None``, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.
 
-# In[27]:
+# In[6]:
 
 
 import seaborn as sns
@@ -1002,7 +1010,7 @@ sns.regplot(x="total_bill", y="tip", data=tips, ci = None, ax=axes[1])
 
 # For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoint, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one above showing confidence intervals for simulated IQ data, you may need to dive into ``matplotlib``, which allows much more customization than is available simply using seaborn.
 
-# In[28]:
+# In[8]:
 
 
 import seaborn as sns
