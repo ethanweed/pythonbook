@@ -17,23 +17,79 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+from scipy.stats import t, sem
+import numpy as np
+import seaborn as sns
 import pandas as pd
-df = pd.DataFrame(
-    {'Person 1': np.random.normal(loc=100,scale=15,size=5).astype(int),
-     'Person 2': np.random.normal(loc=100,scale=15,size=5).astype(int),
-     'Person 3': np.random.normal(loc=100,scale=15,size=5).astype(int),
-     'Person 4': np.random.normal(loc=100,scale=15,size=5).astype(int),
-     'Person 5': np.random.normal(loc=100,scale=15,size=5).astype(int),
-     'Sample Mean': 
-    }) 
+import matplotlib.pyplot as plt
+import random
 
-df
+random.seed=42
+
+n_experiments = 50
+ns = [10, 25]
+labels = ['A', 'B']
+
+population_mean = [0]*n_experiments
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
+#  fig.suptitle('Simulated IQ Data')
+
+
+for f, ax in enumerate(axes):
+    uppers = []
+    lowers = []
+    sample_means = []
+    
+    x = list(range(0,n_experiments))
+
+    for i in x:
+        simdata = np.random.normal(loc=100,scale=15,size=ns[f]).astype(int)
+        sample_means.append(statistics.mean(simdata))
+        ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
+        uppers.append(ci[1])
+        lowers.append(ci[0])
+
+    
+        
+    too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
+    too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
+    no_mean = too_high + too_low
+    no_means.append(no_mean)
+    highlight = ['blue']*n_experiments
+    for s, val in enumerate(no_mean):
+        highlight[val] = 'red'
+
+    sns.pointplot(x=x, y=sample_means, join=False, ax=ax)
+    ax.set_ylim([70,130])
+    ax.vlines(x=x, ymin=lowers, ymax=uppers, color = highlight)
+    ax.axhline(y=100, linestyle = "dashed")
+    #ax.plot()
+    ax.set_title("Sample Size = " + str(ns[f]))
+    ax.set(ylabel=None)
+    ax.text(-0.1, 1, labels[f], transform=ax.transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
+    ax.tick_params(left=False)
+    
+    ax.spines[['top', 'right']].set_visible(False)
+    ax.tick_params(axis='both', 
+                    which='both',
+                    left=False,
+                    right=False,
+                    bottom=False,
+                    labelbottom=False)
+
+
 ------------------
 
-[0;36m  Input [0;32mIn [5][0;36m[0m
-[0;31m    'Sample Mean':[0m
-[0m                 ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m expression expected after dictionary key and ':'
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Input [0;32mIn [21][0m, in [0;36m<cell line: 20>[0;34m()[0m
+[1;32m     37[0m too_low [38;5;241m=[39m [x[s] [38;5;28;01mfor[39;00m s, val [38;5;129;01min[39;00m [38;5;28menumerate[39m(uppers) [38;5;28;01mif[39;00m val [38;5;241m<[39m [38;5;241m100[39m]
+[1;32m     38[0m no_mean [38;5;241m=[39m too_high [38;5;241m+[39m too_low
+[0;32m---> 39[0m [43mno_means[49m[38;5;241m.[39mappend(no_mean)
+[1;32m     40[0m highlight [38;5;241m=[39m [[38;5;124m'[39m[38;5;124mblue[39m[38;5;124m'[39m][38;5;241m*[39mn_experiments
+[1;32m     41[0m [38;5;28;01mfor[39;00m s, val [38;5;129;01min[39;00m [38;5;28menumerate[39m(no_mean):
 
-SyntaxError: expression expected after dictionary key and ':' (1377021315.py, line 8)
+[0;31mNameError[0m: name 'no_means' is not defined
+NameError: name 'no_means' is not defined
 
