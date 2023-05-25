@@ -846,13 +846,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
-np.random.seed=42
+#set a random number generator for reproducibility
+rng = np.random.default_rng(42)
 
+#define simulation parameters
 n_experiments = 50
 ns = [10, 25]
+
+
+#prepare labels for the figure panels
 labels = ['A', 'B']
 
-population_mean = [0]*n_experiments
+#population_mean = [0]*n_experiments
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
 #  fig.suptitle('Simulated IQ Data')
@@ -866,7 +871,7 @@ for f, ax in enumerate(axes):
     x = list(range(0,n_experiments))
 
     for i in x:
-        simdata = np.random.normal(loc=100,scale=15,size=ns[f]).astype(int)
+        simdata = rng.normal(loc=100,scale=15,size=ns[f]).astype(int)
         sample_means.append(statistics.mean(simdata))
         ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
         uppers.append(ci[1])
@@ -905,7 +910,7 @@ for f, ax in enumerate(axes):
 # :figwidth: 600px
 # :name: fig-cirep
 # 
-# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The doshed line marks the location of the sample mean, and the line shows the 95% confidence interval. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people.
+# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The blue points mark the location of the sample mean, and the lines shows the 95% confidence interval around each mean. The dashed line in the middle shows the true population mean, which is 100. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people. Confidence intervals which are colored red
 # 
 # ```
 # 
