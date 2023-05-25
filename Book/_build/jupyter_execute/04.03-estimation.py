@@ -853,23 +853,27 @@ rng = np.random.default_rng(42)
 n_experiments = 50
 ns = [10, 25]
 
-
 #prepare labels for the figure panels
 labels = ['A', 'B']
 
-#population_mean = [0]*n_experiments
-
+# prepare the figure, with two subplots
 fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
-#  fig.suptitle('Simulated IQ Data')
+fig.suptitle('Simulated IQ Data')
 
-
+# simulate the two sets of experiments, and make the figures.
 for f, ax in enumerate(axes):
+
+    # collect the upper and lower CI bounds, and the sample means for each experiment
     uppers = []
     lowers = []
     sample_means = []
     
+    # for the x-axis, make a list of incrementing numbers
     x = list(range(0,n_experiments))
 
+    # generate simulated data for each experiment by sampling from a normal distribution
+    # with the parameters defined above
+    # store the sample means and CI bounds in the lists above
     for i in x:
         simdata = rng.normal(loc=100,scale=15,size=ns[f]).astype(int)
         sample_means.append(statistics.mean(simdata))
@@ -878,7 +882,8 @@ for f, ax in enumerate(axes):
         lowers.append(ci[0])
 
     
-        
+    # find the experiments where the CI did not capture the population mean
+    # and mark these with red. Color the others blue. 
     too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
     too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
     no_mean = too_high + too_low
@@ -886,16 +891,15 @@ for f, ax in enumerate(axes):
     for s, val in enumerate(no_mean):
         highlight[val] = 'red'
 
+    # plot the data and format the plots
     sns.pointplot(x=x, y=sample_means, join=False, ax=ax)
     ax.set_ylim([70,130])
     ax.vlines(x=x, ymin=lowers, ymax=uppers, color = highlight)
     ax.axhline(y=100, linestyle = "dashed")
-    #ax.plot()
     ax.set_title("Sample Size = " + str(ns[f]))
     ax.set(ylabel=None)
     ax.text(-0.1, 1, labels[f], transform=ax.transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
     ax.tick_params(left=False)
-    
     ax.spines[['top', 'right']].set_visible(False)
     ax.tick_params(axis='both', 
                     which='both',
@@ -910,7 +914,7 @@ for f, ax in enumerate(axes):
 # :figwidth: 600px
 # :name: fig-cirep
 # 
-# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The blue points mark the location of the sample mean, and the lines shows the 95% confidence interval around each mean. The dashed line in the middle shows the true population mean, which is 100. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people. Confidence intervals which are colored red
+# 95% confidence intervals. Panel A shows 50 simulated replications of an experiment in which we measure the IQs of 10 people. The blue points mark the location of the sample mean, and the lines shows the 95% confidence interval around each mean. The dashed line in the middle shows the true population mean, which is 100. Panel B shows a similar simulation, but this time we simulate replications of an experiment that measures the IQs of 25 people. Confidence intervals which are colored red indicate experiments in which the confidence interval around the sample mean did not capture the population mean.
 # 
 # ```
 # 
