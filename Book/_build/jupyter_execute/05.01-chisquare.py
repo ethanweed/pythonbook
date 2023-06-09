@@ -653,7 +653,7 @@ expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
 stats
 
 
-# Wow! Look at all that.... stuff!  `pingouin` doesn't hold back with the information it provides you with, and it puts it all in a nice table, too. In fact, there is so much here that we're not going to get into all of it (although I will spend a bit of time explaining what "cramer" is, below. For now, the important thing is the first row, which gives us the same values for the chi2 statistic, the degrees of freedom, and the $p$-value that we got from `scipy.stats.chi2_contingency()`. So you can take your pick: you'll get the same answer no matter which one you use. In fact, `pinguoin` is actually using `scipy` to do the dirty work of running the calculations: it's just wrapping them up with a nice little bow for you.
+# Wow! Look at all that.... stuff!  `pingouin` doesn't hold back with the information it provides you with, and it puts it all in a nice table, too. In fact, there is so much here that we're not going to get into all of it (although I will spend a bit of time explaining what ["cramer"](chisqeffectsize) is, below. For now, the important thing is the first row, which gives us the same values for the chi2 statistic, the degrees of freedom, and the $p$-value that we got from `scipy.stats.chi2_contingency()`. So you can take your pick: you'll get the same answer no matter which one you use. In fact, `pinguoin` is actually using `scipy` to do the dirty work of running the calculations: it's just wrapping them up with a nice little bow for you.
 
 # This output gives us enough information to write up the result:
 # 
@@ -672,7 +672,7 @@ stats
 # (yates)=
 # ## The continuity correction
 # 
-# Okay, time for a little bit of a digression. I've been lying to you a little bit so far. There's a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It's called the "continuity correction", or sometimes the **_Yates correction_**. Remember what I pointed out earlier: the $\chi^2$ test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large $N$. One problem with this is that it often doesn't quite work, especially when you've only got 1 degree of freedom (e.g., when you're doing a test of independence on a $2 \times 2$ contingency table). The main reason for this is that the true sampling distribution for the $X^2$ statistic is actually discrete (because you're dealing with categorical data!) but the $\chi^2$ distribution is continuous. This can introduce systematic problems. Specifically, when $N$ is small and when $df=1$, the goodness of fit statistic tends to be "too big", meaning that you actually have a bigger $\alpha$ value than you think (or, equivalently, the $p$ values are a bit too small). Yates {cite:ps}`Yates1934` suggested a simple fix, in which you redefine the goodness of fit statistic as:
+# Okay, time for a little bit of a digression. I've been lying to you a little bit so far. You probably expected that by now, and you were right. There's a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It's called the "continuity correction", or sometimes the **_Yates correction_**. Remember what I pointed out earlier: the $\chi^2$ test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large $N$. One problem with this is that it often doesn't quite work, especially when you've only got 1 degree of freedom (e.g., when you're doing a test of independence on a $2 \times 2$ contingency table). The main reason for this is that the true sampling distribution for the $X^2$ statistic is actually discrete (because you're dealing with categorical data!) but the $\chi^2$ distribution is continuous. This can introduce systematic problems. Specifically, when $N$ is small and when $df=1$, the goodness of fit statistic tends to be "too big", meaning that you actually have a bigger $\alpha$ value than you think (or, equivalently, the $p$ values are a bit too small). Yates {cite:ps}`Yates1934` suggested a simple fix, in which you redefine the goodness of fit statistic as:
 # 
 # $$
 # X^2 = \sum_{i} \frac{(|E_i - O_i| - 0.5)^2}{E_i}
@@ -686,7 +686,7 @@ stats
 # 
 # if we were using `scipy` or 
 # 
-# `expected, observed_pingouin, stats = pg.chi2_independence(df, x='species', y='choice', correction = True)`
+# `expected, observed, stats = pg.chi2_independence(df, x='species', y='choice', correction = True)`
 # 
 # if were using `pingouin`. Then again, in our specific case, it wouldn't make any difference, because in our test we had two degrees of freedom, and the correction is only run when there is only one degree of freedom.
 
