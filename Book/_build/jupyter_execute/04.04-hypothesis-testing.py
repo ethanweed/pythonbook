@@ -180,8 +180,7 @@ for p in ax.patches:
             p.set_color("lightgrey")
 
 
-        
-glue("espcritical-fig", ax, display=False)
+sns.despine()
 
 
 # ```{glue:figure} espcritcal-fig
