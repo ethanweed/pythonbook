@@ -587,7 +587,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="estimating-unknown-quantities-from-a-sample">
 <span id="estimation"></span><h1><span class="section-number">11. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
-<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in the section on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts. The sections on <a class="reference internal" href="#srs"><span class="std std-ref">defining a population</span></a> through <a class="reference internal" href="#samplingdists"><span class="std std-ref">Sampling distributions and the central limit theorem</span></a> are focused on sampling theory, and <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> and <a class="reference internal" href="#ci"><span class="std std-ref">confidence intervals</span></a> make use of sampling theory to discuss how statisticians think about estimation.</p>
+<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in the section on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts. The sections on <a class="reference internal" href="#srs"><span class="std std-ref">Defining a population</span></a> through <a class="reference internal" href="#samplingdists"><span class="std std-ref">Sampling distributions and the central limit theorem</span></a> are focused on sampling theory, and <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> and <a class="reference internal" href="#ci"><span class="std std-ref">confidence intervals</span></a> make use of sampling theory to discuss how statisticians think about estimation.</p>
 <div class="section" id="samples-populations-and-sampling">
 <h2><span class="section-number">11.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p id="srs">In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
@@ -711,7 +711,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="the-law-of-large-numbers">
 <h2><span class="section-number">11.2. </span>The law of large numbers<a class="headerlink" href="#the-law-of-large-numbers" title="Permalink to this headline">¶</a></h2>
-<p>In the previous section I showed you the results of one fictitious IQ experiment with a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
+<p id="lawlargenumbers">In the previous section I showed you the results of one fictitious IQ experiment with a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
 <p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data in plotted in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel B, I used the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size. The histogram of this much larger sample is shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.2</span></a> panel C. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one.</p>
 <p>Let’s take a look at the how close our estimates of the true population distribution are, if we simply change the sampling size. Below, I have created three samples from a normal distribution with a mean of 100, and a standard deviation of 15. The only thing that changes is the number of samples drawn. Because these are random samples from the normal distribution, the exact values of the estimated mean and standard deviation may change slightly each time the code is run, but overall tendency will always be for larger samples to give a better estimate of the true parameters of the poulation distribution:</p>
 <div class="cell docutils container">
@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  101.35766433002233  Standard deviation:  9.933013512471977
-100 samples. Mean:  100.53331892351716  Standard deviation:  16.85669558999824
-10000 samples. Mean:  99.90220292717295  Standard deviation:  14.93216195070695
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  104.15730614670605  Standard deviation:  10.865665757435016
+100 samples. Mean:  101.45963618637742  Standard deviation:  15.144671419869567
+10000 samples. Mean:  99.86371774747641  Standard deviation:  15.168709024407303
 </pre></div>
 </div>
 </div>
@@ -766,8 +766,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 99  91 121  98 103]
-Mean of simulated data:  102
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [114  89 114  92 100]
+Mean of simulated data:  101
 </pre></div>
 </div>
 </div>
@@ -782,8 +782,8 @@ Mean of simulated data:  102
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [104  94 120  98  73]
-Mean of simulated data:  97
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [98 94 86 94 73]
+Mean of simulated data:  89
 </pre></div>
 </div>
 </div>
@@ -836,93 +836,93 @@ Mean of simulated data:  97
   <tbody>
     <tr>
       <th>Replication 1</th>
-      <td>72</td>
-      <td>111</td>
-      <td>97</td>
-      <td>102</td>
-      <td>115</td>
-      <td>99.4</td>
+      <td>107</td>
+      <td>91</td>
+      <td>90</td>
+      <td>119</td>
+      <td>94</td>
+      <td>100.2</td>
     </tr>
     <tr>
       <th>Replication 2</th>
-      <td>125</td>
-      <td>80</td>
-      <td>123</td>
-      <td>111</td>
-      <td>87</td>
-      <td>105.2</td>
+      <td>90</td>
+      <td>134</td>
+      <td>105</td>
+      <td>92</td>
+      <td>110</td>
+      <td>106.2</td>
     </tr>
     <tr>
       <th>Replication 3</th>
-      <td>110</td>
-      <td>88</td>
-      <td>111</td>
-      <td>96</td>
-      <td>104</td>
-      <td>101.8</td>
+      <td>95</td>
+      <td>87</td>
+      <td>109</td>
+      <td>109</td>
+      <td>91</td>
+      <td>98.2</td>
     </tr>
     <tr>
       <th>Replication 4</th>
-      <td>113</td>
-      <td>104</td>
-      <td>90</td>
-      <td>108</td>
-      <td>98</td>
-      <td>102.6</td>
+      <td>119</td>
+      <td>97</td>
+      <td>124</td>
+      <td>86</td>
+      <td>105</td>
+      <td>106.2</td>
     </tr>
     <tr>
       <th>Replication 5</th>
-      <td>87</td>
-      <td>122</td>
-      <td>93</td>
-      <td>100</td>
-      <td>102</td>
-      <td>100.8</td>
+      <td>101</td>
+      <td>89</td>
+      <td>101</td>
+      <td>107</td>
+      <td>91</td>
+      <td>97.8</td>
     </tr>
     <tr>
       <th>Replication 6</th>
-      <td>96</td>
-      <td>104</td>
-      <td>114</td>
-      <td>94</td>
-      <td>84</td>
-      <td>98.4</td>
+      <td>83</td>
+      <td>91</td>
+      <td>116</td>
+      <td>107</td>
+      <td>89</td>
+      <td>97.2</td>
     </tr>
     <tr>
       <th>Replication 7</th>
-      <td>85</td>
-      <td>93</td>
-      <td>96</td>
-      <td>105</td>
-      <td>101</td>
-      <td>96.0</td>
+      <td>102</td>
+      <td>94</td>
+      <td>118</td>
+      <td>106</td>
+      <td>103</td>
+      <td>104.6</td>
     </tr>
     <tr>
       <th>Replication 8</th>
-      <td>100</td>
-      <td>109</td>
-      <td>106</td>
-      <td>86</td>
-      <td>72</td>
-      <td>94.6</td>
+      <td>94</td>
+      <td>110</td>
+      <td>97</td>
+      <td>113</td>
+      <td>101</td>
+      <td>103.0</td>
     </tr>
     <tr>
       <th>Replication 9</th>
-      <td>111</td>
-      <td>76</td>
-      <td>115</td>
-      <td>102</td>
-      <td>89</td>
-      <td>98.6</td>
+      <td>107</td>
+      <td>104</td>
+      <td>82</td>
+      <td>94</td>
+      <td>135</td>
+      <td>104.4</td>
     </tr>
     <tr>
       <th>Replication 10</th>
-      <td>97</td>
-      <td>103</td>
-      <td>96</td>
-      <td>100</td>
-      <td>127</td>
-      <td>104.6</td>
+      <td>73</td>
+      <td>104</td>
+      <td>112</td>
+      <td>114</td>
+      <td>109</td>
+      <td>102.4</td>
     </tr>
   </tbody>
 </table>
@@ -936,7 +936,7 @@ Mean of simulated data:  97
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[99.4, 105.2, 101.8, 102.6, 100.8, 98.4, 96.0, 94.6, 98.6, 104.6]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[100.2, 106.2, 98.2, 106.2, 97.8, 97.2, 104.6, 103.0, 104.4, 102.4]
 </pre></div>
 </div>
 </div>
@@ -1804,7 +1804,7 @@ Method 2:  (9.514149929408497, 15.485850070591503)
 <p>In this chapter I’ve covered two main topics. The first half of the chapter talks about sampling theory, and the second half talks about how we can use sampling theory to construct estimates of the population parameters. The section breakdown looks like this:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#srs"><span class="std std-ref">Basic ideas</span></a> about samples, sampling and populations</p></li>
-<li><p>Statistical theory of sampling: the <span class="xref myst">law of large numbers</span>, <a class="reference internal" href="#samplingdists"><span class="std std-ref">sampling distributions and the central limit theorem</span></a>.</p></li>
+<li><p>Statistical theory of sampling: the <a class="reference internal" href="#lawlargenumbers"><span class="std std-ref">law of large numbers</span></a>, <a class="reference internal" href="#samplingdists"><span class="std std-ref">sampling distributions and the central limit theorem</span></a>.</p></li>
 <li><p><a class="reference internal" href="#pointestimates"><span class="std std-ref">Estimating means and standard deviations</span></a></p></li>
 <li><p><a class="reference internal" href="#ci"><span class="std std-ref">Estimating a confidence interval</span></a></p></li>
 </ul>
