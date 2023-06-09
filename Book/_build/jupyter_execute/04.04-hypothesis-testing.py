@@ -389,9 +389,6 @@ for p in ax.patches:
             p.set_color("lightgrey")
 
 
-        
-#glue("esp-alternative-fig", ax, display=False)
-
 
 # ```{glue:figure} esp-alternative-fig
 # :figwidth: 600px
