@@ -117,7 +117,7 @@ data = random.binomial(n=100, p=.5, size=10000)
 
 
 esp = sns.histplot(data, bins=20,binwidth=0.5)
-esp.set(xlim=(20,80))
+esp.set(xlim=(0,100))
 
 sns.despine()
 
@@ -170,10 +170,10 @@ data = random.binomial(n=100, p=.5, size=10000)
 ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Critical regions for a two-sided test")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(10, 580))
 ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
-ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(60, 580))
+ax.set(xlim=(0,100))
 for p in ax.patches:
     if p.get_x() >= 40:
         if p.get_x() <= 60:
@@ -255,7 +255,7 @@ ax.set_title("Critical region for a one-sided test")
 #ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
 ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
 ax.annotate("upper critical region \n (5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
+ax.set(xlim=(0,100))
 for p in ax.patches:
         if p.get_x() <= 58:
             p.set_color("lightgrey")
@@ -377,10 +377,10 @@ data = random.binomial(n=100, p=.55, size=10000)
 ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Sampling distribution for X if $\\theta = 0.55$")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(10, 580))
 ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
-ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(60, 580))
+ax.set(xlim=(0,100))
 for p in ax.patches:
     if p.get_x() >= 40:
         if p.get_x() <= 60:
@@ -417,16 +417,17 @@ data = random.binomial(n=100, p=.7, size=10000)
 ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Sampling distribution for X if $\\theta = 0.7$")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(22, 580))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(5, 580))
 ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
 ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
-ax.set(xlim=(20,80))
+ax.set(xlim=(0,100))
 for p in ax.patches:
     if p.get_x() >= 40:
         if p.get_x() <= 60:
             p.set_color("lightgrey")
 
 
+sns.despine()
 
 
 # ```{glue:figure} esp-alternative-fig2
@@ -461,7 +462,7 @@ ax.set_title("Power Function for the Test (N=100)")
 ax.set(xlabel='True value of $\\theta$', ylabel='Probablility of rejecting the Null')
 
 
-glue("powerfunction-fig", ax, display=False)
+sns.despine()
 
 
 # ```{glue:figure} powerfunction-fig
@@ -517,7 +518,7 @@ for n in size:
 ax = sns.lineplot(x = size, y = power)
 ax.set(xlabel = 'Sample Size, N', ylabel = 'Probablility of rejecting the Null')
 
-glue("powerfunctionsample-fig", ax, display=False)
+sns.despine()
 
 
 # ```
@@ -582,9 +583,3 @@ glue("powerfunctionsample-fig", ax, display=False)
 # 
 # 
 # Later in the book, in the section on [Bayesian statistics](bayes), I'll revisit the theory of null hypothesis tests from a Bayesian perspective, and introduce a number of new tools that you can use if you aren't particularly fond of the orthodox approach. But for now, though, we're done with the abstract statistical theory, and we can start discussing specific data analysis tools.
-
-# In[ ]:
-
-
-
-
