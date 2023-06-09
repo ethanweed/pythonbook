@@ -170,7 +170,7 @@ data = random.binomial(n=100, p=.5, size=10000)
 ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Critical regions for a two-sided test")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
-ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(10, 580))
+ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(5, 580))
 ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
 ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(60, 580))
 ax.set(xlim=(0,100))
@@ -418,8 +418,8 @@ ax = sns.histplot(data, bins=20,binwidth=.5, color="black")
 ax.set_title("Sampling distribution for X if $\\theta = 0.7$")
 ax.annotate("", xy=(40, 500), xytext=(30, 500), arrowprops=dict(arrowstyle="<-"))
 ax.annotate("lower critical region \n (2.5% of the distribution)", xy=(40, 600), xytext=(5, 580))
-ax.annotate("", xy=(70, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
-ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(55, 580))
+ax.annotate("", xy=(80, 500), xytext=(60, 500), arrowprops=dict(arrowstyle="->"))
+ax.annotate("upper critical region \n (2.5% of the distribution)", xy=(70, 500), xytext=(80, 580))
 ax.set(xlim=(0,100))
 for p in ax.patches:
     if p.get_x() >= 40:
@@ -583,3 +583,9 @@ sns.despine()
 # 
 # 
 # Later in the book, in the section on [Bayesian statistics](bayes), I'll revisit the theory of null hypothesis tests from a Bayesian perspective, and introduce a number of new tools that you can use if you aren't particularly fond of the orthodox approach. But for now, though, we're done with the abstract statistical theory, and we can start discussing specific data analysis tools.
+
+# In[ ]:
+
+
+
+
