@@ -5,10 +5,11 @@
 # # Estimating unknown quantities from a sample
 # 
 #  
-# At the start of the last chapter I highlighted the critical distinction between *descriptive statistics* and *inferential statistics*. As discussed in the section on [descriptive statistics](descriptives), the role of descriptive statistics is to concisely summarise what we *do* know. In contrast, the purpose of inferential statistics is to "learn what we do not know from what we do". Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two "big ideas": estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I'm going to witter on about sampling theory first because estimation theory doesn't make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts Sections \@ref(srs) through \@ref(samplesandclt) are focused on sampling theory, and [estimating population parameters](pointestimates) and [confidence intervals](ci) make use of sampling theory to discuss how statisticians think about estimation.
+# At the start of the last chapter I highlighted the critical distinction between *descriptive statistics* and *inferential statistics*. As discussed in the section on [descriptive statistics](descriptives), the role of descriptive statistics is to concisely summarise what we *do* know. In contrast, the purpose of inferential statistics is to "learn what we do not know from what we do". Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two "big ideas": estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I'm going to witter on about sampling theory first because estimation theory doesn't make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts. [](srs) through [](samplingdists) are focused on sampling theory, and [estimating population parameters](pointestimates) and [confidence intervals](ci) make use of sampling theory to discuss how statisticians think about estimation.
 # 
 # 
 # ## Samples, populations and sampling
+# (srs)=
 # 
 # In the prelude to Part I discussed the riddle of induction, and highlighted the fact that *all* learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where **_sampling theory_** comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about "making inferences" the way statisticians think about it, we need to be a bit more explicit about what it is that we're drawing inferences *from* (the sample) and what it is that we're drawing inferences *about* (the population).  
 # 
@@ -1023,7 +1024,7 @@ sns.despine()
 # In this chapter I've covered two main topics. The first half of the chapter talks about sampling theory, and the second half talks about how we can use sampling theory to construct estimates of the population parameters. The section breakdown looks like this:
 # 
 # - [Basic ideas](srs) about samples, sampling and populations 
-# - Statistical theory of sampling: the [law of large numbers](lawlargenumbers), [sampling distributions and the central limit theorem](samplesandclt).
+# - Statistical theory of sampling: the [law of large numbers](lawlargenumbers), [sampling distributions and the central limit theorem](samplingdists).
 # - [Estimating means and standard deviations](pointestimates)
 # - [Estimating a confidence interval](ci)
 # 
