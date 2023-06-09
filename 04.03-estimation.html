@@ -587,7 +587,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="estimating-unknown-quantities-from-a-sample">
 <span id="estimation"></span><h1><span class="section-number">11. </span>Estimating unknown quantities from a sample<a class="headerlink" href="#estimating-unknown-quantities-from-a-sample" title="Permalink to this headline">¶</a></h1>
-<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in the section on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts. <span class="xref myst"></span> through <a class="reference internal" href="#samplingdists"><span class="std std-ref">Sampling distributions and the central limit theorem</span></a> are focused on sampling theory, and <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> and <a class="reference internal" href="#ci"><span class="std std-ref">confidence intervals</span></a> make use of sampling theory to discuss how statisticians think about estimation.</p>
+<p>At the start of the last chapter I highlighted the critical distinction between <em>descriptive statistics</em> and <em>inferential statistics</em>. As discussed in the section on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a>, the role of descriptive statistics is to concisely summarise what we <em>do</em> know. In contrast, the purpose of inferential statistics is to “learn what we do not know from what we do”. Now that we have a foundation in probability theory, we are in a good position to think about the problem of statistical inference. What kinds of things would we like to learn about? And how do we learn them? These are the questions that lie at the heart of inferential statistics, and they are traditionally divided into two “big ideas”: estimation and hypothesis testing. The goal in this chapter is to introduce the first of these big ideas, estimation theory, but I’m going to witter on about sampling theory first because estimation theory doesn’t make sense until you understand sampling. As a consequence, this chapter divides naturally into two parts. <a class="reference internal" href="#srs"><span class="std std-ref">Defining a population</span></a> through <a class="reference internal" href="#samplingdists"><span class="std std-ref">Sampling distributions and the central limit theorem</span></a> are focused on sampling theory, and <a class="reference internal" href="#pointestimates"><span class="std std-ref">estimating population parameters</span></a> and <a class="reference internal" href="#ci"><span class="std std-ref">confidence intervals</span></a> make use of sampling theory to discuss how statisticians think about estimation.</p>
 <div class="section" id="samples-populations-and-sampling">
 <h2><span class="section-number">11.1. </span>Samples, populations and sampling<a class="headerlink" href="#samples-populations-and-sampling" title="Permalink to this headline">¶</a></h2>
 <p id="srs">In the prelude to Part I discussed the riddle of induction, and highlighted the fact that <em>all</em> learning requires you to make assumptions. Accepting that this is true, our first task to come up with some fairly general assumptions about data that make sense. This is where <strong><em>sampling theory</em></strong> comes in. If probability theory is the foundation upon which all statistical theory builds, sampling theory is the frame around which you can build the rest of the house. Sampling theory plays a huge role in specifying the assumptions upon which your statistical inferences rely. And in order to talk about “making inferences” the way statisticians think about it, we need to be a bit more explicit about what it is that we’re drawing inferences <em>from</em> (the sample) and what it is that we’re drawing inferences <em>about</em> (the population).</p>
@@ -730,9 +730,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  95.28554064769641  Standard deviation:  8.931067120406507
-100 samples. Mean:  101.16227374938539  Standard deviation:  14.963266400790777
-10000 samples. Mean:  100.37745365447712  Standard deviation:  14.89614630139732
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  108.53170501285769  Standard deviation:  19.08077232639916
+100 samples. Mean:  98.92256720118921  Standard deviation:  14.418684623911822
+10000 samples. Mean:  99.78894864256901  Standard deviation:  14.851666763128268
 </pre></div>
 </div>
 </div>
@@ -766,8 +766,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 75  79 113 105 132]
-Mean of simulated data:  100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [104 110 112  86 101]
+Mean of simulated data:  102
 </pre></div>
 </div>
 </div>
@@ -782,8 +782,8 @@ Mean of simulated data:  100
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 99 106  98  75 116]
-Mean of simulated data:  98
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 99 100  82  83 122]
+Mean of simulated data:  97
 </pre></div>
 </div>
 </div>
@@ -836,93 +836,93 @@ Mean of simulated data:  98
   <tbody>
     <tr>
       <th>Replication 1</th>
-      <td>107</td>
+      <td>75</td>
+      <td>94</td>
       <td>100</td>
-      <td>89</td>
-      <td>73</td>
-      <td>101</td>
-      <td>94.0</td>
+      <td>78</td>
+      <td>107</td>
+      <td>90.8</td>
     </tr>
     <tr>
       <th>Replication 2</th>
-      <td>95</td>
-      <td>80</td>
-      <td>93</td>
-      <td>118</td>
-      <td>113</td>
-      <td>99.8</td>
+      <td>86</td>
+      <td>106</td>
+      <td>102</td>
+      <td>91</td>
+      <td>77</td>
+      <td>92.4</td>
     </tr>
     <tr>
       <th>Replication 3</th>
-      <td>106</td>
-      <td>102</td>
-      <td>109</td>
-      <td>70</td>
-      <td>94</td>
-      <td>96.2</td>
+      <td>104</td>
+      <td>100</td>
+      <td>87</td>
+      <td>100</td>
+      <td>96</td>
+      <td>97.4</td>
     </tr>
     <tr>
       <th>Replication 4</th>
-      <td>106</td>
-      <td>94</td>
-      <td>119</td>
+      <td>79</td>
+      <td>91</td>
       <td>104</td>
-      <td>104</td>
-      <td>105.4</td>
+      <td>128</td>
+      <td>110</td>
+      <td>102.4</td>
     </tr>
     <tr>
       <th>Replication 5</th>
-      <td>95</td>
-      <td>111</td>
-      <td>95</td>
-      <td>120</td>
-      <td>111</td>
-      <td>106.4</td>
+      <td>103</td>
+      <td>116</td>
+      <td>106</td>
+      <td>106</td>
+      <td>103</td>
+      <td>106.8</td>
     </tr>
     <tr>
       <th>Replication 6</th>
-      <td>92</td>
-      <td>100</td>
-      <td>112</td>
-      <td>117</td>
-      <td>100</td>
-      <td>104.2</td>
+      <td>82</td>
+      <td>101</td>
+      <td>90</td>
+      <td>101</td>
+      <td>106</td>
+      <td>96.0</td>
     </tr>
     <tr>
       <th>Replication 7</th>
-      <td>108</td>
-      <td>100</td>
-      <td>100</td>
-      <td>73</td>
-      <td>108</td>
-      <td>97.8</td>
+      <td>105</td>
+      <td>109</td>
+      <td>95</td>
+      <td>87</td>
+      <td>115</td>
+      <td>102.2</td>
     </tr>
     <tr>
       <th>Replication 8</th>
-      <td>95</td>
-      <td>101</td>
-      <td>98</td>
-      <td>90</td>
-      <td>114</td>
-      <td>99.6</td>
+      <td>92</td>
+      <td>105</td>
+      <td>117</td>
+      <td>112</td>
+      <td>109</td>
+      <td>107.0</td>
     </tr>
     <tr>
       <th>Replication 9</th>
-      <td>84</td>
-      <td>72</td>
-      <td>108</td>
-      <td>93</td>
-      <td>83</td>
-      <td>88.0</td>
+      <td>99</td>
+      <td>120</td>
+      <td>91</td>
+      <td>98</td>
+      <td>119</td>
+      <td>105.4</td>
     </tr>
     <tr>
       <th>Replication 10</th>
-      <td>83</td>
-      <td>121</td>
-      <td>97</td>
-      <td>114</td>
-      <td>112</td>
-      <td>105.4</td>
+      <td>109</td>
+      <td>104</td>
+      <td>99</td>
+      <td>98</td>
+      <td>81</td>
+      <td>98.2</td>
     </tr>
   </tbody>
 </table>
@@ -936,7 +936,7 @@ Mean of simulated data:  98
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[94.0, 99.8, 96.2, 105.4, 106.4, 104.2, 97.8, 99.6, 88.0, 105.4]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[90.8, 92.4, 97.4, 102.4, 106.8, 96.0, 102.2, 107.0, 105.4, 98.2]
 </pre></div>
 </div>
 </div>
