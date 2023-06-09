@@ -29,7 +29,7 @@ df
 
 # As you can see, the `cards` data frame contains three variables, an `id` variable that assigns a unique identifier to each participant, and the two variables `choice_1` and `choice_2` that indicate the card suits that people chose. Here's the first few entries in the data frame:
 
-# In[2]:
+# In[3]:
 
 
 df.head()
@@ -37,7 +37,7 @@ df.head()
 
 # For the moment, let's just focus on the first choice that people made. We'll use the `value_counts()` function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called `observed`, for reasons that will become clear very soon:
 
-# In[3]:
+# In[4]:
 
 
 observed = df['choice_1'].value_counts()
@@ -97,7 +97,7 @@ observed
 
 # Maybe what I should do is store the $P$ list in Python as well, since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this panads series `probabilities`:
 
-# In[4]:
+# In[5]:
 
 
 # make dictionary of values
@@ -122,7 +122,7 @@ probabilities
 # 
 # This is pretty easy to calculate in Python:
 
-# In[5]:
+# In[6]:
 
 
 N = 200 #sample size
@@ -142,7 +142,7 @@ expected
 
 # The same calculations can be done in Python, using our `expected` and `observed` variables:
 
-# In[6]:
+# In[7]:
 
 
 observed-expected
@@ -150,7 +150,7 @@ observed-expected
 
 # Regardless of whether we do the calculations by hand or whether we do them in Python, it's clear that people chose more hearts and fewer clubs than the null hypothesis predicted. However, a moment's thought suggests that these raw differences aren't quite what we're looking for. Intuitively, it feels like it's just as bad when the null hypothesis predicts too few observations (which is what happened with hearts) as it is when it predicts too many (which is what happened with clubs). So it's a bit weird that we have a negative number for clubs and a positive number for hearts. One easy way to fix this is to square everything, so that we now calculate the squared differences, $(E_i - O_i)^2$. As before, we could do this by hand, but it's easier to do it in Python...
 
-# In[7]:
+# In[8]:
 
 
 (observed - expected)**2
@@ -158,7 +158,7 @@ observed-expected
 
 # Now we're making progress. What we've got now is a collection of numbers that are big whenever the null hypothesis makes a bad prediction (clubs and hearts), but are small whenever it makes a good one (diamonds and spades). Next, for some technical reasons that I'll explain in a moment, let's also divide all these numbers by the expected frequency $E_i$, so we're actually calculating $\frac{(E_i-O_i)^2}{E_i}$. Since $E_i = 50$ for all categories in our example, it's not a very interesting calculation, but let's do it anyway. The Python command becomes:
 
-# In[8]:
+# In[9]:
 
 
 (observed - expected)**2 / expected
@@ -166,7 +166,7 @@ observed-expected
 
 # In effect, what we've got here are four different "error" scores, each one telling us how big a "mistake" the null hypothesis made when we tried to use it to predict our observed frequencies. So, in order to convert this into a useful test statistic, one thing we could do is just add these numbers up. The result is called the **_goodness of fit_** statistic, conventionally referred to either as $X^2$ or GOF. We can calculate it using this command in Python:
 
-# In[9]:
+# In[10]:
 
 
 sum((observed - expected)**2/expected)
@@ -200,7 +200,7 @@ sum((observed - expected)**2/expected)
 
 # When I introduced the chi-square distribution in [other useful distributions](otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking {numref}`fig-manychi` you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
-# In[10]:
+# In[1]:
 
 
 from myst_nb import glue
@@ -232,7 +232,6 @@ fig = sns.lineplot(x= "x", y= "y",
              data=df)
 
 sns.despine()
-glue("manychi_fig", fig, display=False)
 
 
 #  ```{glue:figure} manychi_fig
@@ -252,7 +251,7 @@ glue("manychi_fig", fig, display=False)
 # 
 # The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of $X^2$ would lead us to reject the null hypothesis. As we saw earlier, large values of $X^2$ imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of $X^2$ imply that it's actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if $X^2$ is bigger than the critical value we reject the null; but if $X^2$ is smaller than this value we retain the null. In other words, to use the language we introduced in the chapter on [hypothesis testing](hypothesis-testing), the chi-squared goodness of fit test is always a **_one-sided test_**. Right, so all we have to do is figure out what this critical value is. And it's pretty straightforward. If we want our test to have significance level of $\alpha = .05$ (that is, we are willing to tolerate a Type I error rate of 5\%), then we have to choose our critical value so that there is only a 5\% chance that $X^2$ could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in {numref}`fig-goftest`.
 
-# In[11]:
+# In[13]:
 
 
 import seaborn as sns
@@ -281,7 +280,6 @@ fig.set(xlabel = 'Value of the GOF Statistic', ylabel='')
 
 sns.despine()
 
-glue("goftest-fig", fig, display=False)
 
 
 # ```{glue:figure} goftest-fig
@@ -294,7 +292,7 @@ glue("goftest-fig", fig, display=False)
 
 # Ah, but -- I hear you ask -- how do I calculate the 95th percentile of a chi-squared distribution with $k-1$ degrees of freedom? If only Python had some function, called... oh, I don't know, chi2 percent, or chi2 percent point ... that would let you calculate this percentile. What about the "chi2 percent point function", `chi2.ppf()`, hmm?  Doesn't that sound like it might do the trick? Like this...
 
-# In[12]:
+# In[14]:
 
 
 from scipy.stats import chi2
@@ -303,7 +301,7 @@ round(chi2.ppf(0.95, 3),2)
 
 # So if our $X^2$ statistic is bigger than 7.81 or so, then we can reject the null hypothesis. Since we actually calculated that before (i.e., $X^2 = 8.44$), we know that we can reject the null. If we want an exact $p$-value, we can calculate it using the `chisquare()` function from `scipy.stats`:
 
-# In[13]:
+# In[15]:
 
 
 from scipy.stats import chisquare
@@ -318,7 +316,7 @@ chisquare(f_obs = observed, f_exp = expected)
 # 
 # Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we're typing too many things into the magic computing box. And I *hate* typing. Unfortunately, to my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with `chisquare` from `scipy.stats`. If we don't supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the `chisquare` function, like so:
 
-# In[14]:
+# In[16]:
 
 
 import pandas as pd
@@ -336,7 +334,7 @@ print("p = ", round(ans[1],3))
 # 
 # At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is *not* that all categories are equally likely. For instance, let's suppose that someone had made the theoretical prediction that people should choose red cards 60\% of the time, and black cards 40\% of the time (I've no idea why you'd predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30\% of the choices to be hearts, 30\% to be diamonds, 20\% to be spades and 20\% to be clubs. This seems like a silly theory to me, and it's pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:
 
-# In[15]:
+# In[17]:
 
 
 # make dictionary of values
@@ -352,7 +350,7 @@ nullProbs
 
 # Now we have explicitly specified our null hypothesis in terms of probabilities. There is one more step, though, because `chisquare` expects the counts in the observed and "expected" data to add up to the same thing; otherwise there is no way for it to compare them. So, to convert our null hypothesis probabilities to count values, we need to multiply them by the total number of items counted in our observed data (which in the case of the `cards` data was 200, remember?) Once that is taken care of, we can go ahead and run the test:
 
-# In[16]:
+# In[18]:
 
 
 import pandas as pd
@@ -432,7 +430,7 @@ print("p = ", round(ans[1],3))
 
 # The other day I was watching an animated documentary examining the quaint customs of the natives of the planet *Chapek 9*. Apparently, in order to gain access to their capital city, a visitor must prove that they're a robot, not a human. In order to determine whether or not visitor is human, they ask whether the visitor prefers puppies, flowers or large, properly formatted data files. "Pretty clever," I thought to myself "but what if humans and robots have the same preferences? That probably wouldn't be a very good test then, would it?" As it happens, I got my hands on the testing data that the civil authorities of *Chapek 9* used to check this. It turns out that what they did was very simple... they found a bunch of robots and a bunch of humans and asked them what they preferred. I saved their data in a file called `chapek9.csv`, which I can now load and have a quick look at:
 
-# In[17]:
+# In[1]:
 
 
 import pandas as pd
@@ -442,7 +440,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Da
 df.head()
 
 
-# In[18]:
+# In[5]:
 
 
 df.describe()
@@ -450,7 +448,7 @@ df.describe()
 
 # In total there are 180 entries in the data frame, one for each person (counting both robots and humans as "people") who was asked to make a choice. Specifically, there's 93 humans and 87 robots; and overwhelmingly the preferred choice is the data file. However, these summaries don't address the question we're interested in. To do that, we need a more detailed description of the data. What we want to do is look at the `choices` broken down *by* `species`. That is, we need to [cross-tabulate]freqtables) the data. There's quite a few ways to do this, as we've seen, but since our data are stored in a data frame, it's convenient to use the `crosstab()` method from `pandas`.
 
-# In[19]:
+# In[13]:
 
 
 pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
@@ -458,7 +456,7 @@ pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
 
 # That's more or less what we're after. If set `margins=` to `True`, then we can get the row and column totals as well (which is convenient for the purposes of explaining the statistical tests):
 
-# In[20]:
+# In[10]:
 
 
 pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
@@ -572,7 +570,7 @@ pd.crosstab(index=df["choice"], columns=df["species"],margins=True)
 # 
 # Calculating $\chi^2$ test of independence with `scipy.stats` is fairly straightforward, although like most of what you get with `scipy`, there aren't a lot of frills. Just like with the goodness-of-fit test, you start by calculating a frequency table. Before, we used the `value_counts()` method to find the frequency of the different suits drawn in the `cards` data. Since we have two columns of data (choices by robots and choices by humans), we can use the `crosstab` function from `pandas` to do the work, and we can store the results in a variable called `observations`:
 
-# In[21]:
+# In[23]:
 
 
 import pandas as pd
@@ -583,7 +581,7 @@ observations
 
 # Now that we have a frequency table, we can use the `chi2_contingency` function from `scipy.stats` to crunch the numbers:
 
-# In[22]:
+# In[41]:
 
 
 from scipy.stats import chi2_contingency
@@ -606,7 +604,7 @@ print("expected = ", ex)
 # 
 # Unlike `scipy.stats.chi2_contingency`, `pingouin` doesn't require you to build a frequency table first; you can just plug your raw `pandas` dataframe in, and tell it which columns you would like it to work with. Our data is already in a dataframe called `df`, so we can simply write:
 
-# In[23]:
+# In[27]:
 
 
 import pingouin as pg
@@ -617,7 +615,7 @@ expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
 # As you can see, `pingouin` calculates the expected frequencies, the observed frequencies, and all the relevant statistics directly from the raw data in the dataframe. We can start by comparing the expected frequencies with the ones we calculated with `scipy`, and the observed frequencies we calculated "manually"
 # :
 
-# In[24]:
+# In[40]:
 
 
 print("scipy's calculation of expected frequencies:")
@@ -635,7 +633,7 @@ print(expected)
 
 # Yup, the values are the same; `pingouin` just makes them a little easier to read. And if we check the observed values:
 
-# In[25]:
+# In[35]:
 
 
 observed_manual = pd.crosstab(index=df["choice"], columns=df["species"],margins=False)
@@ -648,7 +646,7 @@ print(observed_pingouin)
 
 # Again, the numbers are the same. So that's comforting. Now let's get to the good bit: the statistics!
 
-# In[26]:
+# In[38]:
 
 
 expected, observed, stats = pg.chi2_independence(df, x='species', y='choice')
@@ -731,7 +729,7 @@ stats
 # 
 # What should you do if your cell counts are too small, but you'd still like to test the null hypothesis that the two variables are independent? One answer would be "collect more data", but that's far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let's suppose that we're analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.[^note10] Unfortunately for the scientist (but rather fortunately for the general populace), it's actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The `salem.csv` file illustrates the point:
 
-# In[27]:
+# In[43]:
 
 
 import pandas as pd
@@ -740,7 +738,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Da
 df.head()
 
 
-# In[28]:
+# In[46]:
 
 
 pd.crosstab(index=df["happy"], columns=df["on.fire"],margins=False)
@@ -748,7 +746,7 @@ pd.crosstab(index=df["happy"], columns=df["on.fire"],margins=False)
 
 # Looking at this data, you'd be hard pressed not to suspect that people not on fire are more likely to be happy than people on fire. However, the chi-square test makes this very hard to test because of the small sample size. If I try to do so, Python gives me a warning message:
 
-# In[29]:
+# In[48]:
 
 
 import pingouin as pd
@@ -780,7 +778,7 @@ stats
 # 
 # [^note11]: Not surprisingly, the Fisher exact test is motivated by Fisher's interpretation of a $p$-value, not Neyman's!
 
-# In[30]:
+# In[52]:
 
 
 import pandas as pd
@@ -843,7 +841,7 @@ print("p = ", pvalue)
 # 
 # Now that you know what the McNemar test is all about, lets actually run one. The `agpp.csv` file contains the raw data that I discussed previously, so let's have a look at it:
 
-# In[31]:
+# In[53]:
 
 
 df = pd.read_csv('https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/agpp.csv')
@@ -852,7 +850,7 @@ df.head()
 
 # The `df` data frame contains three variables, an `id` variable that labels each participant in the data set (we'll see why that's useful in a moment), a `response_before` variable that records the person's answer when they were asked the question the first time, and a `response_after` variable that shows the answer that they gave when asked the same question a second time. And, together with `pingouin`, this is all we need to run the McNemar test:
 
-# In[32]:
+# In[58]:
 
 
 import pingouin as pg
@@ -860,7 +858,7 @@ observed, stats = pg.chi2_mcnemar(df, 'response_before', 'response_after')
 observed
 
 
-# In[33]:
+# In[59]:
 
 
 stats
