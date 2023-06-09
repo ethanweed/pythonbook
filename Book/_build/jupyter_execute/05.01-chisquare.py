@@ -273,10 +273,10 @@ fig = sns.lineplot(x= "x", y= "y",
              data=df)
 critical_value = chi2.ppf(0.95, 3)
 fig.fill_between(x, 0, y, where = x > critical_value-0.1, color = 'blue', alpha = 0.3)
-fig.set(xlabel = 'Value of the GOF Statistic', ylabel='')
+
 fig.annotate("The observed GOF value is 8.44", xy=(8.44, 0), xytext=(10, 0.12), arrowprops={"arrowstyle":"->", "color":"black"})
 fig.annotate("The critical value is 7.81", xy=(critical_value, 0), xytext=(6, 0.15), arrowprops={"arrowstyle":"->", "color":"black"})
-
+fig.set(xlabel = 'Value of the GOF Statistic', ylabel='')
 
 sns.despine()
 
