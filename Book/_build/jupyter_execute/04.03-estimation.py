@@ -955,7 +955,7 @@ print("Method 2: ", ci_2)
 
 # ### Plotting confidence intervals in Python
 # 
-# There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn``offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
+# There are many different ways you can draw graphs that show confidence intervals as error bars, and the method you select will depend on what you are trying to achieve. However, ``seaborn`` offers some good, off-the-shelf methods for plotting confidence intervals, which should cover most of the common cases. More in-depth information about these can be found in the seaborn documentation, but here are a few common cases, using seaborn's built-in "tips" dataset.
 
 # In[23]:
 
@@ -981,6 +981,7 @@ sns.pointplot(x="time", y="total_bill", hue="smoker", data=tips, ax=axes[0])
 sns.pointplot(x="time", y="total_bill", hue="smoker",  ci = 40, data=tips, ax=axes[1])
 axes[0].set_title("95% Confidence Interval")
 axes[1].set_title("40% Confidence Interval")
+sns.despine()
 
 
 # For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with ``ci=None``, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.
@@ -996,8 +997,10 @@ fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 sns.regplot(x="total_bill", y="tip", data=tips, ax=axes[0])
 sns.regplot(x="total_bill", y="tip", data=tips, ci = None, ax=axes[1])
 
+sns.despine()
 
-# For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoint, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one above showing confidence intervals for simulated IQ data, you may need to dive into ``matplotlib``, which allows much more customization than is available simply using seaborn.
+
+# For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoints, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one in {numref}`fig-cirep` showing confidence intervals for simulated IQ data, you will need to dive into ``matplotlib``, which allows much more customization than is available simply using ``seaborn``.
 
 # In[26]:
 
@@ -1012,14 +1015,16 @@ fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 sns.regplot(x="size", y="tip", data=tips, ax=axes[0])
 sns.regplot(x="size", y="tip", data=tips, x_estimator=np.mean, ax=axes[1])
 
+sns.despine()
+
 
 # ## Summary
 # 
 # In this chapter I've covered two main topics. The first half of the chapter talks about sampling theory, and the second half talks about how we can use sampling theory to construct estimates of the population parameters. The section breakdown looks like this:
 # 
-# - Basic ideas about samples, sampling and populations (Section \@ref(srs))
-# - Statistical theory of sampling: the law of large numbers (Section \@ref(lawlargenumbers)), sampling distributions and the central limit theorem (Section \@ref(samplesandclt)).
-# - Estimating means and standard deviations (Section \@ref(pointestimates))
-# - Estimating a confidence interval (Section \@ref(ci))
+# - [Basic ideas](srs) about samples, sampling and populations 
+# - Statistical theory of sampling: the [law of large numbers](lawlargenumbers), [sampling distributions and the central limit theorem](samplesandclt).
+# - [Estimating means and standard deviations](pointestimates)
+# - [Estimating a confidence interval](ci)
 # 
-# As always, there's a lot of topics related to sampling and estimation that aren't covered in this chapter, but for an introductory psychology class this is fairly comprehensive I think. For most applied researchers you won't need much more theory than this. One big question that I haven't touched on in this chapter is what you do when you don't have a simple random sample. There is a lot of statistical theory you can draw on to handle this situation, but it's well beyond the scope of this book.
+# As always, there's a lot of topics related to sampling and estimation that aren't covered in this chapter, but for an introductory psychology class this is fairly comprehensive I think. For most applied research, you won't need much more theory than this. One big question that I haven't touched on in this chapter is what you do when you don't have a simple random sample. There is a lot of statistical theory you can draw on to handle this situation, but it's well beyond the scope of this book.
