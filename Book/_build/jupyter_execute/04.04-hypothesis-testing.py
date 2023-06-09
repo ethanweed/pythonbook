@@ -390,7 +390,7 @@ for p in ax.patches:
 
 
         
-glue("esp-alternative-fig", ax, display=False)
+#glue("esp-alternative-fig", ax, display=False)
 
 
 # ```{glue:figure} esp-alternative-fig
@@ -431,8 +431,6 @@ for p in ax.patches:
             p.set_color("lightgrey")
 
 
-        
-glue("esp-alternative-fig2", ax, display=False)
 
 
 # ```{glue:figure} esp-alternative-fig2
