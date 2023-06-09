@@ -261,8 +261,7 @@ for p in ax.patches:
             p.set_color("lightgrey")
 
 
-        
-glue("espcritical-onesided-fig", ax, display=False)
+sns.despine()
 
 
 # ```{glue:figure} espcritical-onesided-fig
