@@ -119,7 +119,7 @@ data = random.binomial(n=100, p=.5, size=10000)
 esp = sns.histplot(data, bins=20,binwidth=0.5)
 esp.set(xlim=(20,80))
 
-glue("estimation-fig", esp, display=False)
+sns.despine()
 
 
 # ```{glue:figure} estimation-fig
@@ -388,6 +388,7 @@ for p in ax.patches:
         if p.get_x() <= 60:
             p.set_color("lightgrey")
 
+sns.despine()
 
 
 # ```{glue:figure} esp-alternative-fig
