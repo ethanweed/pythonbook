@@ -1,65 +1,142 @@
 Traceback (most recent call last):
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
     return future.result()
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pandas as pd
-import statistics
-from numpy import sqrt, mean, std
-
-df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
-
-# create two new variables for the grades from each tutor's students
-tutor1 = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
-tutor2 = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
-
-# find number of student grades for each tutor
-n1 = len(tutor1)
-n2 = len(tutor2)
-
-# find mean student grade for each tutor
-u1 = mean(tutor1['grade'])
-u2 = mean(tutor2['grade'])
-
-# find variance in students' grades for each tutor
-s1 = var(tutor1['grade'])
-s2 = var(tutor2['grade'])
-
-
-# find pooled standard deviation (square root of weighted variation, 
-# divided by total N, with a correction for bias of -2)
-
-s = sqrt(((n1) * s1 + (n2) * s2) / (n1 + n2 - 2))
-
-# calculate Cohen's d
-d = (u1 - u2) / s
-d
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv")
+df.head()
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [43][0m, in [0;36m<cell line: 20>[0;34m()[0m
-[1;32m     17[0m u2 [38;5;241m=[39m mean(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m     19[0m [38;5;66;03m# find variance in students' grades for each tutor[39;00m
-[0;32m---> 20[0m s1 [38;5;241m=[39m [43mvar[49m(tutor1[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m     21[0m s2 [38;5;241m=[39m var(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m     24[0m [38;5;66;03m# find pooled standard deviation (square root of weighted variation, [39;00m
-[1;32m     25[0m [38;5;66;03m# divided by total N, with a correction for bias of -2)[39;00m
+[0;31mURLError[0m                                  Traceback (most recent call last)
+Input [0;32mIn [1][0m, in [0;36m<cell line: 2>[0;34m()[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m----> 2[0m df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_csv[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mhttps://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/zeppo.csv[39;49m[38;5;124;43m"[39;49m[43m)[49m
+[1;32m      3[0m df[38;5;241m.[39mhead()
 
-[0;31mNameError[0m: name 'var' is not defined
-NameError: name 'var' is not defined
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/util/_decorators.py:311[0m, in [0;36mdeprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper[0;34m(*args, **kwargs)[0m
+[1;32m    305[0m [38;5;28;01mif[39;00m [38;5;28mlen[39m(args) [38;5;241m>[39m num_allow_args:
+[1;32m    306[0m     warnings[38;5;241m.[39mwarn(
+[1;32m    307[0m         msg[38;5;241m.[39mformat(arguments[38;5;241m=[39marguments),
+[1;32m    308[0m         [38;5;167;01mFutureWarning[39;00m,
+[1;32m    309[0m         stacklevel[38;5;241m=[39mstacklevel,
+[1;32m    310[0m     )
+[0;32m--> 311[0m [38;5;28;01mreturn[39;00m [43mfunc[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/parsers/readers.py:680[0m, in [0;36mread_csv[0;34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)[0m
+[1;32m    665[0m kwds_defaults [38;5;241m=[39m _refine_defaults_read(
+[1;32m    666[0m     dialect,
+[1;32m    667[0m     delimiter,
+[0;32m   (...)[0m
+[1;32m    676[0m     defaults[38;5;241m=[39m{[38;5;124m"[39m[38;5;124mdelimiter[39m[38;5;124m"[39m: [38;5;124m"[39m[38;5;124m,[39m[38;5;124m"[39m},
+[1;32m    677[0m )
+[1;32m    678[0m kwds[38;5;241m.[39mupdate(kwds_defaults)
+[0;32m--> 680[0m [38;5;28;01mreturn[39;00m [43m_read[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[43mkwds[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/parsers/readers.py:575[0m, in [0;36m_read[0;34m(filepath_or_buffer, kwds)[0m
+[1;32m    572[0m _validate_names(kwds[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mnames[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m))
+[1;32m    574[0m [38;5;66;03m# Create the parser.[39;00m
+[0;32m--> 575[0m parser [38;5;241m=[39m [43mTextFileReader[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwds[49m[43m)[49m
+[1;32m    577[0m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
+[1;32m    578[0m     [38;5;28;01mreturn[39;00m parser
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/parsers/readers.py:933[0m, in [0;36mTextFileReader.__init__[0;34m(self, f, engine, **kwds)[0m
+[1;32m    930[0m     [38;5;28mself[39m[38;5;241m.[39moptions[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m] [38;5;241m=[39m kwds[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m]
+[1;32m    932[0m [38;5;28mself[39m[38;5;241m.[39mhandles: IOHandles [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[0;32m--> 933[0m [38;5;28mself[39m[38;5;241m.[39m_engine [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_make_engine[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mengine[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1217[0m, in [0;36mTextFileReader._make_engine[0;34m(self, f, engine)[0m
+[1;32m   1213[0m     mode [38;5;241m=[39m [38;5;124m"[39m[38;5;124mrb[39m[38;5;124m"[39m
+[1;32m   1214[0m [38;5;66;03m# error: No overload variant of "get_handle" matches argument types[39;00m
+[1;32m   1215[0m [38;5;66;03m# "Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]"[39;00m
+[1;32m   1216[0m [38;5;66;03m# , "str", "bool", "Any", "Any", "Any", "Any", "Any"[39;00m
+[0;32m-> 1217[0m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;241m=[39m [43mget_handle[49m[43m([49m[43m  [49m[38;5;66;43;03m# type: ignore[call-overload][39;49;00m
+[1;32m   1218[0m [43m    [49m[43mf[49m[43m,[49m
+[1;32m   1219[0m [43m    [49m[43mmode[49m[43m,[49m
+[1;32m   1220[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1221[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mcompression[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1222[0m [43m    [49m[43mmemory_map[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mmemory_map[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1223[0m [43m    [49m[43mis_text[49m[38;5;241;43m=[39;49m[43mis_text[49m[43m,[49m
+[1;32m   1224[0m [43m    [49m[43merrors[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding_errors[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mstrict[39;49m[38;5;124;43m"[39;49m[43m)[49m[43m,[49m
+[1;32m   1225[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mstorage_options[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1226[0m [43m[49m[43m)[49m
+[1;32m   1227[0m [38;5;28;01massert[39;00m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[1;32m   1228[0m f [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mhandles[38;5;241m.[39mhandle
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/common.py:670[0m, in [0;36mget_handle[0;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[0m
+[1;32m    667[0m     codecs[38;5;241m.[39mlookup_error(errors)
+[1;32m    669[0m [38;5;66;03m# open URLs[39;00m
+[0;32m--> 670[0m ioargs [38;5;241m=[39m [43m_get_filepath_or_buffer[49m[43m([49m
+[1;32m    671[0m [43m    [49m[43mpath_or_buf[49m[43m,[49m
+[1;32m    672[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[43mencoding[49m[43m,[49m
+[1;32m    673[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[43mcompression[49m[43m,[49m
+[1;32m    674[0m [43m    [49m[43mmode[49m[38;5;241;43m=[39;49m[43mmode[49m[43m,[49m
+[1;32m    675[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[43mstorage_options[49m[43m,[49m
+[1;32m    676[0m [43m[49m[43m)[49m
+[1;32m    678[0m handle [38;5;241m=[39m ioargs[38;5;241m.[39mfilepath_or_buffer
+[1;32m    679[0m handles: [38;5;28mlist[39m[BaseBuffer]
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/common.py:339[0m, in [0;36m_get_filepath_or_buffer[0;34m(filepath_or_buffer, encoding, compression, mode, storage_options)[0m
+[1;32m    337[0m [38;5;66;03m# assuming storage_options is to be interpreted as headers[39;00m
+[1;32m    338[0m req_info [38;5;241m=[39m urllib[38;5;241m.[39mrequest[38;5;241m.[39mRequest(filepath_or_buffer, headers[38;5;241m=[39mstorage_options)
+[0;32m--> 339[0m [38;5;28;01mwith[39;00m [43murlopen[49m[43m([49m[43mreq_info[49m[43m)[49m [38;5;28;01mas[39;00m req:
+[1;32m    340[0m     content_encoding [38;5;241m=[39m req[38;5;241m.[39mheaders[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mContent-Encoding[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m)
+[1;32m    341[0m     [38;5;28;01mif[39;00m content_encoding [38;5;241m==[39m [38;5;124m"[39m[38;5;124mgzip[39m[38;5;124m"[39m:
+[1;32m    342[0m         [38;5;66;03m# Override compression based on Content-Encoding header[39;00m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/pandas/io/common.py:239[0m, in [0;36murlopen[0;34m(*args, **kwargs)[0m
+[1;32m    233[0m [38;5;124;03m"""[39;00m
+[1;32m    234[0m [38;5;124;03mLazy-import wrapper for stdlib urlopen, as that imports a big chunk of[39;00m
+[1;32m    235[0m [38;5;124;03mthe stdlib.[39;00m
+[1;32m    236[0m [38;5;124;03m"""[39;00m
+[1;32m    237[0m [38;5;28;01mimport[39;00m [38;5;21;01murllib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mrequest[39;00m
+[0;32m--> 239[0m [38;5;28;01mreturn[39;00m [43murllib[49m[38;5;241;43m.[39;49m[43mrequest[49m[38;5;241;43m.[39;49m[43murlopen[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/urllib/request.py:216[0m, in [0;36murlopen[0;34m(url, data, timeout, cafile, capath, cadefault, context)[0m
+[1;32m    214[0m [38;5;28;01melse[39;00m:
+[1;32m    215[0m     opener [38;5;241m=[39m _opener
+[0;32m--> 216[0m [38;5;28;01mreturn[39;00m [43mopener[49m[38;5;241;43m.[39;49m[43mopen[49m[43m([49m[43murl[49m[43m,[49m[43m [49m[43mdata[49m[43m,[49m[43m [49m[43mtimeout[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/urllib/request.py:519[0m, in [0;36mOpenerDirector.open[0;34m(self, fullurl, data, timeout)[0m
+[1;32m    516[0m     req [38;5;241m=[39m meth(req)
+[1;32m    518[0m sys[38;5;241m.[39maudit([38;5;124m'[39m[38;5;124murllib.Request[39m[38;5;124m'[39m, req[38;5;241m.[39mfull_url, req[38;5;241m.[39mdata, req[38;5;241m.[39mheaders, req[38;5;241m.[39mget_method())
+[0;32m--> 519[0m response [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_open[49m[43m([49m[43mreq[49m[43m,[49m[43m [49m[43mdata[49m[43m)[49m
+[1;32m    521[0m [38;5;66;03m# post-process response[39;00m
+[1;32m    522[0m meth_name [38;5;241m=[39m protocol[38;5;241m+[39m[38;5;124m"[39m[38;5;124m_response[39m[38;5;124m"[39m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/urllib/request.py:541[0m, in [0;36mOpenerDirector._open[0;34m(self, req, data)[0m
+[1;32m    538[0m [38;5;28;01mif[39;00m result:
+[1;32m    539[0m     [38;5;28;01mreturn[39;00m result
+[0;32m--> 541[0m [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_call_chain[49m[43m([49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mhandle_open[49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43munknown[39;49m[38;5;124;43m'[39;49m[43m,[49m
+[1;32m    542[0m [43m                        [49m[38;5;124;43m'[39;49m[38;5;124;43munknown_open[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mreq[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/urllib/request.py:496[0m, in [0;36mOpenerDirector._call_chain[0;34m(self, chain, kind, meth_name, *args)[0m
+[1;32m    494[0m [38;5;28;01mfor[39;00m handler [38;5;129;01min[39;00m handlers:
+[1;32m    495[0m     func [38;5;241m=[39m [38;5;28mgetattr[39m(handler, meth_name)
+[0;32m--> 496[0m     result [38;5;241m=[39m [43mfunc[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m)[49m
+[1;32m    497[0m     [38;5;28;01mif[39;00m result [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[1;32m    498[0m         [38;5;28;01mreturn[39;00m result
+
+File [0;32m~/opt/miniconda3/envs/pythonbook2/lib/python3.10/urllib/request.py:1419[0m, in [0;36mUnknownHandler.unknown_open[0;34m(self, req)[0m
+[1;32m   1417[0m [38;5;28;01mdef[39;00m [38;5;21munknown_open[39m([38;5;28mself[39m, req):
+[1;32m   1418[0m     [38;5;28mtype[39m [38;5;241m=[39m req[38;5;241m.[39mtype
+[0;32m-> 1419[0m     [38;5;28;01mraise[39;00m URLError([38;5;124m'[39m[38;5;124munknown url type: [39m[38;5;132;01m%s[39;00m[38;5;124m'[39m [38;5;241m%[39m [38;5;28mtype[39m)
+
+[0;31mURLError[0m: <urlopen error unknown url type: https>
+URLError: <urlopen error unknown url type: https>
 
