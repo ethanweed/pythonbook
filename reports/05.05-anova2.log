@@ -17,28 +17,19 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from myst_nb import glue
-import seaborn as sns
-sns.set_context("notebook", font_scale=1.5)
-ax = sns.scatterplot(data = df,
-                x = 'dan_sleep', 
-                y = 'dan_grump')
-ax.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep (hours)')
-sns.despine()
+import pingouin as pg
 
-glue("sleepycorrelation_fig", ax, display=False)
+model1 = pg.anova(dv='mood_gain', between='drug', data=df, detailed=True)
+round(model1, 2)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[2], line 2[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmyst_nb[39;00m [38;5;28;01mimport[39;00m glue
-[0;32m----> 2[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
-[1;32m      3[0m sns[38;5;241m.[39mset_context([38;5;124m"[39m[38;5;124mnotebook[39m[38;5;124m"[39m, font_scale[38;5;241m=[39m[38;5;241m1.5[39m)
-[1;32m      4[0m ax [38;5;241m=[39m sns[38;5;241m.[39mscatterplot(data [38;5;241m=[39m df,
-[1;32m      5[0m                 x [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_sleep[39m[38;5;124m'[39m, 
-[1;32m      6[0m                 y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_grump[39m[38;5;124m'[39m)
+Cell [0;32mIn[6], line 1[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpingouin[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpg[39;00m
+[1;32m      3[0m model1 [38;5;241m=[39m pg[38;5;241m.[39manova(dv[38;5;241m=[39m[38;5;124m'[39m[38;5;124mmood_gain[39m[38;5;124m'[39m, between[38;5;241m=[39m[38;5;124m'[39m[38;5;124mdrug[39m[38;5;124m'[39m, data[38;5;241m=[39mdf, detailed[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
+[1;32m      4[0m [38;5;28mround[39m(model1, [38;5;241m2[39m)
 
-[0;31mModuleNotFoundError[0m: No module named 'seaborn'
-ModuleNotFoundError: No module named 'seaborn'
+[0;31mModuleNotFoundError[0m: No module named 'pingouin'
+ModuleNotFoundError: No module named 'pingouin'
 

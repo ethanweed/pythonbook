@@ -7,7 +7,7 @@ Traceback (most recent call last):
     return just_run(coro(*args, **kwargs))
   File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
     return future.result()
   File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
@@ -17,79 +17,58 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from scipy.stats import t, sem
+import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-import random
+import scipy.stats as stats
+import math
 
-random.seed=42
+# arrange a grid of three plots
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
-n_experiments = 50
-ns = [10, 25]
-labels = ['A', 'B']
+# plot normal distribution
+mu = 100
+sigma = 15
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = stats.norm.pdf(x, mu, sigma)
+ax0 = sns.lineplot(x=x,y=y, ax=axes[0])
 
-population_mean = [0]*n_experiments
+# plot histogram of 100 samples from normal distribution
+IQ = np.random.normal(loc=100,scale=15,size=100)
+ax1 = sns.histplot(IQ, ax=axes[1])
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False, sharex=False)
-#  fig.suptitle('Simulated IQ Data')
+# plot histogram of 10000 samples from normal distribution
+IQ = np.random.normal(loc=100,scale=15,size=10000)
+ax2 = sns.histplot(IQ,ax=axes[2])
 
-
-for f, ax in enumerate(axes):
-    uppers = []
-    lowers = []
-    sample_means = []
-    
-    x = list(range(0,n_experiments))
-
-    for i in x:
-        simdata = np.random.normal(loc=100,scale=15,size=ns[f]).astype(int)
-        sample_means.append(statistics.mean(simdata))
-        ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
-        uppers.append(ci[1])
-        lowers.append(ci[0])
-
-    
-        
-    too_high = [x[s] for s, val in enumerate(lowers) if val > 100]
-    too_low = [x[s] for s, val in enumerate(uppers) if val < 100]
-    no_mean = too_high + too_low
-    no_means.append(no_mean)
-    highlight = ['blue']*n_experiments
-    for s, val in enumerate(no_mean):
-        highlight[val] = 'red'
-
-    sns.pointplot(x=x, y=sample_means, join=False, ax=ax)
-    ax.set_ylim([70,130])
-    ax.vlines(x=x, ymin=lowers, ymax=uppers, color = highlight)
-    ax.axhline(y=100, linestyle = "dashed")
-    #ax.plot()
-    ax.set_title("Sample Size = " + str(ns[f]))
+# add titles, labels, and formatting
+labels = ['A', 'B', 'C']
+titles = ['Normal Distribution', '100 samples', '10,000 samples']
+for i,ax in enumerate(axes):
+    ax.set_title(titles[i])
+    ax.text(-0.1, 1.15, labels[i], transform=ax.transAxes,
+      fontsize=16, fontweight='bold', va='top', ha='right')
+    ax.set(xticklabels=[])
+    ax.set(yticklabels=[])
     ax.set(ylabel=None)
-    ax.text(-0.1, 1, labels[f], transform=ax.transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
-    ax.tick_params(left=False)
-    
-    ax.spines[['top', 'right']].set_visible(False)
     ax.tick_params(axis='both', 
-                    which='both',
-                    left=False,
-                    right=False,
-                    bottom=False,
-                    labelbottom=False)
+                   which='both',
+                   bottom=False,
+                   left=False)
+
+# remove top and bottom spines
+sns.despine()
 
 
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Input [0;32mIn [21][0m, in [0;36m<cell line: 20>[0;34m()[0m
-[1;32m     37[0m too_low [38;5;241m=[39m [x[s] [38;5;28;01mfor[39;00m s, val [38;5;129;01min[39;00m [38;5;28menumerate[39m(uppers) [38;5;28;01mif[39;00m val [38;5;241m<[39m [38;5;241m100[39m]
-[1;32m     38[0m no_mean [38;5;241m=[39m too_high [38;5;241m+[39m too_low
-[0;32m---> 39[0m [43mno_means[49m[38;5;241m.[39mappend(no_mean)
-[1;32m     40[0m highlight [38;5;241m=[39m [[38;5;124m'[39m[38;5;124mblue[39m[38;5;124m'[39m][38;5;241m*[39mn_experiments
-[1;32m     41[0m [38;5;28;01mfor[39;00m s, val [38;5;129;01min[39;00m [38;5;28menumerate[39m(no_mean):
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 1[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
 
-[0;31mNameError[0m: name 'no_means' is not defined
-NameError: name 'no_means' is not defined
+[0;31mModuleNotFoundError[0m: No module named 'matplotlib'
+ModuleNotFoundError: No module named 'matplotlib'
 
