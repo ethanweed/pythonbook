@@ -49,7 +49,7 @@ glue("sleepycorrelation_fig", ax, display=False)
 
 # The actual scatterplot that we draw is the one shown in {numref}`fig-sleepycorrelation`, and as we saw previously this corresponds to a correlation of $r=-.90$, but what we find ourselves secretly imagining is something that looks closer to the left panel in {numref}`fig-sleep_regressions_1`. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we're drawing is called a **_regression line_**. Notice that -- since we're not idiots -- the regression line goes through the middle of the data. We don't find ourselves imagining anything like the rather silly plot shown in the right panel in {numref}`fig-sleep_regressions_1`. 
 
-# In[3]:
+# In[4]:
 
 
 import numpy as np 
@@ -140,7 +140,7 @@ sns.despine()
 # 
 # [^notekungfu]: Or at least, I'm assuming that it doesn't help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it *will* help *you* to know that the solution to the estimation problem turns out to be $\hat{b} = (X^TX)^{-1} X^T y$, where $\hat{b}$ is a vector containing the estimated regression coefficients,  $X$ is the "design matrix" that contains the predictor variables (plus an additional column containing all ones; strictly $X$ is a matrix of the regressors, but I haven't discussed the distinction yet), and $y$ is a vector containing the outcome variable. For everyone else, this isn't exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you'll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.
 
-# In[4]:
+# In[5]:
 
 
 import numpy, scipy, matplotlib
@@ -225,7 +225,7 @@ sns.despine()
 # 
 # As always, there are several different ways we could go about calculating a linear regression in Python, but we'll stick with `pingouin`, which for my money is one of the simplest and easiest packages to use. The `pingouin` command for linear regression is, well, `linear_regression`, so that couldn't be much more straightforward. After that, we just need to tell `pinguoin` which variable we want to use as a predictor variable (independent variable), and which one we want to use as the outcome variable (dependent variable). `pingouin` wants the predictor variable first, so, since we want to model my grumpiness as a function of my sleep, we write:
 
-# In[5]:
+# In[28]:
 
 
 import pingouin as pg
@@ -233,7 +233,7 @@ import pingouin as pg
 mod1 = pg.linear_regression(df['dan_sleep'], df['dan_grump'])
 
 
-# In[6]:
+# In[29]:
 
 
 # Display results, rounded to two decimal places.
@@ -250,7 +250,7 @@ mod1.round(2)
 # 
 # Remember, it's critical that you put the variables in the right order. If you reverse the predictor and outcome variables, `pinguoin` will happily calculate a result for you, but it will not be the one you are looking for. If instead, we had written `pg.linear_regression(df['dan_grump'], df['dan_sleep'])`, we would get the following:
 
-# In[7]:
+# In[30]:
 
 
 modx = pg.linear_regression(df['dan_grump'], df['dan_sleep'])
@@ -285,7 +285,7 @@ modx.round(2)
 # 
 # Doing mulitiple linear regression in `pingouin` is just as easy as adding some more predictor variables, like this:
 
-# In[8]:
+# In[31]:
 
 
 mod2 = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
@@ -295,7 +295,7 @@ mod2 = pg.linear_regression(df[['dan_sleep', 'baby_sleep']], df['dan_grump'])
 # 
 # This is because we are using the brackets in two different ways. When we wrote `['dan_sleep']`, the square brackets mean "select the column with the header 'dan_sleep'". But now we are giving `pingouin` a _list_ of columns to select, and `list` objects are _also_ defined by square brackets in Python. To keep things clear, another way to achieve the same result would be to define the list of predictor variables outside the call to `pingouin`:
 
-# In[9]:
+# In[32]:
 
 
 predictors = ['dan_sleep', 'baby_sleep']
@@ -306,7 +306,7 @@ mod2 = pg.linear_regression(df[predictors], df[outcome])
 
 # You could do all the work outside of `pinguoin`, like this:
 
-# In[10]:
+# In[33]:
 
 
 predictors = df[['dan_sleep', 'baby_sleep']]
@@ -317,7 +317,7 @@ mod2 = pg.linear_regression(predictors, outcome)
 
 # All three of these will give the same result, so it's up to you choose what makes most sense to you. But now it's time to take a look at the results:
 
-# In[11]:
+# In[34]:
 
 
 mod2.round(2)
@@ -325,7 +325,7 @@ mod2.round(2)
 
 # The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, {numref}`fig-sleep_regressions_3d` shows a 3D plot that plots all three variables, along with the regression model itself.
 
-# In[12]:
+# In[36]:
 
 
 import matplotlib.pyplot as plt
@@ -412,7 +412,7 @@ ax.view_init(11,97)
 
 # While we're here, let's calculate these values in Python. Firstly, in order to make my Python commands look a bit more similar to the mathematical equations, I'll create variables `X` and `Y`:
 
-# In[13]:
+# In[37]:
 
 
 X = df['dan_sleep'] # the predictor
@@ -421,7 +421,7 @@ Y = df['dan_grump'] # the outcome
 
 # First, lets just examine the output for the simple model that uses only a single predictor:
 
-# In[14]:
+# In[38]:
 
 
 mod1 = pg.linear_regression(X, Y)
@@ -430,7 +430,7 @@ mod1.round(2)
 
 # In this output, we can see that Python has calculated an intercept of 125.96 and a regression coefficient ($beta$) of -8.94. So for every hour of sleep I get, the model estimates that this will correspond to a decrease in grumpiness of about 9 on my incredibly scientific grumpiness scale. We can use this information to calculate $\hat{Y}$, that is, the values that the model _predicts_ for the outcome measure, as opposed to $Y$, which are the actual data we observed. So, for each value of the predictor variable X, we multiply that value by the regression coefficient -8.84, and add the intercept 125.97:
 
-# In[15]:
+# In[39]:
 
 
 Y_pred = -8.94 * X + 125.97
@@ -438,7 +438,7 @@ Y_pred = -8.94 * X + 125.97
 
 # Okay, now that we've got a variable which stores the regression model predictions for how grumpy I will be on any given day, let's calculate our sum of squared residuals. We would do that using the following command:
 
-# In[16]:
+# In[40]:
 
 
 SS_resid = sum( (Y - Y_pred)**2 )
@@ -447,7 +447,7 @@ SS_resid
 
 # Wonderful. A big number that doesn't mean very much. Still, let's forge boldly onwards anyway, and calculate the total sum of squares as well. That's also pretty simple:
 
-# In[17]:
+# In[41]:
 
 
 import numpy as np
@@ -466,7 +466,7 @@ SS_tot
 
 # and equally simple to calculate in Python:
 
-# In[18]:
+# In[42]:
 
 
 R2 = 1- (SS_resid / SS_tot)
@@ -483,7 +483,7 @@ R2
 # 
 # At this point we can revisit my earlier claim that regression, in this very simple form that I've discussed so far, is basically the same thing as a correlation. Previously, we used the symbol $r$ to denote a Pearson correlation. Might there be some relationship between the value of the correlation coefficient $r$ and the $R^2$ value from linear regression? Of course there is: the squared correlation $r^2$ is identical to the $R^2$ value for a linear regression with only a single predictor. To illustrate this, here's the squared correlation:
 
-# In[19]:
+# In[43]:
 
 
 r = X.corr(Y)  # calculate the correlation
@@ -557,7 +557,7 @@ r**2    # print the squared correlation
 # 
 # I should mention that there are other statistics packages for Python that will do this for you. [statsmodels](https://www.statsmodels.org/stable/regression.html) comes to mind, for instance. But this is opening a whole new can of worms that I'd rather avoid for now, so instead I provide you with code to calculate the $F$ statistic and $p$-value for the model "manually" below:
 
-# In[20]:
+# In[44]:
 
 
 import numpy as np
@@ -604,7 +604,7 @@ print("F=",F, "p=", p)
 # 
 # A more compact way to do this would be to take everything I have done above and put it inside a function. I've done this below, not least so that I will be able to copy/paste from it myself at some later date. Here is a function called `regression_f` that takes as its arguments a list of predictors, and an outcome variable, and spits out the $F$ and $p$ values.
 
-# In[21]:
+# In[45]:
 
 
 def regression_f(predictors, outcome):
@@ -625,7 +625,7 @@ def regression_f(predictors, outcome):
 
 # Once we have run the function, all we need to do is plug in our values, and `regression_f` does the rest:
 
-# In[22]:
+# In[46]:
 
 
 predictors = df[['dan_sleep', 'baby_sleep']]
@@ -638,7 +638,7 @@ regression_f(predictors, outcome)
 # 
 # The $F$-test that we've just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn't produce a significant result for the $F$-test then you probably don't have a very good regression model (or, quite possibly, you don't have very good data). However, while failing this test is a pretty strong indicator that the model has problems, *passing* the test (i.e., rejecting the null) doesn't imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:
 
-# In[23]:
+# In[96]:
 
 
 predictors = df[['dan_sleep', 'baby_sleep']]
@@ -672,7 +672,7 @@ mod2.round(2)
 
 # Now we are in a position to understand all the values in the multiple regression table provided by `pingouin`:
 
-# In[24]:
+# In[97]:
 
 
 mod2.round(2)
@@ -684,7 +684,7 @@ mod2.round(2)
 
 # If we add our F-test results to the mix:
 
-# In[25]:
+# In[98]:
 
 
 f = regression_f(predictors, outcome)
@@ -701,7 +701,7 @@ print("F:", f[0].round(2), "p:", f[1])
 # 
 # I don't want to spend too much time on this, but it's worth very briefly returning to the point I made earlier, that Pearson correlations are basically the same thing as linear regressions with only a single predictor added to the model. What this means is that the hypothesis tests that I just described in a regression context can also be applied to correlation coefficients. To see this, let's just revist our `mod1` model:
 
-# In[26]:
+# In[99]:
 
 
 X = df['dan_sleep'] # the predictor
@@ -712,7 +712,7 @@ mod1.round(2)
 
 # The important thing to note here is the $t$ test associated with the predictor, in which we get a result of $t(98) = -20.85$, $p<.001$. Now let's compare this to the output of the `corr` function from `pinguoin`, which runs a hypothesis test to see if the observed correlation between two variables is significantly different from 0. 
 
-# In[27]:
+# In[100]:
 
 
 pg.corr(X,Y)
@@ -727,7 +727,7 @@ pg.corr(X,Y)
 # 
 # so, with the output from `pg.corr(X,Y)` above, it's not too difficult to find $t$:
 
-# In[28]:
+# In[101]:
 
 
 from math import sqrt
@@ -745,7 +745,7 @@ t
 # 
 # The answer is no, and there's a very good reason for this. Testing a single correlation is fine: if you've got some reason to be asking "is A related to B?", then you should absolutely run a test to see if there's a significant correlation. But if you've got variables A, B, C, D and E and you're thinking about testing the correlations among all possible pairs of these, a statistician would want to ask: what's your hypothesis? If you're in the position of wanting to test all possible pairs of variables, then you're pretty clearly on a fishing expedition, hunting around in search of significant effects when you don't actually have a clear research hypothesis in mind. This is *dangerous*, and perhaps the authors of the `corr` function didn't want to endorse this sort of behavior. `corr` does have the nice feature that you can call it as an attribute of your dataframe, so for our parenthood data, if we want to see all the parwise correlations in the data, you can simply write
 
-# In[29]:
+# In[102]:
 
 
 df.corr()
@@ -755,7 +755,7 @@ df.corr()
 # 
 # On the other hand... a somewhat less hardline view might be to argue we've encountered this situation before, back when we talked about *post hoc tests* in ANOVA. When running post hoc tests, we didn't have any specific comparisons in mind, so what we did was apply a correction (e.g., Bonferroni, Holm, etc) in order to avoid the possibility of an inflated Type I error rate. From this perspective, it's okay to run hypothesis tests on all your pairwise correlations, but you must treat them as post hoc analyses, and if so you need to apply a correction for multiple comparisons. `rcorr`, also from `pingouin`, lets you do this. You can use the `padjust` argument to specify what kind of correction you would like to apply; here I have chosen a Bonferroni correction:
 
-# In[30]:
+# In[103]:
 
 
 df.rcorr(padjust = 'bonf')
@@ -778,7 +778,7 @@ df.rcorr(padjust = 'bonf')
 # 
 # 
 
-# In[31]:
+# In[104]:
 
 
 from scipy import stats
@@ -832,7 +832,7 @@ mod3.round(2)
 
 # This is of course what we saw earlier, and unless I specifically refer to some other kind of residual, this is the one I'm talking about. So there's nothing new here: I just wanted to repeat myself. In any case, if you have run your regression model using `pingouin`, you can access the residuals from your model (in our case, our `mod2`)like this:
 
-# In[32]:
+# In[14]:
 
 
 res = mod2.residuals_
@@ -848,7 +848,7 @@ res = mod2.residuals_
 # 
 # [^notehope]: Or have no hope, as the case may be.
 
-# In[33]:
+# In[23]:
 
 
 import statsmodels.api as sm
@@ -883,7 +883,7 @@ res_standard = influence.resid_studentized_internal
 # 
 # If you ever need to calculate studentised residuals yourself, this is also possible using `statsmodels`. Since we have already used `statmodels` to estimate our model above, when we calculated the standardized residuals, we can just re-use our model estimate `est` from before, and the first column of the resulting dataframe gives us our studentized residuals:
 
-# In[34]:
+# In[25]:
 
 
 stud_res = est.outlier_test()
@@ -899,7 +899,7 @@ stud_res.head()
 # 
 # The first kind of unusual observation is an **_outlier_**. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in {numref}`fig-outlier`. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, $\epsilon_i^*$. Outliers are interesting: a big outlier *might* correspond to junk data -- e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case, and try to find out why it's so different.
 
-# In[35]:
+# In[58]:
 
 
 import numpy as np
@@ -971,7 +971,7 @@ sns.despine()
 # 
 # [^notehatmatrix]: Again, for the linear algebra fanatics: the "hat matrix" is defined to be that matrix $H$ that converts the vector of observed values $y$ into a vector of fitted values $\hat{y}$, such that $\hat{y} = H y$. The name comes from the fact that this is the matrix that "puts a hat on $y$". The  hat *value* of the $i$-th observation is the $i$-th diagonal element of this matrix (so technically I should be writing it as $h_{ii}$ rather than $h_{i}$). Oh, and in case you care, here's how it's calculated: $H = X(X^TX)^{-1} X^T$. Pretty, isn't it?
 
-# In[36]:
+# In[1]:
 
 
 import numpy as np
@@ -1104,7 +1104,7 @@ sns.despine()
 
 # Again, if you want to quantify Cook's distance, this can be done using using `statsmodels.api`. I won't go through this in detail, but if you are interested, you can click to show the code, and see how I got the Cook's distance values from `statmodels`.
 
-# In[37]:
+# In[45]:
 
 
 import seaborn as sns
@@ -1224,7 +1224,7 @@ ax.grid(False)
 
 # First, let's get back to the original sleep data, and remind ourselves of what our model coefficients looked like:
 
-# In[38]:
+# In[2]:
 
 
 import pandas as pd
@@ -1242,13 +1242,13 @@ mod2.round(2)
 
 # Then, we can remove the data from day 64, using the `drop()` method from `pandas`. Remember, as always, it's Python, and Python is zero-indexed, so it starts counting the days at 0 and not 1, and that means that day 64 is on row 63!
 
-# In[39]:
+# In[3]:
 
 
 df_2 = df.drop(63)
 
 
-# In[40]:
+# In[4]:
 
 
 predictors = df_2[['dan_sleep', 'baby_sleep']]
@@ -1265,7 +1265,7 @@ mod2.round(2)
 # 
 # Like many of the statistical tools we've discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren't fundamentally different to those that we discussed [earlier](shapiro). Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The commands I use might be something like this:
 
-# In[41]:
+# In[31]:
 
 
 import pandas as pd
@@ -1289,7 +1289,7 @@ sns.despine()
 
 # The resulting plot is shown in {numref}`fig-res-hist`, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the `normality` function from `pingouin`:
 
-# In[42]:
+# In[32]:
 
 
 sw = pg.normality(res, method = 'shapiro')
@@ -1298,7 +1298,7 @@ sw.round(2)
 
 # The W value of .99, at this sample size, is non-significant ($p$ = .82), again suggesting that the normality assumption isn’t in any danger here. As a third measure, we might also want to draw a QQ-plot. This can be most easily done using the `qqplot` function from `statsmodels.api`:
 
-# In[43]:
+# In[33]:
 
 
 import statsmodels.api as sm
@@ -1319,7 +1319,7 @@ sns.despine()
 # 
 # A little note: Q-Q plots are often created by plotting the quantiles of the _standardized_ residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a _feeling_, based on your great experience of squinting at plots, for whether the data _seem_ normal enough, it probably doesn't matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me, and you can get the ordinary residuals straight from `pingouin`, without needing to invoke `statsmodels`.
 
-# In[44]:
+# In[35]:
 
 
 # Define a figure with two panels
@@ -1341,7 +1341,7 @@ sns.despine()
 # (regressionlinearity)=
 # ### Checking the linearity of the relationship
 
-# In[45]:
+# In[44]:
 
 
 predictors = df_2[['dan_sleep', 'baby_sleep']]

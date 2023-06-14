@@ -363,7 +363,7 @@ glue("anovavar_fig", ax, display=False)
 # 
 # Of course, if we actually wanted to get the *right* answer, we'd need to do this for all 18 observations in the data set, not just the first five. We could continue with the pencil and paper calculations if we wanted to, but it's pretty tedious. Alternatively, it's not too hard to get Python to do it. Here's how:
 
-# In[7]:
+# In[8]:
 
 
 group = list(df['drug'])
@@ -391,7 +391,7 @@ Y['squared_devs'] = Y['dev_from_group_means']**2
 
 # It might not be obvious from inspection what these commands are doing: as a general rule, the human brain seems to just shut down when faced with a big block of programming. However, I strongly suggest that -- if you're like me and tend to find that the mere sight of this code makes you want to look away and see if there's any beer left in the fridge or a game of footy on the telly -- you take a moment and look closely at these commands one at a time. Every single one of these commands is something you've seen before somewhere else in the book. There's nothing novel about them (though I admit that `reset_index` has appeared only once, and there aren't many nested `for` statements in this book), so if you're not quite sure how these commands work, this might be a good time to try playing around with them yourself, to try to get a sense of what's happening. On the other hand, if this does seem to make sense, then you won't be all that surprised at what happens when we look at the output of all this code, `Y`, we see...
 
-# In[8]:
+# In[9]:
 
 
 Y
@@ -399,7 +399,7 @@ Y
 
 # If you compare this output to the contents of the table I've been constructing by hand, you can see that Python has done exactly the same calculations that I was doing (albeit with a few miniscule differences due to rounding), and much faster too. So, if we want to finish the calculations of the within-group sum of squares in Python, we just ask for the `sum()` of the `squared_devs` variable:
 
-# In[9]:
+# In[10]:
 
 
 SSw = Y['squared_devs'].sum()
@@ -437,7 +437,7 @@ SSw
 # 
 # As you can see, the between group calculations are a lot shorter, so you probably wouldn't usually want to bother using Python as your calculator. However, if you *did* decide to do so, here's one way you could do it:
 
-# In[10]:
+# In[11]:
 
 
 grouped = df.groupby('drug')
@@ -471,7 +471,7 @@ Y['weighted_squared_devs'] = Y['group_sizes'] * Y['squared_devs']
 
 # Again, I won't actually try to explain this code line by line, but -- just like last time -- there's nothing in there that we haven't seen in several places elsewhere in the book, so I'll leave it as an exercise for you to make sure you understand it. Once again, we can dump all our variables into a data frame so that we can print it out as a nice table:
 
-# In[11]:
+# In[12]:
 
 
 Y
@@ -479,7 +479,7 @@ Y
 
 # Clearly, these are basically the same numbers that we got before. There are a few tiny differences, but that's only because the hand-calculated versions have some small errors caused by the fact that I rounded all my numbers to 2 decimal places at each step in the calculations, whereas Python only does it at the end (obviously, Python's version is more accurate). Anyway, here's the Python command showing the final step:
 
-# In[12]:
+# In[13]:
 
 
 SSb = sum(Y['weighted_squared_devs'])
@@ -519,7 +519,7 @@ SSb
 
 # Woohooo! This is terribly exciting, yes? Now that we have our test statistic, the last step is to find out whether the test itself gives us a significant result. As discussed in [](hypothesistesting), what we really *ought* to do is choose an $\alpha$ level (i.e., acceptable Type I error rate) ahead of time, construct our rejection region, etc etc. But in practice it's just easier to directly calculate the $p$-value. Back in the "old days", what we'd do is open up a statistics textbook or something and flick to the back section which would actually have a huge lookup table... that's how we'd "compute" our $p$-value, because it's too much effort to do it any other way. However, since we have access to Python, I'll use the `stats.f.cdf()` method from `scipy` to do it instead.
 
-# In[13]:
+# In[14]:
 
 
 from scipy import stats
@@ -557,7 +557,7 @@ p
 # 
 # Before we run the ANOVA, let's just remember what the data look like:
 
-# In[14]:
+# In[15]:
 
 
 df.head()
@@ -565,7 +565,7 @@ df.head()
 
 # Now, let's let `statsmodels` do its magic. To do the same ANOVA that I laboriously calculated in the previous section, I’d use a few simple commands like this:
 
-# In[15]:
+# In[16]:
 
 
 import statsmodels.api as sm
@@ -585,7 +585,7 @@ aov_table
 # 
 # So, `statsmodels` provides a pretty easy way to get ANOVA's done, but back when we were doing t-tests, I was all excited about `pingouin` and said it made things so much easier. So couldn't we use `pingouin` to do ANOVA's? Sure, of course we can!
 
-# In[16]:
+# In[131]:
 
 
 import pingouin as pg
@@ -626,7 +626,7 @@ pg.anova(dv='mood_gain',
 # 
 # It's pretty straightforward to calculate it directly from the numbers in the ANOVA table. In fact, since I've already got the `SSw` and `SSb` variables lying around from my earlier calculations, I can do this:
 
-# In[17]:
+# In[23]:
 
 
 SStot = SSb + SSw          # total sums of squares
@@ -719,7 +719,7 @@ eta_squared
 # 
 # [^notebonf]: If you really want to use a Bonferrroni correction anyway, you can write `bonf` instead of `holm` for `padjust`.
 
-# In[18]:
+# In[32]:
 
 
 import pingouin as pg
@@ -798,7 +798,7 @@ pg.pairwise_ttests(dv='mood_gain',
 # 
 # Okay, so how do we run the Levene test? Obviously, since the Levene test is just an ANOVA, it would be easy enough to manually create the transformed variable $Z_{ik}$ and then run an ANOVA on that. However, that's the tedious way to do it. Much simpler would be to just get `pingouin` to do it for us. Maybe I should take a drink every time I mention `pingouin` in this book. Then again, maybe I shouldn't!
 
-# In[19]:
+# In[36]:
 
 
 import pingouin as pg
@@ -810,7 +810,7 @@ pg.homoscedasticity(data=df,
 
 # If we look at the output, we see that the test is non-significant $(F_{2,15} = 1.47, p = .26)$, so it looks like the homogeneity of variance assumption is fine. By default, the `pingouin`'s `homoscedasticity` function actually does the Brown-Forsythe test. If you want to use the mean instead, then you need to explicitly set the `center` argument, like this:
 
-# In[20]:
+# In[39]:
 
 
 # Original Levene test
@@ -827,7 +827,7 @@ pg.homoscedasticity(data=df,
 # 
 # In our example, the homogeneity of variance assumption turned out to be a pretty safe one: the Levene test came back non-significant, so we probably don't need to worry. However, in real life we aren't always that lucky. How do we save our ANOVA when the homogeneity of variance assumption is violated? If you recall from our discussion of $t$-tests, we've seen this problem before. The Student $t$-test assumes equal variances, so the solution was to use the Welch $t$-test, which does not. In fact, Welch {cite}`Welch1951` also showed how we can solve this problem for ANOVA too (the **_Welch one-way test_**). It's implemented in `pingouin` using the `welch_anova` function:
 
-# In[21]:
+# In[43]:
 
 
 import pingouin as pg
@@ -839,7 +839,7 @@ pg.welch_anova(dv='mood_gain',
 
 # To understand what's happening here, let's compare these numbers to what we got [earlier](introduceaov) when we ran our original ANOVA. To save you the trouble of flicking back, here are those numbers again:
 
-# In[22]:
+# In[51]:
 
 
 pg.anova(dv='mood_gain', 
@@ -854,7 +854,7 @@ pg.anova(dv='mood_gain',
 # 
 # Testing the normality assumption is relatively straightforward. We have already covered [most of what you need to know](shapiro). The only thing we really need to know how to do is pull out the residuals (i.e., the $\epsilon_{ik}$ values) so that we can draw our QQ plot and run our Shapiro-Wilk test. Now, I really hate to say this, but as of the time of writing (Monday, the 11th of April, 2022), `pingouin` does not currently have a way to give you the residuals from the ANOVA calculation. They expect to add this soon, but in the meantime, we can use `statsmodels` to give us what we need:
 
-# In[23]:
+# In[52]:
 
 
 import statsmodels.api as sm
@@ -869,14 +869,14 @@ res = model.resid
 
 # We can print them out too, though it's not exactly an edifying experience.  In fact, given that I'm on the verge of putting *myself* to sleep just typing this, it might be a good idea to skip that step. Instead, let's draw some pictures and run ourselves a hypothesis test: 
 
-# In[24]:
+# In[56]:
 
 
 # QQ plot
 ax = pg.qqplot(res, dist='norm')
 
 
-# In[25]:
+# In[76]:
 
 
 # histogram of residuals
@@ -887,7 +887,7 @@ import seaborn as sns
 ax = sns.histplot(res)
 
 
-# In[26]:
+# In[66]:
 
 
 #Shapiro-Wilk test with Pingouin
@@ -895,7 +895,7 @@ ax = sns.histplot(res)
 pg.normality(res)
 
 
-# In[27]:
+# In[67]:
 
 
 #Shapiro-Wilk test with scipy
@@ -960,7 +960,7 @@ shapiro(res)
 # 
 # But wait, there's more! Dear lord, why is there always *more*? The story I've told so far is only actually true when there are no ties in the raw data. That is, if there are no two observations that have exactly the same value. If there *are* ties, then we have to introduce a correction factor to these calculations. At this point I'm assuming that even the most diligent reader has stopped caring (or at least formed the opinion that the tie-correction factor is something that doesn't require their immediate attention). So I'll very quickly tell you how it's calculated, and omit the tedious details about *why* it's done this way. Suppose we construct a frequency table for the raw data, and let $f_j$ be the number of observations that have the $j$-th unique value. This might sound a bit abstract, so here's the Python code showing a concrete example:
 
-# In[28]:
+# In[133]:
 
 
 # Make a frequency table of the counts of unique values (mood gain)
@@ -984,7 +984,7 @@ f
 # 
 # Despite the horror that we've gone through in trying to understand what the Kruskal-Wallis test actually does, it turns out that running the test is pretty painless, since `pingouin` has a function called `kruskal()`:
 
-# In[29]:
+# In[108]:
 
 
 import pingouin as pg
@@ -1001,7 +1001,7 @@ pg.kruskal(data=df,
 # There's one last thing I want to point out before finishing. It's something that a lot of people find kind of surprising, but it's worth knowing about: an ANOVA with two groups is identical to the Student $t$-test. No, really. It's not just that they are similar, but they are actually equivalent in every meaningful way. I won't try to prove that this is always true, but I will show you a single concrete demonstration. Suppose that, instead of running an ANOVA on our `mood_gain` predicted by `drug` model, let's instead do it using `therapy` as the predictor. If we run this ANOVA, here's what we get`
 # 
 
-# In[30]:
+# In[122]:
 
 
 import pingouin as pg
@@ -1012,7 +1012,7 @@ pg.anova(dv='mood_gain',
 
 # Overall, it looks like there's no significant effect here at all but, as we'll [soon see](anova2) this is actually a misleading  answer! In any case, it's irrelevant to our current goals: our interest here is in the $F$-statistic, which is $F(1,16) = 1.71$, and the $p$-value, which is .21. Since we only have two groups, I didn't actually need to resort to an ANOVA, I could have just decided to run a Student $t$-test. So let's see what happens when I do that. First, I'll just re-arrange the data in to wide format:
 
-# In[31]:
+# In[123]:
 
 
 clinical_wide = pd.DataFrame(
@@ -1022,7 +1022,7 @@ clinical_wide = pd.DataFrame(
 
 # Then we can run the test
 
-# In[32]:
+# In[134]:
 
 
 import pingouin as pg
@@ -1033,7 +1033,7 @@ pg.ttest(clinical_wide['no_therapy'],
 
 # Curiously, the $p$-values are identical: once again we obtain a value of $p = .21$. But what about the test statistic? Having run a $t$-test instead of an ANOVA, we get a somewhat different answer, namely $t(16) = -1.3068$. However, there is a fairly straightforward relationship here. If we square the $t$-statistic
 
-# In[33]:
+# In[136]:
 
 
 round((-1.307)**2,3)

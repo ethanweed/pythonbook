@@ -793,57 +793,17 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">model1</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">round</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Source</th>
-      <th>SS</th>
-      <th>DF</th>
-      <th>MS</th>
-      <th>F</th>
-      <th>p-unc</th>
-      <th>np2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>drug</td>
-      <td>3.45</td>
-      <td>2</td>
-      <td>1.73</td>
-      <td>18.61</td>
-      <td>0.0</td>
-      <td>0.71</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Within</td>
-      <td>1.39</td>
-      <td>15</td>
-      <td>0.09</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pingouin&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <p>Note that this time around I’ve used the name <code class="docutils literal notranslate"><span class="pre">model1</span></code> as the label for my <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, since I’m planning on creating quite a few other models too. To start with, suppose I’m also curious to find out if <code class="docutils literal notranslate"><span class="pre">therapy</span></code> has a relationship to <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. In light of what we’ve seen from our discussion of <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">multiple regression</span></a>, you probably won’t be surprised that all we have to do is extend the formula: in other words, if we specify <code class="docutils literal notranslate"><span class="pre">dv=mood.gain,</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy']</span></code> as our model, we’ll probably get what we’re after:</p>
 <div class="cell docutils container">

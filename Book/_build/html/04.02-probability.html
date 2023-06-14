@@ -799,7 +799,18 @@ P(\mbox{heads}) = 0.5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_4_0.png" src="_images/04.02-probability_4_0.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">def</span> <span class="nf">coin_flips</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <div class="figure align-default" id="fig-frequentist-probability" style="width: 600px">
@@ -1087,10 +1098,15 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_24_0.png" src="_images/04.02-probability_24_0.png" />
+<img alt="_images/04.02-probability_24_1.png" src="_images/04.02-probability_24_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-normal" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;Observed Value&#39;, ylabel=&#39;Probability Density&#39;&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 10.5 </span><span class="caption-text">The normal distribution with mean <span class="math notranslate nohighlight">\(mu = 0\)</span> and standard deviation <span class="math notranslate nohighlight">\(sigma = 1\)</span>. The <span class="math notranslate nohighlight">\(x\)</span>-axis corresponds to the value of some variable, and the <span class="math notranslate nohighlight">\(y\)</span>-axis tells us something about how likely we are to observe that value. However, notice that the <span class="math notranslate nohighlight">\(y\)</span>-axis is labelled “Probability Density” and not “Probability”. There is a subtle and somewhat frustrating characteristic of continuous distributions that makes the <span class="math notranslate nohighlight">\(y\)</span> axis behave a bit oddly: the height of the curve here isn’t actually the probability of observing a particular <span class="math notranslate nohighlight">\(x\)</span> value. On the other hand, it <em>is</em> true that the heights of the curve tells you which <span class="math notranslate nohighlight">\(x\)</span> values are more likely (the higher ones!).</span><a class="headerlink" href="#fig-normal" title="Permalink to this image">¶</a></p>
 </div>
 <p>With this in mind, let’s see if we can’t get an intuition for how the normal distribution works. Firstly, let’s have a look at what happens when we play around with the parameters of the distribution. To that end, <a class="reference internal" href="#fig-two-normals"><span class="std std-numref">Fig. 10.6</span></a> plots normal distributions that have different means, but have the same standard deviation. As you might expect, all of these distributions have the same “width”. The only difference between them is that they’ve been shifted to the left or to the right. In every other respect they’re identical.</p>
@@ -1164,10 +1180,15 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_30_0.png" src="_images/04.02-probability_30_0.png" />
+<img alt="_images/04.02-probability_30_1.png" src="_images/04.02-probability_30_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-two-normals2" style="width: 600px">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+</div>
 <p class="caption"><span class="caption-number">Fig. 10.7 </span><span class="caption-text">An illustration of what happens when you change the the standard deviation of a normal distribution. Both distributions plotted in this figure have a mean of μ “ 5, but they have different standard deviations. The solid line plots a distribution with standard deviation σ “ 1, and the dashed line shows a distribution with standard deviation σ “ 2. As a consequence, both distributions are “centred” on the same spot, but the dashed line is wider than the solid one.</span><a class="headerlink" href="#fig-two-normals2" title="Permalink to this image">¶</a></p>
 </div>
 <p>Before moving on, I want to point out one important characteristic of the normal distribution. Irrespective of what the actual mean and standard deviation are, 68.3% of the area falls within 1 standard deviation of the mean. Similarly, 95.4% of the distribution falls within 2 standard deviations of the mean, and 99.7% of the distribution is within 3 standard deviations. This idea is illustrated in <a class="reference internal" href="#fig-sdnorm"><span class="std std-numref">Fig. 10.8</span></a> and <a class="reference internal" href="#fig-sdnorm2"><span class="std std-numref">Fig. 10.9</span></a>.</p>
@@ -1253,10 +1274,12 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_35_0.png" src="_images/04.02-probability_35_0.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-sdnorm2" style="width: 600px">
+<div class="cell_output docutils container">
+<img alt="_images/04.02-probability_35_0.png" src="_images/04.02-probability_35_0.png" />
+</div>
 <p class="caption"><span class="caption-number">Fig. 10.9 </span><span class="caption-text">Two more examples of the “area under the curve idea”. There is a 15.9% chance that an observation is one standard deviation below the mean or smaller (left), and a 34.1% chance that the observation is greater than one standard deviation below the mean but still below the mean (right). Notice that if you add these two numbers together you get 15.9% + 34.1% = 50%. For normally distributed data, there is a 50% chance that an observation falls below the mean. And of course that also implies that there is a 50% chance that it falls above the mean.</span><a class="headerlink" href="#fig-sdnorm2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="probability-density">
@@ -1319,7 +1342,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_41_0.png" src="_images/04.02-probability_41_0.png" />
+<img alt="_images/04.02-probability_41_1.png" src="_images/04.02-probability_41_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-tdist" style="width: 600px">
@@ -1348,7 +1371,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_44_0.png" src="_images/04.02-probability_44_0.png" />
+<img alt="_images/04.02-probability_44_1.png" src="_images/04.02-probability_44_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-chi2" style="width: 600px">
@@ -1379,7 +1402,7 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_47_0.png" src="_images/04.02-probability_47_0.png" />
+<img alt="_images/04.02-probability_47_1.png" src="_images/04.02-probability_47_1.png" />
 </div>
 </div>
 <div class="figure align-default" id="fig-fdist" style="width: 600px">
@@ -1401,8 +1424,8 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.80928873 -0.11527559 -0.80378904 -0.252322   -0.9696543   2.22477156
- -0.01949728  1.01696858 -0.15507729 -0.73718857]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.67904695  0.01133432  0.02261077 -0.05353278 -0.75496994  0.23851562
+ -1.40297626  0.4028934   2.31924026  0.68549358]
 </pre></div>
 </div>
 </div>
@@ -1540,7 +1563,10 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_66_0.png" src="_images/04.02-probability_66_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_66_1.png" src="_images/04.02-probability_66_1.png" />
 </div>
 </div>
 <p>Adding the usual formatting plus the true t-distribution with three degrees of freedom, we get something like this:</p>
@@ -1589,7 +1615,10 @@ X \sim \mbox{Normal}(\mu,\sigma)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/04.02-probability_70_0.png" src="_images/04.02-probability_70_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/04.02-probability_70_1.png" src="_images/04.02-probability_70_1.png" />
 </div>
 </div>
 <p>The resulting <code class="docutils literal notranslate"><span class="pre">f_3_20</span></code> variable does in fact store variables that follow an <span class="math notranslate nohighlight">\(F\)</span> distribution with 3 and 20 degrees of freedom, which we can check by overlaying the real <span class="math notranslate nohighlight">\(F\)</span> distribution with <span class="math notranslate nohighlight">\(df_1 = 3\)</span> and <span class="math notranslate nohighlight">\(df_2 = 20\)</span>. Again, they match. I’ll hide the code this time, but you can click the button to take a look.</p>

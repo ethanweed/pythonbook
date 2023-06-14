@@ -98,7 +98,7 @@ sns.despine()
 # 
 # [^note2]: The choice to use $\Sigma$ to denote summation isn't arbitrary: it's the Greek upper case letter sigma, which is the analogue of the letter S in that alphabet. Similarly, there's an equivalent symbol used to denote the multiplication of lots of numbers: because multiplications are also called "products", we use the $\Pi$ symbol for this; the Greek upper case pi, which is the analogue of the letter P.
 
-# In[4]:
+# In[18]:
 
 
 (56 + 31 + 56 + 8 + 32) / 5
@@ -106,7 +106,7 @@ sns.despine()
 
 # ... in which case Python outputs the answer 36.6, just as if it were a calculator. However, that's not the only way to do the calculations, and when the number of observations starts to become large, it's easily the most tedious. Besides, in almost every real world scenario, you've already got the actual numbers stored in a variable of some kind, just like we have with the `afl_margins` variable. Under those circumstances, what you want is a function that will just add up all the values stored in a numeric vector. That's what the `sum()` function does. If we want to add up all 176 winning margins in the data set, we can do so using the following command:
 
-# In[5]:
+# In[19]:
 
 
 margins = afl_margins['afl.margins']
@@ -116,7 +116,7 @@ sum(margins)
 
 # If we only want the sum of the first five observations, then we can use square brackets to pull out only the first five elements of the vector. So the command would now be:
 
-# In[6]:
+# In[20]:
 
 
 margins[0:5]
@@ -124,7 +124,7 @@ margins[0:5]
 
 # Observant readers will have noticed that to get the first 5 elements we need to ask for elements 0 through 5, which seems to make no sense whatsoever. Python can be weird like that. I am **not** going to get into this here, but I talked about it in the section on [lists](lists) and went into more detail in the section on [slices](slices), and will probably mention it again in the section on [pulling out the contents of a data frame](indexingdataframes). To calculate the mean, we now tell Python to divide the output of this summation by five, so the command that we need to type now becomes the following:
 
-# In[7]:
+# In[21]:
 
 
 sum(margins[0:5])/5
@@ -133,7 +133,7 @@ sum(margins[0:5])/5
 
 # Or, we could just ask Python for the mean, without further ado:
 
-# In[8]:
+# In[22]:
 
 
 margins[0:5].mean()
@@ -145,7 +145,7 @@ margins[0:5].mean()
 # 
 # [^smartiepants]: Or already knew, in which case you are probaby skipping this section and won't read this anyway
 
-# In[9]:
+# In[23]:
 
 
 type(margins)
@@ -155,7 +155,7 @@ type(margins)
 
 # If we were to convert `margins` to a different variable type, say, a list, then we could no longer use `.mean()`:
 
-# In[10]:
+# In[24]:
 
 
 a = list(margins)

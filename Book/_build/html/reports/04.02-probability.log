@@ -1,43 +1,76 @@
 Traceback (most recent call last):
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
     return future.result()
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+import random
+import numpy as np
 import pandas as pd
-number_of_flips = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10, 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20]
-number_of_heads = [0 , 1 , 2 , 3 , 4 , 4 , 4 , 5 , 6 , 7,  8  ,  8 ,  9 , 10 , 10 , 10 , 10 , 10 , 10 , 11] 
-proportion = [.00 , .50 , .67 , .75 , .80 , .67 , .57 , .63 , .67 , .70, .73 , .67 , .69 , .71 , .67 ,  .63 , .59 , .56 , .53 , .55]
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-df = pd.DataFrame(
-    {'Number_of_flips': number_of_flips,
-     'Number_of_heads': number_of_heads,
-     'Proportion': proportion
-    })
 
-df
+
+def coin_flips(n):
+    n = n
+    heads = [random.uniform(0,1) for i in range(n)]
+    heads = [1 if i > 0.5 else 0 for i in heads]
+    flips = np.arange(1,n+1)
+    proportion = (np.cumsum(heads)/flips)
+
+    df = pd.DataFrame(
+        {'flips': flips,
+         'proportion_heads': proportion
+        })
+
+    #ax = sns. lineplot(x=df['flips'], y=df['proportion_heads'])
+    return(df)
+
+n = 1000
+
+run1 = coin_flips(n)
+run2 = coin_flips(n)
+run3 = coin_flips(n)
+run4 = coin_flips(n)
+
+
+df = pd.concat([run1, run2, run3, run4], axis=0)
+
+runs = ['run1']*n + ['run2']*n + ['run3']*n + ['run4']*1000
+
+df['runs'] = runs
+
+
+ax = sns.lineplot(data = df, x = 'flips', y = 'proportion_heads', hue = 'runs')
+
+sns.despine()
+
+#glue("frequentist_probability_fig", ax, display=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Input [0;32mIn [1][0m, in [0;36m<cell line: 1>[0;34m()[0m
-[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
-[1;32m      2[0m number_of_flips [38;5;241m=[39m [[38;5;241m1[39m , [38;5;241m2[39m , [38;5;241m3[39m , [38;5;241m4[39m , [38;5;241m5[39m , [38;5;241m6[39m , [38;5;241m7[39m , [38;5;241m8[39m , [38;5;241m9[39m , [38;5;241m10[39m, [38;5;241m11[39m , [38;5;241m12[39m , [38;5;241m13[39m , [38;5;241m14[39m , [38;5;241m15[39m , [38;5;241m16[39m , [38;5;241m17[39m , [38;5;241m18[39m , [38;5;241m19[39m , [38;5;241m20[39m]
-[1;32m      3[0m number_of_heads [38;5;241m=[39m [[38;5;241m0[39m , [38;5;241m1[39m , [38;5;241m2[39m , [38;5;241m3[39m , [38;5;241m4[39m , [38;5;241m4[39m , [38;5;241m4[39m , [38;5;241m5[39m , [38;5;241m6[39m , [38;5;241m7[39m,  [38;5;241m8[39m  ,  [38;5;241m8[39m ,  [38;5;241m9[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m10[39m , [38;5;241m11[39m] 
+Cell [0;32mIn[2], line 4[0m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m----> 4[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
+[1;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[1;32m      9[0m [38;5;28;01mdef[39;00m [38;5;21mcoin_flips[39m(n):
 
-[0;31mModuleNotFoundError[0m: No module named 'pandas'
-ModuleNotFoundError: No module named 'pandas'
+[0;31mModuleNotFoundError[0m: No module named 'seaborn'
+ModuleNotFoundError: No module named 'seaborn'
 

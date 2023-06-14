@@ -122,7 +122,7 @@ round(model1, 2)
 
 # Note that this time around I've used the name `model1` as the label for my `aov` object, since I'm planning on creating quite a few other models too. To start with, suppose I'm also curious to find out if `therapy` has a relationship to `mood_gain`. In light of what we've seen from our discussion of [multiple regression](regression), you probably won't be surprised that all we have to do is extend the formula: in other words, if we specify `dv=mood.gain, between=['drug', 'therapy']` as our model, we'll probably get what we're after:
 
-# In[7]:
+# In[32]:
 
 
 model2 = pg.anova(dv='mood_gain', between=['drug', 'therapy'], data=df, detailed=True)

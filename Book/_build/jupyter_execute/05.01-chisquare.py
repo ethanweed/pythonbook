@@ -29,7 +29,7 @@ df
 
 # As you can see, the `cards` data frame contains three variables, an `id` variable that assigns a unique identifier to each participant, and the two variables `choice_1` and `choice_2` that indicate the card suits that people chose. Here's the first few entries in the data frame:
 
-# In[3]:
+# In[2]:
 
 
 df.head()
@@ -37,7 +37,7 @@ df.head()
 
 # For the moment, let's just focus on the first choice that people made. We'll use the `value_counts()` function to count the number of times that we observed people choosing each suit. I'll save the table to a variable called `observed`, for reasons that will become clear very soon:
 
-# In[4]:
+# In[3]:
 
 
 observed = df['choice_1'].value_counts()
@@ -97,7 +97,7 @@ observed
 
 # Maybe what I should do is store the $P$ list in Python as well, since we're almost certainly going to need it later. And because I'm so imaginative, I'll call this panads series `probabilities`:
 
-# In[5]:
+# In[4]:
 
 
 # make dictionary of values
@@ -122,7 +122,7 @@ probabilities
 # 
 # This is pretty easy to calculate in Python:
 
-# In[6]:
+# In[5]:
 
 
 N = 200 #sample size
@@ -142,7 +142,7 @@ expected
 
 # The same calculations can be done in Python, using our `expected` and `observed` variables:
 
-# In[7]:
+# In[6]:
 
 
 observed-expected
@@ -150,7 +150,7 @@ observed-expected
 
 # Regardless of whether we do the calculations by hand or whether we do them in Python, it's clear that people chose more hearts and fewer clubs than the null hypothesis predicted. However, a moment's thought suggests that these raw differences aren't quite what we're looking for. Intuitively, it feels like it's just as bad when the null hypothesis predicts too few observations (which is what happened with hearts) as it is when it predicts too many (which is what happened with clubs). So it's a bit weird that we have a negative number for clubs and a positive number for hearts. One easy way to fix this is to square everything, so that we now calculate the squared differences, $(E_i - O_i)^2$. As before, we could do this by hand, but it's easier to do it in Python...
 
-# In[8]:
+# In[7]:
 
 
 (observed - expected)**2
@@ -158,7 +158,7 @@ observed-expected
 
 # Now we're making progress. What we've got now is a collection of numbers that are big whenever the null hypothesis makes a bad prediction (clubs and hearts), but are small whenever it makes a good one (diamonds and spades). Next, for some technical reasons that I'll explain in a moment, let's also divide all these numbers by the expected frequency $E_i$, so we're actually calculating $\frac{(E_i-O_i)^2}{E_i}$. Since $E_i = 50$ for all categories in our example, it's not a very interesting calculation, but let's do it anyway. The Python command becomes:
 
-# In[9]:
+# In[8]:
 
 
 (observed - expected)**2 / expected
@@ -166,7 +166,7 @@ observed-expected
 
 # In effect, what we've got here are four different "error" scores, each one telling us how big a "mistake" the null hypothesis made when we tried to use it to predict our observed frequencies. So, in order to convert this into a useful test statistic, one thing we could do is just add these numbers up. The result is called the **_goodness of fit_** statistic, conventionally referred to either as $X^2$ or GOF. We can calculate it using this command in Python:
 
-# In[10]:
+# In[9]:
 
 
 sum((observed - expected)**2/expected)
@@ -200,7 +200,7 @@ sum((observed - expected)**2/expected)
 
 # When I introduced the chi-square distribution in [other useful distributions](otherdists), I was a bit vague about what "**_degrees of freedom_**" actually *means*. Obviously, it matters: looking {numref}`fig-manychi` you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly *is* it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer... it's the number of "normally distributed variables" that I'm squaring and adding together. But, for most people, that's kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.
 
-# In[1]:
+# In[10]:
 
 
 from myst_nb import glue
