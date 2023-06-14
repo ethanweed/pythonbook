@@ -1,50 +1,60 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>13. Categorical data analysis &#8212; Learning Statistics with Python</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -53,613 +63,377 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05.01-chisquare';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="14. Comparing Two Means" href="05.02-ttest.html" />
     <link rel="prev" title="12. Hypothesis Testing" href="04.04-hypothesis-testing.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="landingpage.html">
-   Learning Statistics with Python
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part I. Background
- </span>
-</p>
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="landingpage.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Learning Statistics with Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="landingpage.html">
+                    Learning Statistics with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I. Background</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01.01-intro.html">
-   1. Why do we learn statistics?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01.02-studydesign.html">
-   2. A brief introduction to research design
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01.01-intro.html">1. Why do we learn statistics?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01.02-studydesign.html">2. A brief introduction to research design</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part II. An Introduction to Python
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II. An Introduction to Python</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="02.01-getting_started_with_python.html">
-   3. Getting Started with Python
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02.02-more_python_concepts.html">
-   4. More Python Concepts
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="02.01-getting_started_with_python.html">3. Getting Started with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02.02-more_python_concepts.html">4. More Python Concepts</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part III. Working With Data
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III. Working With Data</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="03.01-descriptives.html">
-   5. Descriptive statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.02-drawing_graphs.html">
-   6. Drawing Graphs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.03-pragmatic_matters.html">
-   7. Data Wrangling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.04-basic_programming.html">
-   8. Basic Programming
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="03.01-descriptives.html">5. Descriptive statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.02-drawing_graphs.html">6. Drawing Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.03-pragmatic_matters.html">7. Data Wrangling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.04-basic_programming.html">8. Basic Programming</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part IV. Statistical Theory
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV. Statistical Theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="04.01-intro-to-probability.html">
-   9. Statistical theory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.02-probability.html">
-   10. Introduction to Probability
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.03-estimation.html">
-   11. Estimating unknown quantities from a sample
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.04-hypothesis-testing.html">
-   12. Hypothesis Testing
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="04.01-intro-to-probability.html">9. Statistical theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.02-probability.html">10. Introduction to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.03-estimation.html">11. Estimating unknown quantities from a sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.04-hypothesis-testing.html">12. Hypothesis Testing</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part V. Statistical Tools
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V. Statistical Tools</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   13. Categorical data analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.02-ttest.html">
-   14. Comparing Two Means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.03-anova.html">
-   15. Comparing several means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.04-regression.html">
-   17. Linear regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.05-anova2.html">
-   18. Factorial ANOVA
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Categorical data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.02-ttest.html">14. Comparing Two Means</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.03-anova.html">15. Comparing several means</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05.04-regression.html">17. Linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.05-anova2.html">18. Factorial ANOVA</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part VI. Endings, Alternatives and Prospects
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI. Endings, Alternatives and Prospects</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="06.01-bayes.html">
-   19. Bayesian Statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06.02-epilogue.html">
-   20. Epilogue
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   21. References
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="06.01-bayes.html">19. Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06.02-epilogue.html">20. Epilogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">21. References</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/05.01-chisquare.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/ethanweed/pythonbook"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.01-chisquare.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.01-chisquare.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/ethanweed/pythonbook/https://github.com/ethanweed/pythonbook/tree/main/Chapters?urlpath=tree/05.01-chisquare.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05.01-chisquare.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
     </div>
+  
 </div>
+</div>
+              
+              
 
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Categorical data analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-chi-2-goodness-of-fit-test">
-   13.1. The
-   <span class="math notranslate nohighlight">
-    \(\chi^2\)
-   </span>
-   goodness-of-fit test
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-cards-data">
-     13.1.1. The cards data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-null-hypothesis-and-the-alternative-hypothesis">
-     13.1.2. The null hypothesis and the alternative hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-goodness-of-fit-test-statistic">
-     13.1.3. The “goodness of fit” test statistic
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-sampling-distribution-of-the-gof-statistic-advanced">
-     13.1.4. The sampling distribution of the GOF statistic (advanced)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-the-null-hypothesis">
-     13.1.5. Testing the null hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-python">
-     13.1.6. Doing the test in Python
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#specifying-a-different-null-hypothesis">
-     13.1.7. Specifying a different null hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-to-report-the-results-of-the-test">
-     13.1.8. How to report the results of the test
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-comment-on-statistical-notation-advanced">
-     13.1.9. A comment on statistical notation (advanced)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-chi-2-test-of-independence-or-association">
-   13.2. The
-   <span class="math notranslate nohighlight">
-    \(\chi^2\)
-   </span>
-   test of independence (or association)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#constructing-our-hypothesis-test">
-     13.2.1. Constructing our hypothesis test
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#assoctestinpython">
-     13.2.2. Doing the test in Python
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">
-       13.2.2.1. Doing the test with
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         scipy.stats
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#doing-the-test-with-pingouin">
-       13.2.2.2. Doing the test with
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         pingouin
-        </span>
-       </code>
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#postscript">
-     13.2.3. Postscript
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-continuity-correction">
-   13.3. The continuity correction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#effect-size">
-   13.4. Effect size
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-the-test-s">
-   13.5. Assumptions of the test(s)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-fisher-exact-test">
-   13.6. The Fisher exact test
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-mcnemar-test">
-   13.7. The McNemar test
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">
-     13.7.1. Doing the McNemar test in Python
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   13.8. Summary
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chi-2-goodness-of-fit-test">13.1. The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cards-data">13.1.1. The cards data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-null-hypothesis-and-the-alternative-hypothesis">13.1.2. The null hypothesis and the alternative hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-goodness-of-fit-test-statistic">13.1.3. The “goodness of fit” test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sampling-distribution-of-the-gof-statistic-advanced">13.1.4. The sampling distribution of the GOF statistic (advanced)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-null-hypothesis">13.1.5. Testing the null hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-in-python">13.1.6. Doing the test in Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-a-different-null-hypothesis">13.1.7. Specifying a different null hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-report-the-results-of-the-test">13.1.8. How to report the results of the test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-comment-on-statistical-notation-advanced">13.1.9. A comment on statistical notation (advanced)</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chi-2-test-of-independence-or-association">13.2. The <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-our-hypothesis-test">13.2.1. Constructing our hypothesis test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assoctestinpython">13.2.2. Doing the test in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">13.2.2.1. Doing the test with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-with-pingouin">13.2.2.2. Doing the test with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postscript">13.2.3. Postscript</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-continuity-correction">13.3. The continuity correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">13.4. Effect size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-the-test-s">13.5. Assumptions of the test(s)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fisher-exact-test">13.6. The Fisher exact test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mcnemar-test">13.7. The McNemar test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">13.7.1. Doing the McNemar test in Python</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">13.8. Summary</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Categorical data analysis</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-chi-2-goodness-of-fit-test">
-   13.1. The
-   <span class="math notranslate nohighlight">
-    \(\chi^2\)
-   </span>
-   goodness-of-fit test
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-cards-data">
-     13.1.1. The cards data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-null-hypothesis-and-the-alternative-hypothesis">
-     13.1.2. The null hypothesis and the alternative hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-goodness-of-fit-test-statistic">
-     13.1.3. The “goodness of fit” test statistic
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-sampling-distribution-of-the-gof-statistic-advanced">
-     13.1.4. The sampling distribution of the GOF statistic (advanced)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-the-null-hypothesis">
-     13.1.5. Testing the null hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-test-in-python">
-     13.1.6. Doing the test in Python
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#specifying-a-different-null-hypothesis">
-     13.1.7. Specifying a different null hypothesis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-to-report-the-results-of-the-test">
-     13.1.8. How to report the results of the test
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-comment-on-statistical-notation-advanced">
-     13.1.9. A comment on statistical notation (advanced)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-chi-2-test-of-independence-or-association">
-   13.2. The
-   <span class="math notranslate nohighlight">
-    \(\chi^2\)
-   </span>
-   test of independence (or association)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#constructing-our-hypothesis-test">
-     13.2.1. Constructing our hypothesis test
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#assoctestinpython">
-     13.2.2. Doing the test in Python
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">
-       13.2.2.1. Doing the test with
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         scipy.stats
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#doing-the-test-with-pingouin">
-       13.2.2.2. Doing the test with
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         pingouin
-        </span>
-       </code>
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#postscript">
-     13.2.3. Postscript
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-continuity-correction">
-   13.3. The continuity correction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#effect-size">
-   13.4. Effect size
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-the-test-s">
-   13.5. Assumptions of the test(s)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-fisher-exact-test">
-   13.6. The Fisher exact test
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-mcnemar-test">
-   13.7. The McNemar test
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">
-     13.7.1. Doing the McNemar test in Python
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   13.8. Summary
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="categorical-data-analysis">
-<span id="chisquare"></span><h1><span class="section-number">13. </span>Categorical data analysis<a class="headerlink" href="#categorical-data-analysis" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="categorical-data-analysis">
+<span id="chisquare"></span><h1><span class="section-number">13. </span>Categorical data analysis<a class="headerlink" href="#categorical-data-analysis" title="Permalink to this heading">#</a></h1>
 <p>Now that we’ve got the basic theory behind hypothesis testing, it’s time to start looking at specific tests that are commonly used in psychology. So where should we start? Not every textbook agrees on where to start, but I’m going to start with “<span class="math notranslate nohighlight">\(\chi^2\)</span> tests” (this chapter) and “<span class="math notranslate nohighlight">\(t\)</span>-tests” <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">next chapter</span></a>. Both of these tools are very frequently used in scientific practice, and while they’re not as powerful as <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">“analysis of variance”</span></a> and <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">“regression”</span></a> they’re much easier to understand.</p>
 <p>The term “categorical data” is just another name for “nominal scale data”. It’s nothing that we haven’t already discussed, it’s just that in the context of data analysis people tend to use the term “categorical data” rather than “nominal scale data”. I don’t know why. In any case, <strong><em>categorical data analysis</em></strong> refers to a collection of tools that you can use when your data are nominal scale. However, there are a lot of different tools that can be used for categorical data analysis, and this chapter only covers a few of the more common ones.</p>
-<div class="section" id="the-chi-2-goodness-of-fit-test">
-<span id="goftest"></span><h2><span class="section-number">13.1. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test<a class="headerlink" href="#the-chi-2-goodness-of-fit-test" title="Permalink to this headline">¶</a></h2>
+<section id="the-chi-2-goodness-of-fit-test">
+<span id="goftest"></span><h2><span class="section-number">13.1. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test<a class="headerlink" href="#the-chi-2-goodness-of-fit-test" title="Permalink to this heading">#</a></h2>
 <p>The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test is one of the oldest hypothesis tests around: it was invented by Karl Pearson around the turn of the century <span id="id1">[<a class="reference internal" href="bibliography.html#id59" title="K. Pearson. On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. Philosophical Magazine, 50:157–175, 1900.">Pearson, 1900</a>]</span>, with some corrections made later by  Sir Ronald Fisher <span id="id2">[<a class="reference internal" href="bibliography.html#id62" title="R. A. Fisher. On the interpretation of $\chi ^2$ from contingency tables, and the calculation of $p$. Journal of the Royal Statistical Society, 84:87–94, 1922.">Fisher, 1922</a>]</span>. To introduce the statistical problem that it addresses, let’s start with some psychology…</p>
-<div class="section" id="the-cards-data">
-<h3><span class="section-number">13.1.1. </span>The cards data<a class="headerlink" href="#the-cards-data" title="Permalink to this headline">¶</a></h3>
+<section id="the-cards-data">
+<h3><span class="section-number">13.1.1. </span>The cards data<a class="headerlink" href="#the-cards-data" title="Permalink to this heading">#</a></h3>
 <p>Over the years, there have been a lot of studies showing that humans have a lot of difficulties in simulating randomness. Try as we might to “act” random, we <em>think</em> in terms of patterns and structure, and so when asked to “do something at random”, what people actually do is anything but random. As a consequence, the study of human randomness (or non-randomness, as the case may be) opens up a lot of deep psychological questions about how we think about the world. With this in mind, let’s consider a very simple study. Suppose I asked people to imagine a shuffled deck of cards, and mentally pick one card from this imaginary deck “at random”. After they’ve chosen one card, I ask them to mentally select a second one. For both choices, what we’re going to look at is the suit (hearts, clubs, spades or diamonds) that people chose. After asking, say, <span class="math notranslate nohighlight">\(N=200\)</span> people to do this, I’d like to look at the data and figure out whether or not the cards that people pretended to select were really random. The data are contained in the file called <code class="docutils literal notranslate"><span class="pre">cards.csv</span></code>. Let’s take a look:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -852,39 +626,39 @@ Name: choice_1, dtype: int64
 </div>
 <p>That little frequency table is quite helpful. Looking at it, there’s a bit of a hint that people <em>might</em> be more likely to select hearts than clubs, but it’s not completely obvious just from looking at it whether that’s really true, or if this is just due to chance. So we’ll probably have to do some kind of statistical analysis to find out, which is what I’m going to talk about in the next section.</p>
 <p>Excellent. From this point on, we’ll treat this table as the data that we’re looking to analyse. However, since I’m going to have to talk about this data in mathematical terms (sorry!) it might be a good idea to be clear about what the notation is. In Python, if I wanted to pull out the number of people that selected diamonds, I can type <code class="docutils literal notranslate"><span class="pre">observed[1]</span></code> (diamonds is the second element in the list, but remember Python is zero-indexed, so clubs is 0, diamonds is 1, etc.). The mathematical notation for this is pretty similar, except that we shorten the human-readable word “observed” to the letter <span class="math notranslate nohighlight">\(O\)</span>, and we use subscripts rather than brackets. Also, since we are trying to make this more or less human-readable, let’s start our subscripts at 1 rather than zero. So the second observation in our table is written as <code class="docutils literal notranslate"><span class="pre">observed[1]</span></code> in Python, and is written as <span class="math notranslate nohighlight">\(O_2\)</span> in maths. The relationship between the English descriptions, the Python commands, and the mathematical symbols are illustrated below:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p>label</p></th>
-<th class="text-align:center head"><p>index <span class="math notranslate nohighlight">\(i\)</span></p></th>
-<th class="text-align:center head"><p>math. symbol</p></th>
-<th class="text-align:center head"><p>Python command</p></th>
-<th class="text-align:center head"><p>the value</p></th>
+<tr class="row-odd"><th class="head text-left"><p>label</p></th>
+<th class="head text-center"><p>index <span class="math notranslate nohighlight">\(i\)</span></p></th>
+<th class="head text-center"><p>math. symbol</p></th>
+<th class="head text-center"><p>Python command</p></th>
+<th class="head text-center"><p>the value</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>hearts <span class="math notranslate nohighlight">\(\heartsuit\)</span></p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(O_1\)</span></p></td>
-<td class="text-align:center"><p><code class="docutils literal notranslate"><span class="pre">observed[0]</span></code></p></td>
-<td class="text-align:center"><p>64</p></td>
+<tr class="row-even"><td class="text-left"><p>hearts <span class="math notranslate nohighlight">\(\heartsuit\)</span></p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(O_1\)</span></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">observed[0]</span></code></p></td>
+<td class="text-center"><p>64</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>diamonds <span class="math notranslate nohighlight">\(\diamondsuit\)</span></p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(O_2\)</span></p></td>
-<td class="text-align:center"><p><code class="docutils literal notranslate"><span class="pre">observed[1]</span></code></p></td>
-<td class="text-align:center"><p>51</p></td>
+<tr class="row-odd"><td class="text-left"><p>diamonds <span class="math notranslate nohighlight">\(\diamondsuit\)</span></p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(O_2\)</span></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">observed[1]</span></code></p></td>
+<td class="text-center"><p>51</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>spades <span class="math notranslate nohighlight">\(\spadesuit\)</span></p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(O_3\)</span></p></td>
-<td class="text-align:center"><p><code class="docutils literal notranslate"><span class="pre">observed[2]</span></code></p></td>
-<td class="text-align:center"><p>50</p></td>
+<tr class="row-even"><td class="text-left"><p>spades <span class="math notranslate nohighlight">\(\spadesuit\)</span></p></td>
+<td class="text-center"><p>2</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(O_3\)</span></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">observed[2]</span></code></p></td>
+<td class="text-center"><p>50</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>clubs <span class="math notranslate nohighlight">\(\clubsuit\)</span></p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(O_4\)</span></p></td>
-<td class="text-align:center"><p><code class="docutils literal notranslate"><span class="pre">observed[3]</span></code></p></td>
-<td class="text-align:center"><p>35</p></td>
+<tr class="row-odd"><td class="text-left"><p>clubs <span class="math notranslate nohighlight">\(\clubsuit\)</span></p></td>
+<td class="text-center"><p>3</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(O_4\)</span></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">observed[3]</span></code></p></td>
+<td class="text-center"><p>35</p></td>
 </tr>
 </tbody>
 </table>
@@ -894,9 +668,9 @@ Name: choice_1, dtype: int64
 O = (O_1, O_2, O_3, O_4)
 \]</div>
 <p>Again, there’s nothing new or interesting here: it’s just notation. If I say that <span class="math notranslate nohighlight">\(O~=~(64, 51, 50, 35)\)</span> all I’m doing is describing the table of observed frequencies (i.e., <code class="docutils literal notranslate"><span class="pre">observed</span></code>), but I’m referring to it using mathematical notation, rather than by referring to an Python variable.</p>
-</div>
-<div class="section" id="the-null-hypothesis-and-the-alternative-hypothesis">
-<h3><span class="section-number">13.1.2. </span>The null hypothesis and the alternative hypothesis<a class="headerlink" href="#the-null-hypothesis-and-the-alternative-hypothesis" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-null-hypothesis-and-the-alternative-hypothesis">
+<h3><span class="section-number">13.1.2. </span>The null hypothesis and the alternative hypothesis<a class="headerlink" href="#the-null-hypothesis-and-the-alternative-hypothesis" title="Permalink to this heading">#</a></h3>
 <p>As the last section indicated, our research hypothesis is that “people don’t choose cards randomly”. What we’re going to want to do now is translate this into some statistical hypotheses, and construct a statistical test of those hypotheses. The test that I’m going to describe to you is <strong><em>Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness of fit test</em></strong>, and as is so often the case, we have to begin by carefully constructing our null hypothesis. In this case, it’s pretty easy. First, let’s state the null hypothesis in words:</p>
 <p><span class="math notranslate nohighlight">\(H_0\)</span>: All four suits are chosen with equal probability</p>
 <p>Now, because this is statistics, we have to be able to say the same thing in a mathematical way. To do this, let’s use the notation <span class="math notranslate nohighlight">\(P_j\)</span> to refer to the true probability that the <span class="math notranslate nohighlight">\(j\)</span>-th suit is chosen. If the null hypothesis is true, then each of the four suits has a 25% chance of being selected: in other words, our null hypothesis claims that <span class="math notranslate nohighlight">\(P_1 = .25\)</span>, <span class="math notranslate nohighlight">\(P_2 = .25\)</span>, <span class="math notranslate nohighlight">\(P_3 = .25\)</span> and finally that <span class="math notranslate nohighlight">\(P_4 = .25\)</span>. However, in the same way that we can group our observed frequencies into a vector <span class="math notranslate nohighlight">\(O\)</span> that summarises the entire data set, we can use <span class="math notranslate nohighlight">\(P\)</span> to refer to the probabilities that correspond to our null hypothesis. So if I let the vector <span class="math notranslate nohighlight">\(P = (P_1, P_2, P_3, P_4)\)</span> refer to the collection of probabilities that describe our null hypothesis, then we have</p>
@@ -933,9 +707,9 @@ dtype: float64
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="the-goodness-of-fit-test-statistic">
-<h3><span class="section-number">13.1.3. </span>The “goodness of fit” test statistic<a class="headerlink" href="#the-goodness-of-fit-test-statistic" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-goodness-of-fit-test-statistic">
+<h3><span class="section-number">13.1.3. </span>The “goodness of fit” test statistic<a class="headerlink" href="#the-goodness-of-fit-test-statistic" title="Permalink to this heading">#</a></h3>
 <p>At this point, we have our observed frequencies <span class="math notranslate nohighlight">\(O\)</span> and a collection of probabilities <span class="math notranslate nohighlight">\(P\)</span> corresponding the null hypothesis that we want to test. We’ve stored these in Python as the corresponding variables <code class="docutils literal notranslate"><span class="pre">observed</span></code> and <code class="docutils literal notranslate"><span class="pre">probabilities</span></code>. What we want to do now is construct a test of the null hypothesis. As always, if we want to test <span class="math notranslate nohighlight">\(H_0\)</span> against <span class="math notranslate nohighlight">\(H_1\)</span>, we’re going to need a test statistic. The basic trick that a goodness of fit test uses is to construct a test statistic that measures how “close” the data are to the null hypothesis. If the data don’t resemble what you’d “expect” to see if the null hypothesis were true, then it probably isn’t true. Okay, if the null hypothesis were true, what would we expect to see? Or, to use the correct terminology, what are the **<em>expected frequencies</em>*?. There are <span class="math notranslate nohighlight">\(N=200\)</span> observations, and (if the null is true) the probability of any one of them choosing a heart is <span class="math notranslate nohighlight">\(P_3 = .25\)</span>, so I guess we’re expecting <span class="math notranslate nohighlight">\(200 \times .25 = 50\)</span> hearts, right? Or, more specifically, if we let <span class="math notranslate nohighlight">\(E_i\)</span> refer  to “the number of category <span class="math notranslate nohighlight">\(i\)</span> responses that we’re expecting if the null is true”, then</p>
 <div class="math notranslate nohighlight">
 \[
@@ -962,37 +736,37 @@ dtype: float64
 </div>
 <p>None of which is very surprising: if there are 200 observation that can fall into four categories, and we think that all four categories are equally likely, then on average we’d expect to see 50 observations in each category, right?</p>
 <p>Now, how do we translate this into a test statistic? Clearly, what we want to do is compare the <em>expected</em> number of observations in each category (<span class="math notranslate nohighlight">\(E_i\)</span>) with the <em>observed</em> number of observations in that category (<span class="math notranslate nohighlight">\(O_i\)</span>). And on the basis of this comparison, we ought to be able to come up with a good test statistic. To start with, let’s calculate the difference between what the null hypothesis expected us to find and what we actually did find. That is, we calculate the “observed minus expected” difference score, <span class="math notranslate nohighlight">\(O_i - E_i\)</span>. This is illustrated in the following table.</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\clubsuit\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\diamondsuit\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\heartsuit\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\spadesuit\)</span></p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\clubsuit\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\diamondsuit\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\heartsuit\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\spadesuit\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>expected frequency</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(E_i\)</span></p></td>
-<td class="text-align:right"><p>50</p></td>
-<td class="text-align:right"><p>50</p></td>
-<td class="text-align:right"><p>50</p></td>
-<td class="text-align:right"><p>50</p></td>
+<tr class="row-even"><td class="text-left"><p>expected frequency</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(E_i\)</span></p></td>
+<td class="text-right"><p>50</p></td>
+<td class="text-right"><p>50</p></td>
+<td class="text-right"><p>50</p></td>
+<td class="text-right"><p>50</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>observed frequency</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_i\)</span></p></td>
-<td class="text-align:right"><p>35</p></td>
-<td class="text-align:right"><p>51</p></td>
-<td class="text-align:right"><p>64</p></td>
-<td class="text-align:right"><p>50</p></td>
+<tr class="row-odd"><td class="text-left"><p>observed frequency</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_i\)</span></p></td>
+<td class="text-right"><p>35</p></td>
+<td class="text-right"><p>51</p></td>
+<td class="text-right"><p>64</p></td>
+<td class="text-right"><p>50</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>difference score</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_i - E_i\)</span></p></td>
-<td class="text-align:right"><p>-15</p></td>
-<td class="text-align:right"><p>1</p></td>
-<td class="text-align:right"><p>14</p></td>
-<td class="text-align:right"><p>0</p></td>
+<tr class="row-even"><td class="text-left"><p>difference score</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_i - E_i\)</span></p></td>
+<td class="text-right"><p>-15</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>14</p></td>
+<td class="text-right"><p>0</p></td>
 </tr>
 </tbody>
 </table>
@@ -1066,9 +840,9 @@ dtype: float64
 X^2 = \sum_{i=1}^k \frac{(O_i - E_i)^2}{E_i}
 \]</div>
 <p>Intuitively, it’s clear that if <span class="math notranslate nohighlight">\(X^2\)</span> is small, then the observed data <span class="math notranslate nohighlight">\(O_i\)</span> are very close to what the null hypothesis predicted <span class="math notranslate nohighlight">\(E_i\)</span>, so we’re going to need a large <span class="math notranslate nohighlight">\(X^2\)</span> statistic in order to reject the null. As we’ve seen from our calculations, in our cards data set we’ve got a value of <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span>. So now the question becomes, is this a big enough value to reject the null?</p>
-</div>
-<div class="section" id="the-sampling-distribution-of-the-gof-statistic-advanced">
-<h3><span class="section-number">13.1.4. </span>The sampling distribution of the GOF statistic (advanced)<a class="headerlink" href="#the-sampling-distribution-of-the-gof-statistic-advanced" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-sampling-distribution-of-the-gof-statistic-advanced">
+<h3><span class="section-number">13.1.4. </span>The sampling distribution of the GOF statistic (advanced)<a class="headerlink" href="#the-sampling-distribution-of-the-gof-statistic-advanced" title="Permalink to this heading">#</a></h3>
 <p>To determine whether or not a particular value of <span class="math notranslate nohighlight">\(X^2\)</span> is large enough to justify rejecting the null hypothesis, we’re going to need to figure out what the sampling distribution for <span class="math notranslate nohighlight">\(X^2\)</span> would be if the null hypothesis were true. So that’s what I’m going to do in this section. I’ll show you in a fair amount of detail how this sampling distribution is constructed, and then – in the next section – use it to build up a hypothesis test. If you want to cut to the chase and are willing to take it on faith that the sampling distribution is a <strong><em>chi-squared (<span class="math notranslate nohighlight">\(\chi^2\)</span>) distribution</em></strong> with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom, you can skip the rest of this section. However, if you want to understand <em>why</em> the goodness of fit test works the way it does, read on…</p>
 <p>Okay, let’s suppose that the null hypothesis is actually true. If so, then the true probability that an observation falls in the <span class="math notranslate nohighlight">\(i\)</span>-th category is <span class="math notranslate nohighlight">\(P_i\)</span> – after all, that’s pretty much the definition of our null hypothesis. Let’s think about what this actually means. If you think about it, this is kind of like saying that “nature” makes the decision about whether or not the observation ends up in category <span class="math notranslate nohighlight">\(i\)</span> by flipping a weighted coin (i.e., one where the probability of getting a head is <span class="math notranslate nohighlight">\(P_j\)</span>). And therefore, we can think of our observed frequency <span class="math notranslate nohighlight">\(O_i\)</span> by imagining that nature flipped <span class="math notranslate nohighlight">\(N\)</span> of these coins (one for each observation in the data set)… and exactly <span class="math notranslate nohighlight">\(O_i\)</span> of them came up heads. Obviously, this is a pretty weird way to think about the experiment. But what it does (I hope) is remind you that we’ve actually seen this scenario before. It’s exactly the same set up that gave rise to the <a class="reference internal" href="04.02-probability.html#binomial"><span class="std std-ref">binomial distribution</span></a>. In other words, if the null hypothesis is true, then it follows that our observed frequencies were generated by sampling from a binomial distribution:</p>
 <div class="math notranslate nohighlight">
@@ -1076,9 +850,14 @@ X^2 = \sum_{i=1}^k \frac{(O_i - E_i)^2}{E_i}
 O_i \sim \mbox{Binomial}(P_i, N)
 \]</div>
 <p>Now, if you remember from our discussion of the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">central limit theorem</span></a>, the binomial distribution starts to look pretty much identical to the normal distribution, especially when <span class="math notranslate nohighlight">\(N\)</span> is large and when <span class="math notranslate nohighlight">\(P_i\)</span> isn’t <em>too</em> close to 0 or 1. In other words as long as <span class="math notranslate nohighlight">\(N \times P_i\)</span> is large enough – or, to put it another way, when the expected frequency <span class="math notranslate nohighlight">\(E_i\)</span> is large enough – the theoretical distribution of <span class="math notranslate nohighlight">\(O_i\)</span> is approximately normal. Better yet, if <span class="math notranslate nohighlight">\(O_i\)</span> is normally distributed, then so is <span class="math notranslate nohighlight">\((O_i - E_i)/\sqrt{E_i}\)</span> … since <span class="math notranslate nohighlight">\(E_i\)</span> is a fixed value, subtracting off <span class="math notranslate nohighlight">\(E_i\)</span> and dividing by <span class="math notranslate nohighlight">\(\sqrt{E_i}\)</span> changes the mean and standard deviation of the normal distribution; but that’s all it does. Okay, so now let’s have a look at what our goodness of fit statistic actually <em>is</em>. What we’re doing is taking a bunch of things that are normally-distributed, squaring them, and adding them up. Wait. We’ve seen that before too! As we discussed in the section on the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">central limit theorem</span></a>, when you take a bunch of things that have a standard normal distribution (i.e., mean 0 and standard deviation 1), square them, then add them up, then the resulting quantity has a chi-square distribution. So now we know that the null hypothesis predicts that the sampling distribution of the goodness of fit statistic is a chi-square distribution. Cool.</p>
-<p>There’s one last detail to talk about, namely the degrees of freedom. If you remember back to the section on <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">other useful distributions</span></a>, I said that if the number of things you’re adding up is <span class="math notranslate nohighlight">\(k\)</span>, then the degrees of freedom for the resulting chi-square distribution is <span class="math notranslate nohighlight">\(k\)</span>. Yet, what I said at the start of this section is that the actual degrees of freedom for the chi-square goodness of fit test is <span class="math notranslate nohighlight">\(k-1\)</span>. What’s up with that? The answer here is that what we’re supposed to be looking at is the number of genuinely <em>independent</em> things that are getting added together. And, as I’ll go on to talk about in the next section, even though there’s <span class="math notranslate nohighlight">\(k\)</span> things that we’re adding, only <span class="math notranslate nohighlight">\(k-1\)</span> of them are truly independent; and so the degrees of freedom is actually only <span class="math notranslate nohighlight">\(k-1\)</span>. That’s the topic of the next section.<a class="footnote-reference brackets" href="#note1" id="id3">1</a></p>
-<p>When I introduced the chi-square distribution in <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">other useful distributions</span></a>, I was a bit vague about what “<strong><em>degrees of freedom</em></strong>” actually <em>means</em>. Obviously, it matters: looking <a class="reference internal" href="#fig-manychi"><span class="std std-numref">Fig. 13.1</span></a> you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer… it’s the number of “normally distributed variables” that I’m squaring and adding together. But, for most people, that’s kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.</p>
+<p>There’s one last detail to talk about, namely the degrees of freedom. If you remember back to the section on <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">other useful distributions</span></a>, I said that if the number of things you’re adding up is <span class="math notranslate nohighlight">\(k\)</span>, then the degrees of freedom for the resulting chi-square distribution is <span class="math notranslate nohighlight">\(k\)</span>. Yet, what I said at the start of this section is that the actual degrees of freedom for the chi-square goodness of fit test is <span class="math notranslate nohighlight">\(k-1\)</span>. What’s up with that? The answer here is that what we’re supposed to be looking at is the number of genuinely <em>independent</em> things that are getting added together. And, as I’ll go on to talk about in the next section, even though there’s <span class="math notranslate nohighlight">\(k\)</span> things that we’re adding, only <span class="math notranslate nohighlight">\(k-1\)</span> of them are truly independent; and so the degrees of freedom is actually only <span class="math notranslate nohighlight">\(k-1\)</span>. That’s the topic of the next section.<a class="footnote-reference brackets" href="#note1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p>When I introduced the chi-square distribution in <a class="reference internal" href="04.02-probability.html#otherdists"><span class="std std-ref">other useful distributions</span></a>, I was a bit vague about what “<strong><em>degrees of freedom</em></strong>” actually <em>means</em>. Obviously, it matters: looking <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-manychi</span></code> you can see that if we change the degrees of freedom, then the chi-square distribution changes shape quite substantially. But what exactly <em>is</em> it? Again, when I introduced the distribution and explained its relationship to the normal distribution, I did offer an answer… it’s the number of “normally distributed variables” that I’m squaring and adding together. But, for most people, that’s kind of abstract, and not entirely helpful. What we really need to do is try to understand degrees of freedom in terms of our data. So here goes.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -1112,29 +891,22 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
-</pre></div>
+<img alt="_images/43f854d49de964f344a4487d9dc9c646b8520b3102b936e9d2e4d64b9c5a0964.png" src="_images/43f854d49de964f344a4487d9dc9c646b8520b3102b936e9d2e4d64b9c5a0964.png" />
 </div>
 </div>
-</div>
-<div class="figure align-default" id="fig-manychi" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 13.1 </span><span class="caption-text">Chi-square distributions with different values for the “degrees of freedom”.</span><a class="headerlink" href="#fig-manychi" title="Permalink to this image">¶</a></p>
-</div>
-<p>The basic idea behind degrees of freedom is quite simple: you calculate it by counting up the number of distinct “quantities” that are used to describe your data; and then subtracting off all of the “constraints” that those data must satisfy.<a class="footnote-reference brackets" href="#note2" id="id4">2</a> This is a bit vague, so let’s use our cards data as a concrete example. We describe out data using four numbers, <span class="math notranslate nohighlight">\(O_1\)</span>, <span class="math notranslate nohighlight">\(O_2\)</span>, <span class="math notranslate nohighlight">\(O_3\)</span> and <span class="math notranslate nohighlight">\(O_4\)</span> corresponding to the observed frequencies of the four different categories (hearts, clubs, diamonds, spades). These four numbers are the <em>random outcomes</em> of our experiment. But, my experiment actually has a fixed constraint built into it: the sample size <span class="math notranslate nohighlight">\(N\)</span>.<a class="footnote-reference brackets" href="#note3" id="id5">3</a> That is, if we know how many people chose hearts, how many chose diamonds and how many chose clubs; then we’d be able to figure out exactly how many chose spades. In other words, although our data are described using four numbers, they only actually correspond to <span class="math notranslate nohighlight">\(4-1 = 3\)</span> degrees of freedom. A slightly different way of thinking about it is to notice that there are four <em>probabilities</em> that we’re interested in (again, corresponding to the four different categories), but these probabilities must sum to one, which imposes a constraint. Therefore, the degrees of freedom is <span class="math notranslate nohighlight">\(4-1 = 3\)</span>. Regardless of whether you want to think about it in terms of the observed frequencies or in terms of the probabilities, the answer is the same. In general, when running the chi-square goodness of fit test for an experiment involving <span class="math notranslate nohighlight">\(k\)</span> groups, then the degrees of freedom will be <span class="math notranslate nohighlight">\(k-1\)</span>.</p>
-</div>
-<div class="section" id="testing-the-null-hypothesis">
-<h3><span class="section-number">13.1.5. </span>Testing the null hypothesis<a class="headerlink" href="#testing-the-null-hypothesis" title="Permalink to this headline">¶</a></h3>
-<p>The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of <span class="math notranslate nohighlight">\(X^2\)</span> would lead us to reject the null hypothesis. As we saw earlier, large values of <span class="math notranslate nohighlight">\(X^2\)</span> imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of <span class="math notranslate nohighlight">\(X^2\)</span> imply that it’s actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if <span class="math notranslate nohighlight">\(X^2\)</span> is bigger than the critical value we reject the null; but if <span class="math notranslate nohighlight">\(X^2\)</span> is smaller than this value we retain the null. In other words, to use the language we introduced in the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a>, the chi-squared goodness of fit test is always a <strong><em>one-sided test</em></strong>. Right, so all we have to do is figure out what this critical value is. And it’s pretty straightforward. If we want our test to have significance level of <span class="math notranslate nohighlight">\(\alpha = .05\)</span> (that is, we are willing to tolerate a Type I error rate of 5%), then we have to choose our critical value so that there is only a 5% chance that <span class="math notranslate nohighlight">\(X^2\)</span> could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in <a class="reference internal" href="#fig-goftest"><span class="std std-numref">Fig. 13.2</span></a>.</p>
+<p>The basic idea behind degrees of freedom is quite simple: you calculate it by counting up the number of distinct “quantities” that are used to describe your data; and then subtracting off all of the “constraints” that those data must satisfy.<a class="footnote-reference brackets" href="#note2" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> This is a bit vague, so let’s use our cards data as a concrete example. We describe out data using four numbers, <span class="math notranslate nohighlight">\(O_1\)</span>, <span class="math notranslate nohighlight">\(O_2\)</span>, <span class="math notranslate nohighlight">\(O_3\)</span> and <span class="math notranslate nohighlight">\(O_4\)</span> corresponding to the observed frequencies of the four different categories (hearts, clubs, diamonds, spades). These four numbers are the <em>random outcomes</em> of our experiment. But, my experiment actually has a fixed constraint built into it: the sample size <span class="math notranslate nohighlight">\(N\)</span>.<a class="footnote-reference brackets" href="#note3" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> That is, if we know how many people chose hearts, how many chose diamonds and how many chose clubs; then we’d be able to figure out exactly how many chose spades. In other words, although our data are described using four numbers, they only actually correspond to <span class="math notranslate nohighlight">\(4-1 = 3\)</span> degrees of freedom. A slightly different way of thinking about it is to notice that there are four <em>probabilities</em> that we’re interested in (again, corresponding to the four different categories), but these probabilities must sum to one, which imposes a constraint. Therefore, the degrees of freedom is <span class="math notranslate nohighlight">\(4-1 = 3\)</span>. Regardless of whether you want to think about it in terms of the observed frequencies or in terms of the probabilities, the answer is the same. In general, when running the chi-square goodness of fit test for an experiment involving <span class="math notranslate nohighlight">\(k\)</span> groups, then the degrees of freedom will be <span class="math notranslate nohighlight">\(k-1\)</span>.</p>
+</section>
+<section id="testing-the-null-hypothesis">
+<h3><span class="section-number">13.1.5. </span>Testing the null hypothesis<a class="headerlink" href="#testing-the-null-hypothesis" title="Permalink to this heading">#</a></h3>
+<p>The final step in the process of constructing our hypothesis test is to figure out what the rejection region is. That is, what values of <span class="math notranslate nohighlight">\(X^2\)</span> would lead us to reject the null hypothesis. As we saw earlier, large values of <span class="math notranslate nohighlight">\(X^2\)</span> imply that the null hypothesis has done a poor job of predicting the data from our experiment, whereas small values of <span class="math notranslate nohighlight">\(X^2\)</span> imply that it’s actually done pretty well. Therefore, a pretty sensible strategy would be to say there is some critical value, such that if <span class="math notranslate nohighlight">\(X^2\)</span> is bigger than the critical value we reject the null; but if <span class="math notranslate nohighlight">\(X^2\)</span> is smaller than this value we retain the null. In other words, to use the language we introduced in the chapter on <a class="reference internal" href="04.04-hypothesis-testing.html#hypothesis-testing"><span class="std std-ref">hypothesis testing</span></a>, the chi-squared goodness of fit test is always a <strong><em>one-sided test</em></strong>. Right, so all we have to do is figure out what this critical value is. And it’s pretty straightforward. If we want our test to have significance level of <span class="math notranslate nohighlight">\(\alpha = .05\)</span> (that is, we are willing to tolerate a Type I error rate of 5%), then we have to choose our critical value so that there is only a 5% chance that <span class="math notranslate nohighlight">\(X^2\)</span> could get to be that big if the null hypothesis is true. That is to say, we want the 95th percentile of the sampling distribution. This is illustrated in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-goftest</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1164,17 +936,10 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.01-chisquare_35_1.png" src="_images/05.01-chisquare_35_1.png" />
+<img alt="_images/6bf3f970a14da7d5faf1ac750dc60c45195bb2acf71f3025135bd7d461549481.png" src="_images/6bf3f970a14da7d5faf1ac750dc60c45195bb2acf71f3025135bd7d461549481.png" />
 </div>
-</div>
-<div class="figure align-default" id="fig-goftest" style="width: 600px">
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;Value of the GOF Statistic&#39;&gt;
-</pre></div>
-</div>
-</div>
-<p class="caption"><span class="caption-number">Fig. 13.2 </span><span class="caption-text">Illustration of how the hypothesis testing works for the chi-square goodness of fit test.</span><a class="headerlink" href="#fig-goftest" title="Permalink to this image">¶</a></p>
 </div>
 <p>Ah, but – I hear you ask – how do I calculate the 95th percentile of a chi-squared distribution with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom? If only Python had some function, called… oh, I don’t know, chi2 percent, or chi2 percent point … that would let you calculate this percentile. What about the “chi2 percent point function”, <code class="docutils literal notranslate"><span class="pre">chi2.ppf()</span></code>, hmm?  Doesn’t that sound like it might do the trick? Like this…</p>
 <div class="cell docutils container">
@@ -1206,9 +971,9 @@ O_i \sim \mbox{Binomial}(P_i, N)
 </div>
 </div>
 <p>So, in this case we would reject the null hypothesis, since <span class="math notranslate nohighlight">\(p &lt; .05\)</span>.  And that’s it, basically. You now know “Pearson’s <span class="math notranslate nohighlight">\(\chi^2\)</span> test for the goodness of fit”. Lucky you.</p>
-</div>
-<div class="section" id="doing-the-test-in-python">
-<span id="goftestinpython"></span><h3><span class="section-number">13.1.6. </span>Doing the test in Python<a class="headerlink" href="#doing-the-test-in-python" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="doing-the-test-in-python">
+<span id="goftestinpython"></span><h3><span class="section-number">13.1.6. </span>Doing the test in Python<a class="headerlink" href="#doing-the-test-in-python" title="Permalink to this heading">#</a></h3>
 <p>Gosh darn it. Although we did manage to do everything in Python as we were going through that little example, it does rather feel as if we’re typing too many things into the magic computing box. And I <em>hate</em> typing. Unfortunately, to my knowledge, there is no ready-made function in Python to go directly from the raw data to a finished chi2 goodness-of-fit analysis, but we can get pretty close with <code class="docutils literal notranslate"><span class="pre">chisquare</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>. If we don’t supply any expected values, then the function assumes that we expect equal counts for all items, so all we need to do is feed the frequency table directly into the <code class="docutils literal notranslate"><span class="pre">chisquare</span></code> function, like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1231,9 +996,9 @@ p =  0.038
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="specifying-a-different-null-hypothesis">
-<h3><span class="section-number">13.1.7. </span>Specifying a different null hypothesis<a class="headerlink" href="#specifying-a-different-null-hypothesis" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="specifying-a-different-null-hypothesis">
+<h3><span class="section-number">13.1.7. </span>Specifying a different null hypothesis<a class="headerlink" href="#specifying-a-different-null-hypothesis" title="Permalink to this heading">#</a></h3>
 <p>At this point you might be wondering what to do if you want to run a goodness of fit test, but your null hypothesis is <em>not</em> that all categories are equally likely. For instance, let’s suppose that someone had made the theoretical prediction that people should choose red cards 60% of the time, and black cards 40% of the time (I’ve no idea why you’d predict that), but had no other preferences. If that were the case, the null hypothesis would be to expect 30% of the choices to be hearts, 30% to be diamonds, 20% to be spades and 20% to be clubs. This seems like a silly theory to me, and it’s pretty easy to test it using our data. All we need to do is specify the probabilities associated with the null hypothesis. We create a vector like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1290,10 +1055,9 @@ p =  0.192
 </div>
 </div>
 <p>The null hypothesis and the expected frequencies are different to what they were last time. As a consequence our <span class="math notranslate nohighlight">\(X^2\)</span> test statistic is different, and our <span class="math notranslate nohighlight">\(p\)</span>-value is different too. Annoyingly, the <span class="math notranslate nohighlight">\(p\)</span>-value is .192, so we can’t reject the null hypothesis. Sadly, despite the fact that the null hypothesis corresponds to a very silly theory, these data don’t provide enough evidence against it.</p>
-<p>(chisqreport})=</p>
-</div>
-<div class="section" id="how-to-report-the-results-of-the-test">
-<h3><span class="section-number">13.1.8. </span>How to report the results of the test<a class="headerlink" href="#how-to-report-the-results-of-the-test" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="how-to-report-the-results-of-the-test">
+<span id="chisqreport"></span><h3><span class="section-number">13.1.8. </span>How to report the results of the test<a class="headerlink" href="#how-to-report-the-results-of-the-test" title="Permalink to this heading">#</a></h3>
 <p>So now you know how the test works, and you know how to do the test using a wonderful magic computing box. The next thing you need to know is how to write up the results. After all, there’s no point in designing and running an experiment and then analysing the data if you don’t tell anyone about it! So let’s now talk about what you need to do when reporting your analysis. Let’s stick with our card-suits example. If I wanted to write this result up for a paper or something, the conventional way to report this would be to write something like this:</p>
 <blockquote>
 <div><p>Of the 200 participants in the experiment, 64 selected hearts for their first choice, 51 selected diamonds, 50 selected spades, and 35 selected clubs. A chi-square goodness of fit test was conducted to test whether the choice probabilities were identical for all four suits. The results were significant (<span class="math notranslate nohighlight">\(\chi^2(3) = 8.44, p&lt;.05\)</span>), suggesting that people did not select suits purely at random.</p>
@@ -1302,52 +1066,52 @@ p =  0.192
 <ul class="simple">
 <li><p><em>The statistical test is preceded by the descriptive statistics</em>. That is, I told the reader something about what the data look like before going on to do the test. In general, this is good practice: always remember that your reader doesn’t know your data anywhere near as well as you do. So unless you describe it to them properly, the statistical tests won’t make any sense to them, and they’ll get frustrated and cry.</p></li>
 <li><p><em>The description tells you what the null hypothesis being tested is</em>. To be honest, writers don’t always do this, but it’s often a good idea in those situations where some ambiguity exists; or when you can’t rely on your readership being intimately familiar with the statistical tools that you’re using. Quite often the reader might not know (or remember) all the details of the test that your using, so it’s a kind of politeness to “remind” them! As far as the goodness of fit test goes, you can usually rely on a scientific audience knowing how it works (since it’s covered in most intro stats classes). However, it’s still a good idea to be explicit about stating the null hypothesis (briefly!) because the null hypothesis can be different depending on what you’re using the test for. For instance, in the cards example my null hypothesis was that all the four suit probabilities were identical (i.e., <span class="math notranslate nohighlight">\(P_1 = P_2 = P_3 = P_4 = 0.25\)</span>), but there’s nothing special about that hypothesis. I could just as easily have tested the null hypothesis that <span class="math notranslate nohighlight">\(P_1 = 0.7\)</span> and <span class="math notranslate nohighlight">\(P_2 = P_3 = P_4 = 0.1\)</span> using a goodness of fit test. So it’s helpful to the reader if you explain to them what your null hypothesis was. Also, notice that I described the null hypothesis in words, not in maths. That’s perfectly acceptable. You can describe it in maths if you like, but since most readers find words easier to read than symbols, most writers tend to describe the null using words if they can.</p></li>
-<li><p><em>A “stat block” is included</em>. When reporting the results of the test itself, I didn’t just say that the result was significant, I included a “stat block” (i.e., the dense mathematical-looking part in the parentheses), which reports all the “raw” statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test (<span class="math notranslate nohighlight">\(\chi^2\)</span> with 3 degrees of freedom, which is usually shortened to <span class="math notranslate nohighlight">\(\chi^2(3)\)</span>), and then the information about whether the result was significant (in this case <span class="math notranslate nohighlight">\(p&lt;.05\)</span>). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I’ll show you what the stat block should look like.<a class="footnote-reference brackets" href="#note4" id="id6">4</a> However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to.</p></li>
-<li><p><em>The results are interpreted</em>. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn’t choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what’s going on in your data. If you don’t include something like this, it’s really hard for your reader to understand what’s going on.<a class="footnote-reference brackets" href="#note5" id="id7">5</a></p></li>
+<li><p><em>A “stat block” is included</em>. When reporting the results of the test itself, I didn’t just say that the result was significant, I included a “stat block” (i.e., the dense mathematical-looking part in the parentheses), which reports all the “raw” statistical data. For the chi-square goodness of fit test, the information that gets reported is the test statistic (that the goodness of fit statistic was 8.44), the information about the distribution used in the test (<span class="math notranslate nohighlight">\(\chi^2\)</span> with 3 degrees of freedom, which is usually shortened to <span class="math notranslate nohighlight">\(\chi^2(3)\)</span>), and then the information about whether the result was significant (in this case <span class="math notranslate nohighlight">\(p&lt;.05\)</span>). The particular information that needs to go into the stat block is different for every test, and so each time I introduce a new test I’ll show you what the stat block should look like.<a class="footnote-reference brackets" href="#note4" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> However the general principle is that you should always provide enough information so that the reader could check the test results themselves if they really wanted to.</p></li>
+<li><p><em>The results are interpreted</em>. In addition to indicating that the result was significant, I provided an interpretation of the result (i.e., that people didn’t choose randomly). This is also a kindness to the reader, because it tells them something about what they should believe about what’s going on in your data. If you don’t include something like this, it’s really hard for your reader to understand what’s going on.<a class="footnote-reference brackets" href="#note5" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></li>
 </ul>
 <p>As with everything else, your overriding concern should be that you <em>explain</em> things to your reader. Always remember that the point of reporting your results is to communicate to another human being. I cannot tell you just how many times I’ve seen the results section of a report or a thesis or even a scientific article that is just gibberish, because the writer has focused solely on making sure they’ve included all the numbers, and forgotten to actually communicate with the human reader.</p>
-</div>
-<div class="section" id="a-comment-on-statistical-notation-advanced">
-<h3><span class="section-number">13.1.9. </span>A comment on statistical notation (advanced)<a class="headerlink" href="#a-comment-on-statistical-notation-advanced" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="a-comment-on-statistical-notation-advanced">
+<h3><span class="section-number">13.1.9. </span>A comment on statistical notation (advanced)<a class="headerlink" href="#a-comment-on-statistical-notation-advanced" title="Permalink to this heading">#</a></h3>
 <blockquote>
 <div><p><em>Satan delights equally in statistics and in quoting scripture</em></p>
 <p>– H.G. Wells</p>
 </div></blockquote>
 <p>If you’ve been reading very closely, and are as much of a mathematical pedant as I am, there is one thing about the way I wrote up the chi-square test in the last section that might be bugging you a little bit. There’s something that feels a bit wrong with writing “<span class="math notranslate nohighlight">\(\chi^2(3) = 8.44\)</span>”, you might be thinking. After all, it’s the goodness of fit statistic that is equal to 8.44, so shouldn’t I have written <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span> or maybe GOF<span class="math notranslate nohighlight">\(=8.44\)</span>? This seems to be conflating the <em>sampling distribution</em> (i.e., <span class="math notranslate nohighlight">\(\chi^2\)</span> with <span class="math notranslate nohighlight">\(df = 3\)</span>) with the <em>test statistic</em> (i.e., <span class="math notranslate nohighlight">\(X^2\)</span>). Odds are you figured it was a typo, since <span class="math notranslate nohighlight">\(\chi\)</span> and <span class="math notranslate nohighlight">\(X\)</span> look pretty similar. Oddly, it’s not. Writing <span class="math notranslate nohighlight">\(\chi^2(3) = 8.44\)</span> is essentially a highly condensed way of writing “the sampling distribution of the test statistic is <span class="math notranslate nohighlight">\(\chi^2(3)\)</span>, and the value of the test statistic is 8.44”.</p>
-<p>In one sense, this is kind of stupid. There are <em>lots</em> of different test statistics out there that turn out to have a chi-square sampling distribution: the <span class="math notranslate nohighlight">\(X^2\)</span> statistic that we’ve used for our goodness of fit test is only one of many (albeit one of the most commonly encountered ones). In a sensible, perfectly organised world, we’d <em>always</em> have a separate name for the test statistic and the sampling distribution: that way, the stat block itself would tell you exactly what it was that the researcher had calculated. Sometimes this happens. For instance, the test statistic used in the Pearson goodness of fit test is written <span class="math notranslate nohighlight">\(X^2\)</span>; but there’s a closely related test known as the <span class="math notranslate nohighlight">\(G\)</span>-test<a class="footnote-reference brackets" href="#note6" id="id8">6</a> <span id="id9">[<a class="reference internal" href="bibliography.html#id68" title="R. R. Sokal and F. J. Rohlf. Biometry: the principles and practice of statistics in biological research. Freeman, New York, 3rd edition, 1994.">Sokal and Rohlf, 1994</a>]</span>, in which the test statistic is written as <span class="math notranslate nohighlight">\(G\)</span>. As it happens, the Pearson goodness of fit test and the <span class="math notranslate nohighlight">\(G\)</span>-test both test the same null hypothesis; and the sampling distribution is exactly the same (i.e., chi-square with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom). If I’d done a <span class="math notranslate nohighlight">\(G\)</span>-test for the cards data rather than a goodness of fit test, then I’d have ended up with a test statistic of <span class="math notranslate nohighlight">\(G = 8.65\)</span>, which is slightly different from the <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span> value that I got earlier; and produces a slightly smaller <span class="math notranslate nohighlight">\(p\)</span>-value of <span class="math notranslate nohighlight">\(p = .034\)</span>. Suppose that the convention was to report the test statistic, then the sampling distribution, and then the <span class="math notranslate nohighlight">\(p\)</span>-value. If that were true, then these two situations would produce different stat blocks: my original result would be written <span class="math notranslate nohighlight">\(X^2 = 8.44, \chi^2(3), p = .038\)</span>, whereas the new version using the <span class="math notranslate nohighlight">\(G\)</span>-test would be written as <span class="math notranslate nohighlight">\(G = 8.65, \chi^2(3), p = .034\)</span>. However, using the condensed reporting standard, the original result is written <span class="math notranslate nohighlight">\(\chi^2(3) = 8.44, p = .038\)</span>, and the new one is written <span class="math notranslate nohighlight">\(\chi^2(3) = 8.65, p = .034\)</span>, and so it’s actually unclear which test I actually ran.</p>
+<p>In one sense, this is kind of stupid. There are <em>lots</em> of different test statistics out there that turn out to have a chi-square sampling distribution: the <span class="math notranslate nohighlight">\(X^2\)</span> statistic that we’ve used for our goodness of fit test is only one of many (albeit one of the most commonly encountered ones). In a sensible, perfectly organised world, we’d <em>always</em> have a separate name for the test statistic and the sampling distribution: that way, the stat block itself would tell you exactly what it was that the researcher had calculated. Sometimes this happens. For instance, the test statistic used in the Pearson goodness of fit test is written <span class="math notranslate nohighlight">\(X^2\)</span>; but there’s a closely related test known as the <span class="math notranslate nohighlight">\(G\)</span>-test<a class="footnote-reference brackets" href="#note6" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <span id="id9">[<a class="reference internal" href="bibliography.html#id68" title="R. R. Sokal and F. J. Rohlf. Biometry: the principles and practice of statistics in biological research. Freeman, New York, 3rd edition, 1994.">Sokal and Rohlf, 1994</a>]</span>, in which the test statistic is written as <span class="math notranslate nohighlight">\(G\)</span>. As it happens, the Pearson goodness of fit test and the <span class="math notranslate nohighlight">\(G\)</span>-test both test the same null hypothesis; and the sampling distribution is exactly the same (i.e., chi-square with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom). If I’d done a <span class="math notranslate nohighlight">\(G\)</span>-test for the cards data rather than a goodness of fit test, then I’d have ended up with a test statistic of <span class="math notranslate nohighlight">\(G = 8.65\)</span>, which is slightly different from the <span class="math notranslate nohighlight">\(X^2 = 8.44\)</span> value that I got earlier; and produces a slightly smaller <span class="math notranslate nohighlight">\(p\)</span>-value of <span class="math notranslate nohighlight">\(p = .034\)</span>. Suppose that the convention was to report the test statistic, then the sampling distribution, and then the <span class="math notranslate nohighlight">\(p\)</span>-value. If that were true, then these two situations would produce different stat blocks: my original result would be written <span class="math notranslate nohighlight">\(X^2 = 8.44, \chi^2(3), p = .038\)</span>, whereas the new version using the <span class="math notranslate nohighlight">\(G\)</span>-test would be written as <span class="math notranslate nohighlight">\(G = 8.65, \chi^2(3), p = .034\)</span>. However, using the condensed reporting standard, the original result is written <span class="math notranslate nohighlight">\(\chi^2(3) = 8.44, p = .038\)</span>, and the new one is written <span class="math notranslate nohighlight">\(\chi^2(3) = 8.65, p = .034\)</span>, and so it’s actually unclear which test I actually ran.</p>
 <p>So why don’t we live in a world in which the contents of the stat block uniquely specifies what tests were ran? The deep reason is that life is messy. We (as users of statistical tools) want it to be nice and neat and organised… we want it to be <em>designed</em>, as if it were a product. But that’s not how life works: statistics is an intellectual discipline just as much as any other one, and as such it’s a massively distributed, partly-collaborative and partly-competitive project that no-one really understands completely. The things that you and I use as data analysis tools weren’t created by an Act of the Gods of Statistics; they were invented by lots of different people, published as papers in academic journals, implemented, corrected and modified by lots of other people, and then explained to students in textbooks by someone else. As a consequence, there’s a <em>lot</em> of test statistics that don’t even have names; and as a consequence they’re just given the same name as the corresponding sampling distribution. As we’ll see later, any test statistic that follows a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution is commonly called a “chi-square statistic”; anything that follows a <span class="math notranslate nohighlight">\(t\)</span>-distribution is called a “<span class="math notranslate nohighlight">\(t\)</span>-statistic” and so on. But, as the <span class="math notranslate nohighlight">\(X^2\)</span> versus <span class="math notranslate nohighlight">\(G\)</span> example illustrates, two different things with the same sampling distribution are still, well, different.</p>
 <p>As a consequence, it’s sometimes a good idea to be clear about what the actual test was that you ran, especially if you’re doing something unusual. If you just say “chi-square test”, it’s not actually clear what test you’re talking about. Although, since the two most common chi-square tests are the goodness of fit test and the <a class="reference internal" href="#chisqindependence"><span class="std std-ref">independence test</span></a>), most readers with stats training can probably guess. Nevertheless, it’s something to be aware of.</p>
-</div>
-</div>
-<div class="section" id="the-chi-2-test-of-independence-or-association">
-<span id="chisqindependence"></span><h2><span class="section-number">13.2. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association)<a class="headerlink" href="#the-chi-2-test-of-independence-or-association" title="Permalink to this headline">¶</a></h2>
-<table class="colwidths-auto table">
+</section>
+</section>
+<section id="the-chi-2-test-of-independence-or-association">
+<span id="chisqindependence"></span><h2><span class="section-number">13.2. </span>The <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association)<a class="headerlink" href="#the-chi-2-test-of-independence-or-association" title="Permalink to this heading">#</a></h2>
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p></p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
-<td class="text-align:left"><p>Halt!</p></td>
+<tr class="row-even"><td class="text-left"><p>GUARDBOT1:</p></td>
+<td class="text-left"><p>Halt!</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>GUARDBOT2:</p></td>
-<td class="text-align:left"><p>Be you robot or human?</p></td>
+<tr class="row-odd"><td class="text-left"><p>GUARDBOT2:</p></td>
+<td class="text-left"><p>Be you robot or human?</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>LEELA:</p></td>
-<td class="text-align:left"><p>Robot…we be.</p></td>
+<tr class="row-even"><td class="text-left"><p>LEELA:</p></td>
+<td class="text-left"><p>Robot…we be.</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>FRY:</p></td>
-<td class="text-align:left"><p>Uh, yup! Just two robots out roboting it up!  Eh?</p></td>
+<tr class="row-odd"><td class="text-left"><p>FRY:</p></td>
+<td class="text-left"><p>Uh, yup! Just two robots out roboting it up!  Eh?</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
-<td class="text-align:left"><p>Administer the test.</p></td>
+<tr class="row-even"><td class="text-left"><p>GUARDBOT1:</p></td>
+<td class="text-left"><p>Administer the test.</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>GUARDBOT2:</p></td>
-<td class="text-align:left"><p>Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file?</p></td>
+<tr class="row-odd"><td class="text-left"><p>GUARDBOT2:</p></td>
+<td class="text-left"><p>Which of the following would you most prefer?  A: A puppy, B: A pretty flower from your sweetie, or C: A large properly-formatted data file?</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>GUARDBOT1:</p></td>
-<td class="text-align:left"><p>Choose!</p></td>
+<tr class="row-even"><td class="text-left"><p>GUARDBOT1:</p></td>
+<td class="text-left"><p>Choose!</p></td>
 </tr>
 </tbody>
 </table>
@@ -1592,92 +1356,92 @@ p =  0.192
 </div></div></div>
 </div>
 <p>With maybe a teeny bit of tidying up, like so:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:center head"><p>Robot</p></th>
-<th class="text-align:center head"><p>Human</p></th>
-<th class="text-align:center head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>Robot</p></th>
+<th class="head text-center"><p>Human</p></th>
+<th class="head text-center"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Puppy</p></td>
-<td class="text-align:center"><p>13</p></td>
-<td class="text-align:center"><p>15</p></td>
-<td class="text-align:center"><p>28</p></td>
+<tr class="row-even"><td class="text-left"><p>Puppy</p></td>
+<td class="text-center"><p>13</p></td>
+<td class="text-center"><p>15</p></td>
+<td class="text-center"><p>28</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Flower</p></td>
-<td class="text-align:center"><p>30</p></td>
-<td class="text-align:center"><p>13</p></td>
-<td class="text-align:center"><p>43</p></td>
+<tr class="row-odd"><td class="text-left"><p>Flower</p></td>
+<td class="text-center"><p>30</p></td>
+<td class="text-center"><p>13</p></td>
+<td class="text-center"><p>43</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Data file</p></td>
-<td class="text-align:center"><p>44</p></td>
-<td class="text-align:center"><p>65</p></td>
-<td class="text-align:center"><p>109</p></td>
+<tr class="row-even"><td class="text-left"><p>Data file</p></td>
+<td class="text-center"><p>44</p></td>
+<td class="text-center"><p>65</p></td>
+<td class="text-center"><p>109</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:center"><p>87</p></td>
-<td class="text-align:center"><p>93</p></td>
-<td class="text-align:center"><p>180</p></td>
+<tr class="row-odd"><td class="text-left"><p>Total</p></td>
+<td class="text-center"><p>87</p></td>
+<td class="text-center"><p>93</p></td>
+<td class="text-center"><p>180</p></td>
 </tr>
 </tbody>
 </table>
 <p>we would actually have a nice way to report the descriptive statistics for this data set. In any case, it’s quite clear that the vast majority of the humans chose the data file, whereas the robots tended to be a lot  more even in their preferences. Leaving aside the question of <em>why</em> the humans might be more likely to choose the data file for the moment (which does seem quite odd, admittedly), our first order of business is to determine if the discrepancy between human choices and robot choices in the data set is statistically significant.</p>
-<div class="section" id="constructing-our-hypothesis-test">
-<h3><span class="section-number">13.2.1. </span>Constructing our hypothesis test<a class="headerlink" href="#constructing-our-hypothesis-test" title="Permalink to this headline">¶</a></h3>
+<section id="constructing-our-hypothesis-test">
+<h3><span class="section-number">13.2.1. </span>Constructing our hypothesis test<a class="headerlink" href="#constructing-our-hypothesis-test" title="Permalink to this heading">#</a></h3>
 <p>How do we analyse this data? Specifically, since my <em>research</em> hypothesis is that “humans and robots answer the question in different ways”, how can I construct a test of the <em>null</em> hypothesis that “humans and robots answer the question the same way”? As before, we begin by establishing some notation to describe the data:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>Robot</p></th>
-<th class="text-align:left head"><p>Human</p></th>
-<th class="text-align:left head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Robot</p></th>
+<th class="head text-left"><p>Human</p></th>
+<th class="head text-left"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Puppy</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Puppy</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Flower</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>Flower</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Data file</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{31}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{32}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{3}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Data file</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{31}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{32}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(R_{3}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>Total</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
 </tr>
 </tbody>
 </table>
-<p>In this notation we say that <span class="math notranslate nohighlight">\(O_{ij}\)</span> is a count (observed frequency) of the number of respondents that are of species <span class="math notranslate nohighlight">\(j\)</span> (robots or human) who gave answer <span class="math notranslate nohighlight">\(i\)</span> (puppy, flower or data) when asked to make a choice. The total number of observations is written <span class="math notranslate nohighlight">\(N\)</span>, as usual. Finally, I’ve used <span class="math notranslate nohighlight">\(R_i\)</span> to denote the row totals (e.g., <span class="math notranslate nohighlight">\(R_1\)</span> is the total number of people who chose the flower), and <span class="math notranslate nohighlight">\(C_j\)</span> to denote the column totals (e.g., <span class="math notranslate nohighlight">\(C_1\)</span> is the total number of robots).<a class="footnote-reference brackets" href="#note7" id="id10">7</a></p>
+<p>In this notation we say that <span class="math notranslate nohighlight">\(O_{ij}\)</span> is a count (observed frequency) of the number of respondents that are of species <span class="math notranslate nohighlight">\(j\)</span> (robots or human) who gave answer <span class="math notranslate nohighlight">\(i\)</span> (puppy, flower or data) when asked to make a choice. The total number of observations is written <span class="math notranslate nohighlight">\(N\)</span>, as usual. Finally, I’ve used <span class="math notranslate nohighlight">\(R_i\)</span> to denote the row totals (e.g., <span class="math notranslate nohighlight">\(R_1\)</span> is the total number of people who chose the flower), and <span class="math notranslate nohighlight">\(C_j\)</span> to denote the column totals (e.g., <span class="math notranslate nohighlight">\(C_1\)</span> is the total number of robots).<a class="footnote-reference brackets" href="#note7" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p>
 <p>So now let’s think about what the null hypothesis says. If robots and humans are responding in the same way to the question, it means that the probability that “a robot says puppy” is the same as the probability that “a human says puppy”, and so on for the other two possibilities. So, if we use <span class="math notranslate nohighlight">\(P_{ij}\)</span> to denote “the probability that a member of species <span class="math notranslate nohighlight">\(j\)</span> gives response <span class="math notranslate nohighlight">\(i\)</span>” then our null hypothesis is that:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p></p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p><span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
-<td class="text-align:left"><p>All of the following are true:</p></td>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-left"><p>All of the following are true:</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{11} = P_{12}\)</span> (same probability of saying puppy)</p></td>
+<tr class="row-odd"><td class="text-left"><p></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(P_{11} = P_{12}\)</span> (same probability of saying puppy)</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{21} = P_{22}\)</span> (same probability of saying flower) and</p></td>
+<tr class="row-even"><td class="text-left"><p></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(P_{21} = P_{22}\)</span> (same probability of saying flower) and</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(P_{31} = P_{32}\)</span> (same probability of saying data).</p></td>
+<tr class="row-odd"><td class="text-left"><p></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(P_{31} = P_{32}\)</span> (same probability of saying data).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1692,7 +1456,7 @@ E_{ij} = C_j \times P_i
 \[
 \hat{P}_i = \frac{R_i}{N}
 \]</div>
-<p>Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:<a class="footnote-reference brackets" href="#note8" id="id11">8</a></p>
+<p>Therefore, our expected frequency can be written as the product (i.e. multiplication) of the row total and the column total, divided by the total number of observations:<a class="footnote-reference brackets" href="#note8" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
 \[
 E_{ij} = \frac{R_i \times C_j}{N}
@@ -1718,7 +1482,7 @@ df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} 
 &amp;=&amp; (r - 1)(c - 1)
 \end{array}
 \end{split}\]</div>
-<p>Alternatively, suppose that the only thing that the experimenter fixed was the total sample size <span class="math notranslate nohighlight">\(N\)</span>. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has <span class="math notranslate nohighlight">\(r-1\)</span> free parameters corresponding to the choice probabilities, but it now <em>also</em> has <span class="math notranslate nohighlight">\(c-1\)</span> free parameters corresponding to the species probabilities, because we’d also have to estimate the probability that a randomly sampled person turns out to be a robot.<a class="footnote-reference brackets" href="#note9" id="id12">9</a> Finally, since we did actually fix the total number of observations <span class="math notranslate nohighlight">\(N\)</span>, that’s one more constraint. So now we have, <span class="math notranslate nohighlight">\(rc\)</span> observations, and <span class="math notranslate nohighlight">\((c-1) + (r-1) + 1\)</span> constraints. What does that give?</p>
+<p>Alternatively, suppose that the only thing that the experimenter fixed was the total sample size <span class="math notranslate nohighlight">\(N\)</span>. That is, we quizzed the first 180 people that we saw, and it just turned out that 87 were robots and 93 were humans. This time around our reasoning would be slightly different, but would still lead is to the same answer. Our null hypothesis still has <span class="math notranslate nohighlight">\(r-1\)</span> free parameters corresponding to the choice probabilities, but it now <em>also</em> has <span class="math notranslate nohighlight">\(c-1\)</span> free parameters corresponding to the species probabilities, because we’d also have to estimate the probability that a randomly sampled person turns out to be a robot.<a class="footnote-reference brackets" href="#note9" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a> Finally, since we did actually fix the total number of observations <span class="math notranslate nohighlight">\(N\)</span>, that’s one more constraint. So now we have, <span class="math notranslate nohighlight">\(rc\)</span> observations, and <span class="math notranslate nohighlight">\((c-1) + (r-1) + 1\)</span> constraints. What does that give?</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{array}{rcl}
@@ -1729,12 +1493,12 @@ df &amp;=&amp; \mbox{(number of observations)} - \mbox{(number of constraints)} 
 \end{array}
 \end{split}\]</div>
 <p>Amazing.</p>
-</div>
-<div class="section" id="assoctestinpython">
-<span id="id13"></span><h3><span class="section-number">13.2.2. </span>Doing the test in Python<a class="headerlink" href="#assoctestinpython" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="assoctestinpython">
+<span id="id13"></span><h3><span class="section-number">13.2.2. </span>Doing the test in Python<a class="headerlink" href="#assoctestinpython" title="Permalink to this heading">#</a></h3>
 <p>Okay, now that we know how the test works, let’s have a look at how it’s done in Python. As tempting as it is to lead you through the tedious calculations so that you’re forced to learn it the long way, I figure there’s no point. I already showed you how to do it the long way for the goodness of fit test in the last section, and since the test of independence isn’t conceptually any different, you won’t learn anything new by doing it the long way. So instead, I’ll go straight to showing you the easy way. As always, Python lets you do it multiple ways. We’ve already used <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> for calculating the <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test above, so I’ll start with that. Then, I want to introduce you to the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package, which bundles up a bunch of statistical tests and makes calculating and reporting them a good deal easier.</p>
-<div class="section" id="doing-the-test-with-scipy-stats">
-<h4><span class="section-number">13.2.2.1. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code><a class="headerlink" href="#doing-the-test-with-scipy-stats" title="Permalink to this headline">¶</a></h4>
+<section id="doing-the-test-with-scipy-stats">
+<h4><span class="section-number">13.2.2.1. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code><a class="headerlink" href="#doing-the-test-with-scipy-stats" title="Permalink to this heading">#</a></h4>
 <p>Calculating <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> is fairly straightforward, although like most of what you get with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, there aren’t a lot of frills. Just like with the goodness-of-fit test, you start by calculating a frequency table. Before, we used the <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> method to find the frequency of the different suits drawn in the <code class="docutils literal notranslate"><span class="pre">cards</span></code> data. Since we have two columns of data (choices by robots and choices by humans), we can use the <code class="docutils literal notranslate"><span class="pre">crosstab</span></code> function from <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to do the work, and we can store the results in a variable called <code class="docutils literal notranslate"><span class="pre">observations</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1819,9 +1583,9 @@ expected =  [[56.31666667 52.68333333]
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">chi2_contingency</span></code> produces four different variables, <code class="docutils literal notranslate"><span class="pre">chi2</span></code>, <code class="docutils literal notranslate"><span class="pre">p</span></code>, <code class="docutils literal notranslate"><span class="pre">dof</span></code>, and <code class="docutils literal notranslate"><span class="pre">ex</span></code>. <code class="docutils literal notranslate"><span class="pre">chi2</span></code> is the <span class="math notranslate nohighlight">\(\chi^2\)</span> statistic, p is the <span class="math notranslate nohighlight">\(p\)</span>-value, <code class="docutils literal notranslate"><span class="pre">dof</span></code> is the degrees of freedom for the test, and <code class="docutils literal notranslate"><span class="pre">ex</span></code> tells you the “expected” values, that is, the frequency counts you would expect to see under the null hypothesis. The null hypothesis, by the way, is that the variables are independent of one another, that is, that the choice of data, flower, or puppy has nothing to do with whether the chooser is a robot or a human. The alternative, of course, is that they are <em>not</em> independent; that is, that robots and humans will tend to make different choices. Or, put another way, that the frequency of flowers, puppies, and data chosen is <em>contingent</em> on whether or not the choosers were humans or robots. That’s why the function is called <code class="docutils literal notranslate"><span class="pre">chi2_contingency</span></code>, I suppose.</p>
-</div>
-<div class="section" id="doing-the-test-with-pingouin">
-<h4><span class="section-number">13.2.2.2. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#doing-the-test-with-pingouin" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="doing-the-test-with-pingouin">
+<h4><span class="section-number">13.2.2.2. </span>Doing the test with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code><a class="headerlink" href="#doing-the-test-with-pingouin" title="Permalink to this heading">#</a></h4>
 <p>Now that we’ve done the test with <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, I want to introduce you to another way to do the same thing: the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package. <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> takes existing statistical functions in Python and wraps them up in a way that makes them (in my opinion) easier to deal with, and easiser to report afterwards. Unfortunately, there isn’t a <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> command for every statistical test that you might want to do. For example, as of the time of writing this, there is no <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> version of the <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test. However, there is one for the <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association, or contingency, or whatever else you might like to call it), and this is what I will introduce you to now. In the coming chapters on other statistical tests, I will use the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> version wherever possible.</p>
 <p>To start with, you will need to install the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> package in whatever Python environment you are using. This can be done easily with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. Instructions can be found on the <a class="reference external" href="https://pingouin-stats.org/index.html">Pingouin webpage</a>. If you are working in a Jupyter notebook, you should be able to simply type <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pingouin</span></code> in a cell, and be good to go.</p>
 <p>Unlike <code class="docutils literal notranslate"><span class="pre">scipy.stats.chi2_contingency</span></code>, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> doesn’t require you to build a frequency table first; you can just plug your raw <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe in, and tell it which columns you would like it to work with. Our data is already in a dataframe called <code class="docutils literal notranslate"><span class="pre">df</span></code>, so we can simply write:</p>
@@ -1830,6 +1594,12 @@ expected =  [[56.31666667 52.68333333]
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
 
 <span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">chi2_independence</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;choice&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/_lib/_util.py:69: RuntimeWarning: overflow encountered in _ncx2_sf
+  np.place(out, cond, f(*temp))
 </pre></div>
 </div>
 </div>
@@ -1867,6 +1637,10 @@ human    56.316667  22.216667  14.466667
 robot    52.683333  20.783333  13.533333
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/_lib/_util.py:69: RuntimeWarning: overflow encountered in _ncx2_sf
+  np.place(out, cond, f(*temp))
+</pre></div>
+</div>
 </div>
 </div>
 <p>Yup, the values are the same; <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> just makes them a little easier to read. And if we check the observed values:</p>
@@ -1894,6 +1668,10 @@ human      65      13     15
 robot      44      30     13
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/_lib/_util.py:69: RuntimeWarning: overflow encountered in _ncx2_sf
+  np.place(out, cond, f(*temp))
+</pre></div>
+</div>
 </div>
 </div>
 <p>Again, the numbers are the same. So that’s comforting. Now let’s get to the good bit: the statistics!</p>
@@ -1905,6 +1683,10 @@ robot      44      30     13
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/_lib/_util.py:69: RuntimeWarning: overflow encountered in _ncx2_sf
+  np.place(out, cond, f(*temp))
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2007,15 +1789,15 @@ robot      44      30     13
 <div><p>The fact that humans appeared to have a stronger preference for raw data files than robots is somewhat counterintuitive. However, in context it makes some sense: the civil authority on Chapek 9 has an unfortunate tendency to kill and dissect humans when they are identified. As such it seems most likely that the human participants did not respond honestly to the question, so as to avoid potentially undesirable consequences. This should be considered to be a substantial methodological weakness.</p>
 </div></blockquote>
 <p>This could be classified as a rather extreme example of a reactivity effect, I suppose. Obviously, in this case the problem is severe enough that the study is more or less worthless as a tool for understanding the difference preferences among humans and robots. However, I hope this illustrates the difference between getting a statistically significant result (our null hypothesis is rejected in favour of the alternative), and finding something of scientific value (the data tell us nothing of interest about our research hypothesis due to a big methodological flaw).</p>
-</div>
-</div>
-<div class="section" id="postscript">
-<h3><span class="section-number">13.2.3. </span>Postscript<a class="headerlink" href="#postscript" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="postscript">
+<h3><span class="section-number">13.2.3. </span>Postscript<a class="headerlink" href="#postscript" title="Permalink to this heading">#</a></h3>
 <p>I later found out the data were made up, and I’d been watching cartoons instead of doing work.</p>
-</div>
-</div>
-<div class="section" id="the-continuity-correction">
-<span id="yates"></span><h2><span class="section-number">13.3. </span>The continuity correction<a class="headerlink" href="#the-continuity-correction" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="the-continuity-correction">
+<span id="yates"></span><h2><span class="section-number">13.3. </span>The continuity correction<a class="headerlink" href="#the-continuity-correction" title="Permalink to this heading">#</a></h2>
 <p>Okay, time for a little bit of a digression. I’ve been lying to you a little bit so far. You probably expected that by now, and you were right. There’s a tiny change that you need to make to your calculations whenever you only have 1 degree of freedom. It’s called the “continuity correction”, or sometimes the <strong><em>Yates correction</em></strong>. Remember what I pointed out earlier: the <span class="math notranslate nohighlight">\(\chi^2\)</span> test is based on an approximation, specifically on the assumption that binomial distribution starts to look like a normal distribution for large <span class="math notranslate nohighlight">\(N\)</span>. One problem with this is that it often doesn’t quite work, especially when you’ve only got 1 degree of freedom (e.g., when you’re doing a test of independence on a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table). The main reason for this is that the true sampling distribution for the <span class="math notranslate nohighlight">\(X^2\)</span> statistic is actually discrete (because you’re dealing with categorical data!) but the <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution is continuous. This can introduce systematic problems. Specifically, when <span class="math notranslate nohighlight">\(N\)</span> is small and when <span class="math notranslate nohighlight">\(df=1\)</span>, the goodness of fit statistic tends to be “too big”, meaning that you actually have a bigger <span class="math notranslate nohighlight">\(\alpha\)</span> value than you think (or, equivalently, the <span class="math notranslate nohighlight">\(p\)</span> values are a bit too small). Yates <span id="id14">[<a class="reference internal" href="bibliography.html#id64" title="F. Yates. Contingency tables involving small numbers and the $\chi ^2$ test. Supplement to the Journal of the Royal Statistical Society, 1:217–235, 1934.">Yates, 1934</a>]</span> suggested a simple fix, in which you redefine the goodness of fit statistic as:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2027,9 +1809,9 @@ X^2 = \sum_{i} \frac{(|E_i - O_i| - 0.5)^2}{E_i}
 <p>if we were using <code class="docutils literal notranslate"><span class="pre">scipy</span></code> or</p>
 <p><code class="docutils literal notranslate"><span class="pre">expected,</span> <span class="pre">observed,</span> <span class="pre">stats</span> <span class="pre">=</span> <span class="pre">pg.chi2_independence(df,</span> <span class="pre">x='species',</span> <span class="pre">y='choice',</span> <span class="pre">correction</span> <span class="pre">=</span> <span class="pre">True)</span></code></p>
 <p>if were using <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>. Then again, in our specific case, it wouldn’t make any difference, because in our test we had two degrees of freedom, and the correction is only run when there is only one degree of freedom.</p>
-</div>
-<div class="section" id="effect-size">
-<span id="chisqeffectsize"></span><h2><span class="section-number">13.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="effect-size">
+<span id="chisqeffectsize"></span><h2><span class="section-number">13.4. </span>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this heading">#</a></h2>
 <p>As we discussed <a class="reference internal" href="04.04-hypothesis-testing.html#effectsize"><span class="std std-ref">earlier</span></a>, it’s becoming commonplace to ask researchers to report some measure of effect size. So, let’s suppose that you’ve run your chi-square test, which turns out to be significant. So you now know that there is some association between your variables (independence test) or some deviation from the specified probabilities (goodness of fit test). Now you want to report a measure of effect size. That is, given that there is an association/deviation, how strong is it?</p>
 <p>There are several different measures that you can choose to report, and several different tools that you can use to calculate them. I won’t discuss all of them; instead I will just mention the one that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> provides you with automatically: Cramer’s <span class="math notranslate nohighlight">\(V\)</span>.</p>
 <p>By default, the two measures that people tend to report most frequently are the <span class="math notranslate nohighlight">\(\phi\)</span> statistic and the somewhat superior version, known as  Cram’er’s <span class="math notranslate nohighlight">\(V\)</span>. Mathematically, they’re very simple. To calculate the <span class="math notranslate nohighlight">\(\phi\)</span> statistic, you just divide your <span class="math notranslate nohighlight">\(X^2\)</span> value by the sample size, and take the square root:</p>
@@ -2043,19 +1825,19 @@ X^2 = \sum_{i} \frac{(|E_i - O_i| - 0.5)^2}{E_i}
 V = \sqrt{\frac{X^2}{N(k-1)}}
 \]</div>
 <p>And you’re done. This seems to be a fairly popular measure, presumably because it’s easy to calculate, and it gives answers that aren’t completely silly: you know that <span class="math notranslate nohighlight">\(V\)</span> really does range from 0 (no at all association) to 1 (perfect association).</p>
-</div>
-<div class="section" id="assumptions-of-the-test-s">
-<span id="chisqassumptions"></span><h2><span class="section-number">13.5. </span>Assumptions of the test(s)<a class="headerlink" href="#assumptions-of-the-test-s" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="assumptions-of-the-test-s">
+<span id="chisqassumptions"></span><h2><span class="section-number">13.5. </span>Assumptions of the test(s)<a class="headerlink" href="#assumptions-of-the-test-s" title="Permalink to this heading">#</a></h2>
 <p>All statistical tests make assumptions, and it’s usually a good idea to check that those assumptions are met. For the chi-square tests discussed so far in this chapter, the assumptions are:</p>
 <ul class="simple">
 <li><p><em>Expected frequencies are sufficiently large</em>. Remember how in the previous section we saw that the <span class="math notranslate nohighlight">\(\chi^2\)</span> sampling distribution emerges because the binomial distribution is pretty similar to a normal distribution? Well, like we <a class="reference internal" href="04.02-probability.html#probability"><span class="std std-ref">discussed earlier</span></a>, this is only true when the number of observations is sufficiently large. What that means in practice is that all of the expected frequencies need to be reasonably big. How big is reasonably big? Opinions differ, but the default assumption seems to be that you generally would like to see all your expected frequencies larger than about 5, though for larger tables you would probably be okay if at least 80% of the the expected frequencies are above 5 and none of them are below 1. However, from what I’ve been able to discover e.g.,<span id="id16">[<a class="reference internal" href="bibliography.html#id65" title="W. G. Cochran. The $\chi ^2$ test of goodness of fit. The Annals of Mathematical Statistics, 23:315–345, 1954.">Cochran, 1954</a>]</span>, these seem to have been proposed as rough guidelines, not hard and fast rules; and they seem to be somewhat conservative <span id="id17">[<a class="reference internal" href="bibliography.html#id60" title="K. Larntz. Small-sample comparisons of exact levels for chi-squared goodness-of-fit statistics. Journal of the American Statistical Association, 73:253–263, 1978.">Larntz, 1978</a>]</span>.</p></li>
 <li><p><em>Data are independent of one another</em>. One somewhat hidden assumption of the chi-square test is that you have to genuinely believe that the observations are independent. Here’s what I mean. Suppose I’m interested in proportion of babies born at a particular hospital that are boys. I walk around the maternity wards, and observe 20 girls and only 10 boys. Seems like a pretty convincing difference, right? But later on, it turns out that I’d actually walked into the same ward 10 times, and in fact I’d only seen 2 girls and 1 boy. Not as convincing, is it? My original 30 <em>observations</em> were massively non-independent… and were only in fact equivalent to 3 independent observations. Obviously this is an extreme (and extremely silly) example, but it illustrates the basic issue. Non-independence “stuffs things up”. Sometimes it causes you to falsely reject the null, as the silly hospital example illustrates, but it can go the other way too. To give a slightly less stupid example, let’s consider what would happen if I’d done the cards experiment slightly differently: instead of asking 200 people to try to imagine sampling one card at random, suppose I asked 50 people to select 4 cards. One possibility would be that <em>everyone</em> selects one heart, one club, one diamond and one spade (in keeping with the “representativeness heuristic”<span id="id18">[<a class="reference internal" href="bibliography.html#id12" title="D. Kahneman and A. Tversky. On the psychology of prediction. Psychological Review, 80:237-251, 1973.">Kahneman and Tversky, 1973</a>]</span>). This is highly non-random behaviour from people, but in this case, I would get an observed frequency of 50 for all four suits. For this example, the fact that the observations are non-independent (because the four cards that you pick will be related to each other) actually leads to the opposite effect… falsely retaining the null.</p></li>
 </ul>
 <p>If you happen to find yourself in a situation where independence is violated, it may be possible to use the McNemar test (which we’ll discuss) or the Cochran test (which we won’t). Similarly, if your expected cell counts are too small, check out the Fisher exact test. It is to these topics that we now turn.</p>
-</div>
-<div class="section" id="the-fisher-exact-test">
-<span id="fisherexacttest"></span><h2><span class="section-number">13.6. </span>The Fisher exact test<a class="headerlink" href="#the-fisher-exact-test" title="Permalink to this headline">¶</a></h2>
-<p>What should you do if your cell counts are too small, but you’d still like to test the null hypothesis that the two variables are independent? One answer would be “collect more data”, but that’s far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let’s suppose that we’re analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.<a class="footnote-reference brackets" href="#note10" id="id19">10</a> Unfortunately for the scientist (but rather fortunately for the general populace), it’s actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The <code class="docutils literal notranslate"><span class="pre">salem.csv</span></code> file illustrates the point:</p>
+</section>
+<section id="the-fisher-exact-test">
+<span id="fisherexacttest"></span><h2><span class="section-number">13.6. </span>The Fisher exact test<a class="headerlink" href="#the-fisher-exact-test" title="Permalink to this heading">#</a></h2>
+<p>What should you do if your cell counts are too small, but you’d still like to test the null hypothesis that the two variables are independent? One answer would be “collect more data”, but that’s far too glib: there are a lot of situations in which it would be either infeasible or unethical do that. If so, statisticians have a kind of moral obligation to provide scientists with better tests. In this instance, Fisher (1922) kindly provided the right answer to the question. To illustrate the basic idea, let’s suppose that we’re analysing data from a field experiment, looking at the emotional status of people who have been accused of witchcraft; some of whom are currently being burned at the stake.<a class="footnote-reference brackets" href="#note10" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a> Unfortunately for the scientist (but rather fortunately for the general populace), it’s actually quite hard to find people in the process of being set on fire, so the cell counts are awfully small in some cases. The <code class="docutils literal notranslate"><span class="pre">salem.csv</span></code> file illustrates the point:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -2177,10 +1959,12 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/pingouin/contingency.py:151: UserWarning: Low count on observed frequencies.
-  warnings.warn(&#39;Low count on {} frequencies.&#39;.format(name))
-/opt/anaconda3/envs/pythonbook2/lib/python3.10/site-packages/pingouin/contingency.py:151: UserWarning: Low count on expected frequencies.
-  warnings.warn(&#39;Low count on {} frequencies.&#39;.format(name))
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/pingouin/contingency.py:150: UserWarning: Low count on observed frequencies.
+  warnings.warn(&quot;Low count on {} frequencies.&quot;.format(name))
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/pingouin/contingency.py:150: UserWarning: Low count on expected frequencies.
+  warnings.warn(&quot;Low count on {} frequencies.&quot;.format(name))
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/_lib/_util.py:69: RuntimeWarning: overflow encountered in _ncx2_sf
+  np.place(out, cond, f(*temp))
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -2277,29 +2061,29 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 </div>
 <p>Speaking as someone who doesn’t want to be set on fire, I’d <em>really</em> like to be able to get a better answer than this. This is where <strong><em>Fisher’s exact test</em></strong> <span id="id20">[<a class="reference internal" href="bibliography.html#id62" title="R. A. Fisher. On the interpretation of $\chi ^2$ from contingency tables, and the calculation of $p$. Journal of the Royal Statistical Society, 84:87–94, 1922.">Fisher, 1922</a>]</span> comes in very handy.</p>
 <p>The Fisher exact test works somewhat differently to the chi-square test (or in fact any of the other hypothesis tests that I talk about in this book) insofar as it doesn’t have a test statistic; it calculates the <span class="math notranslate nohighlight">\(p\)</span>-value “directly”. I’ll explain the basics of how the test works for a <span class="math notranslate nohighlight">\(2 \times 2\)</span> contingency table, though the test works fine for larger tables. As before, let’s have some notation:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>Happy</p></th>
-<th class="text-align:left head"><p>Sad</p></th>
-<th class="text-align:left head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>Happy</p></th>
+<th class="head text-left"><p>Sad</p></th>
+<th class="head text-left"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Set on fire</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Set on fire</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{11}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{12}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(R_{1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Not set on fire</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>Not set on fire</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{21}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(O_{22}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(R_{2}\)</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Total</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_{1}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_{2}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -2308,7 +2092,7 @@ V = \sqrt{\frac{X^2}{N(k-1)}}
 \[
 P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2) 
 \]</div>
-<p>and as you might imagine, it’s a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the <em>hypergeometric distribution</em>. Now that we know this, what we have to do to calculate our <span class="math notranslate nohighlight">\(p\)</span>-value is calculate the probability of observing this particular table <em>or a table that is “more extreme”</em> <a class="footnote-reference brackets" href="#note11" id="id21">11</a>.  Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it’s pretty easy as long as the tables aren’t too big and the sample size isn’t too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more “extreme” than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the <span class="math notranslate nohighlight">\(p\)</span>-value.</p>
+<p>and as you might imagine, it’s a slightly tricky exercise to figure out what this probability is, but it turns out that this probability is described by a distribution known as the <em>hypergeometric distribution</em>. Now that we know this, what we have to do to calculate our <span class="math notranslate nohighlight">\(p\)</span>-value is calculate the probability of observing this particular table <em>or a table that is “more extreme”</em> <a class="footnote-reference brackets" href="#note11" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a>.  Back in the 1920s, computing this sum was daunting even in the simplest of situations, but these days it’s pretty easy as long as the tables aren’t too big and the sample size isn’t too large. The conceptually tricky issue is to figure out what it means to say that one contingency table is more “extreme” than another. The easiest solution is to say that the table with the lowest probability is the most extreme. This then gives us the <span class="math notranslate nohighlight">\(p\)</span>-value.</p>
 <p>Fisher’s exact test can be computed in Python using the <code class="docutils literal notranslate"><span class="pre">fisher_exact</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> function, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2331,88 +2115,88 @@ P(O_{11}, O_{12}, O_{21}, O_{22} \ | \ R_1, R_2, C_1, C_2)
 </div>
 </div>
 <p>The main thing we’re interested in here is the <span class="math notranslate nohighlight">\(p\)</span>-value, which in this case is small enough (<span class="math notranslate nohighlight">\(p=.036\)</span>) to justify rejecting the null hypothesis that people on fire are just as happy as people not on fire.</p>
-</div>
-<div class="section" id="the-mcnemar-test">
-<span id="mcnemar"></span><h2><span class="section-number">13.7. </span>The McNemar test<a class="headerlink" href="#the-mcnemar-test" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="the-mcnemar-test">
+<span id="mcnemar"></span><h2><span class="section-number">13.7. </span>The McNemar test<a class="headerlink" href="#the-mcnemar-test" title="Permalink to this heading">#</a></h2>
 <p>Suppose you’ve been hired to work for the <em>Australian Generic Political Party</em> (AGPP), and part of your job is to find out how effective the AGPP political advertisements are. So, what you do, is you put together a sample of <span class="math notranslate nohighlight">\(N=100\)</span> people, and ask them to watch the AGPP ads. Before they see anything, you ask them if they intend to vote for the AGPP; and then after showing the ads, you ask them again, to see if anyone has changed their minds. Obviously, if you’re any good at your job, you’d also do a whole lot of other things too, but let’s consider just this one simple experiment. One way to describe your data is via the following contingency table:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:center head"><p>Before</p></th>
-<th class="text-align:center head"><p>After</p></th>
-<th class="text-align:center head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>Before</p></th>
+<th class="head text-center"><p>After</p></th>
+<th class="head text-center"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Yes</p></td>
-<td class="text-align:center"><p>30</p></td>
-<td class="text-align:center"><p>10</p></td>
-<td class="text-align:center"><p>40</p></td>
+<tr class="row-even"><td class="text-left"><p>Yes</p></td>
+<td class="text-center"><p>30</p></td>
+<td class="text-center"><p>10</p></td>
+<td class="text-center"><p>40</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>No</p></td>
-<td class="text-align:center"><p>70</p></td>
-<td class="text-align:center"><p>90</p></td>
-<td class="text-align:center"><p>160</p></td>
+<tr class="row-odd"><td class="text-left"><p>No</p></td>
+<td class="text-center"><p>70</p></td>
+<td class="text-center"><p>90</p></td>
+<td class="text-center"><p>160</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:center"><p>100</p></td>
-<td class="text-align:center"><p>100</p></td>
-<td class="text-align:center"><p>200</p></td>
+<tr class="row-even"><td class="text-left"><p>Total</p></td>
+<td class="text-center"><p>100</p></td>
+<td class="text-center"><p>100</p></td>
+<td class="text-center"><p>200</p></td>
 </tr>
 </tbody>
 </table>
 <p>At first pass, you might think that this situation lends itself to the <a class="reference internal" href="#chisqindependence"><span class="std std-ref">Pearson <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence</span></a>. However, a little bit of thought reveals that we’ve got a problem: we have 100 participants, but 200 observations. This is because each person has provided us with an answer in <em>both</em> the before column and the after column. What this means is that the 200 observations aren’t independent of each other: if voter A says “yes” the first time and voter B says “no”, then you’d expect that voter A is more likely to say “yes” the second time than voter B! The consequence of this is that the usual <span class="math notranslate nohighlight">\(\chi^2\)</span> test won’t give trustworthy answers due to the violation of the independence assumption. Now, if this were a really uncommon situation, I wouldn’t be bothering to waste your time talking about it. But it’s not uncommon at all: this is a <em>standard</em> repeated measures design, and none of the tests we’ve considered so far can handle it. Eek.</p>
 <p>The solution to the problem was published by McNemar<span id="id22">[<a class="reference internal" href="bibliography.html#id57" title="Q. McNemar. Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika, 12:153–157, 1947.">McNemar, 1947</a>]</span>. The trick is to start by tabulating your data in a slightly different way:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:center head"><p>Before: Yes</p></th>
-<th class="text-align:center head"><p>Before: No</p></th>
-<th class="text-align:center head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>Before: Yes</p></th>
+<th class="head text-center"><p>Before: No</p></th>
+<th class="head text-center"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>After: Yes</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>10</p></td>
+<tr class="row-even"><td class="text-left"><p>After: Yes</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>10</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>After: No</p></td>
-<td class="text-align:center"><p>25</p></td>
-<td class="text-align:center"><p>65</p></td>
-<td class="text-align:center"><p>90</p></td>
+<tr class="row-odd"><td class="text-left"><p>After: No</p></td>
+<td class="text-center"><p>25</p></td>
+<td class="text-center"><p>65</p></td>
+<td class="text-center"><p>90</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:center"><p>30</p></td>
-<td class="text-align:center"><p>70</p></td>
-<td class="text-align:center"><p>100</p></td>
+<tr class="row-even"><td class="text-left"><p>Total</p></td>
+<td class="text-center"><p>30</p></td>
+<td class="text-center"><p>70</p></td>
+<td class="text-center"><p>100</p></td>
 </tr>
 </tbody>
 </table>
 <p>This is exactly the same data, but it’s been rewritten so that each of our 100 participants appears in only one cell. Because we’ve written our data this way, the independence assumption is now satisfied, and this is a contingency table that we <em>can</em> use to construct an <span class="math notranslate nohighlight">\(X^2\)</span> goodness of fit statistic. However, as we’ll see, we need to do it in a slightly nonstandard way. To see what’s going on, it helps to label the entries in our table a little differently:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:center head"><p>Before: Yes</p></th>
-<th class="text-align:center head"><p>Before: No</p></th>
-<th class="text-align:center head"><p>Total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>Before: Yes</p></th>
+<th class="head text-center"><p>Before: No</p></th>
+<th class="head text-center"><p>Total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>After: Yes</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(a+b\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>After: Yes</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(a+b\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>After: No</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(c\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(d\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(c+d\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>After: No</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(c\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(d\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(c+d\)</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>Total</p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(a+c\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(b+d\)</span></p></td>
-<td class="text-align:center"><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Total</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(a+c\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(b+d\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -2427,8 +2211,8 @@ X^2 = \frac{(|b-c| - 0.5)^2}{b+c}
 X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 \]</div>
 <p>and this statistic has an (approximately) <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(df=1\)</span>. However, remember that – just like the other <span class="math notranslate nohighlight">\(\chi^2\)</span> tests – it’s only an approximation, so you need to have reasonably large expected cell counts for it to work.</p>
-<div class="section" id="doing-the-mcnemar-test-in-python">
-<h3><span class="section-number">13.7.1. </span>Doing the McNemar test in Python<a class="headerlink" href="#doing-the-mcnemar-test-in-python" title="Permalink to this headline">¶</a></h3>
+<section id="doing-the-mcnemar-test-in-python">
+<h3><span class="section-number">13.7.1. </span>Doing the McNemar test in Python<a class="headerlink" href="#doing-the-mcnemar-test-in-python" title="Permalink to this heading">#</a></h3>
 <p>Now that you know what the McNemar test is all about, lets actually run one. The <code class="docutils literal notranslate"><span class="pre">agpp.csv</span></code> file contains the raw data that I discussed previously, so let’s have a look at it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2592,10 +2376,10 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 </div></div></div>
 </div>
 <p>And we’re done. We’ve just run a McNemar’s test to determine if people were just as likely to vote AGPP after the ads as they were before hand. The test was significant (<span class="math notranslate nohighlight">\(\chi^2(1) = 12.03, p&lt;.001\)</span>), suggesting that they were not. And in fact, it looks like the ads had a negative effect: people were less likely to vote AGPP after seeing the ads. Which makes a lot of sense when you consider the quality of a typical political advertisement.</p>
-</div>
-</div>
-<div class="section" id="summary">
-<h2><span class="section-number">13.8. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="summary">
+<h2><span class="section-number">13.8. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
 <p>The key ideas discussed in this chapter are:</p>
 <ul class="simple">
 <li><p>The <a class="reference internal" href="#goftest"><span class="std std-ref">chi-square goodness of fit test</span></a> is used when you have a table of observed frequencies of different categories; and the null hypothesis gives you a set of “known” probabilities to compare them to. You can use the <code class="docutils literal notranslate"><span class="pre">stats.chisquare()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package to run this test.</p></li>
@@ -2605,43 +2389,52 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
 </ul>
 <p>If you’re interested in learning more about categorical data analysis, a good first choice would be <span id="id23">[<a class="reference internal" href="bibliography.html#id66" title="A. Agresti. An Introduction to Categorical Data Analysis. Wiley, Hoboken, NJ, 1996.">Agresti, 1996</a>]</span> which, as the title suggests, provides an <em>Introduction to Categorical Data Analysis</em>. If the introductory book isn’t enough for you (or can’t solve the problem you’re working on) you could consider <span id="id24">[<a class="reference internal" href="bibliography.html#id67" title="A. Agresti. Categorical Data Analysis. Wiley, Hoboken, NJ, 2nd edition, 2002.">Agresti, 2002</a>]</span>, <em>Categorical Data Analysis</em>. The latter is a more advanced text, so it’s probably not wise to jump straight from this book to that one.</p>
 <hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="note1"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
-<dd><p>I should point out that this issue does complicate the story somewhat: I’m not going to cover it in this book, but there’s a sneaky trick that you can do to rewrite the equation for the goodness of fit statistic as a sum over <span class="math notranslate nohighlight">\(k-1\)</span> independent things. When we do so we get the “proper” sampling distribution, which is chi-square with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom. In fact, in order to get the maths to work out properly, you actually have to rewrite things that way. But it’s beyond the scope of an introductory book to show the maths in that much detail: all I wanted to do is give you a sense of why the goodness of fit statistic is associated with the chi-squared distribution.</p>
-</dd>
-<dt class="label" id="note2"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
-<dd><p>I feel obliged to point out that this is an over-simplification. It works nicely for quite a few situations; but every now and then we’ll come across degrees of freedom values that aren’t whole numbers. Don’t let this worry you too much – when you come across this, just remind yourself that “degrees of freedom” is actually a bit of a messy concept, and that the nice simple story that I’m telling you here isn’t the whole story. For an introductory class, it’s usually best to stick to the simple story: but I figure it’s best to warn you to expect this simple story to fall apart. If I didn’t give you this warning, you might start getting confused when you see <span class="math notranslate nohighlight">\(df = 3.4\)</span> or something; and (incorrectly) thinking that you had misunderstood something that I’ve taught you, rather than (correctly) realising that there’s something that I haven’t told you.</p>
-</dd>
-<dt class="label" id="note3"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
-<dd><p>[In practice, the sample size isn’t always fixed… e.g., we might run the experiment over a fixed period of time, and the number of people participating depends on how many people show up. That doesn’t matter for the current purposes.]</p>
-</dd>
-<dt class="label" id="note4"><span class="brackets"><a class="fn-backref" href="#id6">4</a></span></dt>
-<dd><p>Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I’ve tended to stick with how things are done in psychology, since that’s what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.</p>
-</dd>
-<dt class="label" id="note5"><span class="brackets"><a class="fn-backref" href="#id7">5</a></span></dt>
-<dd><p>To some people, this advice might sound odd, or at least in conflict with the “usual” advice on how to write a technical report. Very typically, students are told that the “results” section of a report is for describing the data and reporting statistical analysis; and the “discussion” section is for providing interpretation. That’s true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don’t let the “interpretation goes in the discussion” advice turn your results section into incomprehensible garbage. Being understood by your reader is <em>much</em> more important.</p>
-</dd>
-<dt class="label" id="note6"><span class="brackets"><a class="fn-backref" href="#id8">6</a></span></dt>
-<dd><p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
-</dd>
-<dt class="label" id="note7"><span class="brackets"><a class="fn-backref" href="#id10">7</a></span></dt>
-<dd><p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id25">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">Hogg, McKean, and Craig, 2005</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
-</dd>
-<dt class="label" id="note8"><span class="brackets"><a class="fn-backref" href="#id11">8</a></span></dt>
-<dd><p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
-</dd>
-<dt class="label" id="note9"><span class="brackets"><a class="fn-backref" href="#id12">9</a></span></dt>
-<dd><p>A problem many of us worry about in real life.</p>
-</dd>
-<dt class="label" id="note10"><span class="brackets"><a class="fn-backref" href="#id19">10</a></span></dt>
-<dd><p>This example is based on a joke article published in the <em>Journal of Irreproducible Results</em>.</p>
-</dd>
-<dt class="label" id="note11"><span class="brackets"><a class="fn-backref" href="#id21">11</a></span></dt>
-<dd><p>Not surprisingly, the Fisher exact test is motivated by Fisher’s interpretation of a <span class="math notranslate nohighlight">\(p\)</span>-value, not Neyman’s!</p>
-</dd>
-</dl>
-</div>
-</div>
+<aside class="footnote brackets" id="note1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
+<p>I should point out that this issue does complicate the story somewhat: I’m not going to cover it in this book, but there’s a sneaky trick that you can do to rewrite the equation for the goodness of fit statistic as a sum over <span class="math notranslate nohighlight">\(k-1\)</span> independent things. When we do so we get the “proper” sampling distribution, which is chi-square with <span class="math notranslate nohighlight">\(k-1\)</span> degrees of freedom. In fact, in order to get the maths to work out properly, you actually have to rewrite things that way. But it’s beyond the scope of an introductory book to show the maths in that much detail: all I wanted to do is give you a sense of why the goodness of fit statistic is associated with the chi-squared distribution.</p>
+</aside>
+<aside class="footnote brackets" id="note2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>I feel obliged to point out that this is an over-simplification. It works nicely for quite a few situations; but every now and then we’ll come across degrees of freedom values that aren’t whole numbers. Don’t let this worry you too much – when you come across this, just remind yourself that “degrees of freedom” is actually a bit of a messy concept, and that the nice simple story that I’m telling you here isn’t the whole story. For an introductory class, it’s usually best to stick to the simple story: but I figure it’s best to warn you to expect this simple story to fall apart. If I didn’t give you this warning, you might start getting confused when you see <span class="math notranslate nohighlight">\(df = 3.4\)</span> or something; and (incorrectly) thinking that you had misunderstood something that I’ve taught you, rather than (correctly) realising that there’s something that I haven’t told you.</p>
+</aside>
+<aside class="footnote brackets" id="note3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
+<p>[In practice, the sample size isn’t always fixed… e.g., we might run the experiment over a fixed period of time, and the number of people participating depends on how many people show up. That doesn’t matter for the current purposes.]</p>
+</aside>
+<aside class="footnote brackets" id="note4" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">4</a><span class="fn-bracket">]</span></span>
+<p>Well, sort of. The conventions for how statistics should be reported tend to differ somewhat from discipline to discipline; I’ve tended to stick with how things are done in psychology, since that’s what I do. But the general principle of providing enough information to the reader to allow them to check your results is pretty universal, I think.</p>
+</aside>
+<aside class="footnote brackets" id="note5" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">5</a><span class="fn-bracket">]</span></span>
+<p>To some people, this advice might sound odd, or at least in conflict with the “usual” advice on how to write a technical report. Very typically, students are told that the “results” section of a report is for describing the data and reporting statistical analysis; and the “discussion” section is for providing interpretation. That’s true as far as it goes, but I think people often interpret it way too literally. The way I usually approach it is to provide a quick and simple interpretation of the data in the results section, so that my reader understands what the data are telling us. Then, in the discussion, I try to tell a bigger story; about how my results fit with the rest of the scientific literature. In short; don’t let the “interpretation goes in the discussion” advice turn your results section into incomprehensible garbage. Being understood by your reader is <em>much</em> more important.</p>
+</aside>
+<aside class="footnote brackets" id="note6" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">6</a><span class="fn-bracket">]</span></span>
+<p>[Complicating matters, the <span class="math notranslate nohighlight">\(G\)</span>-test is a special case of a whole class of tests that are known as <em>likelihood ratio tests</em>. I don’t cover LRTs in this book, but they are quite handy things to know about.]</p>
+</aside>
+<aside class="footnote brackets" id="note7" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">7</a><span class="fn-bracket">]</span></span>
+<p>A technical note. The way I’ve described the test pretends that the column totals are fixed (i.e., the researcher intended to survey 87 robots and 93 humans) and the row totals are random (i.e., it just turned out that 28 people chose the puppy). To use the terminology from my mathematical statistics textbook <span id="id25">[<a class="reference internal" href="bibliography.html#id56" title="R. V. Hogg, J. V. McKean, and A. T. Craig. Introduction to Mathematical Statistics. Pearson, Upper Saddle River, NJ, 6th edition, 2005.">Hogg, McKean, and Craig, 2005</a>]</span> I should technically refer to this situation as a chi-square test of homogeneity; and reserve the term chi-square test of independence for the situation where both the row and column totals are random outcomes of the experiment. In the initial drafts of this book that’s exactly what I did. However, it turns out that these two tests are identical; and so I’ve collapsed them together.</p>
+</aside>
+<aside class="footnote brackets" id="note8" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">8</a><span class="fn-bracket">]</span></span>
+<p>Technically, <span class="math notranslate nohighlight">\(E_{ij}\)</span> here is an estimate, so I should probably write it <span class="math notranslate nohighlight">\(\hat{E}_{ij}\)</span>. But since no-one else does, I won’t either.</p>
+</aside>
+<aside class="footnote brackets" id="note9" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">9</a><span class="fn-bracket">]</span></span>
+<p>A problem many of us worry about in real life.</p>
+</aside>
+<aside class="footnote brackets" id="note10" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">10</a><span class="fn-bracket">]</span></span>
+<p>This example is based on a joke article published in the <em>Journal of Irreproducible Results</em>.</p>
+</aside>
+<aside class="footnote brackets" id="note11" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">11</a><span class="fn-bracket">]</span></span>
+<p>Not surprisingly, the Fisher exact test is motivated by Fisher’s interpretation of a <span class="math notranslate nohighlight">\(p\)</span>-value, not Neyman’s!</p>
+</aside>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2655,7 +2448,7 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -2663,44 +2456,135 @@ X^2 = \frac{(|O_{12}-O_{21}| - 0.5)^2}{O_{12} + O_{21}}
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="04.04-hypothesis-testing.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">12. </span>Hypothesis Testing</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04.04-hypothesis-testing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Hypothesis Testing</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="05.02-ttest.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="05.02-ttest.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">14. </span>Comparing Two Means</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Danielle Navarro and Ethan Weed<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chi-2-goodness-of-fit-test">13.1. The <span class="math notranslate nohighlight">\(\chi^2\)</span> goodness-of-fit test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cards-data">13.1.1. The cards data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-null-hypothesis-and-the-alternative-hypothesis">13.1.2. The null hypothesis and the alternative hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-goodness-of-fit-test-statistic">13.1.3. The “goodness of fit” test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sampling-distribution-of-the-gof-statistic-advanced">13.1.4. The sampling distribution of the GOF statistic (advanced)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-null-hypothesis">13.1.5. Testing the null hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-in-python">13.1.6. Doing the test in Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-a-different-null-hypothesis">13.1.7. Specifying a different null hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-report-the-results-of-the-test">13.1.8. How to report the results of the test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-comment-on-statistical-notation-advanced">13.1.9. A comment on statistical notation (advanced)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chi-2-test-of-independence-or-association">13.2. The <span class="math notranslate nohighlight">\(\chi^2\)</span> test of independence (or association)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-our-hypothesis-test">13.2.1. Constructing our hypothesis test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assoctestinpython">13.2.2. Doing the test in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-with-scipy-stats">13.2.2.1. Doing the test with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-test-with-pingouin">13.2.2.2. Doing the test with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#postscript">13.2.3. Postscript</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-continuity-correction">13.3. The continuity correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">13.4. Effect size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-the-test-s">13.5. Assumptions of the test(s)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fisher-exact-test">13.6. The Fisher exact test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-mcnemar-test">13.7. The McNemar test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-the-mcnemar-test-in-python">13.7.1. Doing the McNemar test in Python</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">13.8. Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Danielle Navarro and Ethan Weed
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
