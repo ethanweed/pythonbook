@@ -32,8 +32,7 @@ df.head()
 # In[2]:
 
 
-import statistics
-statistics.mean(df['grades'])
+df['grades'].mean()
 
 
 # Hm. It *might* be that the psychology students are scoring a bit higher than normal: that sample mean of $\bar{X} = 72.3$ is a fair bit higher than the hypothesised population mean of $\mu = 67.5$, but on the other hand, a sample size of $N = 20$ isn't all that big. Maybe it's pure chance. 
@@ -97,7 +96,7 @@ glue("zeppo-fig", ax, display=False)
 # 
 # For the moment, we'll act as if these are absolutely trustworthy facts. In real life, this kind of absolutely trustworthy background knowledge doesn't exist, and so if we want to rely on these facts we'll just have make the *assumption* that these things are true. However, since these assumptions may or may not be warranted, we might need to check them. For now though, we'll keep things simple.
 
-# In[4]:
+# In[5]:
 
 
 import numpy as np
@@ -202,7 +201,7 @@ glue("ztesthyp-fig", ax, display=False)
 # 
 # (again, see the section on [z-scores](zcores)) if you've forgotten why this is true). In other words, regardless of what scale the original data are on, the $z$-statistic iteself always has the same interpretation: it's equal to the number of standard errors that separate the observed sample mean $\bar{X}$ from the population mean $\mu_0$ predicted by the null hypothesis. Better yet, regardless of what the population parameters for the raw scores actually are, the 5\% critical regions for $z$-test are always the same, as illustrated in Figures \@ref(fig:ztest1) and \@ref(fig:ztest2). 
 
-# In[5]:
+# In[6]:
 
 
 mu = 0
@@ -278,7 +277,7 @@ glue("ztest-fig", ax, display=False)
 # 
 # Now, as I mentioned earlier, the $z$-test is almost never used in practice. However, the test is so incredibly simple that it's really easy to do one manually. Let's go back to the data from Dr Zeppo's class. Having loaded the `grades` data, the first thing I need to do is calculate the sample mean:
 
-# In[6]:
+# In[7]:
 
 
 grades = df['grades']
@@ -288,7 +287,7 @@ sample_mean
 
 # Then, I create variables corresponding to known population standard deviation ($\sigma = 9.5$), and the value of the population mean that the null hypothesis specifies ($\mu_0 = 67.5$):
 
-# In[7]:
+# In[8]:
 
 
 sd_true = 9.5
@@ -297,7 +296,7 @@ mu_null = 67.5
 
 # Let's also create a variable for the sample size. We could count up the number of observations ourselves, and type `N = 20` at the command prompt, but counting is tedious and repetitive. Let's get Python to do the tedious repetitive bit by using the `len()` function, which tells us how many elements there are in a vector:
 
-# In[8]:
+# In[9]:
 
 
 N = len(grades)
@@ -306,7 +305,7 @@ N
 
 # Next, let's calculate the (true) standard error of the mean:
 
-# In[9]:
+# In[10]:
 
 
 import math
@@ -316,7 +315,7 @@ sem_true
 
 # And finally, we calculate our $z$-score:
 
-# In[10]:
+# In[11]:
 
 
 z_score = (sample_mean - mu_null) / sem_true
@@ -329,7 +328,7 @@ z_score
 # 
 # However, what if want an exact $p$-value? Well, back in the day, the tables of critical values were huge, and so you could look up your actual $z$-value, and find the smallest value of $\alpha$ for which your data would be significant (which, as discussed earlier, is the very definition of a $p$-value). However, looking things up in books is tedious, and typing things into computers is awesome. So let's do it using Python instead. Now, notice that the $\alpha$ level of a $z$-test (or any other test, for that matter) defines the total area "under the curve" for the critical region, right? That is, if we set $\alpha = .05$ for a two-sided test, then the critical region is set up such that the area under the curve for the critical region is $.05$. And, for the $z$-test, the critical value of 1.96 is chosen that way because the area in the lower tail (i.e., below $-1.96$) is exactly $.025$ and the area under the upper tail (i.e., above $1.96$) is exactly $.025$. So, since our observed $z$-statistic is $2.26$, why not calculate the area under the curve below $-2.26$ or above $2.26$? In Python we can calculate this using the `NormalDist().cdf()` method. For the lower tail:
 
-# In[11]:
+# In[12]:
 
 
 from statistics import NormalDist
@@ -343,7 +342,7 @@ lower_area
 # 
 # Since the normal distribution is symmetrical, the upper area under the curve is identical to the lower area, and we can simply add them together to find our exact $p$-value:
 
-# In[12]:
+# In[13]:
 
 
 lower_area = NormalDist().cdf(-z_score)
@@ -368,7 +367,7 @@ p_value
 # 
 # After some thought, I decided that it might not be safe to assume that the psychology student grades necessarily have the same standard deviation as the other students in Dr Zeppo's class. After all, if I'm entertaining the hypothesis that they don't have the same mean, then why should I believe that they absolutely have the same standard deviation? In view of this, I should really stop assuming that I know the true value of $\sigma$. This violates the assumptions of my $z$-test, so in one sense I'm back to square one. However, it's not like I'm completely bereft of options. After all, I've still got my raw data, and those raw data give me an *estimate* of the population standard deviation: 
 
-# In[13]:
+# In[14]:
 
 
 import statistics
@@ -379,7 +378,7 @@ statistics.stdev(grades)
 # 
 # Okay, cool. The obvious thing that you might think to do is run a $z$-test, but using the estimated standard deviation of 9.52 instead of relying on my assumption that the true standard deviation is 9.5. So, we could just type this new number into Python and out would come the answer. And you probably wouldn't be surprised to hear that this would still give us a significant result. This approach is close, but it's not *quite* correct. Because we are now relying on an *estimate* of the population standard deviation, we need to make some adjustment for the fact that we have some uncertainty about what the true population standard deviation actually is. Maybe our data are just a fluke ... maybe the true population standard deviation is 11, for instance. But if that were actually true, and we ran the $z$-test assuming $\sigma=11$, then the result would end up being *non-significant*. That's a problem, and it's one we're going to have to address.
 
-# In[14]:
+# In[15]:
 
 
 mu = 0
@@ -445,7 +444,7 @@ glue("ttesthyp_onesample-fig", ax, display=False)
 # 
 # The only thing that has changed in the equation is that instead of using the known true value $\sigma$, we use the estimate $\hat{\sigma}$. And if this estimate has been constructed from $N$ observations, then the sampling distribution turns into a $t$-distribution with $N-1$ **_degrees of freedom_** (df). The $t$ distribution is very similar to the normal distribution, but has "heavier" tails, as [discussed earlier](otherdists)  and illustrated in {numref}`fig-ttestdist`. Notice, though, that as df gets larger, the $t$-distribution starts to look identical to the standard normal distribution. This is as it should be: if you have a sample size of $N = 70,000,000$ then your "estimate" of the standard deviation would be pretty much perfect, right? So, you should expect that for large $N$, the $t$-test would behave exactly the same way as a $z$-test. And that's exactly what happens!  
 
-# In[15]:
+# In[16]:
 
 
 mu = 0
@@ -500,7 +499,7 @@ axes[1].set_frame_on(False)
 # 
 # To run a one-sample $t$-test with `scipy`, use the `ttest_1samp` method. It's pretty straightforward to use: all you need to do is specify `a`, the variable containing the data, and `popmean`, the true population mean according to the null hypothesis. All you need to type is this:
 
-# In[16]:
+# In[60]:
 
 
 from scipy.stats import ttest_1samp
@@ -518,7 +517,7 @@ t, p
 # 
 # First, off: degrees of freedom. In this case, that is not so difficult, because the degrees of freedom for a one-sample t-test is just $N-1$, so we can easily find that ourselves. We also already know how to find the sample mean of our data:
 
-# In[17]:
+# In[61]:
 
 
 N = len(grades)
@@ -537,7 +536,7 @@ print('Degrees of freedom:', degfree)
 # 
 # We discussed confidence intervals [earlier](ci), and now is not the time to go into detail on this, so for now I'm just going to give you some code that you can use to find 95% confidence intervals for a one-sample t-test, so that we can get on with reporting our data:
 
-# In[18]:
+# In[62]:
 
 
 from scipy import stats
@@ -561,7 +560,7 @@ confidence_interval
 
 # Having gone through all that, let's take a look at the `pingouin` command to achieve the same thing.
 
-# In[19]:
+# In[63]:
 
 
 from pingouin import ttest
@@ -591,7 +590,7 @@ ttest(grades, 67.5)
 # 
 # Suppose we have 33 students taking Dr Harpo's statistics lectures, and Dr Harpo doesn't grade to a curve. Actually, Dr Harpo's grading is a bit of a mystery, so we don't really know anything about what the average grade is for the class as a whole. There are two tutors for the class, Anastasia and Bernadette. There are $N_1 = 15$ students in Anastasia's tutorials, and $N_2 = 18$ in Bernadette's tutorials. The research question I'm interested in is whether Anastasia or Bernadette is a better tutor, or if it doesn't make much of a difference. Dr Harpo emails me the course grades, in the `harpo.csv` file. As usual, I'll load the file and have a look at what variables it contains:
 
-# In[20]:
+# In[64]:
 
 
 import pandas as pd
@@ -602,7 +601,7 @@ df.head()
 
 # As we can see, there's a single data frame with two variables, `grade` and `tutor`. The `grade` variable is a numeric vector, containing the grades for all $N = 33$ students taking Dr Harpo's class; the `tutor` variable is a factor that indicates who each student's tutor was. The first five observations in this data set are shown above, and below is a nice little table with some summary statistics:
 
-# In[21]:
+# In[65]:
 
 
 harpo_summary = pd.DataFrame(
@@ -619,7 +618,7 @@ harpo_summary
 
 # To give you a more detailed sense of what's going on here, I've plotted histograms showing the distribution of grades for both tutors {numref}`fig-harpohist`. Inspection of these histograms suggests that the students in Anastasia's class may be getting slightly better grades on average, though they also seem a little more variable.
 
-# In[22]:
+# In[66]:
 
 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
@@ -650,7 +649,7 @@ sns.despine()
 
 # {numref}`fig-ttestci` is a simpler plot showing the means and corresponding confidence intervals for both groups of students.
 
-# In[23]:
+# In[67]:
 
 
 sns.pointplot(x = 'tutor', y = 'grade', data = df)
@@ -678,7 +677,7 @@ sns.despine()
 # \end{array}
 # $$
 
-# In[24]:
+# In[68]:
 
 
 mu1 = 0
@@ -806,7 +805,7 @@ ax2.axhline(y=0, color='black')
 # 
 # So let's give it a try. An important point here, and one that can cause a lot of frustration if you don't realize what is going on, is that `ttest()` wants the data from the two groups served up as two separate variables (this is true of the `scipy` version as well, by the way). Since Dr Harpo sent the data to us in _long format_, that is, with all the grades in one column, and a second column telling us who the tutor was for each student, we will need to do something to break the grade data into two. So step one will be creating a new dataframe, with one column per tutor ("wide" format):
 
-# In[25]:
+# In[69]:
 
 
 Harpo_wide = pd.DataFrame(
@@ -818,7 +817,7 @@ Harpo_wide.head()
 
 # Now, you will have noticed right away that this new dataframe has a bunch of things that aren't numbers in it. In fact, "NaN" stands for "Not a Number". But after a moment's reflection, this makes perfect sense: the students were divided up between Anastasia and Bernadette, and so of course now that we have a row for each student, if a student has Anastasia as a tutor, they can't _also_ have Bernadette as a tutor. Luckily, `ttest()` is smart enough to see what is going on, and deal with it appropriately. So, now that we have all of our ducks in order, let's do the test:
 
-# In[26]:
+# In[70]:
 
 
 from pingouin import ttest
@@ -828,7 +827,7 @@ ttest(Harpo_wide['Anastasia'], Harpo_wide['Bernadette'], correction = False)
 
 # You probably noticed that in addition to telling `ttest()` which means I wanted to compare, I also added the argument `correction = False` to the command. This wasn't strictly necessary in this case, because by default this argument is set to `True`. By saying `correction = False`, what we're really doing is telling Python to use the *Student* independent samples $t$-test, and not the *Welch* independent samples $t$-test. More on this later, when we get to [Welch](welchttest). For now, let's just get the descriptive statistics for Anastasia and Bernadette's students so we can report our results:
 
-# In[27]:
+# In[75]:
 
 
 Harpo_wide.describe()
@@ -902,7 +901,7 @@ Harpo_wide.describe()
 # 
 # ... which is all pretty straightforward and obvious, right? Well, perhaps not. It doesn't really matter for our purposes. What matters is that you'll see that the "df" value that pops out of a Welch test tends to be a little bit smaller than the one used for the Student test, and it doesn't have to be a whole number. 
 
-# In[28]:
+# In[76]:
 
 
 mu1 = 0
@@ -952,7 +951,7 @@ ax2.axhline(y=0, color='black')
 # 
 # To run a Welch test in Python is pretty easy. All you have to do is not bother telling Python to assume equal variances. That is, the command is exactly the same as for the Student test, but where `correction = True`. In fact, in this case, you could just leave the `correction` argument off entirely, because Anasatasia and Bernadette had different numbers of students, and in cases where the $t$-test is comparing two unequal-sized samples, `pingouin` assumes unequal variance and does a Welch test by default, which is why we had to force it to do a Student test above by setting `correction` to `False`.
 
-# In[29]:
+# In[81]:
 
 
 from pingouin import ttest
@@ -978,7 +977,7 @@ ttest(Harpo_wide['Anastasia'], Harpo_wide['Bernadette'], correction = True)
 # 
 # The data set that we'll use this time comes from Dr Chico's class.[^note11] In her class, students take two major tests, one early in the semester and one later in the semester. To hear her tell it, she runs a very hard class, one that most students find very challenging; but she argues that by setting hard assessments, students are encouraged to work harder. Her theory is that the first test is a bit of a "wake up call" for students: when they realise how hard her class really is, they'll work harder for the second test and get a better mark. Is she right? To test this, let's have a look at the `chico.csv` file: 
 
-# In[30]:
+# In[82]:
 
 
 import pandas as pd
@@ -987,7 +986,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Da
 
 # The data frame `chico` contains three variables: an `id` variable that identifies each student in the class, the `grade_test1` variable that records the student grade for the first test, and the `grade_test2` variable that has the grades for the second test. Here's the first five students:
 
-# In[31]:
+# In[83]:
 
 
 df.head()
@@ -995,7 +994,7 @@ df.head()
 
 # At a glance, it does seem like the class is a hard one (most grades are between 50\% and 60\%), but it does look like there's an improvement from the first test to the second one. If we take a quick look at the descriptive statistics
 
-# In[32]:
+# In[84]:
 
 
 df.describe()
@@ -1003,7 +1002,7 @@ df.describe()
 
 # we see that this impression seems to be supported. Across all 20 students[^note12] the mean grade for the first test is 57\%, but this rises to 58\% for the second test. Although, given that the standard deviations are 6.6\% and 6.4\% respectively, it's starting to feel like maybe the improvement is just illusory; maybe just random variation. This impression is reinforced when you see the means and confidence intervals plotted in {numref}`pairedta` panel A. If we were to rely on this plot alone, we'd come to the same conclusion that we got from looking at the descriptive statistics that the `describe()` method produced. Looking at how wide those confidence intervals are, we'd be tempted to think that the apparent improvement in student performance is pure chance.
 
-# In[33]:
+# In[85]:
 
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
@@ -1047,7 +1046,7 @@ sns.despine()
 # 
 # In this plot, each dot corresponds to the two grades for a given student: if their grade for test 1 ($x$ co-ordinate) equals their grade for test 2 ($y$ co-ordinate), then the dot falls on the line. Points falling above the line are the students that performed better on the second test. Critically, almost all of the data points fall above the diagonal line: almost all of the students *do* seem to have improved their grade, if only by a small amount. This suggests that we should be looking at the *improvement* made by each student from one test to the next, and treating that as our raw data. To do this, we'll need to create a new variable for the `improvement` that each student makes, and add it to the data frame containing the `chico.csv` data. The easiest way to do this is as follows: 
 
-# In[34]:
+# In[86]:
 
 
 df['improvement'] = df['grade_test2']-df['grade_test1']
@@ -1058,7 +1057,7 @@ df['improvement'] = df['grade_test2']-df['grade_test1']
 # 
 # When we look at histogram, it's very clear that there *is* a real improvement here. The vast majority of the students scored higher on the test 2 than on test 1, reflected in the fact that almost the entire histogram is above zero. In fact, if we use `scipy.stats.t.interval()` to compute a confidence interval for the population mean of this new variable, 
 
-# In[35]:
+# In[88]:
 
 
 import numpy as np
@@ -1108,7 +1107,7 @@ stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(
 # 
 # How do you do a paired samples $t$-test in Python? One possibility is to follow the process I outlined above: create a "difference" variable and then run a one sample $t$-test on that, setting the population mean argument `popmean` to zero. Since we've already created a variable called `improvement`, let's do that:
 
-# In[36]:
+# In[90]:
 
 
 from pingouin import ttest
@@ -1117,7 +1116,7 @@ ttest(df['improvement'], 0)
 
 # However, suppose you're lazy and you don't want to go to all the effort of creating a new variable. Or perhaps you just want to keep the difference between one-sample and paired-samples tests clear in your head. In that case, you can do:
 
-# In[37]:
+# In[95]:
 
 
 from pingouin import ttest
@@ -1131,7 +1130,7 @@ ttest(df['grade_test2'], df['grade_test1'], paired=True)
 # 
 # When introducing the theory of null hypothesis tests, I mentioned that there are some situations [when it's appropriate to specify a *one-sided* test](one-two-sided). So far, all of the $t$-tests have been two-sided tests. For instance, when we specified a one sample $t$-test for the grades in Dr Zeppo's class, the null hypothesis was that the true mean was 67.5\%. The alternative hypothesis was that the true mean was greater than *or* less than 67.5\%. Suppose we were only interested in finding out if the true mean is greater than 67.5\%, and have no interest whatsoever in testing to find out if the true mean is lower than 67.5\%. If so, our null hypothesis would be that the true mean is 67.5\% or less, and the alternative hypothesis would be that the true mean is greater than 67.5\%. The `ttest()` function lets you do this, by specifying the `alternative` argument. If you set `alternative = 'greater'`, it means that you're testing to see if the true mean is larger than `mu`. If you set `alternative = 'less'`, then you're testing to see if the true mean is smaller than `mu`. To see how it would work for Dr Zeppo's class, let's compare the results of the two-sided test we did before with the results of a one-sided test, where the alternative hypothesis is set to "greater":
 
-# In[38]:
+# In[97]:
 
 
 from pingouin import ttest
@@ -1142,7 +1141,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Da
 ttest(df['grades'], 67.5, alternative = 'two-sided')
 
 
-# In[39]:
+# In[98]:
 
 
 # one-sided test
@@ -1154,7 +1153,7 @@ ttest(df['grades'], 67.5, alternative = 'greater')
 # 
 # So that's how to do a one-sided one sample $t$-test. However, all versions of the $t$-test can be one-sided. For an independent samples $t$ test, you could have a one-sided test if you're only interestd in testing to see if group A has *higher* scores than group B, but have no interest in finding out if group B has higher scores than group A. Let's suppose that, for Dr Harpo's class, you wanted to see if Anastasia's students had higher grades than Bernadette's. The `ttest_ind` function lets you do this, again by specifying the `alternative` argument. However, this time around the order that we enter the variables in the test makes a difference. If we expect that Anastasia's students have higher grades, and we want to conduct a one-sided test, we need to the data for Anastasia's students _first_. Otherwise, we end up testing the hypothesis that _Bernadette's_ students had the higher grade, which is the opposite of what we intended:
 
-# In[40]:
+# In[613]:
 
 
 df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
@@ -1175,7 +1174,7 @@ print('One-sided, Bernadette first:', stats.ttest_ind(Bernadette, Anastasia, equ
 
 # What about the paired samples $t$-test? Suppose we wanted to test the hypothesis that grades go *up* from test 1 to test 2 in Dr. Chico's class, and are not prepared to consider the idea that the grades go down. Again, we can use the `alternative` argument to specify the one-sided test, and it works the same way it does for the independent samples $t$-test. Since we are comparing test 1 to test 2 by substracting one from the other, it makes a difference whether we subract test 1 from test 2, or test 2 from test 1. So, to test the hypothesis that grades for test 2 are higher than test 2, we will need to enter the grades from test 2 first; otherwise we are testing the opposite hypothesis: 
 
-# In[41]:
+# In[616]:
 
 
 import pandas as pd
@@ -1219,7 +1218,7 @@ print('test 1 - test 2:', ttest_rel(df['grade_test1'], df['grade_test2'], altern
 # d = \frac{\bar{X} - \mu_0}{\hat{\sigma}}
 # $$
 
-# In[42]:
+# In[624]:
 
 
 import pandas as pd
@@ -1257,7 +1256,7 @@ print('Cohen\'s d:', d)
 # 
 # In any case, ignoring all those variations that you could make use of if you wanted, let's have a look at how to calculate the default version. In particular, suppose we look at the data from Dr Harpo's class.
 
-# In[43]:
+# In[654]:
 
 
 import pandas as pd
