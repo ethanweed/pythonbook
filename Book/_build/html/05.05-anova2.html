@@ -1,50 +1,60 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>18. Factorial ANOVA &#8212; Learning Statistics with Python</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -53,361 +63,347 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05.05-anova2';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="19. Bayesian Statistics" href="06.01-bayes.html" />
     <link rel="prev" title="17. Linear regression" href="05.04-regression.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="landingpage.html">
-   Learning Statistics with Python
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part I. Background
- </span>
-</p>
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="landingpage.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Learning Statistics with Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="landingpage.html">
+                    Learning Statistics with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I. Background</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01.01-intro.html">
-   1. Why do we learn statistics?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01.02-studydesign.html">
-   2. A brief introduction to research design
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01.01-intro.html">1. Why do we learn statistics?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01.02-studydesign.html">2. A brief introduction to research design</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part II. An Introduction to Python
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II. An Introduction to Python</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="02.01-getting_started_with_python.html">
-   3. Getting Started with Python
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02.02-more_python_concepts.html">
-   4. More Python Concepts
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="02.01-getting_started_with_python.html">3. Getting Started with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02.02-more_python_concepts.html">4. More Python Concepts</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part III. Working With Data
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III. Working With Data</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="03.01-descriptives.html">
-   5. Descriptive statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.02-drawing_graphs.html">
-   6. Drawing Graphs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.03-pragmatic_matters.html">
-   7. Data Wrangling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.04-basic_programming.html">
-   8. Basic Programming
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="03.01-descriptives.html">5. Descriptive statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.02-drawing_graphs.html">6. Drawing Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.03-pragmatic_matters.html">7. Data Wrangling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.04-basic_programming.html">8. Basic Programming</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part IV. Statistical Theory
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV. Statistical Theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="04.01-intro-to-probability.html">
-   9. Statistical theory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.02-probability.html">
-   10. Introduction to Probability
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.03-estimation.html">
-   11. Estimating unknown quantities from a sample
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.04-hypothesis-testing.html">
-   12. Hypothesis Testing
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="04.01-intro-to-probability.html">9. Statistical theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.02-probability.html">10. Introduction to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.03-estimation.html">11. Estimating unknown quantities from a sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.04-hypothesis-testing.html">12. Hypothesis Testing</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part V. Statistical Tools
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V. Statistical Tools</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="05.01-chisquare.html">
-   13. Categorical data analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.02-ttest.html">
-   14. Comparing Two Means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.03-anova.html">
-   15. Comparing several means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.04-regression.html">
-   17. Linear regression
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   18. Factorial ANOVA
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="05.01-chisquare.html">13. Categorical data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.02-ttest.html">14. Comparing Two Means</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.03-anova.html">15. Comparing several means</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05.04-regression.html">17. Linear regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">18. Factorial ANOVA</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part VI. Endings, Alternatives and Prospects
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI. Endings, Alternatives and Prospects</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="06.01-bayes.html">
-   19. Bayesian Statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06.02-epilogue.html">
-   20. Epilogue
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   21. References
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="06.01-bayes.html">19. Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06.02-epilogue.html">20. Epilogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">21. References</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/05.05-anova2.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/ethanweed/pythonbook"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.05-anova2.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
-</div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+<div class="article-header-buttons">
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/ethanweed/pythonbook/https://github.com/ethanweed/pythonbook/tree/main/Chapters?urlpath=tree/05.05-anova2.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">
-   18.1. Factorial ANOVA 1: balanced designs, no interactions
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">
-     18.1.1. What hypotheses are we testing?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-the-analysis-in-python">
-     18.1.2. Running the analysis in Python
-    </a>
-   </li>
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.05-anova2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
   </ul>
- </li>
-</ul>
+</div>
 
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05.05-anova2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Factorial ANOVA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">18.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">18.1.1. What hypotheses are we testing?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">18.1.2. Running the analysis in Python</a></li>
+</ul>
+</li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Factorial ANOVA</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">
-   18.1. Factorial ANOVA 1: balanced designs, no interactions
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">
-     18.1.1. What hypotheses are we testing?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-the-analysis-in-python">
-     18.1.2. Running the analysis in Python
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="factorial-anova">
-<span id="anova2"></span><h1><span class="section-number">18. </span>Factorial ANOVA<a class="headerlink" href="#factorial-anova" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="factorial-anova">
+<span id="anova2"></span><h1><span class="section-number">18. </span>Factorial ANOVA<a class="headerlink" href="#factorial-anova" title="Permalink to this heading">#</a></h1>
 <p>Over the course of the last few chapters you can probably detect a general trend. We started out looking at tools that you can use to compare two groups to one another, most notably the <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref"><span class="math notranslate nohighlight">\(t\)</span>-test</span></a>. Then, we introduced <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a> (ANOVA) as a method for comparing more than two groups. The chapter on <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression</span></a> covered a somewhat different topic, but in doing so it introduced a powerful new idea: building statistical models that have <em>multiple</em> predictor variables used to explain a single outcome variable. For instance, a regression model could be used to predict the number of errors a student makes in a reading comprehension test based on the number of hours they studied for the test, and their score on a standardised IQ test. The goal in this chapter is to import this idea into the ANOVA framework. For instance, suppose we were interested in using the reading comprehension test to measure student achievements in three different schools, and we suspect that girls and boys are developing at different rates (and so would be expected to have different performance on average). Each student is classified in two different ways: on the basis of their gender, and on the basis of their school. What we’d like to do is analyse the reading comprehension scores in terms of <em>both</em> of these grouping variables. The tool for doing so is generically referred to as <strong><em>factorial ANOVA</em></strong>. However, since we have two grouping variables, we sometimes refer to the analysis as a two-way ANOVA, in contrast to the one-way ANOVAs that we <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ran earlier</span></a>.</p>
-<div class="section" id="factorial-anova-1-balanced-designs-no-interactions">
-<span id="factorialanovasimple"></span><h2><span class="section-number">18.1. </span>Factorial ANOVA 1: balanced designs, no interactions<a class="headerlink" href="#factorial-anova-1-balanced-designs-no-interactions" title="Permalink to this headline">¶</a></h2>
+<section id="factorial-anova-1-balanced-designs-no-interactions">
+<span id="factorialanovasimple"></span><h2><span class="section-number">18.1. </span>Factorial ANOVA 1: balanced designs, no interactions<a class="headerlink" href="#factorial-anova-1-balanced-designs-no-interactions" title="Permalink to this heading">#</a></h2>
 <p>When we discussed <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a>, we assumed a fairly simple experimental design: each person falls into one of several groups, and we want to know whether these groups have different means on some outcome variable. In this section, I’ll discuss a broader class of experimental designs, known as <strong><em>factorial designs</em></strong>, in we have more than one grouping variable. I gave one example of how this kind of design might arise above. Another example appears in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ANOVA</span></a>, in which we were looking at the effect of different drugs on the <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> experienced by each person. In that chapter we did find a significant effect of drug, but at the end of the chapter we also ran an analysis to see if there was an effect of therapy. We didn’t find one, but there’s something a bit worrying about trying to run two <em>separate</em> analyses trying to predict the same outcome. Maybe there actually <em>is</em> an effect of therapy on mood gain, but we couldn’t find it because it was being “hidden” by the effect of drug? In other words, we’re going to want to run a <em>single</em> analysis that includes <em>both</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as predictors. For this analysis each person is cross-classified by the drug they were given (a factor with 3 levels) and what therapy they received (a factor with 2 levels). We refer to this as a <span class="math notranslate nohighlight">\(3 \times 2\)</span> factorial design. If we cross-tabulate <code class="docutils literal notranslate"><span class="pre">drug</span></code> by <code class="docutils literal notranslate"><span class="pre">therapy</span></code> using the <code class="docutils literal notranslate"><span class="pre">crosstab()</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, we get the following table:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -468,8 +464,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div></div></div>
 </div>
 <p>As you can see, not only do we have participants corresponding to all possible combinations of the two factors, indicating that our design is <strong><em>completely crossed</em></strong>, it turns out that there are an equal number of people in each group. In other words, we have a <strong><em>balanced</em></strong> design. In this section I’ll talk about how to analyse data from balanced designs, since this is the simplest case. The story for unbalanced designs is quite tedious, so we’ll put it to one side for the moment.</p>
-<div class="section" id="what-hypotheses-are-we-testing">
-<span id="factanovahyp"></span><h3><span class="section-number">18.1.1. </span>What hypotheses are we testing?<a class="headerlink" href="#what-hypotheses-are-we-testing" title="Permalink to this headline">¶</a></h3>
+<section id="what-hypotheses-are-we-testing">
+<span id="factanovahyp"></span><h3><span class="section-number">18.1.1. </span>What hypotheses are we testing?<a class="headerlink" href="#what-hypotheses-are-we-testing" title="Permalink to this heading">#</a></h3>
 <p>Like one-way ANOVA, factorial ANOVA is a tool for testing certain types of hypotheses about population means. So a sensible place to start would be to be explicit about what our hypotheses actually are. However, before we can even get to that point, it’s really useful to have some clean and simple notation to describe the population means. Because of the fact that observations are cross-classified in terms of two different factors, there are quite a lot of different means that one might be interested. To see this, let’s start by thinking about all the different sample means that we can calculate for this kind of design. Firstly, there’s the obvious idea that we might be interested in this table of group means:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -645,143 +641,143 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <p>At this point we have 12 different sample means to keep track of! It is helpful to organise all these numbers into a single table, which would look like this:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>no therapy</p></th>
-<th class="text-align:left head"><p>CBT</p></th>
-<th class="text-align:left head"><p>total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>no therapy</p></th>
+<th class="head text-left"><p>CBT</p></th>
+<th class="head text-left"><p>total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p>no therapy</p></td>
-<td class="text-align:left"><p>CBT</p></td>
-<td class="text-align:left"><p>total</p></td>
+<tr class="row-even"><td class="text-left"><p></p></td>
+<td class="text-left"><p>no therapy</p></td>
+<td class="text-left"><p>CBT</p></td>
+<td class="text-left"><p>total</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>placebo</p></td>
-<td class="text-align:left"><p>0.30</p></td>
-<td class="text-align:left"><p>0.60</p></td>
-<td class="text-align:left"><p>0.45</p></td>
+<tr class="row-odd"><td class="text-left"><p>placebo</p></td>
+<td class="text-left"><p>0.30</p></td>
+<td class="text-left"><p>0.60</p></td>
+<td class="text-left"><p>0.45</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>anxifree</p></td>
-<td class="text-align:left"><p>0.40</p></td>
-<td class="text-align:left"><p>1.03</p></td>
-<td class="text-align:left"><p>0.72</p></td>
+<tr class="row-even"><td class="text-left"><p>anxifree</p></td>
+<td class="text-left"><p>0.40</p></td>
+<td class="text-left"><p>1.03</p></td>
+<td class="text-left"><p>0.72</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>joyzepam</p></td>
-<td class="text-align:left"><p>1.47</p></td>
-<td class="text-align:left"><p>1.50</p></td>
-<td class="text-align:left"><p>1.48</p></td>
+<tr class="row-odd"><td class="text-left"><p>joyzepam</p></td>
+<td class="text-left"><p>1.47</p></td>
+<td class="text-left"><p>1.50</p></td>
+<td class="text-left"><p>1.48</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>total</p></td>
-<td class="text-align:left"><p>0.72</p></td>
-<td class="text-align:left"><p>1.04</p></td>
-<td class="text-align:left"><p>0.88</p></td>
+<tr class="row-even"><td class="text-left"><p>total</p></td>
+<td class="text-left"><p>0.72</p></td>
+<td class="text-left"><p>1.04</p></td>
+<td class="text-left"><p>0.88</p></td>
 </tr>
 </tbody>
 </table>
 <p>Now, each of these different means is of course a sample statistic: it’s a quantity that pertains to the specific observations that we’ve made during our study. What we want to make inferences about are the corresponding population parameters: that is, the true means as they exist within some broader population. Those population means can also be organised into a similar table, but we’ll need a little mathematical notation to do so. As usual, I’ll use the symbol <span class="math notranslate nohighlight">\(\mu\)</span> to denote a population mean. However, because there are lots of different means, I’ll need to use subscripts to distinguish between them.</p>
-<p>Here’s how the notation works. Our table is defined in terms of two factors: each row corresponds to a different level of Factor A (in this case <code class="docutils literal notranslate"><span class="pre">drug</span></code>), and each column corresponds to a different level of Factor B (in this case <code class="docutils literal notranslate"><span class="pre">therapy</span></code>). If we let <span class="math notranslate nohighlight">\(R\)</span> denote the number of rows in the table, and <span class="math notranslate nohighlight">\(C\)</span> denote the number of columns, we can refer to this as an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA. In this case <span class="math notranslate nohighlight">\(R=3\)</span> and <span class="math notranslate nohighlight">\(C=2\)</span>. We’ll use lowercase letters to refer to specific rows and columns, so <span class="math notranslate nohighlight">\(\mu_{rc}\)</span> refers to the population mean associated with the <span class="math notranslate nohighlight">\(r\)</span>th level of Factor A (i.e. row number <span class="math notranslate nohighlight">\(r\)</span>) and the <span class="math notranslate nohighlight">\(c\)</span>th level of Factor B (column number <span class="math notranslate nohighlight">\(c\)</span>).<a class="footnote-reference brackets" href="#notesubscript" id="id1">1</a> So the population means are now written like this:</p>
-<table class="colwidths-auto table">
+<p>Here’s how the notation works. Our table is defined in terms of two factors: each row corresponds to a different level of Factor A (in this case <code class="docutils literal notranslate"><span class="pre">drug</span></code>), and each column corresponds to a different level of Factor B (in this case <code class="docutils literal notranslate"><span class="pre">therapy</span></code>). If we let <span class="math notranslate nohighlight">\(R\)</span> denote the number of rows in the table, and <span class="math notranslate nohighlight">\(C\)</span> denote the number of columns, we can refer to this as an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA. In this case <span class="math notranslate nohighlight">\(R=3\)</span> and <span class="math notranslate nohighlight">\(C=2\)</span>. We’ll use lowercase letters to refer to specific rows and columns, so <span class="math notranslate nohighlight">\(\mu_{rc}\)</span> refers to the population mean associated with the <span class="math notranslate nohighlight">\(r\)</span>th level of Factor A (i.e. row number <span class="math notranslate nohighlight">\(r\)</span>) and the <span class="math notranslate nohighlight">\(c\)</span>th level of Factor B (column number <span class="math notranslate nohighlight">\(c\)</span>).<a class="footnote-reference brackets" href="#notesubscript" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> So the population means are now written like this:</p>
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>no therapy</p></th>
-<th class="text-align:left head"><p>CBT</p></th>
-<th class="text-align:left head"><p>total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>no therapy</p></th>
+<th class="head text-left"><p>CBT</p></th>
+<th class="head text-left"><p>total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{11}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{12}\)</span></p></td>
-<td class="text-align:left"><p></p></td>
+<tr class="row-even"><td class="text-left"><p>placebo</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{11}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{12}\)</span></p></td>
+<td class="text-left"><p></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{21}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{22}\)</span></p></td>
-<td class="text-align:left"><p></p></td>
+<tr class="row-odd"><td class="text-left"><p>anxifree</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{21}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{22}\)</span></p></td>
+<td class="text-left"><p></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{31}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{32}\)</span></p></td>
-<td class="text-align:left"><p></p></td>
+<tr class="row-even"><td class="text-left"><p>joyzepam</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{31}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{32}\)</span></p></td>
+<td class="text-left"><p></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>total</p></td>
-<td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p></p></td>
-<td class="text-align:left"><p></p></td>
+<tr class="row-odd"><td class="text-left"><p>total</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p></p></td>
 </tr>
 </tbody>
 </table>
-<p>Okay, what about the remaining entries? For instance, how should we describe the average mood gain across the entire (hypothetical) population of people who might be given Joyzepam in an experiment like this, regardless of whether they were in CBT? We use the “dot” notation to express this. In the case of Joyzepam, notice that we’re talking about the mean associated with the third row in the table. That is, we’re averaging across two cell means (i.e., <span class="math notranslate nohighlight">\(\mu_{31}\)</span> and <span class="math notranslate nohighlight">\(\mu_{32}\)</span>). The result of this averaging is referred to as a <strong><em>marginal mean</em></strong>, and would be denoted <span class="math notranslate nohighlight">\(\mu_{3.}\)</span> in this case. The marginal mean for CBT corresponds to the population mean associated with the second column in the table, so we use the notation <span class="math notranslate nohighlight">\(\mu_{.2}\)</span> to describe it. The grand mean is denoted <span class="math notranslate nohighlight">\(\mu_{..}\)</span> because it is the mean obtained by averaging (marginalising<a class="footnote-reference brackets" href="#notemarginalising" id="id2">2</a>) over both. So our full table of population means can be written down like this:</p>
-<table class="colwidths-auto table">
+<p>Okay, what about the remaining entries? For instance, how should we describe the average mood gain across the entire (hypothetical) population of people who might be given Joyzepam in an experiment like this, regardless of whether they were in CBT? We use the “dot” notation to express this. In the case of Joyzepam, notice that we’re talking about the mean associated with the third row in the table. That is, we’re averaging across two cell means (i.e., <span class="math notranslate nohighlight">\(\mu_{31}\)</span> and <span class="math notranslate nohighlight">\(\mu_{32}\)</span>). The result of this averaging is referred to as a <strong><em>marginal mean</em></strong>, and would be denoted <span class="math notranslate nohighlight">\(\mu_{3.}\)</span> in this case. The marginal mean for CBT corresponds to the population mean associated with the second column in the table, so we use the notation <span class="math notranslate nohighlight">\(\mu_{.2}\)</span> to describe it. The grand mean is denoted <span class="math notranslate nohighlight">\(\mu_{..}\)</span> because it is the mean obtained by averaging (marginalising<a class="footnote-reference brackets" href="#notemarginalising" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>) over both. So our full table of population means can be written down like this:</p>
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>no therapy</p></th>
-<th class="text-align:left head"><p>CBT</p></th>
-<th class="text-align:left head"><p>total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>no therapy</p></th>
+<th class="head text-left"><p>CBT</p></th>
+<th class="head text-left"><p>total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{11}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{12}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{1.}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>placebo</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{11}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{12}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{1.}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{21}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{22}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{2.}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>anxifree</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{21}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{22}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{2.}\)</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{31}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{32}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{3.}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>joyzepam</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{31}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{32}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{3.}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>total</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{.1}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{.2}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\mu_{..}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>total</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{.1}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{.2}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu_{..}\)</span></p></td>
 </tr>
 </tbody>
 </table>
 <p>Now that we have this notation, it is straightforward to formulate and express some hypotheses. Let’s suppose that the goal is to find out two things: firstly, does the choice of drug have any effect on mood, and secondly, does CBT have any effect on mood? These aren’t the only hypotheses that we could formulate of course, and we’ll see a really important example of a different kind of hypothesis in the section on <span class="xref myst">interactions</span>, but these are the two simplest hypotheses to test, and so we’ll start there. Consider the first test. If drug has no effect, then we would expect all of the row means to be identical, right? So that’s our null hypothesis. On the other hand, if the drug does matter then we should expect these row means to be different. Formally, we write down our null and alternative hypotheses in terms of the <em>equality of marginal means</em>:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p></p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
-<td class="text-align:left"><p>row means are the same i.e. <span class="math notranslate nohighlight">\(\mu_{1.} = \mu_{2.} = \mu_{3.}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-left"><p>row means are the same i.e. <span class="math notranslate nohighlight">\(\mu_{1.} = \mu_{2.} = \mu_{3.}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
-<td class="text-align:left"><p>at least one row mean is different.</p></td>
+<tr class="row-odd"><td class="text-left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
+<td class="text-left"><p>at least one row mean is different.</p></td>
 </tr>
 </tbody>
 </table>
 <p>It’s worth noting that these are <em>exactly</em> the same statistical hypotheses that we formed when we ran a one-way ANOVA on these data <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">way back when</span></a>. Back then I used the notation <span class="math notranslate nohighlight">\(\mu_P\)</span> to refer to the mean mood gain for the placebo group, with <span class="math notranslate nohighlight">\(\mu_A\)</span> and <span class="math notranslate nohighlight">\(\mu_J\)</span> corresponding to the group means for the two drugs, and the null hypothesis was <span class="math notranslate nohighlight">\(\mu_P = \mu_A = \mu_J\)</span>. So we’re actually talking about the same hypothesis: it’s just that the more complicated ANOVA requires more careful notation due to the presence of multiple grouping variables, so we’re now referring to this hypothesis as <span class="math notranslate nohighlight">\(\mu_{1.} = \mu_{2.} = \mu_{3.}\)</span>. However, as we’ll see shortly, although the hypothesis is identical, the test of that hypothesis is subtly different due to the fact that we’re now acknowledging the existence of the second grouping variable.</p>
 <p>Speaking of the other grouping variable, you won’t be surprised to discover that our second hypothesis test is formulated the same way. However, since we’re talking about the psychological therapy rather than drugs, our null hypothesis now corresponds to the equality of the column means:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p></p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
-<td class="text-align:left"><p>column means are the same, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} = \mu_{.2}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>Null hypothesis <span class="math notranslate nohighlight">\(H_0\)</span>:</p></td>
+<td class="text-left"><p>column means are the same, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} = \mu_{.2}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
-<td class="text-align:left"><p>column means are different, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} \neq \mu_{.2}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>Alternative hypothesis <span class="math notranslate nohighlight">\(H_1\)</span>:</p></td>
+<td class="text-left"><p>column means are different, i.e., <span class="math notranslate nohighlight">\(\mu_{.1} \neq \mu_{.2}\)</span></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="running-the-analysis-in-python">
-<h3><span class="section-number">18.1.2. </span>Running the analysis in Python<a class="headerlink" href="#running-the-analysis-in-python" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="running-the-analysis-in-python">
+<h3><span class="section-number">18.1.2. </span>Running the analysis in Python<a class="headerlink" href="#running-the-analysis-in-python" title="Permalink to this heading">#</a></h3>
 <p>If the data you’re trying to analyse correspond to a balanced factorial design, then running your analysis of variance is easy. To see how easy it is, let’s start by reproducing the original analysis from <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">earlier</span></a>. In case you’ve forgotten, for that analysis we were using only a single factor (i.e., <code class="docutils literal notranslate"><span class="pre">drug</span></code>) as our between-subjects variable to predict our outcome (dependent) variable (i.e., <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>), and so this was what we did:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -793,17 +789,57 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">model1</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">round</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pingouin&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.45</td>
+      <td>2</td>
+      <td>1.73</td>
+      <td>18.61</td>
+      <td>0.0</td>
+      <td>0.71</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Within</td>
+      <td>1.39</td>
+      <td>15</td>
+      <td>0.09</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Note that this time around I’ve used the name <code class="docutils literal notranslate"><span class="pre">model1</span></code> as the label for my <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, since I’m planning on creating quite a few other models too. To start with, suppose I’m also curious to find out if <code class="docutils literal notranslate"><span class="pre">therapy</span></code> has a relationship to <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. In light of what we’ve seen from our discussion of <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">multiple regression</span></a>, you probably won’t be surprised that all we have to do is extend the formula: in other words, if we specify <code class="docutils literal notranslate"><span class="pre">dv=mood.gain,</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy']</span></code> as our model, we’ll probably get what we’re after:</p>
 <div class="cell docutils container">
@@ -904,34 +940,34 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <p>At this point, I hope you can see that the ANOVA table for this more complicated analysis corresponding to <code class="docutils literal notranslate"><span class="pre">model2</span></code> should be read in much the same way as the ANOVA table for the simpler analysis for <code class="docutils literal notranslate"><span class="pre">model1</span></code>. In short, it’s telling us that the factorial ANOVA for our <span class="math notranslate nohighlight">\(3 \times 2\)</span> design found a significant effect of drug (<span class="math notranslate nohighlight">\(F_{2,12} = 31.71, p &lt; .001\)</span>) as well as a significant effect of therapy (<span class="math notranslate nohighlight">\(F_{1,12} = 8.58, p = .01\)</span>). Or, to use the more technically correct terminology, we would say that there are two <strong><em>main effects</em></strong> of drug and therapy. Why are these “main” effects? Well, because there could also be an <em>interaction</em> between the effect of <code class="docutils literal notranslate"><span class="pre">drug</span></code> and the effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code>. We’ll explore the concept of <span class="xref myst">interactions</span> below.</p>
 <p>In the previous section I had two goals: firstly, to show you that the Python commands needed to do factorial ANOVA are pretty much the same ones that we used for a one way ANOVA. The only difference is that we add the number of predictors in the <code class="docutils literal notranslate"><span class="pre">between</span></code> argument of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>’s <code class="docutils literal notranslate"><span class="pre">anova()</span></code> function. Secondly, I wanted to show you what the ANOVA table looks like in this case, so that you can see from the outset that the basic logic and structure behind factorial ANOVA is the same as that which underpins one way ANOVA. Try to hold onto that feeling. It’s genuinely true, insofar as factorial ANOVA is built in more or less the same way as the simpler one-way ANOVA model. It’s just that this feeling of familiarity starts to evaporate once you start digging into the details. Traditionally, this comforting sensation is replaced by an urge to murder the the authors of statistics textbooks.</p>
 <p>Okay, let’s start looking at some of those details. The explanation that I gave in the last section illustrates the fact that the hypothesis tests for the main effects (of drug and therapy in this case) are <span class="math notranslate nohighlight">\(F\)</span>-tests, but what it doesn’t do is show you how the sum of squares (SS) values are calculated. Nor does it tell you explicitly how to calculate degrees of freedom (<span class="math notranslate nohighlight">\(df\)</span> values) though that’s a simple thing by comparison. Let’s assume for now that we have only two predictor variables, Factor A and Factor B. If we use <span class="math notranslate nohighlight">\(Y\)</span> to refer to the outcome variable, then we would use <span class="math notranslate nohighlight">\(Y_{rci}\)</span> to refer to the outcome associated with the <span class="math notranslate nohighlight">\(i\)</span>-th member of group <span class="math notranslate nohighlight">\(rc\)</span> (i.e., level/row <span class="math notranslate nohighlight">\(r\)</span> for Factor A and level/column <span class="math notranslate nohighlight">\(c\)</span> for Factor B). Thus, if we use <span class="math notranslate nohighlight">\(\bar{Y}\)</span> to refer to a sample mean, we can use the same notation as before to refer to group means, marginal means and grand means: that is, <span class="math notranslate nohighlight">\(\bar{Y}_{rc}\)</span> is the sample mean associated with the <span class="math notranslate nohighlight">\(r\)</span>th level of Factor A and the <span class="math notranslate nohighlight">\(c\)</span>th level of Factor B, <span class="math notranslate nohighlight">\(\bar{Y}_{r.}\)</span> would be the marginal mean for the <span class="math notranslate nohighlight">\(r\)</span>th level of Factor A, <span class="math notranslate nohighlight">\(\bar{Y}_{.c}\)</span> would be the marginal mean for the <span class="math notranslate nohighlight">\(c\)</span>th level of Factor B, and <span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span> is the grand mean. In other words, our sample means can be organised into the same table as the population means. For our clinical trial data, that table looks like this:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:left head"><p>no therapy</p></th>
-<th class="text-align:left head"><p>CBT</p></th>
-<th class="text-align:left head"><p>total</p></th>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>no therapy</p></th>
+<th class="head text-left"><p>CBT</p></th>
+<th class="head text-left"><p>total</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>placebo</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{11}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{12}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{1.}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>placebo</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{11}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{12}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{1.}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>anxifree</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{21}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{22}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{2.}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>anxifree</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{21}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{22}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{2.}\)</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>joyzepam</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{31}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{32}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{3.}\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>joyzepam</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{31}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{32}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{3.}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>total</p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{.1}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{.2}\)</span></p></td>
-<td class="text-align:left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span></p></td>
+<tr class="row-odd"><td class="text-left"><p>total</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{.1}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{.2}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -942,17 +978,17 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 \mbox{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2
 \]</div>
 <hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="notesubscript"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>The nice thing about the subscript notation is that generalises nicely: if our experiment had involved a third factor, then we could just add a third subscript. In principle, the notation extends to as many factors as you might care to include, but in this book we’ll rarely consider analyses involving more than two factors, and never more than three.</p>
-</dd>
-<dt class="label" id="notemarginalising"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Technically, marginalising isn’t quite identical to a regular mean: it’s a weighted average, where you take into account the frequency of the different events that you’re averaging over. However, in a balanced design, all of our cell frequencies are equal by definition, so the two are equivalent. We’ll discuss unbalanced designs later, and when we do so you’ll see that all of our calculations become a real headache. But let’s ignore this for now.</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
+<aside class="footnote brackets" id="notesubscript" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>The nice thing about the subscript notation is that generalises nicely: if our experiment had involved a third factor, then we could just add a third subscript. In principle, the notation extends to as many factors as you might care to include, but in this book we’ll rarely consider analyses involving more than two factors, and never more than three.</p>
+</aside>
+<aside class="footnote brackets" id="notemarginalising" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Technically, marginalising isn’t quite identical to a regular mean: it’s a weighted average, where you take into account the frequency of the different events that you’re averaging over. However, in a balanced design, all of our cell frequencies are equal by definition, so the two are equivalent. We’ll discuss unbalanced designs later, and when we do so you’ll see that all of our calculations become a real headache. But let’s ignore this for now.</p>
+</aside>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -966,7 +1002,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -974,44 +1010,109 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="05.04-regression.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">17. </span>Linear regression</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05.04-regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">17. </span>Linear regression</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="06.01-bayes.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="06.01-bayes.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">19. </span>Bayesian Statistics</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Danielle Navarro and Ethan Weed<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">18.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">18.1.1. What hypotheses are we testing?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">18.1.2. Running the analysis in Python</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Danielle Navarro and Ethan Weed
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

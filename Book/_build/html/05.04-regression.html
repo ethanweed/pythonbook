@@ -1,50 +1,60 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>17. Linear regression &#8212; Learning Statistics with Python</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -53,614 +63,376 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05.04-regression';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="18. Factorial ANOVA" href="05.05-anova2.html" />
     <link rel="prev" title="15. Comparing several means" href="05.03-anova.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">Learning Statistics with Python</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="landingpage.html">
-   Learning Statistics with Python
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part I. Background
- </span>
-</p>
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="landingpage.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Learning Statistics with Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="landingpage.html">
+                    Learning Statistics with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I. Background</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01.01-intro.html">
-   1. Why do we learn statistics?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01.02-studydesign.html">
-   2. A brief introduction to research design
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01.01-intro.html">1. Why do we learn statistics?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01.02-studydesign.html">2. A brief introduction to research design</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part II. An Introduction to Python
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II. An Introduction to Python</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="02.01-getting_started_with_python.html">
-   3. Getting Started with Python
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02.02-more_python_concepts.html">
-   4. More Python Concepts
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="02.01-getting_started_with_python.html">3. Getting Started with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02.02-more_python_concepts.html">4. More Python Concepts</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part III. Working With Data
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III. Working With Data</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="03.01-descriptives.html">
-   5. Descriptive statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.02-drawing_graphs.html">
-   6. Drawing Graphs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.03-pragmatic_matters.html">
-   7. Data Wrangling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03.04-basic_programming.html">
-   8. Basic Programming
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="03.01-descriptives.html">5. Descriptive statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.02-drawing_graphs.html">6. Drawing Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.03-pragmatic_matters.html">7. Data Wrangling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03.04-basic_programming.html">8. Basic Programming</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part IV. Statistical Theory
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV. Statistical Theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="04.01-intro-to-probability.html">
-   9. Statistical theory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.02-probability.html">
-   10. Introduction to Probability
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.03-estimation.html">
-   11. Estimating unknown quantities from a sample
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04.04-hypothesis-testing.html">
-   12. Hypothesis Testing
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="04.01-intro-to-probability.html">9. Statistical theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.02-probability.html">10. Introduction to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.03-estimation.html">11. Estimating unknown quantities from a sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04.04-hypothesis-testing.html">12. Hypothesis Testing</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part V. Statistical Tools
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V. Statistical Tools</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="05.01-chisquare.html">
-   13. Categorical data analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.02-ttest.html">
-   14. Comparing Two Means
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.03-anova.html">
-   15. Comparing several means
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   17. Linear regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05.05-anova2.html">
-   18. Factorial ANOVA
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="05.01-chisquare.html">13. Categorical data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.02-ttest.html">14. Comparing Two Means</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.03-anova.html">15. Comparing several means</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">17. Linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.05-anova2.html">18. Factorial ANOVA</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Part VI. Endings, Alternatives and Prospects
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI. Endings, Alternatives and Prospects</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="06.01-bayes.html">
-   19. Bayesian Statistics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06.02-epilogue.html">
-   20. Epilogue
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   21. References
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="06.01-bayes.html">19. Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06.02-epilogue.html">20. Epilogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">21. References</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/05.04-regression.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/ethanweed/pythonbook"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.04-regression.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ethanweed/pythonbook/issues/new?title=Issue%20on%20page%20%2F05.04-regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/ethanweed/pythonbook/https://github.com/ethanweed/pythonbook/tree/main/Chapters?urlpath=tree/05.04-regression.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05.04-regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
     </div>
+  
 </div>
+</div>
+              
+              
 
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Linear regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#estimating-a-linear-regression-model">
-   17.1. Estimating a linear regression model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#linear-regression-with-python">
-   17.2. Linear Regression with Python
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#warning">
-     17.2.1. Warning!!!
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
-     17.2.2. Interpreting the estimated model
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multiple-linear-regression">
-   17.3. Multiple linear regression
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multiple-linear-regression-in-python">
-   17.4. Multiple Linear Regression in Python
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#formula-for-the-general-case">
-     17.4.1. Formula for the general case
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">
-   17.5. Quantifying the fit of the regression model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-r-2-value">
-     17.5.1. The
-     <span class="math notranslate nohighlight">
-      \(R^2\)
-     </span>
-     value
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-relationship-between-regression-and-correlation">
-     17.5.2. The relationship between regression and correlation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-adjusted-r-2-value">
-     17.5.3. The adjusted
-     <span class="math notranslate nohighlight">
-      \(R^2\)
-     </span>
-     value
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hypothesis-tests-for-regression-models">
-   17.6. Hypothesis tests for regression models
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-the-model-as-a-whole">
-     17.6.1. Testing the model as a whole
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#an-f-test-function">
-     17.6.2. An F-test function
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tests-for-individual-coefficients">
-     17.6.3. Tests for individual coefficients
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#testing-the-significance-of-a-correlation">
-   17.7. Testing the significance of a correlation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hypothesis-tests-for-a-single-correlation">
-     17.7.1. Hypothesis tests for a single correlation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hypothesis-tests-for-all-pairwise-correlations">
-     17.7.2. Hypothesis tests for all pairwise correlations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculating-standardised-regression-coefficients">
-     17.7.3. Calculating standardised regression coefficients
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-regression">
-   17.8. Assumptions of regression
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-checking">
-   17.9. Model checking
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#three-kinds-of-residuals">
-     17.9.1. Three kinds of residuals
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">
-     17.9.2. Three kinds of anomalous data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">
-     17.9.3. Checking the normality of the residuals
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">
-     17.9.4. Checking the linearity of the relationship
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-a-linear-regression-model">17.1. Estimating a linear regression model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-with-python">17.2. Linear Regression with Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warning">17.2.1. Warning!!!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-estimated-model">17.2.2. Interpreting the estimated model</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression">17.3. Multiple linear regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression-in-python">17.4. Multiple Linear Regression in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-for-the-general-case">17.4.1. Formula for the general case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">17.5. Quantifying the fit of the regression model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-r-2-value">17.5.1. The <span class="math notranslate nohighlight">\(R^2\)</span> value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-relationship-between-regression-and-correlation">17.5.2. The relationship between regression and correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjusted-r-2-value">17.5.3. The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-regression-models">17.6. Hypothesis tests for regression models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model-as-a-whole">17.6.1. Testing the model as a whole</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-f-test-function">17.6.2. An F-test function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests-for-individual-coefficients">17.6.3. Tests for individual coefficients</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-significance-of-a-correlation">17.7. Testing the significance of a correlation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-a-single-correlation">17.7.1. Hypothesis tests for a single correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-all-pairwise-correlations">17.7.2. Hypothesis tests for all pairwise correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-standardised-regression-coefficients">17.7.3. Calculating standardised regression coefficients</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-regression">17.8. Assumptions of regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-checking">17.9. Model checking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-residuals">17.9.1. Three kinds of residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">17.9.2. Three kinds of anomalous data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">17.9.3. Checking the normality of the residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">17.9.4. Checking the linearity of the relationship</a></li>
+</ul>
+</li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Linear regression</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#estimating-a-linear-regression-model">
-   17.1. Estimating a linear regression model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#linear-regression-with-python">
-   17.2. Linear Regression with Python
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#warning">
-     17.2.1. Warning!!!
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interpreting-the-estimated-model">
-     17.2.2. Interpreting the estimated model
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multiple-linear-regression">
-   17.3. Multiple linear regression
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multiple-linear-regression-in-python">
-   17.4. Multiple Linear Regression in Python
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#formula-for-the-general-case">
-     17.4.1. Formula for the general case
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">
-   17.5. Quantifying the fit of the regression model
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-r-2-value">
-     17.5.1. The
-     <span class="math notranslate nohighlight">
-      \(R^2\)
-     </span>
-     value
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-relationship-between-regression-and-correlation">
-     17.5.2. The relationship between regression and correlation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#the-adjusted-r-2-value">
-     17.5.3. The adjusted
-     <span class="math notranslate nohighlight">
-      \(R^2\)
-     </span>
-     value
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hypothesis-tests-for-regression-models">
-   17.6. Hypothesis tests for regression models
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#testing-the-model-as-a-whole">
-     17.6.1. Testing the model as a whole
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#an-f-test-function">
-     17.6.2. An F-test function
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tests-for-individual-coefficients">
-     17.6.3. Tests for individual coefficients
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#testing-the-significance-of-a-correlation">
-   17.7. Testing the significance of a correlation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hypothesis-tests-for-a-single-correlation">
-     17.7.1. Hypothesis tests for a single correlation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hypothesis-tests-for-all-pairwise-correlations">
-     17.7.2. Hypothesis tests for all pairwise correlations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculating-standardised-regression-coefficients">
-     17.7.3. Calculating standardised regression coefficients
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#assumptions-of-regression">
-   17.8. Assumptions of regression
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-checking">
-   17.9. Model checking
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#three-kinds-of-residuals">
-     17.9.1. Three kinds of residuals
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">
-     17.9.2. Three kinds of anomalous data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">
-     17.9.3. Checking the normality of the residuals
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">
-     17.9.4. Checking the linearity of the relationship
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="linear-regression">
-<span id="regression"></span><h1><span class="section-number">17. </span>Linear regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="linear-regression">
+<span id="regression"></span><h1><span class="section-number">17. </span>Linear regression<a class="headerlink" href="#linear-regression" title="Permalink to this heading">#</a></h1>
 <p>The goal in this chapter is to introduce <strong><em>linear regression</em></strong>. Stripped to its bare essentials, linear regression models are basically a slightly fancier version of the <span class="xref myst">Pearson correlation</span>, though as we’ll see, regression models are much more powerful tools.</p>
 <p>Since the basic ideas in regression are closely tied to correlation, we’ll return to the <code class="docutils literal notranslate"><span class="pre">parenthood.csv</span></code> file that we were using to illustrate how correlations work. Recall that, in this data set, we were trying to find out why Dan is so very grumpy all the time, and our working hypothesis was that I’m not getting enough sleep.</p>
 <div class="cell docutils container">
@@ -741,6 +513,11 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <p>We drew some scatterplots to help us examine the relationship between the amount of sleep I get, and my grumpiness the following day.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -755,27 +532,18 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>                 <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span>                 <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
-</pre></div>
+<img alt="_images/50730c9e3bb456ca2c0a3e6ed868496b614172800e7b41eed81b9e5901929715.png" src="_images/50730c9e3bb456ca2c0a3e6ed868496b614172800e7b41eed81b9e5901929715.png" />
 </div>
 </div>
-</div>
-<div class="figure align-default" id="fig-sleepycorrelation" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.1 </span><span class="caption-text">Scatterplot showing grumpiness as a function of hours slept.</span><a class="headerlink" href="#fig-sleepycorrelation" title="Permalink to this image">¶</a></p>
-</div>
-<p>The actual scatterplot that we draw is the one shown in <a class="reference internal" href="#fig-sleepycorrelation"><span class="std std-numref">Fig. 17.1</span></a>, and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to the left panel in <a class="reference internal" href="#fig-sleep-regressions-1"><span class="std std-numref">Fig. 17.2</span></a>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in the right panel in <a class="reference internal" href="#fig-sleep-regressions-1"><span class="std std-numref">Fig. 17.2</span></a>.</p>
+<p>The actual scatterplot that we draw is the one shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleepycorrelation</span></code>, and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to the left panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in the right panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -810,12 +578,10 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_8_0.png" src="_images/05.04-regression_8_0.png" />
+<img alt="_images/f176d9fa0f00bb3ce5b5ae2f7f477d3d26bf1cbeab3018a628d046f10bbc9952.png" src="_images/f176d9fa0f00bb3ce5b5ae2f7f477d3d26bf1cbeab3018a628d046f10bbc9952.png" />
 </div>
-</div>
-<div class="figure align-default" id="fig-sleep-regressions-1" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.2 </span><span class="caption-text">The panel to the left shows the sleep-grumpiness scatterplot from <a class="reference internal" href="#fig-sleepycorrelation"><span class="std std-numref">Fig. 17.1</span></a> with the best fitting regression line drawn over the top. Not surprisingly, the line goes through the middle of the data. In contrast, the panel to the right shows the same data, but with a very poor choice of regression line drawn over the top.</span><a class="headerlink" href="#fig-sleep-regressions-1" title="Permalink to this image">¶</a></p>
 </div>
 <p>This is not highly surprising: the line that I’ve drawn in panel to the right doesn’t “fit” the data very well, so it doesn’t make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let’s start with a refresher of some high school maths. The formula for a straight line is usually written like this:</p>
 <div class="math notranslate nohighlight">
@@ -829,7 +595,7 @@ y = mx + c
 \hat{Y_i} = b_1 X_i + b_0
 \]</div>
 <p>Hm. Looks like the same formula, but there’s some extra frilly bits in this version. Let’s make sure we understand them. Firstly, notice that I’ve written <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_i\)</span> rather than just plain old <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. This is because we want to remember that we’re dealing with actual data. In this equation, <span class="math notranslate nohighlight">\(X_i\)</span> is the value of predictor variable for the <span class="math notranslate nohighlight">\(i\)</span>th observation (i.e., the number of hours of sleep that I got on day <span class="math notranslate nohighlight">\(i\)</span> of my little study), and <span class="math notranslate nohighlight">\(Y_i\)</span> is the corresponding value of the outcome variable (i.e., my grumpiness on that day). And although I haven’t said so explicitly in the equation, what we’re assuming is that this formula works for all observations in the data set (i.e., for all <span class="math notranslate nohighlight">\(i\)</span>). Secondly, notice that I wrote <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> and not <span class="math notranslate nohighlight">\(Y_i\)</span>. This is because we want to make the distinction between the <em>actual data</em> <span class="math notranslate nohighlight">\(Y_i\)</span>, and the <em>estimate</em> <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> (i.e., the prediction that our regression line is making). Thirdly, I changed the letters used to describe the coefficients from <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> to <span class="math notranslate nohighlight">\(b_1\)</span> and <span class="math notranslate nohighlight">\(b_0\)</span>. That’s just the way that statisticians like to refer to the coefficients in a regression model. I’ve no idea why they chose <span class="math notranslate nohighlight">\(b\)</span>, but that’s what they did. In any case <span class="math notranslate nohighlight">\(b_0\)</span> always refers to the intercept term, and <span class="math notranslate nohighlight">\(b_1\)</span> refers to the slope.</p>
-<p>Excellent, excellent. Next, I can’t help but notice that – regardless of whether we’re talking about the good regression line or the bad one – the data don’t fall perfectly on the line. Or, to say it another way, the data <span class="math notranslate nohighlight">\(Y_i\)</span> are not identical to the predictions of the regression model <span class="math notranslate nohighlight">\(\hat{Y_i}\)</span>. Since statisticians love to attach letters, names and numbers to everything, let’s refer to the difference between the model prediction and that actual data point as a <em>residual</em>, and we’ll refer to it as <span class="math notranslate nohighlight">\(\epsilon_i\)</span>.<a class="footnote-reference brackets" href="#noteepsilon" id="id1">1</a> Written using mathematics, the residuals are defined as:</p>
+<p>Excellent, excellent. Next, I can’t help but notice that – regardless of whether we’re talking about the good regression line or the bad one – the data don’t fall perfectly on the line. Or, to say it another way, the data <span class="math notranslate nohighlight">\(Y_i\)</span> are not identical to the predictions of the regression model <span class="math notranslate nohighlight">\(\hat{Y_i}\)</span>. Since statisticians love to attach letters, names and numbers to everything, let’s refer to the difference between the model prediction and that actual data point as a <em>residual</em>, and we’ll refer to it as <span class="math notranslate nohighlight">\(\epsilon_i\)</span>.<a class="footnote-reference brackets" href="#noteepsilon" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Written using mathematics, the residuals are defined as:</p>
 <div class="math notranslate nohighlight">
 \[
 \epsilon_i = Y_i - \hat{Y}_i
@@ -839,15 +605,20 @@ y = mx + c
 \[
 Y_i = b_1 X_i + b_0 + \epsilon_i
 \]</div>
-<div class="section" id="estimating-a-linear-regression-model">
-<span id="regressionestimation"></span><h2><span class="section-number">17.1. </span>Estimating a linear regression model<a class="headerlink" href="#estimating-a-linear-regression-model" title="Permalink to this headline">¶</a></h2>
-<p>Okay, now let’s redraw our pictures, but this time I’ll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in the left panel of <a class="reference internal" href="#fig-sleep-regressions-2"><span class="std std-numref">Fig. 17.3</span></a>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at the right panel of <a class="reference internal" href="#fig-sleep-regressions-2"><span class="std std-numref">Fig. 17.3</span></a>. Hm. Maybe what we “want” in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I’ll go so far as to say that the “best fitting” regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that …</p>
+<section id="estimating-a-linear-regression-model">
+<span id="regressionestimation"></span><h2><span class="section-number">17.1. </span>Estimating a linear regression model<a class="headerlink" href="#estimating-a-linear-regression-model" title="Permalink to this heading">#</a></h2>
+<p>Okay, now let’s redraw our pictures, but this time I’ll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in the left panel of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_2</span></code>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at the right panel of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_2</span></code>. Hm. Maybe what we “want” in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I’ll go so far as to say that the “best fitting” regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that …</p>
 <blockquote>
 <div><p>The estimated regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> are those that minimise the sum of the squared residuals, which we could either write as <span class="math notranslate nohighlight">\(\sum_i (Y_i - \hat{Y}_i)^2\)</span> or as <span class="math notranslate nohighlight">\(\sum_i {\epsilon_i}^2\)</span>.</p>
 </div></blockquote>
 <p>Yes, yes that sounds even better. And since I’ve indented it like that, it probably means that this is the right answer. And since this is the right answer, it’s probably worth making a note of the fact that our regression coefficients are <em>estimates</em> (we’re trying to guess the parameters that describe a population!), which is why I’ve added the little hats, so that we get <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> rather than <span class="math notranslate nohighlight">\(b_0\)</span> and <span class="math notranslate nohighlight">\(b_1\)</span>. Finally, I should also note that – since there’s actually more than one way to estimate a regression model – the more technical name for this estimation process is <strong><em>ordinary least squares (OLS) regression</em></strong>.</p>
-<p>At this point, we now have a concrete definition for what counts as our “best” choice of regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>. The natural question to ask next is,  if our optimal regression coefficients are those that minimise the sum squared residuals, how do we <em>find</em> these wonderful numbers? The actual answer to this question is complicated, and it doesn’t help you understand the logic of regression.<a class="footnote-reference brackets" href="#notekungfu" id="id2">2</a> As a result, this time I’m going to let you off the hook. Instead of showing you how to do it the long and tedious way first, and then “revealing” the wonderful shortcut that Python provides you with, let’s cut straight to the chase… and use Python to do all the heavy lifting.</p>
+<p>At this point, we now have a concrete definition for what counts as our “best” choice of regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>. The natural question to ask next is,  if our optimal regression coefficients are those that minimise the sum squared residuals, how do we <em>find</em> these wonderful numbers? The actual answer to this question is complicated, and it doesn’t help you understand the logic of regression.<a class="footnote-reference brackets" href="#notekungfu" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> As a result, this time I’m going to let you off the hook. Instead of showing you how to do it the long and tedious way first, and then “revealing” the wonderful shortcut that Python provides you with, let’s cut straight to the chase… and use Python to do all the heavy lifting.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">scipy</span><span class="o">,</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -919,16 +690,14 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_12_0.png" src="_images/05.04-regression_12_0.png" />
+<img alt="_images/04a9b3691395ada194bc9e3b0da445c9d789a6c40628a384e8035d08854c3e08.png" src="_images/04a9b3691395ada194bc9e3b0da445c9d789a6c40628a384e8035d08854c3e08.png" />
 </div>
 </div>
-<div class="figure align-default" id="fig-sleep-regressions-2" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.3 </span><span class="caption-text">A depiction of the residuals associated with the best fitting regression line (left panel), and the residuals associated with a poor regression line (right panel). The residuals are much smaller for the good regression line. Again, this is no surprise given that the good line is the one that goes right through the middle of the data.</span><a class="headerlink" href="#fig-sleep-regressions-2" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-<div class="section" id="linear-regression-with-python">
-<span id="pingouinregression"></span><h2><span class="section-number">17.2. </span>Linear Regression with Python<a class="headerlink" href="#linear-regression-with-python" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="linear-regression-with-python">
+<span id="pingouinregression"></span><h2><span class="section-number">17.2. </span>Linear Regression with Python<a class="headerlink" href="#linear-regression-with-python" title="Permalink to this heading">#</a></h2>
 <p>As always, there are several different ways we could go about calculating a linear regression in Python, but we’ll stick with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, which for my money is one of the simplest and easiest packages to use. The <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> command for linear regression is, well, <code class="docutils literal notranslate"><span class="pre">linear_regression</span></code>, so that couldn’t be much more straightforward. After that, we just need to tell <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> which variable we want to use as a predictor variable (independent variable), and which one we want to use as the outcome variable (dependent variable). <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> wants the predictor variable first, so, since we want to model my grumpiness as a function of my sleep, we write:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1005,13 +774,13 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </table>
 </div></div></div>
 </div>
-<p>As is its way, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> gives us a nice simple table, with a lot of information. Most importantly for now, we can see that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has caclulated the intercept <span class="math notranslate nohighlight">\(\hat{b}_0 = 125.96\)</span> and the slope <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span>. In other words, the best-fitting regression line that I plotted in <a class="reference internal" href="#fig-sleep-regressions-1"><span class="std std-numref">Fig. 17.2</span></a> has this formula:</p>
+<p>As is its way, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> gives us a nice simple table, with a lot of information. Most importantly for now, we can see that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has caclulated the intercept <span class="math notranslate nohighlight">\(\hat{b}_0 = 125.96\)</span> and the slope <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span>. In other words, the best-fitting regression line that I plotted in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code> has this formula:</p>
 <div class="math notranslate nohighlight">
 \[
 \hat{Y}_i = -8.94 \ X_i + 125.96
 \]</div>
-<div class="section" id="warning">
-<h3><span class="section-number">17.2.1. </span>Warning!!!<a class="headerlink" href="#warning" title="Permalink to this headline">¶</a></h3>
+<section id="warning">
+<h3><span class="section-number">17.2.1. </span>Warning!!!<a class="headerlink" href="#warning" title="Permalink to this heading">#</a></h3>
 <p>Remember, it’s critical that you put the variables in the right order. If you reverse the predictor and outcome variables, <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> will happily calculate a result for you, but it will not be the one you are looking for. If instead, we had written <code class="docutils literal notranslate"><span class="pre">pg.linear_regression(df['dan_grump'],</span> <span class="pre">df['dan_sleep'])</span></code>, we would get the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1079,15 +848,15 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </table>
 </div></div></div>
 </div>
-<p>The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son’s sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie<a class="footnote-reference brackets" href="#notenolan" id="id3">3</a>, but it’s no good in statistics. So remember, predictor first, outcome second<a class="footnote-reference brackets" href="#noteformula" id="id4">4</a></p>
-</div>
-<div class="section" id="interpreting-the-estimated-model">
-<h3><span class="section-number">17.2.2. </span>Interpreting the estimated model<a class="headerlink" href="#interpreting-the-estimated-model" title="Permalink to this headline">¶</a></h3>
+<p>The output looks valid enough on the face of it, and it is even statistically significant. But in this model, we just predicted my son’s sleepiness as a function of my grumpiness, which is madness! Reversing the direction of causality would make a great scifi movie<a class="footnote-reference brackets" href="#notenolan" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, but it’s no good in statistics. So remember, predictor first, outcome second<a class="footnote-reference brackets" href="#noteformula" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p>
+</section>
+<section id="interpreting-the-estimated-model">
+<h3><span class="section-number">17.2.2. </span>Interpreting the estimated model<a class="headerlink" href="#interpreting-the-estimated-model" title="Permalink to this heading">#</a></h3>
 <p>The most important thing to be able to understand is how to interpret these coefficients. Let’s start with <span class="math notranslate nohighlight">\(\hat{b}_1\)</span>, the slope. If we remember the definition of the slope, a regression coefficient of <span class="math notranslate nohighlight">\(\hat{b}_1 = -8.94\)</span> means that if I increase <span class="math notranslate nohighlight">\(X_i\)</span> by 1, then I’m decreasing <span class="math notranslate nohighlight">\(Y_i\)</span> by 8.94. That is, each additional hour of sleep that I gain will improve my mood, reducing my grumpiness by 8.94 grumpiness points. What about the intercept? Well, since <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> corresponds to “the expected value of <span class="math notranslate nohighlight">\(Y_i\)</span> when <span class="math notranslate nohighlight">\(X_i\)</span> equals 0”, it’s pretty straightforward. It implies that if I get zero hours of sleep (<span class="math notranslate nohighlight">\(X_i =0\)</span>) then my grumpiness will go off the scale, to an insane value of (<span class="math notranslate nohighlight">\(Y_i = 125.96\)</span>). Best to be avoided, I think.</p>
-</div>
-</div>
-<div class="section" id="multiple-linear-regression">
-<span id="multipleregression"></span><h2><span class="section-number">17.3. </span>Multiple linear regression<a class="headerlink" href="#multiple-linear-regression" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="multiple-linear-regression">
+<span id="multipleregression"></span><h2><span class="section-number">17.3. </span>Multiple linear regression<a class="headerlink" href="#multiple-linear-regression" title="Permalink to this heading">#</a></h2>
 <p>The simple linear regression model that we’ve discussed up to this point assumes that there’s a single predictor variable that you’re interested in, in this case <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code>. In fact, up to this point, <em>every</em> statistical tool that we’ve talked about has assumed that your analysis uses one predictor variable and one outcome variable. However, in many (perhaps most) research projects you actually have multiple predictors that you want to examine. If so, it would be nice to be able to extend the linear regression framework to be able to include multiple predictors. Perhaps some kind of <strong><em>multiple regression</em></strong> model would be in order?</p>
 <p>Multiple regression is conceptually very simple. All we do is add more terms to our regression equation. Let’s suppose that we’ve got two variables that we’re interested in; perhaps we want to use both <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> to predict the <code class="docutils literal notranslate"><span class="pre">dan_grump</span></code> variable. As before, we let <span class="math notranslate nohighlight">\(Y_i\)</span> refer to my grumpiness on the <span class="math notranslate nohighlight">\(i\)</span>-th day. But now we have two <span class="math notranslate nohighlight">\(X\)</span> variables: the first corresponding to the amount of sleep I got and the second corresponding to the amount of sleep my son got. So we’ll let <span class="math notranslate nohighlight">\(X_{i1}\)</span> refer to the hours I slept on the <span class="math notranslate nohighlight">\(i\)</span>-th day, and <span class="math notranslate nohighlight">\(X_{i2}\)</span> refers to the hours that the baby slept on that day. If so, then we can write our regression model like this:</p>
 <div class="math notranslate nohighlight">
@@ -1095,9 +864,9 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 \]</div>
 <p>As before, <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is the residual associated with the <span class="math notranslate nohighlight">\(i\)</span>-th observation, <span class="math notranslate nohighlight">\(\epsilon_i = {Y}_i - \hat{Y}_i\)</span>. In this model, we now have three coefficients that need to be estimated: <span class="math notranslate nohighlight">\(b_0\)</span> is the intercept, <span class="math notranslate nohighlight">\(b_1\)</span> is the coefficient associated with my sleep, and <span class="math notranslate nohighlight">\(b_2\)</span> is the coefficient associated with my son’s sleep. However, although the number of coefficients that need to be estimated has changed, the basic idea of how the estimation works is unchanged: our estimated coefficients <span class="math notranslate nohighlight">\(\hat{b}_0\)</span>, <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_2\)</span> are those that minimise the sum squared residuals.</p>
-</div>
-<div class="section" id="multiple-linear-regression-in-python">
-<span id="pingouinmultiplelinearregression"></span><h2><span class="section-number">17.4. </span>Multiple Linear Regression in Python<a class="headerlink" href="#multiple-linear-regression-in-python" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="multiple-linear-regression-in-python">
+<span id="pingouinmultiplelinearregression"></span><h2><span class="section-number">17.4. </span>Multiple Linear Regression in Python<a class="headerlink" href="#multiple-linear-regression-in-python" title="Permalink to this heading">#</a></h2>
 <p>Doing mulitiple linear regression in <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> is just as easy as adding some more predictor variables, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1207,8 +976,13 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 </table>
 </div></div></div>
 </div>
-<p>The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, <a class="reference internal" href="#fig-sleep-regressions-3d"><span class="std std-numref">Fig. 17.4</span></a> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
+<p>The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_3d</span></code> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1252,27 +1026,25 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_33_0.png" src="_images/05.04-regression_33_0.png" />
+<img alt="_images/a5e6d61d3bd864e45163cc0f5d03551537ddf2029fec31ce08c98a9d48de9180.png" src="_images/a5e6d61d3bd864e45163cc0f5d03551537ddf2029fec31ce08c98a9d48de9180.png" />
 </div>
 </div>
-<div class="figure align-default" id="fig-sleep-regressions-3d" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.4 </span><span class="caption-text">A 3D visualisation of a multiple regression model. There are two predictors in the model, <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>; the outcome variable is <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we’re trying to do is find a plane that is as close to all the blue dots as possible.</span><a class="headerlink" href="#fig-sleep-regressions-3d" title="Permalink to this image">¶</a></p>
-</div>
-<div class="section" id="formula-for-the-general-case">
-<h3><span class="section-number">17.4.1. </span>Formula for the general case<a class="headerlink" href="#formula-for-the-general-case" title="Permalink to this headline">¶</a></h3>
+<section id="formula-for-the-general-case">
+<h3><span class="section-number">17.4.1. </span>Formula for the general case<a class="headerlink" href="#formula-for-the-general-case" title="Permalink to this heading">#</a></h3>
 <p>The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors all you have to do is add more <span class="math notranslate nohighlight">\(X\)</span> terms and more <span class="math notranslate nohighlight">\(b\)</span> coefficients. In other words, if you have <span class="math notranslate nohighlight">\(K\)</span> predictor variables in the model then the regression equation looks like this:</p>
 <div class="math notranslate nohighlight">
 \[
 Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 \]</div>
-</div>
-</div>
-<div class="section" id="quantifying-the-fit-of-the-regression-model">
-<span id="r2"></span><h2><span class="section-number">17.5. </span>Quantifying the fit of the regression model<a class="headerlink" href="#quantifying-the-fit-of-the-regression-model" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="quantifying-the-fit-of-the-regression-model">
+<span id="r2"></span><h2><span class="section-number">17.5. </span>Quantifying the fit of the regression model<a class="headerlink" href="#quantifying-the-fit-of-the-regression-model" title="Permalink to this heading">#</a></h2>
 <p>So we now know how to estimate the coefficients of a linear regression model. The problem is, we don’t yet know if this regression model is any good. For example, the <code class="docutils literal notranslate"><span class="pre">lm</span></code> model <em>claims</em> that every hour of sleep will improve my mood by quite a lot, but it might just be rubbish. Remember, the regression model only produces a prediction <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> about what my mood is like: my actual mood is <span class="math notranslate nohighlight">\(Y_i\)</span>. If these two are very close, then the regression model has done a good job. If they are very different, then it has done a bad job.</p>
-<div class="section" id="the-r-2-value">
-<h3><span class="section-number">17.5.1. </span>The <span class="math notranslate nohighlight">\(R^2\)</span> value<a class="headerlink" href="#the-r-2-value" title="Permalink to this headline">¶</a></h3>
+<section id="the-r-2-value">
+<h3><span class="section-number">17.5.1. </span>The <span class="math notranslate nohighlight">\(R^2\)</span> value<a class="headerlink" href="#the-r-2-value" title="Permalink to this heading">#</a></h3>
 <p>Once again, let’s wrap a little bit of mathematics around this. Firstly, we’ve got the sum of the squared residuals:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1416,11 +1188,11 @@ R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
 </div>
 </div>
 </div>
-<p>The <span class="math notranslate nohighlight">\(R^2\)</span> value, sometimes called the <strong><em>coefficient of determination</em></strong><a class="footnote-reference brackets" href="#notenever" id="id5">5</a> has a simple interpretation: it is the <em>proportion</em> of the variance in the outcome variable that can be accounted for by the predictor. So in this case, the fact that we have obtained <span class="math notranslate nohighlight">\(R^2 = .816\)</span> means that the predictor (<code class="docutils literal notranslate"><span class="pre">my.sleep</span></code>) explains 81.6% of the variance in the outcome (<code class="docutils literal notranslate"><span class="pre">my.grump</span></code>).</p>
+<p>The <span class="math notranslate nohighlight">\(R^2\)</span> value, sometimes called the <strong><em>coefficient of determination</em></strong><a class="footnote-reference brackets" href="#notenever" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> has a simple interpretation: it is the <em>proportion</em> of the variance in the outcome variable that can be accounted for by the predictor. So in this case, the fact that we have obtained <span class="math notranslate nohighlight">\(R^2 = .816\)</span> means that the predictor (<code class="docutils literal notranslate"><span class="pre">my.sleep</span></code>) explains 81.6% of the variance in the outcome (<code class="docutils literal notranslate"><span class="pre">my.grump</span></code>).</p>
 <p>Naturally, you don’t actually need to type in all these commands yourself if you want to obtain the <span class="math notranslate nohighlight">\(R^2\)</span> value for your regression model. And as you have probably already noticed, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> calculates <span class="math notranslate nohighlight">\(R^2\)</span>  for us without even being asked to. But there’s another property of <span class="math notranslate nohighlight">\(R^2\)</span> that I want to point out.</p>
-</div>
-<div class="section" id="the-relationship-between-regression-and-correlation">
-<h3><span class="section-number">17.5.2. </span>The relationship between regression and correlation<a class="headerlink" href="#the-relationship-between-regression-and-correlation" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-relationship-between-regression-and-correlation">
+<h3><span class="section-number">17.5.2. </span>The relationship between regression and correlation<a class="headerlink" href="#the-relationship-between-regression-and-correlation" title="Permalink to this heading">#</a></h3>
 <p>At this point we can revisit my earlier claim that regression, in this very simple form that I’ve discussed so far, is basically the same thing as a correlation. Previously, we used the symbol <span class="math notranslate nohighlight">\(r\)</span> to denote a Pearson correlation. Might there be some relationship between the value of the correlation coefficient <span class="math notranslate nohighlight">\(r\)</span> and the <span class="math notranslate nohighlight">\(R^2\)</span> value from linear regression? Of course there is: the squared correlation <span class="math notranslate nohighlight">\(r^2\)</span> is identical to the <span class="math notranslate nohighlight">\(R^2\)</span> value for a linear regression with only a single predictor. To illustrate this, here’s the squared correlation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1436,9 +1208,9 @@ R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
 </div>
 </div>
 <p>Yep, same number. In other words, running a Pearson correlation is more or less equivalent to running a linear regression model that uses only one predictor variable.</p>
-</div>
-<div class="section" id="the-adjusted-r-2-value">
-<h3><span class="section-number">17.5.3. </span>The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value<a class="headerlink" href="#the-adjusted-r-2-value" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-adjusted-r-2-value">
+<h3><span class="section-number">17.5.3. </span>The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value<a class="headerlink" href="#the-adjusted-r-2-value" title="Permalink to this heading">#</a></h3>
 <p>One final thing to point out before moving on. It’s quite common for people to report a slightly different measure of model performance, known as “adjusted <span class="math notranslate nohighlight">\(R^2\)</span>”. The motivation behind calculating the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value is the observation that adding more predictors into the model will <em>always</em> cause the <span class="math notranslate nohighlight">\(R^2\)</span> value to increase (or at least not decrease). The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value introduces a slight change to the calculation, as follows. For a regression model with <span class="math notranslate nohighlight">\(K\)</span> predictors, fit to a data set containing <span class="math notranslate nohighlight">\(N\)</span> observations, the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> is:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1446,14 +1218,14 @@ R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
 \]</div>
 <p>This adjustment is an attempt to take the degrees of freedom into account. The big advantage of the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value is that when you add more predictors to the model, the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value will only increase if the new variables improve the model performance more than you’d expect by chance. The big disadvantage is that the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value <em>can’t</em> be interpreted in the elegant way that <span class="math notranslate nohighlight">\(R^2\)</span> can. <span class="math notranslate nohighlight">\(R^2\)</span> has a simple interpretation as the proportion of variance in the outcome variable that is explained by the regression model; to my knowledge, no equivalent interpretation exists for adjusted <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
 <p>An obvious question then, is whether you should report <span class="math notranslate nohighlight">\(R^2\)</span> or adjusted <span class="math notranslate nohighlight">\(R^2\)</span>. This is probably a matter of personal preference. If you care more about interpretability, then <span class="math notranslate nohighlight">\(R^2\)</span> is better. If you care more about correcting for bias, then adjusted <span class="math notranslate nohighlight">\(R^2\)</span> is probably better. Speaking just for myself, I prefer <span class="math notranslate nohighlight">\(R^2\)</span>: my feeling is that it’s more important to be able to interpret your measure of model performance. Besides, as we’ll soon see in the section on <a class="reference internal" href="#regressiontests"><span class="std std-ref">hypothesis tests for regression models</span></a>, if you’re worried that the improvement in <span class="math notranslate nohighlight">\(R^2\)</span> that you get by adding a predictor is just due to chance and not because it’s a better model, well, we’ve got hypothesis tests for that.</p>
-</div>
-</div>
-<div class="section" id="hypothesis-tests-for-regression-models">
-<span id="regressiontests"></span><h2><span class="section-number">17.6. </span>Hypothesis tests for regression models<a class="headerlink" href="#hypothesis-tests-for-regression-models" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="hypothesis-tests-for-regression-models">
+<span id="regressiontests"></span><h2><span class="section-number">17.6. </span>Hypothesis tests for regression models<a class="headerlink" href="#hypothesis-tests-for-regression-models" title="Permalink to this heading">#</a></h2>
 <p>So far we’ve talked about what a regression model is, how the coefficients of a regression model are estimated, and how we quantify the performance of the model (the last of these, incidentally, is basically our measure of effect size). The next thing we need to talk about is hypothesis tests. There are two different (but related) kinds of hypothesis tests that we need to talk about: those in which we test whether the regression model as a whole is performing significantly better than a null model; and those in which we test whether a particular regression coefficient is significantly different from zero.</p>
 <p>At this point, you’re probably groaning internally, thinking that I’m going to introduce a whole new collection of tests. You’re probably sick of hypothesis tests by now, and don’t want to learn any new ones. Me too. I’m so sick of hypothesis tests that I’m going to shamelessly reuse the <span class="math notranslate nohighlight">\(F\)</span>-test from the <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">chapter on ANOVAs</span></a> and the <span class="math notranslate nohighlight">\(t\)</span>-test from <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">the chapter on t-tests</span></a>. In fact, all I’m going to do in this section is show you how those tests are imported wholesale into the regression framework.</p>
-<div class="section" id="testing-the-model-as-a-whole">
-<h3><span class="section-number">17.6.1. </span>Testing the model as a whole<a class="headerlink" href="#testing-the-model-as-a-whole" title="Permalink to this headline">¶</a></h3>
+<section id="testing-the-model-as-a-whole">
+<h3><span class="section-number">17.6.1. </span>Testing the model as a whole<a class="headerlink" href="#testing-the-model-as-a-whole" title="Permalink to this heading">#</a></h3>
 <p>Okay, suppose you’ve estimated your regression model. The first hypothesis test you might want to try is one in which the null hypothesis that there is <em>no relationship</em> between the predictors and the outcome, and the alternative hypothesis is that <em>the data are distributed in exactly the way that the regression model predicts</em>. Formally, our “null model” corresponds to the fairly trivial “regression” model in which we include 0 predictors, and only include the intercept term <span class="math notranslate nohighlight">\(b_0\)</span></p>
 <div class="math notranslate nohighlight">
 \[
@@ -1531,14 +1303,14 @@ F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.23828653684436 p= 2.1457300163208854e-36
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.2382865368443 p= 2.1457300163209325e-36
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="an-f-test-function">
-<h3><span class="section-number">17.6.2. </span>An F-test function<a class="headerlink" href="#an-f-test-function" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="an-f-test-function">
+<h3><span class="section-number">17.6.2. </span>An F-test function<a class="headerlink" href="#an-f-test-function" title="Permalink to this heading">#</a></h3>
 <p>A more compact way to do this would be to take everything I have done above and put it inside a function. I’ve done this below, not least so that I will be able to copy/paste from it myself at some later date. Here is a function called <code class="docutils literal notranslate"><span class="pre">regression_f</span></code> that takes as its arguments a list of predictors, and an outcome variable, and spits out the <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(p\)</span> values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1571,14 +1343,14 @@ F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(215.23828653684436, 2.1457300163208854e-36)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(215.2382865368443, 2.1457300163209325e-36)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="tests-for-individual-coefficients">
-<h3><span class="section-number">17.6.3. </span>Tests for individual coefficients<a class="headerlink" href="#tests-for-individual-coefficients" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tests-for-individual-coefficients">
+<h3><span class="section-number">17.6.3. </span>Tests for individual coefficients<a class="headerlink" href="#tests-for-individual-coefficients" title="Permalink to this heading">#</a></h3>
 <p>The <span class="math notranslate nohighlight">\(F\)</span>-test that we’ve just introduced is useful for checking that the model as a whole is performing better than chance. This is important: if your regression model doesn’t produce a significant result for the <span class="math notranslate nohighlight">\(F\)</span>-test then you probably don’t have a very good regression model (or, quite possibly, you don’t have very good data). However, while failing this test is a pretty strong indicator that the model has problems, <em>passing</em> the test (i.e., rejecting the null) doesn’t imply that the model is good! Why is that, you might be wondering? The answer to that can be found by looking at the coefficients for the multiple linear regression model we calculated earlier:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1755,7 +1527,7 @@ t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
 </table>
 </div></div></div>
 </div>
-<p>Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of <span class="math notranslate nohighlight">\(b\)</span> (e.g., 125.96 for the intercept, -8.9 for the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> predictor, and -0.01 for the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor). The second column is the standard error estimate <span class="math notranslate nohighlight">\(\hat\sigma_b\)</span>. The third column gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, and it’s worth noticing that in this table <span class="math notranslate nohighlight">\(t= \hat{b}/\mbox{SE}({\hat{b}})\)</span> every time. The fourth column gives you the actual <span class="math notranslate nohighlight">\(p\)</span> value for each of these tests.<a class="footnote-reference brackets" href="#notecorrection" id="id6">6</a> Then next column gives the <span class="math notranslate nohighlight">\(r^2\)</span> value and the adjusted <span class="math notranslate nohighlight">\(r^2\)</span> for the model, and the last two columns give us the upper and lower <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> bounds for each estimate.</p>
+<p>Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The first column is the actual estimate of <span class="math notranslate nohighlight">\(b\)</span> (e.g., 125.96 for the intercept, -8.9 for the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> predictor, and -0.01 for the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor). The second column is the standard error estimate <span class="math notranslate nohighlight">\(\hat\sigma_b\)</span>. The third column gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, and it’s worth noticing that in this table <span class="math notranslate nohighlight">\(t= \hat{b}/\mbox{SE}({\hat{b}})\)</span> every time. The fourth column gives you the actual <span class="math notranslate nohighlight">\(p\)</span> value for each of these tests.<a class="footnote-reference brackets" href="#notecorrection" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> Then next column gives the <span class="math notranslate nohighlight">\(r^2\)</span> value and the adjusted <span class="math notranslate nohighlight">\(r^2\)</span> for the model, and the last two columns give us the upper and lower <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> bounds for each estimate.</p>
 <p>If we add our F-test results to the mix:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1765,18 +1537,18 @@ t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F: 215.24 p: 2.1457300163208854e-36
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F: 215.24 p: 2.1457300163209325e-36
 </pre></div>
 </div>
 </div>
 </div>
 <p>we have everything we need to evaluate our model. In this case, the model performs significantly better than you’d expect by chance (<span class="math notranslate nohighlight">\(F(2,97) = 215.2\)</span>, <span class="math notranslate nohighlight">\(p&lt;.001\)</span>), which isn’t all that surprising: the <span class="math notranslate nohighlight">\(R^2 = .812\)</span> value indicate that the regression model accounts for 81.2% of the variability in the outcome measure. However, when we look back up at the <span class="math notranslate nohighlight">\(t\)</span>-tests for each of the individual coefficients, we have pretty strong evidence that the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> variable has no significant effect; all the work is being done by the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> variable. Taken together, these results suggest that <code class="docutils literal notranslate"><span class="pre">lmm</span></code> is actually the wrong model for the data: you’d probably be better off dropping the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor entirely. In other words, the <code class="docutils literal notranslate"><span class="pre">mod1</span></code> model that we started with is the better model.</p>
-</div>
-</div>
-<div class="section" id="testing-the-significance-of-a-correlation">
-<span id="corrhyp"></span><h2><span class="section-number">17.7. </span>Testing the significance of a correlation<a class="headerlink" href="#testing-the-significance-of-a-correlation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="hypothesis-tests-for-a-single-correlation">
-<h3><span class="section-number">17.7.1. </span>Hypothesis tests for a single correlation<a class="headerlink" href="#hypothesis-tests-for-a-single-correlation" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="testing-the-significance-of-a-correlation">
+<span id="corrhyp"></span><h2><span class="section-number">17.7. </span>Testing the significance of a correlation<a class="headerlink" href="#testing-the-significance-of-a-correlation" title="Permalink to this heading">#</a></h2>
+<section id="hypothesis-tests-for-a-single-correlation">
+<h3><span class="section-number">17.7.1. </span>Hypothesis tests for a single correlation<a class="headerlink" href="#hypothesis-tests-for-a-single-correlation" title="Permalink to this heading">#</a></h3>
 <p>I don’t want to spend too much time on this, but it’s worth very briefly returning to the point I made earlier, that Pearson correlations are basically the same thing as linear regressions with only a single predictor added to the model. What this means is that the hypothesis tests that I just described in a regression context can also be applied to correlation coefficients. To see this, let’s just revist our <code class="docutils literal notranslate"><span class="pre">mod1</span></code> model:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1916,9 +1688,9 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </div>
 <p>Look familiar? -20.85 was the same <span class="math notranslate nohighlight">\(t\)</span>-value that we got when we ran the regression model. That’s because the test for the significance of a correlation is identical to the <span class="math notranslate nohighlight">\(t\)</span> test that we run on a coefficient in a regression model.</p>
-</div>
-<div class="section" id="hypothesis-tests-for-all-pairwise-correlations">
-<span id="corrhyp2"></span><h3><span class="section-number">17.7.2. </span>Hypothesis tests for all pairwise correlations<a class="headerlink" href="#hypothesis-tests-for-all-pairwise-correlations" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="hypothesis-tests-for-all-pairwise-correlations">
+<span id="corrhyp2"></span><h3><span class="section-number">17.7.2. </span>Hypothesis tests for all pairwise correlations<a class="headerlink" href="#hypothesis-tests-for-all-pairwise-correlations" title="Permalink to this heading">#</a></h3>
 <p>Okay, one more digression before I return to regression properly. In the previous section I talked about you can run a hypothesis test on a single correlation. But we aren’t restricted to computing a single correlation: you can compute <em>all</em> pairwise correlations among the variables in your data set. This leads people to the natural question: can we also run hypothesis tests on all of the pairwise correlations in our data using <code class="docutils literal notranslate"><span class="pre">pg.corr</span></code>?</p>
 <p>The answer is no, and there’s a very good reason for this. Testing a single correlation is fine: if you’ve got some reason to be asking “is A related to B?”, then you should absolutely run a test to see if there’s a significant correlation. But if you’ve got variables A, B, C, D and E and you’re thinking about testing the correlations among all possible pairs of these, a statistician would want to ask: what’s your hypothesis? If you’re in the position of wanting to test all possible pairs of variables, then you’re pretty clearly on a fishing expedition, hunting around in search of significant effects when you don’t actually have a clear research hypothesis in mind. This is <em>dangerous</em>, and perhaps the authors of the <code class="docutils literal notranslate"><span class="pre">corr</span></code> function didn’t want to endorse this sort of behavior. <code class="docutils literal notranslate"><span class="pre">corr</span></code> does have the nice feature that you can call it as an attribute of your dataframe, so for our parenthood data, if we want to see all the parwise correlations in the data, you can simply write</p>
 <div class="cell docutils container">
@@ -1950,8 +1722,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
-      <th>dan_sleep_standard</th>
-      <th>baby_sleep_standard</th>
     </tr>
   </thead>
   <tbody>
@@ -1961,8 +1731,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>0.627949</td>
       <td>-0.903384</td>
       <td>-0.098408</td>
-      <td>1.000000</td>
-      <td>0.627949</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -1970,8 +1738,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>1.000000</td>
       <td>-0.565964</td>
       <td>-0.010434</td>
-      <td>0.627949</td>
-      <td>1.000000</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -1979,34 +1745,12 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-0.565964</td>
       <td>1.000000</td>
       <td>0.076479</td>
-      <td>-0.903384</td>
-      <td>-0.565964</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098408</td>
       <td>-0.010434</td>
       <td>0.076479</td>
-      <td>1.000000</td>
-      <td>-0.098408</td>
-      <td>-0.010434</td>
-    </tr>
-    <tr>
-      <th>dan_sleep_standard</th>
-      <td>1.000000</td>
-      <td>0.627949</td>
-      <td>-0.903384</td>
-      <td>-0.098408</td>
-      <td>1.000000</td>
-      <td>0.627949</td>
-    </tr>
-    <tr>
-      <th>baby_sleep_standard</th>
-      <td>0.627949</td>
-      <td>1.000000</td>
-      <td>-0.565964</td>
-      <td>-0.010434</td>
-      <td>0.627949</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -2044,8 +1788,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
-      <th>dan_sleep_standard</th>
-      <th>baby_sleep_standard</th>
     </tr>
   </thead>
   <tbody>
@@ -2055,8 +1797,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>***</td>
       <td>***</td>
       <td></td>
-      <td>***</td>
-      <td>***</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -2064,8 +1804,6 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-</td>
       <td>***</td>
       <td></td>
-      <td>***</td>
-      <td>***</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -2073,34 +1811,12 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-0.566</td>
       <td>-</td>
       <td></td>
-      <td>***</td>
-      <td>***</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098</td>
       <td>-0.01</td>
       <td>0.076</td>
-      <td>-</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>dan_sleep_standard</th>
-      <td>1.0</td>
-      <td>0.628</td>
-      <td>-0.903</td>
-      <td>-0.098</td>
-      <td>-</td>
-      <td>***</td>
-    </tr>
-    <tr>
-      <th>baby_sleep_standard</th>
-      <td>0.628</td>
-      <td>1.0</td>
-      <td>-0.566</td>
-      <td>-0.01</td>
-      <td>0.628</td>
       <td>-</td>
     </tr>
   </tbody>
@@ -2109,11 +1825,11 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 <p>The little stars indicate the “significance level”: one star for <span class="math notranslate nohighlight">\(p&lt;0.05\)</span>, two stars for <span class="math notranslate nohighlight">\(p&lt;0.01\)</span>, and three stars for <span class="math notranslate nohighlight">\(p&lt;0.001\)</span>.</p>
 <p>So there you have it. If you really desperately want to do pairwise hypothesis tests on your correlations, the <code class="docutils literal notranslate"><span class="pre">rcorr</span></code> function will let you do it. But please, <strong>please</strong> be careful. I can’t count the number of times I’ve had a student panicking in my office because they’ve run these pairwise correlation tests, and they get one or two significant results that don’t make any sense. For some reason, the moment people see those little significance stars appear, they feel compelled to throw away all common sense and assume that the results must correspond to something real that requires an explanation. In most such cases, my experience has been that the right answer is “it’s a Type I error”.</p>
-</div>
-<div class="section" id="calculating-standardised-regression-coefficients">
-<span id="regressioncoefs"></span><h3><span class="section-number">17.7.3. </span>Calculating standardised regression coefficients<a class="headerlink" href="#calculating-standardised-regression-coefficients" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="calculating-standardised-regression-coefficients">
+<span id="regressioncoefs"></span><h3><span class="section-number">17.7.3. </span>Calculating standardised regression coefficients<a class="headerlink" href="#calculating-standardised-regression-coefficients" title="Permalink to this heading">#</a></h3>
 <p>One more thing that you might want to do is to calculate “standardised” regression coefficients, often denoted <span class="math notranslate nohighlight">\(\beta\)</span>. The rationale behind standardised coefficients goes like this. In a lot of situations, your variables are on fundamentally different scales. Suppose, for example, my regression model aims to predict people’s IQ scores, using their educational attainment (number of years of education) and their income as predictors. Obviously, educational attainment and income are not on the same scales: the number of years of schooling can only vary by 10s of years, whereas income would vary by 10,000s of dollars (or more). The units of measurement have a big influence on the regression coefficients: the <span class="math notranslate nohighlight">\(b\)</span> coefficients only make sense when interpreted in light of the units, both of the predictor variables and the outcome variable. This makes it very difficult to compare the coefficients of different predictors. Yet there are situations where you really do want to make comparisons between different coefficients. Specifically, you might want some kind of standard measure of which predictors have the strongest relationship to the outcome. This is what <strong><em>standardised coefficients</em></strong> aim to do.</p>
-<p>The basic idea is quite simple: the standardised coefficients are the coefficients that you would have obtained if you’d converted all the variables to <span class="xref myst">standard scores</span> <span class="math notranslate nohighlight">\(z\)</span>-scores before running the regression.<a class="footnote-reference brackets" href="#noteregressors" id="id7">7</a>  The idea here is that, by converting all the predictors to <span class="math notranslate nohighlight">\(z\)</span>-scores, they all go into the regression on the same scale, thereby removing the problem of having variables on different scales. Regardless of what the original variables were, a <span class="math notranslate nohighlight">\(\beta\)</span> value of 1 means that an increase in the predictor of 1 standard deviation will produce a corresponding 1 standard deviation increase in the outcome variable. Therefore, if variable A has a larger absolute value of <span class="math notranslate nohighlight">\(\beta\)</span> than variable B, it is deemed to have a stronger relationship with the outcome. Or at least that’s the idea: it’s worth being a little cautious here, since this does rely very heavily on the assumption that “a 1 standard deviation change” is fundamentally the same kind of thing for all variables. It’s not always obvious that this is true.</p>
+<p>The basic idea is quite simple: the standardised coefficients are the coefficients that you would have obtained if you’d converted all the variables to <span class="xref myst">standard scores</span> <span class="math notranslate nohighlight">\(z\)</span>-scores before running the regression.<a class="footnote-reference brackets" href="#noteregressors" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>  The idea here is that, by converting all the predictors to <span class="math notranslate nohighlight">\(z\)</span>-scores, they all go into the regression on the same scale, thereby removing the problem of having variables on different scales. Regardless of what the original variables were, a <span class="math notranslate nohighlight">\(\beta\)</span> value of 1 means that an increase in the predictor of 1 standard deviation will produce a corresponding 1 standard deviation increase in the outcome variable. Therefore, if variable A has a larger absolute value of <span class="math notranslate nohighlight">\(\beta\)</span> than variable B, it is deemed to have a stronger relationship with the outcome. Or at least that’s the idea: it’s worth being a little cautious here, since this does rely very heavily on the assumption that “a 1 standard deviation change” is fundamentally the same kind of thing for all variables. It’s not always obvious that this is true.</p>
 <p>Still, let’s give it a try on the <code class="docutils literal notranslate"><span class="pre">parenthood</span></code> data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2203,10 +1919,10 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div></div></div>
 </div>
 <p>This clearly shows that the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> variable has a much stronger effect than the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> variable. However, this is a perfect example of a situation where it would probably make sense to use the original coefficients <span class="math notranslate nohighlight">\(b\)</span> rather than the standardised coefficients <span class="math notranslate nohighlight">\(\beta\)</span>. After all, my sleep and the baby’s sleep are <em>already</em> on the same scale: number of hours slept. Why complicate matters by converting these to <span class="math notranslate nohighlight">\(z\)</span>-scores?</p>
-</div>
-</div>
-<div class="section" id="assumptions-of-regression">
-<span id="regressionassumptions"></span><h2><span class="section-number">17.8. </span>Assumptions of regression<a class="headerlink" href="#assumptions-of-regression" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="assumptions-of-regression">
+<span id="regressionassumptions"></span><h2><span class="section-number">17.8. </span>Assumptions of regression<a class="headerlink" href="#assumptions-of-regression" title="Permalink to this heading">#</a></h2>
 <p>The linear regression model that I’ve been discussing relies on several assumptions. In the section on <a class="reference internal" href="#regressiondiagnostics"><span class="std std-ref">regression diagnostics</span></a> we’ll talk a lot more about how to check that these assumptions are being met, but first, let’s have a look at each of them.</p>
 <ul class="simple">
 <li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <a class="reference internal" href="#regressionnormality"><span class="std std-ref">Checking the normality of the residuals</span></a>.</p></li>
@@ -2216,13 +1932,13 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
 <li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <a class="reference internal" href="#regressionoutliers"><span class="std std-ref">Three kinds of anomalous data</span></a>.</p></li>
 </ul>
-</div>
-<div class="section" id="model-checking">
-<span id="regressiondiagnostics"></span><h2><span class="section-number">17.9. </span>Model checking<a class="headerlink" href="#model-checking" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="model-checking">
+<span id="regressiondiagnostics"></span><h2><span class="section-number">17.9. </span>Model checking<a class="headerlink" href="#model-checking" title="Permalink to this heading">#</a></h2>
 <p>The main focus of this section is <strong><em>regression diagnostics</em></strong>, a term that refers to the art of checking that the assumptions of your regression model have been met, figuring out how to fix the model if the assumptions are violated, and generally to check that nothing “funny” is going on. I refer to this as the “art” of model checking with good reason: it’s not easy, and while there are a lot of fairly standardised tools that you can use to diagnose and maybe even cure the problems that ail your model (if there are any, that is!), you really do need to exercise a certain amount of judgment when doing this. It’s easy to get lost in all the details of checking this thing or that thing, and it’s quite exhausting to try to remember what all the different things are. This has the very nasty side effect that a lot of people get frustrated when trying to learn <em>all</em> the tools, so instead they decide not to do <em>any</em> model checking. This is a bit of a worry!</p>
 <p>In this section, I describe several different things you can do to check that your regression model is doing what it’s supposed to. It doesn’t cover the full space of things you could do, but it’s still much more detailed than what I see a lot of people doing in practice; and I don’t usually cover all of this in my intro stats class myself. However, I do think it’s important that you get a sense of what tools are at your disposal, so I’ll try to introduce a bunch of them here.</p>
-<div class="section" id="three-kinds-of-residuals">
-<h3><span class="section-number">17.9.1. </span>Three kinds of residuals<a class="headerlink" href="#three-kinds-of-residuals" title="Permalink to this headline">¶</a></h3>
+<section id="three-kinds-of-residuals">
+<h3><span class="section-number">17.9.1. </span>Three kinds of residuals<a class="headerlink" href="#three-kinds-of-residuals" title="Permalink to this heading">#</a></h3>
 <p>The majority of regression diagnostics revolve around looking at the residuals, and by now you’ve probably formed a sufficiently pessimistic theory of statistics to be able to guess that – precisely <em>because</em> of the fact that we care a lot about the residuals – there are several different kinds of  residual that we might consider. In particular, the following three kinds of residual are referred to in this section: “ordinary residuals”, “standardised residuals”, and “Studentised residuals”. There is a fourth kind that you’ll see referred to in some of the Figures, and that’s the “Pearson residual”: however, for the models that we’re talking about in this chapter, the Pearson residual is identical to the ordinary residual.</p>
 <p>The first and simplest kind of residuals that we care about are <strong><em>ordinary residuals</em></strong>. These are the actual, raw residuals that I’ve been talking about throughout this chapter. The ordinary residual is just the difference between the fitted value <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> and the observed value <span class="math notranslate nohighlight">\(Y_i\)</span>. I’ve been using the notation <span class="math notranslate nohighlight">\(\epsilon_i\)</span> to refer to the <span class="math notranslate nohighlight">\(i\)</span>-th ordinary residual, and by gum I’m going to stick to it. With this in mind, we have the very simple equation</p>
 <div class="math notranslate nohighlight">
@@ -2242,7 +1958,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 \[
 \epsilon_{i}^\prime = \frac{\epsilon_i}{\hat{\sigma} \sqrt{1-h_i}}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8">8</a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. Now, unfortunately, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does not provide standardized residuals, so if we want to inspect these, the best option is probably <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>:</p>
+<p>where <span class="math notranslate nohighlight">\(\hat\sigma\)</span> in this context is the estimated population standard deviation of the ordinary residuals, and <span class="math notranslate nohighlight">\(h_i\)</span> is the “hat value” of the <span class="math notranslate nohighlight">\(i\)</span>th observation. I haven’t explained hat values to you yet (but have no fear,<a class="footnote-reference brackets" href="#notehope" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a> it’s coming shortly), so this won’t make a lot of sense. For now, it’s enough to interpret the standardised residuals as if we’d converted the ordinary residuals to <span class="math notranslate nohighlight">\(z\)</span>-scores. In fact, that is more or less the truth, it’s just that we’re being a bit fancier. Now, unfortunately, <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does not provide standardized residuals, so if we want to inspect these, the best option is probably <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
@@ -2341,12 +2057,17 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div></div></div>
 </div>
 <p>Before moving on, I should point out that you don’t often need to manually extract these residuals yourself, even though they are at the heart of almost all regression diagnostics. Most of the time the various functions that run the diagnostics will take care of these calculations for you.</p>
-</div>
-<div class="section" id="three-kinds-of-anomalous-data">
-<span id="regressionoutliers"></span><h3><span class="section-number">17.9.2. </span>Three kinds of anomalous data<a class="headerlink" href="#three-kinds-of-anomalous-data" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="three-kinds-of-anomalous-data">
+<span id="regressionoutliers"></span><h3><span class="section-number">17.9.2. </span>Three kinds of anomalous data<a class="headerlink" href="#three-kinds-of-anomalous-data" title="Permalink to this heading">#</a></h3>
 <p>One danger that you can run into with linear regression models is that your analysis might be disproportionately sensitive to a smallish number of “unusual” or “anomalous” observations. In the context of linear regression, there are three conceptually distinct ways in which an observation might be called “anomalous”. All three are interesting, but they have rather different implications for your analysis.</p>
-<p>The first kind of unusual observation is an <strong><em>outlier</em></strong>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in <a class="reference internal" href="#fig-outlier"><span class="std std-numref">Fig. 17.5</span></a>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <span class="math notranslate nohighlight">\(\epsilon_i^*\)</span>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data – e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn’t throw an observation away just because it’s an outlier. But the fact that it’s an outlier is often a cue to look more closely at that case, and try to find out why it’s so different.</p>
+<p>The first kind of unusual observation is an <strong><em>outlier</em></strong>. The definition of an outlier (in this context) is an observation that is very different from what the regression model predicts. An example is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-outlier</span></code>. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual, <span class="math notranslate nohighlight">\(\epsilon_i^*\)</span>. Outliers are interesting: a big outlier <em>might</em> correspond to junk data – e.g., the variables might have been entered incorrectly, or some other defect may be detectable. Note that you shouldn’t throw an observation away just because it’s an outlier. But the fact that it’s an outlier is often a cue to look more closely at that case, and try to find out why it’s so different.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -2406,15 +2127,18 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_110_0.png" src="_images/05.04-regression_110_0.png" />
+<img alt="_images/1fb6fb65874797d28ba373681ddf57f3bf07559e4c163249491507584ae157b0.png" src="_images/1fb6fb65874797d28ba373681ddf57f3bf07559e4c163249491507584ae157b0.png" />
 </div>
 </div>
-<div class="figure align-default" id="fig-outlier" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.5 </span><span class="caption-text">An illustration of outliers. The orange line plots the regression line estimated when the anomalous (red) data point is included, and the dotted line shows the residual for the outlier. The blue line shows the regression line that would have been estimated without the anomalous observation included. The outlier has an unusual value on the outcome (y axis location) but not the predictor (x axis location), and lies a long way from the regression line.</span><a class="headerlink" href="#fig-outlier" title="Permalink to this image">¶</a></p>
-</div>
-<p>The second way in which an observation can be unusual is if it has high <strong><em>leverage</em></strong>: this happens when the observation is very different from all the other observations. This doesn’t necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of <a class="reference internal" href="#fig-leverage-influence"><span class="std std-numref">Fig. 17.6</span></a>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <span class="math notranslate nohighlight">\(h_i\)</span>. The formula for the hat value is rather complicated<a class="footnote-reference brackets" href="#notehatmatrix" id="id9">9</a> but its interpretation is not: <span class="math notranslate nohighlight">\(h_i\)</span> is a measure of the extent to which the <span class="math notranslate nohighlight">\(i\)</span>-th observation is “in control” of where the regression line ends up going. We won’t bother extracting the hat values here, but if you want to do this, you can use the <code class="docutils literal notranslate"><span class="pre">get_influence</span></code> method from the <code class="docutils literal notranslate"><span class="pre">statsmodels.api</span></code> package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.</p>
+<p>The second way in which an observation can be unusual is if it has high <strong><em>leverage</em></strong>: this happens when the observation is very different from all the other observations. This doesn’t necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-leverage-influence</span></code>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <span class="math notranslate nohighlight">\(h_i\)</span>. The formula for the hat value is rather complicated<a class="footnote-reference brackets" href="#notehatmatrix" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a> but its interpretation is not: <span class="math notranslate nohighlight">\(h_i\)</span> is a measure of the extent to which the <span class="math notranslate nohighlight">\(i\)</span>-th observation is “in control” of where the regression line ends up going. We won’t bother extracting the hat values here, but if you want to do this, you can use the <code class="docutils literal notranslate"><span class="pre">get_influence</span></code> method from the <code class="docutils literal notranslate"><span class="pre">statsmodels.api</span></code> package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -2524,15 +2248,13 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_113_0.png" src="_images/05.04-regression_113_0.png" />
+<img alt="_images/fe237db874030b90921c1fc455d080b3e54dd6cb446d8497294287aa1c20aceb.png" src="_images/fe237db874030b90921c1fc455d080b3e54dd6cb446d8497294287aa1c20aceb.png" />
 </div>
-</div>
-<div class="figure align-default" id="fig-leverage-influence" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.6 </span><span class="caption-text">Outliers showing high leverage points (panel A) and high influence points (panel B).</span><a class="headerlink" href="#fig-leverage-influence" title="Permalink to this image">¶</a></p>
 </div>
 <p>In general, if an observation lies far away from the other ones in terms of the predictor variables, it will have a large hat value (as a rough guide, high leverage is when the hat value is more than 2-3 times the average; and note that the sum of the hat values is constrained to be equal to <span class="math notranslate nohighlight">\(K+1\)</span>). High leverage points are also worth looking at in more detail, but they’re much less likely to be a cause for concern unless they are also outliers.</p>
-<p>This brings us to our third measure of unusualness, the <strong><em>influence</em></strong> of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in <a class="reference internal" href="#fig-leverage-influence"><span class="std std-numref">Fig. 17.6</span></a>, panel B. Notice the contrast to panel A, and to <a class="reference internal" href="#fig-outlier"><span class="std std-numref">Fig. 17.5</span></a>: outliers don’t move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage… that has a big effect on the regression line.</p>
+<p>This brings us to our third measure of unusualness, the <strong><em>influence</em></strong> of an observation. A high influence observation is an outlier that has high leverage. That is, it is an observation that is very different to all the other ones in some respect, and also lies a long way from the regression line. This is illustrated in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-leverage-influence</span></code>, panel B. Notice the contrast to panel A, and to <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-outlier</span></code>: outliers don’t move the regression line much, and neither do high leverage points. But something that is an outlier and has high leverage… that has a big effect on the regression line.</p>
 <p>That’s why we call these points high influence; and it’s why they’re the biggest worry. We operationalise influence in terms of a measure known as <strong><em>Cook’s distance</em></strong>,</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2542,6 +2264,11 @@ D_i = \frac{{\epsilon_i^*}^2 }{K+1} \times \frac{h_i}{1-h_i}
 left), and something that measures the leverage of the observation (the bit on the right). In other words, in order to have a large Cook’s distance, an observation must be a fairly substantial outlier <em>and</em> have high leverage.</p>
 <p>Again, if you want to quantify Cook’s distance, this can be done using using <code class="docutils literal notranslate"><span class="pre">statsmodels.api</span></code>. I won’t go through this in detail, but if you are interested, you can click to show the code, and see how I got the Cook’s distance values from <code class="docutils literal notranslate"><span class="pre">statmodels</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
@@ -2645,14 +2372,12 @@ left), and something that measures the leverage of the observation (the bit on t
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_118_0.png" src="_images/05.04-regression_118_0.png" />
+<img alt="_images/31e06e7af23985677fd53c5a2ad8c7033409ef99310d62dfb98a8e303e0636b8.png" src="_images/31e06e7af23985677fd53c5a2ad8c7033409ef99310d62dfb98a8e303e0636b8.png" />
 </div>
 </div>
-<div class="figure align-default" id="fig-cooks" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.7 </span><span class="caption-text">A visualization of Cook’s distance as a means for identifying the influence of each data point. Panel B is the same as panel B in <a href="#id10"><span class="problematic" id="id11">:numre:`fig-leverage-influence`</span></a> above. The red dot show the effect on the entire regression line that sinking the final point from 7.4 to 5 has. Panel A shows Cook’s distance for the data set in which the data point at x = 8 is 5 (the orange line). The dashed lines show two possible cutoff points for a “large” Cook’s distance: either 1 or 4/N, in which N is the number of data points.</span><a class="headerlink" href="#fig-cooks" title="Permalink to this image">¶</a></p>
-</div>
-<p>As a rough guide, Cook’s distance greater than 1 is often considered large (that’s what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <span class="math notranslate nohighlight">\(4/N\)</span> has also been suggested as a possible rule of thumb. As the visualization in <a href="#id12"><span class="problematic" id="id13">:numre:`fig-cooks`</span></a> illustrates, the red data point at x = 8 has a large Cook’s distance.</p>
+<p>As a rough guide, Cook’s distance greater than 1 is often considered large (that’s what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <span class="math notranslate nohighlight">\(4/N\)</span> has also been suggested as a possible rule of thumb. As the visualization in <a href="#id10"><span class="problematic" id="id11">fig-cooks</span></a> illustrates, the red data point at x = 8 has a large Cook’s distance.</p>
 <p>An obvious question to ask next is, if you do have large values of Cook’s distance, what should you do? As always, there’s no hard and fast rules. Probably the first thing to do is to try running the regression with that point excluded and see what happens to the model performance and to the regression coefficients. If they really are substantially different, it’s time to start digging into your data set and your notes that you no doubt were scribbling as your ran your study; try to figure out <em>why</em> the point is so different. If you start to become convinced that this one data point is badly distorting your results, you might consider excluding it, but that’s less than ideal unless you have a solid explanation for why this particular case is qualitatively different from the others and therefore deserves to be handled separately.[^noterobust] To give an example, let’s delete the observation from day 64, the observation with the largest Cook’s distance for the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model, where we predicted my grumpiness on the basis of my sleep, and my baby’s sleep.</p>
 <p>[^noterobust] <code class="docutils literal notranslate"><span class="pre">An</span> <span class="pre">alternative</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">run</span> <span class="pre">a</span> <span class="pre">&quot;robust</span> <span class="pre">regression&quot;;</span> <span class="pre">I</span> <span class="pre">might</span> <span class="pre">discuss</span> <span class="pre">robust</span> <span class="pre">regression</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">later</span> <span class="pre">version</span> <span class="pre">of</span> <span class="pre">this</span> <span class="pre">book.</span></code></p>
 <p>First, let’s get back to the original sleep data, and remind ourselves of what our model coefficients looked like:</p>
@@ -2833,9 +2558,9 @@ left), and something that measures the leverage of the observation (the bit on t
 </div></div></div>
 </div>
 <p>As you can see, those regression coefficients have barely changed in comparison to the values we got earlier. In other words, we really don’t have any problem as far as anomalous data are concerned.</p>
-</div>
-<div class="section" id="checking-the-normality-of-the-residuals">
-<span id="regressionnormality"></span><h3><span class="section-number">17.9.3. </span>Checking the normality of the residuals<a class="headerlink" href="#checking-the-normality-of-the-residuals" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="checking-the-normality-of-the-residuals">
+<span id="regressionnormality"></span><h3><span class="section-number">17.9.3. </span>Checking the normality of the residuals<a class="headerlink" href="#checking-the-normality-of-the-residuals" title="Permalink to this heading">#</a></h3>
 <p>Like many of the statistical tools we’ve discussed in this book, regression models rely on a normality assumption. In this case, we assume that the residuals are normally distributed. The tools for testing this aren’t fundamentally different to those that we discussed <a class="reference internal" href="05.02-ttest.html#shapiro"><span class="std std-ref">earlier</span></a>. Firstly, I firmly believe that it never hurts to draw an old fashioned histogram. The commands I use might be something like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2852,13 +2577,10 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_129_0.png" src="_images/05.04-regression_129_0.png" />
+<img alt="_images/16169a974b64f417670c4f8d543ae788e9801b4a864c7199e930f03bcf6b6706.png" src="_images/16169a974b64f417670c4f8d543ae788e9801b4a864c7199e930f03bcf6b6706.png" />
 </div>
 </div>
-<div class="figure align-default" id="fig-res-hist" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.8 </span><span class="caption-text">A histogram of the (ordinary) residuals in the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model. These residuals look very close to being normally distributed, much moreso than is typically seen with real data. This shouldn’t surprise you… they aren’t real data, and they aren’t real residuals!</span><a class="headerlink" href="#fig-res-hist" title="Permalink to this image">¶</a></p>
-</div>
-<p>The resulting plot is shown in <a class="reference internal" href="#fig-res-hist"><span class="std std-numref">Fig. 17.8</span></a>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the <code class="docutils literal notranslate"><span class="pre">normality</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
+<p>The resulting plot is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-res-hist</span></code>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the <code class="docutils literal notranslate"><span class="pre">normality</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sw</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">normality</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;shapiro&#39;</span><span class="p">)</span>
@@ -2912,15 +2634,17 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_134_0.png" src="_images/05.04-regression_134_0.png" />
+<img alt="_images/394c27a346103c902ac2303ef97f60c451375e2b3c82b8b7c156e3c6256536b1.png" src="_images/394c27a346103c902ac2303ef97f60c451375e2b3c82b8b7c156e3c6256536b1.png" />
 </div>
-</div>
-<div class="figure align-default" id="fig-qq" style="width: 600px">
-<p class="caption"><span class="caption-number">Fig. 17.9 </span><span class="caption-text">A Q-Q (quantile-quantile) plot, the theoretical quantiles according to the model, against the quantiles of the standardised residuals.</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">¶</a></p>
 </div>
 <p>If our residuals were <em>perfectly</em> normally distributed, then they would lie right on the red line. These residuals veer off a little at the ends, but again, pretty damn close, so the Q-Q plot further confirms our conviction based on the histogram and the Shapiro-Wilk test, that it is appropriate to model these data with a linear regression.</p>
 <p>A little note: Q-Q plots are often created by plotting the quantiles of the <em>standardized</em> residuals against the theoretical quantiles. Since using Q-Q plots for assessing normality is basically a matter of squinting at the plot at getting a <em>feeling</em>, based on your great experience of squinting at plots, for whether the data <em>seem</em> normal enough, it probably doesn’t matter so much which way you do it. Below you can see a side-by-side comparison of a Q-Q plot of the ordinary (left) and standardized (right) residuals. Honestly, they look about the same to me, and you can get the ordinary residuals straight from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, without needing to invoke <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a figure with two panels</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -2939,13 +2663,14 @@ left), and something that measures the leverage of the observation (the bit on t
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_137_0.png" src="_images/05.04-regression_137_0.png" />
+<img alt="_images/af35ee9cf87677bc0639ed00ad211c7a9e4733d6403a802ae4d73e60007f0dde.png" src="_images/af35ee9cf87677bc0639ed00ad211c7a9e4733d6403a802ae4d73e60007f0dde.png" />
 </div>
 </div>
-</div>
-<div class="section" id="checking-the-linearity-of-the-relationship">
-<span id="regressionlinearity"></span><h3><span class="section-number">17.9.4. </span>Checking the linearity of the relationship<a class="headerlink" href="#checking-the-linearity-of-the-relationship" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="checking-the-linearity-of-the-relationship">
+<span id="regressionlinearity"></span><h3><span class="section-number">17.9.4. </span>Checking the linearity of the relationship<a class="headerlink" href="#checking-the-linearity-of-the-relationship" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
@@ -2964,42 +2689,49 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05.04-regression_139_0.png" src="_images/05.04-regression_139_0.png" />
+<img alt="_images/59c5511451ac232835e82c60de1e55da9d9f3914dc0276b4431ea1f8a957e9dc.png" src="_images/59c5511451ac232835e82c60de1e55da9d9f3914dc0276b4431ea1f8a957e9dc.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="noteepsilon"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>The <span class="math notranslate nohighlight">\(\epsilon\)</span> symbol is the Greek letter epsilon. It’s traditional to use <span class="math notranslate nohighlight">\(\epsilon_i\)</span> or <span class="math notranslate nohighlight">\(e_i\)</span> to denote a residual.</p>
-</dd>
-<dt class="label" id="notekungfu"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Or at least, I’m assuming that it doesn’t help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it <em>will</em> help <em>you</em> to know that the solution to the estimation problem turns out to be <span class="math notranslate nohighlight">\(\hat{b} = (X^TX)^{-1} X^T y\)</span>, where <span class="math notranslate nohighlight">\(\hat{b}\)</span> is a vector containing the estimated regression coefficients,  <span class="math notranslate nohighlight">\(X\)</span> is the “design matrix” that contains the predictor variables (plus an additional column containing all ones; strictly <span class="math notranslate nohighlight">\(X\)</span> is a matrix of the regressors, but I haven’t discussed the distinction yet), and <span class="math notranslate nohighlight">\(y\)</span> is a vector containing the outcome variable. For everyone else, this isn’t exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you’ll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.</p>
-</dd>
-<dt class="label" id="notenolan"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
-<dd><p>Christopher Nolan, have your people call my people if you’re interested, we’ll do lunch!</p>
-</dd>
-<dt class="label" id="noteformula"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
-<dd><p>This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, which also preserves the R-style formula notation.</p>
-</dd>
-<dt class="label" id="notenever"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
-<dd><p>And by “sometimes” I mean “almost never”. In practice everyone just calls it “<span class="math notranslate nohighlight">\(R\)</span>-squared”.</p>
-</dd>
-<dt class="label" id="notecorrection"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
-<dd><p>Note that, although <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has done multiple tests here, it hasn’t done a Bonferroni correction or anything. These are standard one-sample <span class="math notranslate nohighlight">\(t\)</span>-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.</p>
-</dd>
-<dt class="label" id="noteregressors"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
-<dd><p>Strictly, you standardise all the <em>regressors</em>: that is, every “thing” that has a regression coefficient associated with it in the model. For the regression models that I’ve talked about so far, each predictor variable maps onto exactly one regressor, and vice versa. However, that’s not actually true in general: we’ll see some examples of this when we learn about <a class="reference internal" href="05.05-anova2.html#anova2"><span class="std std-ref">factorial ANOVA</span></a>. But for now, we don’t need to care too much about this distinction.</p>
-</dd>
-<dt class="label" id="notehope"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
-<dd><p>Or have no hope, as the case may be.</p>
-</dd>
-<dt class="label" id="notehatmatrix"><span class="brackets"><a class="fn-backref" href="#id9">9</a></span></dt>
-<dd><p>Again, for the linear algebra fanatics: the “hat matrix” is defined to be that matrix <span class="math notranslate nohighlight">\(H\)</span> that converts the vector of observed values <span class="math notranslate nohighlight">\(y\)</span> into a vector of fitted values <span class="math notranslate nohighlight">\(\hat{y}\)</span>, such that <span class="math notranslate nohighlight">\(\hat{y} = H y\)</span>. The name comes from the fact that this is the matrix that “puts a hat on <span class="math notranslate nohighlight">\(y\)</span>”. The  hat <em>value</em> of the <span class="math notranslate nohighlight">\(i\)</span>-th observation is the <span class="math notranslate nohighlight">\(i\)</span>-th diagonal element of this matrix (so technically I should be writing it as <span class="math notranslate nohighlight">\(h_{ii}\)</span> rather than <span class="math notranslate nohighlight">\(h_{i}\)</span>). Oh, and in case you care, here’s how it’s calculated: <span class="math notranslate nohighlight">\(H = X(X^TX)^{-1} X^T\)</span>. Pretty, isn’t it?</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
+<aside class="footnote brackets" id="noteepsilon" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>The <span class="math notranslate nohighlight">\(\epsilon\)</span> symbol is the Greek letter epsilon. It’s traditional to use <span class="math notranslate nohighlight">\(\epsilon_i\)</span> or <span class="math notranslate nohighlight">\(e_i\)</span> to denote a residual.</p>
+</aside>
+<aside class="footnote brackets" id="notekungfu" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Or at least, I’m assuming that it doesn’t help most people. But on the off chance that someone reading this is a proper kung fu master of linear algebra (and to be fair, I always have a few of these people in my intro stats class), it <em>will</em> help <em>you</em> to know that the solution to the estimation problem turns out to be <span class="math notranslate nohighlight">\(\hat{b} = (X^TX)^{-1} X^T y\)</span>, where <span class="math notranslate nohighlight">\(\hat{b}\)</span> is a vector containing the estimated regression coefficients,  <span class="math notranslate nohighlight">\(X\)</span> is the “design matrix” that contains the predictor variables (plus an additional column containing all ones; strictly <span class="math notranslate nohighlight">\(X\)</span> is a matrix of the regressors, but I haven’t discussed the distinction yet), and <span class="math notranslate nohighlight">\(y\)</span> is a vector containing the outcome variable. For everyone else, this isn’t exactly helpful, and can be downright scary. However, since quite a few things in linear regression can be written in linear algebra terms, you’ll see a bunch of footnotes like this one in this chapter. If you can follow the maths in them, great. If not, ignore it.</p>
+</aside>
+<aside class="footnote brackets" id="notenolan" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Christopher Nolan, have your people call my people if you’re interested, we’ll do lunch!</p>
+</aside>
+<aside class="footnote brackets" id="noteformula" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>This is extra confusing if you happen to have come from the world of R, where this sort of model is usually defined with a formula, in which the outcome measure comes first, followed by the predictor(s), or even if you have used <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, which also preserves the R-style formula notation.</p>
+</aside>
+<aside class="footnote brackets" id="notenever" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>And by “sometimes” I mean “almost never”. In practice everyone just calls it “<span class="math notranslate nohighlight">\(R\)</span>-squared”.</p>
+</aside>
+<aside class="footnote brackets" id="notecorrection" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Note that, although <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> has done multiple tests here, it hasn’t done a Bonferroni correction or anything. These are standard one-sample <span class="math notranslate nohighlight">\(t\)</span>-tests with a two-sided alternative. If you want to make corrections for multiple tests, you need to do that yourself.</p>
+</aside>
+<aside class="footnote brackets" id="noteregressors" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Strictly, you standardise all the <em>regressors</em>: that is, every “thing” that has a regression coefficient associated with it in the model. For the regression models that I’ve talked about so far, each predictor variable maps onto exactly one regressor, and vice versa. However, that’s not actually true in general: we’ll see some examples of this when we learn about <a class="reference internal" href="05.05-anova2.html#anova2"><span class="std std-ref">factorial ANOVA</span></a>. But for now, we don’t need to care too much about this distinction.</p>
+</aside>
+<aside class="footnote brackets" id="notehope" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">8</a><span class="fn-bracket">]</span></span>
+<p>Or have no hope, as the case may be.</p>
+</aside>
+<aside class="footnote brackets" id="notehatmatrix" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">9</a><span class="fn-bracket">]</span></span>
+<p>Again, for the linear algebra fanatics: the “hat matrix” is defined to be that matrix <span class="math notranslate nohighlight">\(H\)</span> that converts the vector of observed values <span class="math notranslate nohighlight">\(y\)</span> into a vector of fitted values <span class="math notranslate nohighlight">\(\hat{y}\)</span>, such that <span class="math notranslate nohighlight">\(\hat{y} = H y\)</span>. The name comes from the fact that this is the matrix that “puts a hat on <span class="math notranslate nohighlight">\(y\)</span>”. The  hat <em>value</em> of the <span class="math notranslate nohighlight">\(i\)</span>-th observation is the <span class="math notranslate nohighlight">\(i\)</span>-th diagonal element of this matrix (so technically I should be writing it as <span class="math notranslate nohighlight">\(h_{ii}\)</span> rather than <span class="math notranslate nohighlight">\(h_{i}\)</span>). Oh, and in case you care, here’s how it’s calculated: <span class="math notranslate nohighlight">\(H = X(X^TX)^{-1} X^T\)</span>. Pretty, isn’t it?</p>
+</aside>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -3013,7 +2745,7 @@ left), and something that measures the leverage of the observation (the bit on t
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -3021,44 +2753,141 @@ left), and something that measures the leverage of the observation (the bit on t
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="05.03-anova.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">15. </span>Comparing several means</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05.03-anova.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">15. </span>Comparing several means</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="05.05-anova2.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="05.05-anova2.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">18. </span>Factorial ANOVA</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Danielle Navarro and Ethan Weed<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
-
-
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-a-linear-regression-model">17.1. Estimating a linear regression model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-with-python">17.2. Linear Regression with Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warning">17.2.1. Warning!!!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-estimated-model">17.2.2. Interpreting the estimated model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression">17.3. Multiple linear regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression-in-python">17.4. Multiple Linear Regression in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-for-the-general-case">17.4.1. Formula for the general case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifying-the-fit-of-the-regression-model">17.5. Quantifying the fit of the regression model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-r-2-value">17.5.1. The <span class="math notranslate nohighlight">\(R^2\)</span> value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-relationship-between-regression-and-correlation">17.5.2. The relationship between regression and correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjusted-r-2-value">17.5.3. The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-regression-models">17.6. Hypothesis tests for regression models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model-as-a-whole">17.6.1. Testing the model as a whole</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-f-test-function">17.6.2. An F-test function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests-for-individual-coefficients">17.6.3. Tests for individual coefficients</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-significance-of-a-correlation">17.7. Testing the significance of a correlation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-a-single-correlation">17.7.1. Hypothesis tests for a single correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-tests-for-all-pairwise-correlations">17.7.2. Hypothesis tests for all pairwise correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-standardised-regression-coefficients">17.7.3. Calculating standardised regression coefficients</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-regression">17.8. Assumptions of regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-checking">17.9. Model checking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-residuals">17.9.1. Three kinds of residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">17.9.2. Three kinds of anomalous data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">17.9.3. Checking the normality of the residuals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">17.9.4. Checking the linearity of the relationship</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Danielle Navarro and Ethan Weed
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
