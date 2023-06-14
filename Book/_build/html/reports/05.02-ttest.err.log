@@ -18,57 +18,18 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-mu = 0
-sigma = 1
-
-x = np.arange(-3,3,0.001)
-y = stats.norm.pdf(x, mu, sigma)
-
-
-fig, (ax0, ax1) = plt.subplots(1, 2, sharey = True, figsize=(15, 5))
-
-
-# Two-sided test
-crit = 1.96
-p_lower = x[x<crit*-1]
-p_upper = x[x>crit]
-
-ax0.plot(x, y)
-
-ax0.fill_between(p_lower, 0, stats.norm.pdf(p_lower, mu, sigma),color="none",hatch="///",edgecolor="b")
-ax0.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
-ax0.set_title("Two sided test", size = 20)
-ax0.text(-1.96,-.03, '-1.96', size=18, ha="right")
-ax0.text(1.96,-.03, '1.96', size=18, ha="left")
-
-# One-sided test
-crit = 1.64
-p_upper = x[x>crit]
-
-ax1.plot(x, y)
-ax1.set_title("One sided test", size = 20)
-ax1.text(1.64,-.03, '1.64', size=18, ha="left")
-ax1.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
-
-ax0.set_frame_on(False)
-ax1.set_frame_on(False)
-
-ax0.get_yaxis().set_visible(False)
-ax1.get_yaxis().set_visible(False)
-ax0.get_xaxis().set_visible(False)
-ax1.get_xaxis().set_visible(False)
-
-
-glue("ztest-fig", ax, display=False)
+grades = df['grades']
+sample_mean = statistics.mean(grades)
+sample_mean
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[5], line 42[0m
-[1;32m     38[0m ax0[38;5;241m.[39mget_xaxis()[38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
-[1;32m     39[0m ax1[38;5;241m.[39mget_xaxis()[38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
-[0;32m---> 42[0m [43mglue[49m([38;5;124m"[39m[38;5;124mztest-fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+Cell [0;32mIn[6], line 2[0m
+[1;32m      1[0m grades [38;5;241m=[39m df[[38;5;124m'[39m[38;5;124mgrades[39m[38;5;124m'[39m]
+[0;32m----> 2[0m sample_mean [38;5;241m=[39m [43mstatistics[49m[38;5;241m.[39mmean(grades)
+[1;32m      3[0m sample_mean
 
-[0;31mNameError[0m: name 'glue' is not defined
+[0;31mNameError[0m: name 'statistics' is not defined
 
