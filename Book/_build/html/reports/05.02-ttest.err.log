@@ -18,55 +18,57 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import seaborn as sns
-from scipy import stats
-from matplotlib import pyplot as plt
-
 mu = 0
 sigma = 1
-x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
-y = 100* stats.norm.pdf(x, mu, sigma)
 
-fig, axes = plt.subplots(1, 2, figsize=(15, 5))
-
-sns.lineplot(x=x,y=y, color='black', ax=axes[0])
-sns.lineplot(x=x,y=y, color='black', ax=axes[1])
-
-axes[0].set_frame_on(False)
-axes[1].set_frame_on(False)
-axes[0].get_yaxis().set_visible(False)
-axes[1].get_yaxis().set_visible(False)
-axes[0].get_xaxis().set_visible(False)
-axes[1].get_xaxis().set_visible(False)
-
-axes[0].axhline(y=0, color='black')
-axes[0].axvline(x=mu, color='black', linestyle='--')
-
-axes[1].axhline(y=0, color='black')
-axes[1].axvline(x=mu + sigma, color='black', linestyle='--')
-
-axes[0].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
-axes[1].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
+x = np.arange(-3,3,0.001)
+y = stats.norm.pdf(x, mu, sigma)
 
 
-axes[0].text(mu,42, r'$\mu = \mu_0$', size=20, ha="center")
-axes[1].text(mu + sigma, 42, r'$\mu \neq \mu_0$', size=20, ha="center")
-
-axes[0].text(mu-sigma - 0.2, 23.6, r'$\sigma = \sigma_0$', size=20, ha="right")
-axes[1].text(mu-sigma - 0.2, 23.6, r'$\sigma = \sigma_0$', size=20, ha="right")
+fig, (ax0, ax1) = plt.subplots(1, 2, sharey = True, figsize=(15, 5))
 
 
-glue("ztesthyp-fig", ax, display=False)
+# Two-sided test
+crit = 1.96
+p_lower = x[x<crit*-1]
+p_upper = x[x>crit]
+
+ax0.plot(x, y)
+
+ax0.fill_between(p_lower, 0, stats.norm.pdf(p_lower, mu, sigma),color="none",hatch="///",edgecolor="b")
+ax0.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
+ax0.set_title("Two sided test", size = 20)
+ax0.text(-1.96,-.03, '-1.96', size=18, ha="right")
+ax0.text(1.96,-.03, '1.96', size=18, ha="left")
+
+# One-sided test
+crit = 1.64
+p_upper = x[x>crit]
+
+ax1.plot(x, y)
+ax1.set_title("One sided test", size = 20)
+ax1.text(1.64,-.03, '1.64', size=18, ha="left")
+ax1.fill_between(p_upper, 0, stats.norm.pdf(p_upper, mu, sigma), color="none",hatch="///",edgecolor="b")
+
+ax0.set_frame_on(False)
+ax1.set_frame_on(False)
+
+ax0.get_yaxis().set_visible(False)
+ax1.get_yaxis().set_visible(False)
+ax0.get_xaxis().set_visible(False)
+ax1.get_xaxis().set_visible(False)
+
+
+glue("ztest-fig", ax, display=False)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[4], line 40[0m
-[1;32m     36[0m axes[[38;5;241m0[39m][38;5;241m.[39mtext(mu[38;5;241m-[39msigma [38;5;241m-[39m [38;5;241m0.2[39m, [38;5;241m23.6[39m, [38;5;124mr[39m[38;5;124m'[39m[38;5;124m$[39m[38;5;124m\[39m[38;5;124msigma = [39m[38;5;124m\[39m[38;5;124msigma_0$[39m[38;5;124m'[39m, size[38;5;241m=[39m[38;5;241m20[39m, ha[38;5;241m=[39m[38;5;124m"[39m[38;5;124mright[39m[38;5;124m"[39m)
-[1;32m     37[0m axes[[38;5;241m1[39m][38;5;241m.[39mtext(mu[38;5;241m-[39msigma [38;5;241m-[39m [38;5;241m0.2[39m, [38;5;241m23.6[39m, [38;5;124mr[39m[38;5;124m'[39m[38;5;124m$[39m[38;5;124m\[39m[38;5;124msigma = [39m[38;5;124m\[39m[38;5;124msigma_0$[39m[38;5;124m'[39m, size[38;5;241m=[39m[38;5;241m20[39m, ha[38;5;241m=[39m[38;5;124m"[39m[38;5;124mright[39m[38;5;124m"[39m)
-[0;32m---> 40[0m [43mglue[49m([38;5;124m"[39m[38;5;124mztesthyp-fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+Cell [0;32mIn[5], line 42[0m
+[1;32m     38[0m ax0[38;5;241m.[39mget_xaxis()[38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
+[1;32m     39[0m ax1[38;5;241m.[39mget_xaxis()[38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
+[0;32m---> 42[0m [43mglue[49m([38;5;124m"[39m[38;5;124mztest-fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
 [0;31mNameError[0m: name 'glue' is not defined
 
