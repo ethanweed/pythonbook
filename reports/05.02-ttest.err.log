@@ -18,16 +18,51 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import statistics
-statistics.stdev(grades)
+mu = 0
+sigma = 1
+x = np.linspace(mu - 3*sigma, mu + 3*sigma, 100)
+y = 100* stats.norm.pdf(x, mu, sigma)
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+sns.lineplot(x=x,y=y, color='black', ax=axes[0])
+sns.lineplot(x=x,y=y, color='black', ax=axes[1])
+
+axes[0].set_frame_on(False)
+axes[1].set_frame_on(False)
+axes[0].get_yaxis().set_visible(False)
+axes[1].get_yaxis().set_visible(False)
+axes[0].get_xaxis().set_visible(False)
+axes[1].get_xaxis().set_visible(False)
+
+
+axes[0].axhline(y=0, color='black')
+axes[0].axvline(x=mu, color='black', linestyle='--')
+
+axes[1].axhline(y=0, color='black')
+axes[1].axvline(x=mu + sigma, color='black', linestyle='--')
+
+axes[0].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
+axes[1].hlines(y=23.6, xmin = mu-sigma, xmax = mu, color='black')
+
+
+axes[0].text(mu,42, r'$\mu = \mu_0$', size=20, ha="center")
+axes[1].text(mu + sigma, 42, r'$\mu \neq \mu_0$', size=20, ha="center")
+
+axes[0].text(mu-sigma - 0.2, 23.6, r'$\sigma = ??$', size=20, ha="right")
+axes[1].text(mu-sigma - 0.2, 23.6, r'$\sigma = ??$', size=20, ha="right")
+
+
+glue("ttesthyp_onesample-fig", ax, display=False)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[13], line 2[0m
-[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mstatistics[39;00m
-[0;32m----> 2[0m statistics[38;5;241m.[39mstdev([43mgrades[49m)
+Cell [0;32mIn[14], line 36[0m
+[1;32m     32[0m axes[[38;5;241m0[39m][38;5;241m.[39mtext(mu[38;5;241m-[39msigma [38;5;241m-[39m [38;5;241m0.2[39m, [38;5;241m23.6[39m, [38;5;124mr[39m[38;5;124m'[39m[38;5;124m$[39m[38;5;124m\[39m[38;5;124msigma = ??$[39m[38;5;124m'[39m, size[38;5;241m=[39m[38;5;241m20[39m, ha[38;5;241m=[39m[38;5;124m"[39m[38;5;124mright[39m[38;5;124m"[39m)
+[1;32m     33[0m axes[[38;5;241m1[39m][38;5;241m.[39mtext(mu[38;5;241m-[39msigma [38;5;241m-[39m [38;5;241m0.2[39m, [38;5;241m23.6[39m, [38;5;124mr[39m[38;5;124m'[39m[38;5;124m$[39m[38;5;124m\[39m[38;5;124msigma = ??$[39m[38;5;124m'[39m, size[38;5;241m=[39m[38;5;241m20[39m, ha[38;5;241m=[39m[38;5;124m"[39m[38;5;124mright[39m[38;5;124m"[39m)
+[0;32m---> 36[0m [43mglue[49m([38;5;124m"[39m[38;5;124mttesthyp_onesample-fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
-[0;31mNameError[0m: name 'grades' is not defined
+[0;31mNameError[0m: name 'glue' is not defined
 
