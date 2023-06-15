@@ -1165,58 +1165,6 @@ Degrees of freedom: 19
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
-<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="mf">67.5</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>T</th>
-      <th>dof</th>
-      <th>alternative</th>
-      <th>p-val</th>
-      <th>CI95%</th>
-      <th>cohen-d</th>
-      <th>BF10</th>
-      <th>power</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>T-test</th>
-      <td>2.25</td>
-      <td>19</td>
-      <td>two-sided</td>
-      <td>0.04</td>
-      <td>[67.84, 76.76]</td>
-      <td>0.5</td>
-      <td>1.795</td>
-      <td>0.57</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
 <p>Well. That was easy! All we need to do is feed the <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> with the data and the population mean under the null hypothesis, and <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> does the rest. We get a nice table with the <span class="math notranslate nohighlight">\(t\)</span>-value, the degrees of freedom, the <span class="math notranslate nohighlight">\(p\)</span>-value, 95% confidence interval, effect size (Cohen’s <span class="math notranslate nohighlight">\(d\)</span>), and a power estimate. BF10 refers to the “bayes factor”, which we will meet (briefly) in the section on <a class="reference internal" href="06.01-bayes.html#bayes"><span class="std std-ref">Bayesian statistics</span></a>.</p>
 </section>
 <section id="assumptions-of-the-one-sample-t-test">
@@ -1420,7 +1368,7 @@ Degrees of freedom: 19
 </details>
 </div>
 <figure class="align-default" id="fig-ttestci" style="width: 600px">
-<img alt="_images/d857b5596e25a83bad041a678d9b723fb06b079c1f69082068103a1570aed8fe.png" src="_images/d857b5596e25a83bad041a678d9b723fb06b079c1f69082068103a1570aed8fe.png" />
+<img alt="_images/909ff9aa21b65d3e4ed01288372f6ad7f19b9545ebc32d25adf03dca2a5db2ca.png" src="_images/909ff9aa21b65d3e4ed01288372f6ad7f19b9545ebc32d25adf03dca2a5db2ca.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.7 </span><span class="caption-text">Plot showing the mean grade for the students in Anastasia’s and Bernadette’s tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there’s a real difference between the groups, though it’s hard to say for sure.</span><a class="headerlink" href="#fig-ttestci" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -1473,17 +1421,22 @@ H_1: &amp; \mu_1 \neq \mu_2
 <span class="n">ax2</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># show the figure in the book with caption</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;ttesthyp_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13dd593d0&gt;
-</pre></div>
 </div>
+<figure class="align-default" id="fig-ttesthyp" style="width: 600px">
 <img alt="_images/0668d6419942ea7d50dfb8a084cd37d517b04418b5d4a47cb773426d24f47baf.png" src="_images/0668d6419942ea7d50dfb8a084cd37d517b04418b5d4a47cb773426d24f47baf.png" />
-</div>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 14.8 </span><span class="caption-text">Graphical illustration of the null and alternative hypotheses assumed by the Student <span class="math notranslate nohighlight">\(t\)</span>-test. The null hypothesis assumes that both groups have the same mean <span class="math notranslate nohighlight">\(\\mu\)</span>, whereas the alternative assumes that they have different means <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span>. Notice that it is assumed that the population distributions are normal, and that, although the alternative hypothesis allows the group to have different means, it assumes they have the same standard deviation</span><a class="headerlink" href="#fig-ttesthyp" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is <em>exactly</em> zero,
 <span class="math notranslate nohighlight">\(\mu_1 - \mu_2 = 0\)</span>
 As a consequence, a diagnostic test statistic will be based on the difference between the two sample means. Because if the null hypothesis is true, then we’d expect</p>
@@ -1786,7 +1739,7 @@ t = \frac{\mbox{(mean 1)} -\mbox{(mean 2)}}{ \mbox{(SE)}}
 </section>
 <section id="the-independent-samples-t-test-welch-test">
 <span id="welchttest"></span><h2><span class="section-number">14.4. </span>The independent samples <span class="math notranslate nohighlight">\(t\)</span>-test (Welch test)<a class="headerlink" href="#the-independent-samples-t-test-welch-test" title="Permalink to this heading">#</a></h2>
-<p>The biggest problem with using the Student test in practice is the third assumption listed in the previous section: it assumes that both groups have the same standard deviation. This is rarely true in real life: if two samples don’t have the same means, why should we expect them to have the same standard deviation? There’s really no reason to expect this assumption to be true. We’ll talk a little bit about how you can check this assumption later on because it does crop up in a few different places, not just the <span class="math notranslate nohighlight">\(t\)</span>-test. But right now I’ll talk about a different form of the <span class="math notranslate nohighlight">\(t\)</span>-test <span id="id12">[<a class="reference internal" href="bibliography.html#id81" title="B. L. Welch. The generalization of “Student's” problem when several different population variances are involved. Biometrika, 34:28–35, 1947.">Welch, 1947</a>]</span> that does not rely on this assumption. A graphical illustration of what the <strong><em>Welch <span class="math notranslate nohighlight">\(t\)</span> test</em></strong> assumes about the data is shown in Figure <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-ttesthyp2</span></code>, to provide a contrast with the Student test version in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-ttesthyp</span></code>. I’ll admit it’s a bit odd to talk about the cure before talking about the diagnosis, but as it happens the Welch test is often the default <span class="math notranslate nohighlight">\(t\)</span>-test, so this is probably the best place to discuss it.</p>
+<p>The biggest problem with using the Student test in practice is the third assumption listed in the previous section: it assumes that both groups have the same standard deviation. This is rarely true in real life: if two samples don’t have the same means, why should we expect them to have the same standard deviation? There’s really no reason to expect this assumption to be true. We’ll talk a little bit about how you can check this assumption later on because it does crop up in a few different places, not just the <span class="math notranslate nohighlight">\(t\)</span>-test. But right now I’ll talk about a different form of the <span class="math notranslate nohighlight">\(t\)</span>-test <span id="id12">[<a class="reference internal" href="bibliography.html#id81" title="B. L. Welch. The generalization of “Student's” problem when several different population variances are involved. Biometrika, 34:28–35, 1947.">Welch, 1947</a>]</span> that does not rely on this assumption. A graphical illustration of what the <strong><em>Welch <span class="math notranslate nohighlight">\(t\)</span> test</em></strong> assumes about the data is shown in Figure <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-ttesthyp2</span></code>, to provide a contrast with the Student test version in <a class="reference internal" href="#fig-ttesthyp"><span class="std std-numref">Fig. 14.8</span></a>. I’ll admit it’s a bit odd to talk about the cure before talking about the diagnosis, but as it happens the Welch test is often the default <span class="math notranslate nohighlight">\(t\)</span>-test, so this is probably the best place to discuss it.</p>
 <p>The Welch test is very similar to the Student test. For example, the <span class="math notranslate nohighlight">\(t\)</span>-statistic that we use in the Welch test is calculated in much the same way as it is for the Student test. That is, we take the difference between the sample means, and then divide it by some estimate of the standard error of that difference:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1850,7 +1803,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x13ee113d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x14f64d6d0&gt;
 </pre></div>
 </div>
 <img alt="_images/99cd4cabf0b7fc7a7bd40621b3310ece0e1e03d72e399d64533720203f9ce214.png" src="_images/99cd4cabf0b7fc7a7bd40621b3310ece0e1e03d72e399d64533720203f9ce214.png" />
@@ -2113,7 +2066,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/5fe0a06e5e82b44326eb11589b7f8185af450e410438229f62da60d3ebe445c0.png" src="_images/5fe0a06e5e82b44326eb11589b7f8185af450e410438229f62da60d3ebe445c0.png" />
+<img alt="_images/4abacc1bc6d925d65b4eb6082f642086dc3b8ec42dae9fe1f002d2dcfd0e99f5.png" src="_images/4abacc1bc6d925d65b4eb6082f642086dc3b8ec42dae9fe1f002d2dcfd0e99f5.png" />
 </div>
 </div>
 <p>Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-pairedta</span></code> panel B.</p>
@@ -2139,7 +2092,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_90047/4098096105.py:6: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_90237/4098096105.py:6: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
   stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
 </pre></div>
 </div>
@@ -2568,7 +2521,7 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">45</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">44</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
 <span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
 <span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
 <span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
@@ -2726,7 +2679,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </pre></div>
 </div>
 <figcaption>
-<p><span class="caption-number">Fig. 14.8 </span><span class="caption-text">QQ plot (left) and histogram (right) of <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, a normally distributed sample with 100 observations. The Shapiro-Wilk statistic associated with these data is <span class="math notranslate nohighlight">\(W = .99\)</span>, indicating that no significant departures from normality were detected (<span class="math notranslate nohighlight">\(p = .73\)</span>).</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14.9 </span><span class="caption-text">QQ plot (left) and histogram (right) of <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, a normally distributed sample with 100 observations. The Shapiro-Wilk statistic associated with these data is <span class="math notranslate nohighlight">\(W = .99\)</span>, indicating that no significant departures from normality were detected (<span class="math notranslate nohighlight">\(p = .73\)</span>).</span><a class="headerlink" href="#fig-qq" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>And the results are shown in {numref}(<code class="docutils literal notranslate"><span class="pre">fig-qq</span></code>), above.</p>
@@ -2782,7 +2735,7 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </pre></div>
 </div>
 <figcaption>
-<p><span class="caption-number">Fig. 14.9 </span><span class="caption-text">Plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W = .93\)</span>, again reflecting significant non-normality (<span class="math notranslate nohighlight">\(p &lt; .001\)</span>).</span><a class="headerlink" href="#fig-qqheavy" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14.10 </span><span class="caption-text">Plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W = .93\)</span>, again reflecting significant non-normality (<span class="math notranslate nohighlight">\(p &lt; .001\)</span>).</span><a class="headerlink" href="#fig-qqheavy" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -2798,7 +2751,7 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 <figure class="align-center" id="fig-shapirowilk">
 <a class="reference internal image-reference" href="_images/shapirowilkdist.png"><img alt="_images/shapirowilkdist.png" src="_images/shapirowilkdist.png" style="width: 600px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 14.10 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14.11 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To run the test in Python, we use the <code class="docutils literal notranslate"><span class="pre">scipy.stats.shapiro</span></code> method. It has only a single argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, we get the following:</p>
