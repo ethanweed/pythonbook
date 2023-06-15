@@ -1368,7 +1368,7 @@ Degrees of freedom: 19
 </details>
 </div>
 <figure class="align-default" id="fig-ttestci" style="width: 600px">
-<img alt="_images/fdd0381864ec749b0d198a156cf37029b9831b291007c84a210bd670de78ef76.png" src="_images/fdd0381864ec749b0d198a156cf37029b9831b291007c84a210bd670de78ef76.png" />
+<img alt="_images/47c14caf33b6ea8f242458345e1f99b8f3313bf93b91d36179616a39f312a09a.png" src="_images/47c14caf33b6ea8f242458345e1f99b8f3313bf93b91d36179616a39f312a09a.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.7 </span><span class="caption-text">Plot showing the mean grade for the students in Anastasia’s and Bernadette’s tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there’s a real difference between the groups, though it’s hard to say for sure.</span><a class="headerlink" href="#fig-ttestci" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2076,7 +2076,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </details>
 </div>
 <figure class="align-default" id="fig-pairedta" style="width: 600px">
-<img alt="_images/d0e21bebab7b592b90d169222a226b5f653d77bb50f85663e468a1a0af2facab.png" src="_images/d0e21bebab7b592b90d169222a226b5f653d77bb50f85663e468a1a0af2facab.png" />
+<img alt="_images/2d7e9ddb3ad6d6120872c41ef72ddf9d3b990a36e3cceade259ee06c16912dd0.png" src="_images/2d7e9ddb3ad6d6120872c41ef72ddf9d3b990a36e3cceade259ee06c16912dd0.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.10 </span><span class="caption-text">Mean grade for test 1 and test 2, with associated 95% confidence intervals (panel a). Scat- terplot showing the individual grades for test 1 and test 2 (panel b). Histogram showing the improvement made by each student in Dr Chico’s class (panel c). In panel c, notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</span><a class="headerlink" href="#fig-pairedta" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2508,14 +2508,14 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <span class="n">u2</span> <span class="o">=</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
 <span class="c1"># find variance in students&#39; grades for each tutor</span>
-<span class="n">s1</span> <span class="o">=</span> <span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
 
 
 <span class="c1"># find pooled standard deviation (square root of weighted variation, </span>
 <span class="c1"># divided by total N, with a correction for bias of -2)</span>
 
-<span class="n">sp</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(((</span><span class="n">n1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s2</span> <span class="o">*</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">sp</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(((</span><span class="n">n1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">v1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
 
 <span class="c1"># calculate Cohen&#39;s d</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">u2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sp</span>
@@ -2528,59 +2528,6 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </pre></div>
 </div>
 </div>
-</div>
-<p>Of course, we’re lazy, and there is no need to do so much typing. We can just let <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> figure it out for us:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
-<span class="n">ttest</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>T</th>
-      <th>dof</th>
-      <th>alternative</th>
-      <th>p-val</th>
-      <th>CI95%</th>
-      <th>cohen-d</th>
-      <th>BF10</th>
-      <th>power</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>T-test</th>
-      <td>2.03</td>
-      <td>23.02</td>
-      <td>two-sided</td>
-      <td>0.05</td>
-      <td>[-0.09, 11.05]</td>
-      <td>0.74</td>
-      <td>1.556</td>
-      <td>0.54</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>But still, it’s nice to know that there is nothing mysterious going on here. <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> isn’t using any witchcraft to calculate Cohen’s d, but it does save us a lot of time.</p>
 </section>
@@ -2606,34 +2553,25 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\displaystyle{\frac{ {\hat\sigma_1}^2 + {
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find mean student grade for each tutor</span>
-<span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
 <span class="c1"># find variance in students&#39; grades for each tutor</span>
-<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
 
 
 <span class="c1"># find the mean variance of the two samples</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># calculate Cohen&#39;s d</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">u2</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
-<span class="n">d</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cohen</span><span class="se">\&#39;</span><span class="s1">s d:&#39;</span><span class="p">,</span>  <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">46</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># find the mean variance of the two samples</span>
-
-<span class="ne">NameError</span>: name &#39;var&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cohen&#39;s d: 0.72
 </pre></div>
 </div>
 </div>
@@ -2654,16 +2592,20 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chico.csv&quot;</span><span class="p">)</span>
 
 <span class="n">difference</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span>
+
 <span class="n">mean_diff</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
 <span class="n">sd_diff</span> <span class="o">=</span> <span class="n">std</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
 
 <span class="n">d</span> <span class="o">=</span> <span class="n">mean_diff</span><span class="o">/</span><span class="n">sd_diff</span>
-<span class="n">d</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cohen</span><span class="se">\&#39;</span><span class="s1">s d:&#39;</span><span class="p">,</span>  <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># translator&#39;s note: this version of Cohen&#39;s d is slightly different than one produced by the R function cohensD with &quot;method&quot; set to &quot;paired&quot;.</span>
+<span class="c1"># the R function returns a value of 1.447952, and I have not yet figured out where this discrepancy comes from. Not a huge difference, but still..</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.4855669223382983
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cohen&#39;s d: 1.49
 </pre></div>
 </div>
 </div>
@@ -2672,25 +2614,25 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find mean student grade for each tutor</span>
-<span class="n">u1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
-<span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">])</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
 <span class="c1"># find variance in students&#39; grades for each tutor</span>
-<span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">])</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">])</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grade_test2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
 
 
 <span class="c1"># find the mean variance of the two samples</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># calculate Cohen&#39;s d</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u2</span> <span class="o">-</span> <span class="n">u1</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
-<span class="n">d</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cohen</span><span class="se">\&#39;</span><span class="s1">s d:&#39;</span><span class="p">,</span>  <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2213698410715347
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cohen&#39;s d: 0.22
 </pre></div>
 </div>
 </div>
@@ -2729,11 +2671,11 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/595c75eca1a9023f2eec1aaf2e7d675d39708f89f135b1a4ee9c1c60a2afe922.png" src="_images/595c75eca1a9023f2eec1aaf2e7d675d39708f89f135b1a4ee9c1c60a2afe922.png" />
+<img alt="_images/a64df73be412578ac70054eb50685ffede6c4ff9b2e1fe8555b292e662715b43.png" src="_images/a64df73be412578ac70054eb50685ffede6c4ff9b2e1fe8555b292e662715b43.png" />
 </div>
 </div>
 <figure class="align-default" id="fig-qq" style="width: 600px">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
 <figcaption>
@@ -2762,9 +2704,17 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/577184491893125b61ce1160315b2ec76284bb3059f0ba1730c0fcb686087469.png" src="_images/577184491893125b61ce1160315b2ec76284bb3059f0ba1730c0fcb686087469.png" />
+<img alt="_images/0fa92e3affbd56720fff80da85b8858997c089be05fc19852479d0e50461d770.png" src="_images/0fa92e3affbd56720fff80da85b8858997c089be05fc19852479d0e50461d770.png" />
 </div>
 </div>
+<figure class="align-default" id="fig-qqskew" style="width: 600px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">Fig. 14.12 </span><span class="caption-text">The skewness of these data of 100 observations is 1.94, and is reflected in a QQ plot that curves upwards. As a consequence, the Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W=.80\)</span>, reflecting a significant departure from normality (<span class="math notranslate nohighlight">\(p&lt;.001\)</span>).</span><a class="headerlink" href="#fig-qqskew" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2785,15 +2735,15 @@ d = \frac{\bar{D}}{\hat{\sigma}_D}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/b0fcc922abc276c3231b520e40781516a5db08a25ed2fb9bfa866c61290401c5.png" src="_images/b0fcc922abc276c3231b520e40781516a5db08a25ed2fb9bfa866c61290401c5.png" />
+<img alt="_images/6ec7fac24e9a47c92bed5c7ac699d1742d74018bd0e0102d9271c221b9805329.png" src="_images/6ec7fac24e9a47c92bed5c7ac699d1742d74018bd0e0102d9271c221b9805329.png" />
 </div>
 </div>
 <figure class="align-default" id="fig-qqheavy" style="width: 600px">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;grades&#39;, ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
 <figcaption>
-<p><span class="caption-number">Fig. 14.12 </span><span class="caption-text">Plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W = .93\)</span>, again reflecting significant non-normality (<span class="math notranslate nohighlight">\(p &lt; .001\)</span>).</span><a class="headerlink" href="#fig-qqheavy" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14.13 </span><span class="caption-text">Plots for a heavy tailed data set, again consisting of 100 observations. In this case, the heavy tails in the data produce a high kurtosis (2.80), and cause the QQ plot to flatten in the middle, and curve away sharply on either side. The resulting Shapiro-Wilk statistic is <span class="math notranslate nohighlight">\(W = .93\)</span>, again reflecting significant non-normality (<span class="math notranslate nohighlight">\(p &lt; .001\)</span>).</span><a class="headerlink" href="#fig-qqheavy" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -2809,7 +2759,7 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 <figure class="align-center" id="fig-shapirowilk">
 <a class="reference internal image-reference" href="_images/shapirowilkdist.png"><img alt="_images/shapirowilkdist.png" src="_images/shapirowilkdist.png" style="width: 600px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 14.13 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14.14 </span><span class="caption-text">Sampling distribution of the Shapiro-Wilk <span class="math notranslate nohighlight">\(W\)</span> statistic, under the null hypothesis that the data are normally distributed, for samples of size 10, 20 and 50. Note that <em>small</em> values of <span class="math notranslate nohighlight">\(W\)</span> indicate departure from normality.</span><a class="headerlink" href="#fig-shapirowilk" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To run the test in Python, we use the <code class="docutils literal notranslate"><span class="pre">scipy.stats.shapiro</span></code> method. It has only a single argument <code class="docutils literal notranslate"><span class="pre">x</span></code>, which is a numeric vector containing the data whose normality needs to be tested. For example, when we apply this function to  our <code class="docutils literal notranslate"><span class="pre">normal_data</span></code>, we get the following:</p>
@@ -2822,7 +2772,7 @@ W = \frac{ \left( \sum_{i = 1}^N a_i X_i \right)^2 }{ \sum_{i = 1}^N (X_i - \bar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9898834228515625, pvalue=0.6551706790924072)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9898831844329834, pvalue=0.6551515460014343)
 </pre></div>
 </div>
 </div>
