@@ -18,26 +18,16 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from scipy import stats
-
-confidence_level = 0.95
-degrees_freedom = len(grades)-1
-sample_mean = statistics.mean(grades)
-sample_standard_error = stats.sem(grades)
-
-confidence_interval = stats.t.interval(confidence_level, degrees_freedom, sample_mean, sample_standard_error)
-confidence_interval
+from pingouin import ttest
+ttest(grades, 67.5)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[18], line 4[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mscipy[39;00m [38;5;28;01mimport[39;00m stats
-[1;32m      3[0m confidence_level [38;5;241m=[39m [38;5;241m0.95[39m
-[0;32m----> 4[0m degrees_freedom [38;5;241m=[39m [38;5;28mlen[39m([43mgrades[49m)[38;5;241m-[39m[38;5;241m1[39m
-[1;32m      5[0m sample_mean [38;5;241m=[39m statistics[38;5;241m.[39mmean(grades)
-[1;32m      6[0m sample_standard_error [38;5;241m=[39m stats[38;5;241m.[39msem(grades)
+Cell [0;32mIn[19], line 2[0m
+[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpingouin[39;00m [38;5;28;01mimport[39;00m ttest
+[0;32m----> 2[0m ttest([43mgrades[49m, [38;5;241m67.5[39m)
 
 [0;31mNameError[0m: name 'grades' is not defined
 

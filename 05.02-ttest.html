@@ -1091,9 +1091,9 @@ Degrees of freedom: 19
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
 <span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
-<span class="n">degrees_freedom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
-<span class="n">sample_standard_error</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
+<span class="n">degrees_freedom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">sample_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sample_standard_error</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sem</span><span class="p">()</span>
 
 <span class="n">confidence_interval</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">confidence_level</span><span class="p">,</span> <span class="n">degrees_freedom</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">,</span> <span class="n">sample_standard_error</span><span class="p">)</span>
 <span class="n">confidence_interval</span>
@@ -1101,16 +1101,7 @@ Degrees of freedom: 19
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">degrees_freedom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">sample_standard_error</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;grades&#39; is not defined
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(67.84421513791415, 76.75578486208585)
 </pre></div>
 </div>
 </div>
@@ -1130,49 +1121,16 @@ Degrees of freedom: 19
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">ttest</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>T</th>
-      <th>dof</th>
-      <th>alternative</th>
-      <th>p-val</th>
-      <th>CI95%</th>
-      <th>cohen-d</th>
-      <th>BF10</th>
-      <th>power</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>T-test</th>
-      <td>2.254713</td>
-      <td>19</td>
-      <td>two-sided</td>
-      <td>0.036145</td>
-      <td>[67.84, 76.76]</td>
-      <td>0.504169</td>
-      <td>1.795</td>
-      <td>0.571446</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">NameError</span>: name &#39;grades&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>Well. That was easy! All we need to do is feed the <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> with the data and the population mean under the null hypothesis, and <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> does the rest. We get a nice table with the <span class="math notranslate nohighlight">\(t\)</span>-value, the degrees of freedom, the <span class="math notranslate nohighlight">\(p\)</span>-value, 95% confidence interval, effect size (Cohen’s <span class="math notranslate nohighlight">\(d\)</span>), and a power estimate. BF10 refers to the “bayes factor”, which we will meet (briefly) in the section on <a class="reference internal" href="06.01-bayes.html#bayes"><span class="std std-ref">Bayesian statistics</span></a>.</p>
 </section>
