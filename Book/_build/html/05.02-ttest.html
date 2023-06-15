@@ -1116,21 +1116,61 @@ Degrees of freedom: 19
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
-<span class="n">ttest</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">)</span>
+
+<span class="n">ttest</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">],</span> <span class="mf">67.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">ttest</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;grades&#39; is not defined
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
+  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
 </pre></div>
 </div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>T</th>
+      <th>dof</th>
+      <th>alternative</th>
+      <th>p-val</th>
+      <th>CI95%</th>
+      <th>cohen-d</th>
+      <th>BF10</th>
+      <th>power</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>T-test</th>
+      <td>2.254713</td>
+      <td>19</td>
+      <td>two-sided</td>
+      <td>0.036145</td>
+      <td>[67.84, 76.76]</td>
+      <td>0.504169</td>
+      <td>1.795</td>
+      <td>0.571446</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Well. That was easy! All we need to do is feed the <code class="docutils literal notranslate"><span class="pre">ttest()</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> with the data and the population mean under the null hypothesis, and <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> does the rest. We get a nice table with the <span class="math notranslate nohighlight">\(t\)</span>-value, the degrees of freedom, the <span class="math notranslate nohighlight">\(p\)</span>-value, 95% confidence interval, effect size (Cohen’s <span class="math notranslate nohighlight">\(d\)</span>), and a power estimate. BF10 refers to the “bayes factor”, which we will meet (briefly) in the section on <a class="reference internal" href="06.01-bayes.html#bayes"><span class="std std-ref">Bayesian statistics</span></a>.</p>
 </section>
@@ -1341,7 +1381,7 @@ Degrees of freedom: 19
 </details>
 </div>
 <figure class="align-default" id="fig-ttestci" style="width: 600px">
-<img alt="_images/ae79447acb9f49c4005c9b8040b5453dc69c00901726b9aede6573ace57547b6.png" src="_images/ae79447acb9f49c4005c9b8040b5453dc69c00901726b9aede6573ace57547b6.png" />
+<img alt="_images/b6f23d46dd514a18eab02eb4c6a65b42e8d1a0ffcee647f1577774970235f985.png" src="_images/b6f23d46dd514a18eab02eb4c6a65b42e8d1a0ffcee647f1577774970235f985.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.7 </span><span class="caption-text">Plot showing the mean grade for the students in Anastasia’s and Bernadette’s tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there’s a real difference between the groups, though it’s hard to say for sure.</span><a class="headerlink" href="#fig-ttestci" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -1399,10 +1439,10 @@ H_1: &amp; \mu_1 \neq \mu_2
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x16225f820&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x156c18e50&gt;
 </pre></div>
 </div>
-<img alt="_images/21be2fe7713bbeb23915666a90b1bf721841581b4656ba51777e7ff7b1fa7d50.png" src="_images/21be2fe7713bbeb23915666a90b1bf721841581b4656ba51777e7ff7b1fa7d50.png" />
+<img alt="_images/0668d6419942ea7d50dfb8a084cd37d517b04418b5d4a47cb773426d24f47baf.png" src="_images/0668d6419942ea7d50dfb8a084cd37d517b04418b5d4a47cb773426d24f47baf.png" />
 </div>
 </div>
 <p>To construct a hypothesis test that handles this scenario, we start by noting that if the null hypothesis is true, then the difference between the population means is <em>exactly</em> zero,
@@ -1551,6 +1591,12 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
+  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1771,10 +1817,10 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x162389810&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x156cb7810&gt;
 </pre></div>
 </div>
-<img alt="_images/3cdf83322ae9d1f6d36814769b33bd2ee3f53872c3f3513f2bca2950b2115fad.png" src="_images/3cdf83322ae9d1f6d36814769b33bd2ee3f53872c3f3513f2bca2950b2115fad.png" />
+<img alt="_images/99cd4cabf0b7fc7a7bd40621b3310ece0e1e03d72e399d64533720203f9ce214.png" src="_images/99cd4cabf0b7fc7a7bd40621b3310ece0e1e03d72e399d64533720203f9ce214.png" />
 </div>
 </div>
 <section id="id14">
@@ -1789,6 +1835,12 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
+  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2034,7 +2086,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/ca0e2f1443ed8c2894c69f70ef8bdf80839a07c4077764da3a52298fea3e6f6b.png" src="_images/ca0e2f1443ed8c2894c69f70ef8bdf80839a07c4077764da3a52298fea3e6f6b.png" />
+<img alt="_images/043f516b2e45fb50f7f920019d72668a87b03e2b03a709e4528f1b8b0c06e654.png" src="_images/043f516b2e45fb50f7f920019d72668a87b03e2b03a709e4528f1b8b0c06e654.png" />
 </div>
 </div>
 <p>Nevertheless, this impression is wrong. To see why, take a look at the scatterplot of the grades for test 1 against the grades for test 2.  shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-pairedta</span></code> panel B.</p>
@@ -2060,6 +2112,10 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_84993/4098096105.py:6: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
+  stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data))
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.9508686092602991, 1.8591313907397005)
 </pre></div>
 </div>
@@ -2106,6 +2162,12 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
+  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2222,6 +2284,12 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
+  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2274,6 +2342,10 @@ t = \frac{\bar{D}}{\hat\sigma_D / \sqrt{N}}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
+  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2364,9 +2436,9 @@ One-sided, Bernadette first: Ttest_indResult(statistic=array([-2.11543239]), pva
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>test 2 - test 1: Ttest_relResult(statistic=6.475436088339379, pvalue=1.660335028063474e-06)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>test 2 - test 1: TtestResult(statistic=6.475436088339379, pvalue=1.660335028063474e-06, df=19)
 
-test 1 - test 2: Ttest_relResult(statistic=-6.475436088339379, pvalue=0.9999983396649719)
+test 1 - test 2: TtestResult(statistic=-6.475436088339379, pvalue=0.9999983396649719, df=19)
 </pre></div>
 </div>
 </div>
@@ -2483,7 +2555,17 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7395614040382655
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">43</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># find variance in students&#39; grades for each tutor</span>
+<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor1</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">tutor2</span><span class="p">[</span><span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># find pooled standard deviation (square root of weighted variation, </span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="c1"># divided by total N, with a correction for bias of -2)</span>
+
+<span class="ne">NameError</span>: name &#39;var&#39; is not defined
 </pre></div>
 </div>
 </div>

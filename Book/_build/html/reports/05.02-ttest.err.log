@@ -18,16 +18,49 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from pingouin import ttest
-ttest(grades, 67.5)
+import pandas as pd
+import statistics
+from numpy import sqrt, mean, std
+
+df = pd.read_csv("https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/harpo.csv")
+
+# create two new variables for the grades from each tutor's students
+tutor1 = pd.DataFrame(df.loc[df['tutor'] == 'Anastasia']['grade'])
+tutor2 = pd.DataFrame(df.loc[df['tutor'] == 'Bernadette']['grade'])
+
+# find number of student grades for each tutor
+n1 = len(tutor1)
+n2 = len(tutor2)
+
+# find mean student grade for each tutor
+u1 = mean(tutor1['grade'])
+u2 = mean(tutor2['grade'])
+
+# find variance in students' grades for each tutor
+s1 = var(tutor1['grade'])
+s2 = var(tutor2['grade'])
+
+
+# find pooled standard deviation (square root of weighted variation, 
+# divided by total N, with a correction for bias of -2)
+
+s = sqrt(((n1) * s1 + (n2) * s2) / (n1 + n2 - 2))
+
+# calculate Cohen's d
+d = (u1 - u2) / s
+d
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[19], line 2[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpingouin[39;00m [38;5;28;01mimport[39;00m ttest
-[0;32m----> 2[0m ttest([43mgrades[49m, [38;5;241m67.5[39m)
+Cell [0;32mIn[43], line 20[0m
+[1;32m     17[0m u2 [38;5;241m=[39m mean(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
+[1;32m     19[0m [38;5;66;03m# find variance in students' grades for each tutor[39;00m
+[0;32m---> 20[0m s1 [38;5;241m=[39m [43mvar[49m(tutor1[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
+[1;32m     21[0m s2 [38;5;241m=[39m var(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
+[1;32m     24[0m [38;5;66;03m# find pooled standard deviation (square root of weighted variation, [39;00m
+[1;32m     25[0m [38;5;66;03m# divided by total N, with a correction for bias of -2)[39;00m
 
-[0;31mNameError[0m: name 'grades' is not defined
+[0;31mNameError[0m: name 'var' is not defined
 
