@@ -18,18 +18,20 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from scipy.stats import ttest_1samp
-t, p = ttest_1samp(a = grades, popmean = 67.5)
-t, p
+N = len(grades)
+degfree = N-1
+sample_mean = statistics.mean(grades)
+print('Sample mean:', sample_mean)
+print('Degrees of freedom:', degfree)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[16], line 2[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mscipy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstats[39;00m [38;5;28;01mimport[39;00m ttest_1samp
-[0;32m----> 2[0m t, p [38;5;241m=[39m ttest_1samp(a [38;5;241m=[39m [43mgrades[49m, popmean [38;5;241m=[39m [38;5;241m67.5[39m)
-[1;32m      3[0m t, p
+Cell [0;32mIn[17], line 1[0m
+[0;32m----> 1[0m N [38;5;241m=[39m [38;5;28mlen[39m([43mgrades[49m)
+[1;32m      2[0m degfree [38;5;241m=[39m N[38;5;241m-[39m[38;5;241m1[39m
+[1;32m      3[0m sample_mean [38;5;241m=[39m statistics[38;5;241m.[39mmean(grades)
 
 [0;31mNameError[0m: name 'grades' is not defined
 
