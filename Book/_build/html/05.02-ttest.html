@@ -1368,7 +1368,7 @@ Degrees of freedom: 19
 </details>
 </div>
 <figure class="align-default" id="fig-ttestci" style="width: 600px">
-<img alt="_images/698c0ad17520a370c4c6b41d835eab726cada6b5837e25364388ee58c5dc48c1.png" src="_images/698c0ad17520a370c4c6b41d835eab726cada6b5837e25364388ee58c5dc48c1.png" />
+<img alt="_images/f80602dbb256692405e6625335e5c9b0006be59d8777333f99f291122b3d9d1a.png" src="_images/f80602dbb256692405e6625335e5c9b0006be59d8777333f99f291122b3d9d1a.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.7 </span><span class="caption-text">Plot showing the mean grade for the students in Anastasia’s and Bernadette’s tutorials. Error bars depict 95% confidence intervals around the mean. On the basis of visual inspection, it does look like there’s a real difference between the groups, though it’s hard to say for sure.</span><a class="headerlink" href="#fig-ttestci" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2076,7 +2076,7 @@ t = \frac{\bar{X}_1 - \bar{X}_2}{\mbox{SE}({\bar{X}_1 - \bar{X}_2})}
 </details>
 </div>
 <figure class="align-default" id="fig-pairedta" style="width: 600px">
-<img alt="_images/066b6bd6746cdc86506cac33701612ba67333acc745baff432fea9e0af88672a.png" src="_images/066b6bd6746cdc86506cac33701612ba67333acc745baff432fea9e0af88672a.png" />
+<img alt="_images/77f3be2dad8b0ca4311356fc0dbeae469e1d43eb9e27c955058f8e58f70d1693.png" src="_images/77f3be2dad8b0ca4311356fc0dbeae469e1d43eb9e27c955058f8e58f70d1693.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 14.10 </span><span class="caption-text">Mean grade for test 1 and test 2, with associated 95% confidence intervals (panel a). Scat- terplot showing the individual grades for test 1 and test 2 (panel b). Histogram showing the improvement made by each student in Dr Chico’s class (panel c). In panel c, notice that almost the entire distribution is above zero: the vast majority of students did improve their performance from the first test to the second one</span><a class="headerlink" href="#fig-pairedta" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2515,22 +2515,21 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 <span class="c1"># find pooled standard deviation (square root of weighted variation, </span>
 <span class="c1"># divided by total N, with a correction for bias of -2)</span>
 
-<span class="c1">#s = sqrt(((n1-1) * s1) + ((n2-1) * s2) / n1 + n2 - 2)</span>
-
 <span class="n">sp</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(((</span><span class="n">n1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s2</span> <span class="o">*</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
 
 <span class="c1"># calculate Cohen&#39;s d</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">u2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sp</span>
-<span class="n">d</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cohen</span><span class="se">\&#39;</span><span class="s1">s d:&#39;</span><span class="p">,</span>  <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7395614040382655
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cohen&#39;s d: 0.74
 </pre></div>
 </div>
 </div>
 </div>
+<p>Of course, we’re lazy, and there is no need to do so much typing. We can just let <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> figure it out for us:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pingouin</span> <span class="kn">import</span> <span class="n">ttest</span>
@@ -2583,6 +2582,7 @@ d = \frac{\bar{X}_1 - \bar{X}_2}{\hat{\sigma}_p}
 </table>
 </div></div></div>
 </div>
+<p>But still, it’s nice to know that there is nothing mysterious going on here. <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code> isn’t using any witchcraft to calculate Cohen’s d, but it does save us a lot of time.</p>
 </section>
 <section id="cohen-s-d-from-a-welch-test">
 <h3><span class="section-number">14.7.3. </span>Cohen’s <span class="math notranslate nohighlight">\(d\)</span> from a Welch test<a class="headerlink" href="#cohen-s-d-from-a-welch-test" title="Permalink to this heading">#</a></h3>
