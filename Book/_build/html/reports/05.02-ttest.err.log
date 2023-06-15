@@ -18,33 +18,91 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
+from scipy.stats import probplot
 
-# find mean student grade for each tutor
-u1 = mean(tutor1['grade'])
-u2 = mean(tutor2['grade'])
+np.random.seed(42)
+normal_data = np.random.normal(size=100)
 
-# find variance in students' grades for each tutor
-s1 = var(tutor1['grade'])
-s2 = var(tutor2['grade'])
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
+probplot(normal_data, dist="norm", plot = axes[0])
+sns.histplot(normal_data, axes=axes[1])
 
-# find the mean variance of the two samples
-s = sqrt((s1 + s2)/2)
+# format the figures
+titles = ['QQ plot', 'Histogram']
+for i, ax in enumerate(axes):
+    ax.spines[['right', 'top']].set_visible(False)
+    ax.set_title(titles[i])
 
-# calculate Cohen's d
-d = (u1 - u2) / s
-d
+plt.plot(fig);
+
+# show the figure in the book with caption
+
+from myst_nb import glue
+glue("qq_fig", ax, display=False);
+
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[46], line 6[0m
-[1;32m      3[0m u2 [38;5;241m=[39m mean(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m      5[0m [38;5;66;03m# find variance in students' grades for each tutor[39;00m
-[0;32m----> 6[0m s1 [38;5;241m=[39m [43mvar[49m(tutor1[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m      7[0m s2 [38;5;241m=[39m var(tutor2[[38;5;124m'[39m[38;5;124mgrade[39m[38;5;124m'[39m])
-[1;32m     10[0m [38;5;66;03m# find the mean variance of the two samples[39;00m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[48], line 20[0m
+[1;32m     17[0m     ax[38;5;241m.[39mspines[[[38;5;124m'[39m[38;5;124mright[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mtop[39m[38;5;124m'[39m]][38;5;241m.[39mset_visible([38;5;28;01mFalse[39;00m)
+[1;32m     18[0m     ax[38;5;241m.[39mset_title(titles[i])
+[0;32m---> 20[0m [43mplt[49m[38;5;241;43m.[39;49m[43mplot[49m[43m([49m[43mfig[49m[43m)[49m;
+[1;32m     22[0m [38;5;66;03m# show the figure in the book with caption[39;00m
+[1;32m     24[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmyst_nb[39;00m [38;5;28;01mimport[39;00m glue
 
-[0;31mNameError[0m: name 'var' is not defined
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/pyplot.py:2812[0m, in [0;36mplot[0;34m(scalex, scaley, data, *args, **kwargs)[0m
+[1;32m   2810[0m [38;5;129m@_copy_docstring_and_deprecators[39m(Axes[38;5;241m.[39mplot)
+[1;32m   2811[0m [38;5;28;01mdef[39;00m [38;5;21mplot[39m([38;5;241m*[39margs, scalex[38;5;241m=[39m[38;5;28;01mTrue[39;00m, scaley[38;5;241m=[39m[38;5;28;01mTrue[39;00m, data[38;5;241m=[39m[38;5;28;01mNone[39;00m, [38;5;241m*[39m[38;5;241m*[39mkwargs):
+[0;32m-> 2812[0m     [38;5;28;01mreturn[39;00m [43mgca[49m[43m([49m[43m)[49m[38;5;241;43m.[39;49m[43mplot[49m[43m([49m
+[1;32m   2813[0m [43m        [49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[43mscalex[49m[38;5;241;43m=[39;49m[43mscalex[49m[43m,[49m[43m [49m[43mscaley[49m[38;5;241;43m=[39;49m[43mscaley[49m[43m,[49m
+[1;32m   2814[0m [43m        [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43m([49m[43m{[49m[38;5;124;43m"[39;49m[38;5;124;43mdata[39;49m[38;5;124;43m"[39;49m[43m:[49m[43m [49m[43mdata[49m[43m}[49m[43m [49m[38;5;28;43;01mif[39;49;00m[43m [49m[43mdata[49m[43m [49m[38;5;129;43;01mis[39;49;00m[43m [49m[38;5;129;43;01mnot[39;49;00m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m [49m[38;5;28;43;01melse[39;49;00m[43m [49m[43m{[49m[43m}[49m[43m)[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1690[0m, in [0;36mAxes.plot[0;34m(self, scalex, scaley, data, *args, **kwargs)[0m
+[1;32m   1688[0m lines [38;5;241m=[39m [[38;5;241m*[39m[38;5;28mself[39m[38;5;241m.[39m_get_lines([38;5;241m*[39margs, data[38;5;241m=[39mdata, [38;5;241m*[39m[38;5;241m*[39mkwargs)]
+[1;32m   1689[0m [38;5;28;01mfor[39;00m line [38;5;129;01min[39;00m lines:
+[0;32m-> 1690[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43madd_line[49m[43m([49m[43mline[49m[43m)[49m
+[1;32m   1691[0m [38;5;28;01mif[39;00m scalex:
+[1;32m   1692[0m     [38;5;28mself[39m[38;5;241m.[39m_request_autoscale_view([38;5;124m"[39m[38;5;124mx[39m[38;5;124m"[39m)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/axes/_base.py:2304[0m, in [0;36m_AxesBase.add_line[0;34m(self, line)[0m
+[1;32m   2301[0m [38;5;28;01mif[39;00m line[38;5;241m.[39mget_clip_path() [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[1;32m   2302[0m     line[38;5;241m.[39mset_clip_path([38;5;28mself[39m[38;5;241m.[39mpatch)
+[0;32m-> 2304[0m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_update_line_limits[49m[43m([49m[43mline[49m[43m)[49m
+[1;32m   2305[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m line[38;5;241m.[39mget_label():
+[1;32m   2306[0m     line[38;5;241m.[39mset_label([38;5;124mf[39m[38;5;124m'[39m[38;5;124m_child[39m[38;5;132;01m{[39;00m[38;5;28mlen[39m([38;5;28mself[39m[38;5;241m.[39m_children)[38;5;132;01m}[39;00m[38;5;124m'[39m)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/axes/_base.py:2327[0m, in [0;36m_AxesBase._update_line_limits[0;34m(self, line)[0m
+[1;32m   2323[0m [38;5;28;01mdef[39;00m [38;5;21m_update_line_limits[39m([38;5;28mself[39m, line):
+[1;32m   2324[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m   2325[0m [38;5;124;03m    Figures out the data limit of the given line, updating self.dataLim.[39;00m
+[1;32m   2326[0m [38;5;124;03m    """[39;00m
+[0;32m-> 2327[0m     path [38;5;241m=[39m [43mline[49m[38;5;241;43m.[39;49m[43mget_path[49m[43m([49m[43m)[49m
+[1;32m   2328[0m     [38;5;28;01mif[39;00m path[38;5;241m.[39mvertices[38;5;241m.[39msize [38;5;241m==[39m [38;5;241m0[39m:
+[1;32m   2329[0m         [38;5;28;01mreturn[39;00m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/lines.py:1029[0m, in [0;36mLine2D.get_path[0;34m(self)[0m
+[1;32m   1027[0m [38;5;250m[39m[38;5;124;03m"""Return the `~matplotlib.path.Path` associated with this line."""[39;00m
+[1;32m   1028[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39m_invalidy [38;5;129;01mor[39;00m [38;5;28mself[39m[38;5;241m.[39m_invalidx:
+[0;32m-> 1029[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mrecache[49m[43m([49m[43m)[49m
+[1;32m   1030[0m [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_path
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/lines.py:662[0m, in [0;36mLine2D.recache[0;34m(self, always)[0m
+[1;32m    660[0m [38;5;28;01mif[39;00m always [38;5;129;01mor[39;00m [38;5;28mself[39m[38;5;241m.[39m_invalidy:
+[1;32m    661[0m     yconv [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mconvert_yunits([38;5;28mself[39m[38;5;241m.[39m_yorig)
+[0;32m--> 662[0m     y [38;5;241m=[39m [43m_to_unmasked_float_array[49m[43m([49m[43myconv[49m[43m)[49m[38;5;241m.[39mravel()
+[1;32m    663[0m [38;5;28;01melse[39;00m:
+[1;32m    664[0m     y [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_y
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/cbook/__init__.py:1335[0m, in [0;36m_to_unmasked_float_array[0;34m(x)[0m
+[1;32m   1333[0m     [38;5;28;01mreturn[39;00m np[38;5;241m.[39mma[38;5;241m.[39masarray(x, [38;5;28mfloat[39m)[38;5;241m.[39mfilled(np[38;5;241m.[39mnan)
+[1;32m   1334[0m [38;5;28;01melse[39;00m:
+[0;32m-> 1335[0m     [38;5;28;01mreturn[39;00m np[38;5;241m.[39masarray(x, [38;5;28mfloat[39m)
+
+[0;31mTypeError[0m: float() argument must be a string or a real number, not 'Figure'
 
