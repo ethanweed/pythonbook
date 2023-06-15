@@ -1063,7 +1063,7 @@ t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 <p>First, off: degrees of freedom. In this case, that is not so difficult, because the degrees of freedom for a one-sample t-test is just <span class="math notranslate nohighlight">\(N-1\)</span>, so we can easily find that ourselves. We also already know how to find the sample mean of our data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">])</span>
 <span class="n">degfree</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span>
 <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sample mean:&#39;</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
@@ -1072,14 +1072,8 @@ t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">degfree</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;grades&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;grades&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample mean: 72.3
+Degrees of freedom: 19
 </pre></div>
 </div>
 </div>
@@ -1107,7 +1101,16 @@ t = \frac{\bar{X} - \mu}{\hat{\sigma}/\sqrt{N} }
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(67.84421513791415, 76.75578486208585)
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">degrees_freedom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">sample_mean</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">sample_standard_error</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;grades&#39; is not defined
 </pre></div>
 </div>
 </div>
