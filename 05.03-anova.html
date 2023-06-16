@@ -445,14 +445,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>So we have a single data frame called <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code>, containing three variables; <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code>. Next, let’s look at the data frame to get a sense of what the data actually look like.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -593,10 +586,11 @@ document.write(`
 </table>
 </div></div></div>
 </div>
-<p>For the purposes of this chapter, what we’re really interested in is the effect of <code class="docutils literal notranslate"><span class="pre">drug</span></code> on <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. The first thing to do is calculate some descriptive statistics and draw some graphs. In <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">Descriptive statistics</span></a> and <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">Data Wrangling</span></a> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <code class="docutils literal notranslate"><span class="pre">pd.crosstab()</span></code> function to see how many people we have in each group:</p>
+<p>So we have a single data frame called <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code>, containing three variables; <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>.</p>
+<p>For the purposes of this chapter, what we’re really interested in is the effect of <code class="docutils literal notranslate"><span class="pre">drug</span></code> on <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. The first thing to do is calculate some descriptive statistics and draw some graphs. In the chapters on <a class="reference internal" href="03.01-descriptives.html#descriptives"><span class="std std-ref">descriptive statistics</span></a> and <a class="reference internal" href="03.03-pragmatic_matters.html#datawrangling"><span class="std std-ref">data-wrangling</span></a> we discussed a variety of different functions that can be used for this purpose. For instance, we can use the <code class="docutils literal notranslate"><span class="pre">pd.crosstab()</span></code> function to see how many people we have in each group:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;drug&quot;</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;therapy&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -618,26 +612,31 @@ document.write(`
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>col_0</th>
-      <th>count</th>
+      <th>therapy</th>
+      <th>CBT</th>
+      <th>no.therapy</th>
     </tr>
     <tr>
       <th>drug</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>anxifree</th>
-      <td>6</td>
+      <td>3</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>joyzepam</th>
-      <td>6</td>
+      <td>3</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>placebo</th>
-      <td>6</td>
+      <td>3</td>
+      <td>3</td>
     </tr>
   </tbody>
 </table>
@@ -646,19 +645,57 @@ document.write(`
 <p>Similarly, we can use the <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> function to calculate means and standard deviations for the <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> variable broken down by which <code class="docutils literal notranslate"><span class="pre">drug</span></code> was administered:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;drug&#39;</span><span class="p">)[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;drug&#39;</span><span class="p">)[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>drug
-anxifree    0.716667
-joyzepam    1.483333
-placebo     0.450000
-Name: mood_gain, dtype: float64
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>drug</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>anxifree</th>
+      <td>0.716667</td>
+      <td>0.392003</td>
+    </tr>
+    <tr>
+      <th>joyzepam</th>
+      <td>1.483333</td>
+      <td>0.213698</td>
+    </tr>
+    <tr>
+      <th>placebo</th>
+      <td>0.450000</td>
+      <td>0.281069</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Finally, we can use <code class="docutils literal notranslate"><span class="pre">pointplot()</span></code> from the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> package to produce a pretty picture.</p>
 <div class="cell docutils container">
@@ -671,7 +708,7 @@ Name: mood_gain, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/13e5f6794bdc9e6380ccb1431d012e2c06d18dcb9ed8f1576e6d504928f103f7.png" src="_images/13e5f6794bdc9e6380ccb1431d012e2c06d18dcb9ed8f1576e6d504928f103f7.png" />
+<img alt="_images/9b98616b1f35ce26b8e2acafb9c9f2cb4d9d7af5dacc0abee5086913fb035f64.png" src="_images/9b98616b1f35ce26b8e2acafb9c9f2cb4d9d7af5dacc0abee5086913fb035f64.png" />
 </div>
 </div>
 <p>The results are shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-moodgain</span></code>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
@@ -1095,7 +1132,7 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_75478/145942847.py:5: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_77133/145942847.py:5: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
   gp_means = grouped.mean()
 </pre></div>
 </div>
@@ -1395,7 +1432,7 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_75478/3421671601.py:2: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_77133/3421671601.py:2: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
   gp_means = grouped.mean()
 </pre></div>
 </div>
