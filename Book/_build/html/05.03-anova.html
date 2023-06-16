@@ -708,7 +708,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/bda993c2a09336daf39d4933e07c5100605d85f4a28a1093956818c91c19707a.png" src="_images/bda993c2a09336daf39d4933e07c5100605d85f4a28a1093956818c91c19707a.png" />
+<img alt="_images/25d32703bbf3359c9dc2cb7961fb23fb709f77445d7af2b8eab368ba63010a2a.png" src="_images/25d32703bbf3359c9dc2cb7961fb23fb709f77445d7af2b8eab368ba63010a2a.png" />
 </div>
 </div>
 <p>The results are shown in the figure above, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
@@ -1916,7 +1916,21 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </tr>
 </tbody>
 </table>
-<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-moodgain</span></code>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, remember the figure we made at the beginning of this chapter, that looked like this?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8fff5129d117f11af30b6fbc7fe0e80839c43e67ba8a04d5dd5945168254b8b6.png" src="_images/8fff5129d117f11af30b6fbc7fe0e80839c43e67ba8a04d5dd5945168254b8b6.png" />
+</div>
+</div>
+<p>Looking at the figure, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
 <section id="running-pairwise-t-tests">
 <h3><span class="section-number">15.5.1. </span>Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#running-pairwise-t-tests" title="Permalink to this heading">#</a></h3>
 <p>How might we go about solving our problem? Given that we’ve got three separate pairs of means (placebo versus Anxifree, placebo versus Joyzepam, and Anxifree versus Joyzepam) to compare, what we could do is run three separate <span class="math notranslate nohighlight">\(t\)</span>-tests and see what happens. There’s a couple of ways that we could do this. One method would be to construct new variables corresponding the groups you want to compare (e.g., <code class="docutils literal notranslate"><span class="pre">anxifree</span></code>, <code class="docutils literal notranslate"><span class="pre">placebo</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>), and then run a <span class="math notranslate nohighlight">\(t\)</span>-test on these new variables.</p>
