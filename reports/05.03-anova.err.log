@@ -18,26 +18,76 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import seaborn as sns
 
-ax = sns.pointplot(x='drug', y = 'mood_gain', data = df)
-sns.despine()
-
-# show the figure in the book with caption
-plt.close()
 from myst_nb import glue
-glue("moodgain_fig", fig, display=False)
+import numpy as np
+from scipy import stats
+from matplotlib import pyplot as plt
+
+mu1 = -4
+mu2 = -.25
+mu3 = 3.5
+sigma = 2
+
+
+x1 = np.linspace(mu1 - 4*sigma, mu1 + 4*sigma, 100)
+y1 = 100* stats.norm.pdf(x1, mu1, sigma)
+x2 = np.linspace(mu2 - 4*sigma, mu2 + 4*sigma, 100)
+y2 = 100* stats.norm.pdf(x2, mu2, sigma)
+x3 = np.linspace(mu3 - 4*sigma, mu3 + 4*sigma, 100)
+y3 = 100* stats.norm.pdf(x3, mu3, sigma)
+
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+
+sns.lineplot(x=x1,y=y1, color='black', ax = ax1)
+sns.lineplot(x=x2,y=y2, color='black', ax = ax1)
+sns.lineplot(x=x3,y=y3, color='black', ax = ax1)
+
+sns.lineplot(x=x1,y=y1, color='black', ax = ax2)
+sns.lineplot(x=x2,y=y2, color='black', ax = ax2)
+sns.lineplot(x=x3,y=y3, color='black', ax = ax2)
+
+ax1.text(0, 24, 'Between−group variation', size=20, ha="center")
+ax1.text(0, 22, '(i.e., differences among group means))', size=20, ha="center")
+
+ax2.text(0, 24, 'Within−group variation', size=20, ha="center")
+ax2.text(0, 22, '(i.e., deviations from group means)', size=20, ha="center")
+
+
+ax1.annotate(text = '', xy = (mu1,18), xytext = (mu2,18), arrowprops = dict(arrowstyle='<->'))
+ax1.annotate(text = '', xy = (mu2,18), xytext = (mu3,18), arrowprops = dict(arrowstyle='<->'))
+ax1.annotate(text = '', xy = (mu1,16), xytext = (mu3,16), arrowprops = dict(arrowstyle='<->'))
+
+ax2.annotate(text = '', xy = (mu1-(sigma/2),18), xytext = (mu1+(sigma/2),18), arrowprops = dict(arrowstyle='<->'))
+ax2.annotate(text = '', xy = (mu2-(sigma/2),18), xytext = (mu2+(sigma/2),18), arrowprops = dict(arrowstyle='<->'))
+ax2.annotate(text = '', xy = (mu3-(sigma/2),18), xytext = (mu3+(sigma/2),18), arrowprops = dict(arrowstyle='<->'))
+
+
+ax1.annotate(text = 'A', xy = (-12,16), size = 20)
+ax2.annotate(text = 'B', xy = (-12,16), size = 20)
+
+
+ax1.set_frame_on(False)
+ax2.set_frame_on(False)
+ax1.get_yaxis().set_visible(False)
+ax2.get_yaxis().set_visible(False)
+ax1.get_xaxis().set_visible(False)
+ax2.get_xaxis().set_visible(False)
+ax1.axhline(y=0, color='black')
+ax2.axhline(y=0, color='black')
+
+glue("anovavar_fig", ax, display=False)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[4], line 7[0m
-[1;32m      4[0m sns[38;5;241m.[39mdespine()
-[1;32m      6[0m [38;5;66;03m# show the figure in the book with caption[39;00m
-[0;32m----> 7[0m [43mplt[49m[38;5;241m.[39mclose()
-[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmyst_nb[39;00m [38;5;28;01mimport[39;00m glue
-[1;32m      9[0m glue([38;5;124m"[39m[38;5;124mmoodgain_fig[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+Cell [0;32mIn[5], line 60[0m
+[1;32m     57[0m ax1[38;5;241m.[39maxhline(y[38;5;241m=[39m[38;5;241m0[39m, color[38;5;241m=[39m[38;5;124m'[39m[38;5;124mblack[39m[38;5;124m'[39m)
+[1;32m     58[0m ax2[38;5;241m.[39maxhline(y[38;5;241m=[39m[38;5;241m0[39m, color[38;5;241m=[39m[38;5;124m'[39m[38;5;124mblack[39m[38;5;124m'[39m)
+[0;32m---> 60[0m glue([38;5;124m"[39m[38;5;124manovavar_fig[39m[38;5;124m"[39m, [43max[49m, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
-[0;31mNameError[0m: name 'plt' is not defined
+[0;31mNameError[0m: name 'ax' is not defined
 
