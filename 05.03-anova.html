@@ -700,31 +700,29 @@ document.write(`
 <p>Finally, we can use <code class="docutils literal notranslate"><span class="pre">pointplot()</span></code> from the <code class="docutils literal notranslate"><span class="pre">seaborn</span></code> package to produce a pretty picture.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 
 <span class="c1"># show the figure in the book with caption</span>
-<span class="c1">#plt.close()</span>
 <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;moodgain_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9c11356fd4c4d3daeb1bbdb8e5b6b1f85db9de885d429206aa360732a15c984a.png" src="_images/9c11356fd4c4d3daeb1bbdb8e5b6b1f85db9de885d429206aa360732a15c984a.png" />
-</div>
-</div>
-<figure class="align-default" id="fig-moodgain" style="width: 600px">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># show the figure in the book with caption</span>
+
+<span class="ne">NameError</span>: name &#39;sns&#39; is not defined
 </pre></div>
 </div>
-<figcaption>
-<p><span class="caption-number">Fig. 15.1 </span><span class="caption-text">Average mood gain as a function of drug administered. Error bars depict 95% confidence intervals associated with each of the group means.</span><a class="headerlink" href="#fig-moodgain" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The results are shown in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 15.1</span></a>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
+</div>
+</div>
+<p>The results are shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-moodgain</span></code>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
 <p>The question that we want to answer is: are these difference “real”, or are they just due to chance?</p>
 </section>
 <section id="how-anova-works">
@@ -910,19 +908,17 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">60</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">60</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;anovavar_fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;ax&#39; is not defined
+<img alt="_images/42a1ecab19ce5dd92f81a49906c1fce23ff0913d3466f9c3f7845de6541bc30d.png" src="_images/42a1ecab19ce5dd92f81a49906c1fce23ff0913d3466f9c3f7845de6541bc30d.png" />
+</div>
+</div>
+<figure class="align-default" id="fig-anovavar" style="width: 600px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/5711d570a34010aba4c3d502887a33147a65e5ae86cbb0eb3bd9fe0819857a28.png" src="_images/5711d570a34010aba4c3d502887a33147a65e5ae86cbb0eb3bd9fe0819857a28.png" />
-</div>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 15.1 </span><span class="caption-text">Graphical illustration of “between groups” variation (panel a) and “within groups” variation (panel b). On the left, the arrows show the differences in the group means; on the right, the arrows highlight the variability within each group.</span><a class="headerlink" href="#fig-anovavar" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Okay, so what have we found out? We’ve discovered that the total variability associated with the outcome variable (<span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span>) can be mathematically carved up into the sum of “the variation due to the differences in the sample means for the different groups” (<span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span>) plus “all the rest of the variation” (<span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>). How does that help me find out whether the groups have different population means? Um. Wait. Hold on a second… now that I think about it, this is <em>exactly</em> what we were looking for. If the null hypothesis is true, then you’d expect all the sample means to be pretty similar to each other, right? And that would imply that you’d expect <span class="math notranslate nohighlight">\(\mbox{SS}_{b}\)</span> to be really small, or at least you’d expect it to be a lot smaller than the “the variation associated with everything else”, <span class="math notranslate nohighlight">\(\mbox{SS}_{w}\)</span>. Hm. I detect a hypothesis test coming on…</p>
 </section>
 <section id="from-sums-of-squares-to-the-f-test">
@@ -1910,7 +1906,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </tr>
 </tbody>
 </table>
-<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <a class="reference internal" href="#fig-moodgain"><span class="std std-numref">Fig. 15.1</span></a>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
+<p>By rejecting the null hypothesis, we’ve decided that we <em>don’t</em> believe that #1 is the true state of the world. The next question to ask is, which of the other seven possibilities <em>do</em> we think is right? When faced with this situation, its usually helps to look at the data. For instance, if we look at the plots in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-moodgain</span></code>, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
 <section id="running-pairwise-t-tests">
 <h3><span class="section-number">15.5.1. </span>Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#running-pairwise-t-tests" title="Permalink to this heading">#</a></h3>
 <p>How might we go about solving our problem? Given that we’ve got three separate pairs of means (placebo versus Anxifree, placebo versus Joyzepam, and Anxifree versus Joyzepam) to compare, what we could do is run three separate <span class="math notranslate nohighlight">\(t\)</span>-tests and see what happens. There’s a couple of ways that we could do this. One method would be to construct new variables corresponding the groups you want to compare (e.g., <code class="docutils literal notranslate"><span class="pre">anxifree</span></code>, <code class="docutils literal notranslate"><span class="pre">placebo</span></code> and <code class="docutils literal notranslate"><span class="pre">joyzepam</span></code>), and then run a <span class="math notranslate nohighlight">\(t\)</span>-test on these new variables.</p>
