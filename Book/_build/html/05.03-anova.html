@@ -642,7 +642,7 @@ document.write(`
 </table>
 </div></div></div>
 </div>
-<p>Similarly, we can use the <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> function to calculate means and standard deviations for the <code class="docutils literal notranslate"><span class="pre">mood.gain</span></code> variable broken down by which <code class="docutils literal notranslate"><span class="pre">drug</span></code> was administered:</p>
+<p>Similarly, we can use the <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> function to calculate means and standard deviations for the <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> variable broken down by which <code class="docutils literal notranslate"><span class="pre">drug</span></code> was administered:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;drug&#39;</span><span class="p">)[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">])</span>
@@ -704,11 +704,28 @@ document.write(`
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="c1"># show the figure in the book with caption</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;moodgain_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9b98616b1f35ce26b8e2acafb9c9f2cb4d9d7af5dacc0abee5086913fb035f64.png" src="_images/9b98616b1f35ce26b8e2acafb9c9f2cb4d9d7af5dacc0abee5086913fb035f64.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># show the figure in the book with caption</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;moodgain_fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;plt&#39; is not defined
+</pre></div>
+</div>
+<img alt="_images/25b4e20742fd5828d0de36b2906505c8d6432315ac6f5362cf2238dea049cb6d.png" src="_images/25b4e20742fd5828d0de36b2906505c8d6432315ac6f5362cf2238dea049cb6d.png" />
 </div>
 </div>
 <p>The results are shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-moodgain</span></code>, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
@@ -897,11 +914,11 @@ H_1 &amp;:&amp; \mbox{it is *not* true that } \mu_P = \mu_A = \mu_J
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/5711d570a34010aba4c3d502887a33147a65e5ae86cbb0eb3bd9fe0819857a28.png" src="_images/5711d570a34010aba4c3d502887a33147a65e5ae86cbb0eb3bd9fe0819857a28.png" />
+<img alt="_images/42a1ecab19ce5dd92f81a49906c1fce23ff0913d3466f9c3f7845de6541bc30d.png" src="_images/42a1ecab19ce5dd92f81a49906c1fce23ff0913d3466f9c3f7845de6541bc30d.png" />
 </div>
 </div>
 <figure class="align-default" id="fig-anovavar" style="width: 600px">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;drug&#39;, ylabel=&#39;mood_gain&#39;&gt;
 </pre></div>
 </div>
 <figcaption>
@@ -1128,12 +1145,6 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 
 <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_group_means&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;outcome&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_means&#39;</span><span class="p">]</span>
 <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;dev_from_group_means&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_77133/145942847.py:5: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
-  gp_means = grouped.mean()
 </pre></div>
 </div>
 </div>
@@ -1428,12 +1439,6 @@ F = \frac{\hat{Q} + \hat\sigma^2}{\hat\sigma^2}
 
 <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_sizes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xtab</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
 <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;weighted_squared_devs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;group_sizes&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="s1">&#39;squared_devs&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_77133/3421671601.py:2: FutureWarning: The default value of numeric_only in DataFrameGroupBy.mean is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
-  gp_means = grouped.mean()
 </pre></div>
 </div>
 </div>
@@ -1991,18 +1996,6 @@ p^\prime_j = p^\prime_{j+1}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/pingouin/pairwise.py:28: UserWarning: pairwise_ttests is deprecated, use pairwise_tests instead.
-  warnings.warn(&quot;pairwise_ttests is deprecated, use pairwise_tests instead.&quot;, UserWarning)
-/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
-  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
-/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
-  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
-/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6832: RuntimeWarning: overflow encountered in _nct_sf
-  return np.clip(_boost._nct_sf(x, df, nc), 0, 1)
-/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_continuous_distns.py:6826: RuntimeWarning: overflow encountered in _nct_cdf
-  return np.clip(_boost._nct_cdf(x, df, nc), 0, 1)
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2370,7 +2363,7 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/6870fa3b940e52a1bcfc0d18482d42dc1eb51b4c428528384981fb17b581a949.png" src="_images/6870fa3b940e52a1bcfc0d18482d42dc1eb51b4c428528384981fb17b581a949.png" />
+<img alt="_images/3f974eadb406bc6fac46ed139c75ecf65dfc31b803c1d1be0aa62bb2dbebbd3d.png" src="_images/3f974eadb406bc6fac46ed139c75ecf65dfc31b803c1d1be0aa62bb2dbebbd3d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2385,7 +2378,7 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/be996bd0b4e49ece0db3d424adbae1cf49aa730b9094c4606822d6feabbfac32.png" src="_images/be996bd0b4e49ece0db3d424adbae1cf49aa730b9094c4606822d6feabbfac32.png" />
+<img alt="_images/3706552dff3d3347c4bba44bd3daeca56f0a25574d3f19df109cf13f8f2f871f.png" src="_images/3706552dff3d3347c4bba44bd3daeca56f0a25574d3f19df109cf13f8f2f871f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2424,7 +2417,7 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
     <tr>
       <th>0</th>
       <td>0.96019</td>
-      <td>0.605309</td>
+      <td>0.605305</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -2442,7 +2435,7 @@ Z_{ik} = \left| Y_{ik} - \mbox{median}_k(Y) \right|
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9601902365684509, pvalue=0.6053088307380676)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ShapiroResult(statistic=0.9601900577545166, pvalue=0.605305016040802)
 </pre></div>
 </div>
 </div>
