@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>18. Factorial ANOVA &#8212; Learning Statistics with Python</title>
+    <title>17. Factorial ANOVA &#8212; Learning Statistics with Python</title>
   
   
   
@@ -66,8 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = '05.05-anova2';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="19. Bayesian Statistics" href="06.01-bayes.html" />
-    <link rel="prev" title="17. Linear regression" href="05.04-regression.html" />
+    <link rel="next" title="18. Bayesian Statistics" href="06.01-bayes.html" />
+    <link rel="prev" title="16. Linear regression" href="05.04-regression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,16 +180,15 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="05.01-chisquare.html">13. Categorical data analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05.02-ttest.html">14. Comparing Two Means</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05.03-anova.html">15. Comparing several means</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="05.04-regression.html">17. Linear regression</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">18. Factorial ANOVA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.03-anova.html">15. Comparing several means (one-way ANOVA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.04-regression.html">16. Linear regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">17. Factorial ANOVA</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI. Endings, Alternatives and Prospects</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="06.01-bayes.html">19. Bayesian Statistics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06.02-epilogue.html">20. Epilogue</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">21. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06.01-bayes.html">18. Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06.02-epilogue.html">19. Epilogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">20. References</a></li>
 </ul>
 
     </div>
@@ -383,9 +382,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">18.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">18.1.1. What hypotheses are we testing?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">18.1.2. Running the analysis in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">17.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">17.1.1. What hypotheses are we testing?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">17.1.2. Running the analysis in Python</a></li>
 </ul>
 </li>
 </ul>
@@ -400,10 +399,10 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="factorial-anova">
-<span id="anova2"></span><h1><span class="section-number">18. </span>Factorial ANOVA<a class="headerlink" href="#factorial-anova" title="Permalink to this heading">#</a></h1>
+<span id="anova2"></span><h1><span class="section-number">17. </span>Factorial ANOVA<a class="headerlink" href="#factorial-anova" title="Permalink to this heading">#</a></h1>
 <p>Over the course of the last few chapters you can probably detect a general trend. We started out looking at tools that you can use to compare two groups to one another, most notably the <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref"><span class="math notranslate nohighlight">\(t\)</span>-test</span></a>. Then, we introduced <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a> (ANOVA) as a method for comparing more than two groups. The chapter on <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression</span></a> covered a somewhat different topic, but in doing so it introduced a powerful new idea: building statistical models that have <em>multiple</em> predictor variables used to explain a single outcome variable. For instance, a regression model could be used to predict the number of errors a student makes in a reading comprehension test based on the number of hours they studied for the test, and their score on a standardised IQ test. The goal in this chapter is to import this idea into the ANOVA framework. For instance, suppose we were interested in using the reading comprehension test to measure student achievements in three different schools, and we suspect that girls and boys are developing at different rates (and so would be expected to have different performance on average). Each student is classified in two different ways: on the basis of their gender, and on the basis of their school. What we’d like to do is analyse the reading comprehension scores in terms of <em>both</em> of these grouping variables. The tool for doing so is generically referred to as <strong><em>factorial ANOVA</em></strong>. However, since we have two grouping variables, we sometimes refer to the analysis as a two-way ANOVA, in contrast to the one-way ANOVAs that we <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ran earlier</span></a>.</p>
 <section id="factorial-anova-1-balanced-designs-no-interactions">
-<span id="factorialanovasimple"></span><h2><span class="section-number">18.1. </span>Factorial ANOVA 1: balanced designs, no interactions<a class="headerlink" href="#factorial-anova-1-balanced-designs-no-interactions" title="Permalink to this heading">#</a></h2>
+<span id="factorialanovasimple"></span><h2><span class="section-number">17.1. </span>Factorial ANOVA 1: balanced designs, no interactions<a class="headerlink" href="#factorial-anova-1-balanced-designs-no-interactions" title="Permalink to this heading">#</a></h2>
 <p>When we discussed <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">analysis of variance</span></a>, we assumed a fairly simple experimental design: each person falls into one of several groups, and we want to know whether these groups have different means on some outcome variable. In this section, I’ll discuss a broader class of experimental designs, known as <strong><em>factorial designs</em></strong>, in we have more than one grouping variable. I gave one example of how this kind of design might arise above. Another example appears in the chapter on <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ANOVA</span></a>, in which we were looking at the effect of different drugs on the <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code> experienced by each person. In that chapter we did find a significant effect of drug, but at the end of the chapter we also ran an analysis to see if there was an effect of therapy. We didn’t find one, but there’s something a bit worrying about trying to run two <em>separate</em> analyses trying to predict the same outcome. Maybe there actually <em>is</em> an effect of therapy on mood gain, but we couldn’t find it because it was being “hidden” by the effect of drug? In other words, we’re going to want to run a <em>single</em> analysis that includes <em>both</em> <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">therapy</span></code> as predictors. For this analysis each person is cross-classified by the drug they were given (a factor with 3 levels) and what therapy they received (a factor with 2 levels). We refer to this as a <span class="math notranslate nohighlight">\(3 \times 2\)</span> factorial design. If we cross-tabulate <code class="docutils literal notranslate"><span class="pre">drug</span></code> by <code class="docutils literal notranslate"><span class="pre">therapy</span></code> using the <code class="docutils literal notranslate"><span class="pre">crosstab()</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, we get the following table:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -465,7 +464,7 @@ document.write(`
 </div>
 <p>As you can see, not only do we have participants corresponding to all possible combinations of the two factors, indicating that our design is <strong><em>completely crossed</em></strong>, it turns out that there are an equal number of people in each group. In other words, we have a <strong><em>balanced</em></strong> design. In this section I’ll talk about how to analyse data from balanced designs, since this is the simplest case. The story for unbalanced designs is quite tedious, so we’ll put it to one side for the moment.</p>
 <section id="what-hypotheses-are-we-testing">
-<span id="factanovahyp"></span><h3><span class="section-number">18.1.1. </span>What hypotheses are we testing?<a class="headerlink" href="#what-hypotheses-are-we-testing" title="Permalink to this heading">#</a></h3>
+<span id="factanovahyp"></span><h3><span class="section-number">17.1.1. </span>What hypotheses are we testing?<a class="headerlink" href="#what-hypotheses-are-we-testing" title="Permalink to this heading">#</a></h3>
 <p>Like one-way ANOVA, factorial ANOVA is a tool for testing certain types of hypotheses about population means. So a sensible place to start would be to be explicit about what our hypotheses actually are. However, before we can even get to that point, it’s really useful to have some clean and simple notation to describe the population means. Because of the fact that observations are cross-classified in terms of two different factors, there are quite a lot of different means that one might be interested. To see this, let’s start by thinking about all the different sample means that we can calculate for this kind of design. Firstly, there’s the obvious idea that we might be interested in this table of group means:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -777,7 +776,7 @@ document.write(`
 </table>
 </section>
 <section id="running-the-analysis-in-python">
-<h3><span class="section-number">18.1.2. </span>Running the analysis in Python<a class="headerlink" href="#running-the-analysis-in-python" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.1.2. </span>Running the analysis in Python<a class="headerlink" href="#running-the-analysis-in-python" title="Permalink to this heading">#</a></h3>
 <p>If the data you’re trying to analyse correspond to a balanced factorial design, then running your analysis of variance is easy. To see how easy it is, let’s start by reproducing the original analysis from <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">earlier</span></a>. In case you’ve forgotten, for that analysis we were using only a single factor (i.e., <code class="docutils literal notranslate"><span class="pre">drug</span></code>) as our between-subjects variable to predict our outcome (dependent) variable (i.e., <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>), and so this was what we did:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1027,7 +1026,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">17. </span>Linear regression</p>
+        <p class="prev-next-title"><span class="section-number">16. </span>Linear regression</p>
       </div>
     </a>
     <a class="right-next"
@@ -1035,7 +1034,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">19. </span>Bayesian Statistics</p>
+        <p class="prev-next-title"><span class="section-number">18. </span>Bayesian Statistics</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1057,9 +1056,9 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">18.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">18.1.1. What hypotheses are we testing?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">18.1.2. Running the analysis in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">17.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">17.1.1. What hypotheses are we testing?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">17.1.2. Running the analysis in Python</a></li>
 </ul>
 </li>
 </ul>
