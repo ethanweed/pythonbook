@@ -400,7 +400,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-pairwise-t-tests">15.5.1. Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonferroni-corrections">15.5.2. Bonferroni corrections</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#holm-corrections">15.5.3. Holm corrections</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">15.5.4. Writing up the post hoc test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-madness">15.5.4. Statistical madness?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">15.5.5. Writing up the post hoc test</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-one-way-anova">15.6. Assumptions of one-way ANOVA</a><ul class="nav section-nav flex-column">
@@ -708,7 +709,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/25d32703bbf3359c9dc2cb7961fb23fb709f77445d7af2b8eab368ba63010a2a.png" src="_images/25d32703bbf3359c9dc2cb7961fb23fb709f77445d7af2b8eab368ba63010a2a.png" />
+<img alt="_images/828a7bde453d3ae6598e438c93bfa5a9042977fff564e89689df8d9dea60e01f.png" src="_images/828a7bde453d3ae6598e438c93bfa5a9042977fff564e89689df8d9dea60e01f.png" />
 </div>
 </div>
 <p>The results are shown in the figure above, which plots the average mood gain for all three conditions; error bars show 95% confidence intervals. As the plot makes clear, there is a larger improvement in mood for participants in the Joyzepam group than for either the Anxifree group or the placebo group. The Anxifree group shows a larger mood gain than the control group, but the difference isn’t as large.</p>
@@ -1927,7 +1928,7 @@ F \ = \ \frac{\mbox{MS}_b }{ \mbox{MS}_w } \ = \ \frac{1.73}{0.09} \ = \ 18.6
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/cc5890f4578531157a662c45ae646d04d2b11c3ec6f054dc7049a6aa49e2ace6.png" src="_images/cc5890f4578531157a662c45ae646d04d2b11c3ec6f054dc7049a6aa49e2ace6.png" />
+<img alt="_images/13e5f6794bdc9e6380ccb1431d012e2c06d18dcb9ed8f1576e6d504928f103f7.png" src="_images/13e5f6794bdc9e6380ccb1431d012e2c06d18dcb9ed8f1576e6d504928f103f7.png" />
 </div>
 </div>
 <p>Looking at the figure, it’s tempting to conclude that Joyzepam is better than the placebo and better than Anxifree, but there’s no real difference between Anxifree and the placebo. However, if we want to get a clearer answer about this, it might help to run some tests.</p>
@@ -2111,10 +2112,15 @@ p^\prime_j = p^\prime_{j+1}
 </table>
 </div></div></div>
 </div>
-<p>As you can see, the biggest <span class="math notranslate nohighlight">\(p\)</span>-value (corresponding to the comparison between Anxifree and the placebo) is unaltered: at a value of <span class="math notranslate nohighlight">\(.15\)</span>, it is exactly the same as the value we got originally when we applied no correction at all. In contrast, the smallest <span class="math notranslate nohighlight">\(p\)</span>-value (Joyzepam versus placebo) has been multiplied by three.</p>
+<p>As you can see, the biggest <span class="math notranslate nohighlight">\(p\)</span>-value (corresponding to the comparison between Anxifree and the placebo) is unaltered: it is exactly the same as the value in the <code class="docutils literal notranslate"><span class="pre">p-unc</span></code> (“uncorrected” <span class="math notranslate nohighlight">\(p\)</span>-value) column as in the <code class="docutils literal notranslate"><span class="pre">p-corr</span></code> (“corrected” <span class="math notranslate nohighlight">\(p\)</span>-value) column. In contrast, the smallest <span class="math notranslate nohighlight">\(p\)</span>-value (Joyzepam versus placebo) has been multiplied by three.</p>
+</section>
+<section id="statistical-madness">
+<span id="madness"></span><h3><span class="section-number">15.5.4. </span>Statistical madness?<a class="headerlink" href="#statistical-madness" title="Permalink to this heading">#</a></h3>
+<p>In my experience, it is usually at around this point that students start to get antsy when I talk about these things in class. They look a little skeptical when I introduce the idea of the null hypothesis, and they shift uncomfortably in their chairs when we talk about <span class="math notranslate nohighlight">\(p\)</span>-values, but when I start talking about Bonferroni or Holm corrections there are typically one or two who simply can’t take it any more, raise their hands, and ask me if I’m not just playing games with numbers at this point.</p>
+<p>In truth, they’re not wrong. In a sense, we are playing games with numbers, but it’s a serious game: we are trying to use math to help us understand the universe, and all of this infrastructure that has been erected over the years (<span class="math notranslate nohighlight">\(p\)</span>-values, effect sizes, degrees of freedom, etc.) has been put in place in an attempt to do so in a principled way. It is usually at this point that, in an effort to regain their trust, that I point to the BF10 column in the column in the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> output. This column shows the “bayes factor” associated with the test, and for many (including myself) it is a more intuitively satisfying way to think about statistical results. There is a lot of great material out there on Bayesian statistics, and while it is beyond the scope of this book in its current form, I will have something to say on the subject <a class="reference internal" href="06.01-bayes.html#bayes"><span class="std std-ref">towards the end</span></a> of this book.</p>
 </section>
 <section id="writing-up-the-post-hoc-test">
-<h3><span class="section-number">15.5.4. </span>Writing up the post hoc test<a class="headerlink" href="#writing-up-the-post-hoc-test" title="Permalink to this heading">#</a></h3>
+<span id="writingupposthoctests"></span><h3><span class="section-number">15.5.5. </span>Writing up the post hoc test<a class="headerlink" href="#writing-up-the-post-hoc-test" title="Permalink to this heading">#</a></h3>
 <p>Finally, having run the post hoc analysis to determine which groups are significantly different to one another, you might write up the result like this:</p>
 <blockquote>
 <div><p>Post hoc tests (using the Holm correction to adjust <span class="math notranslate nohighlight">\(p\)</span>) indicated that Joyzepam produced a significantly larger mood change than both Anxifree (<span class="math notranslate nohighlight">\(p = .001\)</span>) and the placebo (<span class="math notranslate nohighlight">\(p = 9.1 \times 10^{-5}\)</span>). We found no evidence that Anxifree performed better than the placebo (<span class="math notranslate nohighlight">\(p = .15\)</span>).</p>
@@ -2954,7 +2960,8 @@ K = \frac{12}{N(N-1)} \sum_k N_k {\bar{R}_k}^2    -  3(N+1)
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-pairwise-t-tests">15.5.1. Running “pairwise” <span class="math notranslate nohighlight">\(t\)</span>-tests</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonferroni-corrections">15.5.2. Bonferroni corrections</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#holm-corrections">15.5.3. Holm corrections</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">15.5.4. Writing up the post hoc test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-madness">15.5.4. Statistical madness?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-post-hoc-test">15.5.5. Writing up the post hoc test</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions-of-one-way-anova">15.6. Assumptions of one-way ANOVA</a><ul class="nav section-nav flex-column">
