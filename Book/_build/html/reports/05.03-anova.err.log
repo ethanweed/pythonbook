@@ -18,6 +18,7 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+import seaborn as sns
 
 sns.pointplot(x='drug', y = 'mood_gain', data = df)
 sns.despine()
@@ -30,10 +31,10 @@ glue("moodgain_fig", fig, display=False)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[4], line 1[0m
-[0;32m----> 1[0m [43msns[49m[38;5;241m.[39mpointplot(x[38;5;241m=[39m[38;5;124m'[39m[38;5;124mdrug[39m[38;5;124m'[39m, y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mmood_gain[39m[38;5;124m'[39m, data [38;5;241m=[39m df)
-[1;32m      2[0m sns[38;5;241m.[39mdespine()
-[1;32m      4[0m [38;5;66;03m# show the figure in the book with caption[39;00m
+Cell [0;32mIn[4], line 8[0m
+[1;32m      6[0m [38;5;66;03m# show the figure in the book with caption[39;00m
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmyst_nb[39;00m [38;5;28;01mimport[39;00m glue
+[0;32m----> 8[0m glue([38;5;124m"[39m[38;5;124mmoodgain_fig[39m[38;5;124m"[39m, [43mfig[49m, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
-[0;31mNameError[0m: name 'sns' is not defined
+[0;31mNameError[0m: name 'fig' is not defined
 
