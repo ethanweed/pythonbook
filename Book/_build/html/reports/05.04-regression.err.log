@@ -18,72 +18,113 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from myst_nb import glue
-from matplotlib import pyplot as plt
 import seaborn as sns
+import statsmodels.api as sm
 
-fig = plt.figure()
+# Define a figure with two panels
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-#sns.set_context("notebook", font_scale=1.5)
-sns.scatterplot(data = df,
-                x = 'dan_sleep', 
-                y = 'dan_grump')
-fig.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep (hours)')
+# Define our made-up data
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 5]
+    })
+
+# Get Cook's distance
+
+# model the data using statsmodels.api OLS (ordinary least squares)
+model = sm.OLS(df['y2'], df['x'])
+results = model.fit()
+
+# extract cook's distance
+influence = results.get_influence()
+cooks = influence.cooks_distance
+
+# for plotting, make a dataframe with the x data, and the corresponding cook's distances
+df_cooks = pd.DataFrame(
+    {'x': df['x'],
+     'y': cooks[0]
+    })
+
+# Panel A
+
+# plot Cook's distance against the x data points
+sns.scatterplot(data = df_cooks, x = 'x', y = 'y', ax = axes[0])
+axes[0].axhline(y=1, color='gray', linestyle='--')
+axes[0].axhline(y= 4/len(df['x']), color='gray', linestyle='--')
+
+
+
+# Panel B (same as before)
+
+df = pd.DataFrame(
+    {'x': [1, 1.3, 1.8, 1.9, 2.4, 2.3, 2.4, 2.6, 2.8, 3.6, 4, 8],
+     'y': [1.5, 1.4, 1.9, 1.7, 2.3, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 7.8],
+     'y2': [1.5, 1.4, 1.9, 1.7, 4, 2.1, 2.6, 2.8, 2.4, 2.6, 2.8, 5]
+    })
+
+
+
+# fit linear regression model and save parameters
+def func(x, a, b):
+    return a * x + b
+
+
+# first regression line
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+
+# plot data points
+sns.scatterplot(data = df, x='x', y='y', ax = axes[1])
+
+# plot first regression line
+axes[1].plot(xModel, yModel)
+
+
+# second regression line
+
+initialParameters = np.array([1.0, 1.0])
+
+fittedParameters, pcov = curve_fit(func, df['x'], df['y2'], initialParameters)
+
+modelPredictions = func(df['x'], *fittedParameters) 
+
+xModel = np.linspace(min(df['x']), max(df['x']))
+yModel = func(xModel, *fittedParameters)
+
+axes[1].plot(xModel, yModel)
+
+# add red point to show "outlier"
+axes[1].plot(8, 5, 'ro')
+
+# add dashed line to show change in residual
+axes[1].plot([8, 8], [5 ,7.3], linestyle='dashed')
+axes[1].grid(False)
+
+# add letter labels
+for n, ax in enumerate(axes):   
+    ax.text(-0.1, 1.1, string.ascii_uppercase[n], transform=ax.transAxes, 
+            size=20)
+
+# prettify
 sns.despine()
-
-glue("sleepycorrelation-fig", fig, display=False)
+ax.grid(False)
+plt.(close)
+glue("cooks-fig", fig, display=False)
 ------------------
 
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[2], line 11[0m
-[1;32m      7[0m [38;5;66;03m#sns.set_context("notebook", font_scale=1.5)[39;00m
-[1;32m      8[0m sns[38;5;241m.[39mscatterplot(data [38;5;241m=[39m df,
-[1;32m      9[0m                 x [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_sleep[39m[38;5;124m'[39m, 
-[1;32m     10[0m                 y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_grump[39m[38;5;124m'[39m)
-[0;32m---> 11[0m [43mfig[49m[38;5;241;43m.[39;49m[43mset[49m[43m([49m[43mtitle[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mGrumpiness and sleep[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mylabel[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mMy grumpiness (0-100)[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mxlabel[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mMy sleep (hours)[39;49m[38;5;124;43m'[39;49m[43m)[49m
-[1;32m     12[0m sns[38;5;241m.[39mdespine()
-[1;32m     14[0m glue([38;5;124m"[39m[38;5;124msleepycorrelation-fig[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+[0;36m  Cell [0;32mIn[37], line 100[0;36m[0m
+[0;31m    plt.(close)[0m
+[0m        ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
 
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/artist.py:147[0m, in [0;36mArtist.__init_subclass__.<locals>.<lambda>[0;34m(self, **kwargs)[0m
-[1;32m    139[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28mhasattr[39m([38;5;28mcls[39m[38;5;241m.[39mset, [38;5;124m'[39m[38;5;124m_autogenerated_signature[39m[38;5;124m'[39m):
-[1;32m    140[0m     [38;5;66;03m# Don't overwrite cls.set if the subclass or one of its parents[39;00m
-[1;32m    141[0m     [38;5;66;03m# has defined a set method set itself.[39;00m
-[1;32m    142[0m     [38;5;66;03m# If there was no explicit definition, cls.set is inherited from[39;00m
-[1;32m    143[0m     [38;5;66;03m# the hierarchy of auto-generated set methods, which hold the[39;00m
-[1;32m    144[0m     [38;5;66;03m# flag _autogenerated_signature.[39;00m
-[1;32m    145[0m     [38;5;28;01mreturn[39;00m
-[0;32m--> 147[0m [38;5;28mcls[39m[38;5;241m.[39mset [38;5;241m=[39m [38;5;28;01mlambda[39;00m [38;5;28mself[39m, [38;5;241m*[39m[38;5;241m*[39mkwargs: [43mArtist[49m[38;5;241;43m.[39;49m[43mset[49m[43m([49m[38;5;28;43mself[39;49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
-[1;32m    148[0m [38;5;28mcls[39m[38;5;241m.[39mset[38;5;241m.[39m[38;5;18m__name__[39m [38;5;241m=[39m [38;5;124m"[39m[38;5;124mset[39m[38;5;124m"[39m
-[1;32m    149[0m [38;5;28mcls[39m[38;5;241m.[39mset[38;5;241m.[39m[38;5;18m__qualname__[39m [38;5;241m=[39m [38;5;124mf[39m[38;5;124m"[39m[38;5;132;01m{[39;00m[38;5;28mcls[39m[38;5;241m.[39m[38;5;18m__qualname__[39m[38;5;132;01m}[39;00m[38;5;124m.set[39m[38;5;124m"[39m
-
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/artist.py:1231[0m, in [0;36mArtist.set[0;34m(self, **kwargs)[0m
-[1;32m   1227[0m [38;5;28;01mdef[39;00m [38;5;21mset[39m([38;5;28mself[39m, [38;5;241m*[39m[38;5;241m*[39mkwargs):
-[1;32m   1228[0m     [38;5;66;03m# docstring and signature are auto-generated via[39;00m
-[1;32m   1229[0m     [38;5;66;03m# Artist._update_set_signature_and_docstring() at the end of the[39;00m
-[1;32m   1230[0m     [38;5;66;03m# module.[39;00m
-[0;32m-> 1231[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_internal_update[49m[43m([49m[43mcbook[49m[38;5;241;43m.[39;49m[43mnormalize_kwargs[49m[43m([49m[43mkwargs[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[43m)[49m[43m)[49m
-
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/artist.py:1223[0m, in [0;36mArtist._internal_update[0;34m(self, kwargs)[0m
-[1;32m   1216[0m [38;5;28;01mdef[39;00m [38;5;21m_internal_update[39m([38;5;28mself[39m, kwargs):
-[1;32m   1217[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
-[1;32m   1218[0m [38;5;124;03m    Update artist properties without prenormalizing them, but generating[39;00m
-[1;32m   1219[0m [38;5;124;03m    errors as if calling `set`.[39;00m
-[1;32m   1220[0m 
-[1;32m   1221[0m [38;5;124;03m    The lack of prenormalization is to maintain backcompatibility.[39;00m
-[1;32m   1222[0m [38;5;124;03m    """[39;00m
-[0;32m-> 1223[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_update_props[49m[43m([49m
-[1;32m   1224[0m [43m        [49m[43mkwargs[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;132;43;01m{cls.__name__}[39;49;00m[38;5;124;43m.set() got an unexpected keyword argument [39;49m[38;5;124;43m"[39;49m
-[1;32m   1225[0m [43m        [49m[38;5;124;43m"[39;49m[38;5;132;43;01m{prop_name!r}[39;49;00m[38;5;124;43m"[39;49m[43m)[49m
-
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/artist.py:1197[0m, in [0;36mArtist._update_props[0;34m(self, props, errfmt)[0m
-[1;32m   1195[0m             func [38;5;241m=[39m [38;5;28mgetattr[39m([38;5;28mself[39m, [38;5;124mf[39m[38;5;124m"[39m[38;5;124mset_[39m[38;5;132;01m{[39;00mk[38;5;132;01m}[39;00m[38;5;124m"[39m, [38;5;28;01mNone[39;00m)
-[1;32m   1196[0m             [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28mcallable[39m(func):
-[0;32m-> 1197[0m                 [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(
-[1;32m   1198[0m                     errfmt[38;5;241m.[39mformat([38;5;28mcls[39m[38;5;241m=[39m[38;5;28mtype[39m([38;5;28mself[39m), prop_name[38;5;241m=[39mk))
-[1;32m   1199[0m             ret[38;5;241m.[39mappend(func(v))
-[1;32m   1200[0m [38;5;28;01mif[39;00m ret:
-
-[0;31mAttributeError[0m: Figure.set() got an unexpected keyword argument 'title'
 
