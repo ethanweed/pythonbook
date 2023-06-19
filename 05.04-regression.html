@@ -2774,21 +2774,25 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </figure>
 <p>One of the reasons I like to draw these plots is that they give you a kind of “big picture view”. If this plot looks approximately linear, then we’re probably not doing too badly (though that’s not to say that there aren’t problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
 <p>In any case, in order to get a more detailed picture it’s often more informative to look at the relationship between the fitted values and the residuals themselves. Let’s take a look. Here, we use the <code class="docutils literal notranslate"><span class="pre">regplot</span></code> function from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and rather than a straight line through all the points, we can ask Python to compute a “locally-weighed linear linear” regression, by setting the argument <code class="docutils literal notranslate"><span class="pre">lowess</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This gives us a sort of moving window, as Python fits a series of little regressions as it moves through the data. If the relationship in our data is truly linear, then we should see a straight, perfectly horizontal line. There’s some hint of curvature here, but it’s not clear whether or not we be concerned.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_res_pred</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">]</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 
 <span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_res_pred</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;residuals&#39;</span><span class="p">,</span> <span class="n">lowess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1">#ax=sns.scatterplot(data = df_res_pred, x = &#39;fitted&#39;, y = &#39;residuals&#39;)</span>
+
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-<span class="c1">#plt.close()</span>
-<span class="c1">#glue(&quot;fitted_v_observed-fig&quot;, fig, display=False)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <img alt="_images/631aaa95a2d488870cd5f3e938525c86c3cd742575009aa2a0562d33969b9ad1.png" src="_images/631aaa95a2d488870cd5f3e938525c86c3cd742575009aa2a0562d33969b9ad1.png" />
 </div>
