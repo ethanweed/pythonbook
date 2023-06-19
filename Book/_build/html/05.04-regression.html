@@ -620,7 +620,7 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 \]</div>
 <section id="estimating-a-linear-regression-model">
 <span id="regressionestimation"></span><h2><span class="section-number">16.1. </span>Estimating a linear regression model<a class="headerlink" href="#estimating-a-linear-regression-model" title="Permalink to this heading">#</a></h2>
-<p>Okay, now let’s redraw our pictures, but this time I’ll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in the left panel of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_2</span></code>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at the right panel of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_2</span></code>. Hm. Maybe what we “want” in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I’ll go so far as to say that the “best fitting” regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that …</p>
+<p>Okay, now let’s redraw our pictures, but this time I’ll add some lines to show the size of the residual for all observations. When the regression line is good, our residuals (the lengths of the solid black lines) all look pretty small, as shown in the left panel of <a class="reference internal" href="#fig-sleep-regressions-2"><span class="std std-numref">Fig. 16.3</span></a>, but when the regression line is a bad one, the residuals are a lot larger, as you can see from looking at the right panel of <a class="reference internal" href="#fig-sleep-regressions-2"><span class="std std-numref">Fig. 16.3</span></a>. Hm. Maybe what we “want” in a regression model is <em>small</em> residuals. Yes, that does seem to make sense. In fact, I think I’ll go so far as to say that the “best fitting” regression line is the one that has the smallest residuals. Or, better yet, since statisticians seem to like to take squares of everything why not say that …</p>
 <blockquote>
 <div><p>The estimated regression coefficients, <span class="math notranslate nohighlight">\(\hat{b}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{b}_1\)</span> are those that minimise the sum of the squared residuals, which we could either write as <span class="math notranslate nohighlight">\(\sum_i (Y_i - \hat{Y}_i)^2\)</span> or as <span class="math notranslate nohighlight">\(\sum_i {\epsilon_i}^2\)</span>.</p>
 </div></blockquote>
@@ -700,14 +700,20 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
   
     
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleep_regressions_2-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
+</div>
+<figure class="align-default" id="fig-sleep-regressions-2" style="width: 600px">
 <img alt="_images/effb56837a30c0f9c20b16b552dd4b458ed1b097d4eaabad3cea10191a9236b4.png" src="_images/effb56837a30c0f9c20b16b552dd4b458ed1b097d4eaabad3cea10191a9236b4.png" />
-</div>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 16.3 </span><span class="caption-text">A depiction of the residuals associated with the best fitting regression line (left panel), and the residuals associated with a poor regression line (right panel). The residuals are much smaller for the good regression line. Again, this is no surprise given that the good line is the one that goes right through the middle of the data.</span><a class="headerlink" href="#fig-sleep-regressions-2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="linear-regression-with-python">
 <span id="pingouinregression"></span><h2><span class="section-number">16.2. </span>Linear Regression with Python<a class="headerlink" href="#linear-regression-with-python" title="Permalink to this heading">#</a></h2>
