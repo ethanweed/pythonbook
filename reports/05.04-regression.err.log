@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from myst_nb import glue
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+fig = plt.figure(figsize=(3, 3))
+
+#sns.set_context("notebook", font_scale=1.5)
+sns.scatterplot(data = df,
+                x = 'dan_sleep', 
+                y = 'dan_grump')
+ax.set(title = 'Grumpiness and sleep', ylabel = 'My grumpiness (0-100)', xlabel='My sleep (hours)')
+sns.despine()
+
+glue("sleepycorrelation-fig", fig, display=False)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[2], line 11[0m
+[1;32m      7[0m [38;5;66;03m#sns.set_context("notebook", font_scale=1.5)[39;00m
+[1;32m      8[0m sns[38;5;241m.[39mscatterplot(data [38;5;241m=[39m df,
+[1;32m      9[0m                 x [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_sleep[39m[38;5;124m'[39m, 
+[1;32m     10[0m                 y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mdan_grump[39m[38;5;124m'[39m)
+[0;32m---> 11[0m [43max[49m[38;5;241m.[39mset(title [38;5;241m=[39m [38;5;124m'[39m[38;5;124mGrumpiness and sleep[39m[38;5;124m'[39m, ylabel [38;5;241m=[39m [38;5;124m'[39m[38;5;124mMy grumpiness (0-100)[39m[38;5;124m'[39m, xlabel[38;5;241m=[39m[38;5;124m'[39m[38;5;124mMy sleep (hours)[39m[38;5;124m'[39m)
+[1;32m     12[0m sns[38;5;241m.[39mdespine()
+[1;32m     14[0m glue([38;5;124m"[39m[38;5;124msleepycorrelation-fig[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+
+[0;31mNameError[0m: name 'ax' is not defined
+
