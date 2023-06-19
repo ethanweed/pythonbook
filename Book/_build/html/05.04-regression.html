@@ -2615,24 +2615,25 @@ left), and something that measures the leverage of the observation (the bit on t
 <span class="n">res</span> <span class="o">=</span> <span class="n">mod2</span><span class="o">.</span><span class="n">residuals_</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">])</span>
 
+<span class="n">fig</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
 <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;res-hist-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ab24727f06a26b96497dbba2da4a7aaaaa607887495780f104298e50498dcd54.png" src="_images/ab24727f06a26b96497dbba2da4a7aaaaa607887495780f104298e50498dcd54.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">41</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+    <span class="n">fig</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
 </div>
 </div>
-<figure class="align-default" id="fig-res-hist" style="width: 600px">
-<img alt="_images/9b1a0c2d03f4d62c20c5fdc3ea16d336d422f5ead27d3f305b617d4af50ff2f7.png" src="_images/9b1a0c2d03f4d62c20c5fdc3ea16d336d422f5ead27d3f305b617d4af50ff2f7.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 16.8 </span><span class="caption-text">A histogram of the (ordinary) residuals in the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model. These residuals look very close to being normally distributed, much moreso than is typically seen with real data. This shouldn’t surprise you… they aren’t real data, and they aren’t real residuals!</span><a class="headerlink" href="#fig-res-hist" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The resulting plot is shown in <a class="reference internal" href="#fig-res-hist"><span class="std std-numref">Fig. 16.8</span></a>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the <code class="docutils literal notranslate"><span class="pre">normality</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
+</div>
+<p>The resulting plot is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-res-hist</span></code>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the <code class="docutils literal notranslate"><span class="pre">normality</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sw</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">normality</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;shapiro&#39;</span><span class="p">)</span>
@@ -2686,7 +2687,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/0b06f4dd243c7290c314b5a07f5923d86e4bfa9cc47b983bcbda4323978a309a.png" src="_images/0b06f4dd243c7290c314b5a07f5923d86e4bfa9cc47b983bcbda4323978a309a.png" />
+<img alt="_images/e72fb9325c0644a891809581a81618b587309e2ce7b1bf01a8d612552f53b631.png" src="_images/e72fb9325c0644a891809581a81618b587309e2ce7b1bf01a8d612552f53b631.png" />
 </div>
 </div>
 <p>If our residuals were <em>perfectly</em> normally distributed, then they would lie right on the red line. These residuals veer off a little at the ends, but again, pretty damn close, so the Q-Q plot further confirms our conviction based on the histogram and the Shapiro-Wilk test, that it is appropriate to model these data with a linear regression.</p>
@@ -2717,7 +2718,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/35a8340cb7e1f3fadb5dac95ec0234c28c175e2d4ca71547ae284653eb622e69.png" src="_images/35a8340cb7e1f3fadb5dac95ec0234c28c175e2d4ca71547ae284653eb622e69.png" />
+<img alt="_images/2fc07b1c7263a19808bc112026931fc90f512199c5ab0dfb2855c83ed8006eb6.png" src="_images/2fc07b1c7263a19808bc112026931fc90f512199c5ab0dfb2855c83ed8006eb6.png" />
 </div>
 </div>
 </section>
@@ -2741,7 +2742,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/a0d58297b0cb313690685372ae3fb082f60a5bb54b2e930a59503173c7c0f65e.png" src="_images/a0d58297b0cb313690685372ae3fb082f60a5bb54b2e930a59503173c7c0f65e.png" />
+<img alt="_images/20800acca4ef1b8575d938ce4c7cb725745c008d0c7f035ca6485ff0aed293b2.png" src="_images/20800acca4ef1b8575d938ce4c7cb725745c008d0c7f035ca6485ff0aed293b2.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
