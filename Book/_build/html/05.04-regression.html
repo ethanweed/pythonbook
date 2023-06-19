@@ -519,34 +519,42 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1">#sns.set_context(&quot;notebook&quot;, font_scale=1.5)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> 
                 <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Grumpiness and sleep&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;My grumpiness (0-100)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;My sleep (hours)&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 
-<span class="k">pass</span>
-
-<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleepycorrelation-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleepycorrelation-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/50730c9e3bb456ca2c0a3e6ed868496b614172800e7b41eed81b9e5901929715.png" src="_images/50730c9e3bb456ca2c0a3e6ed868496b614172800e7b41eed81b9e5901929715.png" />
-</div>
-</div>
-<figure class="align-default" id="fig-sleepycorrelation" style="width: 600px">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;Grumpiness and sleep&#39;}, xlabel=&#39;My sleep (hours)&#39;, ylabel=&#39;My grumpiness (0-100)&#39;&gt;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1">#sns.set_context(&quot;notebook&quot;, font_scale=1.5)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>                 <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">10</span>                 <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;dan_grump&#39;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Grumpiness and sleep&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;My grumpiness (0-100)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;My sleep (hours)&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleepycorrelation-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;ax&#39; is not defined
 </pre></div>
 </div>
-<figcaption>
-<p><span class="caption-number">Fig. 16.1 </span><span class="caption-text">Scatterplot showing grumpiness as a function of hours slept.</span><a class="headerlink" href="#fig-sleepycorrelation" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The actual scatterplot that we draw is the one shown in <a class="reference internal" href="#fig-sleepycorrelation"><span class="std std-numref">Fig. 16.1</span></a>, and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to the left panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in the right panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>.</p>
+<img alt="_images/8b23dab6ede9d9e1857610c57d3074eb2635ff3f3773de0ea906f4beb3fc4f7d.png" src="_images/8b23dab6ede9d9e1857610c57d3074eb2635ff3f3773de0ea906f4beb3fc4f7d.png" />
+</div>
+</div>
+<p>The actual scatterplot that we draw is the one shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleepycorrelation</span></code>, and as we saw previously this corresponds to a correlation of <span class="math notranslate nohighlight">\(r=-.90\)</span>, but what we find ourselves secretly imagining is something that looks closer to the left panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>. That is, we mentally draw a straight line through the middle of the data. In statistics, this line that we’re drawing is called a <strong><em>regression line</em></strong>. Notice that – since we’re not idiots – the regression line goes through the middle of the data. We don’t find ourselves imagining anything like the rather silly plot shown in the right panel in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_1</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -589,7 +597,7 @@ document.write(`
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/f176d9fa0f00bb3ce5b5ae2f7f477d3d26bf1cbeab3018a628d046f10bbc9952.png" src="_images/f176d9fa0f00bb3ce5b5ae2f7f477d3d26bf1cbeab3018a628d046f10bbc9952.png" />
+<img alt="_images/8b3155b2bf3ab5b12a3f0e2638e45a89c16b3c7ed9fda51b81a0a1dd19d9b270.png" src="_images/8b3155b2bf3ab5b12a3f0e2638e45a89c16b3c7ed9fda51b81a0a1dd19d9b270.png" />
 </div>
 </div>
 <p>This is not highly surprising: the line that I’ve drawn in panel to the right doesn’t “fit” the data very well, so it doesn’t make a lot of sense to propose it as a way of summarising the data, right? This is a very simple observation to make, but it turns out to be very powerful when we start trying to wrap just a little bit of maths around it. To do so, let’s start with a refresher of some high school maths. The formula for a straight line is usually written like this:</p>
@@ -701,7 +709,7 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/04a9b3691395ada194bc9e3b0da445c9d789a6c40628a384e8035d08854c3e08.png" src="_images/04a9b3691395ada194bc9e3b0da445c9d789a6c40628a384e8035d08854c3e08.png" />
+<img alt="_images/bf8e15932425d669fdc4700c2d1f1636794bd7032a373589437e6f12298afd5d.png" src="_images/bf8e15932425d669fdc4700c2d1f1636794bd7032a373589437e6f12298afd5d.png" />
 </div>
 </div>
 </section>
@@ -1037,7 +1045,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/a5e6d61d3bd864e45163cc0f5d03551537ddf2029fec31ce08c98a9d48de9180.png" src="_images/a5e6d61d3bd864e45163cc0f5d03551537ddf2029fec31ce08c98a9d48de9180.png" />
+<img alt="_images/e293de3dc2fb2824e2a1cefee919bf7de668ce3fcc690e5e7586a2d0985d0c02.png" src="_images/e293de3dc2fb2824e2a1cefee919bf7de668ce3fcc690e5e7586a2d0985d0c02.png" />
 </div>
 </div>
 <section id="formula-for-the-general-case">
@@ -1312,7 +1320,7 @@ F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.2382865368443 p= 2.1457300163209325e-36
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F= 215.23828653684436 p= 2.1457300163208854e-36
 </pre></div>
 </div>
 </div>
@@ -1352,7 +1360,7 @@ F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(215.2382865368443, 2.1457300163209325e-36)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(215.23828653684436, 2.1457300163208854e-36)
 </pre></div>
 </div>
 </div>
@@ -1546,7 +1554,7 @@ t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F: 215.24 p: 2.1457300163209325e-36
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F: 215.24 p: 2.1457300163208854e-36
 </pre></div>
 </div>
 </div>
@@ -1731,6 +1739,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
+      <th>dan_sleep_standard</th>
+      <th>baby_sleep_standard</th>
     </tr>
   </thead>
   <tbody>
@@ -1740,6 +1750,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>0.627949</td>
       <td>-0.903384</td>
       <td>-0.098408</td>
+      <td>1.000000</td>
+      <td>0.627949</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -1747,6 +1759,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>1.000000</td>
       <td>-0.565964</td>
       <td>-0.010434</td>
+      <td>0.627949</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -1754,12 +1768,34 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-0.565964</td>
       <td>1.000000</td>
       <td>0.076479</td>
+      <td>-0.903384</td>
+      <td>-0.565964</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098408</td>
       <td>-0.010434</td>
       <td>0.076479</td>
+      <td>1.000000</td>
+      <td>-0.098408</td>
+      <td>-0.010434</td>
+    </tr>
+    <tr>
+      <th>dan_sleep_standard</th>
+      <td>1.000000</td>
+      <td>0.627949</td>
+      <td>-0.903384</td>
+      <td>-0.098408</td>
+      <td>1.000000</td>
+      <td>0.627949</td>
+    </tr>
+    <tr>
+      <th>baby_sleep_standard</th>
+      <td>0.627949</td>
+      <td>1.000000</td>
+      <td>-0.565964</td>
+      <td>-0.010434</td>
+      <td>0.627949</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -1797,6 +1833,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
+      <th>dan_sleep_standard</th>
+      <th>baby_sleep_standard</th>
     </tr>
   </thead>
   <tbody>
@@ -1806,6 +1844,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>***</td>
       <td>***</td>
       <td></td>
+      <td>***</td>
+      <td>***</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -1813,6 +1853,8 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-</td>
       <td>***</td>
       <td></td>
+      <td>***</td>
+      <td>***</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -1820,12 +1862,34 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
       <td>-0.566</td>
       <td>-</td>
       <td></td>
+      <td>***</td>
+      <td>***</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098</td>
       <td>-0.01</td>
       <td>0.076</td>
+      <td>-</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>dan_sleep_standard</th>
+      <td>1.0</td>
+      <td>0.628</td>
+      <td>-0.903</td>
+      <td>-0.098</td>
+      <td>-</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>baby_sleep_standard</th>
+      <td>0.628</td>
+      <td>1.0</td>
+      <td>-0.566</td>
+      <td>-0.01</td>
+      <td>0.628</td>
       <td>-</td>
     </tr>
   </tbody>
@@ -2138,7 +2202,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/1fb6fb65874797d28ba373681ddf57f3bf07559e4c163249491507584ae157b0.png" src="_images/1fb6fb65874797d28ba373681ddf57f3bf07559e4c163249491507584ae157b0.png" />
+<img alt="_images/8fd07aca1c3a47b739b04ccb53e32f165b07105c60d69d701e05f5bcb3664dcf.png" src="_images/8fd07aca1c3a47b739b04ccb53e32f165b07105c60d69d701e05f5bcb3664dcf.png" />
 </div>
 </div>
 <p>The second way in which an observation can be unusual is if it has high <strong><em>leverage</em></strong>: this happens when the observation is very different from all the other observations. This doesn’t necessarily have to correspond to a large residual: if the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line. An example of this is shown in panel A of <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-leverage-influence</span></code>. The leverage of an observation is operationalised in terms of its <em>hat value</em>, usually written <span class="math notranslate nohighlight">\(h_i\)</span>. The formula for the hat value is rather complicated<a class="footnote-reference brackets" href="#notehatmatrix" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a> but its interpretation is not: <span class="math notranslate nohighlight">\(h_i\)</span> is a measure of the extent to which the <span class="math notranslate nohighlight">\(i\)</span>-th observation is “in control” of where the regression line ends up going. We won’t bother extracting the hat values here, but if you want to do this, you can use the <code class="docutils literal notranslate"><span class="pre">get_influence</span></code> method from the <code class="docutils literal notranslate"><span class="pre">statsmodels.api</span></code> package to inspect the relative influence of data points. For now, it is enough to get an intuitive, visual idea of what leverage can mean.</p>
@@ -2259,7 +2323,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/fe237db874030b90921c1fc455d080b3e54dd6cb446d8497294287aa1c20aceb.png" src="_images/fe237db874030b90921c1fc455d080b3e54dd6cb446d8497294287aa1c20aceb.png" />
+<img alt="_images/f5c860369f1bf403e970166f6f99a54e641895e3913ae9cbbc705b1a7211b7d0.png" src="_images/f5c860369f1bf403e970166f6f99a54e641895e3913ae9cbbc705b1a7211b7d0.png" />
 </div>
 </div>
 <p>In general, if an observation lies far away from the other ones in terms of the predictor variables, it will have a large hat value (as a rough guide, high leverage is when the hat value is more than 2-3 times the average; and note that the sum of the hat values is constrained to be equal to <span class="math notranslate nohighlight">\(K+1\)</span>). High leverage points are also worth looking at in more detail, but they’re much less likely to be a cause for concern unless they are also outliers.</p>
@@ -2383,7 +2447,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/31e06e7af23985677fd53c5a2ad8c7033409ef99310d62dfb98a8e303e0636b8.png" src="_images/31e06e7af23985677fd53c5a2ad8c7033409ef99310d62dfb98a8e303e0636b8.png" />
+<img alt="_images/4bdca179c6ab1edcbb92df868a2b43cb2f65865845e484228a4741c82bcabb90.png" src="_images/4bdca179c6ab1edcbb92df868a2b43cb2f65865845e484228a4741c82bcabb90.png" />
 </div>
 </div>
 <p>As a rough guide, Cook’s distance greater than 1 is often considered large (that’s what I typically use as a quick and dirty rule), though a quick scan of the internet and a few papers suggests that <span class="math notranslate nohighlight">\(4/N\)</span> has also been suggested as a possible rule of thumb. As the visualization in <a href="#id10"><span class="problematic" id="id11">fig-cooks</span></a> illustrates, the red data point at x = 8 has a large Cook’s distance.</p>
@@ -2586,7 +2650,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/16169a974b64f417670c4f8d543ae788e9801b4a864c7199e930f03bcf6b6706.png" src="_images/16169a974b64f417670c4f8d543ae788e9801b4a864c7199e930f03bcf6b6706.png" />
+<img alt="_images/0779ecfaaae5ccda5829d417a7c9c1ae325127d1ff0f0feaff1f09a405857f81.png" src="_images/0779ecfaaae5ccda5829d417a7c9c1ae325127d1ff0f0feaff1f09a405857f81.png" />
 </div>
 </div>
 <p>The resulting plot is shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-res-hist</span></code>, and as you can see the plot looks pretty damn close to normal, almost unnaturally so. I could also run a Shapiro-Wilk test to check, using the <code class="docutils literal notranslate"><span class="pre">normality</span></code> function from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
@@ -2643,7 +2707,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/394c27a346103c902ac2303ef97f60c451375e2b3c82b8b7c156e3c6256536b1.png" src="_images/394c27a346103c902ac2303ef97f60c451375e2b3c82b8b7c156e3c6256536b1.png" />
+<img alt="_images/e72fb9325c0644a891809581a81618b587309e2ce7b1bf01a8d612552f53b631.png" src="_images/e72fb9325c0644a891809581a81618b587309e2ce7b1bf01a8d612552f53b631.png" />
 </div>
 </div>
 <p>If our residuals were <em>perfectly</em> normally distributed, then they would lie right on the red line. These residuals veer off a little at the ends, but again, pretty damn close, so the Q-Q plot further confirms our conviction based on the histogram and the Shapiro-Wilk test, that it is appropriate to model these data with a linear regression.</p>
@@ -2674,7 +2738,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/af35ee9cf87677bc0639ed00ad211c7a9e4733d6403a802ae4d73e60007f0dde.png" src="_images/af35ee9cf87677bc0639ed00ad211c7a9e4733d6403a802ae4d73e60007f0dde.png" />
+<img alt="_images/2fc07b1c7263a19808bc112026931fc90f512199c5ab0dfb2855c83ed8006eb6.png" src="_images/2fc07b1c7263a19808bc112026931fc90f512199c5ab0dfb2855c83ed8006eb6.png" />
 </div>
 </div>
 </section>
@@ -2698,7 +2762,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/59c5511451ac232835e82c60de1e55da9d9f3914dc0276b4431ea1f8a957e9dc.png" src="_images/59c5511451ac232835e82c60de1e55da9d9f3914dc0276b4431ea1f8a957e9dc.png" />
+<img alt="_images/20800acca4ef1b8575d938ce4c7cb725745c008d0c7f035ca6485ff0aed293b2.png" src="_images/20800acca4ef1b8575d938ce4c7cb725745c008d0c7f035ca6485ff0aed293b2.png" />
 </div>
 </div>
 <hr class="footnotes docutils" />
