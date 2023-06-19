@@ -1058,13 +1058,6 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <p><span class="caption-number">Fig. 16.4 </span><span class="caption-text">A 3D visualisation of a multiple regression model. There are two predictors in the model, <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>; the outcome variable is <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we’re trying to do is find a plane that is as close to all the blue dots as possible.</span><a class="headerlink" href="#fig-sleep-regressions-3d" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 <section id="formula-for-the-general-case">
 <h3><span class="section-number">16.4.1. </span>Formula for the general case<a class="headerlink" href="#formula-for-the-general-case" title="Permalink to this heading">#</a></h3>
 <p>The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors, all you have to do is add more <span class="math notranslate nohighlight">\(X\)</span> terms and more <span class="math notranslate nohighlight">\(b\)</span> coefficients. In other words, if you have <span class="math notranslate nohighlight">\(K\)</span> predictor variables in the model then the regression equation looks like this:</p>
@@ -2414,7 +2407,8 @@ left), and something that measures the leverage of the observation (the bit on t
 
 <span class="c1"># prettify</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;cooks-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
@@ -2423,7 +2417,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </details>
 </div>
 <figure class="align-default" id="fig-cooks" style="width: 600px">
-<img alt="_images/9b1a0c2d03f4d62c20c5fdc3ea16d336d422f5ead27d3f305b617d4af50ff2f7.png" src="_images/9b1a0c2d03f4d62c20c5fdc3ea16d336d422f5ead27d3f305b617d4af50ff2f7.png" />
+<img alt="_images/aef1a65df4182c071ea648d0ba2ef69a7c2e459a6e7f5b33581a7288a11bc489.png" src="_images/aef1a65df4182c071ea648d0ba2ef69a7c2e459a6e7f5b33581a7288a11bc489.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 16.7 </span><span class="caption-text">A visualization of Cook’s distance as a means for identifying the influence of each data point. Panel B is the same as panel B in <a class="reference internal" href="#fig-leverage-influence"><span class="std std-numref">Fig. 16.6</span></a> above. The red dot show the effect on the entire regression line that sinking the final point from 7.4 to 5 has. Panel A shows Cook’s distance for the data set in which the data point at x = 8 is 5 (the orange line). The dashed lines show two possible cutoff points for a “large” Cook’s distance: either 1 or 4/N, in which N is the number of data points.</span><a class="headerlink" href="#fig-cooks" title="Permalink to this image">#</a></p>
 </figcaption>
