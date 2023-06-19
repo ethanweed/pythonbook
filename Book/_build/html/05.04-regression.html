@@ -995,7 +995,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 </table>
 </div></div></div>
 </div>
-<p>The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets; not really. What matters as far as my grumpiness goes is how much sleep I get. To get a sense of what this multiple regression model looks like, <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig-sleep_regressions_3d</span></code> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
+<p>The coefficient associated with dan_sleep is quite large, suggesting that every hour of sleep I lose makes me a lot grumpier. However, the coefficient for baby_sleep is very small, suggesting that it doesn’t really matter how much sleep my son gets, not really. What matters as far as my grumpiness goes is how much sleep <em>I</em> get. To get a sense of what this multiple regression model looks like, <a class="reference internal" href="#fig-sleep-regressions-3d"><span class="std std-numref">Fig. 16.4</span></a> shows a 3D plot that plots all three variables, along with the regression model itself.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1042,14 +1042,23 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 
 <span class="c1"># adjust the viewing angle</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">97</span><span class="p">)</span>
+
+
+
+<span class="c1"># plot the figure in the book with the caption (and no duplicate figure)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sleep_regressions_3d-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
+</div>
+<figure class="align-default" id="fig-sleep-regressions-3d" style="width: 600px">
 <img alt="_images/9e768152ad47cc239fb15addfbd00b5e845304ffa65a4b27f62382decd02f69a.png" src="_images/9e768152ad47cc239fb15addfbd00b5e845304ffa65a4b27f62382decd02f69a.png" />
-</div>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 16.4 </span><span class="caption-text">A 3D visualisation of a multiple regression model. There are two predictors in the model, <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>; the outcome variable is <code class="docutils literal notranslate"><span class="pre">dan.grump</span></code>. Together, these three variables form a 3D space: each observation (blue dots) is a point in this space. In much the same way that a simple linear regression model forms a line in 2D space, this multiple regression model forms a plane in 3D space. When we estimate the regression coefficients, what we’re trying to do is find a plane that is as close to all the blue dots as possible.</span><a class="headerlink" href="#fig-sleep-regressions-3d" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <section id="formula-for-the-general-case">
 <h3><span class="section-number">16.4.1. </span>Formula for the general case<a class="headerlink" href="#formula-for-the-general-case" title="Permalink to this heading">#</a></h3>
 <p>The equation that I gave above shows you what a multiple regression model looks like when you include two predictors. Not surprisingly, then, if you want more than two predictors all you have to do is add more <span class="math notranslate nohighlight">\(X\)</span> terms and more <span class="math notranslate nohighlight">\(b\)</span> coefficients. In other words, if you have <span class="math notranslate nohighlight">\(K\)</span> predictor variables in the model then the regression equation looks like this:</p>
