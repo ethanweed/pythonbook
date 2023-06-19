@@ -2728,6 +2728,10 @@ left), and something that measures the leverage of the observation (the bit on t
 </section>
 <section id="checking-the-linearity-of-the-relationship">
 <span id="regressionlinearity"></span><h3><span class="section-number">16.9.4. </span>Checking the linearity of the relationship<a class="headerlink" href="#checking-the-linearity-of-the-relationship" title="Permalink to this heading">#</a></h3>
+<p>The third thing we might want to test is the linearity of the relationships between the predictors and
+the outcomes. There’s a few different things that you might want to do in order to check this. Firstly, it
+never hurts to just plot the relationship between the fitted values Yˆi and the observed values Yi for the
+outcome variable, as illustrated in</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
@@ -2740,15 +2744,22 @@ left), and something that measures the leverage of the observation (the bit on t
      <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span>
     <span class="p">})</span>
 
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
 <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_res_pred</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;observed&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;fitted_v_observed-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/a0d58297b0cb313690685372ae3fb082f60a5bb54b2e930a59503173c7c0f65e.png" src="_images/a0d58297b0cb313690685372ae3fb082f60a5bb54b2e930a59503173c7c0f65e.png" />
 </div>
-</div>
+<figure class="align-default" id="fig-fitted-v-observed-fig" style="width: 600px">
+<img alt="_images/35a8340cb7e1f3fadb5dac95ec0234c28c175e2d4ca71547ae284653eb622e69.png" src="_images/35a8340cb7e1f3fadb5dac95ec0234c28c175e2d4ca71547ae284653eb622e69.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 16.9 </span><span class="caption-text">Plot of the fitted values against the observed values of the outcome variable. A straight line is what we’re hoping to see here. This looks pretty good, suggesting that there’s nothing grossly wrong, but there could be hidden subtle issues.</span><a class="headerlink" href="#fig-fitted-v-observed-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
