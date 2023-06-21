@@ -2826,7 +2826,7 @@ p: 0.7832200556890354
 </div>
 </div>
 <p>We see that our original impression was right: there’s no violations of homogeneity of variance in this data.</p>
-<p>It’s a bit beyond the scope of this chapter to talk too much about how to deal with violations of homogeneity of variance, but I’ll give you a quick sense of what you need to consider. The main thing to worry about, if homogeneity of variance is violated, is that the standard error estimates associated with the regression coefficients are no longer entirely reliable, and so your t tests for the coefficients aren’t quite right either. A simple fix to the problem is to make use of a “heteroscedasticity corrected covariance matrix” when estimating the standard errors.</p>
+<p>It’s a bit beyond the scope of this chapter to talk too much about how to deal with violations of homogeneity of variance, but I’ll give you a quick sense of what you need to consider. The main thing to worry about, if homogeneity of variance is violated, is that the standard error estimates associated with the regression coefficients are no longer entirely reliable, and so your t-tests for the coefficients aren’t quite right either. A simple fix to the problem is to make use of a “heteroscedasticity corrected covariance matrix” when estimating the standard errors.</p>
 <p>Again, this goes beyond what we an do with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> can get us there. Before I show you how, let’s just re-assure ourselves that both <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> are doing the same basic calculations when we fit our regression models. We’ll start by re-running our mulitiple regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but I’ll bump up the number of decimal places that we round our answer to, so that it is easier to compare with the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> output:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2932,7 +2932,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Wed, 21 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:07:19</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:09:33</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -2976,7 +2976,7 @@ p: 0.7832200556890354
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
 </div>
-<p>Of course, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us way more information than <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but if you look at the key things we are used to talking about (the coefficients for <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>, the t-values, the <span class="math notranslate nohighlight">\(R^2\)</span> and adjusted <span class="math notranslate nohighlight">\(R^2\)</span>, etc.) it’s all pretty much the same, right?</p>
+<p>Of course, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us way more information than <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but if you hunt around in the output for the key things we are used to talking about (the coefficients for <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>, the t-values, the <span class="math notranslate nohighlight">\(R^2\)</span> and adjusted <span class="math notranslate nohighlight">\(R^2\)</span>, etc.) it’s all pretty much the same, right?</p>
 <p>Good. Now, we’ll re-fit our regression model, but ask <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> to take the potential non-homogeneity (heteroskedasticity) of variance in our model into account by specifying a <code class="docutils literal notranslate"><span class="pre">cov_type</span></code>, that is, the type of “robust sandwich estimator” we want to use. Yes. It really is called a “robust sandwich estimator”. I’m not even kidding.<a class="footnote-reference brackets" href="#sandwich" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3001,7 +3001,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Wed, 21 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:07:19</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:09:33</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
