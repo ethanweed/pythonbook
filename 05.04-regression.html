@@ -2525,8 +2525,8 @@ left), and something that measures the leverage of the observation (the bit on t
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
 <span class="n">outcome</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 
-<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
-<span class="n">mod2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">mod3</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+<span class="n">mod3</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2617,6 +2617,11 @@ left), and something that measures the leverage of the observation (the bit on t
 <span class="kn">import</span> <span class="nn">pingouin</span> <span class="k">as</span> <span class="nn">pg</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
+<span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+
 <span class="n">res</span> <span class="o">=</span> <span class="n">mod2</span><span class="o">.</span><span class="n">residuals_</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">])</span>
 
@@ -2633,7 +2638,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </details>
 </div>
 <figure class="align-default" id="fig-res-hist" style="width: 600px">
-<img alt="_images/ad69fbf57e49493e3ca31f03d9ea0899c289bafdb6806a8237bea516046e9c11.png" src="_images/ad69fbf57e49493e3ca31f03d9ea0899c289bafdb6806a8237bea516046e9c11.png" />
+<img alt="_images/8b1fde83725cf6783d07ae986d2721ad104bbea591d13e2100427a2b951215f2.png" src="_images/8b1fde83725cf6783d07ae986d2721ad104bbea591d13e2100427a2b951215f2.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 16.8 </span><span class="caption-text">A histogram of the (ordinary) residuals in the <code class="docutils literal notranslate"><span class="pre">mod2</span></code> model. These residuals look very close to being normally distributed, much moreso than is typically seen with real data. This shouldn’t surprise you… they aren’t real data, and they aren’t real residuals!</span><a class="headerlink" href="#fig-res-hist" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2674,7 +2679,7 @@ left), and something that measures the leverage of the observation (the bit on t
     <tr>
       <th>Residuals</th>
       <td>0.99</td>
-      <td>0.82</td>
+      <td>0.84</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -2693,7 +2698,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/0b06f4dd243c7290c314b5a07f5923d86e4bfa9cc47b983bcbda4323978a309a.png" src="_images/0b06f4dd243c7290c314b5a07f5923d86e4bfa9cc47b983bcbda4323978a309a.png" />
+<img alt="_images/937db0b7e053a6a967fa9e3b9d3a3142b66ce50db2c67751189eaf3d9444370b.png" src="_images/937db0b7e053a6a967fa9e3b9d3a3142b66ce50db2c67751189eaf3d9444370b.png" />
 </div>
 </div>
 <p>If our residuals were <em>perfectly</em> normally distributed, then they would lie right on the red line. These residuals veer off a little at the ends, but again, pretty damn close, so the Q-Q plot further confirms our conviction based on the histogram and the Shapiro-Wilk test, that it is appropriate to model these data with a linear regression.</p>
@@ -2727,7 +2732,7 @@ left), and something that measures the leverage of the observation (the bit on t
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/f009d205fd129cffa060f893182f28823219f9bb0029a607437ebb7ba0af7a2f.png" src="_images/f009d205fd129cffa060f893182f28823219f9bb0029a607437ebb7ba0af7a2f.png" />
+<img alt="_images/94521a9d1cf2e98eaab53037a37c3a9bd785ac79713076fbbd1426a2eaf18e44.png" src="_images/94521a9d1cf2e98eaab53037a37c3a9bd785ac79713076fbbd1426a2eaf18e44.png" />
 </div>
 </div>
 </section>
@@ -2744,8 +2749,8 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
-<span class="n">outcome</span> <span class="o">=</span> <span class="n">df_2</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
 
 <span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
@@ -2767,7 +2772,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </details>
 </div>
 <figure class="align-default" id="fig-fitted-v-observed" style="width: 600px">
-<img alt="_images/a65dc2bac12931644021240d982ee95be86f14429b0d4407f33fc6d73efd53b7.png" src="_images/a65dc2bac12931644021240d982ee95be86f14429b0d4407f33fc6d73efd53b7.png" />
+<img alt="_images/50957c1def83f45abed63f5d9f1fb067fd7ba1ca14cd6bd755fe4e62b96792a4.png" src="_images/50957c1def83f45abed63f5d9f1fb067fd7ba1ca14cd6bd755fe4e62b96792a4.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 16.9 </span><span class="caption-text">Plot of the fitted values against the observed values of the outcome variable. A straight line is what we’re hoping to see here. This looks pretty good, suggesting that there’s nothing grossly wrong, but there could be hidden subtle issues.</span><a class="headerlink" href="#fig-fitted-v-observed" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2794,7 +2799,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/631aaa95a2d488870cd5f3e938525c86c3cd742575009aa2a0562d33969b9ad1.png" src="_images/631aaa95a2d488870cd5f3e938525c86c3cd742575009aa2a0562d33969b9ad1.png" />
+<img alt="_images/1d3dc9713758f8f26a6342cb2404890fca8fd4f79e863151795cae7b9babdec9.png" src="_images/1d3dc9713758f8f26a6342cb2404890fca8fd4f79e863151795cae7b9babdec9.png" />
 </div>
 </div>
 <p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id84" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
@@ -2804,7 +2809,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 <span class="kn">import</span> <span class="nn">statsmodels.stats.api</span> <span class="k">as</span> <span class="nn">sms</span>
 
 <span class="c1"># fit our regression model using statsmodels</span>
-<span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep+baby_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep+baby_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="n">bptest</span><span class="o">=</span><span class="n">sms</span><span class="o">.</span><span class="n">diagnostic</span><span class="o">.</span><span class="n">het_breuschpagan</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">)</span>
 
@@ -2814,14 +2819,233 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lagrange multiplier statistic: 0.24191983926486693
-p: 0.8860694728713404
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lagrange multiplier statistic: 0.4886831614554388
+p: 0.7832200556890354
 </pre></div>
 </div>
 </div>
 </div>
 <p>We see that our original impression was right: there’s no violations of homogeneity of variance in this data.</p>
 <p>It’s a bit beyond the scope of this chapter to talk too much about how to deal with violations of homogeneity of variance, but I’ll give you a quick sense of what you need to consider. The main thing to worry about, if homogeneity of variance is violated, is that the standard error estimates associated with the regression coefficients are no longer entirely reliable, and so your t tests for the coefficients aren’t quite right either. A simple fix to the problem is to make use of a “heteroscedasticity corrected covariance matrix” when estimating the standard errors.</p>
+<p>Again, this goes beyond what we an do with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> can get us there. Before I show you how, let’s just re-assure ourselves that both <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> are doing the same basic calculations when we fit our regression models. We’ll start by re-running our mulitiple regression with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but I’ll bump up the number of decimal places that we round our answer to, so that it is easier to compare with the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">)</span>
+<span class="n">mod2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>125.9656</td>
+      <td>3.0409</td>
+      <td>41.4231</td>
+      <td>0.0000</td>
+      <td>0.8161</td>
+      <td>0.8123</td>
+      <td>119.9301</td>
+      <td>132.0010</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>-8.9502</td>
+      <td>0.5535</td>
+      <td>-16.1715</td>
+      <td>0.0000</td>
+      <td>0.8161</td>
+      <td>0.8123</td>
+      <td>-10.0487</td>
+      <td>-7.8518</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>baby_sleep</td>
+      <td>0.0105</td>
+      <td>0.2711</td>
+      <td>0.0388</td>
+      <td>0.9691</td>
+      <td>0.8161</td>
+      <td>0.8123</td>
+      <td>-0.5275</td>
+      <td>0.5485</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Next, we’ll fit the same model, but using <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep+baby_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>dan_grump</td>    <th>  R-squared:         </th> <td>   0.816</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.812</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>13:58:25</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    97</td>      <th>  BIC:               </th> <td>   588.8</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>  <td>  125.9656</td> <td>    3.041</td> <td>   41.423</td> <td> 0.000</td> <td>  119.930</td> <td>  132.001</td>
+</tr>
+<tr>
+  <th>dan_sleep</th>  <td>   -8.9502</td> <td>    0.553</td> <td>  -16.172</td> <td> 0.000</td> <td>  -10.049</td> <td>   -7.852</td>
+</tr>
+<tr>
+  <th>baby_sleep</th> <td>    0.0105</td> <td>    0.271</td> <td>    0.039</td> <td> 0.969</td> <td>   -0.527</td> <td>    0.549</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.593</td> <th>  Durbin-Watson:     </th> <td>   2.120</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.743</td> <th>  Jarque-Bera (JB):  </th> <td>   0.218</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-0.053</td> <th>  Prob(JB):          </th> <td>   0.897</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 3.203</td> <th>  Cond. No.          </th> <td>    76.9</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<p>Of course, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us way more information than <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but if you look at the key things we are used to talking about (the coefficients for <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>, the t-values, the <span class="math notranslate nohighlight">\(R^2\)</span> and adjusted <span class="math notranslate nohighlight">\(R^2\)</span>, etc.) it’s all pretty much the same, right?</p>
+<p>Good. Now, we’ll re-fit our regression model, but ask <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> to take the potential non-homogeneity (heteroskedasticity) of variance in our model into account by specifying a <code class="docutils literal notranslate"><span class="pre">cov_type</span></code>, that is, the type of “robust sandwich estimator” we want to use. Yes. It really is called a “robust sandwich estimator”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep+baby_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC1&#39;</span><span class="p">)</span>
+<span class="n">fit</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>dan_grump</td>    <th>  R-squared:         </th> <td>   0.816</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.812</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   201.7</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Wed, 21 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>13:58:25</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    97</td>      <th>  BIC:               </th> <td>   588.8</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>         <td>HC1</td>       <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+       <td></td>         <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>  <td>  125.9656</td> <td>    3.149</td> <td>   39.996</td> <td> 0.000</td> <td>  119.793</td> <td>  132.138</td>
+</tr>
+<tr>
+  <th>dan_sleep</th>  <td>   -8.9502</td> <td>    0.597</td> <td>  -14.987</td> <td> 0.000</td> <td>  -10.121</td> <td>   -7.780</td>
+</tr>
+<tr>
+  <th>baby_sleep</th> <td>    0.0105</td> <td>    0.282</td> <td>    0.037</td> <td> 0.970</td> <td>   -0.541</td> <td>    0.563</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.593</td> <th>  Durbin-Watson:     </th> <td>   2.120</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.743</td> <th>  Jarque-Bera (JB):  </th> <td>   0.218</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-0.053</td> <th>  Prob(JB):          </th> <td>   0.897</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 3.203</td> <th>  Cond. No.          </th> <td>    76.9</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors are heteroscedasticity robust (HC1)</div></div>
+</div>
+<p>Not surprisingly, these values are pretty much identical to the ones that we saw when we fit our basic, non-robust regression, because the homogeneity of variance assumption wasn’t violated in our data anyway. But if it had been, we might have seen some more substantial differences.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
