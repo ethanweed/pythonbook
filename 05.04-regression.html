@@ -417,6 +417,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">16.9.2. Three kinds of anomalous data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">16.9.3. Checking the normality of the residuals</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">16.9.4. Checking the linearity of the relationship</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.5. Checking for collinearity</a></li>
 </ul>
 </li>
 </ul>
@@ -1957,7 +1958,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <a class="reference internal" href="#regressionnormality"><span class="std std-ref">Checking the normality of the residuals</span></a>.</p></li>
 <li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <a class="reference internal" href="#regressionlinearity"><span class="std std-ref">Checking the linearity of the relationship</span></a>.</p></li>
 <li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <span class="xref myst"></span>.</p></li>
-<li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <span class="xref myst"></span></p></li>
+<li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <a class="reference internal" href="#regressioncollinearity"><span class="std std-ref">Checking for collinearity</span></a></p></li>
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
 <li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <a class="reference internal" href="#regressionoutliers"><span class="std std-ref">Three kinds of anomalous data</span></a>.</p></li>
 </ul>
@@ -2929,10 +2930,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Wed, 21 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+  <th>Date:</th>             <td>Thu, 22 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:14:05</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>10:29:01</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -2979,6 +2980,15 @@ p: 0.7832200556890354
 <p>Of course, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us way more information than <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, but if you hunt around in the output for the key things we are used to talking about (the coefficients for <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> and <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>, the t-values, the <span class="math notranslate nohighlight">\(R^2\)</span> and adjusted <span class="math notranslate nohighlight">\(R^2\)</span>, etc.) it’s all pretty much the same, right?</p>
 <p>Good. Now, we’ll re-fit our regression model, but ask <code class="docutils literal notranslate"><span class="pre">statmodels</span></code> to take the potential non-homogeneity (aka the heteroskedasticity) of variance in our model into account by specifying a <code class="docutils literal notranslate"><span class="pre">cov_type</span></code>, that is, the type of “robust sandwich estimator” we want to use. Yes. It really is called a “robust sandwich estimator”. I’m not even kidding.<a class="footnote-reference brackets" href="#sandwich" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a></p>
 <p>Not surprisingly, these <span class="math notranslate nohighlight">\(t\)</span>-values are pretty much identical to the ones that we saw when we fit our basic, non-robust regression, because the homogeneity of variance assumption wasn’t violated in our data anyway. But if it had been, we might have seen some more substantial differences.</p>
+</section>
+<section id="checking-for-collinearity">
+<span id="regressioncollinearity"></span><h3><span class="section-number">16.9.5. </span>Checking for collinearity<a class="headerlink" href="#checking-for-collinearity" title="Permalink to this heading">#</a></h3>
+<p>The last kind of regression diagnostic that I’m going to discuss in this chapter is the use of <strong><em>variance inflation factors</em></strong> (VIFs), which are useful for determining whether or not the predictors in your regression model are too highly correlated with each other. There is a variance inflation factor associated with each predictor <span class="math notranslate nohighlight">\(X_k\)</span> in the model, and the formula for the <span class="math notranslate nohighlight">\(k\)</span>-th VIF is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{VIF}_k = \frac{1}{1-{R^2_{(-k)}}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(R^2_{(-k)}\)</span> refers to <span class="math notranslate nohighlight">\(R\)</span>-squared value you would get if you ran a regression using <span class="math notranslate nohighlight">\(X_k\)</span> as the outcome variable, and all the other <span class="math notranslate nohighlight">\(X\)</span> variables as the predictors. The idea here is that <span class="math notranslate nohighlight">\(R^2_{(-k)}\)</span> is a very good measure of the extent to which <span class="math notranslate nohighlight">\(X_k\)</span> is correlated with all the other variables in the model. Better yet, the square root of the VIF is pretty interpretable: it tells you how much wider the confidence interval for the corresponding coefficient <span class="math notranslate nohighlight">\(b_k\)</span> is, relative to what you would have expected if the predictors are all nice and uncorrelated with one another. If you’ve only got two predictors, the VIF values are always going to be the same, as we can see if we use the</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -3138,6 +3148,7 @@ p: 0.7832200556890354
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">16.9.2. Three kinds of anomalous data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">16.9.3. Checking the normality of the residuals</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">16.9.4. Checking the linearity of the relationship</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.5. Checking for collinearity</a></li>
 </ul>
 </li>
 </ul>
