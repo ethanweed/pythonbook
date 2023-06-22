@@ -18,25 +18,27 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pandas as pd
-import pingouin as pg
-import seaborn as sns
+vif = pd.DataFrame()
+vif['VIF'] = [variance_inflation_factor(matrix.values, i) for i in range(matrix.shape[1])]
+vif['variable'] = matrix.columns
+vif
 
-res = mod2.residuals_
-res = pd.DataFrame(res, columns = ['Residuals'])
-
-fig plt.plot()
-
-sns.histplot(data = res, x = 'Residuals')
-sns.despine()
-plt.close()
-glue("res-hist-fig", fig, display=False)
 ------------------
 
 
-[0;36m  Cell [0;32mIn[41], line 8[0;36m[0m
-[0;31m    fig plt.plot()[0m
-[0m        ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[52], line 2[0m
+[1;32m      1[0m vif [38;5;241m=[39m pd[38;5;241m.[39mDataFrame()
+[0;32m----> 2[0m vif[[38;5;124m'[39m[38;5;124mVIF[39m[38;5;124m'[39m] [38;5;241m=[39m [43m[[49m[43mvariance_inflation_factor[49m[43m([49m[43mmatrix[49m[38;5;241;43m.[39;49m[43mvalues[49m[43m,[49m[43m [49m[43mi[49m[43m)[49m[43m [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43mi[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[38;5;28;43mrange[39;49m[43m([49m[43mmatrix[49m[38;5;241;43m.[39;49m[43mshape[49m[43m[[49m[38;5;241;43m1[39;49m[43m][49m[43m)[49m[43m][49m
+[1;32m      3[0m vif[[38;5;124m'[39m[38;5;124mvariable[39m[38;5;124m'[39m] [38;5;241m=[39m matrix[38;5;241m.[39mcolumns
+[1;32m      4[0m vif
 
+Cell [0;32mIn[52], line 2[0m, in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m      1[0m vif [38;5;241m=[39m pd[38;5;241m.[39mDataFrame()
+[0;32m----> 2[0m vif[[38;5;124m'[39m[38;5;124mVIF[39m[38;5;124m'[39m] [38;5;241m=[39m [[43mvariance_inflation_factor[49m(matrix[38;5;241m.[39mvalues, i) [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m(matrix[38;5;241m.[39mshape[[38;5;241m1[39m])]
+[1;32m      3[0m vif[[38;5;124m'[39m[38;5;124mvariable[39m[38;5;124m'[39m] [38;5;241m=[39m matrix[38;5;241m.[39mcolumns
+[1;32m      4[0m vif
+
+[0;31mNameError[0m: name 'variance_inflation_factor' is not defined
 
