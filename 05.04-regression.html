@@ -2742,7 +2742,7 @@ left), and something that measures the leverage of the observation (the bit on t
 <span id="regressionlinearity"></span><h3><span class="section-number">16.9.4. </span>Checking the linearity of the relationship<a class="headerlink" href="#checking-the-linearity-of-the-relationship" title="Permalink to this heading">#</a></h3>
 <p>The third thing we might want to test is the linearity of the relationships between the predictors and
 the outcomes. There’s a few different things that you might want to do in order to check this. Firstly, it
-never hurts to just plot the relationship between the fitted values Yˆi and the observed values Yi for the
+never hurts to just plot the relationship between the fitted values <span class="math notranslate nohighlight">\(\hat{Y}_i\)</span> and the observed values <span class="math notranslate nohighlight">\(Y_i\)</span> for the
 outcome variable, as illustrated in <a class="reference internal" href="#fig-fitted-v-observed"><span class="std std-numref">Fig. 16.9</span></a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -2780,7 +2780,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </figcaption>
 </figure>
 <p>One of the reasons I like to draw these plots is that they give you a kind of “big picture view”. If this plot looks approximately linear, then we’re probably not doing too badly (though that’s not to say that there aren’t problems). However, if you can see big departures from linearity here, then it strongly suggests that you need to make some changes.</p>
-<p>In any case, in order to get a more detailed picture it’s often more informative to look at the relationship between the fitted values and the residuals themselves. Let’s take a look. Here, we use the <code class="docutils literal notranslate"><span class="pre">regplot</span></code> function from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and rather than a straight line through all the points, we can ask Python to compute a “locally-weighed linear linear” regression, by setting the argument <code class="docutils literal notranslate"><span class="pre">lowess</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This gives us a sort of moving window, as Python fits a series of little regressions as it moves through the data. If the relationship in our data is truly linear, then we should see a straight, perfectly horizontal line. There’s some hint of curvature here, but it’s not clear whether or not we be concerned.</p>
+<p>In any case, in order to get a more detailed picture it’s often more informative to look at the relationship between the fitted values and the residuals themselves. Let’s take a look. Here, we use the <code class="docutils literal notranslate"><span class="pre">residplot</span></code> function from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, and in addition to drawing a straight line through all the points, we can ask Python to compute a “locally-weighed linear linear” regression, by setting the argument <code class="docutils literal notranslate"><span class="pre">lowess</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This gives us a sort of moving window, as Python fits a series of little regressions as it moves through the data. If the relationship in our data is truly linear, then we should see a straight, perfectly horizontal line. There’s some hint of curvature here, but it’s not clear whether or not we be concerned.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2934,7 +2934,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:38:28</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:45:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3002,7 +3002,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:38:28</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:45:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
