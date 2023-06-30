@@ -18,27 +18,24 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-vif = pd.DataFrame()
-vif['VIF'] = [variance_inflation_factor(matrix.values, i) for i in range(matrix.shape[1])]
-vif['variable'] = matrix.columns
-vif
+df_res_pred['residuals'] = res['Residuals']
+
+fig = plt.figure()
+
+ax=sns.regplot(data = df_res_pred, x = 'fitted', y = 'residuals', lowess=True)
+
+ax.grid(False)
+sns.despine()
 
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[52], line 2[0m
-[1;32m      1[0m vif [38;5;241m=[39m pd[38;5;241m.[39mDataFrame()
-[0;32m----> 2[0m vif[[38;5;124m'[39m[38;5;124mVIF[39m[38;5;124m'[39m] [38;5;241m=[39m [43m[[49m[43mvariance_inflation_factor[49m[43m([49m[43mmatrix[49m[38;5;241;43m.[39;49m[43mvalues[49m[43m,[49m[43m [49m[43mi[49m[43m)[49m[43m [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43mi[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[38;5;28;43mrange[39;49m[43m([49m[43mmatrix[49m[38;5;241;43m.[39;49m[43mshape[49m[43m[[49m[38;5;241;43m1[39;49m[43m][49m[43m)[49m[43m][49m
-[1;32m      3[0m vif[[38;5;124m'[39m[38;5;124mvariable[39m[38;5;124m'[39m] [38;5;241m=[39m matrix[38;5;241m.[39mcolumns
-[1;32m      4[0m vif
+Cell [0;32mIn[46], line 1[0m
+[0;32m----> 1[0m [43mdf_res_pred[49m[[38;5;124m'[39m[38;5;124mresiduals[39m[38;5;124m'[39m] [38;5;241m=[39m res[[38;5;124m'[39m[38;5;124mResiduals[39m[38;5;124m'[39m]
+[1;32m      3[0m fig [38;5;241m=[39m plt[38;5;241m.[39mfigure()
+[1;32m      5[0m ax[38;5;241m=[39msns[38;5;241m.[39mregplot(data [38;5;241m=[39m df_res_pred, x [38;5;241m=[39m [38;5;124m'[39m[38;5;124mfitted[39m[38;5;124m'[39m, y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mresiduals[39m[38;5;124m'[39m, lowess[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
 
-Cell [0;32mIn[52], line 2[0m, in [0;36m<listcomp>[0;34m(.0)[0m
-[1;32m      1[0m vif [38;5;241m=[39m pd[38;5;241m.[39mDataFrame()
-[0;32m----> 2[0m vif[[38;5;124m'[39m[38;5;124mVIF[39m[38;5;124m'[39m] [38;5;241m=[39m [[43mvariance_inflation_factor[49m(matrix[38;5;241m.[39mvalues, i) [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m(matrix[38;5;241m.[39mshape[[38;5;241m1[39m])]
-[1;32m      3[0m vif[[38;5;124m'[39m[38;5;124mvariable[39m[38;5;124m'[39m] [38;5;241m=[39m matrix[38;5;241m.[39mcolumns
-[1;32m      4[0m vif
-
-[0;31mNameError[0m: name 'variance_inflation_factor' is not defined
+[0;31mNameError[0m: name 'df_res_pred' is not defined
 

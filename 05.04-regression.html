@@ -417,7 +417,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">16.9.2. Three kinds of anomalous data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">16.9.3. Checking the normality of the residuals</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">16.9.4. Checking the linearity of the relationship</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.5. Checking for collinearity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-homogeneity-of-variance">16.9.5. Checking the homogeneity of variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.6. Checking for collinearity</a></li>
 </ul>
 </li>
 </ul>
@@ -1957,7 +1958,7 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 <ul class="simple">
 <li><p><em>Normality</em>. Like half the models in statistics, standard linear regression relies on an assumption of normality. Specifically, it assumes that the <em>residuals</em> are normally distributed. It’s actually okay if the predictors <span class="math notranslate nohighlight">\(X\)</span> and the outcome <span class="math notranslate nohighlight">\(Y\)</span> are non-normal, so long as the residuals <span class="math notranslate nohighlight">\(\epsilon\)</span> are normal. See <a class="reference internal" href="#regressionnormality"><span class="std std-ref">Checking the normality of the residuals</span></a>.</p></li>
 <li><p><em>Linearity</em>. A pretty fundamental assumption of the linear regression model is that relationship between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> actually be linear! Regardless of whether it’s a simple regression or a multiple regression, we assume that the relatiships involved are linear. See <a class="reference internal" href="#regressionlinearity"><span class="std std-ref">Checking the linearity of the relationship</span></a>.</p></li>
-<li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <span class="xref myst"></span>.</p></li>
+<li><p><em>Homogeneity of variance</em>. Strictly speaking, the regression model assumes that each residual <span class="math notranslate nohighlight">\(\epsilon_i\)</span> is generated from a normal distribution with mean 0, and (more importantly for the current purposes) with a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that is the same for every single residual. In practice, it’s impossible to test the assumption that every residual is identically distributed. Instead, what we care about is that the standard deviation of the residual is the same for all values of <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, and (if we’re being especially paranoid) all values of every predictor <span class="math notranslate nohighlight">\(X\)</span> in the model. See <a class="reference internal" href="#regressionhomogeneity"><span class="std std-ref">Checking the homogeneity of variance</span></a>.</p></li>
 <li><p><em>Uncorrelated predictors</em>. The idea here is that, is a multiple regression model, you don’t want your predictors to be too strongly correlated with each other. This isn’t  “technically” an assumption of the regression model, but in practice it’s required. Predictors that are too strongly correlated with each other (referred to as “collinearity”) can cause problems when evaluating the model. See <a class="reference internal" href="#regressioncollinearity"><span class="std std-ref">Checking for collinearity</span></a></p></li>
 <li><p><em>Residuals are independent of each other</em>. This is really just a “catch all” assumption, to the effect that “there’s nothing else funny going on in the residuals”. If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.</p></li>
 <li><p><em>No “bad” outliers</em>. Again, not actually a technical assumption of the model (or rather, it’s sort of implied by all the others), but there is an implicit assumption that your regression model isn’t being too strongly influenced by one or two anomalous data points; since this raises questions about the adequacy of the model, and the trustworthiness of the data in some cases. See <a class="reference internal" href="#regressionoutliers"><span class="std std-ref">Three kinds of anomalous data</span></a>.</p></li>
@@ -2750,20 +2751,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
-<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
-
-<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-
-<span class="n">df_res_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="p">{</span><span class="s1">&#39;observed&#39;</span><span class="p">:</span> <span class="n">outcome</span><span class="p">,</span>
-     <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span>
-    <span class="p">})</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-
-<span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_res_pred</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;observed&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">residplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">,</span> <span class="n">lowess</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">))</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;fitted_v_observed-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -2773,7 +2761,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </details>
 </div>
 <figure class="align-default" id="fig-fitted-v-observed" style="width: 600px">
-<img alt="_images/50957c1def83f45abed63f5d9f1fb067fd7ba1ca14cd6bd755fe4e62b96792a4.png" src="_images/50957c1def83f45abed63f5d9f1fb067fd7ba1ca14cd6bd755fe4e62b96792a4.png" />
+<img alt="_images/94521a9d1cf2e98eaab53037a37c3a9bd785ac79713076fbbd1426a2eaf18e44.png" src="_images/94521a9d1cf2e98eaab53037a37c3a9bd785ac79713076fbbd1426a2eaf18e44.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 16.9 </span><span class="caption-text">Plot of the fitted values against the observed values of the outcome variable. A straight line is what we’re hoping to see here. This looks pretty good, suggesting that there’s nothing grossly wrong, but there could be hidden subtle issues.</span><a class="headerlink" href="#fig-fitted-v-observed" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -2800,9 +2788,22 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/1d3dc9713758f8f26a6342cb2404890fca8fd4f79e863151795cae7b9babdec9.png" src="_images/1d3dc9713758f8f26a6342cb2404890fca8fd4f79e863151795cae7b9babdec9.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">46</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df_res_pred</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;Residuals&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_res_pred</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;residuals&#39;</span><span class="p">,</span> <span class="n">lowess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;df_res_pred&#39; is not defined
+</pre></div>
 </div>
 </div>
+</div>
+</section>
+<section id="checking-the-homogeneity-of-variance">
+<span id="regressionhomogeneity"></span><h3><span class="section-number">16.9.5. </span>Checking the homogeneity of variance<a class="headerlink" href="#checking-the-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
+<p>The regression models that we’ve talked about all make a homogeneity of variance assumption: the variance of the residuals is assumed to be constant.</p>
 <p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id84" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2930,10 +2931,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 22 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+  <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:08:43</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:16:36</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -2998,10 +2999,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   201.7</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 22 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
+  <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:08:43</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:16:36</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3048,7 +3049,7 @@ p: 0.7832200556890354
 <p>Not surprisingly, the <span class="math notranslate nohighlight">\(z\)</span>-values are pretty similar to the <span class="math notranslate nohighlight">\(t\)</span>-values that we saw when we fit our basic, non-robust regression, because the homogeneity of variance assumption wasn’t violated in our data anyway. But if it had been, we might have seen some more substantial differences.</p>
 </section>
 <section id="checking-for-collinearity">
-<span id="regressioncollinearity"></span><h3><span class="section-number">16.9.5. </span>Checking for collinearity<a class="headerlink" href="#checking-for-collinearity" title="Permalink to this heading">#</a></h3>
+<span id="regressioncollinearity"></span><h3><span class="section-number">16.9.6. </span>Checking for collinearity<a class="headerlink" href="#checking-for-collinearity" title="Permalink to this heading">#</a></h3>
 <p>The last kind of regression diagnostic that I’m going to discuss in this chapter is the use of <strong><em>variance inflation factors</em></strong> (VIFs), which are useful for determining whether or not the predictors in your regression model are too highly correlated with each other. There is a variance inflation factor associated with each predictor <span class="math notranslate nohighlight">\(X_k\)</span> in the model, and the formula for the <span class="math notranslate nohighlight">\(k\)</span>-th VIF is:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -3550,7 +3551,8 @@ To give a sense of how we could end up with a model that has bigger collinearity
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-kinds-of-anomalous-data">16.9.2. Three kinds of anomalous data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-normality-of-the-residuals">16.9.3. Checking the normality of the residuals</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-linearity-of-the-relationship">16.9.4. Checking the linearity of the relationship</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.5. Checking for collinearity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-homogeneity-of-variance">16.9.5. Checking the homogeneity of variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.6. Checking for collinearity</a></li>
 </ul>
 </li>
 </ul>
