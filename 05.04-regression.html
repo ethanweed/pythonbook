@@ -2834,6 +2834,103 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 <p><span class="caption-number">Fig. 16.10 </span><span class="caption-text">Scatterplots of the residuals when a linear regression is fit separately for either <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> as a predictor (panel A) or <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> as a predictor (panel B). Panel C plots the residuals for the overall fit of the model including both predictors. The dotted horizontal line represents the fitted regression model. If a linear model is appropriate for our data, then the points should lie evenly above and below the dotted line, the whole away along the x-axis. The red line shows a locally-weighted smoothing of the regressionn line. Too much curvature in this line would suggest that maybe a straight line is not the best model for our data. But how much curvature is too much?</span><a class="headerlink" href="#fig-resid1" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+<p>One method for testing the degree of curvature is known as Tukey’s test for nonadditivity {cite:<code class="docutils literal notranslate"><span class="pre">tukey1949one,</span> <span class="pre">fox2018r</span></code>}. The test is quite simple: you just take the fitted (predicted) values from your original model, square them, and then include these squared fitted values as a predictor when you re-run the model. If the <span class="math notranslate nohighlight">\(t\)</span>-test for the new predictor comes up significant, this implies that there is some nonlinear relationship between the variable and the residuals. Let’s give this a try:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># square the fitted values for our model, and add them to our dataframe</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Tukey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1">#re-run the model, with squared fitted values added as predictor (here I have called them &quot;Tukey&quot;)</span>
+<span class="n">mod_curve_check</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;Tukey&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+<span class="n">mod_curve_check</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>names</th>
+      <th>coef</th>
+      <th>se</th>
+      <th>T</th>
+      <th>pval</th>
+      <th>r2</th>
+      <th>adj_r2</th>
+      <th>CI[2.5%]</th>
+      <th>CI[97.5%]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>1.540</td>
+      <td>57.642</td>
+      <td>0.027</td>
+      <td>0.979</td>
+      <td>0.825</td>
+      <td>0.819</td>
+      <td>-112.878</td>
+      <td>115.958</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>dan_sleep</td>
+      <td>2.867</td>
+      <td>5.494</td>
+      <td>0.522</td>
+      <td>0.603</td>
+      <td>0.825</td>
+      <td>0.819</td>
+      <td>-8.039</td>
+      <td>13.773</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>baby_sleep</td>
+      <td>0.011</td>
+      <td>0.266</td>
+      <td>0.043</td>
+      <td>0.966</td>
+      <td>0.825</td>
+      <td>0.819</td>
+      <td>-0.517</td>
+      <td>0.540</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Tukey</td>
+      <td>0.010</td>
+      <td>0.005</td>
+      <td>2.162</td>
+      <td>0.033</td>
+      <td>0.825</td>
+      <td>0.819</td>
+      <td>0.001</td>
+      <td>0.020</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Since the <span class="math notranslate nohighlight">\(t\)</span>-test on the coefficients for new <code class="docutils literal notranslate"><span class="pre">Tukey</span></code> predictor is significant (<span class="math notranslate nohighlight">\(p\)</span> &lt; 0.05), this suggests that the curvature we see in <a class="reference internal" href="#fig-resid1"><span class="std std-numref">Fig. 16.10</span></a> is genuine, although it still bears remembering that the pattern in <a class="reference internal" href="#fig-fitted-v-observed"><span class="std std-numref">Fig. 16.9</span></a> is pretty damn straight: in other words the deviations from linearity are fairly small, and probably not worth worrying about.</p>
+<p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We have already discussed the <a class="reference internal" href="03.03-pragmatic_matters.html#transform"><span class="std std-ref">basics of variable transformation</span></a> and <a class="reference internal" href="03.03-pragmatic_matters.html#mathfunc"><span class="std std-ref">sdfsdafad</span></a>, but I do want to make special note of one additional possibility that I didn’t mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it’s very widely used</p>
 </section>
 <section id="checking-the-homogeneity-of-variance">
 <span id="regressionhomogeneity"></span><h3><span class="section-number">16.9.5. </span>Checking the homogeneity of variance<a class="headerlink" href="#checking-the-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
@@ -2968,7 +3065,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>09:47:15</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:08:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3036,7 +3133,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>09:47:15</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:08:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3245,6 +3342,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
+      <th>Tukey</th>
     </tr>
   </thead>
   <tbody>
@@ -3254,6 +3352,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>0.627949</td>
       <td>-0.903384</td>
       <td>-0.098408</td>
+      <td>-0.997024</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -3261,6 +3360,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>1.000000</td>
       <td>-0.565964</td>
       <td>-0.010434</td>
+      <td>-0.626177</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -3268,12 +3368,22 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>-0.565964</td>
       <td>1.000000</td>
       <td>0.076479</td>
+      <td>0.907817</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098408</td>
       <td>-0.010434</td>
       <td>0.076479</td>
+      <td>1.000000</td>
+      <td>0.103952</td>
+    </tr>
+    <tr>
+      <th>Tukey</th>
+      <td>-0.997024</td>
+      <td>-0.626177</td>
+      <td>0.907817</td>
+      <td>0.103952</td>
       <td>1.000000</td>
     </tr>
   </tbody>
