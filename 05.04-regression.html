@@ -2935,8 +2935,13 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 \[
 f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 \]</div>
-<p>for all values of <span class="math notranslate nohighlight">\(\lambda\)</span> except <span class="math notranslate nohighlight">\(\lambda = 0\)</span>. When <span class="math notranslate nohighlight">\(\lambda = 0\)</span> we just take the natural logarithm (i.e., <span class="math notranslate nohighlight">\(\ln(x)\)</span>). You can calculate it using the <code class="docutils literal notranslate"><span class="pre">boxcox</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>.</p>
-<div class="cell docutils container">
+<p>for all values of <span class="math notranslate nohighlight">\(\lambda\)</span> except <span class="math notranslate nohighlight">\(\lambda = 0\)</span>. When <span class="math notranslate nohighlight">\(\lambda = 0\)</span> we just take the natural logarithm (i.e., <span class="math notranslate nohighlight">\(\ln(x)\)</span>). You can calculate it using the <code class="docutils literal notranslate"><span class="pre">boxcox</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>, which will automatically calculate the optimal value of <span class="math notranslate nohighlight">\(\lambda\)</span>. In the case of our <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> data though, the data were already pretty normally distributed (panel A), so applying the transformation (panel B) really doesn’t do much:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">boxcox</span>
 
@@ -2967,6 +2972,7 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal value for lambda: 1.7912772737277842
 </pre></div>
@@ -3108,7 +3114,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:41:58</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:47:50</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3176,7 +3182,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:41:58</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:47:50</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
