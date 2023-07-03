@@ -2930,7 +2930,50 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 </div></div></div>
 </div>
 <p>Since the <span class="math notranslate nohighlight">\(t\)</span>-test on the coefficients for new <code class="docutils literal notranslate"><span class="pre">Tukey</span></code> predictor is significant (<span class="math notranslate nohighlight">\(p\)</span> &lt; 0.05), this suggests that the curvature we see in <a class="reference internal" href="#fig-resid1"><span class="std std-numref">Fig. 16.10</span></a> is genuine, although it still bears remembering that the pattern in <a class="reference internal" href="#fig-fitted-v-observed"><span class="std std-numref">Fig. 16.9</span></a> is pretty damn straight: in other words the deviations from linearity are fairly small, and probably not worth worrying about.</p>
-<p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We have already discussed the <a class="reference internal" href="03.03-pragmatic_matters.html#transform"><span class="std std-ref">basics of variable transformation</span></a> and <a class="reference internal" href="03.03-pragmatic_matters.html#mathfunc"><span class="std std-ref">sdfsdafad</span></a>, but I do want to make special note of one additional possibility that I didn’t mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it’s very widely used</p>
+<p>In a lot of cases, the solution to this problem (and many others) is to transform one or more of the variables. We have already discussed the <a class="reference internal" href="03.03-pragmatic_matters.html#transform"><span class="std std-ref">basics of variable transformation</span></a>, but I do want to make special note of one additional possibility that I didn’t mention earlier: the Box-Cox transform. The Box-Cox function is a fairly simple one, but it’s very widely used</p>
+<div class="math notranslate nohighlight">
+\[
+f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
+\]</div>
+<p>for all values of <span class="math notranslate nohighlight">\(\lambda\)</span> except <span class="math notranslate nohighlight">\(\lambda = 0\)</span>. When <span class="math notranslate nohighlight">\(\lambda = 0\)</span> we just take the natural logarithm (i.e., <span class="math notranslate nohighlight">\(\ln(x)\)</span>). You can calculate it using the <code class="docutils literal notranslate"><span class="pre">boxcox</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">boxcox</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep_transformed&#39;</span><span class="p">],</span> <span class="n">best_lambda</span> <span class="o">=</span> <span class="n">boxcox</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">])</span>
+
+<span class="c1"># Define a figure with two panels</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Fit linear regressions for both predictors, and plot residuals</span>
+
+<span class="n">p1</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">p2</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_sleep_transformed&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Make figures look nicer</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> 
+            <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">subplots</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">subplots</span><span class="p">:</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Optimal value for lambda:&#39;</span><span class="p">,</span> <span class="n">best_lambda</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal value for lambda: 1.7912772737277842
+</pre></div>
+</div>
+<img alt="_images/249c2abbda236849b4b8d1ef54d5880ac813adafe4accdb06f0e11cda521ceab.png" src="_images/249c2abbda236849b4b8d1ef54d5880ac813adafe4accdb06f0e11cda521ceab.png" />
+</div>
+</div>
 </section>
 <section id="checking-the-homogeneity-of-variance">
 <span id="regressionhomogeneity"></span><h3><span class="section-number">16.9.5. </span>Checking the homogeneity of variance<a class="headerlink" href="#checking-the-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
@@ -3065,7 +3108,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:08:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:41:58</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3133,7 +3176,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:08:57</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>12:41:58</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3343,6 +3386,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <th>dan_grump</th>
       <th>day</th>
       <th>Tukey</th>
+      <th>dan_sleep_transformed</th>
     </tr>
   </thead>
   <tbody>
@@ -3353,6 +3397,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>-0.903384</td>
       <td>-0.098408</td>
       <td>-0.997024</td>
+      <td>0.997866</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -3361,6 +3406,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>-0.565964</td>
       <td>-0.010434</td>
       <td>-0.626177</td>
+      <td>0.625397</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -3369,6 +3415,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>1.000000</td>
       <td>0.076479</td>
       <td>0.907817</td>
+      <td>-0.895394</td>
     </tr>
     <tr>
       <th>day</th>
@@ -3377,6 +3424,7 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>0.076479</td>
       <td>1.000000</td>
       <td>0.103952</td>
+      <td>-0.093393</td>
     </tr>
     <tr>
       <th>Tukey</th>
@@ -3384,6 +3432,16 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>-0.626177</td>
       <td>0.907817</td>
       <td>0.103952</td>
+      <td>1.000000</td>
+      <td>-0.989864</td>
+    </tr>
+    <tr>
+      <th>dan_sleep_transformed</th>
+      <td>0.997866</td>
+      <td>0.625397</td>
+      <td>-0.895394</td>
+      <td>-0.093393</td>
+      <td>-0.989864</td>
       <td>1.000000</td>
     </tr>
   </tbody>
