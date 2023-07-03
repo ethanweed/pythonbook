@@ -18,24 +18,47 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-df_res_pred['residuals'] = res['Residuals']
 
-fig = plt.figure()
+predictors = df[['dan_sleep', 'baby_sleep']]
+outcome = df['dan_grump']
 
-ax=sns.regplot(data = df_res_pred, x = 'fitted', y = 'residuals', lowess=True)
+mod2 = pg.linear_regression(predictors, outcome, as_dataframe = False)
 
+df_slplot = pd.DataFrame(
+    {'fitted': mod2['pred'],
+     'sqrt_abs_stand_res': np.sqrt(np.abs(mod2['residuals']))
+    })
+
+ax=sns.regplot(data = df_slplot, x = 'fitted', y = 'sqrt_abs_stand_res', lowess = True, line_kws=dict(color="r"))
+
+# Make figures look nicer
+ax.set_ylabel(r'$\sqrt{|standardized residuals|}$')
+ax.set_ylabel('Fitted Values')
+ax.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 ax.grid(False)
 sns.despine()
+
+
+# Plot figure in book, with caption
+plt.close(ax)
+glue("sl-plot-fig", ax, display=False)
 
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[46], line 1[0m
-[0;32m----> 1[0m [43mdf_res_pred[49m[[38;5;124m'[39m[38;5;124mresiduals[39m[38;5;124m'[39m] [38;5;241m=[39m res[[38;5;124m'[39m[38;5;124mResiduals[39m[38;5;124m'[39m]
-[1;32m      3[0m fig [38;5;241m=[39m plt[38;5;241m.[39mfigure()
-[1;32m      5[0m ax[38;5;241m=[39msns[38;5;241m.[39mregplot(data [38;5;241m=[39m df_res_pred, x [38;5;241m=[39m [38;5;124m'[39m[38;5;124mfitted[39m[38;5;124m'[39m, y [38;5;241m=[39m [38;5;124m'[39m[38;5;124mresiduals[39m[38;5;124m'[39m, lowess[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[49], line 22[0m
+[1;32m     18[0m sns[38;5;241m.[39mdespine()
+[1;32m     21[0m [38;5;66;03m# Plot figure in book, with caption[39;00m
+[0;32m---> 22[0m [43mplt[49m[38;5;241;43m.[39;49m[43mclose[49m[43m([49m[43max[49m[43m)[49m
+[1;32m     23[0m glue([38;5;124m"[39m[38;5;124msl-plot-fig[39m[38;5;124m"[39m, ax, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
 
-[0;31mNameError[0m: name 'df_res_pred' is not defined
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/pyplot.py:991[0m, in [0;36mclose[0;34m(fig)[0m
+[1;32m    989[0m     _pylab_helpers[38;5;241m.[39mGcf[38;5;241m.[39mdestroy_fig(fig)
+[1;32m    990[0m [38;5;28;01melse[39;00m:
+[0;32m--> 991[0m     [38;5;28;01mraise[39;00m [38;5;167;01mTypeError[39;00m([38;5;124m"[39m[38;5;124mclose() argument must be a Figure, an int, a string, [39m[38;5;124m"[39m
+[1;32m    992[0m                     [38;5;124m"[39m[38;5;124mor None, not [39m[38;5;132;01m%s[39;00m[38;5;124m"[39m [38;5;241m%[39m [38;5;28mtype[39m(fig))
+
+[0;31mTypeError[0m: close() argument must be a Figure, an int, a string, or None, not <class 'matplotlib.axes._axes.Axes'>
 
