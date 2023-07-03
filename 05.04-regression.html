@@ -423,6 +423,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">16.10.1. Backward elimination</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-caveat">16.10.2. A caveat</a></li>
 </ul>
 </li>
 </ul>
@@ -3173,7 +3174,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>16:45:19</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3241,7 +3242,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>16:45:19</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3674,8 +3675,7 @@ p: 0.7832200556890354
 \[
 \mbox{AIC} = \displaystyle\frac{\mbox{SS}_{res}}{\hat{\sigma}}^2+ 2K
 \]</div>
-<p>The smaller the AIC value, the better the model performance is. If we ignore the low level details, it’s fairly obvious what the AIC does: on the left we have a term that increases as the model predictions get worse; on the right we have a term that increases as the model complexity increases. The best model is the one that fits the data well (low residuals; left hand side) using as few predictors as possible (low <span class="math notranslate nohighlight">\(K\)</span>; right hand side). In short, this is a simple implementation of Ockham’s razor.</p>
-<p><code class="docutils literal notranslate"><span class="pre">^[Note,</span> <span class="pre">depending</span> <span class="pre">on</span> <span class="pre">exactly</span> <span class="pre">how</span> <span class="pre">AIC</span> <span class="pre">is</span> <span class="pre">calculated,</span>&#160; <span class="pre">In</span> <span class="pre">practice,</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">all</span> <span class="pre">you</span> <span class="pre">care</span> <span class="pre">about:</span> <span class="pre">the</span> <span class="pre">actual</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">an</span> <span class="pre">AIC</span> <span class="pre">statistic</span> <span class="pre">isn't</span> <span class="pre">very</span> <span class="pre">informative,</span> <span class="pre">but</span> <span class="pre">the</span> <span class="pre">differences</span> <span class="pre">between</span> <span class="pre">two</span> <span class="pre">AIC</span> <span class="pre">values</span> <span class="pre">*are*</span> <span class="pre">useful,</span> <span class="pre">since</span> <span class="pre">these</span> <span class="pre">provide</span> <span class="pre">a</span> <span class="pre">measure</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">extent</span> <span class="pre">to</span> <span class="pre">which</span> <span class="pre">one</span> <span class="pre">model</span> <span class="pre">outperforms</span> <span class="pre">another.]</span></code></p>
+<p>The smaller the AIC value, the better the model performance is.<a class="footnote-reference brackets" href="#aic-calc" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a> If we ignore the low level details, it’s fairly obvious what the AIC does: on the left we have a term that increases as the model predictions get worse; on the right we have a term that increases as the model complexity increases. The best model is the one that fits the data well (low residuals; left hand side) using as few predictors as possible (low <span class="math notranslate nohighlight">\(K\)</span>; right hand side). In short, this is a simple implementation of Ockham’s razor.</p>
 <section id="backward-elimination">
 <h3><span class="section-number">16.10.1. </span>Backward elimination<a class="headerlink" href="#backward-elimination" title="Permalink to this heading">#</a></h3>
 <p>Okay, let’s have a look at how this works in practice. In this example I’ll keep it simple and use only the basic backward elimination approach. That is, start with the complete regression model, including all possible predictors. Then, at each “step” we try all possible ways of removing one of the variables, and whichever of these is best (in terms of lowest AIC value) is accepted. This becomes our new regression model; and we then try all possible deletions from the new model, again choosing the option with lowest AIC. This process continues until we end up with a model that has a lower AIC value than any of the other possible models that you could produce by deleting one of its predictors. Let’s see this in action. First, I need to define the model from which the process starts.</p>
@@ -3709,7 +3709,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>16:45:19</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
@@ -3782,6 +3782,69 @@ p: 0.7832200556890354
 </div>
 </div>
 </div>
+<p>Now we can use our fancy new function to loop through all the possible models, each one removing one predictor from the full model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep + baby_sleep + day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod_no_day</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep + baby_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod_no_baby</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep + day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod_no_dan</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ baby_sleep + day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">mod_full</span><span class="p">,</span> <span class="n">mod_no_day</span><span class="p">,</span> <span class="n">mod_no_baby</span><span class="p">,</span> <span class="n">mod_no_dan</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Full Model&#39;</span><span class="p">,</span> <span class="s1">&#39;No Day&#39;</span><span class="p">,</span> <span class="s1">&#39;No Baby&#39;</span><span class="p">,</span> <span class="s1">&#39;No Dan&#39;</span><span class="p">]</span>
+
+<span class="n">aics</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">aics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_aic</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">model</span><span class="p">))</span>
+
+<span class="n">aics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Full Model AIC: 582.9&#39;,
+ &#39;No Day AIC: 581.0&#39;,
+ &#39;No Baby AIC: 580.9&#39;,
+ &#39;No Dan AIC: 710.9&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of these models, the one in which we removed <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> as a predictor has the lowest AIC, so it seems like removing this predictor is probably a good idea. This shouldn’t be surprising, really, given all the other checks we have already done on these data. But let’s proceed. Now, we can do the same thing again, but comparing only models without <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep + day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod_no_day</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">mod_no_dan</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">mod_full</span><span class="p">,</span> <span class="n">mod_no_day</span><span class="p">,</span> <span class="n">mod_no_dan</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Full Model&#39;</span><span class="p">,</span> <span class="s1">&#39;No Day&#39;</span><span class="p">,</span> <span class="s1">&#39;No Dan&#39;</span><span class="p">]</span>
+
+<span class="n">aics</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="n">aics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_aic</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">model</span><span class="p">))</span>
+
+<span class="n">aics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Full Model AIC: 580.9&#39;, &#39;No Day AIC: 579.0&#39;, &#39;No Dan AIC: 747.7&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, the model in which we removed <code class="docutils literal notranslate"><span class="pre">day</span></code> as a predictor performs best (has the lowest AIC), so the next step would be to remove <code class="docutils literal notranslate"><span class="pre">day</span></code> from our model. In this case, that only leaves us with one predictor: <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code>. Which is (perhaps not all that surprisingly) the mod1 that we started with at the <a class="reference internal" href="#pingouinregression"><span class="std std-ref">beginning of the chapter</span></a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mod1 = pg.linear_regression(df[&#39;dan_sleep&#39;], df[&#39;dan_grump&#39;])
+</pre></div>
+</div>
+<p>This process, as I have described it, is fairly straightforward, especially once you a function to just grab the AIC from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> output. But if you find yourself doing this sort of thing often, you might want to automate it even further. It wouldn’t take <em>that</em> much work to expand on the code I have given you, and build a function that takes as input your full model, and then <em>automatically</em> considers all possible variations, and continues eliminating predictors until it finds the optimal model. But this I leave as a programming exercise for you, if you feel so inclined.</p>
+</section>
+<section id="a-caveat">
+<h3><span class="section-number">16.10.2. </span>A caveat<a class="headerlink" href="#a-caveat" title="Permalink to this heading">#</a></h3>
+<p>Automated variable selection methods are seductive things. They provide an element of objectivity to your model selection, and that’s kind of nice. Unfortunately, they’re sometimes used as an excuse for thoughtlessness. No longer do you have to think carefully about which predictors to add to the model and what the theoretical basis for their inclusion might be… everything is solved by the magic of AIC. And if we start throwing around phrases like Ockham’s razor, well, it sounds like everything is wrapped up in a nice neat little package that no-one can argue with.</p>
+<p>Or, perhaps not. Firstly, there’s very little agreement on what counts as an appropriate model selection criterion. When I was taught backward elimination as an undergraduate, we used F-tests to do it, because that was the default method used by the software. Here we are using AIC, and since this is an introductory text that’s the only method I’ve described, but the AIC is hardly the Word of the Gods of Statistics. It’s an approximation, derived under certain assumptions, and it’s guaranteed to work only for large samples when those assumptions are met. Alter those assumptions and you get a different criterion, like the BIC for instance. Take a different approach again and you get the NML criterion. Decide that you’re a Bayesian and you get model selection based on posterior odds ratios. Then there are a bunch of regression specific tools that I haven’t mentioned. And so on. All of these different methods have strengths and weaknesses, and some are easier to calculate than others (AIC is probably the easiest of the lot, which might account for its popularity). Almost all of them produce the same answers when the answer is “obvious” but there’s a fair amount of disagreement when the model selection problem becomes hard.</p>
+<p>What does this mean in practice? Well, you could go and spend several years teaching yourself the theory of model selection, learning all the ins and outs of it; so that you could finally decide on what you personally think the right thing to do is. Speaking as someone who actually did that, I wouldn’t recommend it: you’ll probably come out the other side even more confused than when you started. A better strategy is to show a bit of common sense… if you’re staring at the results of a stepwise AIC model comparison procedure, and the model that makes sense is close to having the smallest AIC, but is narrowly defeated by a model that doesn’t make any sense… trust your instincts. Statistical model selection is an inexact tool, and as I said at the beginning, interpretability matters.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -3833,7 +3896,11 @@ p: 0.7832200556890354
 </aside>
 <aside class="footnote brackets" id="sandwich" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">13</a><span class="fn-bracket">]</span></span>
-<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id16">[<a class="reference internal" href="bibliography.html#id47" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
+<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id17">[<a class="reference internal" href="bibliography.html#id47" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
+</aside>
+<aside class="footnote brackets" id="aic-calc" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">14</a><span class="fn-bracket">]</span></span>
+<p>Note, depending on exactly how AIC is calculated, the actual AIC value may be different. That is, if you calculate AIC using the formula above, a Python function, or an algorithm from some other statistics software. However, if you use the same method to calculate AIC for two different models, and take the differnce between them, then this should end up being the same, no matter what method was used. In practice, this is all you care about: the actual value of an AIC statistic isn’t very informative, but the differences between two AIC values <em>are</em> useful, since these provide a measure of the extent to which one model outperforms another.</p>
 </aside>
 </section>
 </section>
@@ -3947,6 +4014,7 @@ p: 0.7832200556890354
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">16.10.1. Backward elimination</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-caveat">16.10.2. A caveat</a></li>
 </ul>
 </li>
 </ul>
