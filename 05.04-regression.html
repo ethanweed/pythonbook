@@ -421,7 +421,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.6. Checking for collinearity</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">16.10.1. Backward elimination</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -3170,7 +3173,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:16:22</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3238,7 +3241,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:16:22</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3659,7 +3662,126 @@ p: 0.7832200556890354
 </section>
 </section>
 <section id="model-selection">
-<span id="id15"></span><h2><span class="section-number">16.10. </span>Model Selection<a class="headerlink" href="#model-selection" title="Permalink to this heading">#</a></h2>
+<span id="modelselreg"></span><h2><span class="section-number">16.10. </span>Model Selection<a class="headerlink" href="#model-selection" title="Permalink to this heading">#</a></h2>
+<p>One fairly major problem that remains is the problem of “model selection”. That is, if we have a data set that contains several variables, which ones should we include as predictors, and which ones should we not include? In other words, we have a problem of <strong><em>variable selection</em></strong>. In general, model selection is a complex business, but it’s made somewhat simpler if we restrict ourselves to the problem of choosing a subset of the variables that ought to be included in the model. Nevertheless, I’m not going to try covering even this reduced topic in a lot of detail. Instead, I’ll talk about two broad principles that you need to think about; and then discuss one concrete tool to help you select a subset of variables to include in your model. Firstly, the two principles:</p>
+<ul class="simple">
+<li><p>It’s nice to have an actual substantive basis for your choices. That is, in a lot of situations you the researcher have good reasons to pick out a smallish number of possible regression models that are of theoretical interest; these models will have a sensible interpretation in the context of your field. Never discount the importance of this. Statistics serves the scientific process, not the other way around.</p></li>
+<li><p>To the extent that your choices rely on statistical inference, there is a trade off between simplicity and goodness of fit. As you add more predictors to the model, you make it more complex; each predictor adds a new free parameter (i.e., a new regression coefficient), and each new parameter increases the model’s capacity to “absorb” random variations. So the goodness of fit (e.g., <span class="math notranslate nohighlight">\(R^2\)</span>) continues to rise as you add more predictors no matter what. If you want your model to be able to generalise well to new observations, you need to avoid throwing in too many variables.</p></li>
+</ul>
+<p>This latter principle is often referred to as <strong><em>Ockham’s razor</em></strong>, and is often summarised in terms of the following pithy saying: <em>do not multiply entities beyond necessity</em>. In this context, it means: don’t chuck in a bunch of largely irrelevant predictors just to boost your <span class="math notranslate nohighlight">\(R^2\)</span>. Hm. Yeah, the original was better.</p>
+<p>In any case, what we need is an actual mathematical criterion that will implement the qualitative principle behind Ockham’s razor in the context of selecting a regression model. As it turns out there are several possibilities. The one that I’ll talk about is the <strong><em>Akaike information criterion</em></strong> <span id="id15">[<a class="reference internal" href="bibliography.html#id43" title="H. Akaike. A new look at the statistical model identification. IEEE Transactions on Automatic Control, 19:716–723, 1974.">Akaike, 1974</a>]</span> simply because it’s a common one, and because <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> will calculate it for you automatically when you run a linear regression There are many others, including BIC (Bayesian Information Criterion), which <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> also gives you for free. In the context of a linear regression model (and ignoring terms that don’t depend on the model in any way!), the AIC for a model that has <span class="math notranslate nohighlight">\(K\)</span> predictor variables plus an intercept is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{AIC} = \displaystyle\frac{\mbox{SS}_{res}}{\hat{\sigma}}^2+ 2K
+\]</div>
+<p>The smaller the AIC value, the better the model performance is. If we ignore the low level details, it’s fairly obvious what the AIC does: on the left we have a term that increases as the model predictions get worse; on the right we have a term that increases as the model complexity increases. The best model is the one that fits the data well (low residuals; left hand side) using as few predictors as possible (low <span class="math notranslate nohighlight">\(K\)</span>; right hand side). In short, this is a simple implementation of Ockham’s razor.</p>
+<p><code class="docutils literal notranslate"><span class="pre">^[Note,</span> <span class="pre">depending</span> <span class="pre">on</span> <span class="pre">exactly</span> <span class="pre">how</span> <span class="pre">AIC</span> <span class="pre">is</span> <span class="pre">calculated,</span>&#160; <span class="pre">In</span> <span class="pre">practice,</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">all</span> <span class="pre">you</span> <span class="pre">care</span> <span class="pre">about:</span> <span class="pre">the</span> <span class="pre">actual</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">an</span> <span class="pre">AIC</span> <span class="pre">statistic</span> <span class="pre">isn't</span> <span class="pre">very</span> <span class="pre">informative,</span> <span class="pre">but</span> <span class="pre">the</span> <span class="pre">differences</span> <span class="pre">between</span> <span class="pre">two</span> <span class="pre">AIC</span> <span class="pre">values</span> <span class="pre">*are*</span> <span class="pre">useful,</span> <span class="pre">since</span> <span class="pre">these</span> <span class="pre">provide</span> <span class="pre">a</span> <span class="pre">measure</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">extent</span> <span class="pre">to</span> <span class="pre">which</span> <span class="pre">one</span> <span class="pre">model</span> <span class="pre">outperforms</span> <span class="pre">another.]</span></code></p>
+<section id="backward-elimination">
+<h3><span class="section-number">16.10.1. </span>Backward elimination<a class="headerlink" href="#backward-elimination" title="Permalink to this heading">#</a></h3>
+<p>Okay, let’s have a look at how this works in practice. In this example I’ll keep it simple and use only the basic backward elimination approach. That is, start with the complete regression model, including all possible predictors. Then, at each “step” we try all possible ways of removing one of the variables, and whichever of these is best (in terms of lowest AIC value) is accepted. This becomes our new regression model; and we then try all possible deletions from the new model, again choosing the option with lowest AIC. This process continues until we end up with a model that has a lower AIC value than any of the other possible models that you could produce by deleting one of its predictors. Let’s see this in action. First, I need to define the model from which the process starts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;dan_grump ~ dan_sleep + baby_sleep + day&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can get <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> to fit the model and return a summay, which will include the AIC value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>dan_grump</td>    <th>  R-squared:         </th> <td>   0.816</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.811</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   142.2</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:09:53</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    96</td>      <th>  BIC:               </th> <td>   593.3</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>  <td>  126.2787</td> <td>    3.242</td> <td>   38.945</td> <td> 0.000</td> <td>  119.842</td> <td>  132.715</td>
+</tr>
+<tr>
+  <th>dan_sleep</th>  <td>   -8.9693</td> <td>    0.560</td> <td>  -16.016</td> <td> 0.000</td> <td>  -10.081</td> <td>   -7.858</td>
+</tr>
+<tr>
+  <th>baby_sleep</th> <td>    0.0157</td> <td>    0.273</td> <td>    0.058</td> <td> 0.954</td> <td>   -0.526</td> <td>    0.558</td>
+</tr>
+<tr>
+  <th>day</th>        <td>   -0.0044</td> <td>    0.015</td> <td>   -0.288</td> <td> 0.774</td> <td>   -0.035</td> <td>    0.026</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.599</td> <th>  Durbin-Watson:     </th> <td>   2.120</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.741</td> <th>  Jarque-Bera (JB):  </th> <td>   0.215</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-0.037</td> <th>  Prob(JB):          </th> <td>   0.898</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 3.215</td> <th>  Cond. No.          </th> <td>    441.</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<p>This is great, but we will be doing this several times, and this is quite a lot of information to wade through just to get AIC value. So to reduce the output, we could write a function, like the one below, to return <em>only</em> the AIC value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># function to return only the AIC calculation for a statsmodels linear model</span>
+<span class="k">def</span> <span class="nf">get_aic</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+    <span class="n">aic</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">as_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;AIC:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model_name</span> <span class="o">+</span> <span class="s1">&#39; AIC: &#39;</span> <span class="o">+</span> <span class="n">aic</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The line in this function that defines the variable <code class="docutils literal notranslate"><span class="pre">aic</span></code> looks pretty hairly, but that is only because I have compressed it down to one line. If you break it down, and try running it bit by bit (adding the parts with a <code class="docutils literal notranslate"><span class="pre">.</span></code> in front of them and looking at the output), you will see that doesn’t really involve anything new (other than maybe the <code class="docutils literal notranslate"><span class="pre">strip()</span></code> function, which just removes unnecessary whitespace from the output)</p>
+<p>Now we just give the function a name for the model, and the model itself, and it tells us the AIC:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_aic</span><span class="p">(</span><span class="s1">&#39;full model&#39;</span><span class="p">,</span> <span class="n">mod_full</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;full model AIC: 582.9&#39;
+</pre></div>
+</div>
+</div>
+</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -3713,6 +3835,7 @@ p: 0.7832200556890354
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">13</a><span class="fn-bracket">]</span></span>
 <p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id16">[<a class="reference internal" href="bibliography.html#id47" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
 </aside>
+</section>
 </section>
 </section>
 
@@ -3822,7 +3945,10 @@ p: 0.7832200556890354
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-collinearity">16.9.6. Checking for collinearity</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">16.10. Model Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">16.10.1. Backward elimination</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
