@@ -3008,32 +3008,23 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 
 
 <span class="c1"># Plot figure in book, with caption</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
 <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sl-plot-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">49</span><span class="p">],</span> <span class="n">line</span> <span class="mi">22</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># Plot figure in book, with caption</span>
-<span class="ne">---&gt; </span><span class="mi">22</span> <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sl-plot-fig&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/matplotlib/pyplot.py:991,</span> in <span class="ni">close</span><span class="nt">(fig)</span>
-<span class="g g-Whitespace">    </span><span class="mi">989</span>     <span class="n">_pylab_helpers</span><span class="o">.</span><span class="n">Gcf</span><span class="o">.</span><span class="n">destroy_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">990</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">991</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;close() argument must be a Figure, an int, a string, &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">992</span>                     <span class="s2">&quot;or None, not </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">fig</span><span class="p">))</span>
-
-<span class="ne">TypeError</span>: close() argument must be a Figure, an int, a string, or None, not &lt;class &#39;matplotlib.axes._axes.Axes&#39;&gt;
-</pre></div>
-</div>
 <img alt="_images/99a212f127de9e2d1f5474edf312a1b580b1d61718557747d7bada9ba01c7e99.png" src="_images/99a212f127de9e2d1f5474edf312a1b580b1d61718557747d7bada9ba01c7e99.png" />
 </div>
 </div>
+<figure class="align-default" id="fig-sl-plot" style="width: 600px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;fitted&#39;, ylabel=&#39;Fitted Values&#39;&gt;
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">Fig. 16.11 </span><span class="caption-text">Plot of the fitted values (model predictions) against the square root of the abs standardised residuals. This plot is used to diagnose violations of homogeneity of variance. If the variance is really constant, then the line through the middle should be horizontal and flat.</span><a class="headerlink" href="#fig-sl-plot" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id84" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3164,7 +3155,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>09:43:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:45:17</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3232,7 +3223,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>09:43:53</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:45:17</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3441,6 +3432,8 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <th>baby_sleep</th>
       <th>dan_grump</th>
       <th>day</th>
+      <th>Tukey</th>
+      <th>dan_sleep_transformed</th>
     </tr>
   </thead>
   <tbody>
@@ -3450,6 +3443,8 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>0.627949</td>
       <td>-0.903384</td>
       <td>-0.098408</td>
+      <td>-0.997024</td>
+      <td>0.997866</td>
     </tr>
     <tr>
       <th>baby_sleep</th>
@@ -3457,6 +3452,8 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>1.000000</td>
       <td>-0.565964</td>
       <td>-0.010434</td>
+      <td>-0.626177</td>
+      <td>0.625397</td>
     </tr>
     <tr>
       <th>dan_grump</th>
@@ -3464,12 +3461,34 @@ To give a sense of how we could end up with a model that has bigger collinearity
       <td>-0.565964</td>
       <td>1.000000</td>
       <td>0.076479</td>
+      <td>0.907817</td>
+      <td>-0.895394</td>
     </tr>
     <tr>
       <th>day</th>
       <td>-0.098408</td>
       <td>-0.010434</td>
       <td>0.076479</td>
+      <td>1.000000</td>
+      <td>0.103952</td>
+      <td>-0.093393</td>
+    </tr>
+    <tr>
+      <th>Tukey</th>
+      <td>-0.997024</td>
+      <td>-0.626177</td>
+      <td>0.907817</td>
+      <td>0.103952</td>
+      <td>1.000000</td>
+      <td>-0.989864</td>
+    </tr>
+    <tr>
+      <th>dan_sleep_transformed</th>
+      <td>0.997866</td>
+      <td>0.625397</td>
+      <td>-0.895394</td>
+      <td>-0.093393</td>
+      <td>-0.989864</td>
       <td>1.000000</td>
     </tr>
   </tbody>
