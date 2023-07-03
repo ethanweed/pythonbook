@@ -2935,7 +2935,7 @@ outcome variable, as illustrated in <a class="reference internal" href="#fig-fit
 \[
 f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 \]</div>
-<p>for all values of <span class="math notranslate nohighlight">\(\lambda\)</span> except <span class="math notranslate nohighlight">\(\lambda = 0\)</span>. When <span class="math notranslate nohighlight">\(\lambda = 0\)</span> we just take the natural logarithm (i.e., <span class="math notranslate nohighlight">\(\ln(x)\)</span>). You can calculate it using the <code class="docutils literal notranslate"><span class="pre">boxcox</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>, which will automatically calculate the optimal value of <span class="math notranslate nohighlight">\(\lambda\)</span>. In the case of our <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> data though, the data were already pretty normally distributed (panel A), so applying the transformation (panel B) really doesn’t do much:</p>
+<p>for all values of <span class="math notranslate nohighlight">\(\lambda\)</span> except <span class="math notranslate nohighlight">\(\lambda = 0\)</span>. When <span class="math notranslate nohighlight">\(\lambda = 0\)</span> we just take the natural logarithm (i.e., <span class="math notranslate nohighlight">\(\ln(x)\)</span>). You can calculate it using the <code class="docutils literal notranslate"><span class="pre">boxcox</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>, which will automatically calculate the optimal value of <span class="math notranslate nohighlight">\(\lambda\)</span>. In the case of our <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> data though, the data were already pretty normally distributed (panel A), so applying the transformation (panel B) really doesn’t do much. Now, if only the <em>quality</em> of my sleep could be transformed, and not just the <em>distribution</em>, ah, then we would really be on to something!</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2983,7 +2983,46 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 </section>
 <section id="checking-the-homogeneity-of-variance">
 <span id="regressionhomogeneity"></span><h3><span class="section-number">16.9.5. </span>Checking the homogeneity of variance<a class="headerlink" href="#checking-the-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
-<p>The regression models that we’ve talked about all make a homogeneity of variance assumption: the variance of the residuals is assumed to be constant.</p>
+<p>The regression models that we’ve talked about all make a homogeneity of variance assumption: the variance of the residuals is assumed to be constant. One way to inspect this visually is to use a “Scale-Location Plot”, which is just a variation on the plots we made in <a class="reference internal" href="#fig-resid1"><span class="std std-numref">Fig. 16.10</span></a>. In a Scale-Location Plot, instead of plotting the fitted values against the raw residuals, we plot them against the square root of the absolute value of the standardized residuals, which can make it easier to visually assess the homogeneity of the variance.</p>
+<p>As far as I know (and admittedly, that’s not so far), there is no ready-made package in Python that will produce a Scale-Location Plot, but if you have made it this far in the book, you already have the knowledge to build on of these yourself. It could go something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">]</span>
+
+<span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="n">df_slplot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">],</span>
+     <span class="s1">&#39;sqrt_abs_stand_res&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]))</span>
+    <span class="p">})</span>
+
+<span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">df_slplot</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;fitted&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;sqrt_abs_stand_res&#39;</span><span class="p">,</span> <span class="n">lowess</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">))</span>
+
+<span class="c1"># Make figures look nicer</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\sqrt{|standardized residuals|}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitted Values&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+
+<span class="c1"># Plot figure in book, with caption</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;sl-plot-fig&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/99a212f127de9e2d1f5474edf312a1b580b1d61718557747d7bada9ba01c7e99.png" src="_images/99a212f127de9e2d1f5474edf312a1b580b1d61718557747d7bada9ba01c7e99.png" />
+</div>
+</div>
+<figure class="align-default" id="fig-sl-plot" style="width: 600px">
+<img alt="_images/249c2abbda236849b4b8d1ef54d5880ac813adafe4accdb06f0e11cda521ceab.png" src="_images/249c2abbda236849b4b8d1ef54d5880ac813adafe4accdb06f0e11cda521ceab.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 16.11 </span><span class="caption-text">Plot of the fitted values (model predictions) against the square root of the abs standardised residuals. This plot is used to diagnose violations of homogeneity of variance. If the variance is really constant, then the line through the middle should be horizontal and flat.</span><a class="headerlink" href="#fig-sl-plot" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id84" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3114,7 +3153,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:47:50</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:42:21</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3182,7 +3221,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Mon, 03 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>12:47:50</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:42:21</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
