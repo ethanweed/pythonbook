@@ -976,6 +976,11 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 \[
 \mbox{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2
 \]</div>
+<p>As with one-way ANOVA, the most interesting <a class="footnote-reference brackets" href="#translation" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> part of this formula is the <span class="math notranslate nohighlight">\(\left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2\)</span> bit, which corresponds to the squared deviation associated with level <span class="math notranslate nohighlight">\(r\)</span>. All that this formula does is calculate this squared deviation for all <span class="math notranslate nohighlight">\(R\)</span> levels of the factor, add them up, and then multiply the result by <span class="math notranslate nohighlight">\(N \times C\)</span>. The reason for this last part is that there are multiple cells in our design that have level <span class="math notranslate nohighlight">\(r\)</span> on Factor A: in fact, there are <span class="math notranslate nohighlight">\(C\)</span> of them, one corresponding to each possible level of Factor B! For instance, in our toy example, there are <em>two</em> different cells in the design corresponding to the <code class="docutils literal notranslate"><span class="pre">anxifree</span></code> drug: one for people with <code class="docutils literal notranslate"><span class="pre">no.therapy</span></code>, and one for the <code class="docutils literal notranslate"><span class="pre">CBT</span></code> group. Not only that, within each of these cells there are <span class="math notranslate nohighlight">\(N\)</span> observations. So, if we want to convert our SS value into a quantity that calculates the between-groups sum of squares on a “per observation” basis, we have to multiply by by <span class="math notranslate nohighlight">\(N \times C\)</span>. The formula for factor B is of course the same thing, just with some subscripts shuffled around:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{B} = (N \times R) \sum_{c=1}^C \left( \bar{Y}_{.c} - \bar{Y}_{..} \right)^2
+\]</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -984,6 +989,10 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <aside class="footnote brackets" id="notemarginalising" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>Technically, marginalising isn’t quite identical to a regular mean: it’s a weighted average, where you take into account the frequency of the different events that you’re averaging over. However, in a balanced design, all of our cell frequencies are equal by definition, so the two are equivalent. We’ll discuss unbalanced designs later, and when we do so you’ll see that all of our calculations become a real headache. But let’s ignore this for now.</p>
+</aside>
+<aside class="footnote brackets" id="translation" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>English translation: “least tedious”.</p>
 </aside>
 </section>
 </section>
