@@ -3175,7 +3175,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:27:25</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:43:18</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3243,7 +3243,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:27:25</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:43:18</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3710,7 +3710,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:27:25</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>15:43:18</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
@@ -3872,6 +3872,7 @@ p: 0.7832200556890354
 </div>
 </div>
 </div>
+<p>Since Model 0 has the smaller AIC value, it is judged to be the better model for these data.</p>
 <p>By the way, I mentioned before that <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives us both AIC and BIC automatically. In fact, while I’m not particularly impressed with either AIC or BIC as model selection methods, if you do find yourself using one of these two, the empirical evidence suggests that BIC is the better criterion of the two. In most simulation studies that I’ve seen, BIC does a much better job of selecting the correct model. And indeed, it wouldn’t be hard to modify our function <code class="docutils literal notranslate"><span class="pre">get_aic</span></code> from above to get both the AIC and BIC values from the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> output, so why not just do that, like so <a class="footnote-reference brackets" href="#exercise" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3903,7 +3904,7 @@ p: 0.7832200556890354
 </div>
 </div>
 </div>
-<p>Since Model 0 has the smaller AIC value, it is judged to be the better model for these data.</p>
+<p>BIC is also smaller for <code class="docutils literal notranslate"><span class="pre">MO</span></code> than for <code class="docutils literal notranslate"><span class="pre">M1</span></code>, so based on both AIC and BIC, it looks like Model 0 is the better choice.</p>
 <p>A somewhat different approach to the problem comes out of the hypothesis testing framework. Suppose you have two regression models, where one of them (Model 0) contains a <em>subset</em> of the predictors from the other one (Model 1). That is, Model 1 contains all of the predictors included in Model 0, plus one or more additional predictors. When this happens we say that Model 0 is <strong><em>nested</em></strong> within Model 1, or possibly that Model 0 is a <strong><em>submodel</em></strong> of Model 1. Regardless of the terminology what this means is that we can think of Model 0 as a null hypothesis and Model 1 as an alternative hypothesis. And in fact we can construct an <span class="math notranslate nohighlight">\(F\)</span> test for this in a fairly straightforward fashion. We can fit both models to the data and obtain a residual sum of squares for both models. I’ll denote these as SS<span class="math notranslate nohighlight">\(_{res}^{(0)}\)</span> and SS<span class="math notranslate nohighlight">\(_{res}^{(1)}\)</span> respectively. The superscripting here just indicates which model we’re talking about.  Then our <span class="math notranslate nohighlight">\(F\)</span> statistic is</p>
 <div class="math notranslate nohighlight">
 \[
@@ -3919,6 +3920,68 @@ $<span class="math notranslate nohighlight">\(
 \mbox{SS}_\Delta  = \sum_{i} \left( \hat{y}_i^{(1)} - \hat{y}_i^{(0)} \right)^2
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>\hat{y}_i^{(0)}<span class="math notranslate nohighlight">\( is the fitted value for \)</span>y_i<span class="math notranslate nohighlight">\( according to model \)</span>M_0<span class="math notranslate nohighlight">\( and  \)</span>\hat{y}_i^{(1)}<span class="math notranslate nohighlight">\( is the is the fitted value for \)</span>y_i<span class="math notranslate nohighlight">\( according to model \)</span>M_1$.</p>
+<p>Okay, so that’s the hypothesis test that we use to compare two regression models to one another. Now, how do we do it in Python? As it turns out, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> has a function called <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code> that will do just this. All we have to do is fit the two models that we want to compare, and then plug them in the function (null model first):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.stats.anova</span> <span class="kn">import</span> <span class="n">anova_lm</span>
+
+<span class="n">M0</span> <span class="o">=</span> <span class="n">M0</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">anova_lm</span><span class="p">(</span><span class="n">M0</span><span class="p">,</span><span class="n">M1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>df_resid</th>
+      <th>ssr</th>
+      <th>df_diff</th>
+      <th>ss_diff</th>
+      <th>F</th>
+      <th>Pr(&gt;F)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>97.0</td>
+      <td>1837.155916</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>96.0</td>
+      <td>1837.092228</td>
+      <td>1.0</td>
+      <td>0.063688</td>
+      <td>0.003328</td>
+      <td>0.954116</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="americanhighschool" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
