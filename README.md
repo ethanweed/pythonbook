@@ -13,7 +13,7 @@ Update: having by now gotten as far as figuring out how to use Python to overlay
 
 ## Progress Log
 
-04-07-2023 Finally finished the chapter on linear regression. Feels like a real milestone. Now there is just the rest of the factorial ANOVA chapter, plus the chapter on Bayes and the basic programming chapters to go. Plus the inevitable revisiting and polishing, of course.
+04-07-2023 Finally finished the chapter on linear regression. Feels like a real milestone. Now there is just the rest of the factorial ANOVA chapter, plus the chapter on Bayes and the basic programming sections to go. Plus the inevitable revisiting and polishing, of course.
 
 25-05-2023 Making progress again. I finally fixed (I think) Figure 11.8, which illustrates the sample means and confidence intervals from a series of simulated experiments. The figure _looked_ ok before, but was misleading. Now it should actually be accurate. Also, I learned how to set a local random generator for simulating data rather than relying on a global `random.set_seed()`, which apparently doesn't always behave the way I would expect it to, coming from R. As I go along, cleaning up the wreckage from my initial pass through these earlier chapters, I have been doing a little more formatting of the figures, to make them look nicer. At first I thought I should keep it ultra-simple, for pedagogical purposes, but now I think I would rather have the figures look better. I'm also trying to make the code more consistent from figure to figure, and hiding more code away behind the "Click to show" button, which will hopefully make the whole thing more readable.
 
