@@ -1019,6 +1019,13 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </div>
 </div>
 </div>
+<p>and we are, once again, unsurprised to see that our calculations are identical to the ANOVA output.</p>
+<p>So that’s how you calculate the SS values for the two main effects. These SS values are analogous to the between-group sum of squares values that we calculated when doing <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">one-way ANOVA</span></a>. However, it’s not a good idea to think of them as between-groups SS values anymore, just because we have two different grouping variables and it’s easy to get confused. In order to construct an <span class="math notranslate nohighlight">\(F\)</span> test, however, we also need to calculate the within-groups sum of squares. In keeping with the terminology that we used in the <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression chapter</span></a>) and the terminology that R uses when printing out the ANOVA table, I’ll start referring to the within-groups SS value as the <em>residual</em> sum of squares SS<span class="math notranslate nohighlight">\(_R\)</span>.</p>
+<p>The easiest way to think about the residual SS values in this context, I think, is to think of it as the leftover variation in the outcome variable after you take into account the differences in the marginal means (i.e., after you remove SS<span class="math notranslate nohighlight">\(_A\)</span> and SS<span class="math notranslate nohighlight">\(_B\)</span>). What I mean by that is we can start by calculating the total sum of squares, which I’ll label SS<span class="math notranslate nohighlight">\(_T\)</span>. The formula for this is pretty much the same as it was for one-way ANOVA: we take the difference between each observation <span class="math notranslate nohighlight">\(Y_{rci}\)</span> and the grand mean <span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span>, square the differences, and add them all up</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_T = \sum_{r=1}^R \sum_{c=1}^C \sum_{i=1}^N \left( Y_{rci} - \bar{Y}_{..}\right)^2
+\]</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
