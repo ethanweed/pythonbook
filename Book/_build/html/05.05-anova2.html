@@ -390,7 +390,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-kinds-of-outcomes-does-this-analysis-capture">17.1.5. What kinds of outcomes does this analysis capture?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is an interaction effect?</em></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -1226,6 +1229,53 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <p><span class="caption-number">Fig. 17.2 </span><span class="caption-text">Qualitatively different interactions for a 2 x 2 ANOVA</span><a class="headerlink" href="#fig-anovas-avec-interaction" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+<p>To give a more concrete example, suppose that the operation of Anxifree and Joyzepam is governed quite different physiological mechanisms, and one consequence of this is that while Joyzepam has more or less the same effect on mood regardless of whether one is in therapy, Anxifree is actually much more effective when administered in conjunction with CBT. The ANOVA that we developed in the previous section does not capture this idea. To get some idea of whether an interaction is actually happening here, it helps to plot the various group means. We can do this easily with <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;therapy&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" src="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" />
+</div>
+</div>
+<p>Our main concern relates to the fact that the two lines aren’t parallel. The effect of CBT (difference between solid line and dotted line) when the drug is Joyzepam (right side) appears to be near zero, even smaller than the effect of CBT when a placebo is used (left side). However, when Anxifree is administered, the effect of CBT is larger than the placebo (middle). Is this effect real, or is this just random variation due to chance? Our original ANOVA cannot answer this question, because we make no allowances for the idea that interactions even exist! In this section, we’ll fix this problem.</p>
+<section id="what-exactly-is-an-interaction-effect">
+<h3><span class="section-number">17.2.1. </span>What exactly <em>is an interaction effect?</em><a class="headerlink" href="#what-exactly-is-an-interaction-effect" title="Permalink to this heading">#</a></h3>
+<p>The key idea that we’re going to introduce in this section is that of an interaction effect. What that means for our R formulas is that we’ll write down models like
+\begin{center}
+<code class="docutils literal notranslate"><span class="pre">mood.gain</span> <span class="pre">~</span> <span class="pre">drug</span> <span class="pre">+</span> <span class="pre">therapy</span> <span class="pre">+</span> <span class="pre">drug:therapy</span></code>
+\end{center}
+so although there are only two <em>factors</em> involved in our model (i.e., <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">therapy</span></code>), there are three distinct <strong><em>terms</em></strong> (i.e., <code class="docutils literal notranslate"><span class="pre">drug</span></code>, <code class="docutils literal notranslate"><span class="pre">therapy</span></code> and <code class="docutils literal notranslate"><span class="pre">drug:therapy</span></code>). That is, in addition to the main effects of <code class="docutils literal notranslate"><span class="pre">drug</span></code> and <code class="docutils literal notranslate"><span class="pre">therapy</span></code>, we have a new component to the model, which is our interaction term <code class="docutils literal notranslate"><span class="pre">drug:therapy</span></code>. Intuitively, the idea behind an interaction effect is fairly simple: it just means that the effect of Factor A is different, depending on which level of Factor B we’re talking about. But what does that actually mean in terms of our data? Figure &#64;ref(fig:interaction) depicts several different patterns that, although quite different to each other, would all count as an interaction effect. So it’s not entirely straightforward to translate this qualitative idea into something mathematical that a statistician can work with. As a consequence, the way that the idea of an interaction effect is formalised in terms of null and alternative hypotheses is slightly difficult, and I’m guessing that a lot of readers of this book probably won’t be all that interested. Even so, I’ll try to give the basic idea here.</p>
+<p>To start with, we need to be a little more explicit about our main effects. Consider the main effect of Factor A (<code class="docutils literal notranslate"><span class="pre">drug</span></code> in our running example). We originally formulated this in terms of the null hypothesis that the two marginal means <span class="math notranslate nohighlight">\(\mu_{r.}\)</span> are all equal to each other. Obviously, if all of these are equal to each other, then they must also be equal to the grand mean <span class="math notranslate nohighlight">\(\mu_{..}\)</span> as well, right? So what we can do is define the <em>effect</em> of Factor A at level <span class="math notranslate nohighlight">\(r\)</span> to be equal to the difference between the marginal mean <span class="math notranslate nohighlight">\(\mu_{r.}\)</span> and the grand mean</p>
+<p><span class="math notranslate nohighlight">\(\mu_{..}\)</span>.<br />
+Let’s denote this effect by <span class="math notranslate nohighlight">\(\alpha_r\)</span>, and note that
+$<span class="math notranslate nohighlight">\(
+\alpha_r  = \mu_{r.} - \mu_{..} 
+\)</span>$</p>
+<p>Now, by definition all of the <span class="math notranslate nohighlight">\(\alpha_r\)</span> values must sum to zero, for the same reason that the average of the marginal means <span class="math notranslate nohighlight">\(\mu_{r.}\)</span> must be the grand mean <span class="math notranslate nohighlight">\(\mu_{..}\)</span>. We can similarly define the effect of Factor B at level <span class="math notranslate nohighlight">\(i\)</span> to be the difference between the column marginal mean <span class="math notranslate nohighlight">\(\mu_{.c}\)</span> and the grand mean <span class="math notranslate nohighlight">\(\mu_{..}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\beta_c = \mu_{.c} - \mu_{..}
+\]</div>
+<p>and once again, these <span class="math notranslate nohighlight">\(\beta_c\)</span> values must sum to zero. The reason that statisticians sometimes like to talk about the main effects in terms of these <span class="math notranslate nohighlight">\(\alpha_r\)</span> and <span class="math notranslate nohighlight">\(\beta_c\)</span> values is that it allows them to be precise about what it means to say that there is no interaction effect. If there is no interaction at all, then these <span class="math notranslate nohighlight">\(\alpha_r\)</span> and <span class="math notranslate nohighlight">\(\beta_c\)</span> values will perfectly describe the group means <span class="math notranslate nohighlight">\(\mu_{rc}\)</span>. Specifically, it means that</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_{rc} = \mu_{..} + \alpha_r + \beta_c 
+\]</div>
+<p>That is, there’s nothing <em>special</em> about the group means that you couldn’t predict perfectly by knowing all the marginal means. And that’s our null hypothesis, right there. The alternative hypothesis is that</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_{rc} \neq \mu_{..} + \alpha_r + \beta_c 
+\]</div>
+<p>for at least one group <span class="math notranslate nohighlight">\(rc\)</span> in our table. However, statisticians often like to write this slightly differently. They’ll usually define the specific interaction associated with group <span class="math notranslate nohighlight">\(rc\)</span> to be some number, awkwardly referred to as <span class="math notranslate nohighlight">\((\alpha\beta)_{rc}\)</span>, and then they will say that the alternative hypothesis is that</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_{rc} = \mu_{..} + \alpha_r + \beta_c + (\alpha\beta)_{rc}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\((\alpha\beta)_{rc}\)</span> is non-zero for at least one group. This notation is kind of ugly to look at, but it is handy as we’ll see in the next section when discussing how to calculate the sum of squares.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1239,6 +1289,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
 <p>English translation: “least tedious”.</p>
 </aside>
+</section>
 </section>
 </section>
 
@@ -1317,7 +1368,10 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-kinds-of-outcomes-does-this-analysis-capture">17.1.5. What kinds of outcomes does this analysis capture?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is an interaction effect?</em></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
