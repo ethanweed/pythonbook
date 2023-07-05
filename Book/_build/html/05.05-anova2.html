@@ -385,6 +385,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">17.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">17.1.1. What hypotheses are we testing?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">17.1.2. Running the analysis in Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-our-degrees-of-freedom">17.1.3. What are our degrees of freedom?</a></li>
 </ul>
 </li>
 </ul>
@@ -1026,6 +1027,46 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 \[
 \mbox{SS}_T = \sum_{r=1}^R \sum_{c=1}^C \sum_{i=1}^N \left( Y_{rci} - \bar{Y}_{..}\right)^2
 \]</div>
+<p>The “triple summation” here looks more complicated than it is. In the first two summations, we’re summing across all levels of Factor A (i.e., over all possible rows <span class="math notranslate nohighlight">\(r\)</span> in our table), across all levels of Factor B (i.e., all possible columns <span class="math notranslate nohighlight">\(c\)</span>). Each <span class="math notranslate nohighlight">\(rc\)</span> combination corresponds to a single group, and each group contains <span class="math notranslate nohighlight">\(N\)</span> people: so we have to sum across all those people (i.e., all <span class="math notranslate nohighlight">\(i\)</span> values) too. In other words, all we’re doing here is summing across all observations in the data set (i.e., all possible <span class="math notranslate nohighlight">\(rci\)</span> combinations).</p>
+<p>At this point, we know the total variability of the outcome variable SS<span class="math notranslate nohighlight">\(_T\)</span>, and we know how much of that variability can be attributed to Factor A (SS<span class="math notranslate nohighlight">\(_A\)</span>) and how much of it can be attributed to Factor B (SS<span class="math notranslate nohighlight">\(_B\)</span>). The residual sum of squares is thus defined to be the variability in <span class="math notranslate nohighlight">\(Y\)</span> that <em>can’t</em> be attributed to either of our two factors. In other words:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_R = \mbox{SS}_T - (\mbox{SS}_A + \mbox{SS}_B)
+\]</div>
+<p>Of course, there is a formula that you can use to calculate the residual SS directly, but I think that it makes more conceptual sense to think of it like this. The whole point of calling it a residual is that it’s the leftover variation, and the formula above makes that clear. I should also note that, in keeping with the terminology used in the regression chapter, it is commonplace to refer to <span class="math notranslate nohighlight">\(\mbox{SS}_A + \mbox{SS}_B\)</span> as the variance attributable to the “ANOVA model”, denoted SS<span class="math notranslate nohighlight">\(_M\)</span>, and so we often say that the total sum of squares is equal to the model sum of squares plus the residual sum of squares. Later on in this chapter we’ll see that this isn’t just a surface similarity: ANOVA and regression are actually the same thing under the hood.</p>
+<p>In any case, it’s probably worth taking a moment to check that we can calculate SS<span class="math notranslate nohighlight">\(_R\)</span> using this formula, and verify that we do obtain the same answer that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> produces in its ANOVA table. The calculations are pretty straightforward. First we calculate the total sum of squares:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SS_tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">grand_mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">SS_tot</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.845
+</pre></div>
+</div>
+</div>
+</div>
+<p>and then we use it to calculate the residual sum of squares:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SS_res</span> <span class="o">=</span> <span class="n">SS_tot</span> <span class="o">-</span> <span class="p">(</span><span class="n">SS_drug</span> <span class="o">+</span> <span class="n">SS_therapy</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">SS_res</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9244
+</pre></div>
+</div>
+</div>
+</div>
+<p>Yet again, we get the same answer.</p>
+</section>
+<section id="what-are-our-degrees-of-freedom">
+<h3><span class="section-number">17.1.3. </span>What are our degrees of freedom?<a class="headerlink" href="#what-are-our-degrees-of-freedom" title="Permalink to this heading">#</a></h3>
+<p>The degrees of freedom are calculated in much the same way as for one-way ANOVA. For any given factor, the degrees of freedom is equal to the number of levels minus 1 (i.e., <span class="math notranslate nohighlight">\(R-1\)</span> for the row variable, Factor A, and <span class="math notranslate nohighlight">\(C-1\)</span> for the column variable, Factor B). So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor we obtain <span class="math notranslate nohighlight">\(df = 2\)</span>, and for the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor we obtain <span class="math notranslate nohighlight">\(df=1\)</span>. Later on on, when we discuss the interpretation of <span class="xref myst">ANOVA as a regression model</span>), I’ll give a clearer statement of how we arrive at this number, but for the moment we can use the simple definition of degrees of freedom, namely that the degrees of freedom equals the number of quantities that are observed, minus the number of constraints. So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor, we observe 3 separate group means, but these are constrained by 1 grand mean; and therefore the degrees of freedom is 2. For the residuals, the logic is similar, but not quite the same. The total number of observations in our experiment is 18. The constraints correspond to the 1 grand mean, the 2 additional group means that the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor introduces, and the 1 additional group mean that the the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor introduces, and so our degrees of freedom is 14. As a formula, this is <span class="math notranslate nohighlight">\(N-1 -(R-1)-(C-1)\)</span>, which simplifies to <span class="math notranslate nohighlight">\(N-R-C+1\)</span>.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1113,6 +1154,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-1-balanced-designs-no-interactions">17.1. Factorial ANOVA 1: balanced designs, no interactions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-hypotheses-are-we-testing">17.1.1. What hypotheses are we testing?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-analysis-in-python">17.1.2. Running the analysis in Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-our-degrees-of-freedom">17.1.3. What are our degrees of freedom?</a></li>
 </ul>
 </li>
 </ul>
