@@ -540,7 +540,7 @@ document.write(`
 <p>Now, this output shows a cross-tabulation of the group means for all possible combinations of the two factors (e.g., people who received the placebo and no therapy, people who received the placebo while getting CBT, etc). However, we can also construct tables that ignore one of the two factors. That gives us output that looks like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;therapy&#39;</span><span class="p">])[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -563,20 +563,19 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>mood_gain</th>
-    </tr>
-    <tr>
       <th>therapy</th>
-      <th></th>
+      <th>mood_gain</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>CBT</th>
+      <th>0</th>
+      <td>CBT</td>
       <td>1.04</td>
     </tr>
     <tr>
-      <th>no.therapy</th>
+      <th>1</th>
+      <td>no.therapy</td>
       <td>0.72</td>
     </tr>
   </tbody>
@@ -585,7 +584,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;drug&#39;</span><span class="p">])[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -608,24 +607,24 @@ document.write(`
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>mood_gain</th>
-    </tr>
-    <tr>
       <th>drug</th>
-      <th></th>
+      <th>mood_gain</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>anxifree</th>
+      <th>0</th>
+      <td>anxifree</td>
       <td>0.72</td>
     </tr>
     <tr>
-      <th>joyzepam</th>
+      <th>1</th>
+      <td>joyzepam</td>
       <td>1.48</td>
     </tr>
     <tr>
-      <th>placebo</th>
+      <th>2</th>
+      <td>placebo</td>
       <td>0.45</td>
     </tr>
   </tbody>
