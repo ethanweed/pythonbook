@@ -1,0 +1,85 @@
+Traceback (most recent call last):
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import seaborn as sns
+from matplotlib import pyplot as plt
+
+levels = ['Level 1', 'Level 1', 'Level 2', 'Level 2']
+factors = ['Factor B, Level 1', 'Factor B, Level 2', 'Factor B, Level 1', 'Factor B, Level 2']
+panel1 = [1,1.2,2,2.2]
+panel2 = [1.2, 1.9, 1.2, 1.9]
+panel3 = [0.6, 1.4, 1.5, 2.4]
+panel4 = [1.5, 1.6, 1.5, 1.6]
+
+d = pd.DataFrame({'Factor': factors,
+                   'Factor A': levels,
+                   'Panel 1': panel1,
+                   'Panel 2': panel2,
+                   'Panel 3': panel3,
+                   'Panel 4': panel4})
+
+fig, axes = plt.subplots(2,2)
+
+
+p1 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 1', hue= 'Factor', errorbar=('ci', False), ax=axes[0,0])
+p2 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 2', hue= 'Factor', errorbar=('ci', False), ax=axes[0,1])
+p3 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 3', hue= 'Factor', errorbar=('ci', False), ax=axes[1,0])
+p4 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 4', hue= 'Factor', errorbar=('ci', False), ax=axes[1,1])
+
+ps = [p1, p2, p3, p4]
+panelID = ['A', 'B', 'C', 'D']
+titles = ['Only Factor A has an effect', 'Only Factor B has an effect', 
+          'Both A and B have an effect', 'Neither A nor B has an effect']
+
+for n, p in enumerate(ps):
+    p.set_ylim(0,3)
+    p.set_ylabel('')
+    p.set_xlabel('')
+    p.get_legend().remove()
+    p.text(0.1, 1, titles[n], horizontalalignment='left', verticalalignment='top', transform=p.transAxes)
+    p.text(0, 1.1, panelID[n], horizontalalignment='left', verticalalignment='top', transform=p.transAxes)
+    sns.despine()
+
+p1.set_xticklabels('')
+p2.set_xticklabels('')
+
+p3.set_xlabel('Factor A')
+p4.set_xlabel('Factor A')
+
+handles, labels = p1.get_legend_handles_labels()
+fig.legend(handles, ['Factor B, Level 1', 'Factor B, Level 2'], loc='upper center', ncol=2)
+
+
+# Plot figure in book, with caption
+#plt.close(fig)
+glue("anovas-sans-interaction-fig", fig, display=False)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[13], line 52[0m
+[1;32m     47[0m fig[38;5;241m.[39mlegend(handles, [[38;5;124m'[39m[38;5;124mFactor B, Level 1[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mFactor B, Level 2[39m[38;5;124m'[39m], loc[38;5;241m=[39m[38;5;124m'[39m[38;5;124mupper center[39m[38;5;124m'[39m, ncol[38;5;241m=[39m[38;5;241m2[39m)
+[1;32m     50[0m [38;5;66;03m# Plot figure in book, with caption[39;00m
+[1;32m     51[0m [38;5;66;03m#plt.close(fig)[39;00m
+[0;32m---> 52[0m [43mglue[49m([38;5;124m"[39m[38;5;124manovas-sans-interaction-fig[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+
+[0;31mNameError[0m: name 'glue' is not defined
+
