@@ -1242,7 +1242,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" src="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" />
+<img alt="_images/dface81985b95cc64b80e73ebbb334f322b5694c3ef3b63ae6c8618d9915f20f.png" src="_images/dface81985b95cc64b80e73ebbb334f322b5694c3ef3b63ae6c8618d9915f20f.png" />
 </div>
 </div>
 <p>Our main concern relates to the fact that the two lines aren’t parallel. The effect of CBT (difference between solid line and dotted line) when the drug is Joyzepam (right side) appears to be near zero, even smaller than the effect of CBT when a placebo is used (left side). However, when Anxifree is administered, the effect of CBT is larger than the placebo (middle). Is this effect real, or is this just random variation due to chance? Our original ANOVA cannot answer this question, because we make no allowances for the idea that interactions even exist! In this section, we’ll fix this problem.</p>
@@ -1436,6 +1436,87 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 \mbox{partial } \eta^2_A = \frac{\mbox{SS}_{A}}{\mbox{SS}_{A} + \mbox{SS}_{R}}
 \]</div>
 <p>This will always give you a larger number than <span class="math notranslate nohighlight">\(\eta^2\)</span>, which the cynic in me suspects accounts for the popularity of partial <span class="math notranslate nohighlight">\(\eta^2\)</span>. And once again you get a number between 0 and 1, where 0 represents no effect. However, it’s slightly trickier to interpret what a large partial <span class="math notranslate nohighlight">\(\eta^2\)</span> value means. In particular, you can’t actually compare the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> values across terms! Suppose, for instance, there is no within-groups variability at all: if so, SS<span class="math notranslate nohighlight">\(_R = 0\)</span>. What that means is that <em>every</em> term has a partial <span class="math notranslate nohighlight">\(\eta^2\)</span> value of 1. But that doesn’t mean that all terms in your model are equally important, or indeed that they are equally large. All it mean is that all terms in your model have effect sizes that are large <em>relative to the residual variation</em>. It is not comparable across terms.</p>
+<p>To see what I mean by this, it’s useful to see a concrete example. We can get <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to report <span class="math notranslate nohighlight">\(\eta^2\)</span> instead of partial <span class="math notranslate nohighlight">\(\eta^2\)</span> by specifying this in the <code class="docutils literal notranslate"><span class="pre">effsize</span></code> argument when we run our ANOVA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">effsize</span><span class="o">=</span><span class="s1">&#39;n2&#39;</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>n2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.4533</td>
+      <td>2</td>
+      <td>1.7267</td>
+      <td>31.7143</td>
+      <td>0.0000</td>
+      <td>0.7128</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>therapy</td>
+      <td>0.4672</td>
+      <td>1</td>
+      <td>0.4672</td>
+      <td>8.5816</td>
+      <td>0.0126</td>
+      <td>0.0964</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>drug * therapy</td>
+      <td>0.2711</td>
+      <td>2</td>
+      <td>0.1356</td>
+      <td>2.4898</td>
+      <td>0.1246</td>
+      <td>0.0560</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>0.6533</td>
+      <td>12</td>
+      <td>0.0544</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
