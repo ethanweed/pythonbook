@@ -398,6 +398,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-sizes">17.2.5. Effect sizes</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumption-checking">17.3. Assumption checking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levene-test-for-homogeneity-of-variance">17.3.1. Levene test for homogeneity of variance</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -1444,7 +1448,7 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
                   <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
                   <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                   <span class="n">effsize</span><span class="o">=</span><span class="s1">&#39;n2&#39;</span><span class="p">)</span>
-<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1480,39 +1484,39 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
     <tr>
       <th>0</th>
       <td>drug</td>
-      <td>3.4533</td>
+      <td>3.453</td>
       <td>2</td>
-      <td>1.7267</td>
-      <td>31.7143</td>
-      <td>0.0000</td>
-      <td>0.7128</td>
+      <td>1.727</td>
+      <td>31.714</td>
+      <td>0.000</td>
+      <td>0.713</td>
     </tr>
     <tr>
       <th>1</th>
       <td>therapy</td>
-      <td>0.4672</td>
+      <td>0.467</td>
       <td>1</td>
-      <td>0.4672</td>
-      <td>8.5816</td>
-      <td>0.0126</td>
-      <td>0.0964</td>
+      <td>0.467</td>
+      <td>8.582</td>
+      <td>0.013</td>
+      <td>0.096</td>
     </tr>
     <tr>
       <th>2</th>
       <td>drug * therapy</td>
-      <td>0.2711</td>
+      <td>0.271</td>
       <td>2</td>
-      <td>0.1356</td>
-      <td>2.4898</td>
-      <td>0.1246</td>
-      <td>0.0560</td>
+      <td>0.136</td>
+      <td>2.490</td>
+      <td>0.125</td>
+      <td>0.056</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Residual</td>
-      <td>0.6533</td>
+      <td>0.653</td>
       <td>12</td>
-      <td>0.0544</td>
+      <td>0.054</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -1521,6 +1525,101 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 </table>
 </div></div></div>
 </div>
+<p>Looking at the <span class="math notranslate nohighlight">\(\eta^2\)</span> values first, we see that <code class="docutils literal notranslate"><span class="pre">drug</span></code> accounts for 71.3% of the variance (i.e. <span class="math notranslate nohighlight">\(\eta^2 = 0.713\)</span>) in <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>, whereas <code class="docutils literal notranslate"><span class="pre">therapy</span></code> only accounts for 9.6%. This leaves a total of 19.1% of the variation unaccounted for (i.e., the residuals constitute 19.1% of the variation in the outcome). Overall, this implies that we have a very large effect<a class="footnote-reference brackets" href="#bigeffect" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> of <code class="docutils literal notranslate"><span class="pre">drug</span></code> and a modest effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code>.</p>
+<p>Now let’s look at the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+                  <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> 
+                  <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+                  <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                  <span class="n">effsize</span><span class="o">=</span><span class="s1">&#39;np2&#39;</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.453</td>
+      <td>2</td>
+      <td>1.727</td>
+      <td>31.714</td>
+      <td>0.000</td>
+      <td>0.841</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>therapy</td>
+      <td>0.467</td>
+      <td>1</td>
+      <td>0.467</td>
+      <td>8.582</td>
+      <td>0.013</td>
+      <td>0.417</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>drug * therapy</td>
+      <td>0.271</td>
+      <td>2</td>
+      <td>0.136</td>
+      <td>2.490</td>
+      <td>0.125</td>
+      <td>0.293</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>0.653</td>
+      <td>12</td>
+      <td>0.054</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Because the effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code> isn’t all that large, controlling for it doesn’t make much of a difference, so the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> for <code class="docutils literal notranslate"><span class="pre">drug</span></code> doesn’t increase very much, and we obtain a value of <span class="math notranslate nohighlight">\(_p\eta^2 = 0.789\)</span>). In contrast, because the effect of <code class="docutils literal notranslate"><span class="pre">drug</span></code> was very large, controlling for it makes a big difference, and so when we calculate the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> for <code class="docutils literal notranslate"><span class="pre">therapy</span></code> you can see that it rises to <span class="math notranslate nohighlight">\(_p\eta^2 = 0.336\)</span>. The question that we have to ask ourselves is, what do these partial <span class="math notranslate nohighlight">\(\eta^2\)</span> values actually <em>mean</em>? The way I generally interpret the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> for the main effect of Factor A is to interpret it as a statement about a hypothetical experiment in which <em>only</em> Factor A was being varied. So, even though in <em>this</em> experiment we varied both A and B, we can easily imagine an experiment in which only Factor A was varied: the partial <span class="math notranslate nohighlight">\(\eta^2\)</span> statistic tells you how much of the variance in the outcome variable you would expect to see accounted for in that experiment. However, it should be noted that this interpretation – like many things associated with main effects – doesn’t make a lot of sense when there is a large and significant interaction effect.</p>
+</section>
+</section>
+<section id="assumption-checking">
+<span id="factorialanovaassumptions"></span><h2><span class="section-number">17.3. </span>Assumption checking<a class="headerlink" href="#assumption-checking" title="Permalink to this heading">#</a></h2>
+<p>As with one-way ANOVA, the key assumptions of factorial ANOVA are homogeneity of variance (all groups have the same standard deviation), normality of the residuals, and independence of the observations. The first two are things we can test for. The third is something that you need to assess yourself by asking if there are any special relationships between different observations. What about homogeneity of variance and normality of the residuals? As it turns out, these are pretty easy to check: it’s no different to the checks we did for a one-way ANOVA.</p>
+<section id="levene-test-for-homogeneity-of-variance">
+<h3><span class="section-number">17.3.1. </span>Levene test for homogeneity of variance<a class="headerlink" href="#levene-test-for-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
+<p>To test whether the groups have the same variance, we can use the Levene test. The theory behind the Levene test has <a class="reference internal" href="05.03-anova.html#levene"><span class="std std-ref">already been discussed</span></a>, so I won’t discuss it again.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1537,6 +1636,10 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 <aside class="footnote brackets" id="r" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
 <p>This chapter seems to be setting a new record for the number of different things that the letter R can stand for: so far we have R referring to the number of rows in our table of means, the residuals in the model, and now the correlation coefficient in a regression. Sorry: we clearly don’t have enough letters in the alphabet. However, I’ve tried pretty hard to be clear on which thing R is referring to in each case.</p>
+</aside>
+<aside class="footnote brackets" id="bigeffect" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Implausibly large, I would think: the artificiality of this data set is really starting to show!</p>
 </aside>
 </section>
 </section>
@@ -1623,6 +1726,10 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-for-the-interaction">17.2.3. Degrees of freedom for the interaction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-results">17.2.4. Interpreting the results</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-sizes">17.2.5. Effect sizes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumption-checking">17.3. Assumption checking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levene-test-for-homogeneity-of-variance">17.3.1. Levene test for homogeneity of variance</a></li>
 </ul>
 </li>
 </ul>
