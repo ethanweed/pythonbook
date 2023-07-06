@@ -1747,6 +1747,42 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 $<span class="math notranslate nohighlight">\(
 \mbox{SS}_{T} = \mbox{SS}_{M} + \mbox{SS}_{R} 
 \)</span>$</p>
+<p>That is, the total sums of squares (i.e., the overall variability of the outcome variable) can be decomposed into two parts: the variability associated with the model <span class="math notranslate nohighlight">\(\mbox{SS}_{M}\)</span>, and the residual or leftover variability, <span class="math notranslate nohighlight">\(\mbox{SS}_{R}\)</span>. However, it’s kind of useful to rearrange this equation slightly, and say that the SS value associated with a model is defined like this…</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{M} = \mbox{SS}_{T} - \mbox{SS}_{R} 
+\]</div>
+<p>Now, in our scenario, we have two models: the null model (M0) and the full model (M1):</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{M0} = \mbox{SS}_{T} - \mbox{SS}_{R0}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{M1} = \mbox{SS}_{T} - \mbox{SS}_{R1} 
+\]</div>
+<p>Next, let’s think about what it is we <em>actually</em> care about here. What we’re interested in is the <em>difference</em> between the full model and the null model. So, if we want to preserve the idea that what we’re doing is an “analysis of the variance” (ANOVA) in the outcome variable, what we should do is define the SS associated with the difference to be equal to the difference in the SS:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mbox{SS}_{\Delta} &amp;= \mbox{SS}_{M1} - \mbox{SS}_{M0}\\
+&amp;= (\mbox{SS}_{T} - \mbox{SS}_{R1}) - (\mbox{SS}_{T} - \mbox{SS}_{R0} ) \\
+&amp;= \mbox{SS}_{R0} - \mbox{SS}_{R1}
+\end{align}
+\end{split}\]</div>
+<p>Now that we have our degrees of freedom, we can calculate mean squares and <span class="math notranslate nohighlight">\(F\)</span> values in the usual way. Specifically, we’re interested in the mean square for the difference between models, and the mean square for the residuals associated with the <em>full</em> model (M1), which are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mbox{MS}_{\Delta} &amp;= \frac{\mbox{SS}_{\Delta} }{ \mbox{df}_{\Delta} } \\
+\mbox{MS}_{R1} &amp;= \frac{ \mbox{SS}_{R1} }{  \mbox{df}_{R1} }\\
+\end{align}
+\end{split}\]</div>
+<p>Finally, taking the ratio of these two gives us our <span class="math notranslate nohighlight">\(F\)</span> statistic:</p>
+<div class="math notranslate nohighlight">
+\[
+F = \frac\mbox{MS}_{\Delta}\mbox{MS}_{R1}
+\]</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
