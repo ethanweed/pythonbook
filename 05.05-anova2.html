@@ -405,8 +405,34 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-test-as-a-model-comparison">17.4. The <span class="math notranslate nohighlight">\(F\)</span> test as a model comparison</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-test-comparing-two-models">17.4.1. The <span class="math notranslate nohighlight">\(F\)</span> test comparing two models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-test-in-python">17.4.2. Running the test in Python</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-as-a-linear-model">17.5. ANOVA as a linear model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.1. Changing the baseline category</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.2. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.3. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.4. A postscript</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#treatment-contrasts">17.6.1. Treatment contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helmert-contrasts">17.6.2. Helmert contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sum-to-zero-contrasts">17.6.3. Sum to zero contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-contrasts">17.6.4. Setting contrasts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-hoc-tests">17.7. Post hoc tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unbalanced-designs">17.8. Unbalanced designs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coffee-data">17.8.1. The coffee data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-anova-does-not-exist-for-unbalanced-designs">17.8.2. “Standard ANOVA” does not exist for unbalanced designs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-i-sum-of-squares">17.8.3. Type I sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-iii-sum-of-squares">17.8.4. Type III sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-ii-sum-of-squares">17.8.5. Type II sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-sizes-and-non-additive-sums-of-squares">17.8.6. Effect sizes (and non-additive sums of squares)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">17.9. Summary</a></li>
 </ul>
             </nav>
         </div>
@@ -1085,7 +1111,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </section>
 <section id="what-are-our-degrees-of-freedom">
 <h3><span class="section-number">17.1.3. </span>What are our degrees of freedom?<a class="headerlink" href="#what-are-our-degrees-of-freedom" title="Permalink to this heading">#</a></h3>
-<p>The degrees of freedom are calculated in much the same way as for one-way ANOVA. For any given factor, the degrees of freedom is equal to the number of levels minus 1 (i.e., <span class="math notranslate nohighlight">\(R-1\)</span> for the row variable, Factor A, and <span class="math notranslate nohighlight">\(C-1\)</span> for the column variable, Factor B). So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor we obtain <span class="math notranslate nohighlight">\(df = 2\)</span>, and for the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor we obtain <span class="math notranslate nohighlight">\(df=1\)</span>. Later on on, when we discuss the interpretation of <span class="xref myst">ANOVA as a regression model</span>), I’ll give a clearer statement of how we arrive at this number, but for the moment we can use the simple definition of degrees of freedom, namely that the degrees of freedom equals the number of quantities that are observed, minus the number of constraints. So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor, we observe 3 separate group means, but these are constrained by 1 grand mean; and therefore the degrees of freedom is 2. For the residuals, the logic is similar, but not quite the same. The total number of observations in our experiment is 18. The constraints correspond to the 1 grand mean, the 2 additional group means that the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor introduces, and the 1 additional group mean that the the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor introduces, and so our degrees of freedom is 14. As a formula, this is <span class="math notranslate nohighlight">\(N-1 -(R-1)-(C-1)\)</span>, which simplifies to <span class="math notranslate nohighlight">\(N-R-C+1\)</span>.</p>
+<p>The degrees of freedom are calculated in much the same way as for one-way ANOVA. For any given factor, the degrees of freedom is equal to the number of levels minus 1 (i.e., <span class="math notranslate nohighlight">\(R-1\)</span> for the row variable, Factor A, and <span class="math notranslate nohighlight">\(C-1\)</span> for the column variable, Factor B). So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor we obtain <span class="math notranslate nohighlight">\(df = 2\)</span>, and for the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor we obtain <span class="math notranslate nohighlight">\(df=1\)</span>. Later on on, when we discuss the interpretation of <a class="reference internal" href="#anovalm"><span class="std std-ref">ANOVA as a regression model</span></a>), I’ll give a clearer statement of how we arrive at this number, but for the moment we can use the simple definition of degrees of freedom, namely that the degrees of freedom equals the number of quantities that are observed, minus the number of constraints. So, for the <code class="docutils literal notranslate"><span class="pre">drugs</span></code> factor, we observe 3 separate group means, but these are constrained by 1 grand mean; and therefore the degrees of freedom is 2. For the residuals, the logic is similar, but not quite the same. The total number of observations in our experiment is 18. The constraints correspond to the 1 grand mean, the 2 additional group means that the <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor introduces, and the 1 additional group mean that the the <code class="docutils literal notranslate"><span class="pre">therapy</span></code> factor introduces, and so our degrees of freedom is 14. As a formula, this is <span class="math notranslate nohighlight">\(N-1 -(R-1)-(C-1)\)</span>, which simplifies to <span class="math notranslate nohighlight">\(N-R-C+1\)</span>.</p>
 </section>
 <section id="factorial-anova-versus-one-way-anovas">
 <h3><span class="section-number">17.1.4. </span>Factorial ANOVA versus one-way ANOVAs<a class="headerlink" href="#factorial-anova-versus-one-way-anovas" title="Permalink to this heading">#</a></h3>
@@ -1426,7 +1452,7 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 </div></div></div>
 </div>
 <p>We can now see that while we do have a significant main effect of drug (<span class="math notranslate nohighlight">\(F_{2,12} = 31.7, p &lt;.001\)</span>) and therapy type (<span class="math notranslate nohighlight">\(F_{1,12} = 8.6, p=.013\)</span>), there is no significant interaction between the two (<span class="math notranslate nohighlight">\(F_{2,12} = 2.5, p = 0.125\)</span>).</p>
-<p>There’s a couple of very important things to consider when interpreting the results of factorial ANOVA. Firstly, there’s the same issue that we had with one-way ANOVA, which is that if you obtain a significant main effect of (say) <code class="docutils literal notranslate"><span class="pre">drug</span></code>, it doesn’t tell you anything about which drugs are different to one another. To find that out, you need to run additional analyses. We’ll talk about some analyses that you can run in the sections on <span class="xref myst">contrasts</span> and <span class="xref myst">post-hoc tests</span>. The same is true for interaction effects: knowing that there’s a significant interaction doesn’t tell you anything about what kind of interaction exists. Again, you’ll need to run additional analyses.</p>
+<p>There’s a couple of very important things to consider when interpreting the results of factorial ANOVA. Firstly, there’s the same issue that we had with one-way ANOVA, which is that if you obtain a significant main effect of (say) <code class="docutils literal notranslate"><span class="pre">drug</span></code>, it doesn’t tell you anything about which drugs are different to one another. To find that out, you need to run additional analyses. We’ll talk about some analyses that you can run in the sections on <a class="reference internal" href="#contrasts"><span class="std std-ref">contrasts</span></a> and <a class="reference internal" href="#posthoc2"><span class="std std-ref">post-hoc tests</span></a>. The same is true for interaction effects: knowing that there’s a significant interaction doesn’t tell you anything about what kind of interaction exists. Again, you’ll need to run additional analyses.</p>
 <p>Secondly, there’s a very peculiar interpretation issue that arises when you obtain a significant interaction effect but no corresponding main effect. This happens sometimes. For instance, in the crossover interaction shown in <a class="reference internal" href="#fig-anovas-avec-interaction"><span class="std std-numref">Fig. 17.2</span></a>), this is exactly what you’d find: in this case, neither of the main effects would be significant, but the interaction effect would be. This is a difficult situation to interpret, and people often get a bit confused about it. The general advice that statisticians like to give in this situation is that you shouldn’t pay much attention to the main effects when an interaction is present. The reason they say this is that, although the tests of the main effects are perfectly valid from a mathematical point of view, when there is a significant interaction effect, the main effects rarely test interesting hypotheses. <a class="reference internal" href="#factanovahyp"><span class="std std-ref">Recall</span></a> that the null hypothesis for a main effect is that the <em>marginal means</em> are equal to each other, and that a marginal mean is formed by averaging across several different groups. But if you have a significant interaction effect, then you <em>know</em> that the groups that comprise the marginal mean aren’t homogeneous, so it’s not really obvious why you would even care about those marginal means.</p>
 <p>Here’s what I mean. Again, let’s stick with a clinical example. Suppose that we had a <span class="math notranslate nohighlight">\(2 \times 2\)</span> design comparing two different treatments for phobias (e.g., systematic desensitisation vs flooding), and two different anxiety reducing drugs (e.g., Anxifree vs Joyzepam). Now suppose what we found was that Anxifree had no effect when desensitisation was the treatment, and Joyzepam had no effect when flooding was the treatment. But both were pretty effective for the other treatment. This is a classic crossover interaction, and what we’d find when running the ANOVA is that there is no main effect of drug, but a significant interaction. Now, what does it actually <em>mean</em> to say that there’s no main effect? Well, it means that, if we average over the two different psychological treatments, then the <em>average</em> effect of Anxifree and Joyzepam is the same. But why would anyone care about that? When treating someone for phobias, it is never the case that a person can be treated using an “average” of flooding and desensitisation: that doesn’t make a lot of sense. You either get one or the other. For one treatment, one drug is effective; and for the other treatment, the other drug is effective. The interaction is the important thing; the main effect is kind of irrelevant.</p>
 <p>This sort of thing happens a lot: the main effect are tests of marginal means, and when an interaction is present we often find ourselves not being terribly interested in marginal means, because they imply averaging over things that the interaction tells us shouldn’t be averaged! Of course, it’s not always the case that a main effect is meaningless when an interaction is present. Often you can get a big main effect and a very small interaction, in which case you can still say things like “drug A is generally more effective than drug B” (because there was a big effect of drug), but you’d need to modify it a bit by adding that “the difference in effectiveness was different for different psychological treatments”. In any case, the main point here is that whenever you get a significant interaction you should stop and <em>think</em> about what the main effect actually means in this context. Don’t automatically assume that the main effect is interesting.</p>
@@ -1784,10 +1810,67 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 \[
 F = \frac{\mbox{MS}_\Delta} {\mbox{MS}_{R1}}
 \]</div>
-<div class="math notranslate nohighlight">
-\[
-F = \frac{\mbox{MS}_b }{ \mbox{MS}_w } 
-\]</div>
+</section>
+<section id="running-the-test-in-python">
+<h3><span class="section-number">17.4.2. </span>Running the test in Python<a class="headerlink" href="#running-the-test-in-python" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="anova-as-a-linear-model">
+<span id="anovalm"></span><h2><span class="section-number">17.5. </span>ANOVA as a linear model<a class="headerlink" href="#anova-as-a-linear-model" title="Permalink to this heading">#</a></h2>
+<section id="changing-the-baseline-category">
+<span id="changingbaseline"></span><h3><span class="section-number">17.5.1. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="the-equivalence-between-anova-and-regression-for-non-binary-factors">
+<h3><span class="section-number">17.5.2. </span>The equivalence between ANOVA and regression for non-binary factors<a class="headerlink" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="degrees-of-freedom-as-parameter-counting">
+<h3><span class="section-number">17.5.3. </span>Degrees of freedom as parameter counting!<a class="headerlink" href="#degrees-of-freedom-as-parameter-counting" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="a-postscript">
+<h3><span class="section-number">17.5.4. </span>A postscript<a class="headerlink" href="#a-postscript" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="different-ways-to-specify-contrasts">
+<span id="contrasts"></span><h2><span class="section-number">17.6. </span>Different ways to specify contrasts<a class="headerlink" href="#different-ways-to-specify-contrasts" title="Permalink to this heading">#</a></h2>
+<section id="treatment-contrasts">
+<h3><span class="section-number">17.6.1. </span>Treatment contrasts<a class="headerlink" href="#treatment-contrasts" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="helmert-contrasts">
+<h3><span class="section-number">17.6.2. </span>Helmert contrasts<a class="headerlink" href="#helmert-contrasts" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="sum-to-zero-contrasts">
+<h3><span class="section-number">17.6.3. </span>Sum to zero contrasts<a class="headerlink" href="#sum-to-zero-contrasts" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="setting-contrasts">
+<h3><span class="section-number">17.6.4. </span>Setting contrasts<a class="headerlink" href="#setting-contrasts" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="post-hoc-tests">
+<span id="posthoc2"></span><h2><span class="section-number">17.7. </span>Post hoc tests<a class="headerlink" href="#post-hoc-tests" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="unbalanced-designs">
+<span id="unbalancedanova"></span><h2><span class="section-number">17.8. </span>Unbalanced designs<a class="headerlink" href="#unbalanced-designs" title="Permalink to this heading">#</a></h2>
+<section id="the-coffee-data">
+<h3><span class="section-number">17.8.1. </span>The coffee data<a class="headerlink" href="#the-coffee-data" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="standard-anova-does-not-exist-for-unbalanced-designs">
+<h3><span class="section-number">17.8.2. </span>“Standard ANOVA” does not exist for unbalanced designs<a class="headerlink" href="#standard-anova-does-not-exist-for-unbalanced-designs" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="type-i-sum-of-squares">
+<h3><span class="section-number">17.8.3. </span>Type I sum of squares<a class="headerlink" href="#type-i-sum-of-squares" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="type-iii-sum-of-squares">
+<h3><span class="section-number">17.8.4. </span>Type III sum of squares<a class="headerlink" href="#type-iii-sum-of-squares" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="type-ii-sum-of-squares">
+<h3><span class="section-number">17.8.5. </span>Type II sum of squares<a class="headerlink" href="#type-ii-sum-of-squares" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="effect-sizes-and-non-additive-sums-of-squares">
+<h3><span class="section-number">17.8.6. </span>Effect sizes (and non-additive sums of squares)<a class="headerlink" href="#effect-sizes-and-non-additive-sums-of-squares" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="summary">
+<h2><span class="section-number">17.9. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1813,7 +1896,6 @@ F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
 <p>There could be all sorts of reasons for doing this, I would imagine.</p>
 </aside>
-</section>
 </section>
 </section>
 
@@ -1907,8 +1989,34 @@ F = \frac{\mbox{MS}_b }{ \mbox{MS}_w }
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-test-as-a-model-comparison">17.4. The <span class="math notranslate nohighlight">\(F\)</span> test as a model comparison</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-f-test-comparing-two-models">17.4.1. The <span class="math notranslate nohighlight">\(F\)</span> test comparing two models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-test-in-python">17.4.2. Running the test in Python</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-as-a-linear-model">17.5. ANOVA as a linear model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.1. Changing the baseline category</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.2. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.3. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.4. A postscript</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#treatment-contrasts">17.6.1. Treatment contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helmert-contrasts">17.6.2. Helmert contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sum-to-zero-contrasts">17.6.3. Sum to zero contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-contrasts">17.6.4. Setting contrasts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-hoc-tests">17.7. Post hoc tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unbalanced-designs">17.8. Unbalanced designs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-coffee-data">17.8.1. The coffee data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-anova-does-not-exist-for-unbalanced-designs">17.8.2. “Standard ANOVA” does not exist for unbalanced designs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-i-sum-of-squares">17.8.3. Type I sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-iii-sum-of-squares">17.8.4. Type III sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-ii-sum-of-squares">17.8.5. Type II sum of squares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-sizes-and-non-additive-sums-of-squares">17.8.6. Effect sizes (and non-additive sums of squares)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">17.9. Summary</a></li>
 </ul>
   </nav></div>
 
