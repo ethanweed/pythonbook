@@ -1242,7 +1242,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/dface81985b95cc64b80e73ebbb334f322b5694c3ef3b63ae6c8618d9915f20f.png" src="_images/dface81985b95cc64b80e73ebbb334f322b5694c3ef3b63ae6c8618d9915f20f.png" />
+<img alt="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" src="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" />
 </div>
 </div>
 <p>Our main concern relates to the fact that the two lines aren’t parallel. The effect of CBT (difference between solid line and dotted line) when the drug is Joyzepam (right side) appears to be near zero, even smaller than the effect of CBT when a placebo is used (left side). However, when Anxifree is administered, the effect of CBT is larger than the placebo (middle). Is this effect real, or is this just random variation due to chance? Our original ANOVA cannot answer this question, because we make no allowances for the idea that interactions even exist! In this section, we’ll fix this problem.</p>
@@ -1439,7 +1439,11 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 <p>To see what I mean by this, it’s useful to see a concrete example. We can get <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> to report <span class="math notranslate nohighlight">\(\eta^2\)</span> instead of partial <span class="math notranslate nohighlight">\(\eta^2\)</span> by specifying this in the <code class="docutils literal notranslate"><span class="pre">effsize</span></code> argument when we run our ANOVA:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">effsize</span><span class="o">=</span><span class="s1">&#39;n2&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+                  <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> 
+                  <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+                  <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                  <span class="n">effsize</span><span class="o">=</span><span class="s1">&#39;n2&#39;</span><span class="p">)</span>
 <span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
