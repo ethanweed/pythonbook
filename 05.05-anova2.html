@@ -394,6 +394,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is</em> an interaction effect?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-sums-of-squares-for-the-interaction">17.2.2. Calculating sums of squares for the interaction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-for-the-interaction">17.2.3. Degrees of freedom for the interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-results">17.2.4. Interpreting the results</a></li>
 </ul>
 </li>
 </ul>
@@ -1318,7 +1319,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </section>
 <section id="degrees-of-freedom-for-the-interaction">
 <h3><span class="section-number">17.2.3. </span>Degrees of freedom for the interaction<a class="headerlink" href="#degrees-of-freedom-for-the-interaction" title="Permalink to this heading">#</a></h3>
-<p>Calculating the degrees of freedom for the interaction is, once again, slightly trickier than the corresponding calculation for the main effects. To start with, let’s think about the ANOVA model as a whole. Once we include interaction effects in the model, we’re allowing every single group has a unique mean, <span class="math notranslate nohighlight">\(\mu_{rc}\)</span>. For an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA, this means that there are <span class="math notranslate nohighlight">\(R \times C\)</span> quantities of interest in the model, and only the one constraint: all of the group means need to average out to the grand mean. So the model as a whole needs to have <span class="math notranslate nohighlight">\((R\times C) - 1\)</span> degrees of freedom. But the main effect of Factor A has <span class="math notranslate nohighlight">\(R-1\)</span> degrees of freedom, and the main effect of Factor B has <span class="math notranslate nohighlight">\(C-1\)</span> degrees of freedom. Which means that the degrees of freedom associated with the interaction is</p>
+<p>Calculating the degrees of freedom for the interaction is, once again, slightly trickier than the corresponding calculation for the main effects. To start with, let’s think about the ANOVA model as a whole. Once we include interaction effects in the model, we’re allowing every single group to have a unique mean, <span class="math notranslate nohighlight">\(\mu_{rc}\)</span>. For an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA, this means that there are <span class="math notranslate nohighlight">\(R \times C\)</span> quantities of interest in the model, and only the one constraint: all of the group means need to average out to the grand mean. So the model as a whole needs to have <span class="math notranslate nohighlight">\((R\times C) - 1\)</span> degrees of freedom. But the main effect of Factor A has <span class="math notranslate nohighlight">\(R-1\)</span> degrees of freedom, and the main effect of Factor B has <span class="math notranslate nohighlight">\(C-1\)</span> degrees of freedom. Which means that the degrees of freedom associated with the interaction is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -1329,6 +1330,96 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 \end{split}\]</div>
 <p>which is just the product of the degrees of freedom associated with the row factor and the column factor.</p>
 <p>What about the residual degrees of freedom? Because we’ve added interaction terms, which absorb some degrees of freedom, there are fewer residual degrees of freedom left over. Specifically, note that if the model with interaction has a total of <span class="math notranslate nohighlight">\((R\times C) - 1\)</span>, and there are <span class="math notranslate nohighlight">\(N\)</span> observations in your data set that are constrained to satisfy 1 grand mean, your residual degrees of freedom now become <span class="math notranslate nohighlight">\(N-(R \times C)-1+1\)</span>, or just <span class="math notranslate nohighlight">\(N-(R \times C)\)</span>.</p>
+</section>
+<section id="interpreting-the-results">
+<h3><span class="section-number">17.2.4. </span>Interpreting the results<a class="headerlink" href="#interpreting-the-results" title="Permalink to this heading">#</a></h3>
+<p>Now we are in a position to understand all the rows in the ANOVA table that we saw earlier. Even if you skimmed lightly over the math in the previous section (and you would be forgiven if you did), hopefully you will now have some intuition for the differences between main effects and interaction effects. But what does it all mean, in the end?</p>
+<p>Let’s quickly remind ourselves of the results of our factorial ANOVA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.453</td>
+      <td>2</td>
+      <td>1.727</td>
+      <td>31.714</td>
+      <td>0.000</td>
+      <td>0.841</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>therapy</td>
+      <td>0.467</td>
+      <td>1</td>
+      <td>0.467</td>
+      <td>8.582</td>
+      <td>0.013</td>
+      <td>0.417</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>drug * therapy</td>
+      <td>0.271</td>
+      <td>2</td>
+      <td>0.136</td>
+      <td>2.490</td>
+      <td>0.125</td>
+      <td>0.293</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>0.653</td>
+      <td>12</td>
+      <td>0.054</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can now see that while we do have a significant main effect of drug (<span class="math notranslate nohighlight">\(F_{2,12} = 31.7, p &lt;.001\)</span>) and therapy type (<span class="math notranslate nohighlight">\(F_{1,12} = 8.6, p=.013\)</span>), there is no significant interaction between the two (<span class="math notranslate nohighlight">\(F_{2,12} = 2.5, p = 0.125\)</span>).</p>
+<p>There’s a couple of very important things to consider when interpreting the results of factorial ANOVA. Firstly, there’s the same issue that we had with one-way ANOVA, which is that if you obtain a significant main effect of (say) <code class="docutils literal notranslate"><span class="pre">drug</span></code>, it doesn’t tell you anything about which drugs are different to one another. To find that out, you need to run additional analyses. We’ll talk about some analyses that you can run in the sections on <span class="xref myst">contrasts</span> and <span class="xref myst">post-hoc tests</span>. The same is true for interaction effects: knowing that there’s a significant interaction doesn’t tell you anything about what kind of interaction exists. Again, you’ll need to run additional analyses.</p>
+<p>Secondly, there’s a very peculiar interpretation issue that arises when you obtain a significant interaction effect but no corresponding main effect. This happens sometimes. For instance, in the crossover interaction shown in <a class="reference internal" href="#fig-anovas-avec-interaction"><span class="std std-numref">Fig. 17.2</span></a>), this is exactly what you’d find: in this case, neither of the main effects would be significant, but the interaction effect would be. This is a difficult situation to interpret, and people often get a bit confused about it. The general advice that statisticians like to give in this situation is that you shouldn’t pay much attention to the main effects when an interaction is present. The reason they say this is that, although the tests of the main effects are perfectly valid from a mathematical point of view, when there is a significant interaction effect, the main effects rarely test interesting hypotheses. <a class="reference internal" href="#factanovahyp"><span class="std std-ref">Recall</span></a> that the null hypothesis for a main effect is that the <em>marginal means</em> are equal to each other, and that a marginal mean is formed by averaging across several different groups. But if you have a significant interaction effect, then you <em>know</em> that the groups that comprise the marginal mean aren’t homogeneous, so it’s not really obvious why you would even care about those marginal means.</p>
+<p>Here’s what I mean. Again, let’s stick with a clinical example. Suppose that we had a <span class="math notranslate nohighlight">\(2 \times 2\)</span> design comparing two different treatments for phobias (e.g., systematic desensitisation vs flooding), and two different anxiety reducing drugs (e.g., Anxifree vs Joyzepam). Now suppose what we found was that Anxifree had no effect when desensitisation was the treatment, and Joyzepam had no effect when flooding was the treatment. But both were pretty effective for the other treatment. This is a classic crossover interaction, and what we’d find when running the ANOVA is that there is no main effect of drug, but a significant interaction. Now, what does it actually <em>mean</em> to say that there’s no main effect? Wel, it means that, if we average over the two different psychological treatments, then the <em>average</em> effect of Anxifree and Joyzepam is the same. But why would anyone care about that? When treating someone for phobias, it is never the case that a person can be treated using an “average” of flooding and desensitisation: that doesn’t make a lot of sense. You either get one or the other. For one treatment, one drug is effective; and for the other treatment, the other drug is effective. The interaction is the important thing; the main effect is kind of irrelevant.</p>
+<p>This sort of thing happens a lot: the main effect are tests of marginal means, and when an interaction is present we often find ourselves not being terribly interested in marginal means, because they imply averaging over things that the interaction tells us shouldn’t be averaged! Of course, it’s not always the case that a main effect is meaningless when an interaction is present. Often you can get a big main effect and a very small interaction, in which case you can still say things like “drug A is generally more effective than drug B” (because there was a big effect of drug), but you’d need to modify it a bit by adding that “the difference in effectiveness was different for different psychological treatments”. In any case, the main point here is that whenever you get a significant interaction you should stop and <em>think</em> about what the main effect actually means in this context. Don’t automatically assume that the main effect is interesting.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1425,6 +1516,7 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is</em> an interaction effect?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-sums-of-squares-for-the-interaction">17.2.2. Calculating sums of squares for the interaction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-for-the-interaction">17.2.3. Degrees of freedom for the interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-results">17.2.4. Interpreting the results</a></li>
 </ul>
 </li>
 </ul>
