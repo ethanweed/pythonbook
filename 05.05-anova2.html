@@ -400,6 +400,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumption-checking">17.3. Assumption checking</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levene-test-for-homogeneity-of-variance">17.3.1. Levene test for homogeneity of variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normality-of-residuals">17.3.2. Normality of residuals</a></li>
 </ul>
 </li>
 </ul>
@@ -1619,7 +1620,70 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 <p>As with one-way ANOVA, the key assumptions of factorial ANOVA are homogeneity of variance (all groups have the same standard deviation), normality of the residuals, and independence of the observations. The first two are things we can test for. The third is something that you need to assess yourself by asking if there are any special relationships between different observations. What about homogeneity of variance and normality of the residuals? As it turns out, these are pretty easy to check: it’s no different to the checks we did for a one-way ANOVA.</p>
 <section id="levene-test-for-homogeneity-of-variance">
 <h3><span class="section-number">17.3.1. </span>Levene test for homogeneity of variance<a class="headerlink" href="#levene-test-for-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
-<p>To test whether the groups have the same variance, we can use the Levene test. The theory behind the Levene test has <a class="reference internal" href="05.03-anova.html#levene"><span class="std std-ref">already been discussed</span></a>, so I won’t discuss it again.</p>
+<p>To test whether the groups have the same variance, we can use the Levene test. The theory behind the Levene test has <a class="reference internal" href="05.03-anova.html#levene"><span class="std std-ref">already been discussed</span></a>, so I won’t discuss it again. The funny thing is, though, that while pacakges exist to perform a Levene test on factorial ANOVA models in e.g. R, I have not been able to find a package that does the same in Python. As of the date of writing this, I can only find examples of Levene’s tests being performed on one-way models in Python. However, as far as I can tell, all that one needs to do is to create a new column in the dataframe that represents the interaction of the two factors, and run the Levene’s test on that. This seems to give the same result as e.g. the R function <code class="docutils literal notranslate"><span class="pre">levene()</span></code> run on a two-way model with interactions, so I offer it here as my solution to this problem:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;interaction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;therapy&#39;</span><span class="p">]</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">homoscedasticity</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
+                    <span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> 
+                    <span class="n">group</span><span class="o">=</span><span class="s1">&#39;interaction&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>W</th>
+      <th>pval</th>
+      <th>equal_var</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>levene</th>
+      <td>0.09545</td>
+      <td>0.99123</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The fact that the Levene test is non-significant means that we can safely assume that the homogeneity of variance assumption is not violated.</p>
+</section>
+<section id="normality-of-residuals">
+<h3><span class="section-number">17.3.2. </span>Normality of residuals<a class="headerlink" href="#normality-of-residuals" title="Permalink to this heading">#</a></h3>
+<p>As with one-way ANOVA, we can test for the normality of residuals in a <a class="reference internal" href="05.03-anova.html#anovanormality"><span class="std std-ref">straightforward fashion</span></a>. First, we use the <code class="docutils literal notranslate"><span class="pre">residuals()</span></code> function to extract the residuals from the model itself, and then we can examine those residuals in a few different ways. It’s generally a good idea to examine them graphically, by drawing histograms (i.e., <code class="docutils literal notranslate"><span class="pre">hist()</span></code> function) and QQ plots (i.e., <code class="docutils literal notranslate"><span class="pre">qqnorm()</span></code> function. If you want a formal test for the normality of the residuals, then we can run the Shapiro-Wilk test (i.e., <code class="docutils literal notranslate"><span class="pre">shapiro.test()</span></code>). If we wanted to check the residuals with respect to <code class="docutils literal notranslate"><span class="pre">model.2</span></code> (i.e., the model with both main effects but no interactions) then we could do the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug + therapy + drug:therapy&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">resid</span>
+</pre></div>
+</div>
+</div>
+</div>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1730,6 +1794,7 @@ df_{A:B} &amp;= (R\times C - 1) - (R - 1) - (C -1 ) \\
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assumption-checking">17.3. Assumption checking</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#levene-test-for-homogeneity-of-variance">17.3.1. Levene test for homogeneity of variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normality-of-residuals">17.3.2. Normality of residuals</a></li>
 </ul>
 </li>
 </ul>
