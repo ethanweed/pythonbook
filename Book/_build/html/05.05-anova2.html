@@ -393,6 +393,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is</em> an interaction effect?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-sums-of-squares-for-the-interaction">17.2.2. Calculating sums of squares for the interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-for-the-interaction">17.2.3. Degrees of freedom for the interaction</a></li>
 </ul>
 </li>
 </ul>
@@ -1239,7 +1240,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" src="_images/b3ad66506061f50d80c39ef4063b2cac35789f94d8a17eac5cedbf8cd0d591a6.png" />
+<img alt="_images/a0deb63e0830f6f422faa8620c3e15ec551c314ebd592dcb4b17c1c90a159745.png" src="_images/a0deb63e0830f6f422faa8620c3e15ec551c314ebd592dcb4b17c1c90a159745.png" />
 </div>
 </div>
 <p>Our main concern relates to the fact that the two lines aren’t parallel. The effect of CBT (difference between solid line and dotted line) when the drug is Joyzepam (right side) appears to be near zero, even smaller than the effect of CBT when a placebo is used (left side). However, when Anxifree is administered, the effect of CBT is larger than the placebo (middle). Is this effect real, or is this just random variation due to chance? Our original ANOVA cannot answer this question, because we make no allowances for the idea that interactions even exist! In this section, we’ll fix this problem.</p>
@@ -1302,6 +1303,43 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 \[
 \hat{(\alpha\beta)}_{rc} = \bar{Y}_{rc} - \bar{Y}_{r.} - \bar{Y}_{.c} + \bar{Y}_{..}
 \]</div>
+<p>Now all we have to do is sum all of these estimates across all <span class="math notranslate nohighlight">\(R\)</span> levels of Factor A and all <span class="math notranslate nohighlight">\(C\)</span> levels of Factor B, and we obtain the following formula for the sum of squares associated with the interaction as a whole:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{A:B} = N \sum_{r=1}^R \sum_{c=1}^C \left( \bar{Y}_{rc} - \bar{Y}_{r.} - \bar{Y}_{.c} + \bar{Y}_{..} \right)^2
+\]</div>
+<p>where, we multiply by <span class="math notranslate nohighlight">\(N\)</span> because there are <span class="math notranslate nohighlight">\(N\)</span> observations in each of the groups, and we want our SS values to reflect the variation among <em>observations</em> accounted for by the interaction, not the variation among groups.</p>
+<p>Now that we have a formula for calculating SS<span class="math notranslate nohighlight">\(_{A:B}\)</span>, it’s important to recognise that the interaction term is part of the model (of course), so the total sum of squares associated with the model, SS<span class="math notranslate nohighlight">\(_M\)</span> is now equal to the sum of the three relevant SS values, <span class="math notranslate nohighlight">\(\mbox{SS}_A + \mbox{SS}_B + \mbox{SS}_{A:B}\)</span>. The residual sum of squares <span class="math notranslate nohighlight">\(\mbox{SS}_R\)</span> is still defined as the leftover variation, namely <span class="math notranslate nohighlight">\(\mbox{SS}_T - \mbox{SS}_M\)</span>, but now that we have the interaction term this becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_R = \mbox{SS}_T - (\mbox{SS}_A + \mbox{SS}_B + \mbox{SS}_{A:B})
+\]</div>
+<p>Now all we have to do is sum all of these estimates across all <span class="math notranslate nohighlight">\(R\)</span> levels of Factor A and all <span class="math notranslate nohighlight">\(C\)</span> levels of Factor B, and we obtain the following formula for the sum of squares associated with the interaction as a whole:</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_{A:B} = N \sum_{r=1}^R \sum_{c=1}^C \left( \bar{Y}_{rc} - \bar{Y}_{r.} - \bar{Y}_{.c} + \bar{Y}_{..} \right)^2
+\]</div>
+<p>where, we multiply by <span class="math notranslate nohighlight">\(N\)</span> because there are <span class="math notranslate nohighlight">\(N\)</span> observations in each of the groups, and we want our SS values to reflect the variation among <em>observations</em> accounted for by the interaction, not the variation among groups.</p>
+<p>Now that we have a formula for calculating SS<span class="math notranslate nohighlight">\(_{A:B}\)</span>, it’s important to recognise that the interaction term is part of the model (of course), so the total sum of squares associated with the model, SS<span class="math notranslate nohighlight">\(_M\)</span> is now equal to the sum of the three relevant SS values, <span class="math notranslate nohighlight">\(\mbox{SS}_A + \mbox{SS}_B + \mbox{SS}_{A:B}\)</span>. The residual sum of squares <span class="math notranslate nohighlight">\(\mbox{SS}_R\)</span> is still defined as the leftover variation, namely <span class="math notranslate nohighlight">\(\mbox{SS}_T - \mbox{SS}_M\)</span>, but now that we have the interaction term this becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\mbox{SS}_R = \mbox{SS}_T - (\mbox{SS}_A + \mbox{SS}_B + \mbox{SS}_{A:B})
+\]</div>
+<p>As a consequence, the residual sum of squares SS<span class="math notranslate nohighlight">\(_R\)</span> will be smaller than in our original ANOVA that didn’t include interactions.</p>
+</section>
+<section id="degrees-of-freedom-for-the-interaction">
+<h3><span class="section-number">17.2.3. </span>Degrees of freedom for the interaction<a class="headerlink" href="#degrees-of-freedom-for-the-interaction" title="Permalink to this heading">#</a></h3>
+<p>Calculating the degrees of freedom for the interaction is, once again, slightly trickier than the corresponding calculation for the main effects. To start with, let’s think about the ANOVA model as a whole. Once we include interaction effects in the model, we’re allowing every single group has a unique mean, <span class="math notranslate nohighlight">\(\mu_{rc}\)</span>. For an <span class="math notranslate nohighlight">\(R \times C\)</span> factorial ANOVA, this means that there are <span class="math notranslate nohighlight">\(R \times C\)</span> quantities of interest in the model, and only the one constraint: all of the group means need to average out to the grand mean. So the model as a whole needs to have <span class="math notranslate nohighlight">\((R\times C) - 1\)</span> degrees of freedom. But the main effect of Factor A has <span class="math notranslate nohighlight">\(R-1\)</span> degrees of freedom, and the main effect of Factor B has <span class="math notranslate nohighlight">\(C-1\)</span> degrees of freedom. Which means that the degrees of freedom associated with the interaction is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+df_{A:B} &amp;=&amp; (R\times C - 1) - (R - 1) - (C -1 ) \\
+&amp;=&amp; RC - R - C + 1 \\
+&amp;=&amp; (R-1)(C-1)
+\end{align}
+\end{split}\]</div>
+<p>which is just the product of the degrees of freedom associated with the row factor and the column factor.</p>
+<p>What about the residual degrees of freedom? Because we’ve added interaction terms, which absorb some degrees of freedom, there are fewer residual degrees of freedom left over. Specifically, note that if the model with interaction has a total of <span class="math notranslate nohighlight">\((R\times C) - 1\)</span>, and there are <span class="math notranslate nohighlight">\(N\)</span> observations in your data set that are constrained to satisfy 1 grand mean, your residual degrees of freedom now become <span class="math notranslate nohighlight">\(N-(R \times C)-1+1\)</span>, or just <span class="math notranslate nohighlight">\(N-(R \times C)\)</span>.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="notesubscript" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1397,6 +1435,7 @@ F_{A} = \frac{\mbox{MS}_{A}}{\mbox{MS}_{R}}
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factorial-anova-2-balanced-designs-interactions-allowed">17.2. Factorial ANOVA 2: balanced designs, interactions allowed</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-exactly-is-an-interaction-effect">17.2.1. What exactly <em>is</em> an interaction effect?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-sums-of-squares-for-the-interaction">17.2.2. Calculating sums of squares for the interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-for-the-interaction">17.2.3. Degrees of freedom for the interaction</a></li>
 </ul>
 </li>
 </ul>
