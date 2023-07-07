@@ -867,6 +867,70 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </section>
 <section id="bayesian-analysis-of-contingency-tables">
 <span id="bayescontingency"></span><h2><span class="section-number">18.6. </span>Bayesian analysis of contingency tables<a class="headerlink" href="#bayesian-analysis-of-contingency-tables" title="Permalink to this heading">#</a></h2>
+<p>Time to change gears. Up to this point I’ve been talking about what Bayesian inference is and why you might consider using it. I now want to briefly describe how to do Bayesian versions of various statistical tests. The discussions in the next few sections are not as detailed as I’d like, but I hope they’re enough to help you get started. So let’s begin.</p>
+<p>The first kind of statistical inference problem I discussed in this were <a class="reference internal" href="05.01-chisquare.html#chisquare"><span class="std std-ref">categorical data analysis problems</span></a>. In that chapter, I talked about several different statistical problems that you might be interested in, but the one that appears most often in real life is the analysis of  <em>contingency tables</em>. In this kind of data analysis situation, we have a cross-tabulation of one variable against another one, and the goal is to find out if there is some <em>association</em> between these variables. The data set I used to illustrate this problem is found in the <code class="docutils literal notranslate"><span class="pre">chapek9</span></code> data. Let’s take a look:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/chapek9.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>choice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>robot</td>
+      <td>flower</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>human</td>
+      <td>data</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>robot</td>
+      <td>data</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <section id="the-orthodox-text">
 <h3><span class="section-number">18.6.1. </span>The orthodox text<a class="headerlink" href="#the-orthodox-text" title="Permalink to this heading">#</a></h3>
 </section>
