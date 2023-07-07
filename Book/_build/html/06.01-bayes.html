@@ -422,8 +422,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">18.8.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
@@ -680,8 +680,38 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 </section>
 <section id="bayesian-hypothesis-tests">
 <span id="bayesianhypothesistests"></span><h2><span class="section-number">18.2. </span>Bayesian hypothesis tests<a class="headerlink" href="#bayesian-hypothesis-tests" title="Permalink to this heading">#</a></h2>
+<p>When we first discussed <span class="xref myst">hypothesis testing</span>, I described the orthodox approach. It took an entire chapter to describe, because null hypothesis testing is a very elaborate contraption that people find very hard to make sense of. In contrast, the Bayesian approach to hypothesis testing is incredibly simple. Let’s pick a setting that is closely analogous to the orthodox scenario. There are two hypotheses that we want to compare, a null hypothesis <span class="math notranslate nohighlight">\(h_0\)</span> and an alternative hypothesis <span class="math notranslate nohighlight">\(h_1\)</span>. Prior to running the experiment, we have some beliefs <span class="math notranslate nohighlight">\(P(h)\)</span> about which hypotheses are true. We run an experiment and obtain data <span class="math notranslate nohighlight">\(d\)</span>. Unlike frequentist statistics, Bayesian statistics does allow us to talk about the probability that the null hypothesis is true. Better yet, it allows us to calculate the <strong><em>posterior probability of the null hypothesis</em></strong>, using Bayes’ rule:</p>
+<div class="math notranslate nohighlight">
+\[
+P(h_0 | d) = \frac{P(d|h_0) P(h_0)}{P(d)}
+\]</div>
+<p>This formula tells us exactly how much belief we should have in the null hypothesis after having observed the data <span class="math notranslate nohighlight">\(d\)</span>. Similarly, we can work out how much belief to place in the alternative hypothesis using essentially the same equation. All we do is change the subscript:</p>
+<div class="math notranslate nohighlight">
+\[
+P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
+\]</div>
+<p>It’s all so simple that I feel like an idiot even bothering to write these equations down, since all I’m doing is copying Bayes rule from the previous section.<a class="footnote-reference brackets" href="#itscomplicated" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p>
 <section id="the-bayes-factor">
-<h3><span class="section-number">18.2.1. </span>The Bayes factor<a class="headerlink" href="#the-bayes-factor" title="Permalink to this heading">#</a></h3>
+<span id="bayesfactors"></span><h3><span class="section-number">18.2.1. </span>The Bayes factor<a class="headerlink" href="#the-bayes-factor" title="Permalink to this heading">#</a></h3>
+<p>In practice, most Bayesian data analysts tend not to talk in terms of the raw posterior probabilities <span class="math notranslate nohighlight">\(P(h_0|d)\)</span> and <span class="math notranslate nohighlight">\(P(h_1|d)\)</span>. Instead, we tend to talk in terms of the <strong><em>posterior odds</em></strong> ratio. Think of it like betting. Suppose, for instance, the posterior probability of the null hypothesis is 25%, and the posterior probability of the alternative is 75%. The alternative hypothesis is three times as probable as the null, so we say that the <em>odds</em> are 3:1 in favour of the alternative. Mathematically, all we have to do to calculate the posterior odds is divide one posterior probability by the other:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P(h_1 | d)}{P(h_0 | d)} = \frac{0.75}{0.25} = 3
+\]</div>
+<p>Or, to write the same thing in terms of the equations above:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P(h_1 | d)}{P(h_0 | d)} = \frac{P(d|h_1)}{P(d|h_0)} \times \frac{P(h_1)}{P(h_0)}
+\]</div>
+<p>Actually, this equation is worth expanding on. There are three different terms here that you should know. On the left hand side, we have the posterior odds, which tells you what you believe about the relative plausibilty of the null hypothesis and the alternative hypothesis <em>after</em> seeing the data. On the right hand side, we have the <strong><em>prior odds</em></strong>, which indicates what you thought <em>before</em> seeing the data. In the middle, we have the <strong><em>Bayes factor</em></strong>, which describes the amount of evidence provided by the data:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}{ccccc}\displaystyle
+\frac{P(h_1 | d)}{P(h_0 | d)} &amp;=&amp; \displaystyle\frac{P(d|h_1)}{P(d|h_0)} &amp;\times&amp; \displaystyle\frac{P(h_1)}{P(h_0)} \\[6pt] \\[-2pt]
+\uparrow &amp;&amp; \uparrow &amp;&amp; \uparrow \\[6pt]
+\mbox{Posterior odds} &amp;&amp; \mbox{Bayes factor} &amp;&amp; \mbox{Prior odds}
+\end{align}
+\end{split}\]</div>
 </section>
 <section id="interpreting-bayes-factors">
 <h3><span class="section-number">18.2.2. </span>Interpreting Bayes factors<a class="headerlink" href="#interpreting-bayes-factors" title="Permalink to this heading">#</a></h3>
@@ -740,11 +770,11 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 </section>
 <section id="bayesian-anova">
 <span id="bayesanova"></span><h2><span class="section-number">18.8. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
-<section id="id6">
-<h3><span class="section-number">18.8.1. </span>A quick refresher<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
-</section>
 <section id="id7">
-<h3><span class="section-number">18.8.2. </span>The Bayesian version<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">18.8.1. </span>A quick refresher<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="id8">
+<h3><span class="section-number">18.8.2. </span>The Bayesian version<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="constructing-bayesian-type-ii-tests">
 <h3><span class="section-number">18.8.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
@@ -772,6 +802,10 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 <aside class="footnote brackets" id="nothingnew" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
 <p>You might notice that this equation is actually a restatement of the same basic rule I listed at the start of the last section. If you multiply both sides of the equation by <span class="math notranslate nohighlight">\(P(d)\)</span>, then you get <span class="math notranslate nohighlight">\(P(d) P(h| d) = P(d,h)\)</span>, which is the rule for how joint probabilities are calculated. So I’m not actually introducing any “new” rules here, I’m just using the same rule in a different way.</p>
+</aside>
+<aside class="footnote brackets" id="itscomplicated" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Obviously, this is a highly simplified story. All the complexity of real life Bayesian hypothesis testing comes down to how you calculate the likelihood <span class="math notranslate nohighlight">\(P(d|h)\)</span> when the hypothesis <span class="math notranslate nohighlight">\(h\)</span> is a complex and vague thing. I’m not going to talk about those complexities in this book, but I do want to highlight that although this simple story is true as far as it goes, real life is messier than I’m able to cover in an introductory stats textbook.</p>
 </aside>
 </section>
 </section>
@@ -883,8 +917,8 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">18.8.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
