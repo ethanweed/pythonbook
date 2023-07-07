@@ -417,8 +417,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-refresher">18.7.1. A quick refresher</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-version">18.7.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-model">18.7.3. Finding the best model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-bayes-factors-for-all-included-terms">18.7.4. Extracting Bayes factors for all included terms</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">18.9. Summary</a></li>
 </ul>
             </nav>
         </div>
@@ -436,8 +444,8 @@ document.write(`
 <div><p><em>In our reasonings concerning matter of fact, there are all imaginable degrees of assurance, from the highest certainty to the lowest species of moral evidence. A wise man, therefore, proportions his belief to the evidence.</em>
 – <a class="reference external" href="http://en.wikiquote.org/wiki/David_Hume">David Hume</a>.</p>
 </div></blockquote>
-<p>The ideas I’ve presented to you in this book describe inferential statistics from the frequentist perspective. I’m not alone in doing this. In fact, almost every textbook given to undergraduate psychology students presents the opinions of the frequentist statistician as <em>the</em> theory of inferential statistics, the one true way to do things. I have taught this way for practical reasons. The frequentist view of statistics dominated the academic field of statistics for most of the 20th century, and this dominance is even more extreme among applied scientists. It was and is current practice among psychologists to use frequentist methods. Because frequentist methods are ubiquitous in scientific papers, every student of statistics needs to understand those methods, otherwise they will be unable to make sense of what those papers are saying! Unfortunately – in my opinion at least – the current practice in psychology is often misguided, and the reliance on frequentist methods is partly to blame. In this chapter I explain why I think this, and provide an introduction to Bayesian statistics, an approach that I think is generally superior to the orthodox approach.</p>
-<p>This chapter comes in two parts. In Sections &#64;ref(basicbayes) through &#64;ref(whybayes) I talk about what Bayesian statistics are all about, covering the basic mathematical rules for how it works as well as an explanation for why I think the Bayesian approach is so useful. Afterwards, I provide a brief overview of how you can do Bayesian versions of chi-square tests (Section &#64;ref(bayescontingency)), <span class="math notranslate nohighlight">\(t\)</span>-tests (Section &#64;ref(ttestbf)), regression (Section &#64;ref(bayesregression)) and ANOVA (Section &#64;ref(bayesanova)).</p>
+<p>The ideas I’ve presented to you in this book describe inferential statistics from the frequentist perspective. I’m not alone in doing this. In fact, almost every textbook given to undergraduate psychology students presents the opinions of the frequentist statistician as <em>the</em> theory of inferential statistics, the one true way to do things. I have taught this way for practical reasons. The frequentist view of statistics dominated the academic field of statistics for most of the 20th century, and this dominance is even more extreme among applied scientists. It was and is current practice among psychologists to use frequentist methods, although this is changing. Because frequentist methods are ubiquitous in scientific papers, every student of statistics needs to understand those methods, otherwise they will be unable to make sense of what those papers are saying! Unfortunately – in my opinion at least – the current practice in psychology is often misguided, and the reliance on frequentist methods is partly to blame. In this chapter I explain why I think this, and provide an introduction to Bayesian statistics, an approach that I think is generally superior to the orthodox approach.</p>
+<p>This chapter comes in two parts. <a class="reference internal" href="#basicbayes"><span class="std std-ref">First</span></a> I talk about what Bayesian statistics are all about, covering the basic mathematical rules for how it works as well as an explanation for <a class="reference internal" href="#whybayes"><span class="std std-ref">why I think the Bayesian approach is so useful</span></a>. Afterwards, I provide a brief overview of how you can do Bayesian versions of <a class="reference internal" href="#bayescontingency"><span class="std std-ref">chi-square tests</span></a>, <a class="reference internal" href="#ttestbf"><span class="std std-ref"><span class="math notranslate nohighlight">\(t\)</span>-tests</span></a>, <a class="reference internal" href="#bayesregression"><span class="std std-ref">regression</span></a>) and <a class="reference internal" href="#bayesanova"><span class="std std-ref">ANOVA</span></a>.</p>
 <section id="probabilistic-reasoning-by-rational-agents">
 <span id="basicbayes"></span><h2><span class="section-number">18.1. </span>Probabilistic reasoning by rational agents<a class="headerlink" href="#probabilistic-reasoning-by-rational-agents" title="Permalink to this heading">#</a></h2>
 <section id="likelihoods-theories-about-the-data">
@@ -506,6 +514,24 @@ document.write(`
 <section id="finding-the-best-model">
 <h3><span class="section-number">18.7.3. </span>Finding the best model<a class="headerlink" href="#finding-the-best-model" title="Permalink to this heading">#</a></h3>
 </section>
+<section id="extracting-bayes-factors-for-all-included-terms">
+<h3><span class="section-number">18.7.4. </span>Extracting Bayes factors for all included terms<a class="headerlink" href="#extracting-bayes-factors-for-all-included-terms" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="bayesian-anova">
+<span id="bayesanova"></span><h2><span class="section-number">18.8. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3><span class="section-number">18.8.1. </span>A quick refresher<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="id2">
+<h3><span class="section-number">18.8.2. </span>The Bayesian version<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="constructing-bayesian-type-ii-tests">
+<h3><span class="section-number">18.8.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="summary">
+<h2><span class="section-number">18.9. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -611,8 +637,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-refresher">18.7.1. A quick refresher</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-version">18.7.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-model">18.7.3. Finding the best model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-bayes-factors-for-all-included-terms">18.7.4. Extracting Bayes factors for all included terms</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">18.9. Summary</a></li>
 </ul>
   </nav></div>
 
