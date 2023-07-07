@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '06.01-bayes';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -357,7 +359,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -373,6 +377,50 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probabilistic-reasoning-by-rational-agents">18.1. Probabilistic reasoning by rational agents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihoods-theories-about-the-data">18.1.1. Likelihoods: theories about the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-joint-probability-of-data-and-hypothesis">18.1.2. The joint probability of data and hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-beliefs-using-bayes-rule">18.1.3. Updating beliefs using Bayes’ rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-hypothesis-tests">18.2. Bayesian hypothesis tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayes-factor">18.2.1. The Bayes factor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-bayes-factors">18.2.2. Interpreting Bayes factors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-be-a-bayesian">18.3. Why be a Bayesian?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics-that-mean-what-you-think-they-mean">18.3.1. Statistics that mean what you think they mean</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evidentiary-standards-you-can-believe">18.4. Evidentiary standards you can believe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-it-really-this-bad">18.4.1. Is it really this bad?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-analysis-of-contingency-tables">18.5. Bayesian analysis of contingency tables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-orthodox-text">18.5.1. The orthodox text</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-test">18.5.2. The Bayesian test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-results">18.5.3. Writing up the results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-sampling-plans">18.5.4. Other sampling plans</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-t-tests">18.6. Bayesian <span class="math notranslate nohighlight">\(t\)</span>-tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independent-samples-t-test">18.6.1. Independent samples <span class="math notranslate nohighlight">\(t\)</span>-test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#paired-samples-t-test">18.6.2. Paired samples <span class="math notranslate nohighlight">\(t\)</span>-test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-regression">18.7. Bayesian regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-refresher">18.7.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-version">18.7.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-model">18.7.3. Finding the best model</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -384,7 +432,81 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-statistics">
 <span id="bayes"></span><h1><span class="section-number">18. </span>Bayesian Statistics<a class="headerlink" href="#bayesian-statistics" title="Permalink to this heading">#</a></h1>
-<p>Bayes is great.</p>
+<blockquote>
+<div><p><em>In our reasonings concerning matter of fact, there are all imaginable degrees of assurance, from the highest certainty to the lowest species of moral evidence. A wise man, therefore, proportions his belief to the evidence.</em>
+– <a class="reference external" href="http://en.wikiquote.org/wiki/David_Hume">David Hume</a>.</p>
+</div></blockquote>
+<p>The ideas I’ve presented to you in this book describe inferential statistics from the frequentist perspective. I’m not alone in doing this. In fact, almost every textbook given to undergraduate psychology students presents the opinions of the frequentist statistician as <em>the</em> theory of inferential statistics, the one true way to do things. I have taught this way for practical reasons. The frequentist view of statistics dominated the academic field of statistics for most of the 20th century, and this dominance is even more extreme among applied scientists. It was and is current practice among psychologists to use frequentist methods. Because frequentist methods are ubiquitous in scientific papers, every student of statistics needs to understand those methods, otherwise they will be unable to make sense of what those papers are saying! Unfortunately – in my opinion at least – the current practice in psychology is often misguided, and the reliance on frequentist methods is partly to blame. In this chapter I explain why I think this, and provide an introduction to Bayesian statistics, an approach that I think is generally superior to the orthodox approach.</p>
+<p>This chapter comes in two parts. In Sections &#64;ref(basicbayes) through &#64;ref(whybayes) I talk about what Bayesian statistics are all about, covering the basic mathematical rules for how it works as well as an explanation for why I think the Bayesian approach is so useful. Afterwards, I provide a brief overview of how you can do Bayesian versions of chi-square tests (Section &#64;ref(bayescontingency)), <span class="math notranslate nohighlight">\(t\)</span>-tests (Section &#64;ref(ttestbf)), regression (Section &#64;ref(bayesregression)) and ANOVA (Section &#64;ref(bayesanova)).</p>
+<section id="probabilistic-reasoning-by-rational-agents">
+<span id="basicbayes"></span><h2><span class="section-number">18.1. </span>Probabilistic reasoning by rational agents<a class="headerlink" href="#probabilistic-reasoning-by-rational-agents" title="Permalink to this heading">#</a></h2>
+<section id="likelihoods-theories-about-the-data">
+<h3><span class="section-number">18.1.1. </span>Likelihoods: theories about the data<a class="headerlink" href="#likelihoods-theories-about-the-data" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="the-joint-probability-of-data-and-hypothesis">
+<h3><span class="section-number">18.1.2. </span>The joint probability of data and hypothesis<a class="headerlink" href="#the-joint-probability-of-data-and-hypothesis" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="updating-beliefs-using-bayes-rule">
+<h3><span class="section-number">18.1.3. </span>Updating beliefs using Bayes’ rule<a class="headerlink" href="#updating-beliefs-using-bayes-rule" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="bayesian-hypothesis-tests">
+<span id="bayesianhypothesistests"></span><h2><span class="section-number">18.2. </span>Bayesian hypothesis tests<a class="headerlink" href="#bayesian-hypothesis-tests" title="Permalink to this heading">#</a></h2>
+<section id="the-bayes-factor">
+<h3><span class="section-number">18.2.1. </span>The Bayes factor<a class="headerlink" href="#the-bayes-factor" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="interpreting-bayes-factors">
+<h3><span class="section-number">18.2.2. </span>Interpreting Bayes factors<a class="headerlink" href="#interpreting-bayes-factors" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="why-be-a-bayesian">
+<span id="whybayes"></span><h2><span class="section-number">18.3. </span>Why be a Bayesian?<a class="headerlink" href="#why-be-a-bayesian" title="Permalink to this heading">#</a></h2>
+<section id="statistics-that-mean-what-you-think-they-mean">
+<h3><span class="section-number">18.3.1. </span>Statistics that mean what you think they mean<a class="headerlink" href="#statistics-that-mean-what-you-think-they-mean" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="evidentiary-standards-you-can-believe">
+<h2><span class="section-number">18.4. </span>Evidentiary standards you can believe<a class="headerlink" href="#evidentiary-standards-you-can-believe" title="Permalink to this heading">#</a></h2>
+<section id="is-it-really-this-bad">
+<h3><span class="section-number">18.4.1. </span>Is it really this bad?<a class="headerlink" href="#is-it-really-this-bad" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="bayesian-analysis-of-contingency-tables">
+<span id="bayescontingency"></span><h2><span class="section-number">18.5. </span>Bayesian analysis of contingency tables<a class="headerlink" href="#bayesian-analysis-of-contingency-tables" title="Permalink to this heading">#</a></h2>
+<section id="the-orthodox-text">
+<h3><span class="section-number">18.5.1. </span>The orthodox text<a class="headerlink" href="#the-orthodox-text" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="the-bayesian-test">
+<h3><span class="section-number">18.5.2. </span>The Bayesian test<a class="headerlink" href="#the-bayesian-test" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="writing-up-the-results">
+<h3><span class="section-number">18.5.3. </span>Writing up the results<a class="headerlink" href="#writing-up-the-results" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="other-sampling-plans">
+<h3><span class="section-number">18.5.4. </span>Other sampling plans<a class="headerlink" href="#other-sampling-plans" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="bayesian-t-tests">
+<span id="ttestbf"></span><h2><span class="section-number">18.6. </span>Bayesian <span class="math notranslate nohighlight">\(t\)</span>-tests<a class="headerlink" href="#bayesian-t-tests" title="Permalink to this heading">#</a></h2>
+<section id="independent-samples-t-test">
+<h3><span class="section-number">18.6.1. </span>Independent samples <span class="math notranslate nohighlight">\(t\)</span>-test<a class="headerlink" href="#independent-samples-t-test" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="paired-samples-t-test">
+<h3><span class="section-number">18.6.2. </span>Paired samples <span class="math notranslate nohighlight">\(t\)</span>-test<a class="headerlink" href="#paired-samples-t-test" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
+<section id="bayesian-regression">
+<span id="bayesregression"></span><h2><span class="section-number">18.7. </span>Bayesian regression<a class="headerlink" href="#bayesian-regression" title="Permalink to this heading">#</a></h2>
+<section id="a-quick-refresher">
+<h3><span class="section-number">18.7.1. </span>A quick refresher<a class="headerlink" href="#a-quick-refresher" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="the-bayesian-version">
+<h3><span class="section-number">18.7.2. </span>The Bayesian version<a class="headerlink" href="#the-bayesian-version" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="finding-the-best-model">
+<h3><span class="section-number">18.7.3. </span>Finding the best model<a class="headerlink" href="#finding-the-best-model" title="Permalink to this heading">#</a></h3>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -445,6 +567,56 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probabilistic-reasoning-by-rational-agents">18.1. Probabilistic reasoning by rational agents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihoods-theories-about-the-data">18.1.1. Likelihoods: theories about the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-joint-probability-of-data-and-hypothesis">18.1.2. The joint probability of data and hypothesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-beliefs-using-bayes-rule">18.1.3. Updating beliefs using Bayes’ rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-hypothesis-tests">18.2. Bayesian hypothesis tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayes-factor">18.2.1. The Bayes factor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-bayes-factors">18.2.2. Interpreting Bayes factors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-be-a-bayesian">18.3. Why be a Bayesian?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics-that-mean-what-you-think-they-mean">18.3.1. Statistics that mean what you think they mean</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evidentiary-standards-you-can-believe">18.4. Evidentiary standards you can believe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-it-really-this-bad">18.4.1. Is it really this bad?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-analysis-of-contingency-tables">18.5. Bayesian analysis of contingency tables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-orthodox-text">18.5.1. The orthodox text</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-test">18.5.2. The Bayesian test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-up-the-results">18.5.3. Writing up the results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-sampling-plans">18.5.4. Other sampling plans</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-t-tests">18.6. Bayesian <span class="math notranslate nohighlight">\(t\)</span>-tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independent-samples-t-test">18.6.1. Independent samples <span class="math notranslate nohighlight">\(t\)</span>-test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#paired-samples-t-test">18.6.2. Paired samples <span class="math notranslate nohighlight">\(t\)</span>-test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-regression">18.7. Bayesian regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-refresher">18.7.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-version">18.7.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-best-model">18.7.3. Finding the best model</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
