@@ -931,11 +931,91 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </table>
 </div></div></div>
 </div>
+<p>In this data set, we supposedly sampled 180 beings and measured two things. First, we checked whether they were humans or robots, as captured by the <code class="docutils literal notranslate"><span class="pre">species</span></code> variable. Second, we asked them to nominate whether they most preferred flowers, puppies, or data. When we produce the cross-tabulation, we get this as the results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span><span class="n">margins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">observations</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>species</th>
+      <th>human</th>
+      <th>robot</th>
+    </tr>
+    <tr>
+      <th>choice</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>data</th>
+      <td>65</td>
+      <td>44</td>
+    </tr>
+    <tr>
+      <th>flower</th>
+      <td>13</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>puppy</th>
+      <td>15</td>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Surprisingly, the humans seemed to show a much stronger preference for data than the robots did. At the time we speculated that this might have been because the questioner was a large robot carrying a gun, and the humans might have been scared.</p>
 <section id="the-orthodox-text">
 <h3><span class="section-number">18.6.1. </span>The orthodox text<a class="headerlink" href="#the-orthodox-text" title="Permalink to this heading">#</a></h3>
+<p>Just to refresh your memory, when we analysed these data before, we ran a <span class="math notranslate nohighlight">\(chi\)</span>-square test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">chi2_contingency</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">observations</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;chi2 = &quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">chi2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p = &quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;degrees of freedom = &quot;</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chi2 =  10.722
+p =  0.005
+degrees of freedom =  2
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because we found a small <span class="math notranslate nohighlight">\(p\)</span> value (in this case <span class="math notranslate nohighlight">\(p&lt;.01\)</span>), we concluded that the data are inconsistent with the null hypothesis of no association, and we rejected it.</p>
 </section>
 <section id="the-bayesian-test">
 <h3><span class="section-number">18.6.2. </span>The Bayesian test<a class="headerlink" href="#the-bayesian-test" title="Permalink to this heading">#</a></h3>
+<p>How do we run an equivalent test as a Bayesian? Well, like every other bloody thing in statistics, there’s a lot of different ways you <em>could</em> do it.</p>
 </section>
 <section id="writing-up-the-results">
 <h3><span class="section-number">18.6.3. </span>Writing up the results<a class="headerlink" href="#writing-up-the-results" title="Permalink to this heading">#</a></h3>
