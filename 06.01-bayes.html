@@ -423,8 +423,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
@@ -841,6 +841,14 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </table>
 <p>The “basic” theory of null hypothesis testing isn’t built to handle this sort of thing, not in the form I described in the chapter on <span class="xref myst">null hypothesis significance testing</span>. If you’re the kind of person who would choose to “collect more data” in real life, it implies that you are <em>not</em> making decisions in accordance with the rules of null hypothesis testing. Even if you happen to arrive at the same decision as the hypothesis test, you aren’t following the decision <em>process</em> it implies, and it’s this failure to follow the process that is causing the problem.<a class="footnote-reference brackets" href="#lier" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a> Your <span class="math notranslate nohighlight">\(p\)</span>-values are a lie.</p>
 <p>Worse yet, they’re a lie in a dangerous way, because they’re all <em>too small</em>. To give you a sense of just how bad it can be, consider the following (worst case) scenario. Imagine you’re a really super-enthusiastic researcher on a tight budget who didn’t pay any attention to my warnings above. You design a study comparing two groups. You desperately want to see a significant result at the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> level, but you really don’t want to collect any more data than you have to (because it’s expensive). In order to cut costs, you start collecting data, but every time a new observation arrives you run a <span class="math notranslate nohighlight">\(t\)</span>-test on your data. If the <span class="math notranslate nohighlight">\(t\)</span>-tests says <span class="math notranslate nohighlight">\(p&lt;.05\)</span> then you stop the experiment and report a significant result. If not, you keep collecting data. You keep doing this until you reach your pre-defined spending limit for this experiment. Let’s say that limit kicks in at <span class="math notranslate nohighlight">\(N=1000\)</span> observations. As it turns out, the truth of the matter is that there is no real effect to be found: the null hypothesis is true. So, what’s the chance that you’ll make it to the end of the experiment and (correctly) conclude that there is no effect? In an ideal world, the answer here should be 95%. After all, the whole <em>point</em> of the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> criterion is to control the Type I error rate at 5%, so what we’d hope is that there’s only a 5% chance of falsely rejecting the null hypothesis in this situation. However, there’s no guarantee that will be true. You’re breaking the rules: you’re running tests repeatedly, “peeking” at your data to see if you’ve gotten a significant result, and all bets are off.</p>
+<figure class="align-center" id="fig-adapt">
+<a class="reference internal image-reference" href="../img/bayes/adapt.png"><img alt="../img/bayes/adapt.png" src="../img/bayes/adapt.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 18.1 </span><span class="caption-text">An illustration of the difference between how the mean and the median should be interpreted. The mean is basically the “centre of gravity” of the data set: if you imagine that the histogram of the data is a solid object, then the point on which you could balance it (as if on a see-saw) is the mean. In contrast, the median is the middle observation. Half of the observations are smaller, and half of the observations are larger.</span><a class="headerlink" href="#fig-adapt" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>So how bad is it? The answer is shown as the solid black line in <a class="reference internal" href="#fig-adapt"><span class="std std-numref">Fig. 18.1</span></a>, and it’s <em>astoundingly</em> bad. If you peek at your data after every single observation, there is a 49% chance that you will make a Type I error. That’s, um, quite a bit bigger than the 5% that it’s supposed to be. By way of comparison, imagine that you had used the following strategy. Start collecting data. Every single time an observation arrives, run a <a class="reference internal" href="#ttestbf"><span class="std std-ref"><em>Bayesian</em> <span class="math notranslate nohighlight">\(t\)</span>-test</span></a> and look at the Bayes factor. I’ll assume that <span id="id19">Johnson [<a class="reference internal" href="bibliography.html#id6" title="Valen E Johnson. Revised standards for statistical evidence. Proceedings of the National Academy of Sciences, pages 19313–19317, 2013.">2013</a>]</span> is right, and I’ll treat a Bayes factor of 3:1 as roughly equivalent to a <span class="math notranslate nohighlight">\(p\)</span>-value of .05.<a class="footnote-reference brackets" href="#whythreeone" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a> This time around, our trigger happy researcher uses the following procedure: if the Bayes factor is 3:1 or more in favour of the null, stop the experiment and retain the null. If it is 3:1 or more in favour of the alternative, stop the experiment and reject the null. Otherwise continue testing. Now, just like last time, let’s assume that the null hypothesis is true. What happens? As it happens, I ran the simulations for this scenario too, and the results are shown as the dashed line in <a class="reference internal" href="#fig-adapt"><span class="std std-numref">Fig. 18.1</span></a>. It turns out that the Type I error rate is much much lower than the 49% rate that we were getting by using the orthodox <span class="math notranslate nohighlight">\(t\)</span>-test.</p>
+<p>In some ways, this is remarkable. The entire <em>point</em> of orthodox null hypothesis testing is to control the Type I error rate. Bayesian methods aren’t actually designed to do this at all. Yet, as it turns out, when faced with a “trigger happy” researcher who keeps running hypothesis tests as the data come in, the Bayesian approach is much more effective. Even the 3:1 standard, which most Bayesians would consider unacceptably lax, is much safer than the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> rule.</p>
 </section>
 <section id="evidentiary-standards-you-can-believe">
 <h2><span class="section-number">18.5. </span>Evidentiary standards you can believe<a class="headerlink" href="#evidentiary-standards-you-can-believe" title="Permalink to this heading">#</a></h2>
@@ -889,11 +897,11 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </section>
 <section id="bayesian-anova">
 <span id="bayesanova"></span><h2><span class="section-number">18.9. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
-<section id="id19">
-<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<section id="id21">
+<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h3>
 </section>
-<section id="id20">
-<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
+<section id="id22">
+<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="constructing-bayesian-type-ii-tests">
 <h3><span class="section-number">18.9.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
@@ -945,6 +953,10 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 <aside class="footnote brackets" id="lier" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">11</a><span class="fn-bracket">]</span></span>
 <p>A <a class="reference external" href="http://xkcd.com/1478/">related problem</a></p>
+</aside>
+<aside class="footnote brackets" id="whythreeone" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">12</a><span class="fn-bracket">]</span></span>
+<p>Some readers might wonder why I picked 3:1 rather than 5:1, given that <span id="id23">Johnson [<a class="reference internal" href="bibliography.html#id6" title="Valen E Johnson. Revised standards for statistical evidence. Proceedings of the National Academy of Sciences, pages 19313–19317, 2013.">2013</a>]</span> suggests that <span class="math notranslate nohighlight">\(p=.05\)</span> lies somewhere in that range. I did so in order to be charitable to the <span class="math notranslate nohighlight">\(p\)</span>-value. If I’d chosen a 5:1 Bayes factor instead, the results would look even better for the Bayesian approach.</p>
 </aside>
 </section>
 </section>
@@ -1057,8 +1069,8 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
