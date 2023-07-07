@@ -423,8 +423,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
@@ -775,7 +775,7 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 – Sir Ronald <span id="id12">Fisher [<a class="reference internal" href="bibliography.html#id72" title="R. A. Fisher. Statistical Methods for Research Workers. Oliver and Boyd, Edinburgh, UK, 1925.">1925</a>]</span></p>
 </div></blockquote>
 <p>Consider the quote above by Sir Ronald Fisher, one of the founders of what has become the orthodox approach to statistics. If anyone has ever been entitled to express an opinion about the intended function of <span class="math notranslate nohighlight">\(p\)</span>-values, it’s Fisher. In this passage, taken from his classic guide <em>Statistical Methods for Research Workers</em>, he’s pretty clear about what it means to reject a null hypothesis at <span class="math notranslate nohighlight">\(p&lt;.05\)</span>. In his opinion, if we take <span class="math notranslate nohighlight">\(p&lt;.05\)</span> to mean there is “a real effect”, then “we shall not often be astray”. This view is hardly unusual: in my experience, most practitioners express views very similar to Fisher’s. In essence, the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> convention is assumed to represent a fairly stringent evidentiary standard.</p>
-<p>Well, how true is that? One way to approach this question is to try to convert <span class="math notranslate nohighlight">\(p\)</span>-values to Bayes factors, and see how the two compare. It’s not an easy thing to do because a <span class="math notranslate nohighlight">\(p\)</span>-value is a fundamentally different kind of calculation to a Bayes factor, and they don’t measure the same thing. However, there have been some attempts to work out the relationship between the two, and it’s somewhat surprising. For example, &#64;Johnson2013 presents a pretty compelling case that (for <span class="math notranslate nohighlight">\(t\)</span>-tests at least) the  <span class="math notranslate nohighlight">\(p&lt;.05\)</span> threshold corresponds roughly to a Bayes factor of somewhere between 3:1 and 5:1 in favour of the alternative. If that’s right, then Fisher’s claim is a bit of a stretch. Let’s suppose that the null hypothesis is true about half the time (i.e., the prior probability of <span class="math notranslate nohighlight">\(H_0\)</span> is 0.5), and we use those numbers to work out the posterior probability of the null hypothesis given that it has been rejected at <span class="math notranslate nohighlight">\(p&lt;.05\)</span>. Using the data from &#64;Johnson2013, we see that if you reject the null at <span class="math notranslate nohighlight">\(p&lt;.05\)</span>, you’ll be correct about 80% of the time. I don’t know about you, but in my opinion an evidentiary standard that ensures you’ll be wrong on 20% of your decisions isn’t good enough. The fact remains that, quite contrary to Fisher’s claim, if you reject at <span class="math notranslate nohighlight">\(p&lt;.05\)</span> you shall quite often go astray. It’s not a very stringent evidentiary threshold at all.</p>
+<p>Well, how true is that? One way to approach this question is to try to convert <span class="math notranslate nohighlight">\(p\)</span>-values to Bayes factors, and see how the two compare. It’s not an easy thing to do because a <span class="math notranslate nohighlight">\(p\)</span>-value is a fundamentally different kind of calculation to a Bayes factor, and they don’t measure the same thing. However, there have been some attempts to work out the relationship between the two, and it’s somewhat surprising. For example, <span id="id13">Johnson [<a class="reference internal" href="bibliography.html#id6" title="Valen E Johnson. Revised standards for statistical evidence. Proceedings of the National Academy of Sciences, pages 19313–19317, 2013.">2013</a>]</span> presents a pretty compelling case that (for <span class="math notranslate nohighlight">\(t\)</span>-tests at least) the  <span class="math notranslate nohighlight">\(p&lt;.05\)</span> threshold corresponds roughly to a Bayes factor of somewhere between 3:1 and 5:1 in favour of the alternative. If that’s right, then Fisher’s claim is a bit of a stretch. Let’s suppose that the null hypothesis is true about half the time (i.e., the prior probability of <span class="math notranslate nohighlight">\(H_0\)</span> is 0.5), and we use those numbers to work out the posterior probability of the null hypothesis given that it has been rejected at <span class="math notranslate nohighlight">\(p&lt;.05\)</span>. Using the data from <span id="id14">Johnson [<a class="reference internal" href="bibliography.html#id6" title="Valen E Johnson. Revised standards for statistical evidence. Proceedings of the National Academy of Sciences, pages 19313–19317, 2013.">2013</a>]</span>, we see that if you reject the null at <span class="math notranslate nohighlight">\(p&lt;.05\)</span>, you’ll be correct about 80% of the time. I don’t know about you, but in my opinion an evidentiary standard that ensures you’ll be wrong on 20% of your decisions isn’t good enough. The fact remains that, quite contrary to Fisher’s claim, if you reject at <span class="math notranslate nohighlight">\(p&lt;.05\)</span> you shall quite often go astray. It’s not a very stringent evidentiary threshold at all.</p>
 </section>
 </section>
 <section id="the-p-value-is-a-lie">
@@ -853,11 +853,11 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </section>
 <section id="bayesian-anova">
 <span id="bayesanova"></span><h2><span class="section-number">18.9. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
-<section id="id13">
-<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<section id="id15">
+<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
 </section>
-<section id="id14">
-<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<section id="id16">
+<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="constructing-bayesian-type-ii-tests">
 <h3><span class="section-number">18.9.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
@@ -1009,8 +1009,8 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
