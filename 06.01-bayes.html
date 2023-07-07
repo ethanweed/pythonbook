@@ -423,8 +423,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
@@ -805,6 +805,42 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </ul>
 <p>Wait, what? How can that last part be true? I mean, it sounds like a perfectly reasonable strategy doesn’t it? You collected some data, the results weren’t conclusive, so now what you want to do is collect more data until the the results <em>are</em> conclusive. What’s wrong with that?</p>
 <p>Honestly, there’s nothing wrong with it. It’s a reasonable, sensible and rational thing to do. In real life, this is exactly what every researcher does. Unfortunately, the <span class="xref myst">theory of null hypothesis testing</span> as I described it <em>forbids</em> you from doing this.<a class="footnote-reference brackets" href="#nhst" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a> The reason is that the theory assumes that the experiment is finished and all the data are in. And because it assumes the experiment is over, it only considers <em>two</em> possible decisions. If you’re using the conventional <span class="math notranslate nohighlight">\(p&lt;.05\)</span> threshold, those decisions are:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outcome</p></th>
+<th class="head"><p>Action</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p\)</span> less than .05</p></td>
+<td><p>Reject the null</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(p\)</span> greater than .05</p></td>
+<td><p>Retain the null</p></td>
+</tr>
+</tbody>
+</table>
+<p>What <em>you’re</em> doing is adding a third possible action to the decision making problem. Specifically, what you’re doing is using the <span class="math notranslate nohighlight">\(p\)</span>-value itself as a reason to justify continuing the experiment. And as a consequence you’ve transformed the decision-making procedure into one that looks more like this:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outcome</p></th>
+<th class="head"><p>Action</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p\)</span> less than .05</p></td>
+<td><p>Stop the experiment and reject the null</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(p\)</span> between .05 and .1</p></td>
+<td><p>Continue the experiment</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p\)</span> greater than .1</p></td>
+<td><p>Stop the experiment and retain the null</p></td>
+</tr>
+</tbody>
+</table>
+<p>The “basic” theory of null hypothesis testing isn’t built to handle this sort of thing, not in the form I described in the chapter on <span class="xref myst">null hypothesis significance testing</span>. If you’re the kind of person who would choose to “collect more data” in real life, it implies that you are <em>not</em> making decisions in accordance with the rules of null hypothesis testing. Even if you happen to arrive at the same decision as the hypothesis test, you aren’t following the decision <em>process</em> it implies, and it’s this failure to follow the process that is causing the problem.<a class="footnote-reference brackets" href="#lier" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a> Your <span class="math notranslate nohighlight">\(p\)</span>-values are a lie.</p>
+<p>Worse yet, they’re a lie in a dangerous way, because they’re all <em>too small</em>. To give you a sense of just how bad it can be, consider the following (worst case) scenario. Imagine you’re a really super-enthusiastic researcher on a tight budget who didn’t pay any attention to my warnings above. You design a study comparing two groups. You desperately want to see a significant result at the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> level, but you really don’t want to collect any more data than you have to (because it’s expensive). In order to cut costs, you start collecting data, but every time a new observation arrives you run a <span class="math notranslate nohighlight">\(t\)</span>-test on your data. If the <span class="math notranslate nohighlight">\(t\)</span>-tests says <span class="math notranslate nohighlight">\(p&lt;.05\)</span> then you stop the experiment and report a significant result. If not, you keep collecting data. You keep doing this until you reach your pre-defined spending limit for this experiment. Let’s say that limit kicks in at <span class="math notranslate nohighlight">\(N=1000\)</span> observations. As it turns out, the truth of the matter is that there is no real effect to be found: the null hypothesis is true. So, what’s the chance that you’ll make it to the end of the experiment and (correctly) conclude that there is no effect? In an ideal world, the answer here should be 95%. After all, the whole <em>point</em> of the <span class="math notranslate nohighlight">\(p&lt;.05\)</span> criterion is to control the Type I error rate at 5%, so what we’d hope is that there’s only a 5% chance of falsely rejecting the null hypothesis in this situation. However, there’s no guarantee that will be true. You’re breaking the rules: you’re running tests repeatedly, “peeking” at your data to see if you’ve gotten a significant result, and all bets are off.</p>
 </section>
 <section id="evidentiary-standards-you-can-believe">
 <h2><span class="section-number">18.5. </span>Evidentiary standards you can believe<a class="headerlink" href="#evidentiary-standards-you-can-believe" title="Permalink to this heading">#</a></h2>
@@ -853,11 +889,11 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </section>
 <section id="bayesian-anova">
 <span id="bayesanova"></span><h2><span class="section-number">18.9. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
-<section id="id18">
-<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
-</section>
 <section id="id19">
-<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">18.9.1. </span>A quick refresher<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="id20">
+<h3><span class="section-number">18.9.2. </span>The Bayesian version<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="constructing-bayesian-type-ii-tests">
 <h3><span class="section-number">18.9.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
@@ -905,6 +941,10 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 <aside class="footnote brackets" id="nhst" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">10</a><span class="fn-bracket">]</span></span>
 <p>In the interests of being completely honest,  I should acknowledge that not all orthodox statistical tests that rely on this silly assumption. There are a number of <em>sequential analysis</em> tools that are sometimes used in clinical trials and the like. These methods are built on the assumption that data are analysed as they arrive, and these tests aren’t horribly broken in the way I’m complaining about here. However, sequential analysis methods are constructed in a very different fashion to the “standard” version of null hypothesis testing. They don’t make it into any introductory textbooks, and they’re not very widely used in the psychological literature. The concern I’m raising here is valid for every single orthodox test I’ve presented so far, and for almost every test I’ve seen reported in the papers I read.</p>
+</aside>
+<aside class="footnote brackets" id="lier" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">11</a><span class="fn-bracket">]</span></span>
+<p>A <a class="reference external" href="http://xkcd.com/1478/">related problem</a></p>
 </aside>
 </section>
 </section>
@@ -1017,8 +1057,8 @@ P(h_1 | d) = \frac{P(d|h_1) P(h_1)}{P(d)}
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.9. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">18.9.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">18.9.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">18.9.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.9.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
