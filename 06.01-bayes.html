@@ -422,8 +422,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">18.8.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
@@ -665,7 +665,7 @@ P(\mbox{rainy}, \mbox{umbrella}) &amp; = &amp; P(\mbox{umbrella} | \mbox{rainy})
 </tbody>
 </table>
 <p>What this table is telling you is that, after being told that I’m carrying an umbrella, you believe that there’s a 51.4% chance that today will be a rainy day, and a 48.6% chance that it won’t. That’s the answer to our problem! The <strong><em>posterior probability</em></strong> of rain <span class="math notranslate nohighlight">\(P(h|d)\)</span> given that I am carrying an umbrella is 51.4%</p>
-<p>How did I calculate these numbers? You can probably guess. To work out that there was a 0.514 probability of “rain”, all I did was take the 0.045 probability of “rain and umbrella” and divide it by the 0.0875 chance of “umbrella”. This produces a table that satisfies our need to have everything sum to 1, and our need not to interfere with the relative plausibility of the two events that are actually consistent with the data. To say the same thing using fancy statistical jargon, what I’ve done here is divide the joint probability of the hypothesis and the data <span class="math notranslate nohighlight">\(P(d,h)\)</span> by the <strong><em>marginal probability</em></strong> of the data <span class="math notranslate nohighlight">\(P(d)\)</span>, and this is what gives us the posterior probability of the hypothesis <em>given</em> that we know the data have been observed. To write this as an equation:^[You might notice that this equation is actually a restatement of the same basic rule I listed at the start of the last section. If you multiply both sides of the equation by <span class="math notranslate nohighlight">\(P(d)\)</span>, then you get <span class="math notranslate nohighlight">\(P(d) P(h| d) = P(d,h)\)</span>, which is the rule for how joint probabilities are calculated. So I’m not actually introducing any “new” rules here, I’m just using the same rule in a different way.]</p>
+<p>How did I calculate these numbers? You can probably guess. To work out that there was a 0.514 probability of “rain”, all I did was take the 0.045 probability of “rain and umbrella” and divide it by the 0.0875 chance of “umbrella”. This produces a table that satisfies our need to have everything sum to 1, and our need not to interfere with the relative plausibility of the two events that are actually consistent with the data. To say the same thing using fancy statistical jargon, what I’ve done here is divide the joint probability of the hypothesis and the data <span class="math notranslate nohighlight">\(P(d,h)\)</span> by the <strong><em>marginal probability</em></strong> of the data <span class="math notranslate nohighlight">\(P(d)\)</span>, and this is what gives us the posterior probability of the hypothesis <em>given</em> that we know the data have been observed. To write this as an equation:<a class="footnote-reference brackets" href="#nothingnew" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
 \[
 P(h | d) = \frac{P(d,h)}{P(d)}
@@ -740,11 +740,11 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 </section>
 <section id="bayesian-anova">
 <span id="bayesanova"></span><h2><span class="section-number">18.8. </span>Bayesian ANOVA<a class="headerlink" href="#bayesian-anova" title="Permalink to this heading">#</a></h2>
-<section id="id5">
-<h3><span class="section-number">18.8.1. </span>A quick refresher<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
-</section>
 <section id="id6">
-<h3><span class="section-number">18.8.2. </span>The Bayesian version<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">18.8.1. </span>A quick refresher<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="id7">
+<h3><span class="section-number">18.8.2. </span>The Bayesian version<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="constructing-bayesian-type-ii-tests">
 <h3><span class="section-number">18.8.3. </span>Constructing Bayesian Type II tests<a class="headerlink" href="#constructing-bayesian-type-ii-tests" title="Permalink to this heading">#</a></h3>
@@ -768,6 +768,10 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 <aside class="footnote brackets" id="umbrella" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
 <p>If we were being a bit more sophisticated, we could extend the example to accommodate the possibility that I’m lying about the umbrella. But let’s keep things simple, shall we?</p>
+</aside>
+<aside class="footnote brackets" id="nothingnew" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>You might notice that this equation is actually a restatement of the same basic rule I listed at the start of the last section. If you multiply both sides of the equation by <span class="math notranslate nohighlight">\(P(d)\)</span>, then you get <span class="math notranslate nohighlight">\(P(d) P(h| d) = P(d,h)\)</span>, which is the rule for how joint probabilities are calculated. So I’m not actually introducing any “new” rules here, I’m just using the same rule in a different way.</p>
 </aside>
 </section>
 </section>
@@ -879,8 +883,8 @@ P(h | d) = \frac{P(d|h) P(h)}{P(d)}
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-anova">18.8. Bayesian ANOVA</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">18.8.1. A quick refresher</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.2. The Bayesian version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">18.8.1. A quick refresher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">18.8.2. The Bayesian version</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-bayesian-type-ii-tests">18.8.3. Constructing Bayesian Type II tests</a></li>
 </ul>
 </li>
