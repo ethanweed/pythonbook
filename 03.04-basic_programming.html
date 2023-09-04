@@ -638,6 +638,213 @@ Today is Sunday. You can sleep late!
 </section>
 <section id="functions">
 <span id="id4"></span><h2><span class="section-number">8.4. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<p>Strictly speaking, you won’t need to write any functions to do any of the exercises in this book, so if you’re not interested, you can skip this. On the other hand, functions are pretty cool, and once you get the hang of how they work, they can really speed things up for you, make your code simpler and easier to read, and maybe even save you from making some silly mistakes.</p>
+<p>If you have been following along in the book, you’ve actually already been using functions, you just may not have known it. Consider the following code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">word</span> <span class="o">=</span> <span class="s1">&#39;perspicacious&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>perspicacious
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>str
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">print</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, and <code class="docutils literal notranslate"><span class="pre">len</span></code> are all functions. They are little machines that accept an input, in this case we have given them the variable <code class="docutils literal notranslate"><span class="pre">word</span></code>, which contains the string “perspicacious”, and they use that input to provide some kind of output. These are all built-in functions in Python, and thank goodness for that, because they are very useful. But we can also write our own functions, and this becomes very useful when we want to do the same sort of task again and again.</p>
+<p>Often functions are most useful when they do something fairly complicated, but just to illustrate how they work, lets look at something quite simple. Let’s imagine that the <code class="docutils literal notranslate"><span class="pre">len</span></code> function didn’t exist, or we didn’t know about it, and we wanted a way to count the number of letters in a word. We could write our own function that would achieve this result.</p>
+<p>Let’s think about how we might do this. If we couldn’t just tell Python to count the number of letters in a word directly, we could still get it to do it more manually, right? One way would be to use a loop:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s1">&#39;perspicacious&#39;</span><span class="p">:</span>
+    <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">,</span> <span class="s1">&#39;letters in PERSPICACIOUS&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 13 letters in PERSPICACIOUS
+</pre></div>
+</div>
+</div>
+</div>
+<p>This works great, but if we want to use this to count the letters in any word other than “perspicacious”, we would need to alter our script in two places: once in the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop where we tell it what word to count the letters in, and again in the <code class="docutils literal notranslate"><span class="pre">print</span></code> statement, where we would have to retype the new word with capital letters.</p>
+<p>However, if take this basic code, and put it into a function, we can re-use it again and again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+        <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">,</span> <span class="s1">&#39;letters in&#39;</span><span class="p">,</span> <span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first line in the function above tells Python we want to define a function called <code class="docutils literal notranslate"><span class="pre">measure_word</span></code>, and that this function will accept one “argument” (input). Then, indented, inside the function, we can just put our code from the loop above. The only change is that now, instead of hard-coding the strings “perspicacious” and “PERSPICACIOUS” into the code, we just replace these with the variable which contains the input argument. If you, like me, are using a Jupyter Notebook and you run a cell with only the function definition in it, nothing will appear to happen. But now that the function has been defined, we can use it to measure words:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 3 letters in CAT
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;perspicacious&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 13 letters in PERSPICACIOUS
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;supercalifragilisticexpialidocious&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 34 letters in SUPERCALIFRAGILISTICEXPIALIDOCIOUS
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can even use our new function inside a loop:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 2 letters in IF
+There are 3 letters in YOU
+There are 3 letters in SAY
+There are 2 letters in IT
+There are 4 letters in LOUD
+There are 6 letters in ENOUGH
+There are 3 letters in YOU
+There are 4 letters in WILL
+There are 6 letters in ALWAYS
+There are 5 letters in SOUND
+There are 10 letters in PRECOCIOUS
+</pre></div>
+</div>
+</div>
+</div>
+<p>Much more could be written about functions, but here is a final thought: often we don’t want our functions to print something out; instead, we want them to return a variable, which we can use later. To achieve this, we can modify our function slightly, so that instead of asking it to <code class="docutils literal notranslate"><span class="pre">print</span></code> the output, we ask it to <code class="docutils literal notranslate"><span class="pre">return</span></code> the output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+        <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">,</span> <span class="s1">&#39;letters in&#39;</span><span class="p">,</span> <span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, when we use the function, we can assign the output to a variable, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case, the output is a tuple</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tuple
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the contents look like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;There are&#39;, 3, &#39;letters in&#39;, &#39;CAT&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we wanted to, we could e.g. get only the number of letters out of the result, and skip the rest:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">)</span>
+<span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or we could even just write</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>although at that point, we might as well just use <code class="docutils literal notranslate"><span class="pre">len()</span></code>!</p>
 </section>
 <section id="list-comprehensions-a-different-kind-of-loop">
 <span id="listcomprehensions"></span><h2><span class="section-number">8.5. </span>List comprehensions: A different kind of loop<a class="headerlink" href="#list-comprehensions-a-different-kind-of-loop" title="Permalink to this heading">#</a></h2>
