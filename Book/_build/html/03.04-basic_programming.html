@@ -907,7 +907,87 @@ p
 </section>
 <section id="list-comprehensions-a-different-kind-of-loop">
 <span id="listcomprehensions"></span><h2><span class="section-number">8.5. </span>List comprehensions: A different kind of loop<a class="headerlink" href="#list-comprehensions-a-different-kind-of-loop" title="Permalink to this heading">#</a></h2>
-<p>Python has another way of doing loops, when working with lists. I don’t want</p>
+<p>Python has another way of doing loops, when working with lists. I don’t want to go too deep on these, but you are very likely to come across them if you spend any time looking at other people’s Python code, and they can be very handy, so I will briefly mention them. List comprehensions let you take the items in a list, and then make a new list based on the old list. I think the easiest way to describe how list comprehensions work is to give some examples, starting with some very simple ones, and then some ever-so-slightly more complicated ones. Here goes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a new list that has all the same elements as the old list</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;If&#39;, &#39;you&#39;, &#39;say&#39;, &#39;it&#39;, &#39;loud&#39;, &#39;enough&#39;, &#39;you&#39;, &#39;will&#39;, &#39;always&#39;, &#39;sound&#39;, &#39;precocious&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a new list that contains all the words from the old list that have an &quot;o&quot; in them</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="s1">&#39;o&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;you&#39;, &#39;loud&#39;, &#39;enough&#39;, &#39;you&#39;, &#39;sound&#39;, &#39;precocious&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a new list with only the words from the old list that are longer than 3 characters</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;loud&#39;, &#39;enough&#39;, &#39;will&#39;, &#39;always&#39;, &#39;sound&#39;, &#39;precocious&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a new list with underscores before and after each word in the old list</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;_If_&#39;, &#39;_you_&#39;, &#39;_say_&#39;, &#39;_it_&#39;, &#39;_loud_&#39;, &#39;_enough_&#39;, &#39;_you_&#39;, &#39;_will_&#39;, &#39;_always_&#39;, &#39;_sound_&#39;, &#39;_precocious_&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a new list with underscores before and after each word in the old list</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+<span class="n">new_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;_enough_&#39;, &#39;_always_&#39;, &#39;_sound_&#39;, &#39;_precocious_&#39;]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="nesting">
 <span id="id5"></span><h2><span class="section-number">8.6. </span>Nesting<a class="headerlink" href="#nesting" title="Permalink to this heading">#</a></h2>
