@@ -702,7 +702,7 @@ Today is Sunday. You can sleep late!
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
     <span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
         <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">,</span> <span class="s1">&#39;letters in&#39;</span><span class="p">,</span> <span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 </pre></div>
@@ -771,12 +771,12 @@ There are 10 letters in PRECOCIOUS
 </div>
 </div>
 </div>
-<p>Much more could be written about functions, but here is a final thought: often we don’t want our functions to print something out; instead, we want them to return a variable, which we can use later. To achieve this, we can modify our function slightly, so that instead of asking it to <code class="docutils literal notranslate"><span class="pre">print</span></code> the output, we ask it to <code class="docutils literal notranslate"><span class="pre">return</span></code> the output:</p>
+<p>Often we don’t want our functions to print something out; instead, we want them to return a variable, which we can use later. To achieve this, we can modify our function slightly, so that instead of asking it to <code class="docutils literal notranslate"><span class="pre">print</span></code> the output, we ask it to <code class="docutils literal notranslate"><span class="pre">return</span></code> the output:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
     <span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
         <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">return</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">,</span> <span class="s1">&#39;letters in&#39;</span><span class="p">,</span> <span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 </pre></div>
@@ -817,7 +817,7 @@ There are 10 letters in PRECOCIOUS
 </div>
 </div>
 </div>
-<p>If we wanted to, we could e.g. get only the number of letters out of the result, and skip the rest:</p>
+<p>If we wanted to, we could e.g. get only the number of letters out of the result, and skip the rest. The number representing the letter count is in position 1 of our function’s output, so if we only want the number of letters, and not all the surrounding text, we could write:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">measure_word</span><span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">)</span>
@@ -845,9 +845,69 @@ There are 10 letters in PRECOCIOUS
 </div>
 </div>
 <p>although at that point, we might as well just use <code class="docutils literal notranslate"><span class="pre">len()</span></code>!</p>
+<p>Functions can easily be much more complex and useful than these examples suggest. For example, You can write your functions so that they accept more than one input, and return more than one output. It wouldn’t take much to modify our code to provide the word we input, the number of letters in that word, and the first letter (in lowercase) of each input:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">first_letter</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+        <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="n">first_letter</span><span class="p">,</span> <span class="n">letter_count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;If&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;loud&#39;</span><span class="p">,</span> <span class="s1">&#39;enough&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="s1">&#39;sound&#39;</span><span class="p">,</span> <span class="s1">&#39;precocious&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;If&#39;, &#39;i&#39;, 2)
+(&#39;you&#39;, &#39;y&#39;, 3)
+(&#39;say&#39;, &#39;s&#39;, 3)
+(&#39;it&#39;, &#39;i&#39;, 2)
+(&#39;loud&#39;, &#39;l&#39;, 4)
+(&#39;enough&#39;, &#39;e&#39;, 6)
+(&#39;you&#39;, &#39;y&#39;, 3)
+(&#39;will&#39;, &#39;w&#39;, 4)
+(&#39;always&#39;, &#39;a&#39;, 6)
+(&#39;sound&#39;, &#39;s&#39;, 5)
+(&#39;precocious&#39;, &#39;p&#39;, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or imagine if, for some reason, we only wanted to know the first letter of words that were longer than 3 letters….</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">measure_word</span><span class="p">(</span><span class="n">word</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>l
+e
+w
+a
+s
+p
+</pre></div>
+</div>
+</div>
+</div>
+<p>I’ll stop now. I hope you get the idea!</p>
 </section>
 <section id="list-comprehensions-a-different-kind-of-loop">
 <span id="listcomprehensions"></span><h2><span class="section-number">8.5. </span>List comprehensions: A different kind of loop<a class="headerlink" href="#list-comprehensions-a-different-kind-of-loop" title="Permalink to this heading">#</a></h2>
+<p>Python has another way of doing loops, when working with lists. I don’t want</p>
 </section>
 <section id="nesting">
 <span id="id5"></span><h2><span class="section-number">8.6. </span>Nesting<a class="headerlink" href="#nesting" title="Permalink to this heading">#</a></h2>
