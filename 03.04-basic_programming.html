@@ -384,7 +384,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-scripts">8.1.1. Why use scripts?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loops">8.2. Loops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loops">8.2. Loops</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loops">8.2.1. While loops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loops">8.2.2. for loops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-syntax">8.2.3. Loop syntax</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">8.3. Conditional statements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
@@ -432,10 +437,204 @@ document.write(`
 </section>
 <section id="loops">
 <span id="id3"></span><h2><span class="section-number">8.2. </span>Loops<a class="headerlink" href="#loops" title="Permalink to this heading">#</a></h2>
-<p>Oh boy, loops. For some reason, the concept of loops is often very difficult for people to grasp when they are first exposed to it. I’m not sure why, because we use loops constantly in our daily life. Imagine you are putting sugar in your tea or coffee. Let’s say you like it very sweet.</p>
+<p>Oh boy, loops. For some reason, the concept of loops is often very difficult for people to grasp when they are first exposed to it. I’m not sure why, because we use loops constantly in our daily life.</p>
+<p>Imagine you are putting sugar in your tea or coffee. Let’s say you like it very sweet. So you dip your spoon in the sugar bowl, and pour the sugar in the tea. Then you dip you spoon in the sugar bowl, and then you pour the sugar into the tea. And then you do it one more time. After three spoonfulls, you’re done.</p>
+<p>Here’s another example. You’re baking a cake, and the recipe calls for four eggs. You line the eggs up on the counter, and then, one by one, you crack each one and pour the yoke and egg white into the mixing bowl, and throw away the shell. You do the same thing for each egg.</p>
+<p>Both of these are examples of loops: you perform the same action over and over, until you’re done. In programming terms, the sugar-in-the-tea loop is an example of a <em>while</em> loop. You could put as many or as few spoonfulls of sugar in, but you keep going until the tea is sweet enough for you. Put differently, <em>while</em> the tea is <em>not</em> sweet enough, you keep doing the sugar loop. As soon as the condition has been met (the tea is no longer not swee enough), you stop. The eggs are an example of a <em>for</em> loop. There is a finite number of eggs (in this case four), and you keep performing the same action until you have made it through all of them. That is, <em>for</em> each egg, you do the same thing (crack, pour, dispose) until there are no more eggs.</p>
+<p>Programming loops work exactly the same way. Let’s take a look.</p>
+<section id="while-loops">
+<h3><span class="section-number">8.2.1. </span>While loops<a class="headerlink" href="#while-loops" title="Permalink to this heading">#</a></h3>
+<p>I’ll stick with the tea example for demonstrating the syntax for while loops, because I’m not very imaginative. Also, I could totally go for a cup of tea right now, but I have to stay here and type this instead.</p>
+<p>Take a look at the code below. Python needs to know when to stop doing the same thing again and again, so we start by defining an end point. Here, I have declared that my tea will be sweet enough when Python has put 3 spoonfulls of sugar in: I have set the variable <code class="docutils literal notranslate"><span class="pre">sweet_enough</span></code> to 0. In the next line, I have set a starting point. Before the loop starts, there is no sugar in my tea, so I have set the variable <code class="docutils literal notranslate"><span class="pre">num_sugar_spoons</span></code> to 0. The comes the loop: as long as (while) the value of <code class="docutils literal notranslate"><span class="pre">num_sugar_spoons</span></code> is less than the stopping point <code class="docutils literal notranslate"><span class="pre">sweet_enough</span></code>, the loop continues adding 1 to <code class="docutils literal notranslate"><span class="pre">num_sugar_spoons</span></code>. Just to keep track of the progress of the loop, I have thrown a <code class="docutils literal notranslate"><span class="pre">print</span></code> statement in as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sweet_enough</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">num_sugar_spoons</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">num_sugar_spoons</span> <span class="o">&lt;</span> <span class="n">sweet_enough</span><span class="p">:</span>
+    <span class="n">num_sugar_spoons</span> <span class="o">=</span> <span class="n">num_sugar_spoons</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I have added&#39;</span><span class="p">,</span> <span class="n">num_sugar_spoons</span><span class="p">,</span> <span class="s1">&#39;spoons of sugar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I have added 1 spoons of sugar
+I have added 2 spoons of sugar
+I have added 3 spoons of sugar
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pretty easy, right?</p>
+</section>
+<section id="for-loops">
+<h3><span class="section-number">8.2.2. </span>for loops<a class="headerlink" href="#for-loops" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">For</span></code> loops have a very similar structure. Let’s crack some eggs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eggs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;egg&#39;</span><span class="p">,</span> <span class="s1">&#39;egg&#39;</span><span class="p">,</span> <span class="s1">&#39;egg&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">egg</span> <span class="ow">in</span> <span class="n">eggs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I cracked an egg!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I cracked an egg!
+I cracked an egg!
+I cracked an egg!
+</pre></div>
+</div>
+</div>
+</div>
+<p>Alright, I admit this was a pretty silly example. But hopefully you get the idea: I started with a finite number of items (in this case a list that contains three instances of the string ‘egg’), then I had Python do something <em>for</em> each item in the list. Let’s do a few more, slightly (but not very) more interesting ones:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ingredients</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;flour&#39;</span><span class="p">,</span> <span class="s1">&#39;sugar&#39;</span><span class="p">,</span> <span class="s1">&#39;cinnamon&#39;</span><span class="p">,</span> <span class="s1">&#39;salt&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ingredients</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I added&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I added eggs
+I added flour
+I added sugar
+I added cinnamon
+I added salt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;flour&#39;</span><span class="p">,</span> <span class="s1">&#39;sugar&#39;</span><span class="p">,</span> <span class="s1">&#39;cinnamon&#39;</span><span class="p">,</span> <span class="s1">&#39;salt&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">),</span> <span class="s1">&#39;letters in&#39;</span><span class="p">,</span> <span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 4 letters in EGGS
+There are 5 letters in FLOUR
+There are 5 letters in SUGAR
+There are 8 letters in CINNAMON
+There are 4 letters in SALT
+</pre></div>
+</div>
+</div>
+</div>
+<p>As these (admittedly silly) examples illustrate, we can use <code class="docutils literal notranslate"><span class="pre">for</span></code> loops to step through a series of items, and do the same thing with each one. In the first example, we just printed the same string each time. In the second one, we took each item from the list, and printed it as the final word in a sentence. In the third example, we took each word, counted the number of letters in it, and then printed the answer in a sentence in which we also converted each word to all upper case letters. These were just very, very simple examples, but I want to underscore how extremely powerfull these loops are. <em>Anything</em> you could do to one item in a list, you can get Python to do to <em>every</em> item in the list. If you have a lot of actions to perform on a lot of items, this allows you to do things you would probaby never be able to do manually.</p>
+</section>
+<section id="loop-syntax">
+<h3><span class="section-number">8.2.3. </span>Loop syntax<a class="headerlink" href="#loop-syntax" title="Permalink to this heading">#</a></h3>
+<p>A final thing about loops for now: if you look at both the <code class="docutils literal notranslate"><span class="pre">for</span></code> and <code class="docutils literal notranslate"><span class="pre">while</span></code> loops above, you may notice some similarities in the structure. First, there is a statement of the conditions (<code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">num_sugar_spoons</span> <span class="pre">&lt;</span> <span class="pre">sweet_enough</span></code>, or <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">word</span> <span class="pre">in</span> <span class="pre">words</span></code>), followed by a colon (<code class="docutils literal notranslate"><span class="pre">:</span></code>). Then, the next line or lines are indented. This syntax is <em>crucial</em> for telling Python that you want it run a loop. It is customary in most programming languages to use indentation to show what things are “inside” the loop, and what things are “outside”. In Python, the indentation is <em>mandatory</em>. Without the proper indentation, Python will not run the loop.</p>
+<p>Another thing to mention: when you define <code class="docutils literal notranslate"><span class="pre">for</span></code> loops, you also declare new variable. As an example, when we said <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">word</span> <span class="pre">in</span> <span class="pre">words:</span></code>, we declared a new variable, <code class="docutils literal notranslate"><span class="pre">word</span></code>. Like all variables in Python, we could have called it anything we liked. Writing <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">words:</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">item</span> <span class="pre">in</span> <span class="pre">words:</span></code>, or <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">flibbertigibbet</span> <span class="pre">in</span> <span class="pre">words:</span></code>, would all work the same. But the same advice that applies to other variables also applies here: don’t get too cute. Give the variable a name that makes sense to you.</p>
+<p>Finally, be aware that this new variable that you declare at the beginning of your loop will inherit its type from the item in the list that it represents. This has an impact on what you can do with it in the loop. For example, suppose we have a list like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_stuff</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39; pear&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_stuff</span><span class="p">:</span>
+    <span class="n">new_thing</span> <span class="o">=</span> <span class="n">thing</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">new_thing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>apples
+ pears
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">random_stuff</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39; pear&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">random_stuff</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">new_thing</span> <span class="o">=</span> <span class="n">thing</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="nb">print</span><span class="p">(</span><span class="n">new_thing</span><span class="p">)</span>
+
+<span class="ne">TypeError</span>: unsupported operand type(s) for +: &#39;int&#39; and &#39;str&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the first two item in the list, Python has no problem adding a an “s” to the end of them, because they are strngs, and so is “s”, and Python understands what it means to add a string to a string. But the final item in the list is an integer, and Python has no way to add a string to an integer, and so it complains when it gets to that point in the loop.</p>
+</section>
 </section>
 <section id="conditional-statements">
 <span id="if"></span><h2><span class="section-number">8.3. </span>Conditional statements<a class="headerlink" href="#conditional-statements" title="Permalink to this heading">#</a></h2>
+<p>Together with variables and loops, conditional statements are probably the third most important programming concept for you to learn. Once you master variables, loops, and conditionals, there’s not much you can’t do. Like loops, conditionals are also all around us in everyday life. Unlike loops, they don’t seem to be as difficult for most people to grasp. This semester, I teach at 8:00 AM on Wednesdays. Yikes! That means, that <em>if</em> it is a Wednesday, I need to leave the house earlier. Otherwise, I can leave at the normal time. It’s not hard to imagine this idea re-written as code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">day</span> <span class="o">=</span> <span class="s1">&#39;Wednesday&#39;</span>
+
+<span class="k">if</span> <span class="n">day</span> <span class="o">==</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leave early!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Leave early!
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok, since I started by defining <code class="docutils literal notranslate"><span class="pre">day</span></code> as “Wednesday”, it was pretty clear what was going to happen. But still, did you notice the use of <code class="docutils literal notranslate"><span class="pre">==</span></code> to make the comparison between <code class="docutils literal notranslate"><span class="pre">day</span></code> and the string <code class="docutils literal notranslate"><span class="pre">Wednesday</span></code>?</p>
+<p>To make this example ever-so-slightly more realistic, we could define a list variable that encompasses the whole week, and places the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement inside a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, to do a daily check, to tell Python what to do if it is Wednesday, and an <code class="docutils literal notranslate"><span class="pre">else</span></code> statement, to tell Python what to do if it is not Wednesday.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">week</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Monday&#39;</span><span class="p">,</span> <span class="s1">&#39;Tuesday&#39;</span><span class="p">,</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">,</span> <span class="s1">&#39;Thursday&#39;</span><span class="p">,</span> <span class="s1">&#39;Friday&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="n">week</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">day</span> <span class="o">==</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Today is&#39;</span><span class="p">,</span> <span class="n">day</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;You need to leave early!&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Today is&#39;</span><span class="p">,</span> <span class="n">day</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;You can leave at the normal time today.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Today is Monday. You can leave at the normal time today.
+Today is Tuesday. You can leave at the normal time today.
+Today is Wednesday. You need to leave early!
+Today is Thursday. You can leave at the normal time today.
+Today is Friday. You can leave at the normal time today.
+Today is Saturday. You can leave at the normal time today.
+Today is Sunday. You can leave at the normal time today.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then again, it’s not just Wednesdays I need to be aware of. If it is Saturday or Sunday, then I don’t want to leave at all; it’s the weekend. So we can add another <code class="docutils literal notranslate"><span class="pre">if</span></code> statement and an <code class="docutils literal notranslate"><span class="pre">or</span></code> statment to create a more complicated set of choices for Python to navigate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">week</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Monday&#39;</span><span class="p">,</span> <span class="s1">&#39;Tuesday&#39;</span><span class="p">,</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">,</span> <span class="s1">&#39;Thursday&#39;</span><span class="p">,</span> <span class="s1">&#39;Friday&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="n">week</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">day</span> <span class="o">==</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Today is&#39;</span><span class="p">,</span> <span class="n">day</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;You need to leave early!&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">day</span> <span class="o">==</span> <span class="s1">&#39;Saturday&#39;</span> <span class="ow">or</span> <span class="n">day</span> <span class="o">==</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Today is&#39;</span><span class="p">,</span> <span class="n">day</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;You can sleep late!&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Today is&#39;</span><span class="p">,</span> <span class="n">day</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;You can leave at the normal time today.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Today is Monday. You can leave at the normal time today.
+Today is Tuesday. You can leave at the normal time today.
+Today is Wednesday. You need to leave early!
+Today is Wednesday. You can leave at the normal time today.
+Today is Thursday. You can leave at the normal time today.
+Today is Friday. You can leave at the normal time today.
+Today is Saturday. You can sleep late!
+Today is Sunday. You can sleep late!
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="functions">
 <span id="id4"></span><h2><span class="section-number">8.4. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
@@ -527,7 +726,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-scripts">8.1.1. Why use scripts?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loops">8.2. Loops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loops">8.2. Loops</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loops">8.2.1. While loops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loops">8.2.2. for loops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-syntax">8.2.3. Loop syntax</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">8.3. Conditional statements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
