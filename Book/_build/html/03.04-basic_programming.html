@@ -394,7 +394,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-and-generalization">8.7. Abstraction and generalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-generalization-and-patterns">8.7. Abstraction, generalization, and patterns</a></li>
 </ul>
             </nav>
         </div>
@@ -1088,12 +1088,81 @@ p
 <section id="nesting">
 <span id="id5"></span><h2><span class="section-number">8.6. </span>Nesting<a class="headerlink" href="#nesting" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="abstraction-and-generalization">
-<span id="abstraction"></span><h2><span class="section-number">8.7. </span>Abstraction and generalization<a class="headerlink" href="#abstraction-and-generalization" title="Permalink to this heading">#</a></h2>
+<section id="abstraction-generalization-and-patterns">
+<span id="abstraction"></span><h2><span class="section-number">8.7. </span>Abstraction, generalization, and patterns<a class="headerlink" href="#abstraction-generalization-and-patterns" title="Permalink to this heading">#</a></h2>
+<p>As you become more familiar with programming, you will inevitably find yourself reusing bits of code; you will begin to see how specific programming problems you have solved are really just cases of a larger set of problems. For example, in the section on <a class="reference internal" href="#functions"><span class="std std-ref">functions</span></a> we looked at this simple loop:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">letter_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s1">&#39;perspicacious&#39;</span><span class="p">:</span>
+    <span class="n">letter_count</span> <span class="o">=</span> <span class="n">letter_count</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This loop solves a very specific and fairly unusual problem: how to count the number of letters in the word “perspicacious”. But this is a specific case of a much more general problem: how to step through items in a series while also keeping track of how many items you have stepped through. The code above is an example of one way to solve this problem: before the loop, set up an empty “counter” variable (in this case <code class="docutils literal notranslate"><span class="pre">letter_count</span></code>, which we have set to 0), then every time the loop goes around, add 1 to the counter variable.</p>
+<p>This is an example of a type of an even more general pattern that will be very useful to you: setting up variables “outside” the loop, and then modifying them from within the loop.</p>
+<p id="append">Another example of this type of pattern is the “append to list” pattern. You might<a class="footnote-reference brackets" href="#mightnot" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> remember when we talked about the various <a class="reference internal" href="02.02-more_python_concepts.html#methods"><span class="std std-ref">methods</span></a> associated with different variable <a class="reference internal" href="02.02-more_python_concepts.html#types"><span class="std std-ref">types</span></a>. One of the methods that list variables have available to them is <code class="docutils literal notranslate"><span class="pre">.append()</span></code>, the ability to stick something onto the end of a list. This comes in super handy in all sorts of situations. Here is an example.</p>
+<p>Let’s say you have a list of all the different flowers in your garden. It looks like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_flowers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Begonias&#39;</span><span class="p">,</span> <span class="s1">&#39;Lilacs&#39;</span><span class="p">,</span> <span class="s1">&#39;Roses&#39;</span><span class="p">,</span> <span class="s1">&#39;Pansies&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxgloves&#39;</span><span class="p">,</span> <span class="s1">&#39;Buttercups&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunflowers&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, say you want a list with only the flowers that start with the letter “B”. I don’t know why you want this, you just do, ok? To get achieve this, you could start by setting up an empty <code class="docutils literal notranslate"><span class="pre">b_flowers</span></code> list outside of a loop, and then loop through your <code class="docutils literal notranslate"><span class="pre">all_flowers</span></code> loop, checking each item to see if it starts with a “B”. If it does, you append it to the <code class="docutils literal notranslate"><span class="pre">b_flowers</span></code> loop, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_flowers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Begonias&#39;</span><span class="p">,</span> <span class="s1">&#39;Lilacs&#39;</span><span class="p">,</span> <span class="s1">&#39;Roses&#39;</span><span class="p">,</span> <span class="s1">&#39;Pansies&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxgloves&#39;</span><span class="p">,</span> <span class="s1">&#39;Buttercups&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunflowers&#39;</span><span class="p">]</span>
+
+<span class="n">b_flowers</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">flower</span> <span class="ow">in</span> <span class="n">all_flowers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">flower</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">):</span>
+        <span class="n">b_flowers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flower</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">b_flowers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Begonias&#39;, &#39;Buttercups&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again, the specifics of the example are not important. But take a long look at the general pattern:</p>
+<ol class="arabic simple">
+<li><p>Empty list before the loop</p></li>
+<li><p>Loop with a conditional</p></li>
+<li><p>Append to the list outside the loop</p></li>
+</ol>
+<p>It will serve you well!</p>
+<p>Now, <a class="reference external" href="https://www.youtube.com/watch?v=V6DCRuj2Vuc">I know what you’re thinking</a>: couldn’t I solve this with a list comprehension? Sure, of course you could!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_flowers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Begonias&#39;</span><span class="p">,</span> <span class="s1">&#39;Lilacs&#39;</span><span class="p">,</span> <span class="s1">&#39;Roses&#39;</span><span class="p">,</span> <span class="s1">&#39;Pansies&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxgloves&#39;</span><span class="p">,</span> <span class="s1">&#39;Buttercups&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunflowers&#39;</span><span class="p">]</span>
+<span class="n">b_flowers</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_flowers</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b_flowers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Begonias&#39;, &#39;Buttercups&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is another great Python pattern, and it will also serve you well! The end result is exactly the same, so in this case you could use whichever you like better. The point is to</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="note1" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>The quote comes from <em>Count Zero</em> (1986)</p>
+</aside>
+<aside class="footnote brackets" id="mightnot" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">2</a><span class="fn-bracket">]</span></span>
+<p>Or might not. If you don’t, it’s ok, I forgive you!</p>
 </aside>
 </section>
 </section>
@@ -1179,7 +1248,7 @@ p
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-and-generalization">8.7. Abstraction and generalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-generalization-and-patterns">8.7. Abstraction, generalization, and patterns</a></li>
 </ul>
   </nav></div>
 
