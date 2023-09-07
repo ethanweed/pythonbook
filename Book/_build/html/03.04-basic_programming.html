@@ -1087,6 +1087,97 @@ p
 </section>
 <section id="nesting">
 <span id="id5"></span><h2><span class="section-number">8.6. </span>Nesting<a class="headerlink" href="#nesting" title="Permalink to this heading">#</a></h2>
+<p>We have already talked about <a class="reference internal" href="#loops"><span class="std std-ref">loops</span></a> and <a class="reference internal" href="#if"><span class="std std-ref">conditionals</span></a>. These are powerful on their own, but you can really take them to the next level when you start nesting them, or combining them with other types of logic. A common situation is to check whether an item meets more than one condition. Maybe I have a list of numbers like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">823452</span><span class="p">,</span> <span class="mi">324</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4435</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9070878072634</span><span class="p">,</span> <span class="mi">3421</span><span class="p">,</span> <span class="mi">4345</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For reasons that are best known to myself<a class="footnote-reference brackets" href="#ineedanexample" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, I want to print all of the even numbers from the list which are longer than one digit.</p>
+<p>Now, to find numbers that are longer than one digit, we first need to change them from integers to strings, so we can use <code class="docutils literal notranslate"><span class="pre">len()</span></code> on them<a class="footnote-reference brackets" href="#nolengthonints" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54
+823452
+324
+4435
+9070878072634
+3421
+4345
+</pre></div>
+</div>
+</div>
+</div>
+<p>To figure out whether a number is even or odd, an easy way is to use <code class="docutils literal notranslate"><span class="pre">%</span></code>. This is known by the fancy name of <a class="reference external" href="http://docs.python.org/2/reference/expressions.html#binary-arithmetic-operations">modulo operator</a>, and you can follow the link if you want to learn more, but basically it just works like division, except it gives you the <a class="reference external" href="https://en.wikipedia.org/wiki/Remainder">remainder</a> of the answer. If you divide an even number by 2, there will be nothing left over (no remainder), and so modulo 2 of an even number will be 0. So, to check if the numbers from our list are even, we could do</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+2
+54
+823452
+324
+2
+4
+9070878072634
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great! But we want to know which numbers are <em>both</em> even <em>and</em> more than two digits. We can use nested loops to combine these two conditions, to give us an IF AND logic:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54
+823452
+324
+9070878072634
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can keep adding nested <code class="docutils literal notranslate"><span class="pre">if</span></code>s as much as you like. Say we wanted to print all the numbers from the list that are even, more than one digit, and end with a 4, why we could just do:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54
+324
+9070878072634
+</pre></div>
+</div>
+</div>
+</div>
+<p>By the way, if you are wondering what’s going on with all that <code class="docutils literal notranslate"><span class="pre">int(str(num))[-1])</span></code> stuff, well… I wanted to get the last digit of the numbers, so I figured I’d use <code class="docutils literal notranslate"><span class="pre">[-1]</span></code>. But it turns out you can’t do that with integers, so I used <code class="docutils literal notranslate"><span class="pre">str(num)</span></code>to turn the integers into strings so I could use <code class="docutils literal notranslate"><span class="pre">[-1]</span></code> to get the last number. But then I wanted to compare whatever the last digit was with the number 4. But by now <code class="docutils literal notranslate"><span class="pre">num</span></code> was a string, because I had changed it into one so I could find the last digit, and 4 is an integer, so it told me none of the last numbers were 4, which I knew was a baldfaced lie because I could see that two of them were, but then I realized that I could just use <code class="docutils literal notranslate"><span class="pre">int()</span></code> to turn the whole shebang back into an integer so I could compare it with 4. This the way programming works!</p>
 </section>
 <section id="abstraction-generalization-and-patterns">
 <span id="abstraction"></span><h2><span class="section-number">8.7. </span>Abstraction, generalization, and patterns<a class="headerlink" href="#abstraction-generalization-and-patterns" title="Permalink to this heading">#</a></h2>
@@ -1102,7 +1193,7 @@ p
 </div>
 <p>This loop solves a very specific and fairly unusual problem: how to count the number of letters in the word “perspicacious”. But this is a specific case of a much more general problem: how to step through items in a series while also keeping track of how many items you have stepped through. The code above is an example of one way to solve this problem: before the loop, set up an empty “counter” variable (in this case <code class="docutils literal notranslate"><span class="pre">letter_count</span></code>, which we have set to 0), then every time the loop goes around, add 1 to the counter variable.</p>
 <p>This is an example of a type of an even more general pattern that will be very useful to you: setting up variables “outside” the loop, and then modifying them from within the loop.</p>
-<p id="append">Another example of this type of pattern is the “append to list” pattern. You might<a class="footnote-reference brackets" href="#mightnot" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> remember when we talked about the various <a class="reference internal" href="02.02-more_python_concepts.html#methods"><span class="std std-ref">methods</span></a> associated with different variable <a class="reference internal" href="02.02-more_python_concepts.html#types"><span class="std std-ref">types</span></a>. One of the methods that list variables have available to them is <code class="docutils literal notranslate"><span class="pre">.append()</span></code>, the ability to stick something onto the end of a list. This comes in super handy in all sorts of situations. Here is an example.</p>
+<p id="append">Another example of this type of pattern is the “append to list” pattern. You might<a class="footnote-reference brackets" href="#mightnot" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> remember when we talked about the various <a class="reference internal" href="02.02-more_python_concepts.html#methods"><span class="std std-ref">methods</span></a> associated with different variable <a class="reference internal" href="02.02-more_python_concepts.html#types"><span class="std std-ref">types</span></a>. One of the methods that list variables have available to them is <code class="docutils literal notranslate"><span class="pre">.append()</span></code>, the ability to stick something onto the end of a list. This comes in super handy in all sorts of situations. Here is an example.</p>
 <p>Let’s say you have a list of all the different flowers in your garden. It looks like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1154,14 +1245,22 @@ p
 </div>
 </div>
 </div>
-<p>This is another great Python pattern, and it will also serve you well! The end result is exactly the same, so in this case you could use whichever you like better. The point is to</p>
+<p>This is another great Python pattern, and it will also serve you well! The end result is exactly the same, so in this case you could use whichever you like better. The point is to learn to see past the immediate problem you are trying to solve, and begin to identify classes of problems, which will begin to match up with classes of solutions.</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="note1" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>The quote comes from <em>Count Zero</em> (1986)</p>
 </aside>
-<aside class="footnote brackets" id="mightnot" role="note">
+<aside class="footnote brackets" id="ineedanexample" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">2</a><span class="fn-bracket">]</span></span>
+<p>But those reasons are pretty obviously that I need an example to illustrate nested conditionals!</p>
+</aside>
+<aside class="footnote brackets" id="nolengthonints" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">3</a><span class="fn-bracket">]</span></span>
+<p>For some reason, you can’t use <code class="docutils literal notranslate"><span class="pre">len()</span></code> to find the length of an integer. Dunno why, I’m sure there’s a good reason. Luckily, we can just turn our ints into strs and then we can measure them all we like.</p>
+</aside>
+<aside class="footnote brackets" id="mightnot" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">4</a><span class="fn-bracket">]</span></span>
 <p>Or might not. If you don’t, it’s ok, I forgive you!</p>
 </aside>
 </section>
