@@ -393,7 +393,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">8.3. Conditional statements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-conditionals">8.6.1. Nested conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-loops">8.6.2. Nested loops</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-generalization-and-patterns">8.7. Abstraction, generalization, and patterns</a></li>
 </ul>
             </nav>
@@ -1087,6 +1091,8 @@ p
 </section>
 <section id="nesting">
 <span id="id5"></span><h2><span class="section-number">8.6. </span>Nesting<a class="headerlink" href="#nesting" title="Permalink to this heading">#</a></h2>
+<section id="nested-conditionals">
+<h3><span class="section-number">8.6.1. </span>Nested conditionals<a class="headerlink" href="#nested-conditionals" title="Permalink to this heading">#</a></h3>
 <p>We have already talked about <a class="reference internal" href="#loops"><span class="std std-ref">loops</span></a> and <a class="reference internal" href="#if"><span class="std std-ref">conditionals</span></a>. These are powerful on their own, but you can really take them to the next level when you start nesting them, or combining them with other types of logic. A common situation is to check whether an item meets more than one condition. Maybe I have a list of numbers like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1117,7 +1123,7 @@ p
 </div>
 </div>
 </div>
-<p>To figure out whether a number is even or odd, an easy way is to use <code class="docutils literal notranslate"><span class="pre">%</span></code>. This is known by the fancy name of <a class="reference external" href="http://docs.python.org/2/reference/expressions.html#binary-arithmetic-operations">modulo operator</a>, and you can follow the link if you want to learn more, but basically it just works like division, except it gives you the <a class="reference external" href="https://en.wikipedia.org/wiki/Remainder">remainder</a> of the answer. If you divide an even number by 2, there will be nothing left over (no remainder), and so modulo 2 of an even number will be 0. So, to check if the numbers from our list are even, we could do</p>
+<p id="modulo">To figure out whether a number is even or odd, an easy way is to use <code class="docutils literal notranslate"><span class="pre">%</span></code>. This is known by the fancy name of <a class="reference external" href="http://docs.python.org/2/reference/expressions.html#binary-arithmetic-operations">modulo operator</a>, and you can follow the link if you want to learn more, but basically it just works like division, except it gives you the <a class="reference external" href="https://en.wikipedia.org/wiki/Remainder">remainder</a> of the answer. If you divide an even number by 2, there will be nothing left over (no remainder), and so modulo 2 of an even number will be 0. So, to check if the numbers from our list are even, we could do</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
@@ -1178,6 +1184,68 @@ p
 </div>
 </div>
 <p>By the way, if you are wondering what’s going on with all that <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">int(str(num)[-1])</span></code> stuff, well… I wanted to get the last digit of the numbers, so I figured I’d use <code class="docutils literal notranslate"><span class="pre">[-1]</span></code>. But it turns out you can’t do that with integers, so I used <code class="docutils literal notranslate"><span class="pre">str(num)</span></code>to turn the integers into strings so I could use <code class="docutils literal notranslate"><span class="pre">[-1]</span></code> to get the last number. But then I wanted to compare whatever the last digit was with the number 4. But by now <code class="docutils literal notranslate"><span class="pre">num</span></code> was a string, because I had changed it into one so I could find the last digit, and 4 is an integer, so it told me none of the last numbers were 4, which I knew was a baldfaced lie because I could see that two of them were, but then I realized that I could just use <code class="docutils literal notranslate"><span class="pre">int()</span></code> to turn the whole shebang back into an integer so I could compare it with 4. This the way programming works! You keep futzing around until you get it to do the thing you want.</p>
+</section>
+<section id="nested-loops">
+<h3><span class="section-number">8.6.2. </span>Nested loops<a class="headerlink" href="#nested-loops" title="Permalink to this heading">#</a></h3>
+<p>Just like we can nest conditionals within each other, we can also nest loops. Say we have a list of lists, like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_of_lists</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Maybe we want to add 10 to each number in the sublists. We can use nested loops to loop through the list of lists, pausing to loop through all the items of each sublist, and adding 10 to each one:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_of_lists</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></div>
+</div>
+</div>
+</div>
+<p>By the way, I used <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code> here, insted of <code class="docutils literal notranslate"><span class="pre">list</span></code> and <code class="docutils literal notranslate"><span class="pre">sublist</span></code>, because <code class="docutils literal notranslate"><span class="pre">list</span></code> already has a meaning in Python, so you shouldn’t name your list <code class="docutils literal notranslate"><span class="pre">list</span></code>. <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code> are often used for this sort of thing, so I just went with that.</p>
+<p>We can of course combine nested loops with conditionals as well (and even with nested conditionals if we want), to create just about any kind of logic we want. Here is an example of a nested loop with a conditional that goes through all the numbers in each of the sublists and adds 10 to the odd ones, but leaves the even ones untouched:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_of_lists</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11
+2
+13
+4
+15
+6
+17
+8
+19
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="abstraction-generalization-and-patterns">
 <span id="abstraction"></span><h2><span class="section-number">8.7. </span>Abstraction, generalization, and patterns<a class="headerlink" href="#abstraction-generalization-and-patterns" title="Permalink to this heading">#</a></h2>
@@ -1246,6 +1314,97 @@ p
 </div>
 </div>
 <p>This is another great Python pattern, and it will also serve you well! The end result is exactly the same, so in this case you could use whichever you like better. The point is to learn to see past the immediate problem you are trying to solve, and begin to identify classes of problems, which will begin to match up with classes of solutions.</p>
+<p>So that’s what I mean by patterns in coding. It could be things like appending to a list outside a loop, or it could be things like using the modulo operator to check whether a number is odd or even, like we did <a class="reference internal" href="#modulo"><span class="std std-ref">earlier</span></a>. But what about abstraction and generalization?</p>
+<p>Functions are a good example of what I am talking about here. Often when we write code<a class="footnote-reference brackets" href="#dilettante" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>, we start by writing code that does something very specific, but as we reuse that code again and again, it starts to get tedious to change all the variables to match the new situation. Eventually, it becomes more practical to write a function that will accept <em>any</em> variable of a certain kind, and do something to it.</p>
+<p>Say, for instance, that we often find ourselves checking lists like the list of flowers from before. But sometimes they aren’t flowers, and sometimes we want to check for a different first letter, not just “B”. And maybe sometimes the words start with capital letters, and sometimes they start with lower-case letters. It might be time to take our specific code from before, and generalize it to a function:</p>
+<p>Just as a reminder, this is the code from before:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b_flowers</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">flower</span> <span class="ow">in</span> <span class="n">all_flowers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">flower</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">):</span>
+        <span class="n">b_flowers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flower</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, we’ll take this code, but make it more generic, and dump the whole thing into a function. Let’s call our function <code class="docutils literal notranslate"><span class="pre">check_first_letter</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_first_letter</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">target_letter</span><span class="p">):</span>
+    <span class="n">output_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">target_letter</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+            <span class="n">output_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">output_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">check_first_letter</span><span class="p">(</span><span class="n">all_flowers</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Begonias&#39;, &#39;Buttercups&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">foods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Pears&#39;</span><span class="p">,</span> <span class="s1">&#39;pickles&#39;</span><span class="p">,</span> <span class="s1">&#39;Beets&#39;</span><span class="p">,</span> <span class="s1">&#39;burgers&#39;</span><span class="p">,</span> <span class="s1">&#39;cheese&#39;</span><span class="p">,</span> <span class="s1">&#39;peppers&#39;</span><span class="p">,</span> <span class="s1">&#39;Pizza&#39;</span><span class="p">,</span> <span class="s1">&#39;bananas&#39;</span><span class="p">,</span> <span class="s1">&#39;cardamom&#39;</span><span class="p">,</span> <span class="s1">&#39;Cabbage&#39;</span><span class="p">]</span>
+
+<span class="n">check_first_letter</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Pears&#39;, &#39;pickles&#39;, &#39;peppers&#39;, &#39;Pizza&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">check_first_letter</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Pears&#39;, &#39;pickles&#39;, &#39;peppers&#39;, &#39;Pizza&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">check_first_letter</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Beets&#39;, &#39;burgers&#39;, &#39;bananas&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">check_first_letter</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;cheese&#39;, &#39;cardamom&#39;, &#39;Cabbage&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have a gerneric, generalized and abstracted function that will check the first letter of strings in a list. All we have to do is tell it which list to look at, and what letter to check for. Additionally, it doesn’t matter wheter we give it the capital or lower-case version of the letter as a target, and it doesn’t matter whether the item in the list starts with a capital or a lower-case letter. Our function will find them all!</p>
 <hr class="footnotes docutils" />
 <aside class="footnote brackets" id="note1" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
@@ -1262,6 +1421,10 @@ p
 <aside class="footnote brackets" id="mightnot" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">4</a><span class="fn-bracket">]</span></span>
 <p>Or might not. If you don’t, it’s ok, I forgive you!</p>
+</aside>
+<aside class="footnote brackets" id="dilettante" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">5</a><span class="fn-bracket">]</span></span>
+<p>Or at least when a code dilettante like me who doesn’t know any better writes code</p>
 </aside>
 </section>
 </section>
@@ -1346,7 +1509,11 @@ p
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">8.3. Conditional statements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">8.4. Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions-a-different-kind-of-loop">8.5. List comprehensions: A different kind of loop</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">8.6. Nesting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-conditionals">8.6.1. Nested conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-loops">8.6.2. Nested loops</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction-generalization-and-patterns">8.7. Abstraction, generalization, and patterns</a></li>
 </ul>
   </nav></div>
