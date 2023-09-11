@@ -886,7 +886,7 @@ document.write(`
 </table>
 </div></div></div>
 </div>
-<p>Note that this time around I’ve used the name <code class="docutils literal notranslate"><span class="pre">model1</span></code> as the label for my <code class="docutils literal notranslate"><span class="pre">aov</span></code> object, since I’m planning on creating quite a few other models too. To start with, suppose I’m also curious to find out if <code class="docutils literal notranslate"><span class="pre">therapy</span></code> has a relationship to <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. In light of what we’ve seen from our discussion of <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">multiple regression</span></a>, you probably won’t be surprised that all we have to do is extend the formula: in other words, if we specify <code class="docutils literal notranslate"><span class="pre">dv=mood.gain,</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy']</span></code> as our model, we’ll probably get what we’re after:</p>
+<p>Note that this time around I’ve used the name <code class="docutils literal notranslate"><span class="pre">model1</span></code> as the label for my output variable, since I’m planning on creating quite a few other models too. To start with, suppose I’m also curious to find out if <code class="docutils literal notranslate"><span class="pre">therapy</span></code> has a relationship to <code class="docutils literal notranslate"><span class="pre">mood_gain</span></code>. In light of what we’ve seen from our discussion of <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">multiple regression</span></a>, you probably won’t be surprised that all we have to do is extend the formula: in other words, if we specify <code class="docutils literal notranslate"><span class="pre">dv=mood_gain,</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy']</span></code> as our model, we’ll probably get what we’re after:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1823,12 +1823,12 @@ F = \frac{\mbox{MS}_\Delta} {\mbox{MS}_{R1}}
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
 
 <span class="n">formula1</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug&#39;</span>
-<span class="n">formula3</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug + therapy + drug:therapy&#39;</span>
+<span class="n">formula2</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug + therapy + drug:therapy&#39;</span>
 
 <span class="n">model1</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula1</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">model3</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula3</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula2</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-<span class="n">anovaResults</span> <span class="o">=</span> <span class="n">anova_lm</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model3</span><span class="p">)</span>
+<span class="n">anovaResults</span> <span class="o">=</span> <span class="n">anova_lm</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">)</span>
 <span class="n">anovaResults</span>
 </pre></div>
 </div>
@@ -1883,6 +1883,53 @@ F = \frac{\mbox{MS}_\Delta} {\mbox{MS}_{R1}}
 </table>
 </div></div></div>
 </div>
+<p>Let’s see if we can reproduce this <span class="math notranslate nohighlight">\(F\)</span>-test ourselves. Firstly, if you go back and look at the ANOVA tables that we printed out for <code class="docutils literal notranslate"><span class="pre">model1</span></code> and <code class="docutils literal notranslate"><span class="pre">model3</span></code> you can reassure yourself that the RSS values printed in this table really do correspond to the residual sum of squares associated with these two models. So let’s type them in as variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">ss_res_null</span> <span class="o">=</span> <span class="mf">1.391667</span>
+ <span class="n">ss_res_full</span> <span class="o">=</span> <span class="mf">0.653333</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, following the procedure that I described above, we will say that the “between model” sum of squares, is the difference between these two residual sum of squares values. So, if we do the subtraction, we discover that the sum of squares associated with those terms that appear in the full model but not the null model is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">ss_diff</span> <span class="o">=</span> <span class="n">ss_res_null</span> <span class="o">-</span> <span class="n">ss_res_full</span> 
+ <span class="n">ss_diff</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7383339999999999
+</pre></div>
+</div>
+</div>
+</div>
+<p>Right. Next, as always we need to convert these SS values into MS (mean square) values, which we do by dividing by the degrees of freedom. The degrees of freedom associated with the full-model residuals hasn’t changed from our original ANOVA for <code class="docutils literal notranslate"><span class="pre">model2</span></code>: it’s the total sample size <span class="math notranslate nohighlight">\(N\)</span>, minus the total number of groups <span class="math notranslate nohighlight">\(G\)</span> that are relevant to the model. We have 18 people in the trial and 6 possible groups (i.e., 2 therapies <span class="math notranslate nohighlight">\(\times\)</span> 3 drugs), so the degrees of freedom here is 12. The degrees of freedom for the null model are calculated similarly. The only difference here is that there are only 3 relevant groups (i.e., 3 drugs), so the degrees of freedom here is 15. And, because the degrees of freedom associated with the difference is equal to the difference in the two degrees of freedom, we arrive at the conclusion that we have <span class="math notranslate nohighlight">\(15-12 = 3\)</span> degrees of freedom. Now that we know the degrees of freedom, we can calculate our MS values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">ms_res</span> <span class="o">=</span> <span class="n">ss_res_full</span> <span class="o">/</span> <span class="mi">12</span>
+ <span class="n">ms_diff</span> <span class="o">=</span> <span class="n">ss_diff</span> <span class="o">/</span> <span class="mi">3</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Okay, now that we have our two MS values, we can divide one by the other, and obtain an <span class="math notranslate nohighlight">\(F\)</span>-statistic …</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">F_stat</span> <span class="o">=</span> <span class="n">ms_diff</span> <span class="o">/</span> <span class="n">ms_res</span> 
+ <span class="n">F_stat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.520414551231913
+</pre></div>
+</div>
+</div>
+</div>
+<p>… and, just as we had hoped, this turns out to be nearly identical to the <span class="math notranslate nohighlight">\(F\)</span>-statistic that the <code class="docutils literal notranslate"><span class="pre">anova_lm()</span></code> function produced earlier.</p>
 </section>
 </section>
 <section id="anova-as-a-linear-model">
