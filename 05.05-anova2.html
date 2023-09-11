@@ -1813,6 +1813,76 @@ F = \frac{\mbox{MS}_\Delta} {\mbox{MS}_{R1}}
 </section>
 <section id="running-the-test-in-python">
 <h3><span class="section-number">17.4.2. </span>Running the test in Python<a class="headerlink" href="#running-the-test-in-python" title="Permalink to this heading">#</a></h3>
+<p>At this point, it may help to go back to our concrete example. The null model here is <code class="docutils literal notranslate"><span class="pre">model1</span></code>, which stipulates that there is a main effect of drug, but no other effects exist. We expressed this via the model formula <code class="docutils literal notranslate"><span class="pre">mood_gain</span> <span class="pre">~</span> <span class="pre">drug</span></code>. The alternative model here is <code class="docutils literal notranslate"><span class="pre">model3</span></code>, which stipulates that there is a main effect of drug, a main effect of therapy, and an interaction. This model corresponds to the formula <code class="docutils literal notranslate"><span class="pre">mood_gain</span> <span class="pre">~</span> <span class="pre">drug</span> <span class="pre">+</span> <span class="pre">therapy</span> <span class="pre">+</span> <span class="pre">drug:therapy</span></code>. The key thing here is that if we compare <code class="docutils literal notranslate"><span class="pre">model1</span></code> to <code class="docutils literal notranslate"><span class="pre">model3</span></code>, we’re lumping the main effect of therapy and the interaction term together. Running this test in Python is straightforward: we just input both models to the <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code> function from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and it will run the exact F -test that I outlined above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.anova</span> <span class="kn">import</span> <span class="n">anova_lm</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/clintrial.csv&quot;</span><span class="p">)</span>
+
+<span class="n">formula1</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug&#39;</span>
+<span class="n">formula3</span> <span class="o">=</span> <span class="s1">&#39;mood_gain ~ drug + therapy + drug:therapy&#39;</span>
+
+<span class="n">model1</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula1</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model3</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">formula3</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">anovaResults</span> <span class="o">=</span> <span class="n">anova_lm</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model3</span><span class="p">)</span>
+<span class="n">anovaResults</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>df_resid</th>
+      <th>ssr</th>
+      <th>df_diff</th>
+      <th>ss_diff</th>
+      <th>F</th>
+      <th>Pr(&gt;F)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>15.0</td>
+      <td>1.391667</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12.0</td>
+      <td>0.653333</td>
+      <td>3.0</td>
+      <td>0.738333</td>
+      <td>4.520408</td>
+      <td>0.024242</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 </section>
 <section id="anova-as-a-linear-model">
