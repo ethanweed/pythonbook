@@ -21,31 +21,68 @@ nbclient.exceptions.CellExecutionError: An error occurred while executing the fo
 import statistics
 import numpy as np
 import seaborn as sns
+import pandas as pd
+from matplotlib import pyplot as plt
 
-# generate data from 10000 "IQ" studies, where each study consists of two scores
-n = 2
-sample_sds = []
+
+
+ns = range(2,11)
+
+
+averageSampleSds = []
+averageSampleMeans = []
+
+# Simulate data for N = 2 to 10
+for n in ns:
+    sample_sds = []
+    sample_means = []
+    for i in range(1,10000):
+        sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_sds.append(sample_sd)
+        sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_means.append(sample_mean)
+    averageSampleSds.append(statistics.mean(sample_sds))
+    averageSampleMeans.append(statistics.mean(sample_means))
+
+# Simulate data for N = 1. This is not possible in the loop above, because Python can't calculate a SD
+# from only one observation
+n = 1
+sample_mean_1 = []
 for i in range(1,10000):
-    sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n).astype(int))
-    sample_sds.append(sample_sd)
+    sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+    sample_mean_1.append(sample_mean)
 
+# Add in sample mean and SD for N=1 at the beginning of the lists
+# For N = 1, the sample SD is simply 0
+averageSampleSds.insert(0,0)
+averageSampleMeans.insert(0,statistics.mean(sample_mean_1))
 
-# plot a histogram of the distribution of sample standard deviations, together with dashed line indicating 
-# population standard deviation
-#fig, ax = plt.subplots()
-ax=sns.histplot(sample_sds, binwidth=4)
-plt.axvline(15, color = 'black', linestyle = "dashed")
+# Collect simulated data in a dataframe, together with a vector from 1 to 10 representing N
+df = pd.DataFrame(
+    {'N': range(1,11),
+     'SampleMeans': averageSampleMeans,
+     'SampleSDs': averageSampleSds
+    })
 
-ax.set(yticklabels=[])
-ax.set(ylabel=None)
-ax.set(xlabel='Sample Standard Deviation')
-ax.set_title("Population Standard Deviation")
-ax.tick_params(left=False)    
-ax.spines[['top', 'right']].set_visible(False)
-ax.tick_params(axis='both', 
-                    which='both',
-                    left=False,
-                    right=False)
+# Plot the data
+fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=False)
+fig.suptitle('Simulated IQ Data')
+
+# Format the figure
+sns.lineplot(data=df, x='N', y='SampleMeans',ax=axes[0], linestyle = "dashdot")
+sns.lineplot(data=df, x='N', y='SampleSDs',ax=axes[1], linestyle = "dashdot")
+axes[0].set(ylim=(0,120))
+axes[1].set(ylim=(0,17))
+axes[0].axhline(100, color = 'black', linestyle = "dashed")
+axes[1].axhline(15, color = 'black', linestyle = "dashed")
+axes[0].set_title("Sample Means")
+axes[1].set_title("Sample Standard Deviations")
+axes[0].spines[['top', 'right']].set_visible(False)
+axes[1].spines[['top', 'right']].set_visible(False)
+
+labels = ['A', 'B']
+for s, ax in enumerate(axes):
+    axes[s].text(-0.1, 1, labels[s], transform=axes[s].transAxes,fontsize=16, fontweight='bold', va='top', ha='right')
 
 
 
@@ -54,14 +91,12 @@ ax.tick_params(axis='both',
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[15], line 9[0m
-[1;32m      7[0m sample_sds [38;5;241m=[39m []
-[1;32m      8[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;241m1[39m,[38;5;241m10000[39m):
-[0;32m----> 9[0m     sample_sd [38;5;241m=[39m [43mstatistics[49m[38;5;241;43m.[39;49m[43mstdev[49m[43m([49m[43mnp[49m[38;5;241;43m.[39;49m[43mrandom[49m[38;5;241;43m.[39;49m[43mnormal[49m[43m([49m[43mloc[49m[38;5;241;43m=[39;49m[38;5;241;43m100[39;49m[43m,[49m[43mscale[49m[38;5;241;43m=[39;49m[38;5;241;43m15[39;49m[43m,[49m[43msize[49m[38;5;241;43m=[39;49m[43mn[49m[43m)[49m[38;5;241;43m.[39;49m[43mastype[49m[43m([49m[38;5;28;43mint[39;49m[43m)[49m[43m)[49m
-[1;32m     10[0m     sample_sds[38;5;241m.[39mappend(sample_sd)
-[1;32m     13[0m [38;5;66;03m# plot a histogram of the distribution of sample standard deviations, together with dashed line indicating [39;00m
-[1;32m     14[0m [38;5;66;03m# population standard deviation[39;00m
-[1;32m     15[0m [38;5;66;03m#fig, ax = plt.subplots()[39;00m
+Cell [0;32mIn[16], line 20[0m
+[1;32m     18[0m sample_means [38;5;241m=[39m []
+[1;32m     19[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;241m1[39m,[38;5;241m10000[39m):
+[0;32m---> 20[0m     sample_sd [38;5;241m=[39m [43mstatistics[49m[38;5;241;43m.[39;49m[43mstdev[49m[43m([49m[43mnp[49m[38;5;241;43m.[39;49m[43mrandom[49m[38;5;241;43m.[39;49m[43mnormal[49m[43m([49m[43mloc[49m[38;5;241;43m=[39;49m[38;5;241;43m100[39;49m[43m,[49m[43mscale[49m[38;5;241;43m=[39;49m[38;5;241;43m15[39;49m[43m,[49m[43msize[49m[38;5;241;43m=[39;49m[43mn[49m[43m)[49m[38;5;241;43m.[39;49m[43mastype[49m[43m([49m[38;5;28;43mint[39;49m[43m)[49m[43m)[49m
+[1;32m     21[0m     sample_sds[38;5;241m.[39mappend(sample_sd)
+[1;32m     22[0m     sample_mean [38;5;241m=[39m statistics[38;5;241m.[39mmean(np[38;5;241m.[39mrandom[38;5;241m.[39mnormal(loc[38;5;241m=[39m[38;5;241m100[39m,scale[38;5;241m=[39m[38;5;241m15[39m,size[38;5;241m=[39mn)[38;5;241m.[39mastype([38;5;28mint[39m))
 
 File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/statistics.py:922[0m, in [0;36mstdev[0;34m(data, xbar)[0m
 [1;32m    920[0m [38;5;28;01mif[39;00m [38;5;28missubclass[39m(T, Decimal):
