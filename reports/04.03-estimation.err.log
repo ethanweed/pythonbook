@@ -37,9 +37,9 @@ for n in ns:
     sample_sds = []
     sample_means = []
     for i in range(1,10000):
-        sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n)#.astype(int))
         sample_sds.append(sample_sd)
-        sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n).astype(int))
+        sample_mean = statistics.mean(np.random.normal(loc=100,scale=15,size=n)#.astype(int))
         sample_means.append(sample_mean)
     averageSampleSds.append(statistics.mean(sample_sds))
     averageSampleMeans.append(statistics.mean(sample_means))
@@ -89,26 +89,9 @@ for s, ax in enumerate(axes):
 ------------------
 
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[16], line 20[0m
-[1;32m     18[0m sample_means [38;5;241m=[39m []
-[1;32m     19[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;241m1[39m,[38;5;241m10000[39m):
-[0;32m---> 20[0m     sample_sd [38;5;241m=[39m [43mstatistics[49m[38;5;241;43m.[39;49m[43mstdev[49m[43m([49m[43mnp[49m[38;5;241;43m.[39;49m[43mrandom[49m[38;5;241;43m.[39;49m[43mnormal[49m[43m([49m[43mloc[49m[38;5;241;43m=[39;49m[38;5;241;43m100[39;49m[43m,[49m[43mscale[49m[38;5;241;43m=[39;49m[38;5;241;43m15[39;49m[43m,[49m[43msize[49m[38;5;241;43m=[39;49m[43mn[49m[43m)[49m[38;5;241;43m.[39;49m[43mastype[49m[43m([49m[38;5;28;43mint[39;49m[43m)[49m[43m)[49m
-[1;32m     21[0m     sample_sds[38;5;241m.[39mappend(sample_sd)
-[1;32m     22[0m     sample_mean [38;5;241m=[39m statistics[38;5;241m.[39mmean(np[38;5;241m.[39mrandom[38;5;241m.[39mnormal(loc[38;5;241m=[39m[38;5;241m100[39m,scale[38;5;241m=[39m[38;5;241m15[39m,size[38;5;241m=[39mn)[38;5;241m.[39mastype([38;5;28mint[39m))
+[0;36m  Cell [0;32mIn[16], line 20[0;36m[0m
+[0;31m    sample_sd = statistics.stdev(np.random.normal(loc=100,scale=15,size=n)#.astype(int))[0m
+[0m                                 ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax. Perhaps you forgot a comma?
 
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/statistics.py:922[0m, in [0;36mstdev[0;34m(data, xbar)[0m
-[1;32m    920[0m [38;5;28;01mif[39;00m [38;5;28missubclass[39m(T, Decimal):
-[1;32m    921[0m     [38;5;28;01mreturn[39;00m _decimal_sqrt_of_frac(mss[38;5;241m.[39mnumerator, mss[38;5;241m.[39mdenominator)
-[0;32m--> 922[0m [38;5;28;01mreturn[39;00m [43m_float_sqrt_of_frac[49m[43m([49m[43mmss[49m[38;5;241;43m.[39;49m[43mnumerator[49m[43m,[49m[43m [49m[43mmss[49m[38;5;241;43m.[39;49m[43mdenominator[49m[43m)[49m
-
-File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/statistics.py:374[0m, in [0;36m_float_sqrt_of_frac[0;34m(n, m)[0m
-[1;32m    372[0m [38;5;250m[39m[38;5;124;03m"""Square root of n/m as a float, correctly rounded."""[39;00m
-[1;32m    373[0m [38;5;66;03m# See principle and proof sketch at: https://bugs.python.org/msg407078[39;00m
-[0;32m--> 374[0m q [38;5;241m=[39m ([43mn[49m[38;5;241;43m.[39;49m[43mbit_length[49m() [38;5;241m-[39m m[38;5;241m.[39mbit_length() [38;5;241m-[39m _sqrt_bit_width) [38;5;241m/[39m[38;5;241m/[39m [38;5;241m2[39m
-[1;32m    375[0m [38;5;28;01mif[39;00m q [38;5;241m>[39m[38;5;241m=[39m [38;5;241m0[39m:
-[1;32m    376[0m     numerator [38;5;241m=[39m _integer_sqrt_of_frac_rto(n, m [38;5;241m<<[39m [38;5;241m2[39m [38;5;241m*[39m q) [38;5;241m<<[39m q
-
-[0;31mAttributeError[0m: 'numpy.int64' object has no attribute 'bit_length'
 
