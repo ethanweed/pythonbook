@@ -2015,6 +2015,13 @@ t = r\sqrt{\frac{n-2}{1-r^2}}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/outdated/utils.py:14: OutdatedPackageWarning: The package pingouin is out of date. Your version is 0.5.3, the latest is 0.5.4.
+Set the environment variable OUTDATED_IGNORE=1 to disable these warnings.
+  return warn(
+</pre></div>
+</div>
+</div>
 </div>
 <p>The third kind of residuals are <strong><em>Studentised residuals</em></strong> (also called “jackknifed residuals”) and they’re even fancier than standardised residuals. Again, the idea is to take the ordinary residual and divide it by some quantity in order to estimate some standardised notion of the residual, but the formula for doing the calculations this time is subtly different:</p>
 <div class="math notranslate nohighlight">
@@ -3001,7 +3008,7 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 <section id="checking-the-homogeneity-of-variance">
 <span id="regressionhomogeneity"></span><h3><span class="section-number">16.9.5. </span>Checking the homogeneity of variance<a class="headerlink" href="#checking-the-homogeneity-of-variance" title="Permalink to this heading">#</a></h3>
 <p>The regression models that we’ve talked about all make a homogeneity of variance assumption: the variance of the residuals is assumed to be constant. One way to inspect this visually is to use a “Scale-Location Plot”, which is just a variation on the plots we made in <a class="reference internal" href="#fig-resid1"><span class="std std-numref">Fig. 16.10</span></a>. In a Scale-Location Plot, instead of plotting the fitted values against the raw residuals, we plot them against the square root of the absolute value of the standardized residuals, which can make it easier to visually assess the homogeneity of the variance.</p>
-<p>As far as I know (and admittedly, that’s not so far), there is no ready-made package in Python that will produce a Scale-Location Plot, but if you have made it this far in the book, you already have the knowledge to build on of these yourself. It could go something like this:</p>
+<p>As far as I know (and admittedly, that’s not so far), there is no ready-made package in Python that will produce a Scale-Location Plot, but if you have made it this far in the book, you already have the knowledge to build one of these yourself. It could go something like this:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -3046,7 +3053,7 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 <p><span class="caption-number">Fig. 16.12 </span><span class="caption-text">Plot of the fitted values (model predictions) against the square root of the abs standardised residuals. This plot is used to diagnose violations of homogeneity of variance. If the variance is really constant, then the line through the middle should be horizontal and flat.</span><a class="headerlink" href="#fig-sl-plot" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id84" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
+<p>A slightly more formal approach is to run a hypothesis test such as the Breusch–Pagan test <span id="id13">[<a class="reference internal" href="bibliography.html#id85" title="Trevor S Breusch and Adrian R Pagan. A simple test for heteroscedasticity and random coefficient variation. Econometrica: Journal of the econometric society, pages 1287–1294, 1979.">Breusch and Pagan, 1979</a>]</span>. Unfortunately, to run the test, we’ll have to leave the cozy world of <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> and use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead, but luckily the code is not complicated. Basically, we just run our regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pinguoin</span></code>, and then run the Breusch-Pagan test on the output (see below). I won’t go into how it works, other than to say that after we fit our regression model, we then fit <em>another</em> regression model in which we use our predicted values to predict our residuals. We then use something called the “Lagrange multiplier statistic” (similar to a <span class="math notranslate nohighlight">\(x^2\)</span> test) to check the significance of our new model. If the new model is not significant, this can be used to support the assumption that we are indeed dealing with a relationship that can be modelled linearly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
@@ -3173,10 +3180,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:04:08</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>11:55:11</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3241,10 +3248,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   201.7</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
+  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:04:08</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>11:55:11</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3708,10 +3715,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   142.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 04 Jul 2023</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
+  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:04:08</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>11:55:11</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
@@ -4048,7 +4055,7 @@ where \)</span>\hat{y}_i^{(0)}<span class="math notranslate nohighlight">\( is t
 </aside>
 <aside class="footnote brackets" id="sandwich" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">13</a><span class="fn-bracket">]</span></span>
-<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id18">[<a class="reference internal" href="bibliography.html#id47" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
+<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id18">[<a class="reference internal" href="bibliography.html#id48" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
 </aside>
 <aside class="footnote brackets" id="aic-calc" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">14</a><span class="fn-bracket">]</span></span>
