@@ -734,6 +734,13 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/outdated/utils.py:14: OutdatedPackageWarning: The package pingouin is out of date. Your version is 0.5.3, the latest is 0.5.4.
+Set the environment variable OUTDATED_IGNORE=1 to disable these warnings.
+  return warn(
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -743,11 +750,6 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/outdated/utils.py:14: OutdatedPackageWarning: The package pingouin is out of date. Your version is 0.5.3, the latest is 0.5.4.
-Set the environment variable OUTDATED_IGNORE=1 to disable these warnings.
-  return warn(
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -3019,19 +3021,19 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 
 <span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-<span class="c1">#df_slplot = pd.DataFrame(</span>
-<span class="c1">#    {&#39;fitted&#39;: mod2[&#39;pred&#39;],</span>
-<span class="c1">#     &#39;sqrt_abs_stand_res&#39;: np.sqrt(np.abs(mod2[&#39;residuals&#39;]))</span>
-<span class="c1">#    })</span>
-
-<span class="n">SS_resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mod2</span><span class="p">[</span><span class="s2">&quot;residuals&quot;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># bcs 2 predictors = &#39;dan_sleep&#39; and &#39;baby_sleep&#39; </span>
-<span class="n">sigmahat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span> <span class="n">SS_resid</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)))</span>
-<span class="n">stand_res</span> <span class="o">=</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">sigmahat</span>
 <span class="n">df_slplot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">],</span>
-     <span class="s1">&#39;sqrt_abs_stand_res&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">stand_res</span><span class="p">))</span>
+     <span class="s1">&#39;sqrt_abs_stand_res&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]))</span>
     <span class="p">})</span>
+
+<span class="c1">#SS_resid = np.sum(mod2[&quot;residuals&quot;]**2)</span>
+<span class="c1">#p = 2  # bcs 2 predictors = &#39;dan_sleep&#39; and &#39;baby_sleep&#39; </span>
+<span class="c1">#sigmahat = np.sqrt(abs(( SS_resid/(n-p-1) )))</span>
+<span class="c1">#stand_res = mod2[&#39;residuals&#39;] / sigmahat</span>
+<span class="c1">#df_slplot = pd.DataFrame(</span>
+<span class="c1">#    {&#39;fitted&#39;: mod2[&#39;pred&#39;],</span>
+<span class="c1">#     &#39;sqrt_abs_stand_res&#39;: np.sqrt(np.abs(stand_res))</span>
+<span class="c1">#    })</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 
@@ -3055,7 +3057,7 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 </details>
 </div>
 <figure class="align-default" id="fig-sl-plot" style="width: 600px">
-<img alt="_images/7b938138255889e9e9eee444bb7902c2f69415d7d6b322c059db9181b8055039.png" src="_images/7b938138255889e9e9eee444bb7902c2f69415d7d6b322c059db9181b8055039.png" />
+<img alt="_images/7f7ccd94eaa177f7634f35b0e877a1def5aadaffa4c9cb88071efd639610c042.png" src="_images/7f7ccd94eaa177f7634f35b0e877a1def5aadaffa4c9cb88071efd639610c042.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 16.12 </span><span class="caption-text">Plot of the fitted values (model predictions) against the square root of the abs standardised residuals. This plot is used to diagnose violations of homogeneity of variance. If the variance is really constant, then the line through the middle should be horizontal and flat.</span><a class="headerlink" href="#fig-sl-plot" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -3190,7 +3192,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:39:31</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:41:47</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3258,7 +3260,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:39:31</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>15:41:47</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3725,7 +3727,7 @@ p: 0.7832200556890354
   <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:39:31</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>15:41:47</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
