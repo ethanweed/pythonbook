@@ -734,13 +734,6 @@ Y_i = b_1 X_i + b_0 + \epsilon_i
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/outdated/utils.py:14: OutdatedPackageWarning: The package pingouin is out of date. Your version is 0.5.3, the latest is 0.5.4.
-Set the environment variable OUTDATED_IGNORE=1 to disable these warnings.
-  return warn(
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3021,14 +3014,11 @@ f(x,\lambda) = \frac{x^\lambda - 1}{\lambda}
 
 <span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">predictors</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">as_dataframe</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-<span class="c1">#df_slplot = pd.DataFrame(</span>
-<span class="c1">#    {&#39;fitted&#39;: mod2[&#39;pred&#39;],</span>
-<span class="c1">#     &#39;sqrt_abs_stand_res&#39;: np.sqrt(np.abs(mod2[&#39;residuals&#39;]))</span>
-<span class="c1">#    })</span>
 
+<span class="c1"># Thanks to Ivan Savov (https://github.com/ivanistheone) for contributing this solution for getting the standardized residuals</span>
 <span class="n">SS_resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mod2</span><span class="p">[</span><span class="s2">&quot;residuals&quot;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">])</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># bcs 2 predictors = &#39;dan_sleep&#39; and &#39;baby_sleep&#39; </span>
+<span class="n">p</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">predictors</span><span class="p">))</span>
 <span class="n">sigmahat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span> <span class="n">SS_resid</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">))</span>
 <span class="n">stand_res</span> <span class="o">=</span> <span class="n">mod2</span><span class="p">[</span><span class="s1">&#39;residuals&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">sigmahat</span>
 <span class="n">df_slplot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -3189,10 +3179,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:17:20</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>11:13:42</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3257,10 +3247,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   201.7</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
+  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:17:20</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>11:13:42</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3724,10 +3714,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   142.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 26 Apr 2024</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
+  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>20:17:20</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>11:13:42</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
