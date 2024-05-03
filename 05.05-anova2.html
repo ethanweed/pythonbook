@@ -410,10 +410,11 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-as-a-linear-model">17.5. ANOVA as a linear model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-data">17.5.1. Some data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.2. Changing the baseline category</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.3. The equivalence between ANOVA and regression for non-binary factors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.4. Degrees of freedom as parameter counting!</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.5. A postscript</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-with-binary-factors-as-a-regression-model">17.5.2. ANOVA with binary factors as a regression model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.3. Changing the baseline category</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.4. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.5. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.6. A postscript</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
@@ -2292,17 +2293,173 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_{p}
 </div>
 <p>Looking at this table, one gets the strong impression that reading the text and attending the class both matter a lot.</p>
 </section>
+<section id="anova-with-binary-factors-as-a-regression-model">
+<h3><span class="section-number">17.5.2. </span>ANOVA with binary factors as a regression model<a class="headerlink" href="#anova-with-binary-factors-as-a-regression-model" title="Permalink to this heading">#</a></h3>
+<p>Okay, let’s get back to talking about the mathematics. We now have our data expressed in terms of three numeric variables: the continuous variable <span class="math notranslate nohighlight">\(Y\)</span>, and the two binary variables <span class="math notranslate nohighlight">\(X_1\)</span> and <span class="math notranslate nohighlight">\(X_2\)</span>. What I want to you to recognise is that our 2<span class="math notranslate nohighlight">\(\times\)</span>2 factorial ANOVA is <em>exactly</em> equivalent to the regression model</p>
+<div class="math notranslate nohighlight">
+\[
+Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
+\]</div>
+<p>This is, of course, the exact same equation that I used earlier to describe a two-predictor regression model! The only difference is that <span class="math notranslate nohighlight">\(X_1\)</span> and <span class="math notranslate nohighlight">\(X_2\)</span> are now <em>binary</em> variables (i.e., values can only be 0 or 1), whereas in a regression analysis we expect that <span class="math notranslate nohighlight">\(X_1\)</span> and <span class="math notranslate nohighlight">\(X_2\)</span> will be continuous. There’s a couple of ways I could try to convince you of this. One possibility would be to do a lengthy mathematical exercise, proving that the two are identical. However, I’m going to go out on a limb and guess that most of the readership of this book will find that to be annoying rather than helpful. Instead, I’ll explain the basic ideas, and then rely on Python to show that that ANOVA analyses and regression analyses aren’t just similar, they’re identical for all intents and purposes. Let’s start by running this as an ANOVA.</p>
+<p>Now, you may remember that<a class="reference internal" href="05.03-anova.html#introduceaov"><span class="std std-ref">back when we ran one-way ANOVAs</span></a>, I said I thought the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package was great, but I also gushed about how we could use good old <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> too. For this example, I am going to use <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. I’ll explain why in a bit, but first let’s run our ANOVA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+
+<span class="c1"># Here we define our model.</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sum_sq</th>
+      <th>df</th>
+      <th>F</th>
+      <th>PR(&gt;F)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>attend</th>
+      <td>648.0</td>
+      <td>1.0</td>
+      <td>21.6000</td>
+      <td>0.0056</td>
+    </tr>
+    <tr>
+      <th>reading</th>
+      <td>1568.0</td>
+      <td>1.0</td>
+      <td>52.2667</td>
+      <td>0.0008</td>
+    </tr>
+    <tr>
+      <th>Residual</th>
+      <td>150.0</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>So, by reading the key numbers off the ANOVA table and the table of means that we presented earlier, we can see that the students obtained a higher grade if they attended class <span class="math notranslate nohighlight">\((F_{1,5} = 26.1, p = .0056)\)</span> and if they read the textbook <span class="math notranslate nohighlight">\((F_{1,5} = 52.3, p = .0008)\)</span>.</p>
+<p>Now let’s think about the same analysis from a linear regression perspective. In the <code class="docutils literal notranslate"><span class="pre">rtfm1</span></code> data set, we have encoded <code class="docutils literal notranslate"><span class="pre">attend</span></code> and <code class="docutils literal notranslate"><span class="pre">reading</span></code> as if they were numeric predictors. In this case, this is perfectly acceptable. There really is a sense in which a student who turns up to class (i.e. <code class="docutils literal notranslate"><span class="pre">attend</span> <span class="pre">=</span> <span class="pre">1</span></code>) has in fact done “more attendance” than a student who does not (i.e. <code class="docutils literal notranslate"><span class="pre">attend</span> <span class="pre">=</span> <span class="pre">0</span></code>). So it’s not at all unreasonable to include it as a predictor in a regression model. It’s a little unusual, because the predictor only takes on two possible values, but it doesn’t violate any of the assumptions of linear regression. And it’s easy to interpret. If the regression coefficient for <code class="docutils literal notranslate"><span class="pre">attend</span></code> is greater than 0, it means that students that attend lectures get higher grades; if it’s less than zero, then students attending lectures get lower grades. The same is true for our <code class="docutils literal notranslate"><span class="pre">reading</span></code> variable.</p>
+<p>Wait a second… <em>why</em> is this true? It’s something that is intuitively obvious to everyone who has taken a few stats classes and is comfortable with the maths, but it <em>isn’t</em> clear to everyone else at first pass. To see why this is true, it helps to look closely at a few specific students. Let’s start by considering the 6th and 7th students in our data set (i.e. <span class="math notranslate nohighlight">\(p=6\)</span> and <span class="math notranslate nohighlight">\(p=7\)</span>). Neither one has read the textbook, so in both cases we can set <code class="docutils literal notranslate"><span class="pre">reading</span> <span class="pre">=</span> <span class="pre">0</span></code>. Or, to say the same thing in our mathematical notation, we observe <span class="math notranslate nohighlight">\(X_{2,6} = 0\)</span> and <span class="math notranslate nohighlight">\(X_{2,7} = 0\)</span>. However, student number 7 did turn up to lectures (i.e., <code class="docutils literal notranslate"><span class="pre">attend</span> <span class="pre">=</span> <span class="pre">1</span></code>, <span class="math notranslate nohighlight">\(X_{1,7} = 1\)</span>) whereas student number 6 did not (i.e., <code class="docutils literal notranslate"><span class="pre">attend</span> <span class="pre">=</span> <span class="pre">0</span></code>, <span class="math notranslate nohighlight">\(X_{1,6} = 0\)</span>). Now let’s look at what happens when we insert these numbers into the general formula for our regression line. For student number 6, the regression predicts that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}
+\hat{Y}_{6} &amp;=&amp; b_1 X_{1,6} + b_2 X_{2,6} + b_0 \\
+&amp;=&amp;  (b_1 \times 0)  + ( b_2 \times 0)  + b_0 \\
+&amp;=&amp;  b_0
+\end{array}
+\end{split}\]</div>
+<p>So we’re expecting that this student will obtain a grade corresponding to the value of the intercept term <span class="math notranslate nohighlight">\(b_0\)</span>. What about student 7? This time, when we insert the numbers into the formula for the regression line, we obtain the following:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}
+\hat{Y}_{7} &amp;=&amp; b_1 X_{1,7} + b_2 X_{2,7} + b_0 \\
+&amp;=&amp;  (b_1 \times 1)  + ( b_2 \times 0)  + b_0 \\
+&amp;=&amp;  b_1 + b_0
+\end{array}
+\end{split}\]</div>
+<p>Because this student attended class, the predicted grade is equal to the intercept term <span class="math notranslate nohighlight">\(b_0\)</span> <em>plus</em> the coefficient associated with the <code class="docutils literal notranslate"><span class="pre">attend</span></code> variable, <span class="math notranslate nohighlight">\(b_1\)</span>. So, if <span class="math notranslate nohighlight">\(b_1\)</span> is greater than zero, we’re expecting that the students who turn up to lectures will get higher grades than those students who don’t. If this coefficient is negative, we’re expecting the opposite: students who turn up at class end up performing much worse. In fact, we can push this a little bit further. What about student number 1, who turned up to class (<span class="math notranslate nohighlight">\(X_{1,1} = 1\)</span>) <em>and</em> read the textbook (<span class="math notranslate nohighlight">\(X_{2,1} = 1\)</span>)? If we plug these numbers into the regression, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}
+\hat{Y}_{1} &amp;=&amp; b_1 X_{1,1} + b_2 X_{2,1} + b_0 \\
+&amp;=&amp;  (b_1 \times 1)  + ( b_2 \times 1)  + b_0 \\
+&amp;=&amp;  b_1 + b_2 + b_0
+\end{array}
+\end{split}\]</div>
+<p>So if we assume that attending class helps you get a good grade (i.e., <span class="math notranslate nohighlight">\(b_1 &gt; 0\)</span>) and if we assume that reading the textbook also helps you get a good grade (i.e., <span class="math notranslate nohighlight">\(b_2 &gt;0\)</span>), then our expectation is that student 1 will get a grade that that is higher than student 6 and student 7.</p>
+<p>And at this point, you won’t be at all suprised to learn that the regression model predicts that student 3, who read the book but didn’t attend lectures, will obtain a grade of <span class="math notranslate nohighlight">\(b_2 + b_0\)</span>. I won’t bore you with yet another regression formula. Instead, what I’ll do is show you the following table of <em>expected grades</em>:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+<th class="head"><p>read textbook?</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>no</strong></p></td>
+<td><p><strong>yes</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>attended?</strong></p></td>
+<td><p><strong>no</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_0 + b_2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p><strong>yes</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_0 + b_1\)</span>”</p></td>
+<td><p><span class="math notranslate nohighlight">\(b_0 + b_1 + b_2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1736: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=8
+  warnings.warn(&quot;kurtosistest only valid for n&gt;=20 ... continuing &quot;
+</pre></div>
+</div>
+<div class="output text_html"><table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>      <td>   43.5000</td> <td>    3.354</td> <td>   12.969</td> <td> 0.000</td> <td>   34.878</td> <td>   52.122</td>
+</tr>
+<tr>
+  <th>attend[T.yes]</th>  <td>   18.0000</td> <td>    3.873</td> <td>    4.648</td> <td> 0.006</td> <td>    8.044</td> <td>   27.956</td>
+</tr>
+<tr>
+  <th>reading[T.yes]</th> <td>   28.0000</td> <td>    3.873</td> <td>    7.230</td> <td> 0.001</td> <td>   18.044</td> <td>   37.956</td>
+</tr>
+</table></div></div>
+</div>
+</section>
 <section id="changing-the-baseline-category">
-<span id="changingbaseline"></span><h3><span class="section-number">17.5.2. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
+<span id="changingbaseline"></span><h3><span class="section-number">17.5.3. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="the-equivalence-between-anova-and-regression-for-non-binary-factors">
-<h3><span class="section-number">17.5.3. </span>The equivalence between ANOVA and regression for non-binary factors<a class="headerlink" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.4. </span>The equivalence between ANOVA and regression for non-binary factors<a class="headerlink" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="degrees-of-freedom-as-parameter-counting">
-<h3><span class="section-number">17.5.4. </span>Degrees of freedom as parameter counting!<a class="headerlink" href="#degrees-of-freedom-as-parameter-counting" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.5. </span>Degrees of freedom as parameter counting!<a class="headerlink" href="#degrees-of-freedom-as-parameter-counting" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="a-postscript">
-<h3><span class="section-number">17.5.5. </span>A postscript<a class="headerlink" href="#a-postscript" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.6. </span>A postscript<a class="headerlink" href="#a-postscript" title="Permalink to this heading">#</a></h3>
 </section>
 </section>
 <section id="different-ways-to-specify-contrasts">
@@ -2469,10 +2626,11 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_{p}
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-as-a-linear-model">17.5. ANOVA as a linear model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-data">17.5.1. Some data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.2. Changing the baseline category</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.3. The equivalence between ANOVA and regression for non-binary factors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.4. Degrees of freedom as parameter counting!</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.5. A postscript</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-with-binary-factors-as-a-regression-model">17.5.2. ANOVA with binary factors as a regression model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.3. Changing the baseline category</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.4. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.5. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.6. A postscript</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
