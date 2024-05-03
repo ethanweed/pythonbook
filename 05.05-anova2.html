@@ -2309,8 +2309,8 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 
 <span class="c1"># Here we define our model.</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2344,15 +2344,15 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
       <th>attend</th>
       <td>648.0</td>
       <td>1.0</td>
-      <td>21.6000</td>
-      <td>0.0056</td>
+      <td>21.600</td>
+      <td>0.006</td>
     </tr>
     <tr>
       <th>reading</th>
       <td>1568.0</td>
       <td>1.0</td>
-      <td>52.2667</td>
-      <td>0.0008</td>
+      <td>52.267</td>
+      <td>0.001</td>
     </tr>
     <tr>
       <th>Residual</th>
@@ -2422,6 +2422,12 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 </tr>
 </tbody>
 </table>
+<p>As you can see, the intercept term <span class="math notranslate nohighlight">\(b_0\)</span> acts like a kind of “baseline” grade that you would expect from those students who don’t take the time to attend class or read the textbook. Similarly, <span class="math notranslate nohighlight">\(b_1\)</span> represents the boost that you’re expected to get if you come to class, and <span class="math notranslate nohighlight">\(b_2\)</span> represents the boost that comes from reading the textbook. In fact, if this were an ANOVA you might very well want to characterise <span class="math notranslate nohighlight">\(b_1\)</span> as the main effect of attendance, and <span class="math notranslate nohighlight">\(b_2\)</span> as the main effect of reading! In fact, for a simple <span class="math notranslate nohighlight">\(2 \times 2\)</span> ANOVA that’s <em>exactly</em> how it plays out.</p>
+<p>Okay, now that we’re really starting to see why ANOVA and regression are basically the same thing, let’s actually run our regression using a regression function to convince ourselves that this is really true. And this brings us to the first reason for using <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> for this example rather than <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>. If you look back at the code we used to run our ANOVA, you will see that it was this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">ols('grade</span> <span class="pre">~</span> <span class="pre">attend</span> <span class="pre">+</span> <span class="pre">reading',</span> <span class="pre">data=rtfm2).fit()</span></code>
+`sm.stats.anova_lm(model, typ=2).round(4)```</p>
+<p>That is to say, we already ran a regression! Our variable <code class="docutils literal notranslate"><span class="pre">model</span></code> literally is a linear regression, and all we did with <code class="docutils literal notranslate"><span class="pre">sm.stats.anova_lm</span></code> was dress up the results in an ANOVA costume<a class="footnote-reference brackets" href="#halloween" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p>
+<p>Let’s take a closer look at the output of that regression we did. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> spits out a lot of information, but I just want to zoom in on the part that is relevant for us now, which can be found like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -2435,19 +2441,167 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 </div>
 <div class="output text_html"><table class="simpletable">
 <tr>
-         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>      <td>   43.5000</td> <td>    3.354</td> <td>   12.969</td> <td> 0.000</td> <td>   34.878</td> <td>   52.122</td>
+  <th>Intercept</th> <td>   43.5000</td> <td>    3.354</td> <td>   12.969</td> <td> 0.000</td> <td>   34.878</td> <td>   52.122</td>
 </tr>
 <tr>
-  <th>attend[T.yes]</th>  <td>   18.0000</td> <td>    3.873</td> <td>    4.648</td> <td> 0.006</td> <td>    8.044</td> <td>   27.956</td>
+  <th>attend</th>    <td>   18.0000</td> <td>    3.873</td> <td>    4.648</td> <td> 0.006</td> <td>    8.044</td> <td>   27.956</td>
 </tr>
 <tr>
-  <th>reading[T.yes]</th> <td>   28.0000</td> <td>    3.873</td> <td>    7.230</td> <td> 0.001</td> <td>   18.044</td> <td>   37.956</td>
+  <th>reading</th>   <td>   28.0000</td> <td>    3.873</td> <td>    7.230</td> <td> 0.001</td> <td>   18.044</td> <td>   37.956</td>
 </tr>
 </table></div></div>
 </div>
+<p>There’s a few interesting things to note here. First, notice that the intercept term is 43.5, which is close to the “group” mean of 42.5 observed for those two students who didn’t read the text or attend class. Second, notice that we have the regression coefficient of <span class="math notranslate nohighlight">\(b_1 = 18.0\)</span> for the attendance variable, suggesting that those students that attended class scored 18% higher than those who didn’t. So our expectation would be that those students who turned up to class but didn’t read the textbook would obtain a grade of <span class="math notranslate nohighlight">\(b_0 + b_1\)</span>, which is equal to <span class="math notranslate nohighlight">\(43.5 + 18.0 = 61.5\)</span>. Again, this is similar to the observed group mean of 62.5. You can verify for yourself that the same thing happens when we look at the students that read the textbook.</p>
+<p>Actually, we can push a little further in establishing the equivalence of our ANOVA and our regression. Look at the <span class="math notranslate nohighlight">\(p\)</span>-values associated with the <code class="docutils literal notranslate"><span class="pre">attend</span></code> variable and the <code class="docutils literal notranslate"><span class="pre">reading</span></code> variable in the regression output. They’re identical to the ones we encountered earlier when running the ANOVA. This might seem a little surprising, since the test used when running our regression model calculates a <span class="math notranslate nohighlight">\(t\)</span>-statistic and the ANOVA calculates an <span class="math notranslate nohighlight">\(F\)</span>-statistic. However, if you can remember all the way back to the chapter on <a class="reference internal" href="04.02-probability.html#probability"><span class="std std-ref">probability</span></a>, I mentioned that there’s a relationship between the <span class="math notranslate nohighlight">\(t\)</span>-distribution and the <span class="math notranslate nohighlight">\(F\)</span>-distribution: if you have some quantity that is distributed according to a <span class="math notranslate nohighlight">\(t\)</span>-distribution with <span class="math notranslate nohighlight">\(k\)</span> degrees of freedom and you square it, then this new squared quantity follows an <span class="math notranslate nohighlight">\(F\)</span>-distribution whose degrees of freedom are 1 and <span class="math notranslate nohighlight">\(k\)</span>. We can check this with respect to the <span class="math notranslate nohighlight">\(t\)</span> statistics in our regression model. For the <code class="docutils literal notranslate"><span class="pre">attend</span></code> variable we get a <span class="math notranslate nohighlight">\(t\)</span> value of 4.648. If we square this number we end up with 21.604, which is identical to the corresponding <span class="math notranslate nohighlight">\(F\)</span> statistic in our ANOVA. <a class="reference external" href="https://www.youtube.com/watch?v=NsUFBm1uENs">I love it when a plan comes together.</a></p>
+<p>I mentioned there was a second reason I didn’t use <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> for this example. This is because as far as I can tell, when performing an ANOVA <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> always calculated not only the main effects, but also the interaction, thus giving slightly different results. In order to keep things simple (and maintain parity with <a class="reference external" href="http://learningstatisticswithr.com/">LSR</a>, I decided to go with <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> and not specify any interactions. Just to be sure though, let’s run the ANOVA with <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>, and then run the regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> with a little ANOVA dressing on top, and confirm that we get the same result:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;attend&#39;</span><span class="p">,</span> <span class="s1">&#39;reading&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm1</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>attend</td>
+      <td>648.0</td>
+      <td>1</td>
+      <td>648.0</td>
+      <td>18.254</td>
+      <td>0.013</td>
+      <td>0.820</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>reading</td>
+      <td>1568.0</td>
+      <td>1</td>
+      <td>1568.0</td>
+      <td>44.169</td>
+      <td>0.003</td>
+      <td>0.917</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>attend * reading</td>
+      <td>8.0</td>
+      <td>1</td>
+      <td>8.0</td>
+      <td>0.225</td>
+      <td>0.660</td>
+      <td>0.053</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>142.0</td>
+      <td>4</td>
+      <td>35.5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading + attend:reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sum_sq</th>
+      <th>df</th>
+      <th>F</th>
+      <th>PR(&gt;F)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>attend</th>
+      <td>648.0</td>
+      <td>1.0</td>
+      <td>18.254</td>
+      <td>0.013</td>
+    </tr>
+    <tr>
+      <th>reading</th>
+      <td>1568.0</td>
+      <td>1.0</td>
+      <td>44.169</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>attend:reading</th>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>0.225</td>
+      <td>0.660</td>
+    </tr>
+    <tr>
+      <th>Residual</th>
+      <td>142.0</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Yup. Same thing.</p>
 </section>
 <section id="changing-the-baseline-category">
 <span id="changingbaseline"></span><h3><span class="section-number">17.5.3. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
@@ -2527,6 +2681,10 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 <aside class="footnote brackets" id="imagine" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
 <p>There could be all sorts of reasons for doing this, I would imagine.</p>
+</aside>
+<aside class="footnote brackets" id="halloween" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Wait a minute… I just got an idea for my next Halloween costume 🎃</p>
 </aside>
 </section>
 </section>
