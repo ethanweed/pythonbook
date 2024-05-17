@@ -4,7 +4,7 @@ Traceback (most recent call last):
   File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 173, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
@@ -18,68 +18,135 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import seaborn as sns
-from matplotlib import pyplot as plt
-
-levels = ['Level 1', 'Level 1', 'Level 2', 'Level 2']
-factors = ['Factor B, Level 1', 'Factor B, Level 2', 'Factor B, Level 1', 'Factor B, Level 2']
-panel1 = [1,1.2,2,2.2]
-panel2 = [1.2, 1.9, 1.2, 1.9]
-panel3 = [0.6, 1.4, 1.5, 2.4]
-panel4 = [1.5, 1.6, 1.5, 1.6]
-
-d = pd.DataFrame({'Factor': factors,
-                   'Factor A': levels,
-                   'Panel 1': panel1,
-                   'Panel 2': panel2,
-                   'Panel 3': panel3,
-                   'Panel 4': panel4})
-
-fig, axes = plt.subplots(2,2)
-
-
-p1 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 1', hue= 'Factor', errorbar=('ci', False), ax=axes[0,0])
-p2 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 2', hue= 'Factor', errorbar=('ci', False), ax=axes[0,1])
-p3 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 3', hue= 'Factor', errorbar=('ci', False), ax=axes[1,0])
-p4 = sns.pointplot(data = d, x = 'Factor A', y = 'Panel 4', hue= 'Factor', errorbar=('ci', False), ax=axes[1,1])
-
-ps = [p1, p2, p3, p4]
-panelID = ['A', 'B', 'C', 'D']
-titles = ['Only Factor A has an effect', 'Only Factor B has an effect', 
-          'Both A and B have an effect', 'Neither A nor B has an effect']
-
-for n, p in enumerate(ps):
-    p.set_ylim(0,3)
-    p.set_ylabel('')
-    p.set_xlabel('')
-    p.get_legend().remove()
-    p.text(0.1, 1, titles[n], horizontalalignment='left', verticalalignment='top', transform=p.transAxes)
-    p.text(0, 1.1, panelID[n], horizontalalignment='left', verticalalignment='top', transform=p.transAxes)
-    sns.despine()
-
-p1.set_xticklabels('')
-p2.set_xticklabels('')
-
-p3.set_xlabel('Factor A')
-p4.set_xlabel('Factor A')
-
-handles, labels = p1.get_legend_handles_labels()
-fig.legend(handles, ['Factor B, Level 1', 'Factor B, Level 2'], loc='upper center', ncol=2)
-
-
-# Plot figure in book, with caption
-#plt.close(fig)
-glue("anovas-sans-interaction-fig", fig, display=False)
+model = ols('grade ~ C(attend) + C(reading(reference="yes"))', data=rtfm2).fit()
+model.summary().tables[1]
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[13], line 52[0m
-[1;32m     47[0m fig[38;5;241m.[39mlegend(handles, [[38;5;124m'[39m[38;5;124mFactor B, Level 1[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mFactor B, Level 2[39m[38;5;124m'[39m], loc[38;5;241m=[39m[38;5;124m'[39m[38;5;124mupper center[39m[38;5;124m'[39m, ncol[38;5;241m=[39m[38;5;241m2[39m)
-[1;32m     50[0m [38;5;66;03m# Plot figure in book, with caption[39;00m
-[1;32m     51[0m [38;5;66;03m#plt.close(fig)[39;00m
-[0;32m---> 52[0m [43mglue[49m([38;5;124m"[39m[38;5;124manovas-sans-interaction-fig[39m[38;5;124m"[39m, fig, display[38;5;241m=[39m[38;5;28;01mFalse[39;00m)
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/compat.py:36[0m, in [0;36mcall_and_wrap_exc[0;34m(msg, origin, f, *args, **kwargs)[0m
+[1;32m     35[0m [38;5;28;01mtry[39;00m:
+[0;32m---> 36[0m     [38;5;28;01mreturn[39;00m f([38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+[1;32m     37[0m [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m [38;5;28;01mas[39;00m e:
 
-[0;31mNameError[0m: name 'glue' is not defined
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:169[0m, in [0;36mEvalEnvironment.eval[0;34m(self, expr, source_name, inner_namespace)[0m
+[1;32m    168[0m code [38;5;241m=[39m [38;5;28mcompile[39m(expr, source_name, [38;5;124m"[39m[38;5;124meval[39m[38;5;124m"[39m, [38;5;28mself[39m[38;5;241m.[39mflags, [38;5;28;01mFalse[39;00m)
+[0;32m--> 169[0m [38;5;28;01mreturn[39;00m [38;5;28meval[39m(code, {}, VarLookupDict([inner_namespace]
+[1;32m    170[0m                                     [38;5;241m+[39m [38;5;28mself[39m[38;5;241m.[39m_namespaces))
+
+File [0;32m<string>:1[0m
+
+[0;31mTypeError[0m: 'Series' object is not callable
+
+The above exception was the direct cause of the following exception:
+
+[0;31mPatsyError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[37], line 1[0m
+[0;32m----> 1[0m model [38;5;241m=[39m ols([38;5;124m'[39m[38;5;124mgrade ~ C(attend) + C(reading(reference=[39m[38;5;124m"[39m[38;5;124myes[39m[38;5;124m"[39m[38;5;124m))[39m[38;5;124m'[39m, data[38;5;241m=[39mrtfm2)[38;5;241m.[39mfit()
+[1;32m      2[0m model[38;5;241m.[39msummary()[38;5;241m.[39mtables[[38;5;241m1[39m]
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/statsmodels/base/model.py:203[0m, in [0;36mModel.from_formula[0;34m(cls, formula, data, subset, drop_cols, *args, **kwargs)[0m
+[1;32m    200[0m [38;5;28;01mif[39;00m missing [38;5;241m==[39m [38;5;124m'[39m[38;5;124mnone[39m[38;5;124m'[39m:  [38;5;66;03m# with patsy it's drop or raise. let's raise.[39;00m
+[1;32m    201[0m     missing [38;5;241m=[39m [38;5;124m'[39m[38;5;124mraise[39m[38;5;124m'[39m
+[0;32m--> 203[0m tmp [38;5;241m=[39m handle_formula_data(data, [38;5;28;01mNone[39;00m, formula, depth[38;5;241m=[39meval_env,
+[1;32m    204[0m                           missing[38;5;241m=[39mmissing)
+[1;32m    205[0m ((endog, exog), missing_idx, design_info) [38;5;241m=[39m tmp
+[1;32m    206[0m max_endog [38;5;241m=[39m [38;5;28mcls[39m[38;5;241m.[39m_formula_max_endog
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/statsmodels/formula/formulatools.py:63[0m, in [0;36mhandle_formula_data[0;34m(Y, X, formula, depth, missing)[0m
+[1;32m     61[0m [38;5;28;01melse[39;00m:
+[1;32m     62[0m     [38;5;28;01mif[39;00m data_util[38;5;241m.[39m_is_using_pandas(Y, [38;5;28;01mNone[39;00m):
+[0;32m---> 63[0m         result [38;5;241m=[39m dmatrices(formula, Y, depth, return_type[38;5;241m=[39m[38;5;124m'[39m[38;5;124mdataframe[39m[38;5;124m'[39m,
+[1;32m     64[0m                            NA_action[38;5;241m=[39mna_action)
+[1;32m     65[0m     [38;5;28;01melse[39;00m:
+[1;32m     66[0m         result [38;5;241m=[39m dmatrices(formula, Y, depth, return_type[38;5;241m=[39m[38;5;124m'[39m[38;5;124mdataframe[39m[38;5;124m'[39m,
+[1;32m     67[0m                            NA_action[38;5;241m=[39mna_action)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:309[0m, in [0;36mdmatrices[0;34m(formula_like, data, eval_env, NA_action, return_type)[0m
+[1;32m    299[0m [38;5;250m[39m[38;5;124;03m"""Construct two design matrices given a formula_like and data.[39;00m
+[1;32m    300[0m 
+[1;32m    301[0m [38;5;124;03mThis function is identical to :func:`dmatrix`, except that it requires[39;00m
+[0;32m   (...)[0m
+[1;32m    306[0m [38;5;124;03mSee :func:`dmatrix` for details.[39;00m
+[1;32m    307[0m [38;5;124;03m"""[39;00m
+[1;32m    308[0m eval_env [38;5;241m=[39m EvalEnvironment[38;5;241m.[39mcapture(eval_env, reference[38;5;241m=[39m[38;5;241m1[39m)
+[0;32m--> 309[0m (lhs, rhs) [38;5;241m=[39m _do_highlevel_design(formula_like, data, eval_env,
+[1;32m    310[0m                                   NA_action, return_type)
+[1;32m    311[0m [38;5;28;01mif[39;00m lhs[38;5;241m.[39mshape[[38;5;241m1[39m] [38;5;241m==[39m [38;5;241m0[39m:
+[1;32m    312[0m     [38;5;28;01mraise[39;00m PatsyError([38;5;124m"[39m[38;5;124mmodel is missing required outcome variables[39m[38;5;124m"[39m)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:164[0m, in [0;36m_do_highlevel_design[0;34m(formula_like, data, eval_env, NA_action, return_type)[0m
+[1;32m    162[0m [38;5;28;01mdef[39;00m [38;5;21mdata_iter_maker[39m():
+[1;32m    163[0m     [38;5;28;01mreturn[39;00m [38;5;28miter[39m([data])
+[0;32m--> 164[0m design_infos [38;5;241m=[39m _try_incr_builders(formula_like, data_iter_maker, eval_env,
+[1;32m    165[0m                                   NA_action)
+[1;32m    166[0m [38;5;28;01mif[39;00m design_infos [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[1;32m    167[0m     [38;5;28;01mreturn[39;00m build_design_matrices(design_infos, data,
+[1;32m    168[0m                                  NA_action[38;5;241m=[39mNA_action,
+[1;32m    169[0m                                  return_type[38;5;241m=[39mreturn_type)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:66[0m, in [0;36m_try_incr_builders[0;34m(formula_like, data_iter_maker, eval_env, NA_action)[0m
+[1;32m     64[0m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(formula_like, ModelDesc):
+[1;32m     65[0m     [38;5;28;01massert[39;00m [38;5;28misinstance[39m(eval_env, EvalEnvironment)
+[0;32m---> 66[0m     [38;5;28;01mreturn[39;00m design_matrix_builders([formula_like[38;5;241m.[39mlhs_termlist,
+[1;32m     67[0m                                    formula_like[38;5;241m.[39mrhs_termlist],
+[1;32m     68[0m                                   data_iter_maker,
+[1;32m     69[0m                                   eval_env,
+[1;32m     70[0m                                   NA_action)
+[1;32m     71[0m [38;5;28;01melse[39;00m:
+[1;32m     72[0m     [38;5;28;01mreturn[39;00m [38;5;28;01mNone[39;00m
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/build.py:693[0m, in [0;36mdesign_matrix_builders[0;34m(termlists, data_iter_maker, eval_env, NA_action)[0m
+[1;32m    689[0m factor_states [38;5;241m=[39m _factors_memorize(all_factors, data_iter_maker, eval_env)
+[1;32m    690[0m [38;5;66;03m# Now all the factors have working eval methods, so we can evaluate them[39;00m
+[1;32m    691[0m [38;5;66;03m# on some data to find out what type of data they return.[39;00m
+[1;32m    692[0m (num_column_counts,
+[0;32m--> 693[0m  cat_levels_contrasts) [38;5;241m=[39m _examine_factor_types(all_factors,
+[1;32m    694[0m                                                factor_states,
+[1;32m    695[0m                                                data_iter_maker,
+[1;32m    696[0m                                                NA_action)
+[1;32m    697[0m [38;5;66;03m# Now we need the factor infos, which encapsulate the knowledge of[39;00m
+[1;32m    698[0m [38;5;66;03m# how to turn any given factor into a chunk of data:[39;00m
+[1;32m    699[0m factor_infos [38;5;241m=[39m {}
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/build.py:443[0m, in [0;36m_examine_factor_types[0;34m(factors, factor_states, data_iter_maker, NA_action)[0m
+[1;32m    441[0m [38;5;28;01mfor[39;00m data [38;5;129;01min[39;00m data_iter_maker():
+[1;32m    442[0m     [38;5;28;01mfor[39;00m factor [38;5;129;01min[39;00m [38;5;28mlist[39m(examine_needed):
+[0;32m--> 443[0m         value [38;5;241m=[39m factor[38;5;241m.[39meval(factor_states[factor], data)
+[1;32m    444[0m         [38;5;28;01mif[39;00m factor [38;5;129;01min[39;00m cat_sniffers [38;5;129;01mor[39;00m guess_categorical(value):
+[1;32m    445[0m             [38;5;28;01mif[39;00m factor [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m cat_sniffers:
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:568[0m, in [0;36mEvalFactor.eval[0;34m(self, memorize_state, data)[0m
+[1;32m    567[0m [38;5;28;01mdef[39;00m [38;5;21meval[39m([38;5;28mself[39m, memorize_state, data):
+[0;32m--> 568[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_eval(memorize_state[[38;5;124m"[39m[38;5;124meval_code[39m[38;5;124m"[39m],
+[1;32m    569[0m                       memorize_state,
+[1;32m    570[0m                       data)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:551[0m, in [0;36mEvalFactor._eval[0;34m(self, code, memorize_state, data)[0m
+[1;32m    549[0m [38;5;28;01mdef[39;00m [38;5;21m_eval[39m([38;5;28mself[39m, code, memorize_state, data):
+[1;32m    550[0m     inner_namespace [38;5;241m=[39m VarLookupDict([data, memorize_state[[38;5;124m"[39m[38;5;124mtransforms[39m[38;5;124m"[39m]])
+[0;32m--> 551[0m     [38;5;28;01mreturn[39;00m call_and_wrap_exc([38;5;124m"[39m[38;5;124mError evaluating factor[39m[38;5;124m"[39m,
+[1;32m    552[0m                              [38;5;28mself[39m,
+[1;32m    553[0m                              memorize_state[[38;5;124m"[39m[38;5;124meval_env[39m[38;5;124m"[39m][38;5;241m.[39meval,
+[1;32m    554[0m                              code,
+[1;32m    555[0m                              inner_namespace[38;5;241m=[39minner_namespace)
+
+File [0;32m~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/compat.py:43[0m, in [0;36mcall_and_wrap_exc[0;34m(msg, origin, f, *args, **kwargs)[0m
+[1;32m     39[0m     new_exc [38;5;241m=[39m PatsyError([38;5;124m"[39m[38;5;132;01m%s[39;00m[38;5;124m: [39m[38;5;132;01m%s[39;00m[38;5;124m: [39m[38;5;132;01m%s[39;00m[38;5;124m"[39m
+[1;32m     40[0m                          [38;5;241m%[39m (msg, e[38;5;241m.[39m[38;5;18m__class__[39m[38;5;241m.[39m[38;5;18m__name__[39m, e),
+[1;32m     41[0m                          origin)
+[1;32m     42[0m     [38;5;66;03m# Use 'exec' to hide this syntax from the Python 2 parser:[39;00m
+[0;32m---> 43[0m     exec([38;5;124m"[39m[38;5;124mraise new_exc from e[39m[38;5;124m"[39m)
+[1;32m     44[0m [38;5;28;01melse[39;00m:
+[1;32m     45[0m     [38;5;66;03m# In python 2, we just let the original exception escape -- better[39;00m
+[1;32m     46[0m     [38;5;66;03m# than destroying the traceback. But if it's a PatsyError, we can[39;00m
+[1;32m     47[0m     [38;5;66;03m# at least set the origin properly.[39;00m
+[1;32m     48[0m     [38;5;28;01mif[39;00m [38;5;28misinstance[39m(e, PatsyError):
+
+File [0;32m<string>:1[0m
+
+[0;31mPatsyError[0m: Error evaluating factor: TypeError: 'Series' object is not callable
+    grade ~ C(attend) + C(reading(reference="yes"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
