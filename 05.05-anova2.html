@@ -412,9 +412,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-data">17.5.1. Some data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-with-binary-factors-as-a-regression-model">17.5.2. ANOVA with binary factors as a regression model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.3. Changing the baseline category</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.4. The equivalence between ANOVA and regression for non-binary factors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.5. Degrees of freedom as parameter counting!</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.6. A postscript</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-encode-non-binary-factors-as-contrasts">17.5.4. How to encode non binary factors as contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.5. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.6. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.7. A postscript</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
@@ -2182,7 +2183,7 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_{p}
 </table>
 </div></div></div>
 </div>
-<p>However, for the purposes of this section it’s important that we be able to switch back and forth between these two different ways of thinking about the data. After all, our goal in this section is to look at some of the mathematics that underpins ANOVA, and if we want to do that we need to be able to see the numerical representation of the data (in <code class="docutils literal notranslate"><span class="pre">rtfm1</span></code>) as well as the more meaningful factor representation (in <code class="docutils literal notranslate"><span class="pre">rtfm2</span></code>). In any case, let’s confirm that this data set corresponds to a balanced design:</p>
+<p>However, for the purposes of this section it’s important that we be able to switch back and forth between these two different ways of thinking about the data. After all, our goal in this section is to look at some of the mathematics that underpins ANOVA, and if we want to do that we need to be able to see the numerical representation of the data (in <code class="docutils literal notranslate"><span class="pre">rtfm1</span></code>) as well as the more meaningful factor representation (in <code class="docutils literal notranslate"><span class="pre">rtfm2</span></code>). We will <span class="xref myst">return to this problem</span> however, because it is not irrelevant which numbers we use to represent our categories. For now, however, we are on safe ground with our 0’s and 1’s, so let’s proceed and confirm that this data set corresponds to a balanced design:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">rtfm2</span><span class="p">[</span><span class="s1">&#39;attend&#39;</span><span class="p">],</span> <span class="n">rtfm2</span><span class="p">[</span><span class="s1">&#39;reading&#39;</span><span class="p">])</span>
@@ -2602,18 +2603,408 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 </div></div></div>
 </div>
 <p>Yup. Same thing.</p>
+<p>(changingbaseline) =</p>
 </section>
 <section id="changing-the-baseline-category">
-<span id="changingbaseline"></span><h3><span class="section-number">17.5.3. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.3. </span>Changing the baseline category<a class="headerlink" href="#changing-the-baseline-category" title="Permalink to this heading">#</a></h3>
+<p>At this point, you’re probably convinced that the ANOVA and the regression are actually identical to each other. So there’s one last thing I should show you. What happens if I use the data from <code class="docutils literal notranslate"><span class="pre">rtfm2</span></code> to run the regression? In <code class="docutils literal notranslate"><span class="pre">rtfm2</span></code>, we coded the <code class="docutils literal notranslate"><span class="pre">attend</span></code> and <code class="docutils literal notranslate"><span class="pre">reading</span></code> variables as text rather than as numeric variables. Does this matter? In this case, it turns out that it doesn’t. The only differences are superficial:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># With factors encoded numerically</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1736: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=8
+  warnings.warn(&quot;kurtosistest only valid for n&gt;=20 ... continuing &quot;
+</pre></div>
+</div>
+<div class="output text_html"><table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   43.5000</td> <td>    3.354</td> <td>   12.969</td> <td> 0.000</td> <td>   34.878</td> <td>   52.122</td>
+</tr>
+<tr>
+  <th>attend</th>    <td>   18.0000</td> <td>    3.873</td> <td>    4.648</td> <td> 0.006</td> <td>    8.044</td> <td>   27.956</td>
+</tr>
+<tr>
+  <th>reading</th>   <td>   28.0000</td> <td>    3.873</td> <td>    7.230</td> <td> 0.001</td> <td>   18.044</td> <td>   37.956</td>
+</tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># With factors encoded as text</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1736: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=8
+  warnings.warn(&quot;kurtosistest only valid for n&gt;=20 ... continuing &quot;
+</pre></div>
+</div>
+<div class="output text_html"><table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>      <td>   43.5000</td> <td>    3.354</td> <td>   12.969</td> <td> 0.000</td> <td>   34.878</td> <td>   52.122</td>
+</tr>
+<tr>
+  <th>attend[T.yes]</th>  <td>   18.0000</td> <td>    3.873</td> <td>    4.648</td> <td> 0.006</td> <td>    8.044</td> <td>   27.956</td>
+</tr>
+<tr>
+  <th>reading[T.yes]</th> <td>   28.0000</td> <td>    3.873</td> <td>    7.230</td> <td> 0.001</td> <td>   18.044</td> <td>   37.956</td>
+</tr>
+</table></div></div>
+</div>
+<p>The only thing that is different is that <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> labels the two variables differently: the output now refers to <code class="docutils literal notranslate"><span class="pre">attend[T.yes]</span></code> and <code class="docutils literal notranslate"><span class="pre">reading[T.yes]</span></code>. You can probably guess what this means. When <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> refers to <code class="docutils literal notranslate"><span class="pre">reading[T.yes]</span></code> it’s trying to indicate that it is assuming that “yes = 1” and “no = 0”. This is important for two reasons, one having to do with textually-encoded categories, and one having to do with numerically-encoded categories.</p>
+<p>Let’s take the textually-encoded categories first. Suppose we wanted to say that “yes = 0” and “no = 1”. We could still run this as a regression model, but now all of our coefficients will go in the opposite direction, because the effect of <code class="docutils literal notranslate"><span class="pre">reading[T.no]</span></code> would be referring to the consequences of <em>not</em> reading the textbook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ C(attend) + C(reading(reference=&quot;yes&quot;))&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/compat.py:36,</span> in <span class="ni">call_and_wrap_exc</span><span class="nt">(msg, origin, f, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">36</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:169,</span> in <span class="ni">EvalEnvironment.eval</span><span class="nt">(self, expr, source_name, inner_namespace)</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span> <span class="n">code</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">source_name</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">169</span> <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="p">{},</span> <span class="n">VarLookupDict</span><span class="p">([</span><span class="n">inner_namespace</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">170</span>                                     <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_namespaces</span><span class="p">))</span>
+
+<span class="n">File</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">1</span>
+
+<span class="ne">TypeError</span>: &#39;Series&#39; object is not callable
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">PatsyError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">37</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ C(attend) + C(reading(reference=&quot;yes&quot;))&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/statsmodels/base/model.py:203,</span> in <span class="ni">Model.from_formula</span><span class="nt">(cls, formula, data, subset, drop_cols, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span> <span class="k">if</span> <span class="n">missing</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>  <span class="c1"># with patsy it&#39;s drop or raise. let&#39;s raise.</span>
+<span class="g g-Whitespace">    </span><span class="mi">201</span>     <span class="n">missing</span> <span class="o">=</span> <span class="s1">&#39;raise&#39;</span>
+<span class="ne">--&gt; </span><span class="mi">203</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">handle_formula_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">eval_env</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span>                           <span class="n">missing</span><span class="o">=</span><span class="n">missing</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="p">((</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">),</span> <span class="n">missing_idx</span><span class="p">,</span> <span class="n">design_info</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span>
+<span class="g g-Whitespace">    </span><span class="mi">206</span> <span class="n">max_endog</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_formula_max_endog</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/statsmodels/formula/formulatools.py:63,</span> in <span class="ni">handle_formula_data</span><span class="nt">(Y, X, formula, depth, missing)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="k">if</span> <span class="n">data_util</span><span class="o">.</span><span class="n">_is_using_pandas</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">63</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">dmatrices</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span>                            <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">66</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">dmatrices</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>                            <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:309,</span> in <span class="ni">dmatrices</span><span class="nt">(formula_like, data, eval_env, NA_action, return_type)</span>
+<span class="g g-Whitespace">    </span><span class="mi">299</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Construct two design matrices given a formula_like and data.</span>
+<span class="g g-Whitespace">    </span><span class="mi">300</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">301</span><span class="sd"> This function is identical to :func:`dmatrix`, except that it requires</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">306</span><span class="sd"> See :func:`dmatrix` for details.</span>
+<span class="g g-Whitespace">    </span><span class="mi">307</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">308</span> <span class="n">eval_env</span> <span class="o">=</span> <span class="n">EvalEnvironment</span><span class="o">.</span><span class="n">capture</span><span class="p">(</span><span class="n">eval_env</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">309</span> <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span> <span class="o">=</span> <span class="n">_do_highlevel_design</span><span class="p">(</span><span class="n">formula_like</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">eval_env</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">310</span>                                   <span class="n">NA_action</span><span class="p">,</span> <span class="n">return_type</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">311</span> <span class="k">if</span> <span class="n">lhs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">312</span>     <span class="k">raise</span> <span class="n">PatsyError</span><span class="p">(</span><span class="s2">&quot;model is missing required outcome variables&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:164,</span> in <span class="ni">_do_highlevel_design</span><span class="nt">(formula_like, data, eval_env, NA_action, return_type)</span>
+<span class="g g-Whitespace">    </span><span class="mi">162</span> <span class="k">def</span> <span class="nf">data_iter_maker</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">163</span>     <span class="k">return</span> <span class="nb">iter</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
+<span class="ne">--&gt; </span><span class="mi">164</span> <span class="n">design_infos</span> <span class="o">=</span> <span class="n">_try_incr_builders</span><span class="p">(</span><span class="n">formula_like</span><span class="p">,</span> <span class="n">data_iter_maker</span><span class="p">,</span> <span class="n">eval_env</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">165</span>                                   <span class="n">NA_action</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span> <span class="k">if</span> <span class="n">design_infos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">167</span>     <span class="k">return</span> <span class="n">build_design_matrices</span><span class="p">(</span><span class="n">design_infos</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span>                                  <span class="n">NA_action</span><span class="o">=</span><span class="n">NA_action</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>                                  <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/highlevel.py:66,</span> in <span class="ni">_try_incr_builders</span><span class="nt">(formula_like, data_iter_maker, eval_env, NA_action)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">formula_like</span><span class="p">,</span> <span class="n">ModelDesc</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span>     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eval_env</span><span class="p">,</span> <span class="n">EvalEnvironment</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">66</span>     <span class="k">return</span> <span class="n">design_matrix_builders</span><span class="p">([</span><span class="n">formula_like</span><span class="o">.</span><span class="n">lhs_termlist</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>                                    <span class="n">formula_like</span><span class="o">.</span><span class="n">rhs_termlist</span><span class="p">],</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span>                                   <span class="n">data_iter_maker</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span>                                   <span class="n">eval_env</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">70</span>                                   <span class="n">NA_action</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="k">return</span> <span class="kc">None</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/build.py:693,</span> in <span class="ni">design_matrix_builders</span><span class="nt">(termlists, data_iter_maker, eval_env, NA_action)</span>
+<span class="g g-Whitespace">    </span><span class="mi">689</span> <span class="n">factor_states</span> <span class="o">=</span> <span class="n">_factors_memorize</span><span class="p">(</span><span class="n">all_factors</span><span class="p">,</span> <span class="n">data_iter_maker</span><span class="p">,</span> <span class="n">eval_env</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">690</span> <span class="c1"># Now all the factors have working eval methods, so we can evaluate them</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span> <span class="c1"># on some data to find out what type of data they return.</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span> <span class="p">(</span><span class="n">num_column_counts</span><span class="p">,</span>
+<span class="ne">--&gt; </span><span class="mi">693</span>  <span class="n">cat_levels_contrasts</span><span class="p">)</span> <span class="o">=</span> <span class="n">_examine_factor_types</span><span class="p">(</span><span class="n">all_factors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">694</span>                                                <span class="n">factor_states</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>                                                <span class="n">data_iter_maker</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>                                                <span class="n">NA_action</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span> <span class="c1"># Now we need the factor infos, which encapsulate the knowledge of</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span> <span class="c1"># how to turn any given factor into a chunk of data:</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span> <span class="n">factor_infos</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/build.py:443,</span> in <span class="ni">_examine_factor_types</span><span class="nt">(factors, factor_states, data_iter_maker, NA_action)</span>
+<span class="g g-Whitespace">    </span><span class="mi">441</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_iter_maker</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">442</span>     <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">examine_needed</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">443</span>         <span class="n">value</span> <span class="o">=</span> <span class="n">factor</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">factor_states</span><span class="p">[</span><span class="n">factor</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span>         <span class="k">if</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">cat_sniffers</span> <span class="ow">or</span> <span class="n">guess_categorical</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span>             <span class="k">if</span> <span class="n">factor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cat_sniffers</span><span class="p">:</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:568,</span> in <span class="ni">EvalFactor.eval</span><span class="nt">(self, memorize_state, data)</span>
+<span class="g g-Whitespace">    </span><span class="mi">567</span> <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memorize_state</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">568</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="n">memorize_state</span><span class="p">[</span><span class="s2">&quot;eval_code&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">569</span>                       <span class="n">memorize_state</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">570</span>                       <span class="n">data</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/eval.py:551,</span> in <span class="ni">EvalFactor._eval</span><span class="nt">(self, code, memorize_state, data)</span>
+<span class="g g-Whitespace">    </span><span class="mi">549</span> <span class="k">def</span> <span class="nf">_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">memorize_state</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">550</span>     <span class="n">inner_namespace</span> <span class="o">=</span> <span class="n">VarLookupDict</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">memorize_state</span><span class="p">[</span><span class="s2">&quot;transforms&quot;</span><span class="p">]])</span>
+<span class="ne">--&gt; </span><span class="mi">551</span>     <span class="k">return</span> <span class="n">call_and_wrap_exc</span><span class="p">(</span><span class="s2">&quot;Error evaluating factor&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">552</span>                              <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">553</span>                              <span class="n">memorize_state</span><span class="p">[</span><span class="s2">&quot;eval_env&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">eval</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">554</span>                              <span class="n">code</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">555</span>                              <span class="n">inner_namespace</span><span class="o">=</span><span class="n">inner_namespace</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/patsy/compat.py:43,</span> in <span class="ni">call_and_wrap_exc</span><span class="nt">(msg, origin, f, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="n">new_exc</span> <span class="o">=</span> <span class="n">PatsyError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>                          <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span>                          <span class="n">origin</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span>     <span class="c1"># Use &#39;exec&#39; to hide this syntax from the Python 2 parser:</span>
+<span class="ne">---&gt; </span><span class="mi">43</span>     <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;raise new_exc from e&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span>     <span class="c1"># In python 2, we just let the original exception escape -- better</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span>     <span class="c1"># than destroying the traceback. But if it&#39;s a PatsyError, we can</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span>     <span class="c1"># at least set the origin properly.</span>
+<span class="g g-Whitespace">     </span><span class="mi">48</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">PatsyError</span><span class="p">):</span>
+
+<span class="n">File</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">1</span>
+
+<span class="ne">PatsyError</span>: Error evaluating factor: TypeError: &#39;Series&#39; object is not callable
+    <span class="n">grade</span> <span class="o">~</span> <span class="n">C</span><span class="p">(</span><span class="n">attend</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">(</span><span class="n">reading</span><span class="p">(</span><span class="n">reference</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span><span class="p">))</span>
+                        <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rtfm1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grade</th>
+      <th>attend</th>
+      <th>reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>90</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>87</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>75</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>35</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>65</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>70</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rtfm3</span> <span class="o">=</span> <span class="n">rtfm1</span>
+<span class="n">rtfm3</span><span class="p">[</span><span class="s1">&#39;attend&#39;</span><span class="p">]</span> <span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">rtfm3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>grade</th>
+      <th>attend</th>
+      <th>reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>90</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>87</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>75</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>35</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>65</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>70</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">model</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;grade ~ attend + reading&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rtfm3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="ne">NameError</span>: name &#39;ols&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-to-encode-non-binary-factors-as-contrasts">
+<span id="encodingnonbinary"></span><h3><span class="section-number">17.5.4. </span>How to encode non binary factors as contrasts<a class="headerlink" href="#how-to-encode-non-binary-factors-as-contrasts" title="Permalink to this heading">#</a></h3>
+<p>At this point, I’ve shown you how we can view a <span class="math notranslate nohighlight">\(2\times 2\)</span> ANOVA into a linear model. And it’s pretty easy to see how this generalises to a <span class="math notranslate nohighlight">\(2 \times 2 \times 2\)</span> ANOVA or a <span class="math notranslate nohighlight">\(2 \times 2 \times 2 \times 2\)</span> ANOVA… it’s the same thing, really: you just add a new binary variable for each of your factors. Where it begins to get trickier is when we consider factors that have more than two levels. Consider, for instance, the <span class="math notranslate nohighlight">\(3 \times 2\)</span> ANOVA that we ran earlier in this chapter using the <code class="docutils literal notranslate"><span class="pre">clin.trial</span></code> data. How can we convert the three-level <code class="docutils literal notranslate"><span class="pre">drug</span></code> factor into a numerical form that is appropriate for a regression?</p>
+<p>The answer to this question is pretty simple, actually. All we have to do is realise that a three-level factor can be redescribed as <em>two</em> binary variables. Suppose, for instance, I were to create a new binary variable called <code class="docutils literal notranslate"><span class="pre">druganxifree</span></code>. Whenever the <code class="docutils literal notranslate"><span class="pre">drug</span></code> variable is equal to <code class="docutils literal notranslate"><span class="pre">&quot;anxifree&quot;</span></code> we set <code class="docutils literal notranslate"><span class="pre">druganxifree</span> <span class="pre">=</span> <span class="pre">1</span></code>. Otherwise, we set <code class="docutils literal notranslate"><span class="pre">druganxifree</span> <span class="pre">=</span> <span class="pre">0</span></code>. This variable sets up a <strong><em>contrast</em></strong>, in this case between anxifree and the other two drugs. By itself, of course, the <code class="docutils literal notranslate"><span class="pre">druganxifree</span></code> contrast isn’t enough to fully capture all of the information in our <code class="docutils literal notranslate"><span class="pre">drug</span></code> variable. We need a second contrast, one that allows us to distinguish between joyzepam and the placebo. To do this, we can create a second binary contrast, called <code class="docutils literal notranslate"><span class="pre">drugjoyzepam</span></code>, which equals 1 if the drug is joyzepam, and 0 if it is not. Taken together, these two contrasts allows us to perfectly discriminate between all three possible drugs. The table below illustrates this:</p>
 </section>
 <section id="the-equivalence-between-anova-and-regression-for-non-binary-factors">
-<h3><span class="section-number">17.5.4. </span>The equivalence between ANOVA and regression for non-binary factors<a class="headerlink" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.5. </span>The equivalence between ANOVA and regression for non-binary factors<a class="headerlink" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="degrees-of-freedom-as-parameter-counting">
-<h3><span class="section-number">17.5.5. </span>Degrees of freedom as parameter counting!<a class="headerlink" href="#degrees-of-freedom-as-parameter-counting" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.6. </span>Degrees of freedom as parameter counting!<a class="headerlink" href="#degrees-of-freedom-as-parameter-counting" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="a-postscript">
-<h3><span class="section-number">17.5.6. </span>A postscript<a class="headerlink" href="#a-postscript" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">17.5.7. </span>A postscript<a class="headerlink" href="#a-postscript" title="Permalink to this heading">#</a></h3>
 </section>
 </section>
 <section id="different-ways-to-specify-contrasts">
@@ -2786,9 +3177,10 @@ Y_{p} = b_1 X_{1p} + b_2 X_{2p} + b_0 + \epsilon_p
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-data">17.5.1. Some data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anova-with-binary-factors-as-a-regression-model">17.5.2. ANOVA with binary factors as a regression model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-baseline-category">17.5.3. Changing the baseline category</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.4. The equivalence between ANOVA and regression for non-binary factors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.5. Degrees of freedom as parameter counting!</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.6. A postscript</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-encode-non-binary-factors-as-contrasts">17.5.4. How to encode non binary factors as contrasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equivalence-between-anova-and-regression-for-non-binary-factors">17.5.5. The equivalence between ANOVA and regression for non-binary factors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#degrees-of-freedom-as-parameter-counting">17.5.6. Degrees of freedom as parameter counting!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-postscript">17.5.7. A postscript</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-ways-to-specify-contrasts">17.6. Different ways to specify contrasts</a><ul class="nav section-nav flex-column">
