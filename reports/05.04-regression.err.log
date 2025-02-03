@@ -4,7 +4,7 @@ Traceback (most recent call last):
   File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+  File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 173, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/Users/ethan/opt/miniconda3/envs/pythonbook3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
@@ -18,27 +18,28 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-M0 = smf.ols('dan_grump ~ dan_sleep + day', data=df)
-M1 = smf.ols('dan_grump ~ dan_sleep + day + baby_sleep', data=df)
+mod_full = smf.ols('dan_grump ~ dan_sleep + day', data=df)
+mod_no_day = smf.ols('dan_grump ~ dan_sleep', data=df)
+mod_no_dan = smf.ols('dan_grump ~ day', data=df)
 
-models = [M0, M1]
-names = ['M0', 'M1']
+models = [mod_full, mod_no_day, mod_no_dan]
+names = ['Full Model', 'No Day', 'No Dan']
 
-ics = []
+aics = []
 for n, model in enumerate(models):
-    ics.append(get_aic_bic(names[n], model))
+    aics.append(get_aic(names[n], model))
 
-ics
+aics
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[65], line 9[0m
-[1;32m      7[0m ics [38;5;241m=[39m []
-[1;32m      8[0m [38;5;28;01mfor[39;00m n, model [38;5;129;01min[39;00m [38;5;28menumerate[39m(models):
-[0;32m----> 9[0m     ics[38;5;241m.[39mappend([43mget_aic_bic[49m(names[n], model))
-[1;32m     11[0m ics
+Cell [0;32mIn[63], line 10[0m
+[1;32m      8[0m aics [38;5;241m=[39m []
+[1;32m      9[0m [38;5;28;01mfor[39;00m n, model [38;5;129;01min[39;00m [38;5;28menumerate[39m(models):
+[0;32m---> 10[0m     aics[38;5;241m.[39mappend(get_aic(names[n], model))
+[1;32m     12[0m aics
 
-[0;31mNameError[0m: name 'get_aic_bic' is not defined
+[0;31mNameError[0m: name 'get_aic' is not defined
 

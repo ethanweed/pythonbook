@@ -897,7 +897,7 @@ Y_i = b_2 X_{i2} + b_1 X_{i1} + b_0 + \epsilon_i
 <p>Doing mulitiple linear regression in <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> is just as easy as adding some more predictor variables, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;dan_sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;baby_sleep&#39;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dan_grump&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1084,12 +1084,12 @@ Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 <p>Once again, let’s wrap a little bit of mathematics around this. First, we’ve got the sum of the squared residuals:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_{res} = \sum_i (Y_i - \hat{Y}_i)^2
+\text{SS}_{res} = \sum_i (Y_i - \hat{Y}_i)^2
 \]</div>
 <p>which we would hope to be pretty small. Specifically, what we’d like is for it to be very small in comparison to the total variability in the outcome variable,</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_{tot} = \sum_i (Y_i - \bar{Y})^2
+\text{SS}_{tot} = \sum_i (Y_i - \bar{Y})^2
 \]</div>
 <p>While we’re here, let’s calculate these values in Python. Just to make my Python commands look a bit more similar to the mathematical equations, I’ll create variables <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code>:</p>
 <div class="cell docutils container">
@@ -1205,10 +1205,10 @@ Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 </div>
 </div>
 <p>Hm. Well, it’s a much bigger number than the last one, so this does suggest that our regression model was making good predictions. But it’s not very interpretable.</p>
-<p>Perhaps we can fix this. What we’d like to do is to convert these two fairly meaningless numbers into one number. A nice, interpretable number, which for no particular reason we’ll call <span class="math notranslate nohighlight">\(R^2\)</span>. What we would like is for the value of <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 1 if the regression model makes no errors in predicting the data. In other words, if it turns out that the residual errors are zero, that is, if <span class="math notranslate nohighlight">\(\mbox{SS}_{res} = 0\)</span>, then we expect <span class="math notranslate nohighlight">\(R^2 = 1\)</span>. Similarly, if the model is completely useless, we would like <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 0. What do I mean by “useless”? Tempting as it is demand that the regression model move out of the house, cut its hair and get a real job, I’m probably going to have to pick a more practical definition: in this case, all I mean is that the residual sum of squares is no smaller than the total sum of squares, <span class="math notranslate nohighlight">\(\mbox{SS}_{res} = \mbox{SS}_{tot}\)</span>. Wait, why don’t we do exactly that? In fact, the formula that provides us with our <span class="math notranslate nohighlight">\(R^2\)</span> value is pretty simple to write down,</p>
+<p>Perhaps we can fix this. What we’d like to do is to convert these two fairly meaningless numbers into one number. A nice, interpretable number, which for no particular reason we’ll call <span class="math notranslate nohighlight">\(R^2\)</span>. What we would like is for the value of <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 1 if the regression model makes no errors in predicting the data. In other words, if it turns out that the residual errors are zero, that is, if <span class="math notranslate nohighlight">\(\text{SS}_{res} = 0\)</span>, then we expect <span class="math notranslate nohighlight">\(R^2 = 1\)</span>. Similarly, if the model is completely useless, we would like <span class="math notranslate nohighlight">\(R^2\)</span> to be equal to 0. What do I mean by “useless”? Tempting as it is demand that the regression model move out of the house, cut its hair and get a real job, I’m probably going to have to pick a more practical definition: in this case, all I mean is that the residual sum of squares is no smaller than the total sum of squares, <span class="math notranslate nohighlight">\(\text{SS}_{res} = \text{SS}_{tot}\)</span>. Wait, why don’t we do exactly that? In fact, the formula that provides us with our <span class="math notranslate nohighlight">\(R^2\)</span> value is pretty simple to write down,</p>
 <div class="math notranslate nohighlight">
 \[
-R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
+R^2 = 1 - \frac{\text{SS}_{res}}{\text{SS}_{tot}}
 \]</div>
 <p>and equally simple to calculate in Python:</p>
 <div class="cell docutils container">
@@ -1250,7 +1250,7 @@ R^2 = 1 - \frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}}
 <p>One final thing to point out before moving on. It’s quite common for people to report a slightly different measure of model performance, known as “adjusted <span class="math notranslate nohighlight">\(R^2\)</span>”. The motivation behind calculating the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value is the observation that adding more predictors into the model will <em>always</em> cause the <span class="math notranslate nohighlight">\(R^2\)</span> value to increase (or at least not decrease). The adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value introduces a slight change to the calculation, as follows. For a regression model with <span class="math notranslate nohighlight">\(K\)</span> predictors, fit to a data set containing <span class="math notranslate nohighlight">\(N\)</span> observations, the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> is:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{adj. } R^2 = 1 - \left(\frac{\mbox{SS}_{res}}{\mbox{SS}_{tot}} \times \frac{N-1}{N-K-1} \right)
+\text{adj. } R^2 = 1 - \left(\frac{\text{SS}_{res}}{\text{SS}_{tot}} \times \frac{N-1}{N-K-1} \right)
 \]</div>
 <p>This adjustment is an attempt to take the degrees of freedom into account. The big advantage of the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value is that when you add more predictors to the model, the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value will only increase if the new variables improve the model performance more than you’d expect by chance. The big disadvantage is that the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> value <em>can’t</em> be interpreted in the elegant way that <span class="math notranslate nohighlight">\(R^2\)</span> can. <span class="math notranslate nohighlight">\(R^2\)</span> has a simple interpretation as the proportion of variance in the outcome variable that is explained by the regression model; to my knowledge, no equivalent interpretation exists for adjusted <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
 <p>An obvious question then, is whether you should report <span class="math notranslate nohighlight">\(R^2\)</span> or adjusted <span class="math notranslate nohighlight">\(R^2\)</span>. This is probably a matter of personal preference. If you care more about interpretability, then <span class="math notranslate nohighlight">\(R^2\)</span> is better. If you care more about correcting for bias, then adjusted <span class="math notranslate nohighlight">\(R^2\)</span> is probably better. Speaking just for myself, I prefer <span class="math notranslate nohighlight">\(R^2\)</span>: my feeling is that it’s more important to be able to interpret your measure of model performance. Besides, as we’ll soon see in the upcoming section on hypothesis tests for regression models, which I am going to link to even though it is <a class="reference internal" href="#regressiontests"><span class="std std-ref">literally the next section in this book</span></a>, if you’re worried that the improvement in <span class="math notranslate nohighlight">\(R^2\)</span> that you get by adding a predictor is just due to chance and not because it’s a better model, well, we’ve got hypothesis tests for that.</p>
@@ -1272,24 +1272,24 @@ H_0: Y_i = b_0 + \epsilon_i
 \[
 H_1: Y_i = \left( \sum_{k=1}^K b_{k} X_{ik} \right) + b_0 + \epsilon_i
 \]</div>
-<p>How can we test these two hypotheses against each other? The trick is to understand that just like we did with ANOVA, it’s possible to divide up the total variance <span class="math notranslate nohighlight">\(\mbox{SS}_{tot}\)</span> into the sum of the residual variance <span class="math notranslate nohighlight">\(\mbox{SS}_{res}\)</span> and the regression model variance <span class="math notranslate nohighlight">\(\mbox{SS}_{mod}\)</span>. I’ll skip over the technicalities, since we covered most of them in the <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ANOVA chapter</span></a>, and just note that:</p>
+<p>How can we test these two hypotheses against each other? The trick is to understand that just like we did with ANOVA, it’s possible to divide up the total variance <span class="math notranslate nohighlight">\(\text{SS}_{tot}\)</span> into the sum of the residual variance <span class="math notranslate nohighlight">\(\text{SS}_{res}\)</span> and the regression model variance <span class="math notranslate nohighlight">\(\text{SS}_{mod}\)</span>. I’ll skip over the technicalities, since we covered most of them in the <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">ANOVA chapter</span></a>, and just note that:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_{mod} = \mbox{SS}_{tot} - \mbox{SS}_{res}
+\text{SS}_{mod} = \text{SS}_{tot} - \text{SS}_{res}
 \]</div>
 <p>And, just like we did with the ANOVA, we can convert the sums of squares into mean squares by dividing by the degrees of freedom.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{array}{rcl}
-\mbox{MS}_{mod} &amp;=&amp; \displaystyle\frac{\mbox{SS}_{mod} }{df_{mod}} \\ \\
-\mbox{MS}_{res} &amp;=&amp; \displaystyle\frac{\mbox{SS}_{res} }{df_{res} }
+\text{MS}_{mod} &amp;=&amp; \displaystyle\frac{\text{SS}_{mod} }{df_{mod}} \\ \\
+\text{MS}_{res} &amp;=&amp; \displaystyle\frac{\text{SS}_{res} }{df_{res} }
 \end{array}
 \end{split}\]</div>
 <p>So, how many degrees of freedom do we have? As you might expect, the <span class="math notranslate nohighlight">\(df\)</span> associated with the model is closely tied to the number of predictors that we’ve included. In fact, it turns out that <span class="math notranslate nohighlight">\(df_{mod} = K\)</span>. For the residuals, the total degrees of freedom is <span class="math notranslate nohighlight">\(df_{res} = N -K - 1\)</span>.</p>
 <p>Now that we’ve got our mean square values, you’re probably going to be entirely unsurprised (possibly even bored) to discover that we can calculate an <span class="math notranslate nohighlight">\(F\)</span>-statistic like this:</p>
 <div class="math notranslate nohighlight">
 \[
-F =  \frac{\mbox{MS}_{mod}}{\mbox{MS}_{res}}
+F =  \frac{\text{MS}_{mod}}{\text{MS}_{res}}
 \]</div>
 <p>and the degrees of freedom associated with this are <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(N-K-1\)</span>. This <span class="math notranslate nohighlight">\(F\)</span> statistic has exactly the same interpretation as the one we introduced <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">when learning about ANOVAs</span></a>. Large <span class="math notranslate nohighlight">\(F\)</span> values indicate that the null hypothesis is performing poorly in comparison to the alternative hypothesis.</p>
 <p>“Ok, this is fine”, I hear you say, “but now show me the easy way! Show me how easy it is to get an <span class="math notranslate nohighlight">\(F\)</span> statistic from <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>! <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> makes everything so much easier! Surely <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> does this for me as well?”</p>
@@ -1478,12 +1478,12 @@ H_0: &amp; b = 0 \\
 H_1: &amp; b \neq 0 
 \end{array}
 \end{split}\]</div>
-<p>How can we test this? Well, if the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">central limit theorem</span></a> is kind to us, we might be able to guess that the sampling distribution of <span class="math notranslate nohighlight">\(\hat{b}\)</span>, the estimated regression coefficient, is a normal distribution with mean centred on <span class="math notranslate nohighlight">\(b\)</span>. What that would mean is that if the null hypothesis were true, then the sampling distribution of <span class="math notranslate nohighlight">\(\hat{b}\)</span> has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">standard error</span></a> of the regression coefficient, <span class="math notranslate nohighlight">\(\mbox{SE}({\hat{b}})\)</span>, then we’re in luck. That’s <em>exactly</em> the situation for which we introduced the one-sample <span class="math notranslate nohighlight">\(t\)</span> way back in <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">the chapter on t-tests</span></a>. So let’s define a <span class="math notranslate nohighlight">\(t\)</span>-statistic like this,</p>
+<p>How can we test this? Well, if the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">central limit theorem</span></a> is kind to us, we might be able to guess that the sampling distribution of <span class="math notranslate nohighlight">\(\hat{b}\)</span>, the estimated regression coefficient, is a normal distribution with mean centred on <span class="math notranslate nohighlight">\(b\)</span>. What that would mean is that if the null hypothesis were true, then the sampling distribution of <span class="math notranslate nohighlight">\(\hat{b}\)</span> has mean zero and unknown standard deviation. Assuming that we can come up with a good estimate for the <a class="reference internal" href="04.03-estimation.html#clt"><span class="std std-ref">standard error</span></a> of the regression coefficient, <span class="math notranslate nohighlight">\(\text{SE}({\hat{b}})\)</span>, then we’re in luck. That’s <em>exactly</em> the situation for which we introduced the one-sample <span class="math notranslate nohighlight">\(t\)</span> way back in <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">the chapter on t-tests</span></a>. So let’s define a <span class="math notranslate nohighlight">\(t\)</span>-statistic like this,</p>
 <div class="math notranslate nohighlight">
 \[
-t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
+t = \frac{\hat{b}}{\text{SE}({\hat{b})}}
 \]</div>
-<p>I’ll skip over the reasons why, but our degrees of freedom in this case are <span class="math notranslate nohighlight">\(df = N- K- 1\)</span>. Irritatingly, the estimate of the standard error of the regression coefficient, <span class="math notranslate nohighlight">\(\mbox{SE}({\hat{b}})\)</span>, is not as easy to calculate as the standard error of the mean that we used for the simpler <span class="math notranslate nohighlight">\(t\)</span>-tests <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">earlier</span></a>. In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it’s sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly).</p>
+<p>I’ll skip over the reasons why, but our degrees of freedom in this case are <span class="math notranslate nohighlight">\(df = N- K- 1\)</span>. Irritatingly, the estimate of the standard error of the regression coefficient, <span class="math notranslate nohighlight">\(\text{SE}({\hat{b}})\)</span>, is not as easy to calculate as the standard error of the mean that we used for the simpler <span class="math notranslate nohighlight">\(t\)</span>-tests <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">earlier</span></a>. In fact, the formula is somewhat ugly, and not terribly helpful to look at. For our purposes it’s sufficient to point out that the standard error of the  estimated regression coefficient depends on both the predictor and outcome variables, and is somewhat sensitive to violations of the homogeneity of variance assumption (discussed shortly).</p>
 <p>In any case, this <span class="math notranslate nohighlight">\(t\)</span>-statistic can be interpreted in the same way as the <span class="math notranslate nohighlight">\(t\)</span>-statistics that we discussed <a class="reference internal" href="05.02-ttest.html#ttest"><span class="std std-ref">earlier</span></a>. Assuming that you have a two-sided alternative (i.e., you don’t really care if <span class="math notranslate nohighlight">\(b &gt;0\)</span> or <span class="math notranslate nohighlight">\(b &lt; 0\)</span>), then it’s the extreme values of <span class="math notranslate nohighlight">\(t\)</span> (i.e., a lot less than zero or a lot greater than zero) that suggest that you should reject the null hypothesis.</p>
 <p>Now we are in a position to understand all the values in the multiple regression table provided by <code class="docutils literal notranslate"><span class="pre">pingouin</span></code>:</p>
 <div class="cell docutils container">
@@ -1563,7 +1563,7 @@ t = \frac{\hat{b}}{\mbox{SE}({\hat{b})}}
 </table>
 </div></div></div>
 </div>
-<p>Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The <code class="docutils literal notranslate"><span class="pre">coef</span></code> column is the actual estimate of <span class="math notranslate nohighlight">\(b\)</span> (e.g., 125.96 for the intercept, -8.9 for the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> predictor, and 0.01 for the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor). The <code class="docutils literal notranslate"><span class="pre">se</span></code> column is the standard error estimate <span class="math notranslate nohighlight">\(\hat\sigma_b\)</span>. The <code class="docutils literal notranslate"><span class="pre">T</span></code> column gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, and it’s worth noticing that in this table <span class="math notranslate nohighlight">\(t= \hat{b}/\mbox{SE}({\hat{b}})\)</span> every time. The <code class="docutils literal notranslate"><span class="pre">pval</span></code> column gives you the actual <span class="math notranslate nohighlight">\(p\)</span> value for each of these tests.<a class="footnote-reference brackets" href="#notecorrection" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a> The <code class="docutils literal notranslate"><span class="pre">r2</span></code>and àdj_r2` columns give the <span class="math notranslate nohighlight">\(R^2\)</span> value and the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> for the model, and the last two columns give us the upper and lower <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> bounds for each estimate.</p>
+<p>Each row in this table refers to one of the coefficients in the regression model. The first row is the intercept term, and the later ones look at each of the predictors. The columns give you all of the relevant information. The <code class="docutils literal notranslate"><span class="pre">coef</span></code> column is the actual estimate of <span class="math notranslate nohighlight">\(b\)</span> (e.g., 125.96 for the intercept, -8.9 for the <code class="docutils literal notranslate"><span class="pre">dan_sleep</span></code> predictor, and 0.01 for the <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> predictor). The <code class="docutils literal notranslate"><span class="pre">se</span></code> column is the standard error estimate <span class="math notranslate nohighlight">\(\hat\sigma_b\)</span>. The <code class="docutils literal notranslate"><span class="pre">T</span></code> column gives you the <span class="math notranslate nohighlight">\(t\)</span>-statistic, and it’s worth noticing that in this table <span class="math notranslate nohighlight">\(t= \hat{b}/\text{SE}({\hat{b}})\)</span> every time. The <code class="docutils literal notranslate"><span class="pre">pval</span></code> column gives you the actual <span class="math notranslate nohighlight">\(p\)</span> value for each of these tests.<a class="footnote-reference brackets" href="#notecorrection" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a> The <code class="docutils literal notranslate"><span class="pre">r2</span></code>and àdj_r2` columns give the <span class="math notranslate nohighlight">\(R^2\)</span> value and the adjusted <span class="math notranslate nohighlight">\(R^2\)</span> for the model, and the last two columns give us the upper and lower <a class="reference internal" href="04.03-estimation.html#ci"><span class="std std-ref">confidence interval</span></a> bounds for each estimate.</p>
 <p>If we add our <a class="reference internal" href="#ftestfunction"><span class="std std-ref">F-test results</span></a> to the mix:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3179,10 +3179,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   215.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
+  <th>Date:</th>             <td>Mon, 03 Feb 2025</td> <th>  Prob (F-statistic):</th> <td>2.15e-36</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:31:51</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:57:23</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3247,10 +3247,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   201.7</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
+  <th>Date:</th>             <td>Mon, 03 Feb 2025</td> <th>  Prob (F-statistic):</th> <td>2.78e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:31:51</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
+  <th>Time:</th>                 <td>14:57:23</td>     <th>  Log-Likelihood:    </th> <td> -287.48</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   581.0</td>
@@ -3301,7 +3301,7 @@ p: 0.7832200556890354
 <p>The last kind of regression diagnostic that I’m going to discuss in this chapter is the use of <strong><em>variance inflation factors</em></strong> (VIFs), which are useful for determining whether or not the predictors in your regression model are too highly correlated with each other. There is a variance inflation factor associated with each predictor <span class="math notranslate nohighlight">\(X_k\)</span> in the model, and the formula for the <span class="math notranslate nohighlight">\(k\)</span>-th VIF is:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{VIF}_k = \frac{1}{1-{R^2_{(-k)}}}
+\text{VIF}_k = \frac{1}{1-{R^2_{(-k)}}}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(R^2_{(-k)}\)</span> refers to <span class="math notranslate nohighlight">\(R\)</span>-squared value you would get if you ran a regression using <span class="math notranslate nohighlight">\(X_k\)</span> as the outcome variable, and all the other <span class="math notranslate nohighlight">\(X\)</span> variables as the predictors. The idea here is that <span class="math notranslate nohighlight">\(R^2_{(-k)}\)</span> is a very good measure of the extent to which <span class="math notranslate nohighlight">\(X_k\)</span> is correlated with all the other variables in the model. Better yet, the square root of the VIF is pretty interpretable: it tells you how much wider the confidence interval for the corresponding coefficient <span class="math notranslate nohighlight">\(b_k\)</span> is, relative to what you would have expected if the predictors are all nice and uncorrelated with one another. If you’ve only got two predictors, the VIF values are always going to be the same, as we can see if we use the <code class="docutils literal notranslate"><span class="pre">variance_inflation_factor</span></code> function from <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>.</p>
 <p>First, we need a dataframe with our predictor variables as columns, plus a column with a constant value representing the model intercept:</p>
@@ -3681,7 +3681,7 @@ p: 0.7832200556890354
 <p>In any case, what we need is an actual mathematical criterion that will implement the qualitative principle behind Ockham’s razor in the context of selecting a regression model. As it turns out there are several possibilities. The one that I’ll talk about is the <strong><em>Akaike information criterion</em></strong> <span id="id15">[<a class="reference internal" href="bibliography.html#id43" title="H. Akaike. A new look at the statistical model identification. IEEE Transactions on Automatic Control, 19:716–723, 1974.">Akaike, 1974</a>]</span> simply because it’s a common one, and because <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> will calculate it for you automatically when you run a linear regression There are many others, including BIC (Bayesian Information Criterion), which <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> also gives you for free. In the context of a linear regression model (and ignoring terms that don’t depend on the model in any way!), the AIC for a model that has <span class="math notranslate nohighlight">\(K\)</span> predictor variables plus an intercept is:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{AIC} = \displaystyle\frac{\mbox{SS}_{res}}{\hat{\sigma}}^2+ 2K
+\text{AIC} = \displaystyle\frac{\text{SS}_{res}}{\hat{\sigma}}^2+ 2K
 \]</div>
 <p>The smaller the AIC value, the better the model performance is.<a class="footnote-reference brackets" href="#aic-calc" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a> If we ignore the low level details, it’s fairly obvious what the AIC does: on the left we have a term that increases as the model predictions get worse; on the right we have a term that increases as the model complexity increases. The best model is the one that fits the data well (low residuals; left hand side) using as few predictors as possible (low <span class="math notranslate nohighlight">\(K\)</span>; right hand side). In short, this is a simple implementation of Ockham’s razor.</p>
 <section id="backward-elimination">
@@ -3714,10 +3714,10 @@ p: 0.7832200556890354
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   142.2</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 02 May 2024</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
+  <th>Date:</th>             <td>Mon, 03 Feb 2025</td> <th>  Prob (F-statistic):</th> <td>3.42e-35</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:31:51</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
+  <th>Time:</th>                 <td>14:57:23</td>     <th>  Log-Likelihood:    </th> <td> -287.43</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   582.9</td>
@@ -3764,28 +3764,15 @@ p: 0.7832200556890354
 </tr>
 </table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
 </div>
-<p>This is great, but we will be doing this several times, and this is quite a lot of information to wade through just to get AIC value. So to reduce the output, we could write a function, like the one below, to return <em>only</em> the AIC value.</p>
+<p>This is great, but we will be doing this several times, and this is quite a lot of information to wade through just to get AIC value. Luckily, we can also ask for <em>only</em> the AIC value, like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># function to return only the AIC calculation for a statsmodels linear model</span>
-<span class="k">def</span> <span class="nf">get_aic</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-    <span class="n">aic</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">as_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;AIC:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">model_name</span> <span class="o">+</span> <span class="s1">&#39; AIC: &#39;</span> <span class="o">+</span> <span class="n">aic</span>
-    <span class="k">return</span> <span class="n">output</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>The line in this function that defines the variable <code class="docutils literal notranslate"><span class="pre">aic</span></code> looks pretty hairly, but that is only because I have compressed it down to one line. If you break it down, and try running it bit by bit (adding the parts with a <code class="docutils literal notranslate"><span class="pre">.</span></code> in front of them and looking at the output), you will see that doesn’t really involve anything new (other than maybe the <code class="docutils literal notranslate"><span class="pre">strip()</span></code> function, which just removes unnecessary whitespace from the output)</p>
-<p>Now we just give the function a name for the model, and the model itself, and it tells us the AIC:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_aic</span><span class="p">(</span><span class="s1">&#39;full model&#39;</span><span class="p">,</span> <span class="n">mod_full</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">aic</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;full model AIC: 582.9&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>582.864617028592
 </pre></div>
 </div>
 </div>
@@ -3803,20 +3790,60 @@ p: 0.7832200556890354
 
 <span class="n">aics</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
-    <span class="n">aics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_aic</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">model</span><span class="p">))</span>
+    <span class="n">aics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">aic</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-<span class="n">aics</span>
+<span class="n">df_aics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s1">&#39;AIC&#39;</span><span class="p">:</span> <span class="n">aics</span><span class="p">})</span>
+<span class="n">df_aics</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Full Model AIC: 582.9&#39;,
- &#39;No Day AIC: 581.0&#39;,
- &#39;No Baby AIC: 580.9&#39;,
- &#39;No Dan AIC: 710.9&#39;]
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Model</th>
+      <th>AIC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Full Model</td>
+      <td>582.86</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>No Day</td>
+      <td>580.95</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>No Baby</td>
+      <td>580.87</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>No Dan</td>
+      <td>710.94</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Of these models, the one in which we removed <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code> as a predictor has the lowest AIC, so it seems like removing this predictor is probably a good idea. This shouldn’t be surprising, really, given all the other checks we have already done on these data. But let’s proceed. Now, we can do the same thing again, but comparing only models without <code class="docutils literal notranslate"><span class="pre">baby_sleep</span></code>:</p>
 <div class="cell docutils container">
@@ -3837,7 +3864,15 @@ p: 0.7832200556890354
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Full Model AIC: 580.9&#39;, &#39;No Day AIC: 579.0&#39;, &#39;No Dan AIC: 747.7&#39;]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">63</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">aics</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">aics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_aic</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">model</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">aics</span>
+
+<span class="ne">NameError</span>: name &#39;get_aic&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -3915,16 +3950,16 @@ p: 0.7832200556890354
 <p>A somewhat different approach to the problem comes out of the hypothesis testing framework. Suppose you have two regression models, where one of them (Model 0) contains a <em>subset</em> of the predictors from the other one (Model 1). That is, Model 1 contains all of the predictors included in Model 0, plus one or more additional predictors. When this happens we say that Model 0 is <strong><em>nested</em></strong> within Model 1, or possibly that Model 0 is a <strong><em>submodel</em></strong> of Model 1. Regardless of the terminology, what this means is that we can think of Model 0 as a null hypothesis and Model 1 as an alternative hypothesis. And in fact we can construct an <span class="math notranslate nohighlight">\(F\)</span> test for this in a fairly straightforward fashion. We can fit both models to the data and obtain a residual sum of squares for both models. I’ll denote these as SS<span class="math notranslate nohighlight">\(_{res}^{(0)}\)</span> and SS<span class="math notranslate nohighlight">\(_{res}^{(1)}\)</span> respectively. The superscripting here just indicates which model we’re talking about.  Then our <span class="math notranslate nohighlight">\(F\)</span> statistic is</p>
 <div class="math notranslate nohighlight">
 \[
-F = \frac{(\mbox{SS}_{res}^{(0)} - \mbox{SS}_{res}^{(1)})/k}{(\mbox{SS}_{res}^{(1)})/(N-p-1)}
+F = \frac{(\text{SS}_{res}^{(0)} - \text{SS}_{res}^{(1)})/k}{(\text{SS}_{res}^{(1)})/(N-p-1)}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of observations, <span class="math notranslate nohighlight">\(p\)</span> is the number of predictors in the full model (not including the intercept), and <span class="math notranslate nohighlight">\(k\)</span> is the difference in the number of parameters between the two models.^[It’s worth noting in passing that this same <span class="math notranslate nohighlight">\(F\)</span> statistic can be used to test a much broader range of hypotheses than those that I’m mentioning here. Very briefly: notice that the nested model M0 corresponds to the full model M1 when we constrain some of the regression coefficients to zero. It is sometimes useful to construct submodels by placing other kinds of constraints on the regression coefficients. For instance, maybe two different coefficients might have to sum to zero, or something like that. You can construct hypothesis tests for those kind of constraints too, but it is somewhat more complicated and the sampling distribution for <span class="math notranslate nohighlight">\(F\)</span> can end up being something known as the non-central <span class="math notranslate nohighlight">\(F\)</span> distribution, which is waaaaay beyond the scope of this book! All I want to do is alert you to this possibility.] The degrees of freedom here are <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(N-p-1\)</span>. Note that it’s often more convenient to think about the difference between those two SS values as a sum of squares in its own right. That is:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_\Delta = \mbox{SS}_{res}^{(0)} - \mbox{SS}_{res}^{(1)}
+\text{SS}_\Delta = \text{SS}_{res}^{(0)} - \text{SS}_{res}^{(1)}
 \]</div>
-<p>The reason why this his helpful is that we can express <span class="math notranslate nohighlight">\(\mbox{SS}_\Delta\)</span> a measure of the extent to which the two models make different predictions about the the outcome variable. Specifically:
+<p>The reason why this his helpful is that we can express <span class="math notranslate nohighlight">\(\text{SS}_\Delta\)</span> a measure of the extent to which the two models make different predictions about the the outcome variable. Specifically:
 $<span class="math notranslate nohighlight">\(
-\mbox{SS}_\Delta  = \sum_{i} \left( \hat{y}_i^{(1)} - \hat{y}_i^{(0)} \right)^2
+\text{SS}_\Delta  = \sum_{i} \left( \hat{y}_i^{(1)} - \hat{y}_i^{(0)} \right)^2
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>\hat{y}_i^{(0)}<span class="math notranslate nohighlight">\( is the fitted value for \)</span>y_i<span class="math notranslate nohighlight">\( according to model \)</span>M_0<span class="math notranslate nohighlight">\( and  \)</span>\hat{y}_i^{(1)}<span class="math notranslate nohighlight">\( is the is the fitted value for \)</span>y_i<span class="math notranslate nohighlight">\( according to model \)</span>M_1$.</p>
 <p>Okay, so that’s the hypothesis test that we use to compare two regression models to one another. Now, how do we do it in Python? As it turns out, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> has a function called <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code> that will do just this. All we have to do is fit the two models that we want to compare, and then plug them in the function (null model first):</p>
@@ -4054,7 +4089,7 @@ where \)</span>\hat{y}_i^{(0)}<span class="math notranslate nohighlight">\( is t
 </aside>
 <aside class="footnote brackets" id="sandwich" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">13</a><span class="fn-bracket">]</span></span>
-<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \mbox{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \mbox{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \mbox{diag}(\epsilon_i^2)\)</span> <span id="id18">[<a class="reference internal" href="bibliography.html#id48" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
+<p>Again, a footnote that should be read only by the two readers of this book that love linear algebra (mmmm… I love the smell of matrix computations in the morning; smells like… nerd). In these estimators, the covariance matrix for <span class="math notranslate nohighlight">\(b\)</span> is given by <span class="math notranslate nohighlight">\((X^T X)^{-1}\  X^T \Sigma X \ (X^T X)^{-1}\)</span>. See, it’s a “sandwich”? Assuming you think that  <span class="math notranslate nohighlight">\((X^T X)^{-1} = \text{&quot;bread&quot;}\)</span> and  <span class="math notranslate nohighlight">\(X^T \Sigma X = \text{&quot;filling&quot;}\)</span>, that is. Which of course everyone does, right? In any case, the usual estimator is what you get when you set <span class="math notranslate nohighlight">\(\Sigma = \hat\sigma^2 I\)</span>. But there are others. For instance, the corrected version that I learned originally uses <span class="math notranslate nohighlight">\(\Sigma = \text{diag}(\epsilon_i^2)\)</span> <span id="id18">[<a class="reference internal" href="bibliography.html#id48" title="H. White. A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity. Econometrika, 48:817-838, 1980.">White, 1980</a>]</span>. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> gives you a choice of four different sandwich estimators you can use, but not (at least that I can find today on June 21 2023) a lot of information on what they actually are, or references for where they come from, so if you <em>really</em> need this information, you’ll have to do your own digging. Sorry.</p>
 </aside>
 <aside class="footnote brackets" id="aic-calc" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">14</a><span class="fn-bracket">]</span></span>
