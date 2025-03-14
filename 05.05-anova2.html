@@ -1023,12 +1023,12 @@ F_{A} = \frac{\text{MS}_{A}}{\text{MS}_{R}}
 <p>Now that we’ve got our notation straight, we can compute the sum of squares values for each of the two factors in a relatively familiar way. For Factor A, our between group sum of squares is calculated by assessing the extent to which the (row) marginal means <span class="math notranslate nohighlight">\(\bar{Y}_{1.}\)</span>, <span class="math notranslate nohighlight">\(\bar{Y}_{2.}\)</span> etc, are different from the grand mean <span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span>. We do this in the same way that we did for one-way ANOVA: calculate the sum of squared difference between the <span class="math notranslate nohighlight">\(\bar{Y}_{i.}\)</span> values and the <span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span> values. Specifically, if there are <span class="math notranslate nohighlight">\(N\)</span> people in each group, then we calculate this:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2
+\text{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2
 \]</div>
 <p>As with one-way ANOVA, the most interesting <a class="footnote-reference brackets" href="#translation" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> part of this formula is the <span class="math notranslate nohighlight">\(\left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2\)</span> bit, which corresponds to the squared deviation associated with level <span class="math notranslate nohighlight">\(r\)</span>. All that this formula does is calculate this squared deviation for all <span class="math notranslate nohighlight">\(R\)</span> levels of the factor, add them up, and then multiply the result by <span class="math notranslate nohighlight">\(N \times C\)</span>. The reason for this last part is that there are multiple cells in our design that have level <span class="math notranslate nohighlight">\(r\)</span> on Factor A: in fact, there are <span class="math notranslate nohighlight">\(C\)</span> of them, one corresponding to each possible level of Factor B! For instance, in our toy example, there are <em>two</em> different cells in the design corresponding to the <code class="docutils literal notranslate"><span class="pre">anxifree</span></code> drug: one for people with <code class="docutils literal notranslate"><span class="pre">no.therapy</span></code>, and one for the <code class="docutils literal notranslate"><span class="pre">CBT</span></code> group. Not only that, within each of these cells there are <span class="math notranslate nohighlight">\(N\)</span> observations. So, if we want to convert our SS value into a quantity that calculates the between-groups sum of squares on a “per observation” basis, we have to multiply by by <span class="math notranslate nohighlight">\(N \times C\)</span>. The formula for factor B is of course the same thing, just with some subscripts shuffled around:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_{B} = (N \times R) \sum_{c=1}^C \left( \bar{Y}_{.c} - \bar{Y}_{..} \right)^2
+\text{SS}_{B} = (N \times R) \sum_{c=1}^C \left( \bar{Y}_{.c} - \bar{Y}_{..} \right)^2
 \]</div>
 <p>Now that we have these formulas, we can check them against the <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> output from the earlier section. First, notice that we calculated all the marginal means (i.e., row marginal means <span class="math notranslate nohighlight">\(\bar{Y}_{r.}\)</span> and column marginal means <span class="math notranslate nohighlight">\(\bar{Y}_{.c}\)</span>) earlier using <code class="docutils literal notranslate"><span class="pre">.mean()</span></code>, and we also calculated the grand mean. Let’s repeat those calculations, but this time we’ll save the results to variables so that we can use them in subsequent calculations:</p>
 <div class="cell docutils container">
@@ -1069,48 +1069,19 @@ F_{A} = \frac{\text{MS}_{A}}{\text{MS}_{R}}
 </div>
 </div>
 <p>and we are, once again, unsurprised to see that our calculations are identical to the ANOVA output.</p>
-<p>So that’s how you calculate the SS values for the two main effects. These SS values are analogous to the between-group sum of squares values that we calculated when doing <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">one-way ANOVA</span></a>. However, it’s not a good idea to think of them as between-groups SS values anymore, just because we have two different grouping variables and it’s easy to get confused. In order to construct an <span class="math notranslate nohighlight">\(F\)</span> test, however, we also need to calculate the within-groups sum of squares. In keeping with the terminology that we used in the <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression chapter</span></a>) and the terminology that R uses when printing out the ANOVA table, I’ll start referring to the within-groups SS value as the <em>residual</em> sum of squares SS<span class="math notranslate nohighlight">\(_R\)</span>.</p>
+<p>So that’s how you calculate the SS values for the two main effects. These SS values are analogous to the between-group sum of squares values that we calculated when doing <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">one-way ANOVA</span></a>. However, it’s not a good idea to think of them as between-groups SS values anymore, just because we have two different grouping variables and it’s easy to get confused. In order to construct an <span class="math notranslate nohighlight">\(F\)</span> test, however, we also need to calculate the within-groups sum of squares. In keeping with the terminology that we used in the <a class="reference internal" href="05.04-regression.html#regression"><span class="std std-ref">regression chapter</span></a>) and the terminology that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> uses when printing out the ANOVA table, I’ll start referring to the within-groups SS value as the <em>residual</em> sum of squares SS<span class="math notranslate nohighlight">\(_R\)</span>.</p>
 <p>The easiest way to think about the residual SS values in this context, I think, is to think of it as the leftover variation in the outcome variable after you take into account the differences in the marginal means (i.e., after you remove SS<span class="math notranslate nohighlight">\(_A\)</span> and SS<span class="math notranslate nohighlight">\(_B\)</span>). What I mean by that is we can start by calculating the total sum of squares, which I’ll label SS<span class="math notranslate nohighlight">\(_T\)</span>. The formula for this is pretty much the same as it was for one-way ANOVA: we take the difference between each observation <span class="math notranslate nohighlight">\(Y_{rci}\)</span> and the grand mean <span class="math notranslate nohighlight">\(\bar{Y}_{..}\)</span>, square the differences, and add them all up</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_T = \sum_{r=1}^R \sum_{c=1}^C \sum_{i=1}^N \left( Y_{rci} - \bar{Y}_{..}\right)^2
+\text{SS}_T = \sum_{r=1}^R \sum_{c=1}^C \sum_{i=1}^N \left( Y_{rci} - \bar{Y}_{..}\right)^2
 \]</div>
 <p>The “triple summation” here looks more complicated than it is. In the first two summations, we’re summing across all levels of Factor A (i.e., over all possible rows <span class="math notranslate nohighlight">\(r\)</span> in our table), across all levels of Factor B (i.e., all possible columns <span class="math notranslate nohighlight">\(c\)</span>). Each <span class="math notranslate nohighlight">\(rc\)</span> combination corresponds to a single group, and each group contains <span class="math notranslate nohighlight">\(N\)</span> people: so we have to sum across all those people (i.e., all <span class="math notranslate nohighlight">\(i\)</span> values) too. In other words, all we’re doing here is summing across all observations in the data set (i.e., all possible <span class="math notranslate nohighlight">\(rci\)</span> combinations).</p>
 <p>At this point, we know the total variability of the outcome variable SS<span class="math notranslate nohighlight">\(_T\)</span>, and we know how much of that variability can be attributed to Factor A (SS<span class="math notranslate nohighlight">\(_A\)</span>) and how much of it can be attributed to Factor B (SS<span class="math notranslate nohighlight">\(_B\)</span>). The residual sum of squares is thus defined to be the variability in <span class="math notranslate nohighlight">\(Y\)</span> that <em>can’t</em> be attributed to either of our two factors. In other words:</p>
 <div class="math notranslate nohighlight">
 \[
-\mbox{SS}_R = \mbox{SS}_T - (\mbox{SS}_A + \mbox{SS}_B)
+\text{SS}_R = \text{SS}_T - (\text{SS}_A + \text{SS}_B)
 \]</div>
-<p>Of course, there is a formula that you can use to calculate the residual SS directly, but I think that it makes more conceptual sense to think of it like this. The whole point of calling it a residual is that it’s the leftover variation, and the formula above makes that clear. I should also note that, in keeping with the terminology used in the regression chapter, it is commonplace to refer to <span class="math notranslate nohighlight">\(\mbox{SS}_A + \mbox{SS}_B\)</span> as the variance attributable to the “ANOVA model”, denoted SS<span class="math notranslate nohighlight">\(_M\)</span>, and so we often say that the total sum of squares is equal to the model sum of squares plus the residual sum of squares. Later on in this chapter we’ll see that this isn’t just a surface similarity: ANOVA and regression are actually the same thing under the hood.</p>
-<p>In any case, it’s probably worth taking a moment to check that we can calculate SS<span class="math notranslate nohighlight">\(_R\)</span> using this formula, and verify that we do obtain the same answer that <code class="docutils literal notranslate"><span class="pre">pingouin</span></code> produces in its ANOVA table. The calculations are pretty straightforward. First we calculate the total sum of squares:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SS_tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">grand_mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-<span class="nb">round</span><span class="p">(</span><span class="n">SS_tot</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.845
-</pre></div>
-</div>
-</div>
-</div>
-<p>and then we use it to calculate the residual sum of squares:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SS_res</span> <span class="o">=</span> <span class="n">SS_tot</span> <span class="o">-</span> <span class="p">(</span><span class="n">SS_drug</span> <span class="o">+</span> <span class="n">SS_therapy</span><span class="p">)</span>
-<span class="nb">round</span><span class="p">(</span><span class="n">SS_res</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9244
-</pre></div>
-</div>
-</div>
-</div>
-<p>Yet again, we get the same answer.</p>
+<p>Of course, there is a formula that you can use to calculate the residual SS directly, but I think that it makes more conceptual sense to think of it like this. The whole point of calling it a residual is that it’s the leftover variation, and the formula above makes that clear. I should also note that, in keeping with the terminology used in the regression chapter, it is commonplace to refer to <span class="math notranslate nohighlight">\(\text{SS}_A + \text{SS}_B\)</span> as the variance attributable to the “ANOVA model”, denoted SS<span class="math notranslate nohighlight">\(_M\)</span>, and so we often say that the total sum of squares is equal to the model sum of squares plus the residual sum of squares. Later on in this chapter we’ll see that this isn’t just a surface similarity: ANOVA and regression are actually the same thing under the hood.</p>
 </section>
 <section id="what-are-our-degrees-of-freedom">
 <h3><span class="section-number">17.1.3. </span>What are our degrees of freedom?<a class="headerlink" href="#what-are-our-degrees-of-freedom" title="Permalink to this heading">#</a></h3>
