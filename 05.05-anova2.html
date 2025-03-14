@@ -1089,12 +1089,213 @@ F_{A} = \frac{\text{MS}_{A}}{\text{MS}_{R}}
 </section>
 <section id="factorial-anova-versus-one-way-anovas">
 <h3><span class="section-number">17.1.4. </span>Factorial ANOVA versus one-way ANOVAs<a class="headerlink" href="#factorial-anova-versus-one-way-anovas" title="Permalink to this heading">#</a></h3>
-<p>Now that we’ve seen <em>how</em> a factorial ANOVA works, it’s worth taking a moment to compare it to the results of the one way analyses, because this will give us a really good sense of <em>why</em> it’s a good idea to run the factorial ANOVA. In the <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">chapter on one-way ANOVA</span></a>, I ran a one-way ANOVA that looked to see if there are any differences between drugs, and a second one-way ANOVA to see if there were any differences between therapies. As we saw in <a class="reference internal" href="#factanovahyp"><span class="std std-ref">previously</span></a>, the null and alternative hypotheses tested by the one-way ANOVAs are in fact identical to the hypotheses tested by the factorial ANOVA. Looking even more carefully at the ANOVA tables, we can see that the sum of squares associated with the factors are identical in the two different analyses (3.45 for <code class="docutils literal notranslate"><span class="pre">drug</span></code> and 0.92 for <code class="docutils literal notranslate"><span class="pre">therapy</span></code>), as are the degrees of freedom (2 for <code class="docutils literal notranslate"><span class="pre">drug</span></code>, 1 for <code class="docutils literal notranslate"><span class="pre">therapy</span></code>). But they don’t give the same answers! Most notably, when we ran the <a class="reference internal" href="05.03-anova.html#anovaandt"><span class="std std-ref">one-way ANOVA for <code class="docutils literal notranslate"><span class="pre">therapy</span></code></span></a> we didn’t find a significant effect (the <span class="math notranslate nohighlight">\(p\)</span>-value was 0.21). However, when we look at the main effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code> within the context of the two-way ANOVA, we do get a significant effect (<span class="math notranslate nohighlight">\(p=.019\)</span>). The two analyses are clearly not the same.</p>
+<p>Now that we’ve seen <em>how</em> a factorial ANOVA works, it’s worth taking a moment to compare it to the results of the one way analyses, because this will give us a really good sense of <em>why</em> it’s a good idea to run the factorial ANOVA. We could just run a <a class="reference internal" href="05.03-anova.html#anova"><span class="std std-ref">one-way ANOVA</span></a>, to see if there are any differences between drugs, and a second one-way ANOVA to see if there were any differences between therapies, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One way ANOVA for effects of drug on mood gain</span>
+<span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.453</td>
+      <td>2</td>
+      <td>1.727</td>
+      <td>18.611</td>
+      <td>0.0</td>
+      <td>0.713</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Within</td>
+      <td>1.392</td>
+      <td>15</td>
+      <td>0.093</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One way ANOVA for effects of therapy on mood gain</span>
+<span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s1">&#39;therapy&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>therapy</td>
+      <td>0.467</td>
+      <td>1</td>
+      <td>0.467</td>
+      <td>1.708</td>
+      <td>0.21</td>
+      <td>0.096</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Within</td>
+      <td>4.378</td>
+      <td>16</td>
+      <td>0.274</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As we saw in <a class="reference internal" href="#factanovahyp"><span class="std std-ref">previously</span></a>, the null and alternative hypotheses tested by the one-way ANOVAs are in fact identical to the hypotheses tested by the factorial ANOVA, and in fact, when we run the factorial ANOVA, the sum of squares associated with the factors are identical (3.45 for <code class="docutils literal notranslate"><span class="pre">drug</span></code>and 0.467 for <code class="docutils literal notranslate"><span class="pre">therapy</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pg</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">dv</span><span class="o">=</span><span class="s1">&#39;mood_gain&#39;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;drug&#39;</span><span class="p">,</span> <span class="s1">&#39;therapy&#39;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>SS</th>
+      <th>DF</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-unc</th>
+      <th>np2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>drug</td>
+      <td>3.453</td>
+      <td>2</td>
+      <td>1.727</td>
+      <td>31.714</td>
+      <td>0.000</td>
+      <td>0.841</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>therapy</td>
+      <td>0.467</td>
+      <td>1</td>
+      <td>0.467</td>
+      <td>8.582</td>
+      <td>0.013</td>
+      <td>0.417</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>drug * therapy</td>
+      <td>0.271</td>
+      <td>2</td>
+      <td>0.136</td>
+      <td>2.490</td>
+      <td>0.125</td>
+      <td>0.293</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Residual</td>
+      <td>0.653</td>
+      <td>12</td>
+      <td>0.054</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>as are the degrees of freedom (2 for <code class="docutils literal notranslate"><span class="pre">drug</span></code>, 1 for <code class="docutils literal notranslate"><span class="pre">therapy</span></code>). But they don’t give the same answers! Most notably, when we run the <a class="reference internal" href="05.03-anova.html#anovaandt"><span class="std std-ref">one-way ANOVA for <code class="docutils literal notranslate"><span class="pre">therapy</span></code></span></a> we didn’t find a significant effect (the <span class="math notranslate nohighlight">\(p\)</span>-value was 0.21). However, when we look at the main effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code> within the context of the two-way ANOVA, we do get a significant effect (<span class="math notranslate nohighlight">\(p=.013\)</span>). The two analyses are clearly not the same.</p>
 <p>Why does that happen? The answer lies in understanding how the <em>residuals</em> are calculated. Recall that the whole idea behind an <span class="math notranslate nohighlight">\(F\)</span>-test is to compare the variability that can be attributed to a particular factor with the variability that cannot be accounted for (the residuals). If you run a one-way ANOVA for <code class="docutils literal notranslate"><span class="pre">therapy</span></code>, and therefore ignore the effect of <code class="docutils literal notranslate"><span class="pre">drug</span></code>, the ANOVA will end up dumping all of the drug-induced variability into the residuals! This has the effect of making the data look more noisy than they really are, and the effect of <code class="docutils literal notranslate"><span class="pre">therapy</span></code> which is correctly found to be significant in the two-way ANOVA now becomes non-significant. If we ignore something that actually matters (e.g., <code class="docutils literal notranslate"><span class="pre">drug</span></code>) when trying to assess the contribution of something else (e.g., <code class="docutils literal notranslate"><span class="pre">therapy</span></code>) then our analysis will be distorted. Of course, it’s perfectly okay to ignore variables that are genuinely irrelevant to the phenomenon of interest: if we had recorded the colour of the walls, and that turned out to be non-significant in a three-way ANOVA (i.e. <code class="docutils literal notranslate"><span class="pre">pg.anova(dv='mood_gain',</span> <span class="pre">between=['drug',</span> <span class="pre">'therapy',</span> <span class="pre">'wall_color']</span></code>), it would be perfectly okay to disregard it and just report the simpler two-way ANOVA that doesn’t include this irrelevant factor. What you shouldn’t do is drop variables that actually make a difference!</p>
 </section>
 <section id="what-kinds-of-outcomes-does-this-analysis-capture">
 <h3><span class="section-number">17.1.5. </span>What kinds of outcomes does this analysis capture?<a class="headerlink" href="#what-kinds-of-outcomes-does-this-analysis-capture" title="Permalink to this heading">#</a></h3>
-<p>The ANOVA model that we’ve been talking about so far covers a range of different patterns that we might observe in our data. For instance, in a two-way ANOVA design, there are four possibilities: (a) only Factor A matters, (b) only Factor B matters, (c) both A and B matter, and (d) neither A nor B matters. An example of each of these four possibilities is plotted in <a class="reference internal" href="#fig-anovas-sans-interaction"><span class="std std-numref">Fig. 17.1</span></a>.</p>
+<p>The ANOVA model as we’ve been talking about so far (which has ignored interactions) covers a range of different patterns that we might observe in our data. For instance, in a two-way ANOVA design, there are four possibilities: (a) only Factor A matters, (b) only Factor B matters, (c) both A and B matter, and (d) neither A nor B matters. An example of each of these four possibilities is plotted in <a class="reference internal" href="#fig-anovas-sans-interaction"><span class="std std-numref">Fig. 17.1</span></a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
