@@ -551,7 +551,7 @@ document.write(`
 </details>
 </div>
 <figure class="align-default" id="fig-iq" style="width: 600px">
-<img alt="_images/632c8f3ca0817ff48a73844f275b0530eda05266cf1585506a6b87ee1279ccca.png" src="_images/632c8f3ca0817ff48a73844f275b0530eda05266cf1585506a6b87ee1279ccca.png" />
+<img alt="_images/3098a8002ee61047c0dec508b56bb8b714c2ff9062d7c9981a1796bfdfaf90c8.png" src="_images/3098a8002ee61047c0dec508b56bb8b714c2ff9062d7c9981a1796bfdfaf90c8.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.3 </span><span class="caption-text">The population distribution of IQ scores (panel A) and two samples drawn randomly from it. In panel B we have a sample of 100 observations, and panel C we have a sample of 10,000 observations.</span><a class="headerlink" href="#fig-iq" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -567,7 +567,7 @@ document.write(`
 <h2><span class="section-number">11.2. </span>The law of large numbers<a class="headerlink" href="#the-law-of-large-numbers" title="Permalink to this heading">#</a></h2>
 <p id="lawlargenumbers">In the previous section I showed you the results of one fictitious IQ experiment with a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. The results were somewhat encouraging: the true population mean is 100, and the sample mean of 98.5 is a pretty reasonable approximation to it. In many scientific studies that level of precision is perfectly acceptable, but in other situations you need to be a lot more precise. If we want our sample statistics to be much closer to the population parameters, what can we do about it?</p>
 <p>The obvious answer is to collect more data. Suppose that we ran a much larger experiment, this time measuring the IQs of 10,000 people. We can simulate the results of this experiment using Python. To create the simulated data in plotted in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.3</span></a> panel B, I used the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package to sample from a normal distribution with a mean of 100 and a standard deviation of 15. By altering the size of the sample drawn and plotting histograms of the frequencies of the values in the samples, it is easy to create simulated data that illustrate the effect of increasing the sampling size. The histogram of this much larger sample is shown in <a class="reference internal" href="#fig-iq"><span class="std std-numref">Fig. 11.3</span></a> panel C. Even a moment’s inspections makes clear that the larger sample is a much better approximation to the true population distribution than the smaller one.</p>
-<p>Let’s take a look at the how close our estimates of the true population distribution are, if we simply change the sampling size. Below, I have created three samples from a normal distribution with a mean of 100, and a standard deviation of 15. The only thing that changes is the number of samples drawn. Because these are random samples from the normal distribution, the exact values of the estimated mean and standard deviation may change slightly each time the code is run, but overall tendency will always be for larger samples to give a better estimate of the true parameters of the poulation distribution:</p>
+<p>Let’s take a look at how close our estimates of the true population distribution are, if we simply change the sampling size. Below, I have created three samples from a normal distribution with a mean of 100, and a standard deviation of 15. The only thing that changes is the number of samples drawn. Because these are random samples from the normal distribution, the exact values of the estimated mean and standard deviation may change slightly each time the code is run, but overall tendency will always be for larger samples to give a better estimate of the true parameters of the poulation distribution:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -584,9 +584,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  103.92584535466447  Standard deviation:  14.973835451590467
-100 samples. Mean:  98.77179112435843  Standard deviation:  14.802607373686733
-10000 samples. Mean:  100.00084360089161  Standard deviation:  15.033407363053453
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 samples. Mean:  105.02924461642901  Standard deviation:  16.06331284163081
+100 samples. Mean:  99.28973812996509  Standard deviation:  15.245622002466888
+10000 samples. Mean:  100.0950075966588  Standard deviation:  15.160551916473333
 </pre></div>
 </div>
 </div>
@@ -595,14 +595,14 @@ document.write(`
 <blockquote>
 <div><p><em>For even the most stupid of men, by some instinct of nature, by himself and without any instruction (which is a remarkable thing), is convinced that the more observations have been made, the less danger there is of wandering from one’s goal</em></p>
 </div></blockquote>
-<p>Okay, so the passage comes across as a bit condescending, but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the <strong><em>law of large numbers</em></strong>. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that’s what the mean is… an average), so let’s look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size “approaches” infinity (written as <span class="math notranslate nohighlight">\(N \rightarrow \infty\)</span>) the sample mean approaches the population mean (<span class="math notranslate nohighlight">\(\bar{X} \rightarrow \mu\)</span>).[^notelawlargenumbers]</p>
+<p>Okay, so the passage comes across as a bit condescending, but his main point is correct: it really does feel obvious that more data will give you better answers. The question is, why is this so? Not surprisingly, this intuition that we all share turns out to be correct, and statisticians refer to it as the <strong><em>law of large numbers</em></strong>. The law of large numbers is a mathematical law that applies to many different sample statistics, but the simplest way to think about it is as a law about averages. The sample mean is the most obvious example of a statistic that relies on averaging (because that’s what the mean is… an average), so let’s look at that. When applied to the sample mean, what the law of large numbers states is that as the sample gets larger, the sample mean tends to get closer to the true population mean. Or, to say it a little bit more precisely, as the sample size “approaches” infinity (written as <span class="math notranslate nohighlight">\(N \rightarrow \infty\)</span>) the sample mean approaches the population mean (<span class="math notranslate nohighlight">\(\bar{X} \rightarrow \mu\)</span>).<a class="footnote-reference brackets" href="#notelawlargenumbers" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
 <p>I don’t intend to subject you to a proof that the law of large numbers is true, but it’s one of the most important tools for statistical theory. The law of large numbers is the thing we can use to justify our belief that collecting more and more data will eventually lead us to the truth. For any particular data set, the sample statistics that we calculate from it <strong><em>will be wrong</em></strong>, but the law of large numbers tells us that if we keep collecting more data those sample statistics will tend to get closer and closer to the true population parameters.</p>
 </section>
 <section id="sampling-distributions-and-the-central-limit-theorem">
 <span id="samplingdists"></span><h2><span class="section-number">11.3. </span>Sampling distributions and the central limit theorem<a class="headerlink" href="#sampling-distributions-and-the-central-limit-theorem" title="Permalink to this heading">#</a></h2>
 <p>The law of large numbers is a very powerful tool, but it’s not going to be good enough to answer all our questions. Among other things, all it gives us is a “long run guarantee”. In the long run, if we were somehow able to collect an infinite amount of data, then the law of large numbers guarantees that our sample statistics will be correct. But as John Maynard Keynes famously argued in economics, a long run guarantee is of little use in real life:</p>
 <blockquote>
-<div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> <span id="id3">[<a class="reference internal" href="bibliography.html#id16" title="John Maynard Keynes. A Tract on Monetary Reform. Macmillan and Company, London, 1923.">Keynes, 1923</a>]</span></p>
+<div><p><em>[The] long run is a misleading guide to current affairs. In the long run we are all dead. Economists set themselves too easy, too useless a task, if in tempestuous seasons they can only tell us, that when the storm is long past, the ocean is flat again.</em> <span id="id4">[<a class="reference internal" href="bibliography.html#id16" title="John Maynard Keynes. A Tract on Monetary Reform. Macmillan and Company, London, 1923.">Keynes, 1923</a>]</span></p>
 </div></blockquote>
 <p>As in economics, so too in psychology and statistics. It is not enough to know that we will <em>eventually</em> arrive at the right answer when calculating the sample mean. Knowing that an infinitely large data set will tell me the exact value of the population mean is cold comfort when my <em>actual</em> data set has a sample size of <span class="math notranslate nohighlight">\(N=100\)</span>. In real life, then, we must know something about the behaviour of the sample mean when it is calculated from a more modest data set!</p>
 <section id="sampling-distribution-of-the-mean">
@@ -620,8 +620,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [106  87 124 105 111]
-Mean of simulated data:  106
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [109  89 127  81 102]
+Mean of simulated data:  101
 </pre></div>
 </div>
 </div>
@@ -636,8 +636,8 @@ Mean of simulated data:  106
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [145  69  98 104  92]
-Mean of simulated data:  101
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated data:  [ 98 108  73 104  95]
+Mean of simulated data:  95
 </pre></div>
 </div>
 </div>
@@ -696,93 +696,93 @@ Mean of simulated data:  101
   <tbody>
     <tr>
       <th>Replication 1</th>
-      <td>108</td>
-      <td>88</td>
-      <td>124</td>
-      <td>96</td>
-      <td>85</td>
-      <td>100.2</td>
+      <td>81</td>
+      <td>84</td>
+      <td>98</td>
+      <td>113</td>
+      <td>90</td>
+      <td>93.2</td>
     </tr>
     <tr>
       <th>Replication 2</th>
-      <td>126</td>
-      <td>99</td>
+      <td>94</td>
       <td>91</td>
-      <td>98</td>
-      <td>77</td>
-      <td>98.2</td>
+      <td>103</td>
+      <td>109</td>
+      <td>107</td>
+      <td>100.8</td>
     </tr>
     <tr>
       <th>Replication 3</th>
-      <td>91</td>
-      <td>91</td>
-      <td>119</td>
-      <td>56</td>
-      <td>74</td>
-      <td>86.2</td>
+      <td>93</td>
+      <td>85</td>
+      <td>101</td>
+      <td>108</td>
+      <td>107</td>
+      <td>98.8</td>
     </tr>
     <tr>
       <th>Replication 4</th>
-      <td>96</td>
-      <td>96</td>
-      <td>110</td>
-      <td>93</td>
-      <td>112</td>
-      <td>101.4</td>
+      <td>105</td>
+      <td>103</td>
+      <td>119</td>
+      <td>77</td>
+      <td>111</td>
+      <td>103.0</td>
     </tr>
     <tr>
       <th>Replication 5</th>
-      <td>90</td>
-      <td>109</td>
-      <td>86</td>
-      <td>87</td>
-      <td>130</td>
-      <td>100.4</td>
+      <td>73</td>
+      <td>102</td>
+      <td>102</td>
+      <td>102</td>
+      <td>83</td>
+      <td>92.4</td>
     </tr>
     <tr>
       <th>Replication 6</th>
+      <td>76</td>
+      <td>95</td>
       <td>90</td>
-      <td>93</td>
-      <td>113</td>
-      <td>93</td>
-      <td>94</td>
-      <td>96.6</td>
+      <td>86</td>
+      <td>104</td>
+      <td>90.2</td>
     </tr>
     <tr>
       <th>Replication 7</th>
-      <td>103</td>
-      <td>125</td>
-      <td>103</td>
-      <td>99</td>
-      <td>69</td>
-      <td>99.8</td>
+      <td>115</td>
+      <td>117</td>
+      <td>97</td>
+      <td>117</td>
+      <td>80</td>
+      <td>105.2</td>
     </tr>
     <tr>
       <th>Replication 8</th>
-      <td>84</td>
-      <td>99</td>
-      <td>113</td>
+      <td>97</td>
+      <td>104</td>
+      <td>100</td>
+      <td>111</td>
       <td>98</td>
-      <td>109</td>
-      <td>100.6</td>
+      <td>102.0</td>
     </tr>
     <tr>
       <th>Replication 9</th>
-      <td>98</td>
-      <td>66</td>
-      <td>113</td>
-      <td>143</td>
-      <td>117</td>
-      <td>107.4</td>
+      <td>90</td>
+      <td>96</td>
+      <td>71</td>
+      <td>110</td>
+      <td>67</td>
+      <td>86.8</td>
     </tr>
     <tr>
       <th>Replication 10</th>
-      <td>109</td>
-      <td>80</td>
-      <td>120</td>
-      <td>101</td>
+      <td>110</td>
+      <td>95</td>
+      <td>100</td>
+      <td>115</td>
       <td>81</td>
-      <td>98.2</td>
+      <td>100.2</td>
     </tr>
   </tbody>
 </table>
@@ -796,7 +796,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[100.2, 98.2, 86.2, 101.4, 100.4, 96.6, 99.8, 100.6, 107.4, 98.2]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[93.2, 100.8, 98.8, 103.0, 92.4, 90.2, 105.2, 102.0, 86.8, 100.2]
 </pre></div>
 </div>
 </div>
@@ -859,7 +859,7 @@ Mean of simulated data:  101
 </details>
 </div>
 <figure class="align-default" id="fig-iq-samp-dist" style="width: 600px">
-<img alt="_images/bd5179a8e5cfdf19605037adf9d0624671abccf8ac42a33a3627ddd5a1565173.png" src="_images/bd5179a8e5cfdf19605037adf9d0624671abccf8ac42a33a3627ddd5a1565173.png" />
+<img alt="_images/da36994e494c6c376ad7cc176959187245b93b0f14d8292abf92ee364eec2d12.png" src="_images/da36994e494c6c376ad7cc176959187245b93b0f14d8292abf92ee364eec2d12.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.4 </span><span class="caption-text">The sampling distribution of the mean for the “five IQ scores experiment”. If you sample 5 people at random and calculate their <em>average</em> IQ, you’ll almost certainly get a number between 80 and 120, even though there are quite a lot of individuals who have IQs above 120 or below 80. For comparison, the black line plots the population distribution of IQ scores.</span><a class="headerlink" href="#fig-iq-samp-dist" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -925,7 +925,7 @@ Mean of simulated data:  101
 </details>
 </div>
 <figure class="align-default" id="fig-iq-max" style="width: 600px">
-<img alt="_images/737fef8c456fa3bfcfbd241d49f3e3eb5e5a71b34c4c48cf9638798e38562a7e.png" src="_images/737fef8c456fa3bfcfbd241d49f3e3eb5e5a71b34c4c48cf9638798e38562a7e.png" />
+<img alt="_images/f710f36931b7264262ffb9d23b028769e92c41f42cde8c77b77f9d61c2ea0655.png" src="_images/f710f36931b7264262ffb9d23b028769e92c41f42cde8c77b77f9d61c2ea0655.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.5 </span><span class="caption-text">The sampling distribution of the <em>maximum</em> for the “five IQ scores experiment”. If you sample 5 people at random and select the one with the highest IQ score, you’ll probably see someone with an IQ between 100 and 140.</span><a class="headerlink" href="#fig-iq-max" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -1000,7 +1000,7 @@ Mean of simulated data:  101
 </details>
 </div>
 <figure class="align-default" id="fig-iq-clm" style="width: 600px">
-<img alt="_images/2ea92fb1a9c2571c9965563f12d51cfbe914bd74760e77efb5756d0ffa18ecf2.png" src="_images/2ea92fb1a9c2571c9965563f12d51cfbe914bd74760e77efb5756d0ffa18ecf2.png" />
+<img alt="_images/681097c222933f420418e5bc0b701de6294f447f061d1902e4145585bdb1cb6c.png" src="_images/681097c222933f420418e5bc0b701de6294f447f061d1902e4145585bdb1cb6c.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.6 </span><span class="caption-text">An illustration of the how sampling distribution of the mean depends on sample size. In each panel, I generated 10,000 samples of IQ data, and calculated the mean IQ observed within each of these data sets. The histograms in these plots show the distribution of these means (i.e., the sampling distribution of the mean). Each individual IQ score was drawn from a normal distribution with mean 100 and standard deviation 15, which is shown as the solid black line). In panel A, each data set contained only a single observation, so the mean of each sample is just one person’s IQ score. As a consequence, the sampling distribution of the mean is of course identical to the population distribution of IQ scores. However, when we raise the sample size to 2, the mean of any one sample tends to be closer to the population mean than a one person’s IQ score, and so the histogram (i.e., the sampling distribution) is a bit narrower than the population distribution (panel B). By the time we raise the sample size to 10 (panel C), we can see that the distribution of sample means tend to be fairly tightly clustered around the true population mean.</span><a class="headerlink" href="#fig-iq-clm" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -1071,7 +1071,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1d03ce0c86fe04fd2259eef2e409d93076e9fa952cdea12930a1eb8d573794f7.png" src="_images/1d03ce0c86fe04fd2259eef2e409d93076e9fa952cdea12930a1eb8d573794f7.png" />
+<img alt="_images/e7cf70b8d57f58b728387c54d2c032825b3ae8bc94bba2836ffc8220c50d8c41.png" src="_images/e7cf70b8d57f58b728387c54d2c032825b3ae8bc94bba2836ffc8220c50d8c41.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1081,7 +1081,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/71051414663c5c600cb8c14257f6c0bfd3cdc32efcd2c8bc87a4e761f7429d85.png" src="_images/71051414663c5c600cb8c14257f6c0bfd3cdc32efcd2c8bc87a4e761f7429d85.png" />
+<img alt="_images/99b3ed5735ed76be1c2930ee5515e5300ba9ee33b89e5488f8c043fed8ec092d.png" src="_images/99b3ed5735ed76be1c2930ee5515e5300ba9ee33b89e5488f8c043fed8ec092d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1091,7 +1091,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/273d631a4b79104c806816f61283374b833a5b682db2a099217e70c525a2a332.png" src="_images/273d631a4b79104c806816f61283374b833a5b682db2a099217e70c525a2a332.png" />
+<img alt="_images/bfe5cec46a304887c11693fd6f83426737c5bb4a17d12f62f103e78411362d5f.png" src="_images/bfe5cec46a304887c11693fd6f83426737c5bb4a17d12f62f103e78411362d5f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1101,7 +1101,7 @@ Mean of simulated data:  101
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1840fabdf8dd7fcb38a487d1e338c8e0511d507272087b5dbf8849c64a824c3b.png" src="_images/1840fabdf8dd7fcb38a487d1e338c8e0511d507272087b5dbf8849c64a824c3b.png" />
+<img alt="_images/061f1d69ec2ef509f2329251aeb871fb4f3c1c9c2a89a9100d683308596a5780.png" src="_images/061f1d69ec2ef509f2329251aeb871fb4f3c1c9c2a89a9100d683308596a5780.png" />
 </div>
 </div>
 <p>On the basis of these figures, it seems like we have evidence for all of the following claims about the sampling distribution of the mean:</p>
@@ -1115,14 +1115,14 @@ Mean of simulated data:  101
 \[
 \mbox{SEM} = \frac{\sigma}{ \sqrt{N} }
 \]</div>
-<p>Because we divide the population standard devation <span class="math notranslate nohighlight">\(\sigma\)</span> by the square root of the sample size <span class="math notranslate nohighlight">\(N\)</span>, the SEM gets smaller as the sample size increases. It also tells us that the shape of the sampling distribution becomes normal. <a class="footnote-reference brackets" href="#note-clm" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+<p>Because we divide the population standard devation <span class="math notranslate nohighlight">\(\sigma\)</span> by the square root of the sample size <span class="math notranslate nohighlight">\(N\)</span>, the SEM gets smaller as the sample size increases. It also tells us that the shape of the sampling distribution becomes normal. <a class="footnote-reference brackets" href="#note-clm" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p>
 <p>This result is useful for all sorts of things. It tells us why large experiments are more reliable than small ones, and because it gives us an explicit formula for the standard error it tells us <em>how much</em> more reliable a large experiment is. It tells us why the normal distribution is, well, <em>normal</em>. In real experiments, many of the things that we want to measure are actually averages of lots of different quantities (e.g., arguably, “general” intelligence as measured by IQ is an average of a large number of “specific” skills and abilities), and when that happens, the averaged quantity should follow a normal distribution. Because of this mathematical law, the normal distribution pops up over and over again in real data.</p>
 </section>
 </section>
 <section id="estimating-population-parameters">
 <span id="pointestimates"></span><h2><span class="section-number">11.4. </span>Estimating population parameters<a class="headerlink" href="#estimating-population-parameters" title="Permalink to this heading">#</a></h2>
 <p>In all the IQ examples in the previous sections, we actually knew the population parameters ahead of time. As every undergraduate gets taught in their very first lecture on the measurement of intelligence, IQ scores are <em>defined</em> to have mean 100 and standard deviation 15. However, this is a bit of a lie. How do we know that IQ scores have a true population mean of 100? Well, we know this because the people who designed the tests have administered them to very large samples, and have then “rigged” the scoring rules so that their sample has mean 100. That’s not a bad thing of course: it’s an important part of designing a psychological measurement. However, it’s important to keep in mind that this theoretical mean of 100 only attaches to the population that the test designers used to design the tests. Good test designers will actually go to some lengths to provide “test norms” that can apply to lots of different populations (e.g., different age groups, nationalities etc).</p>
-<p>This is very handy, but of course almost every research project of interest involves looking at a different population of people to those used in the test norms. For instance, suppose you wanted to measure the effect of low level lead poisoning on cognitive functioning in Port Pirie, a South Australian industrial town with a lead smelter. Perhaps you decide that you want to compare IQ scores among people in Port Pirie to a comparable sample in Whyalla, a South Australian industrial town with a steel refinery. <a class="footnote-reference brackets" href="#note-hard" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> Regardless of which town you’re thinking about, it doesn’t make a lot of sense simply to <em>assume</em> that the true population mean IQ is 100. No-one has, to my knowledge, produced sensible norming data that can automatically be applied to South Australian industrial towns. We’re going to have to <strong><em>estimate</em></strong> the population parameters from a sample of data. So how do we do this?</p>
+<p>This is very handy, but of course almost every research project of interest involves looking at a different population of people to those used in the test norms. For instance, suppose you wanted to measure the effect of low level lead poisoning on cognitive functioning in Port Pirie, a South Australian industrial town with a lead smelter. Perhaps you decide that you want to compare IQ scores among people in Port Pirie to a comparable sample in Whyalla, a South Australian industrial town with a steel refinery. <a class="footnote-reference brackets" href="#note-hard" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> Regardless of which town you’re thinking about, it doesn’t make a lot of sense simply to <em>assume</em> that the true population mean IQ is 100. No-one has, to my knowledge, produced sensible norming data that can automatically be applied to South Australian industrial towns. We’re going to have to <strong><em>estimate</em></strong> the population parameters from a sample of data. So how do we do this?</p>
 <section id="estimating-the-population-mean">
 <h3><span class="section-number">11.4.1. </span>Estimating the population mean<a class="headerlink" href="#estimating-the-population-mean" title="Permalink to this heading">#</a></h3>
 <p>Suppose we go to Port Pirie and 100 of the locals are kind enough to sit through an IQ test. The average IQ score among these people turns out to be <span class="math notranslate nohighlight">\(\bar{X}=98.5\)</span>. So what is the true mean IQ for the entire population of Port Pirie? Obviously, we don’t know the answer to that question. It could be <span class="math notranslate nohighlight">\(97.2\)</span>, but if could also be <span class="math notranslate nohighlight">\(103.5\)</span>. Our sampling isn’t exhaustive so we cannot give a definitive answer. Nevertheless if I was forced at gunpoint to give a “best guess” I’d have to say <span class="math notranslate nohighlight">\(98.5\)</span>. That’s the essence of statistical estimation: giving a best guess.</p>
@@ -1211,13 +1211,13 @@ Mean of simulated data:  101
 </details>
 </div>
 <figure class="align-default" id="fig-sampdistsd" style="width: 600px">
-<img alt="_images/2ea92fb1a9c2571c9965563f12d51cfbe914bd74760e77efb5756d0ffa18ecf2.png" src="_images/2ea92fb1a9c2571c9965563f12d51cfbe914bd74760e77efb5756d0ffa18ecf2.png" />
+<img alt="_images/681097c222933f420418e5bc0b701de6294f447f061d1902e4145585bdb1cb6c.png" src="_images/681097c222933f420418e5bc0b701de6294f447f061d1902e4145585bdb1cb6c.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.7 </span><span class="caption-text">The sampling distribution of the sample standard deviation for a “two IQ scores” experiment. The true population standard deviation is 15 (dashed line), but as you can see from the histogram, the vast majority of experiments will produce a much smaller sample standard deviation than this. On average, this experiment would produce a sample standard deviation of only 8.5, well below the true value! In other words, the sample standard deviation is a <em>biased</em> estimate of the population standard deviation.</span><a class="headerlink" href="#fig-sampdistsd" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>This intuition feels right, but it would be nice to demonstrate this somehow. There are in fact mathematical proofs that confirm this intuition, but unless you have the right mathematical background they don’t help very much. Instead, what I’ll do is use Python to simulate the results of some experiments. With that in mind, let’s return to our IQ studies. Suppose the true population mean IQ is 100 and the standard deviation is 15. I can use the <code class="docutils literal notranslate"><span class="pre">rnorm()</span></code> function to generate the the results of an experiment in which I measure <span class="math notranslate nohighlight">\(N=2\)</span> IQ scores, and calculate the sample standard deviation. If I do this over and over again, and plot a histogram of these sample standard deviations, what I have is the <em>sampling distribution of the standard deviation</em>. I’ve plotted this distribution in <a class="reference internal" href="#fig-sampdistsd"><span class="std std-numref">Fig. 11.7</span></a>. Even though the true population standard deviation is 15, the average of the <em>sample</em> standard deviations is only 8.5. Notice that this is a very different result to what we found in <a class="reference internal" href="#fig-iq-clm"><span class="std std-numref">Fig. 11.6</span></a> when we plotted the sampling distribution of the mean. If you look at that sampling distribution, what you see is that the population mean is 100, and the average of the sample means is also 100.</p>
-<p>Now let’s extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of <span class="math notranslate nohighlight">\(N=2\)</span>, let’s repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in <a class="reference internal" href="#fig-estimatorbias"><span class="std std-numref">Fig. 11.8</span></a>. On the left hand side (panel a), I’ve plotted the average sample mean and on the right hand side (panel b), I’ve plotted the average standard deviation. The two plots are quite different: <em>on average</em>, the average sample mean is equal to the population mean. It is an <strong><em>unbiased estimator</em></strong>, which is essentially the reason why your best estimate for the population mean is the sample mean. <a class="footnote-reference brackets" href="#notebias" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> The plot on the right is quite different: on average, the sample standard deviation <span class="math notranslate nohighlight">\(s\)</span> is <em>smaller</em> than the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. It is a <strong><em>biased estimator</em></strong>. In other words, if we want to make a “best guess” <span class="math notranslate nohighlight">\(\hat\sigma\)</span> about the value of the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>, we should make sure our guess is a little bit larger than the sample standard deviation <span class="math notranslate nohighlight">\(s\)</span>.</p>
+<p>Now let’s extend the simulation. Instead of restricting ourselves to the situation where we have a sample size of <span class="math notranslate nohighlight">\(N=2\)</span>, let’s repeat the exercise for sample sizes from 1 to 10. If we plot the average sample mean and average sample standard deviation as a function of sample size, you get the results shown in <a class="reference internal" href="#fig-estimatorbias"><span class="std std-numref">Fig. 11.8</span></a>. On the left hand side (panel a), I’ve plotted the average sample mean and on the right hand side (panel b), I’ve plotted the average standard deviation. The two plots are quite different: <em>on average</em>, the average sample mean is equal to the population mean. It is an <strong><em>unbiased estimator</em></strong>, which is essentially the reason why your best estimate for the population mean is the sample mean. <a class="footnote-reference brackets" href="#notebias" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> The plot on the right is quite different: on average, the sample standard deviation <span class="math notranslate nohighlight">\(s\)</span> is <em>smaller</em> than the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>. It is a <strong><em>biased estimator</em></strong>. In other words, if we want to make a “best guess” <span class="math notranslate nohighlight">\(\hat\sigma\)</span> about the value of the population standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>, we should make sure our guess is a little bit larger than the sample standard deviation <span class="math notranslate nohighlight">\(s\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1302,7 +1302,7 @@ Mean of simulated data:  101
 </details>
 </div>
 <figure class="align-default" id="fig-estimatorbias" style="width: 600px">
-<img alt="_images/cea5d8ad512ac3006d4eab866105c4927f981eda6b1f08b13389af17a36bfe9c.png" src="_images/cea5d8ad512ac3006d4eab866105c4927f981eda6b1f08b13389af17a36bfe9c.png" />
+<img alt="_images/ea82c9857032a338eafc16a96fa4d8b619353d1305886aaf52d901e139992891.png" src="_images/ea82c9857032a338eafc16a96fa4d8b619353d1305886aaf52d901e139992891.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 11.8 </span><span class="caption-text">An illustration of the fact that the sample mean is an unbiased estimator of the population mean (panel a), but the sample standard deviation is a biased estimator of the population standard deviation (panel b). To generate the figure, I generated 10,000 simulated data sets with 1 observation each, 10,000 more with 2 observations, and so on up to a sample size of 10. Each data set consisted of fake IQ data: that is, the data were normally distributed with a true population mean of 100 and standard deviation 15. <em>On average</em>, the sample means turn out to be 100, regardless of sample size (panel a). However, the sample standard deviations turn out to be systematically too small (panel b), especially for small sample sizes.</span><a class="headerlink" href="#fig-estimatorbias" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -1363,7 +1363,7 @@ s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
 <section id="estimating-a-confidence-interval">
 <span id="ci"></span><h2><span class="section-number">11.5. </span>Estimating a confidence interval<a class="headerlink" href="#estimating-a-confidence-interval" title="Permalink to this heading">#</a></h2>
 <blockquote>
-<div><p><em>Statistics means never having to say you’re certain</em> – Unknown origin <a class="footnote-reference brackets" href="#notestatsquote" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p>
+<div><p><em>Statistics means never having to say you’re certain</em> – Unknown origin <a class="footnote-reference brackets" href="#notestatsquote" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p>
 </div></blockquote>
 <p>Up to this point in this chapter, I’ve outlined the basics of sampling theory which statisticians rely on to make guesses about population parameters on the basis of a sample of data. As this discussion illustrates, one of the reasons we need all this sampling theory is that every data set leaves us with some degree of uncertainty, so our estimates are never going to be perfectly accurate. The thing that has been missing from this discussion is an attempt to <em>quantify</em> the amount of uncertainty that attaches to our estimate. It’s not enough to be able guess that, say, the mean IQ of undergraduate psychology students is 115 (yes, I just made that number up). We also want to be able to say something that expresses the degree of certainty that we have in our guess. For example, it would be nice to be able to say that there is a 95% chance that the true mean lies between 109 and 121. The name for this is a <strong><em>confidence interval</em></strong> for the mean.</p>
 <p>Armed with an understanding of sampling distributions, constructing a confidence interval for the mean is actually pretty easy. Here’s how it works. Suppose the true population mean is <span class="math notranslate nohighlight">\(\mu\)</span> and the standard deviation is <span class="math notranslate nohighlight">\(\sigma\)</span>. I’ve just finished running my study that has <span class="math notranslate nohighlight">\(N\)</span> participants, and the mean IQ among those participants is <span class="math notranslate nohighlight">\(\bar{X}\)</span>. We know from our discussion of the <a class="reference internal" href="#clt"><span class="std std-ref">central limit theorem</span></a> that the sampling distribution of the mean is approximately normal. We also know from our <a class="reference internal" href="04.02-probability.html#normal"><span class="std std-ref">discussion of the normal distribution</span></a> that there is a 95% chance that a normally-distributed quantity will fall within two standard deviations of the true mean. To be more precise, we can use the <code class="docutils literal notranslate"><span class="pre">norm.ppf()</span></code> function from <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> to compute the 2.5th and 97.5th percentiles of the normal distribution.</p>
@@ -1532,9 +1532,9 @@ s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_40633/3388064906.py:39: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_44509/3388064906.py:39: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
   ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
-/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_40633/3388064906.py:39: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
+/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_44509/3388064906.py:39: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
   ci = t.interval(alpha=.95, df=len(simdata)-1, loc=np.mean(simdata), scale=sem(simdata))
 </pre></div>
 </div>
@@ -1577,12 +1577,12 @@ s^2 = \frac{1}{N} \sum_{i=1}^N (X_i - \bar{X})^2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Method 1:  (9.514149929408497, 15.485850070591503)
-Method 2:  (9.514149929408497, 15.485850070591503)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_44509/1339756836.py:7: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
+  ci_1 = t.interval(alpha=0.95,
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_40633/1339756836.py:7: DeprecationWarning: Use of keyword argument &#39;alpha&#39; for method &#39;interval&#39; is deprecated and wil be removed in SciPy 1.11.0. Use first positional argument or keyword argument &#39;confidence&#39; instead.
-  ci_1 = t.interval(alpha=0.95,
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Method 1:  (9.514149929408497, 15.485850070591503)
+Method 2:  (9.514149929408497, 15.485850070591503)
 </pre></div>
 </div>
 </div>
@@ -1707,14 +1707,14 @@ Method 2:  (9.514149929408497, 15.485850070591503)
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_40633/3591514384.py:9: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/6m/mwt0c30539b1zrk5vf14dpr44pd98r/T/ipykernel_44509/3591514384.py:9: FutureWarning: 
 
 The `ci` parameter is deprecated. Use `errorbar=(&#39;ci&#39;, 40)` for the same effect.
 
   sns.pointplot(x=&quot;time&quot;, y=&quot;total_bill&quot;, hue=&quot;smoker&quot;,  ci = 40, data=tips, ax=axes[1])
 </pre></div>
 </div>
-<img alt="_images/d941644c0d3b367f70271ddad277ebaf2bff6593a794cf76d98b627eb902c8ae.png" src="_images/d941644c0d3b367f70271ddad277ebaf2bff6593a794cf76d98b627eb902c8ae.png" />
+<img alt="_images/0fb65dab8767057246c768d8b017af908cbf7f79fca2e9df9bac2e9531e39f89.png" src="_images/0fb65dab8767057246c768d8b017af908cbf7f79fca2e9df9bac2e9531e39f89.png" />
 </div>
 </div>
 <p>For regression plots, seaborn computes a confidence interval for regression line by default. This can be turned off with <code class="docutils literal notranslate"><span class="pre">ci=None</span></code>, but I think it is good practice to include it, because it gives a nice visual indication of the strength of the model.</p>
@@ -1739,7 +1739,7 @@ The `ci` parameter is deprecated. Use `errorbar=(&#39;ci&#39;, 40)` for the same
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/9babd20fd1f021274afab47c46c37d6987f5e41113dc051cf110c16d56189b59.png" src="_images/9babd20fd1f021274afab47c46c37d6987f5e41113dc051cf110c16d56189b59.png" />
+<img alt="_images/a5dd00e867b63f7f1163c2e1578dfc7d3c7d804318a27e97312f57c9a1d52bc3.png" src="_images/a5dd00e867b63f7f1163c2e1578dfc7d3c7d804318a27e97312f57c9a1d52bc3.png" />
 </div>
 </div>
 <p>For regression plots with discrete variables on the x-axis, seaborn has options for either showing all datapoints, or showing only the mean with error-bars indicating the confidence interval. There are many more details and options to be found in the seaborn documentation. For more complex or custom figures, like the one in <a class="reference internal" href="#fig-cirep"><span class="std std-numref">Fig. 11.9</span></a> showing confidence intervals for simulated IQ data, you will need to dive into <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, which allows much more customization than is available simply using <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>.</p>
@@ -1766,7 +1766,7 @@ The `ci` parameter is deprecated. Use `errorbar=(&#39;ci&#39;, 40)` for the same
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/58d8e2c1baefc0fad84c221cc0b75dca81a62a9b03e8ed3fd83d1a6123218c68.png" src="_images/58d8e2c1baefc0fad84c221cc0b75dca81a62a9b03e8ed3fd83d1a6123218c68.png" />
+<img alt="_images/b610a71886a27056b84f84153034c5fc1dae2809510ae5bfc3928e8fcc4dd040.png" src="_images/b610a71886a27056b84f84153034c5fc1dae2809510ae5bfc3928e8fcc4dd040.png" />
 </div>
 </div>
 </section>
@@ -1786,21 +1786,25 @@ The `ci` parameter is deprecated. Use `errorbar=(&#39;ci&#39;, 40)` for the same
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>The proper mathematical definition of randomness is extraordinarily technical, and way beyond the scope of this book. We’ll be non-technical here and say that a process has an element of randomness to it whenever it is possible to repeat the process and get different answers each time.</p>
 </aside>
+<aside class="footnote brackets" id="notelawlargenumbers" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>Technically, the law of large numbers pertains to any sample statistic that can be described as an average of independent quantities. That’s certainly true for the sample mean. However, it’s also possible to write many other sample statistics as averages of one form or another. The variance of a sample, for instance, can be rewritten as a kind of average and so is subject to the law of large numbers. The minimum value of a sample, however, cannot be written as an average of anything and is therefore not governed by the law of large numbers.</p>
+</aside>
 <aside class="footnote brackets" id="note-clm" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
 <p>As usual, I’m being a bit sloppy here. The central limit theorem is a bit more general than this section implies. Like most introductory stats texts, I’ve discussed one situation where the central limit theorem holds: when you’re taking an average across lots of independent events drawn from the same distribution. However, the central limit theorem is much broader than this. There’s a whole class of things called “<span class="math notranslate nohighlight">\(U\)</span>-statistics” for instance, all of which satisfy the central limit theorem and therefore become normally distributed for large sample sizes. The mean is one such statistic, but it’s not the only one.</p>
 </aside>
 <aside class="footnote brackets" id="note-hard" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">4</a><span class="fn-bracket">]</span></span>
 <p>Please note that if you were <em>actually</em> interested in this question, you would need to be a <em>lot</em> more careful than I’m being here. You <em>can’t</em> just compare IQ scores in Whyalla to Port Pirie and assume that any differences are due to lead poisoning. Even if it were true that the only differences between the two towns corresponded to the different refineries (and it isn’t, not by a long shot), you need to account for the fact that people already <em>believe</em> that lead pollution causes cognitive deficits: if you recall back to the chapter on <a class="reference internal" href="01.02-studydesign.html#studydesign"><span class="std std-ref">study design</span></a>, this means that there are different demand effects for the Port Pirie sample than for the Whyalla sample. In other words, you might end up with an illusory group difference in your data, caused by the fact that people <em>think</em> that there is a real difference. I find it pretty implausible to think that the locals wouldn’t be well aware of what you were trying to do if a bunch of researchers turned up in Port Pirie with lab coats and IQ tests, and even less plausible to think that a lot of people would be pretty resentful of you for doing it. Those people won’t be as co-operative in the tests. Other people in Port Pirie might be <em>more</em> motivated to do well because they don’t want their home town to look bad. The motivational effects that would apply in Whyalla are likely to be weaker, because people don’t have any concept of “iron ore poisoning” in the same way that they have a concept for “lead poisoning”. Psychology is <em>hard</em>.</p>
 </aside>
 <aside class="footnote brackets" id="notebias" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">4</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">5</a><span class="fn-bracket">]</span></span>
 <p>I should note that I’m hiding something here. Unbiasedness is a desirable characteristic for an estimator, but there are other things that matter besides bias. However, it’s beyond the scope of this book to discuss this in any detail. I just want to draw your attention to the fact that there’s some hidden complexity here.</p>
 </aside>
 <aside class="footnote brackets" id="notestatsquote" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">5</a><span class="fn-bracket">]</span></span>
-<p>This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., \url{http://www.amstat.org/publications/jse/v10n3/friedman.html] but I’ve never found the original source.</p>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">6</a><span class="fn-bracket">]</span></span>
+<p>This quote appears on a great many t-shirts and websites, and even gets a mention in a few academic papers (e.g., <a class="reference external" href="https://doi.org/10.1080/10691898.2002.11910681">https://doi.org/10.1080/10691898.2002.11910681</a>), but I’ve never found the original source.</p>
 </aside>
 </section>
 </section>
